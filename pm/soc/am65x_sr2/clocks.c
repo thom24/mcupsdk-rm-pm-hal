@@ -19,6 +19,7 @@
 #include <clk_adpllm.h>
 #include <clk_gate.h>
 #include <clk_div.h>
+#include <clk_pllctrl.h>
 #include <soc/am65x/clk_soc_hfosc0.h>
 
 
@@ -2751,8 +2752,7 @@ static const struct clk_data_mux_reg clk_data_k3_pll_ctrl_wrap_main_0_bus_sysclk
 		.parents	= clk_k3_pll_ctrl_wrap_main_0_parents,
 		.n		= ARRAY_SIZE(clk_k3_pll_ctrl_wrap_main_0_parents),
 	},
-	.reg			= 0x00410000 + 0x100,
-	.bit			= 0,
+	.reg			= 0x00410000,
 };
 static const struct clk_data_div_reg clk_data_k3_pll_ctrl_wrap_main_0_bus_chip_div1_clk_clk = {
 	.data_div	= {
@@ -2783,8 +2783,7 @@ static const struct clk_data_mux_reg clk_data_k3_pll_ctrl_wrap_wkup_0_bus_sysclk
 		.parents	= clk_k3_pll_ctrl_wrap_wkup_0_parents,
 		.n		= ARRAY_SIZE(clk_k3_pll_ctrl_wrap_wkup_0_parents),
 	},
-	.reg			= 0x42010000 + 0x100,
-	.bit			= 0,
+	.reg			= 0x42010000,
 };
 static const struct clk_data_div_reg clk_data_k3_pll_ctrl_wrap_wkup_0_bus_chip_div1_clk_clk = {
 	.data_div	= {
@@ -4104,7 +4103,7 @@ const struct clk_data soc_clock_data[] = {
 		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
 	},
 	[CLK_AM6_K3_PLL_CTRL_WRAP_MAIN_0_BUS_SYSCLKOUT_CLK] =		 {
-		.drv	= &clk_drv_mux_reg.drv,
+		.drv	= &clk_drv_pllctrl_mux_reg_ro.drv,
 		.flags	= 0,
 		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_bus_sysclkout_clk.data_mux.data,
 		.type	= CLK_TYPE_MUX,
@@ -4119,7 +4118,7 @@ const struct clk_data soc_clock_data[] = {
 		},
 	},
 	[CLK_AM6_K3_PLL_CTRL_WRAP_WKUP_0_BUS_SYSCLKOUT_CLK] =		 {
-		.drv	= &clk_drv_mux_reg.drv,
+		.drv	= &clk_drv_pllctrl_mux_reg_ro.drv,
 		.flags	= 0,
 		.data	= &clk_data_k3_pll_ctrl_wrap_wkup_0_bus_sysclkout_clk.data_mux.data,
 		.type	= CLK_TYPE_MUX,
