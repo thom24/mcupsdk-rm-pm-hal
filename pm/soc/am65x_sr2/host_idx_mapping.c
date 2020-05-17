@@ -1,0 +1,65 @@
+/*
+ * Data version: 000000_000000
+ *
+ * Copyright (C) 2019-2020 Texas Instruments Incorporated - http://www.ti.com/
+ * ALL RIGHTS RESERVED
+ */
+#include <soc/host_idx_mapping.h>
+#include <soc/am65x_sr2/hosts.h>
+
+const u8 soc_host_indexes[] = {
+	[HOST_ID_DMSC] = 0U,
+	[HOST_ID_R5_0] = 1U,
+	[HOST_ID_R5_1] = 2U,
+	[HOST_ID_R5_2] = 3U,
+	[HOST_ID_R5_3] = 4U,
+	[HOST_ID_A53_0] = 5U,
+	[HOST_ID_A53_1] = 6U,
+	[HOST_ID_A53_2] = 7U,
+	[HOST_ID_A53_3] = 8U,
+	[HOST_ID_A53_4] = 9U,
+	[HOST_ID_A53_5] = 10U,
+	[HOST_ID_A53_6] = 11U,
+	[HOST_ID_A53_7] = 12U,
+	[HOST_ID_GPU_0] = 13U,
+	[HOST_ID_GPU_1] = 14U,
+	[HOST_ID_ICSSG_0] = 15U,
+	[HOST_ID_ICSSG_1] = 16U,
+	[HOST_ID_ICSSG_2] = 17U,
+	[1U] = HOST_IDX_NONE,
+	[2U] = HOST_IDX_NONE,
+	[7U] = HOST_IDX_NONE,
+	[8U] = HOST_IDX_NONE,
+	[9U] = HOST_IDX_NONE,
+	[18U] = HOST_IDX_NONE,
+	[19U] = HOST_IDX_NONE,
+	[20U] = HOST_IDX_NONE,
+	[21U] = HOST_IDX_NONE,
+	[22U] = HOST_IDX_NONE,
+	[23U] = HOST_IDX_NONE,
+	[24U] = HOST_IDX_NONE,
+	[25U] = HOST_IDX_NONE,
+	[26U] = HOST_IDX_NONE,
+	[27U] = HOST_IDX_NONE,
+	[28U] = HOST_IDX_NONE,
+	[29U] = HOST_IDX_NONE,
+	[32U] = HOST_IDX_NONE,
+	[33U] = HOST_IDX_NONE,
+	[34U] = HOST_IDX_NONE,
+	[35U] = HOST_IDX_NONE,
+	[36U] = HOST_IDX_NONE,
+	[37U] = HOST_IDX_NONE,
+	[38U] = HOST_IDX_NONE,
+	[39U] = HOST_IDX_NONE,
+	[40U] = HOST_IDX_NONE,
+	[41U] = HOST_IDX_NONE,
+	[42U] = HOST_IDX_NONE,
+	[43U] = HOST_IDX_NONE,
+	[44U] = HOST_IDX_NONE,
+	[45U] = HOST_IDX_NONE,
+	[46U] = HOST_IDX_NONE,
+	[47U] = HOST_IDX_NONE,
+	[48U] = HOST_IDX_NONE,
+	[49U] = HOST_IDX_NONE,
+};
+const u8 soc_host_indexes_sz = sizeof(soc_host_indexes);

@@ -1,0 +1,11 @@
+obj-y += clk.o
+obj-y += clk_gate.o
+obj-y += clk_div.o
+obj-y += clk_dev.o
+obj-y += clk_mux.o
+obj-y += pll.o
+obj-y += clk_fixed.o
+obj-$(CONFIG_CLK_RPLL028) += clk_rpll028.o
+obj-$(CONFIG_CLK_ADPLLM) += clk_adpllm.o
+obj-$(CONFIG_CLK_PLL_16FFT) += clk_pll_16fft.o
+obj-$(CONFIG_CLK_PLL_DESKEW) += clk_pll_deskew.o

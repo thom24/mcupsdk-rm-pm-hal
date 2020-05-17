@@ -1,0 +1,54 @@
+# Power Management configuration
+#
+# For a description of the syntax of this configuration file,
+# see https://www.kernel.org/doc/Documentation/kbuild/kconfig-language.txt
+# NOTE: We ONLY support "bool"
+#
+# Copyright (C) 2017 Texas Instruments Incorporated - http://www.ti.com/
+# ALL RIGHTS RESERVED
+#
+
+menu "Power Management Feature support"
+
+config PM
+	bool "Power Management support"
+	help
+	 Enable Power management support
+
+config PSC
+	bool "PSC Controller support"
+	depends on PM
+	help
+	 Enable support for PSC controller
+
+config CLOCK
+	bool "Enable support for clock"
+	depends on PM
+	help
+	 Enable support for clocks
+
+config CLK_RPLL028
+	bool "Enable support rdpll028 PLL"
+	depends on CLOCK
+	help
+	 Enable support rdpll028 PLL
+
+config CLK_ADPLLM
+	bool "Enable support for adpllm PLL"
+	depends on CLOCK
+	help
+	 Enable support for adpllm PLL
+
+config CLK_PLL_16FFT
+	bool "Enable support for 16fft pllfrac2/pllfracf"
+	depends on CLOCK
+	help
+	 Enable support for 16fft pllfrac2/pllfracf
+
+config CLK_PLL_DESKEW
+	bool "Enable support for 16fft deskew PLL"
+	depends on CLOCK
+	help
+	 Enable support for 16fft deskew PLL
+
+endmenu
