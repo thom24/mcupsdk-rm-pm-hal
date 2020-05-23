@@ -11,6 +11,7 @@
 
 #include <types/short_types.h>
 #include <tisci/tisci_protocol.h>
+#include <types/domgrps.h>
 
 /**
  * \brief Empty request for TISCI_MSG_WAKE_REASON.
@@ -112,15 +113,14 @@ struct tisci_msg_goodbye_resp {
 } __attribute__((__packed__));
 
 /**
- * \brief Empty request for TISCI_MSG_SYS_RESET.
+ * \brief Request for TISCI_MSG_SYS_RESET.
  *
- * Although this message is essentially empty and contains only a header
- * a full data structure is created for consistency in implementation.
- *
- * \param hdr TISCI header.
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ * \param domain Domain to be reset.
  */
 struct tisci_msg_sys_reset_req {
 	struct tisci_header hdr;
+	domgrp_t domain;
 } __attribute__((__packed__));
 
 /**

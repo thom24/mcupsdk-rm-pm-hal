@@ -208,6 +208,45 @@ s32 devices_init_rw(void)
 	return ret;
 }
 
+extern void device_disable(struct device *dev, sbool domain_reset);
+s32 devices_deinit(u8 pm_devgrp)
+{
+	s32 ret = SUCCESS;
+	u32 i;
+	sbool flag_enabled;
+
+	for (i = 0U; i < soc_device_count; i++) {
+		if(soc_device_data[i] == NULL)
+		{
+			continue;
+		}
+		if (soc_device_data[i]->pm_devgrp == pm_devgrp) {
+			struct device *dev = &soc_devices[i];
+			const struct dev_data *data = get_dev_data(dev);
+
+			flag_enabled = (dev->flags & DEV_FLAG_ENABLED_MASK) != 0UL;
+
+			dev->flags &= ~DEV_FLAG_RETENTION;
+
+			if (dev->initialized && flag_enabled)  {
+				device_disable(dev, STRUE);
+				dev->initialized = 0;
+				dev->flags &= ~DEV_FLAG_ENABLED_MASK;
+			}
+
+			if ((data != NULL) && ((data->flags & DEVD_FLAG_DRV_DATA) != 0U) &&
+			    ((data->flags & DEVD_FLAG_DO_INIT) != 0U)) {
+				const struct drv *drv = to_drv_data(data)->drv;
+				if ((drv != NULL) && (drv->uninit != NULL)) {
+					drv->uninit(dev);
+				}
+			}
+		}
+	}
+
+	return ret;
+}
+
 void devices_drop_power_up_ref(void)
 {
 	dev_idx_t idx;

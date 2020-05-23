@@ -62,7 +62,6 @@ static inline u64 div64(u64 a, u32 b)
 static inline u64 mod64(u64 a, u32 b)
 {
 	u64 temp UNUSED;
-
 	temp = pm_div64(&a, b);
 	return a;
 }

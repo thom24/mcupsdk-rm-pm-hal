@@ -285,6 +285,21 @@ extern const struct clk_drv clk_drv_input;
 
 s32 clk_init(void);
 
+/**
+ * \brief Deinitialize the clocks in a PM devgrp.
+ *
+ * The PM devgrp provides the first and last clock ID to deinitialize. Iterate
+ * through the chosen clock IDs, and disable all clocks are that are turned on. Then,
+ * clear the initialized and power up flag.
+ *
+ * \param pm_devgrp
+ * The clocks in this PM devgrp will be deinitialized.
+ *
+ * \return
+ * The status of deinitialization. SUCCESS if the action succeeded
+ */
+s32 clk_deinit_pm_devgrp(u8 pm_devgrp);
+
 #ifdef CONFIG_CLOCK
 void clk_drop_pwr_up_en(void);
 #else

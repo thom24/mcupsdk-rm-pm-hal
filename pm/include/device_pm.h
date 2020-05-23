@@ -12,7 +12,6 @@
 
 #include <types/short_types.h>
 #include <types/sbool.h>
-#include <device.h>
 #include <config.h>
 
 struct notifier;
@@ -102,8 +101,10 @@ extern void soc_device_enable(struct device *dev);
  *
  * \param device
  * The device to modify.
+ * \param domain_reset
+ * True if the device is being disabled due to a domain reset.
  */
-extern void soc_device_disable(struct device *dev);
+extern void soc_device_disable(struct device *dev, sbool domain_reset);
 
 /**
  * \brief Enable retention on a device (SoC specific impl.)

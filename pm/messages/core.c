@@ -12,8 +12,8 @@
 #include <msg/msg.h>
 #include <osal/osal_core.h>
 #include <osal/osal_msg.h>
-#include <startup.h>
 #include <sleep.h>
+#include <startup.h>
 #include <tisci_provider/tisci.h>
 #include <tisci/tisci_protocol.h>
 #include <tisci/pm/tisci_pm_core.h>
@@ -141,20 +141,20 @@ static s32 tisci_msg_sys_reset_handler(u32 *msg_recv)
 {
 	struct tisci_msg_sys_reset_req *req =
 		(struct tisci_msg_sys_reset_req *) msg_recv;
+	struct tisci_msg_sys_reset_resp *resp =
+			(struct tisci_msg_sys_reset_resp *) msg_recv;
 	u32 flags = req->hdr.flags;
+	domgrp_t domain = req->domain;
 	s32 ret = SUCCESS;
 
-	system_reset();
-
-	osal_delay(10000);
+	ret = system_reset(domain);
 
 	if ((flags & TISCI_MSG_FLAG_AOP) != 0UL) {
-		struct tisci_msg_sys_reset_resp *resp =
-			(struct tisci_msg_sys_reset_resp *) msg_recv;
-
-		tisci_msg_clear_flags(&resp->hdr);
-		tisci_msg_set_nak_resp(&resp->hdr);
-
+		if (ret == SUCCESS) {
+			tisci_msg_set_ack_resp(&resp->hdr);
+		} else {
+			tisci_msg_set_nak_resp(&resp->hdr);
+		}
 		ret = osal_msg_response((u32 *) resp, sizeof(*resp));
 	}
 

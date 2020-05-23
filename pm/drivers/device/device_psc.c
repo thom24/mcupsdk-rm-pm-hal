@@ -255,13 +255,15 @@ static void soc_device_disable_internal(const struct soc_device_data *dev)
 	}
 }
 
-void soc_device_disable(struct device *dev)
+void soc_device_disable(struct device *dev, sbool domain_reset)
 {
 	const struct dev_data *data = get_dev_data(dev);
 
 	pm_trace(TRACE_PM_ACTION_DEVICE_OFF, device_id(dev));
 
-	if (data->soc.psc_idx == PSC_DEV_MULTIPLE) {
+	if (domain_reset) {
+		/* No action */
+	} else if (data->soc.psc_idx == PSC_DEV_MULTIPLE) {
 		u32 i;
 		const struct soc_device_data *domains;
 		domains = soc_psc_multiple_domains[data->soc.mod];
