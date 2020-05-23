@@ -16,6 +16,7 @@
 #include <lib/io.h>
 #include <sys-reset.h>
 #include <device_pm.h>
+#include <lib/trace.h>
 
 #define WKUP_CTRL_BASE  0x43000000
 
@@ -32,6 +33,8 @@ static u8 am6_sleep_block[ARRAY_SIZE(am6_sleep_modes)];
 static s32 am6_sys_reset_handler(domgrp_t domain __attribute__((unused)))
 {
 	struct device *dev;
+	u8 trace_action = TRACE_PM_ACTION_SYSRESET;
+	u32 trace_val = TRACE_PM_ACTION_SYSRESET_ERR_VAL_SUCCESS;
 
 	/* PSC0: Disable MAIN2MCU bridge */
 	dev = device_lookup(AM6_DEV_DUMMY_IP_LPSC_MCU2MAIN);
@@ -45,6 +48,10 @@ static s32 am6_sys_reset_handler(domgrp_t domain __attribute__((unused)))
 
 	/* Issue warm reset */
 	writel(0, WKUP_CTRL_BASE + CTRLMMR_WKUP_MCU_WARM_RST_CTRL);
+
+	pm_trace(trace_action,
+			((domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
+			TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
 
 	return SUCCESS;
 }

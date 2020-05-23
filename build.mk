@@ -1,2 +1,2 @@
-obj-y := pm/ utils/ rm/
+obj-y := pm/ utils/ rm/ common/
 

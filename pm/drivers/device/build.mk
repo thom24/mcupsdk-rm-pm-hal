@@ -1,5 +1,6 @@
 obj-y +=		device.o
 obj-y +=		resource.o
+obj-y +=		device_prepare.o
 
 obj-$(CONFIG_CLOCK) +=	device_clk.o
 obj-$(CONFIG_PM) +=	device_pm.o
