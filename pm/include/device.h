@@ -74,6 +74,7 @@ struct resource;
 struct drv {
 	int	(*pre_init)(struct device *device);
 	int	(*post_init)(struct device *device);
+	void	(*uninit)(struct device *device);
 	void	(*suspend)(struct device *device);
 };
 
@@ -411,6 +412,17 @@ s32 devices_init(void);
  * \return SUCCESS on success, <0 otherwise.
  */
 s32 devices_init_rw(void);
+
+/**
+ * \brief De-initialize devices in a PM device group.
+ *
+ * During reset of a domain group, some devices need to be de-initialized to
+ * properly reflect device's state. It prepares the device for re-initialiation
+ * after the domain reset.
+ *
+ * \return SUCCESS on success, <0 otherwise.
+ */
+s32 devices_deinit(u8 pm_devgrp);
 
 /**
  * \brief Drop device power up references.

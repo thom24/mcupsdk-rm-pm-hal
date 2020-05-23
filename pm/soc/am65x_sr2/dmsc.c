@@ -29,22 +29,24 @@ static const struct sleep_mode am6_sleep_modes[] = {
 
 static u8 am6_sleep_block[ARRAY_SIZE(am6_sleep_modes)];
 
-static void am6_sys_reset_handler(void)
+static s32 am6_sys_reset_handler(domgrp_t domain __attribute__((unused)))
 {
 	struct device *dev;
 
 	/* PSC0: Disable MAIN2MCU bridge */
 	dev = device_lookup(AM6_DEV_DUMMY_IP_LPSC_MCU2MAIN);
 	soc_device_ret_enable(dev);
-	soc_device_disable(dev);
+	soc_device_disable(dev, SFALSE);
 
 	/* WKUP_PSC0: Disable MCU2MAIN bridge */
 	dev = device_lookup(AM6_DEV_DUMMY_IP_LPSC_MAIN2MCU);
 	soc_device_ret_enable(dev);
-	soc_device_disable(dev);
+	soc_device_disable(dev, SFALSE);
 
 	/* Issue warm reset */
 	writel(0, WKUP_CTRL_BASE + CTRLMMR_WKUP_MCU_WARM_RST_CTRL);
+
+	return SUCCESS;
 }
 
 s32 dmsc_init(void)

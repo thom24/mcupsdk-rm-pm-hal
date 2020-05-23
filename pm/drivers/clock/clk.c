@@ -518,6 +518,56 @@ void clk_drop_pwr_up_en(void)
 	}
 }
 
+s32 clk_deinit_pm_devgrp(u8 pm_devgrp)
+{
+	s32 ret = SUCCESS;
+	u32 i;
+	u32 clk_id_start;
+	u32 clk_id_end;
+
+	clk_id_start = soc_devgroups[pm_devgrp].clk_idx;
+
+	if (pm_devgrp >= soc_devgroup_count) {
+		return -EINVAL;
+	} else if (pm_devgrp == soc_devgroup_count - 1) {
+		/* Last devgrp's last clock id is the same as last of all clock ids */
+		clk_id_end = soc_clock_count;
+	} else {
+		/* Chosen devgrp's last clock id is next devgrp's first clock id */
+		clk_id_end = soc_devgroups[pm_devgrp + 1].clk_idx;
+	}
+
+	/*
+	 * Loop through all the clocks in selected device group.
+	 * First pass make sure any clock with the PWR_UP_EN bit set gets
+	 * a matching put call and the flag cleared. Clocks can be in this
+	 * state if initialization for the given domain is in the deferred state.
+	 */
+	for (i = clk_id_start; i < clk_id_end; i++) {
+		struct clk *clk = soc_clocks + i;
+
+		/* Clear the power up flag */
+		if ((clk->flags & CLK_FLAG_PWR_UP_EN) != 0U) {
+			clk_put(clk);
+			soc_clocks[i].flags &= ~CLK_FLAG_PWR_UP_EN;
+		}
+	}
+
+	/*
+	 * Second pass clear the initialized flag and check that the ref_count
+	 * is zero as expected.
+	 */
+	for (i = clk_id_start; i < clk_id_end; i++) {
+		struct clk *clk = soc_clocks + i;
+
+		/* Clear the initialized flag */
+		clk->flags &= ~CLK_FLAG_INITIALIZED;
+	}
+
+	return ret;
+}
+
+
 s32 clk_init(void)
 {
 	sbool progress;

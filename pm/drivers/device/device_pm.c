@@ -69,15 +69,17 @@ static void device_enable(struct device *dev)
  *
  * \param device
  * The device to modify.
+ * \param domain_reset
+ * True if the device is being disabled due to a domain reset.
  */
-static void device_disable(struct device *dev)
+void device_disable(struct device *dev, sbool domain_reset)
 {
 	const struct dev_data *data = get_dev_data(dev);
 	s32 i;
 
 	device_notify(dev);
 
-	soc_device_disable(dev);
+	soc_device_disable(dev, domain_reset);
 	for (i = data->n_clocks - 1L; i >= 0L; i--) {
 		device_clk_disable(dev, i);
 	}
@@ -110,7 +112,7 @@ void device_set_state(struct device *device, u8 host_idx, sbool enable)
 		if (is_enabled) {
 			device_enable(device);
 		} else {
-			device_disable(device);
+			device_disable(device, SFALSE);
 		}
 	}
 }

@@ -208,12 +208,34 @@ static void pd_initiate(struct device *dev, struct psc_pd *pd)
 	psc_write(dev, BIT(psc_pd_idx(dev, pd)), PSC_PTCMD);
 }
 
+/**
+ * \brief Enable clocks necessary for power domain
+ *
+ * This function calls clk_get on each of the clocks listed
+ * under clock_dep for a given power domain. Some power domains
+ * require certain clocks to be running while the power domain
+ * is in transition or on.
+ *
+ * \param data
+ * The const data for the power domain
+ */
+static void psc_pd_clk_get(const struct psc_pd_data *data)
+{
+	u32 i;
+
+	for (i = 0UL; i < ARRAY_SIZE(data->clock_dep); i++) {
+		struct clk *clk = clk_lookup(data->clock_dep[i]);
+		if (clk != NULL) {
+			clk_get(clk);
+		}
+	}
+}
+
 void psc_pd_get(struct device *dev, struct psc_pd *pd)
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
 	u32 idx = psc_pd_idx(dev, pd);
 	u32 pdctl;
-	u32 i;
 
 	pm_trace(TRACE_PM_ACTION_PD_GET,
 		 (psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
@@ -236,12 +258,7 @@ void psc_pd_get(struct device *dev, struct psc_pd *pd)
 					   (pd_idx_t) psc->pd_data[idx].depends));
 	}
 
-	for (i = 0UL; i < ARRAY_SIZE(psc->pd_data[idx].clock_dep); i++) {
-		struct clk *clk = clk_lookup(psc->pd_data[idx].clock_dep[i]);
-		if (clk != NULL) {
-			clk_get(clk);
-		}
-	}
+	psc_pd_clk_get(&psc->pd_data[idx]);
 
 	pdctl = psc_read(dev, PSC_PDCTL(idx));
 
@@ -299,12 +316,34 @@ void psc_pd_get(struct device *dev, struct psc_pd *pd)
 	psc->data->pds_enabled |= BIT(idx);
 }
 
+/**
+ * \brief Disable clocks necessary for power domain
+ *
+ * This function calls clk_put on each of the clocks listed
+ * under clock_dep for a given power domain. Some power domains
+ * require certain clocks to be running while the power domain
+ * is in transition or on.
+ *
+ * \param data
+ * The const data for the power domain
+ */
+static void psc_pd_clk_put(const struct psc_pd_data *data)
+{
+	u32 i;
+
+	for (i = 0UL; i < ARRAY_SIZE(data->clock_dep); i++) {
+		struct clk *clk = clk_lookup(data->clock_dep[i]);
+		if (clk != NULL) {
+			clk_put(clk);
+		}
+	}
+}
+
 void psc_pd_put(struct device *dev, struct psc_pd *pd)
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
 	u32 idx = psc_pd_idx(dev, pd);
 	u32 pdctl;
-	u32 i;
 
 	pm_trace(TRACE_PM_ACTION_PD_PUT,
 		 (psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
@@ -342,12 +381,7 @@ void psc_pd_put(struct device *dev, struct psc_pd *pd)
 #endif
 	}
 
-	for (i = 0UL; i < ARRAY_SIZE(psc->pd_data[idx].clock_dep); i++) {
-		struct clk *clk = clk_lookup(psc->pd_data[idx].clock_dep[i]);
-		if (clk != NULL) {
-			clk_put(clk);
-		}
-	}
+	psc_pd_clk_put(&psc->pd_data[idx]);
 
 	if (psc->pd_data[idx].flags & PSC_PD_DEPENDS) {
 		psc_pd_put(dev, psc_idx2pd(psc,
@@ -417,8 +451,25 @@ static void lpsc_module_notify_resume(struct device		*dev,
 	psc->data->mods_enabled[idx / 32UL] &= ~BIT(idx % 32UL);
 }
 
+/**
+ * \brief Sync the hardware state of a module with it's software state.
+ *
+ * This function examines the current state of a given LPSC module and
+ * compares it with the last programmed state. If there have been changes it
+ * programs the hardware appropriately. It also enables/disables any
+ * dependencies as necessary.
+ *
+ * \param dev
+ * The device struct for this PSC.
+ * \param module
+ * The module data for this module.
+ * \param domain_reset
+ * True if we are syncing the state just prior to a domain reset. In this
+ * case we avoid actual transitions.
+ */
 static void lpsc_module_sync_state(struct device	*dev,
-				   struct lpsc_module	*module)
+				   struct lpsc_module	*module,
+				   sbool domain_reset)
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
 	u32 mdctl;
@@ -468,7 +519,9 @@ static void lpsc_module_sync_state(struct device	*dev,
 	module->sw_state = state;
 
 	/* Notify of loss of functionality transitions before we do them */
-	if (state == MDSTAT_STATE_SWRSTDISABLE) {
+	if (domain_reset) {
+		/* no action */
+	} else if (state == MDSTAT_STATE_SWRSTDISABLE) {
 		lpsc_module_notify_suspend(dev, module);
 	} else if (state == MDSTAT_STATE_DISABLE &&
 		   old_state == MDSTAT_STATE_ENABLE) {
@@ -521,14 +574,16 @@ static void lpsc_module_sync_state(struct device	*dev,
 
 	mdctl = psc_read(dev, PSC_MDCTL(idx));
 	transition = (mdctl & MDSTAT_STATE_MASK) != state;
-	if (transition) {
+	if (transition && !domain_reset) {
 		mdctl &= ~MDSTAT_STATE_MASK;
 		mdctl |= (u32) state;
 		/* Note: This is a state machine reg */
 		psc_write(dev, mdctl, PSC_MDCTL(idx));
 	}
 
-	if (state == MDSTAT_STATE_SWRSTDISABLE) {
+	if (domain_reset) {
+		/* Do nothing */
+	} else if (state == MDSTAT_STATE_SWRSTDISABLE) {
 		/* Module is ready for power down, drop ref count on pd */
 		psc_pd_put(dev, pd);
 		if (pd->use_count != 0U && transition) {
@@ -584,6 +639,8 @@ static void lpsc_module_sync_state(struct device	*dev,
 			pm_trace(TRACE_PM_ACTION_PSC_INVALID_DEP_DATA | TRACE_PM_ACTION_FAIL,
 				 (psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
 				 (data->depends_psc_idx << TRACE_PM_VAL_PD_SHIFT) | TRACE_PM_VAL_PD_POS2);
+		} else if (domain_reset && (depends_dev == dev)) {
+			/* Ignore self dependencies during domain reset */
 		} else {
 			/*
 			 * Moving from enable/dis to off/dis, drop ref count on
@@ -755,12 +812,28 @@ static void lpsc_module_clk_get(struct device *dev, struct lpsc_module *mod)
 	}
 }
 
-static void lpsc_module_clk_put(struct device *dev, struct lpsc_module *mod)
+/**
+ * \brief Disable clocks necessary for LPSC module
+ *
+ * This function calls clk_put on each of the clocks listed
+ * under clock_dep for a given LPSC module. Some modules
+ * require certain clocks to be running while the module
+ * is in transition or on.
+ *
+ * \param dev
+ * The device for this PSC.
+ * \param mod
+ * The const data for the LPSC module.
+ * \param wait
+ * True if we should wait for the module to complete transitioning before
+ * disabling the clocks. This gets set to false when called as part of a
+ * domain reset.
+ */
+static void lpsc_module_clk_put(struct device *dev, struct lpsc_module *mod, sbool wait)
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
 	u32 idx = lpsc_module_idx(dev, mod);
 	const struct lpsc_module_data *data = psc->mod_data + idx;
-	sbool wait = SFALSE;
 	u32 i;
 
 	for (i = 0UL; i < ARRAY_SIZE(data->clock_dep); i++) {
@@ -770,9 +843,9 @@ static void lpsc_module_clk_put(struct device *dev, struct lpsc_module *mod)
 			 * We have to wait for the transition to complete
 			 * taking a clock away.
 			 */
-			if (!wait) {
+			if (wait) {
 				lpsc_module_wait(dev, mod);
-				wait = STRUE;
+				wait = SFALSE;
 			}
 			clk_put(clk);
 		}
@@ -812,7 +885,7 @@ static void lpsc_module_get_internal(struct device *dev,
 	}
 
 	if (modify) {
-		lpsc_module_sync_state(dev, module);
+		lpsc_module_sync_state(dev, module, SFALSE);
 		lpsc_module_wait(dev, module);
 	}
 }
@@ -848,12 +921,12 @@ static void lpsc_module_put_internal(struct device *dev,
 	}
 
 	if (modify) {
-		lpsc_module_sync_state(dev, module);
+		lpsc_module_sync_state(dev, module, SFALSE);
 		if (module->use_count == 0U && use) {
-			lpsc_module_clk_put(dev, module);
+			lpsc_module_clk_put(dev, module, STRUE);
 		}
 		if (module->ret_count == 0U && ret) {
-			lpsc_module_clk_put(dev, module);
+			lpsc_module_clk_put(dev, module, STRUE);
 		}
 	}
 }
@@ -986,6 +1059,38 @@ static s32 psc_initialize_pds(struct device *dev)
 	return 0;
 }
 
+/**
+ * \brief Unititialize all the power domains of a PSC.
+ *
+ * This sets all the power domains in a PSC to a pre-initialized state
+ * in preperation for the reset of it's reset domain. Because power
+ * domains can only have dependencies on other domains within the same
+ * PSC, this just means ensuring that the clock references are dropped.
+ *
+ * \param dev
+ * The device associated with this PSC.
+ */
+static void psc_uninitialize_pds(struct device *dev)
+{
+	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
+	pd_idx_t idx;
+
+	for (idx = 0U; idx < psc->pd_count; idx++) {
+		struct psc_pd *pd = psc_idx2pd(psc, idx);
+
+		if (((psc->pd_data[idx].flags & PSC_PD_EXISTS) != 0U) &&
+		    (pd->use_count != 0U) &&
+	            ((psc->pd_data[idx].flags & PSC_PD_ALWAYSON) == 0U)) {
+			psc_pd_clk_put(&psc->pd_data[idx]);
+		}
+
+		pd->use_count = 0U;
+		pd->pwr_up_enabled = 0U;
+	}
+
+	psc->data->pds_enabled = 0U;
+}
+
 /* Drop power up ref counts */
 void psc_drop_pwr_up_ref(void)
 {
@@ -1098,6 +1203,52 @@ static s32 psc_initialize_modules_finish(struct device *dev)
 }
 
 /**
+ * \brief Unititialize all the LPSC modules of a PSC.
+ *
+ * This sets all the LPSC modules in a PSC to a pre-initialized state
+ * in preperation for the reset of it's reset domain. Because LPSC
+ * modules can have dependencies on other domains, those dependencies
+ * need to be droppe as appropriate. Any clock dependencies are also
+ * dropped.
+ *
+ * \param dev
+ * The device associated with this PSC.
+ */
+static void psc_uninitialize_modules(struct device *dev)
+{
+	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
+	lpsc_idx_t idx;
+	u32 i;
+
+	/* First pass, find out which modules are enabled */
+	for (idx = 0U; idx < psc->module_count; idx++) {
+		struct lpsc_module *mod = psc_idx2mod(psc, idx);
+		if ((psc->mod_data[idx].flags & LPSC_MODULE_EXISTS) == 0U) {
+			continue;
+		}
+
+		if (mod->use_count != 0U) {
+			lpsc_module_clk_put(dev, mod, SFALSE);
+		}
+		if (mod->ret_count != 0U) {
+			lpsc_module_clk_put(dev, mod, SFALSE);
+		}
+
+		mod->use_count = 0U;
+		mod->ret_count = 0U;
+		mod->pwr_up_enabled = SFALSE;
+		mod->pwr_up_ret = SFALSE;
+
+		lpsc_module_sync_state(dev, mod, STRUE);
+		mod->sw_state = MDSTAT_STATE_SWRSTDISABLE;
+	}
+
+	for (i = 0U; i < ARRAY_SIZE(psc->data->mods_enabled); i++) {
+		psc->data->mods_enabled[i] = 0U;
+	}
+}
+
+/**
  * \brief Check if PSCs we depend on have completed their initial config
  *
  * PSCs can have domains that depend on domains in other PSCs. We break up
@@ -1177,7 +1328,44 @@ static s32 psc_post_init(struct device *dev)
 	return ret;
 }
 
+/**
+ * \brief Uninitialize this PSC.
+ *
+ * Perform the steps necessary to bring this PSC back to a pre-init state.
+ * This is performed before a reset domain reset so that the PSC can be
+ * re-initialized after the reset is complete.
+ *
+ * \param dev
+ * The device associated with this PSC.
+ */
+static void psc_uninit(struct device *dev)
+{
+	const struct psc_drv_data *psc;
+	struct device *curr_dev;
+	struct device **last_dev;
+
+	psc = to_psc_drv_data(get_drv_data(dev));
+
+	psc_uninitialize_modules(dev);
+	psc_uninitialize_pds(dev);
+
+	/* Remove from list of unitialized PSCs */
+	curr_dev = psc_devs;
+	last_dev = &psc_devs;
+	while ((curr_dev != NULL) && (curr_dev != dev)) {
+		const struct psc_drv_data *curr_psc;
+		curr_psc = to_psc_drv_data(get_drv_data(curr_dev));
+		curr_dev = curr_psc->data->next;
+		last_dev = &curr_psc->data->next;
+	}
+	if (curr_dev == dev) {
+		*last_dev = psc->data->next;
+		psc->data->next = NULL;
+	}
+}
+
 const struct drv psc_drv = {
 	.pre_init	= psc_pre_init,
 	.post_init	= psc_post_init,
+	.uninit		= psc_uninit,
 };
