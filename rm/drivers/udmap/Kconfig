@@ -1,0 +1,53 @@
+# Resource Manager UDMAP configuration
+#
+# For a description of the syntax of this configuration file,
+# see https://www.kernel.org/doc/Documentation/kbuild/kconfig-language.txt
+# NOTE: We ONLY support "bool"
+#
+# Copyright (C) 2018-2020 Texas Instruments Incorporated - http://www.ti.com/
+# ALL RIGHTS RESERVED
+#
+
+config RM_UDMAP 
+	bool "Enable UDMAP support in Resource Manager"
+	depends on RM
+	help
+	 Enable support for Resource Manager UDMAP functions
+
+config UDMAP_CHANNEL_BURST_SIZE
+	bool "Enable UDMAP Tx & Rx channel burst size configuration parameter"
+	depends on RM_UDMAP
+	default n if SOC_AM6
+	help
+	 Enable UDMAP Tx & Rx channel burst size configuration parameter
+
+config UDMAP_TX_CHANNEL_TEARDOWN_TYPE
+	bool "Enable UDMAP Tx channel teardown type configuration parameter"
+	depends on RM_UDMAP
+	default n if SOC_AM6
+	help
+	 Enable UDMAP Tx channel teardown type configuration parameter
+
+config UDMAP_UDMA
+	bool "Enable support for Navigator UDMAP channel types"
+	depends on RM_UDMAP
+	default y if SOC_AM6
+	default y if SOC_J721E
+	help
+	 Enable support for Navigator UDMAP channel types
+
+config UDMAP_BCDMA
+	bool "Enable support for DMSS BCDMA channel types"
+	depends on RM_UDMAP
+	default n if SOC_AM6
+	default n if SOC_J721E
+	help
+	 Enable support for DMSS BCDMA channel types
+
+config UDMAP_PKTDMA
+	bool "Enable support for DMSS PKTDMA channel types"
+	depends on RM_UDMAP
+	default n if SOC_AM6
+	default n if SOC_J721E
+	help
+	 Enable support for DMSS PKTDMA channel types

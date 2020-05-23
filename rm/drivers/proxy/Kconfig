@@ -1,0 +1,15 @@
+# Resource Manager Proxy configuration
+#
+# For a description of the syntax of this configuration file,
+# see https://www.kernel.org/doc/Documentation/kbuild/kconfig-language.txt
+# NOTE: We ONLY support "bool"
+#
+# Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
+# ALL RIGHTS RESERVED
+#
+
+config RM_PROXY
+	bool "Enable Proxy support in Resource Manager"
+	depends on RM
+	help
+	 Enable support for Resource Manager Proxy functions

@@ -1,0 +1,24 @@
+# Resource Manager configuration
+#
+# For a description of the syntax of this configuration file,
+# see https://www.kernel.org/doc/Documentation/kbuild/kconfig-language.txt
+# NOTE: We ONLY support "bool"
+#
+# Copyright (C) 2017-2019 Texas Instruments Incorporated - http://www.ti.com/
+# ALL RIGHTS RESERVED
+#
+
+menu "Resource Manager Feature Support"
+
+config RM 
+	bool "Enable Resource Manager"
+	help
+	 Enable support for Resource Manager functions
+
+source "user/rm/drivers/irq/Kconfig"
+source "user/rm/drivers/ra/Kconfig"
+source "user/rm/drivers/udmap/Kconfig"
+source "user/rm/drivers/psil/Kconfig"
+source "user/rm/drivers/proxy/Kconfig"
+
+endmenu
