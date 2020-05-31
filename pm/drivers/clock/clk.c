@@ -16,9 +16,6 @@
 #include <types.h>
 #include <lib/container_of.h>
 #include <lib/trace.h>
-#if defined (__TI_ARM_V7M3__)
-#include <uart_16550_transfer.h>
-#endif
 #include <types/array_size.h>
 
 u32 clk_value_set_freq(struct clk *clk, u32 target_hz,
@@ -616,10 +613,6 @@ s32 clk_init(void)
 	}
 
 	if (progress) {
-#if defined (__TI_ARM_V7M3__)
-		uart_16550_reinit_post_pll();
-#endif
-
 		for (i = 0U; i < clock_count; i++) {
 			if ((soc_clocks[i].flags & CLK_FLAG_PWR_UP_EN) != 0U) {
 				/* FIXME: Error handling */

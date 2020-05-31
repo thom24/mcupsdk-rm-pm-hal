@@ -10,7 +10,6 @@
 #ifndef ARCH_IRQ_H
 #define ARCH_IRQ_H
 
-#include <arch/interrupt.h>
 #include <config.h>
 
 #define ARCH_NR_IRQS    240

@@ -21,7 +21,6 @@
 #include <clk.h>
 #include <soc_domgrps.h>
 #include <soc_devgrps.h>
-#include <security_init.h>
 #include <rm.h>
 
 #define WKUP_CTRL_BASE  0x43000000
@@ -112,11 +111,6 @@ static s32 j721e_sys_reset_handler(domgrp_t domain)
 			ret = devices_deinit(PM_DEVGRP_01);
 			if (ret == SUCCESS) {
 				ret = clk_deinit_pm_devgrp(PM_DEVGRP_01);
-			}
-
-			/* security management de-initialization */
-			if (ret == SUCCESS) {
-				ret = security_deinit(SOC_DEVGRP_J721E_MAIN);
 			}
 
 			/* resource management de-initialization */

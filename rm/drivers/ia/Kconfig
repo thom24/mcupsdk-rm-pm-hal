@@ -1,0 +1,18 @@
+# Resource Manager IA configuration
+#
+# For a description of the syntax of this configuration file,
+# see https://www.kernel.org/doc/Documentation/kbuild/kconfig-language.txt
+# NOTE: We ONLY support "bool"
+#
+# Copyright (C) 2020 Texas Instruments Incorporated - http://www.ti.com/
+# ALL RIGHTS RESERVED
+#
+
+config INTERRUPT_AGGREGATOR_UNMAPPED_EVENTS
+	bool
+	depends on RM_IRQ
+	default n if SOC_AM6
+	default n if SOC_J721E
+	help
+	 Enable Interrupt Aggregator unmapped event support
+

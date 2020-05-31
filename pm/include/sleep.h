@@ -14,10 +14,6 @@
 #include <psc.h>
 #include <types/sbool.h>
 
-#if defined (__TI_ARM_V7M3__)
-#include <arch/barrier.h>
-#endif
-
 struct sleep_mode {
 	char	*name;
 	sbool	wake_sources;
