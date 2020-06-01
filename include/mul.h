@@ -37,7 +37,7 @@ static inline sbool mul32_check_overflow(u32 a, u32 b, u32 *ret)
 {
 	u64 d = (u64) a * b;
 
-	*ret = d;
+	*ret = (u32) d;
 	return d > 0xffffffffULL;
 }
 
