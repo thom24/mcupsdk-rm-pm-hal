@@ -202,6 +202,36 @@ static struct udmap_flow_common common_flows_MCU_NAVSS0_UDMAP0 = {
 	.delegates	= &flow_delegates_MCU_NAVSS0_UDMAP0[0U],
 };
 
+/*
+ * Resources used by ROM which must have their OES and EOES registers reset
+ */
+static struct udmap_used_mapping rom_usage_mcu_navss0_udmap0[4U] = {
+	{
+		.ch = 0U,
+		.tx_ch = STRUE,
+		.err_evt = SFALSE,
+		.cleared = SFALSE,
+	},
+	{
+		.ch = 0U,
+		.tx_ch = STRUE,
+		.err_evt = STRUE,
+		.cleared = SFALSE,
+	},
+	{
+		.ch = 0U,
+		.tx_ch = SFALSE,
+		.err_evt = SFALSE,
+		.cleared = SFALSE,
+	},
+	{
+		.ch = 0U,
+		.tx_ch = SFALSE,
+		.err_evt = STRUE,
+		.cleared = SFALSE,
+	},
+};
+
 struct udmap_instance udmap_inst[] = {
 	{
 		/* NAVSS0_UDMAP0 */
@@ -266,8 +296,8 @@ struct udmap_instance udmap_inst[] = {
 		.invalid_flow_oes_utype = RESASG_UTYPE(AM6_DEV_MCU_NAVSS0_UDMAP0, RESASG_SUBTYPE_UDMAP_INVALID_FLOW_OES),
 		.gcfg_type = UDMAP_GCFG,
 		.gcfg_utype = RESASG_UTYPE(AM6_DEV_MCU_NAVSS0_UDMAP0, RESASG_SUBTYPE_UDMAP_GLOBAL_CONFIG),
-		.rom_usage = NULL,
-		.n_rom_usage = 0U,
+		.rom_usage = &rom_usage_mcu_navss0_udmap0[0U],
+		.n_rom_usage = ARRAY_SIZE(rom_usage_mcu_navss0_udmap0),
 	},
 };
 
