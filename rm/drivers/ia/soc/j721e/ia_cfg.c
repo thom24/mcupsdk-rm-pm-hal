@@ -3,7 +3,7 @@
  *
  * Interrupt aggregator driver instance data definition
  *
- * Data version: 190425_000000
+ * Data version: 200529_213657
  *
  * Copyright (C) 2018-2020 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -75,30 +75,30 @@ static const struct rm_mmr mmr_NAVSS0_UDMASS_INTAGGR_0_UDMASS_INTA0_CFG_GCNTRTI 
 
 static u8 vint_usage_count_NAVSS0_UDMASS_INTAGGR_0[256U];
 
-static const struct rm_mmr mmr_MCU_NAVSS0_INTAGGR_0_UDMASS_INTA0_IMAP = {
+static const struct rm_mmr mmr_MCU_NAVSS0_UDMASS_INTA_0_UDMASS_INTA0_IMAP = {
 	.fwl_id		= RM_MMR_FWL_INVALID,
 	.fwl_ch_start	= 0U,
 	.fwl_ch_end	= 0U,
 	.base		= 0x28560000U,
 };
 
-static const struct rm_mmr mmr_MCU_NAVSS0_INTAGGR_0_UDMASS_INTA0_INTR = {
+static const struct rm_mmr mmr_MCU_NAVSS0_UDMASS_INTA_0_UDMASS_INTA0_INTR = {
 	.fwl_id		= 6208U,
 	.fwl_ch_start	= 0U,
 	.fwl_ch_end	= 255U,
 	.base		= 0x2a700000U,
 };
 
-static const struct rm_mmr mmr_MCU_NAVSS0_INTAGGR_0_UDMASS_INTA0_GCNTRTI = {
+static const struct rm_mmr mmr_MCU_NAVSS0_UDMASS_INTA_0_UDMASS_INTA0_GCNTRTI = {
 	.fwl_id		= 6208U,
 	.fwl_ch_start	= 256U,
 	.fwl_ch_end	= 511U,
 	.base		= 0x2a600000U,
 };
 
-static u8 vint_usage_count_MCU_NAVSS0_INTAGGR_0[256U];
+static u8 vint_usage_count_MCU_NAVSS0_UDMASS_INTA_0[256U];
 
-static struct ia_used_mapping rom_usage_MCU_NAVSS0_INTAGGR_0[3U] = {
+static struct ia_used_mapping rom_usage_MCU_NAVSS0_UDMASS_INTA_0[3U] = {
 	{
 		.event = 16404U,
 		.cleared = SFALSE,
@@ -172,21 +172,21 @@ struct ia_instance ia_inst[IA_INST_COUNT] = {
 		.n_unmapped_events = 0U,
 	},
 	{
-		.id = J721E_DEV_MCU_NAVSS0_INTAGGR_0,
+		.id = J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.initialized = SFALSE,
 		.devgrp = SOC_DEVGRP_J721E_MCU_WAKEUP,
-		.imap = &mmr_MCU_NAVSS0_INTAGGR_0_UDMASS_INTA0_IMAP,
-		.intr = &mmr_MCU_NAVSS0_INTAGGR_0_UDMASS_INTA0_INTR,
-		.gcntrti = &mmr_MCU_NAVSS0_INTAGGR_0_UDMASS_INTA0_GCNTRTI,
+		.imap = &mmr_MCU_NAVSS0_UDMASS_INTA_0_UDMASS_INTA0_IMAP,
+		.intr = &mmr_MCU_NAVSS0_UDMASS_INTA_0_UDMASS_INTA0_INTR,
+		.gcntrti = &mmr_MCU_NAVSS0_UDMASS_INTA_0_UDMASS_INTA0_GCNTRTI,
 		.unmap = NULL,
 		.sevt_offset = 16384U,
 		.n_sevt = 1536U,
-		.vint_utype = RESASG_UTYPE(J721E_DEV_MCU_NAVSS0_INTAGGR_0, RESASG_SUBTYPE_IA_VINT),
+		.vint_utype = RESASG_UTYPE(J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0, RESASG_SUBTYPE_IA_VINT),
 		.n_vint = 256U,
-		.vint_usage_count = &vint_usage_count_MCU_NAVSS0_INTAGGR_0[0U],
+		.vint_usage_count = &vint_usage_count_MCU_NAVSS0_UDMASS_INTA_0[0U],
 		.v0_b0_evt = 0U,
-		.rom_usage = &rom_usage_MCU_NAVSS0_INTAGGR_0[0U],
-		.n_rom_usage = ARRAY_SIZE(rom_usage_MCU_NAVSS0_INTAGGR_0),
+		.rom_usage = &rom_usage_MCU_NAVSS0_UDMASS_INTA_0[0U],
+		.n_rom_usage = ARRAY_SIZE(rom_usage_MCU_NAVSS0_UDMASS_INTA_0),
 		.unmapped_events = NULL,
 		.n_unmapped_events = 0U,
 	},

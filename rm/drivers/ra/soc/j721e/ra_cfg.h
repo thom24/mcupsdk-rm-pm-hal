@@ -3,7 +3,7 @@
  *
  * Ring accelerator SoC-specific configuration definitions
  *
- * Data version: 190425_000000
+ * Data version: 200529_213657
  *
  * Copyright (C) 2018-2020 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -24,17 +24,17 @@
  */
 #define RA_NAVSS0_RINGACC_0_MONITOR_MAX_INDEX (32U)
 /**
- * MCU_NAVSS0_RINGACC_0 total number of rings
+ * MCU_NAVSS0_RINGACC0 total number of rings
  */
-#define RA_MCU_NAVSS0_RINGACC_0_MAX_INDEX (256U)
+#define RA_MCU_NAVSS0_RINGACC0_MAX_INDEX (256U)
 /**
  * Ring accelerator ring event index.
  */
-#define RA_MCU_NAVSS0_RINGACC_0_RING_OES_EVT_INDEX_OFFSET (0x0U)
+#define RA_MCU_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET (0x0U)
 /**
- * MCU_NAVSS0_RINGACC_0 total number of ring monitors
+ * MCU_NAVSS0_RINGACC0 total number of ring monitors
  */
-#define RA_MCU_NAVSS0_RINGACC_0_MONITOR_MAX_INDEX (32U)
+#define RA_MCU_NAVSS0_RINGACC0_MONITOR_MAX_INDEX (32U)
 /**
  * Ring accelerator ring monitor event index.  Must be greater than the max of
  * all SoC RAs max ring index to avoid event indexing conflicts.

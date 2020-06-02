@@ -3,7 +3,7 @@
  *
  * Proxy SoC-specific configuration definitions
  *
- * Data version: 190425_000000
+ * Data version: 200529_213657
  *
  * Copyright (C) 2020 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -16,9 +16,9 @@
  */
 #define PROXY_NAVSS0_PROXY_0_PROXY_MAX_INDEX (64U)
 /**
- * MCU_NAVSS0_PROXY_0 total number of proxies
+ * MCU_NAVSS0_PROXY0 total number of proxies
  */
-#define PROXY_MCU_NAVSS0_PROXY_0_PROXY_MAX_INDEX (64U)
+#define PROXY_MCU_NAVSS0_PROXY0_PROXY_MAX_INDEX (64U)
 /**
  * Number of unique Proxy instances
  */

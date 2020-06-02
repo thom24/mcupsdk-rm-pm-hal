@@ -3,7 +3,7 @@
  *
  * Static IA IRQ maps for Processing Entities for J721E device
  *
- * Data version: 190425_000000
+ * Data version: 200529_213657
  *
  * Copyright (C) 2018-2020 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -323,7 +323,7 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 		/*
 		 * For: MCU_0_R5_0 notify
 		 */
-		.id		= J721E_DEV_MCU_NAVSS0_INTAGGR_0,
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x4000U,
 		.vint		= 0x0000U,
 	},
@@ -331,7 +331,7 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 		/*
 		 * For: MCU_0_R5_0 response
 		 */
-		.id		= J721E_DEV_MCU_NAVSS0_INTAGGR_0,
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x4001U,
 		.vint		= 0x0001U,
 	},
@@ -339,7 +339,7 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 		/*
 		 * For: MCU_0_R5_1 notify
 		 */
-		.id		= J721E_DEV_MCU_NAVSS0_INTAGGR_0,
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x4002U,
 		.vint		= 0x0002U,
 	},
@@ -347,7 +347,7 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 		/*
 		 * For: MCU_0_R5_1 response
 		 */
-		.id		= J721E_DEV_MCU_NAVSS0_INTAGGR_0,
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x4003U,
 		.vint		= 0x0003U,
 	},
@@ -355,7 +355,7 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 		/*
 		 * For: MCU_0_R5_2 notify
 		 */
-		.id		= J721E_DEV_MCU_NAVSS0_INTAGGR_0,
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x4004U,
 		.vint		= 0x0004U,
 	},
@@ -363,7 +363,7 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 		/*
 		 * For: MCU_0_R5_2 response
 		 */
-		.id		= J721E_DEV_MCU_NAVSS0_INTAGGR_0,
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x4005U,
 		.vint		= 0x0005U,
 	},
@@ -371,7 +371,7 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 		/*
 		 * For: MCU_0_R5_3 notify
 		 */
-		.id		= J721E_DEV_MCU_NAVSS0_INTAGGR_0,
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x4006U,
 		.vint		= 0x0006U,
 	},
@@ -379,7 +379,7 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 		/*
 		 * For: MCU_0_R5_3 response
 		 */
-		.id		= J721E_DEV_MCU_NAVSS0_INTAGGR_0,
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x4007U,
 		.vint		= 0x0007U,
 	},
