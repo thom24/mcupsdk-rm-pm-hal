@@ -575,6 +575,9 @@ static void lpsc_module_sync_state(struct device	*dev,
 	mdctl = psc_read(dev, PSC_MDCTL(idx));
 	transition = (mdctl & MDSTAT_STATE_MASK) != state;
 	if (transition && !domain_reset) {
+		/* Verify any previous transitions have completed */
+		psc_pd_wait(dev, pd);
+
 		mdctl &= ~MDSTAT_STATE_MASK;
 		mdctl |= (u32) state;
 		/* Note: This is a state machine reg */
