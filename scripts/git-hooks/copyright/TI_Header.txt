@@ -1,0 +1,9 @@
+/*
+ * {module name}
+ *
+ * {module description}
+ *
+ * Copyright (C) {YEAR} Texas Instruments Incorporated - http://www.ti.com/
+ * ALL RIGHTS RESERVED
+ *
+ */

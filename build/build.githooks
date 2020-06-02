@@ -1,0 +1,17 @@
+#
+# Build include file for githooks
+#
+# Copyright (C) 2017 Texas Instruments Incorporated - http://www.ti.com/
+# ALL RIGHTS RESERVED
+#
+
+githooks_install:
+	@echo "Installing githooks"
+	ln -sfT '../scripts/git-hooks/indent' '.git/indent'
+	ln -sfT '../scripts/git-hooks/copyright' '.git/copyright'
+	ln -sfT '../../scripts/git-hooks/hooks/pre-commit' \
+		'.git/hooks/pre-commit'
+
+githooks_uninstall:
+	@echo "UnInstalling githooks"
+	rm -f '.git/indent' '.git/hooks/pre-commit'  '.git/copyright'
