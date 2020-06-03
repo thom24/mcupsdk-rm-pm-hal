@@ -11,7 +11,6 @@
 #include <types/short_types.h>
 #include <types/array_size.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 #include <lib/trace.h>
 #include <remote.h>
 #include <types/errno.h>

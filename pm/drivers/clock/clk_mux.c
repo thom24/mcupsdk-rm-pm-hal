@@ -11,7 +11,6 @@
 #include <lib/container_of.h>
 #include <ilog.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 #include <lib/trace.h>
 
 static const struct clk_parent *clk_mux_get_parent(struct clk *clk)

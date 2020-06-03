@@ -10,7 +10,6 @@
 #include <delay.h>
 #include <clk.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 #include <div64.h>
 #include <device.h>
 #include <resource.h>

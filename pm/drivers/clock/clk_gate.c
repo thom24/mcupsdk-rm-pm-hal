@@ -11,7 +11,6 @@
 #include <clk_mux.h>
 #include <lib/container_of.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 
 static sbool clk_gate_set_state(struct clk *clk, sbool enable)
 {

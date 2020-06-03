@@ -13,7 +13,6 @@
 #include <types/errno.h>
 #include <types/array_size.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 #include <types/short_types.h>
 #include <list.h>
 #include <lib/trace.h>

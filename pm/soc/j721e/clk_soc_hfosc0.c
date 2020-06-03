@@ -10,7 +10,6 @@
 #include <soc/j721e/clk_soc_hfosc0.h>
 #include <types/array_size.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 #include <compiler.h>
 
 #define J7_WKUP_CTRL_MMR        0x43000000UL

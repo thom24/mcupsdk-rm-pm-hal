@@ -9,7 +9,6 @@
 #include <lib/container_of.h>
 #include <ilog.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 #include <clk_mux.h>
 #include <compiler.h>
 #include <lib/trace.h>

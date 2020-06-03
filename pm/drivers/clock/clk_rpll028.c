@@ -10,7 +10,6 @@
 #include <clk_rpll028.h>
 #include <lib/container_of.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 #include <delay.h>
 #include <clk_mux.h>
 #include <div64.h>

@@ -9,7 +9,6 @@
 #include <device.h>
 #include <lib/container_of.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 #include <clk_pll.h>
 #include <clk_mux.h>
 #include <div64.h>

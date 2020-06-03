@@ -10,7 +10,6 @@
 #include <clk_pllctrl.h>
 #include <lib/container_of.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 
 #define PLLCTRL_PLLCTRL 		0x100U
 #define PLLCTRL_PLLCTRL_PLLEN		BIT(0)

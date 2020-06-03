@@ -13,7 +13,6 @@
 #include <dmsc.h>
 #include <soc/am65x/devices.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 #include <sys-reset.h>
 #include <device_pm.h>
 #include <lib/trace.h>

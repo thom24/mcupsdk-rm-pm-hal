@@ -12,7 +12,6 @@
 
 #include <types/short_types.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 #include <pm_types.h>
 #include <soc/device.h>
 #include <device_clk.h>

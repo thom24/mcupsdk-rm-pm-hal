@@ -12,7 +12,6 @@
 #include <lib/container_of.h>
 #include <ilog.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 
 u32 clk_get_div(struct clk *clk)
 {

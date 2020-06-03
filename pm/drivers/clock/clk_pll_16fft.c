@@ -10,7 +10,6 @@
 #include <lib/container_of.h>
 #include <lib/ioremap.h>
 #include <types/array_size.h>
-#include <lib/io.h>
 #include <clk_pll.h>
 #include <clk_mux.h>
 #include <clk_div.h>

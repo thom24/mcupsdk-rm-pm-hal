@@ -9,7 +9,6 @@
 
 #include <arch/regs_cm3.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 
 void scr_enable_sleepdeep(void)
 {

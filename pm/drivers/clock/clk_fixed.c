@@ -8,7 +8,6 @@
 #include <clk_fixed.h>
 #include <lib/container_of.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 #include <compiler.h>
 
 static u32 clk_fixed_get_freq(struct clk *clk)
