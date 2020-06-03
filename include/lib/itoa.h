@@ -6,6 +6,8 @@
  * Copyright (C) 2018-2020 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
+#ifndef ITOA_H
+#define ITOA_H
 
 #include <types/short_types.h>
 
@@ -19,3 +21,5 @@
  * \returns Pointer to str.
  */
 u8 *lib_itoa(u32 value, u8 *str, s32 base);
+
+#endif /* ITOA_H */
