@@ -3,7 +3,7 @@
  *
  * Interrupt router driver instance data definition
  *
- * Data version: 190425_000000
+ * Data version: 200529_213657
  *
  * Copyright (C) 2018-2020 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -112,14 +112,14 @@ static const struct rm_mmr mmr_NAVSS0_INTR_ROUTER_0_INTR0_INTR_ROUTER_CFG = {
 	.base		= 0x310e0000U,
 };
 
-static const struct rm_mmr mmr_MCU_NAVSS0_INTR_ROUTER_0_INTR0_CFG = {
+static const struct rm_mmr mmr_MCU_NAVSS0_INTR_0_INTR0_CFG = {
 	.fwl_id		= RM_MMR_FWL_INVALID,
 	.fwl_ch_start	= 0U,
 	.fwl_ch_end	= 0U,
 	.base		= 0x28540000U,
 };
 
-static struct ir_used_mapping rom_usage_MCU_NAVSS0_INTR_ROUTER_0[1U] = {
+static struct ir_used_mapping rom_usage_MCU_NAVSS0_INTR_0[1U] = {
 	{
 		.inp_start = 1U,
 		.outp_start = 0U,
@@ -273,16 +273,16 @@ struct ir_instance ir_inst[IR_INST_COUNT] = {
 		.n_rom_usage = 0U,
 	},
 	{
-		.id = J721E_DEV_MCU_NAVSS0_INTR_ROUTER_0,
+		.id = J721E_DEV_MCU_NAVSS0_INTR_0,
 		.initialized = SFALSE,
 		.devgrp = SOC_DEVGRP_J721E_MCU_WAKEUP,
 		.int_enable = STRUE,
-		.cfg = &mmr_MCU_NAVSS0_INTR_ROUTER_0_INTR0_CFG,
+		.cfg = &mmr_MCU_NAVSS0_INTR_0_INTR0_CFG,
 		.n_inp = 261U,
 		.n_outp = 64U,
 		.inp0_mapping = 0U,
-		.outp_utype = RESASG_UTYPE(J721E_DEV_MCU_NAVSS0_INTR_ROUTER_0, RESASG_SUBTYPE_IR_OUTPUT),
-		.rom_usage = &rom_usage_MCU_NAVSS0_INTR_ROUTER_0[0U],
-		.n_rom_usage = ARRAY_SIZE(rom_usage_MCU_NAVSS0_INTR_ROUTER_0),
+		.outp_utype = RESASG_UTYPE(J721E_DEV_MCU_NAVSS0_INTR_0, RESASG_SUBTYPE_IR_OUTPUT),
+		.rom_usage = &rom_usage_MCU_NAVSS0_INTR_0[0U],
+		.n_rom_usage = ARRAY_SIZE(rom_usage_MCU_NAVSS0_INTR_0),
 	},
 };

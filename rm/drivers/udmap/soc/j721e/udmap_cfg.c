@@ -3,7 +3,7 @@
  *
  * UDMAP driver instance data definition
  *
- * Data version: 190425_000000
+ * Data version: 200529_213657
  *
  * Copyright (C) 2018-2020 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -324,7 +324,7 @@ static struct udmap_used_mapping rom_usage_MCU_NAVSS0_UDMAP_0[10U] = {
 struct udmap_instance udmap_inst[] = {
 	{
 		.id = J721E_DEV_NAVSS0_UDMAP_0,
-		.root_id = J721E_DEV_NAVSS512L_MAIN_0,
+		.root_id = J721E_DEV_NAVSS0,
 		.initialized = SFALSE,
 		.devgrp = SOC_DEVGRP_J721E_MAIN,
 		.gcfg = &mmr_NAVSS0_UDMAP_0_UDMASS_UDMAP0_CFG,
@@ -356,7 +356,7 @@ struct udmap_instance udmap_inst[] = {
 	},
 	{
 		.id = J721E_DEV_MCU_NAVSS0_UDMAP_0,
-		.root_id = J721E_DEV_NAVSS_MCU_J7_MCU_0,
+		.root_id = J721E_DEV_MCU_NAVSS0,
 		.initialized = SFALSE,
 		.devgrp = SOC_DEVGRP_J721E_MCU_WAKEUP,
 		.gcfg = &mmr_MCU_NAVSS0_UDMAP_0_UDMASS_UDMAP0_CFG_GCFG,

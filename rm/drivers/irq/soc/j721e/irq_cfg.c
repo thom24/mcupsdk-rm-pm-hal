@@ -3,7 +3,7 @@
  *
  * Interrupt management driver instance data definition
  *
- * Data version: 190425_000000
+ * Data version: 200529_213657
  *
  * Copyright (C) 2018-2020 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -23,16 +23,16 @@
  * SoC devices capable of sourcing global events
  */
 const u16 evt_rt_srcs[] = {
-	J721E_DEV_NAVSS0_UDMASS_INTAGGR_0,
 	J721E_DEV_NAVSS0_PROXY_0,
 	J721E_DEV_NAVSS0_RINGACC_0,
-	J721E_DEV_NAVSS0_UDMAP_0,
 	J721E_DEV_NAVSS0_TIMERMGR_0,
 	J721E_DEV_NAVSS0_TIMERMGR_1,
-	J721E_DEV_MCU_NAVSS0_INTAGGR_0,
-	J721E_DEV_MCU_NAVSS0_PROXY_0,
-	J721E_DEV_MCU_NAVSS0_RINGACC_0,
+	J721E_DEV_NAVSS0_UDMAP_0,
+	J721E_DEV_NAVSS0_UDMASS_INTAGGR_0,
+	J721E_DEV_MCU_NAVSS0_PROXY0,
+	J721E_DEV_MCU_NAVSS0_RINGACC0,
 	J721E_DEV_MCU_NAVSS0_UDMAP_0,
+	J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 };
 
 const u32 evt_rt_srcs_count = ARRAY_SIZE(evt_rt_srcs);
@@ -46,7 +46,7 @@ const struct irq_global_event_type irq_global_event_types[] = {
 	{
 		.start = 16384U,
 		.num = 1536U,
-		.utype = RESASG_UTYPE(J721E_DEV_MCU_NAVSS0_INTAGGR_0, RESASG_SUBTYPE_GLOBAL_EVENT_SEVT),
+		.utype = RESASG_UTYPE(J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0, RESASG_SUBTYPE_GLOBAL_EVENT_SEVT),
 	},
 	{
 		.start = 20480U,
@@ -66,7 +66,7 @@ const struct irq_global_event_type irq_global_event_types[] = {
 	{
 		.start = 34816U,
 		.num = 128U,
-		.utype = RESASG_UTYPE(J721E_DEV_MCU_NAVSS0_INTAGGR_0, RESASG_SUBTYPE_GLOBAL_EVENT_MEVT),
+		.utype = RESASG_UTYPE(J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0, RESASG_SUBTYPE_GLOBAL_EVENT_MEVT),
 	},
 	{
 		.start = 36864U,
@@ -76,7 +76,7 @@ const struct irq_global_event_type irq_global_event_types[] = {
 	{
 		.start = 39936U,
 		.num = 256U,
-		.utype = RESASG_UTYPE(J721E_DEV_MCU_NAVSS0_INTAGGR_0, RESASG_SUBTYPE_GLOBAL_EVENT_GEVT),
+		.utype = RESASG_UTYPE(J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0, RESASG_SUBTYPE_GLOBAL_EVENT_GEVT),
 	},
 	{
 		.start = 49152U,

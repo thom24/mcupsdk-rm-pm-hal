@@ -3,7 +3,7 @@
  *
  * PSI-L driver instance data definition
  *
- * Data version: 190425_000000
+ * Data version: 200529_213657
  *
  * Copyright (C) 2018-2020 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -339,7 +339,7 @@ static const struct psil_thread_type dst_thread_types[] = {
 
 struct psil_instance psil_inst[] = {
 	{
-		.id = J721E_DEV_NAVSS512L_MAIN_0,
+		.id = J721E_DEV_NAVSS0,
 		.devgrp = SOC_DEVGRP_J721E_MAIN,
 		.proxy = &mmr_NAVSS0_PSILCFG_0_UDMASS_PSILCFG0_CFG_PROXY,
 		.src_thread_types = &src_thread_types[0],
@@ -349,7 +349,7 @@ struct psil_instance psil_inst[] = {
 		.dru_ch0_dst_thread_offset = 0xc800U,
 	},
 	{
-		.id = J721E_DEV_NAVSS_MCU_J7_MCU_0,
+		.id = J721E_DEV_MCU_NAVSS0,
 		.devgrp = SOC_DEVGRP_J721E_MCU_WAKEUP,
 		.proxy = &mmr_MCU_NAVSS0_PSILCFG_0_UDMASS_PSILSS_CFG0_PROXY,
 		.src_thread_types = &src_thread_types[0],
