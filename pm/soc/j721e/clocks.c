@@ -20,6 +20,7 @@
 #include <soc/j721e/clk_soc_hfosc0.h>
 #include <clk_fixed.h>
 #include <clk_div.h>
+#include <clk_pllctrl.h>
 #include <clk_pll_deskew.h>
 #include <clk_pll_16fft.h>
 
@@ -5689,8 +5690,7 @@ static const struct clk_data_mux_reg clk_data_k3_pll_ctrl_wrap_main_0_sysclkout_
 		.parents	= clk_k3_pll_ctrl_wrap_main_0_parents,
 		.n		= ARRAY_SIZE(clk_k3_pll_ctrl_wrap_main_0_parents),
 	},
-	.reg			= 0x00410000 + 0x100,
-	.bit			= 0,
+	.reg			= 0x00410000,
 };
 static const struct clk_data_div_reg clk_data_k3_pll_ctrl_wrap_main_0_chip_div1_clk_clk = {
 	.data_div	= {
@@ -5721,8 +5721,7 @@ static const struct clk_data_mux_reg clk_data_k3_pll_ctrl_wrap_wkup_0_sysclkout_
 		.parents	= clk_k3_pll_ctrl_wrap_wkup_0_parents,
 		.n		= ARRAY_SIZE(clk_k3_pll_ctrl_wrap_wkup_0_parents),
 	},
-	.reg			= 0x42010000 + 0x100,
-	.bit			= 0,
+	.reg			= 0x42010000,
 };
 static const struct clk_data_div_reg clk_data_k3_pll_ctrl_wrap_wkup_0_chip_div1_clk_clk = {
 	.data_div	= {
@@ -8379,7 +8378,7 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_hsdiv1_16fft_mcu_0_hsdiv0.data_div.data,
 	},
 	[CLK_J721E_K3_PLL_CTRL_WRAP_WKUP_0_SYSCLKOUT_CLK] =			  {
-		.drv	= &clk_drv_mux_reg.drv,
+		.drv	= &clk_drv_pllctrl_mux_reg_ro.drv,
 		.flags	= 0,
 		.data	= &clk_data_k3_pll_ctrl_wrap_wkup_0_sysclkout_clk.data_mux.data,
 		.type	= CLK_TYPE_MUX,
@@ -10279,7 +10278,7 @@ const struct clk_data soc_clock_data[] = {
 		.freq_idx	= J721E_FREQ_VALUE_K3_DSS_MAIN_0_DSS_INST0_DPI_3_OUT_CLK,
 	},
 	[CLK_J721E_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK] =			  {
-		.drv	= &clk_drv_mux_reg.drv,
+		.drv	= &clk_drv_pllctrl_mux_reg_ro.drv,
 		.flags	= 0,
 		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_sysclkout_clk.data_mux.data,
 		.type	= CLK_TYPE_MUX,
