@@ -8,7 +8,7 @@
  */
 
 #include <clk_pllctrl.h>
-#include <container_of.h>
+#include <lib/container_of.h>
 #include <lib/ioremap.h>
 #include <lib/io.h>
 
