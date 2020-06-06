@@ -75,8 +75,15 @@
 #define PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT        16UL
 #define PLL_16FFT_CAL_CTRL_CAL_CNT_MASK         (0x7UL << 16UL)
 #define PLL_16FFT_CAL_CTRL_CAL_BYP              BIT(15)
-#define PLL_16FFT_CAL_CTRL_CAL_IN_SHIFT         0UL
-#define PLL_16FFT_CAL_CTRL_CAL_IN_MASK          BIT(0xFFFUL << 0UL)
+#define PLL_16FFT_CAL_CTRL_CAL_IN_SHIFT         0U
+#define PLL_16FFT_CAL_CTRL_CAL_IN_MASK          (0xFFFU << 0U)
+
+#define PLL_16FFT_CAL_STAT(idx)                 (0x1000U * (idx) + 0x64U)
+#define PLL_16FFT_CAL_STAT_CAL_LOCK             BIT(31)
+#define PLL_16FFT_CAL_STAT_LOCK_CNT_SHIFT       16U
+#define PLL_16FFT_CAL_STAT_LOCK_CNT_MASK        (0xFU << 16U)
+#define PLL_16FFT_CAL_STAT_CAL_OUT_SHIFT        0U
+#define PLL_16FFT_CAL_STAT_CAL_OUT_MASK         (0xFFFU)
 
 #define PLL_16FFT_HSDIV_CTRL(idx, n)            (0x1000UL * (idx) + 0x80UL + ((n) * 4UL))
 #define PLL_16FFT_HSDIV_CTRL_RESET              BIT(31)
@@ -88,6 +95,79 @@
 static const struct pll_data pll_16fft_raw_data;
 static const struct pll_data pll_16fft_postdiv_data;
 static const struct pll_data pll_16fft_hsdiv_data;
+
+/*
+ * \brief Implement the option 3 PLL calibration method.
+ *
+ * This calibration method calibrates the PLL and allows a calibration value
+ * to be obtained when calibration is complete. It utilizes FASTCAL mode
+ * to obtain a calibration value.
+ *
+ * \param pll The PLL data associated with this FRACF PLL.
+ *
+ * \return SUCCESS on successful configuartion
+ */
+static s32 clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll)
+{
+	u32 cal;
+
+	cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+
+	/* Enable calibration for FRACF */
+	cal |= PLL_16FFT_CAL_CTRL_CAL_EN;
+
+	/* Enable fast cal mode */
+	cal |= PLL_16FFT_CAL_CTRL_FAST_CAL;
+
+	/* Disable calibration bypass */
+	cal &= ~PLL_16FFT_CAL_CTRL_CAL_BYP;
+
+	/* Set CALCNT to 2 */
+	cal &= ~PLL_16FFT_CAL_CTRL_CAL_CNT_MASK;
+	cal |= 2U << PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT;
+
+	return pm_writel_verified(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+}
+
+/*
+ * \brief Implement the option 4 PLL calibration method.
+ *
+ * This calibration method relies on an existing calibration value and allows
+ * continual background calibration.
+ *
+ * \param pll The PLL data associated with this FRACF PLL.
+ *
+ * \return SUCCESS on successful configuartion
+ */
+static s32 clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll)
+{
+	u32 calout;
+	u32 cal;
+	u32 stat;
+
+	cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+	stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+
+	/* Read generated calibration value */
+	calout = stat & PLL_16FFT_CAL_STAT_CAL_OUT_MASK;
+	calout >>= PLL_16FFT_CAL_STAT_CAL_OUT_SHIFT;
+
+	/* Program stored calibration value */
+	cal &= ~PLL_16FFT_CAL_CTRL_CAL_IN_MASK;
+	cal |= calout << PLL_16FFT_CAL_CTRL_CAL_IN_SHIFT;
+
+	/* Disable calibration bypass */
+	cal &= ~PLL_16FFT_CAL_CTRL_CAL_BYP;
+
+	/* Disable fast cal mode */
+	cal &= ~PLL_16FFT_CAL_CTRL_FAST_CAL;
+
+	/* Set CALCNT to 7 */
+	cal &= ~PLL_16FFT_CAL_CTRL_CAL_CNT_MASK;
+	cal |= 7U << PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT;
+
+	return pm_writel_verified(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+}
 
 /*
  * \brief Check if the pllm value is valid
@@ -141,12 +221,38 @@ static u32 pll_16fft_vco_fitness(struct clk *clk UNUSED, u32 vco, sbool is_frac 
  *
  * \return true if VCO/DCO is locked, false otherwise
  */
-static sbool clk_pll_16fft_check_lock(struct clk *clk)
+static sbool clk_pll_16fft_check_lock(const struct clk_data_pll_16fft *pll)
+{
+	u32 stat;
+
+	stat = readl(pll->base + PLL_16FFT_STAT(pll->idx));
+	return (stat & PLL_16FFT_STAT_LOCK) != 0U;
+}
+
+/*
+ * \brief Check if the PLL deskew calibration is complete.
+ *
+ * \param clk The PLL clock.
+ *
+ * \return true if deskew calibration is complete, false otherwise
+ */
+static sbool clk_pll_16fft_check_cal_lock(const struct clk_data_pll_16fft *pll)
+{
+	u32 stat;
+
+	stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+	return (stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U;
+}
+
+static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 {
 	const struct clk_data *clk_data;
 	const struct clk_data_pll_16fft *pll;
 	const struct clk_data_pll *data_pll;
-	u32 stat;
+	u32 i;
+	u32 cfg;
+	u32 pll_type;
+	sbool success;
 
 	clk_data = clk_get_data(clk);
 	data_pll = container_of(clk_data->data, const struct clk_data_pll,
@@ -154,13 +260,8 @@ static sbool clk_pll_16fft_check_lock(struct clk *clk)
 	pll = container_of(data_pll, const struct clk_data_pll_16fft,
 			   data_pll);
 
-	stat = readl(pll->base + PLL_16FFT_STAT(pll->idx));
-	return (stat & PLL_16FFT_STAT_LOCK) != 0UL;
-}
-
-static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
-{
-	u32 i;
+	cfg = readl(pll->base + PLL_16FFT_CFG(pll->idx));
+	pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
 
 	/*
 	 * Minimum VCO input freq is 5MHz, and the longest a lock should
@@ -169,13 +270,54 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 	 * max of 1GHz. That gives 2400 loop cycles. We may end up waiting
 	 * longer than neccessary for timeout, but that should be ok.
 	 */
-	for (i = 0UL; i < 2400UL; i++) {
-		if (clk_pll_16fft_check_lock(clk)) {
+	success = SFALSE;
+	for (i = 0U; i < 24U * 100U; i++) {
+		if (clk_pll_16fft_check_lock(pll)) {
+			success = STRUE;
 			break;
 		}
 	}
 
-	return i != 2400UL;
+	if (success && (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF)) {
+		/*
+		 * Wait for calibration lock.
+		 *
+		 * Lock should occur within:
+		 *
+		 *	32 * 2^(4+CALCNT) / PFD
+		 *       2048 / PFD
+		 *
+		 * CALCNT = 2, PFD = 5-50MHz. This gives a range of 41uS to
+		 * 410uS depending on PFD frequency. Using the above logic
+		 * we calculate a maximum expected 41000 loop cycles.
+		 */
+		success = SFALSE;
+		for (i = 0U; i < 410U * 100U; i++) {
+			if (clk_pll_16fft_check_cal_lock(pll)) {
+				success = STRUE;
+				break;
+			}
+		}
+	}
+
+	if (success && (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF)) {
+		u32 cal;
+		cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+		if ((cal & PLL_16FFT_CAL_CTRL_FAST_CAL) != 0U) {
+			/*
+			 * Fast cal enabled indicates we were performing
+			 * option 3. Now that we have a calibration value,
+			 * switch to option 4.
+			 */
+			if (clk_pll_16fft_cal_option4(pll) != SUCCESS) {
+				success = SFALSE;
+			}
+		}
+
+
+	}
+
+	return success;
 }
 
 /*
@@ -185,23 +327,14 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
  *
  * \return true if PLL is in bypass.
  */
-static sbool clk_pll_16fft_is_bypass(struct clk *clk)
+static sbool clk_pll_16fft_is_bypass(const struct clk_data_pll_16fft *pll)
 {
-	const struct clk_data *clk_data;
-	const struct clk_data_pll_16fft *pll;
-	const struct clk_data_pll *data_pll;
 	sbool ret = SFALSE;
 	u32 ctrl;
 
-	clk_data = clk_get_data(clk);
-	data_pll = container_of(clk_data->data, const struct clk_data_pll,
-				data);
-	pll = container_of(data_pll, const struct clk_data_pll_16fft,
-			   data_pll);
-
 	/* IDLE Bypass */
 	ctrl = readl(pll->base + PLL_16FFT_CTRL(pll->idx));
-	ret = (ctrl & PLL_16FFT_CTRL_BYPASS_EN) != 0UL;
+	ret = (ctrl & PLL_16FFT_CTRL_BYPASS_EN) != 0U;
 
 	return ret;
 }
@@ -360,7 +493,7 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 
 	pll_clk->flags &= ~CLK_FLAG_CACHED;
 
-	if (!clk_pll_16fft_is_bypass(pll_clk)) {
+	if (!clk_pll_16fft_is_bypass(pll)) {
 		/* Put the PLL into bypass */
 		err = clk_pll_16fft_bypass(pll_clk, STRUE);
 		if (err != SUCCESS) {
@@ -469,13 +602,13 @@ static u32 clk_pll_16fft_internal_set_freq(struct clk *pll_clk,
 	u32 parent_freq_hz;
 	sbool was_bypass;
 
-	was_bypass = clk_pll_16fft_is_bypass(pll_clk);
-
 	pll_clk_data = clk_get_data(pll_clk);
 	data_pll = container_of(pll_clk_data->data, const struct clk_data_pll,
 				data);
 	pll = container_of(data_pll, const struct clk_data_pll_16fft,
 			   data_pll);
+
+	was_bypass = clk_pll_16fft_is_bypass(pll);
 
 	freq_ctrl0 = readl(pll->base + PLL_16FFT_FREQ_CTRL0(pll->idx));
 	freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
@@ -609,7 +742,14 @@ static u32 clk_pll_16fft_get_freq(struct clk *clk)
 	} else if ((clk->flags & CLK_FLAG_CACHED) != 0U) {
 		ret = soc_clock_values[clk_data->freq_idx];
 	} else {
-		if (!clk_pll_16fft_is_bypass(clk)) {
+		const struct clk_data_pll_16fft *pll;
+		const struct clk_data_pll *data_pll;
+		data_pll = container_of(clk_data->data, const struct clk_data_pll,
+					data);
+		pll = container_of(data_pll, const struct clk_data_pll_16fft,
+				   data_pll);
+
+		if (!clk_pll_16fft_is_bypass(pll)) {
 			ret = clk_pll_16fft_get_freq_internal(clk, 1UL);
 		} else {
 			ret = 0U;
@@ -672,7 +812,16 @@ static u32 clk_pll_16fft_get_state(struct clk *clk)
 	}
 
 	if (ret == CLK_HW_STATE_ENABLED) {
-		if (!clk_pll_16fft_is_bypass(clk) && !clk_pll_16fft_check_lock(clk)) {
+		const struct clk_data *clk_data;
+		const struct clk_data_pll_16fft *pll;
+		const struct clk_data_pll *data_pll;
+		clk_data = clk_get_data(clk);
+		data_pll = container_of(clk_data->data, const struct clk_data_pll,
+					data);
+		pll = container_of(data_pll, const struct clk_data_pll_16fft,
+				   data_pll);
+
+		if (!clk_pll_16fft_is_bypass(pll) && !clk_pll_16fft_check_lock(pll)) {
 			ret = CLK_HW_STATE_TRANSITION;
 		}
 	}
@@ -754,23 +903,20 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 	pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
 	if (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) {
 		u32 cal;
+		u32 stat;
 
-		/*
-		 * Implement option 3a from Silicon Creations Offset
-		 * Calibration Appnote.
-		 */
 		cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+		stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
 
-		/* Enable calibration for FRACF */
-		cal |= PLL_16FFT_CAL_CTRL_CAL_EN;
-
-		/* Enable fast cal mode */
-		cal |= PLL_16FFT_CAL_CTRL_FAST_CAL;
-
-		/* Disable calibration bypass */
-		cal &= ~PLL_16FFT_CAL_CTRL_CAL_BYP;
-
-		ret = pm_writel_verified(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+		/* Check if calibration is already enabled and locked */
+		if (((cal & PLL_16FFT_CAL_CTRL_CAL_EN) != 0U) &&
+		    ((stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U)) {
+			/* Yes, go straight to option 4 */
+			ret = clk_pll_16fft_cal_option4(pll);
+		} else {
+			/* No, get an initial calibration via option 3 */
+			ret = clk_pll_16fft_cal_option3(pll);
+		}
 	}
 
 	/* Make sure PLL is enabled */
