@@ -5,11 +5,11 @@
  * ALL RIGHTS RESERVED
  */
 
-#ifndef _DELAY_H_
-#define _DELAY_H_
+#ifndef DELAY_H_
+#define DELAY_H_
 
 void udelay(unsigned long usecs);
 void delay_1ms(void);
 void delay_ms(unsigned int ms);
 
-#endif /* _DELAY_H_ */
+#endif /* DELAY_H_ */
