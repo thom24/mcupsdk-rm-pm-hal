@@ -10,6 +10,7 @@
 #include <resasg_types.h>
 #include <hosts.h>
 #include <osal/osal_core.h>
+#include <rat.h>
 #include <stdbool.h>
 #include <types/address_types.h>
 #include <types/devgrps.h>
@@ -213,7 +214,18 @@ static bool boardcfg_validate_abi_rev(const struct boardcfg_abi_rm_rev *rev,
  */
 static s32 boardcfg_memcpy(local_phys_addr_t to, soc_phys_addr_t from, u32 size)
 {
-	mapped_addr_t from_mapped;
+	s32 ret;
+	soc_phys_addr_t mappable_addr = (from & (~RAT_TMP_REGION_INVAL_ADDR_MASK));
+	u32 delta_addr = soc_phys_low_u32(from) & (RAT_TMP_REGION_INVAL_ADDR_MASK);
+	mapped_addr_t from_mapped = 0U;
+
+	ret = rat_map_tmp_region(mappable_addr, &from_mapped);
+	if (ret != SUCCESS) {
+		from_mapped = 0x0U;
+		/* SHOULD NEVER EVER HAPPEN due to the sequence of events */
+	} else {
+		from_mapped += delta_addr;
+	}
 
 	/*
 	 * Reuse PM mapping, was boardcfg_map() previously, see
@@ -222,6 +234,8 @@ static s32 boardcfg_memcpy(local_phys_addr_t to, soc_phys_addr_t from, u32 size)
 	from_mapped = soc_phys_low_u32(from) + CONFIG_ADDR_REMAP_OFFSET;
 
 	memcpy((void *) to, (void *) from_mapped, size);
+
+	rat_unmap_tmp_region(mappable_addr);
 
 	return SUCCESS;
 }
