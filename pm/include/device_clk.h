@@ -16,7 +16,7 @@
 #include <pm_types.h>
 #include <config.h>
 
-#define DEV_CLK_ID_NONE ((dev_clk_idx_t) (-1U))
+#define DEV_CLK_ID_NONE ((dev_clk_idx_t) (~0U))
 
 /**
  * \brief Input clock type.
