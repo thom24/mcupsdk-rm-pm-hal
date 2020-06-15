@@ -8,7 +8,6 @@
  */
 
 #include <sleep.h>
-#include <rat.h>
 #include <types/array_size.h>
 #include <dmsc.h>
 #include <soc/j721e/devices.h>
@@ -30,7 +29,7 @@
 
 #define WARM_RST_CTRL_VAL                               0x60000
 #define MCU_RST_DONE_MASK                               (0x1U << 16U)
-#define MAIN_RST_DONE_MASK                              (0x1U <<  0U)
+#define MAIN_RST_DONE_MASK                              (0x1U << 0U)
 #define RESET_WAIT_TIMEOUT                              100
 #define RESET_DELAY_PER_ITERATION_US                    1U
 
@@ -93,38 +92,38 @@ static s32 j721e_sys_reset_handler(domgrp_t domain)
 	soc_device_disable(dev, SFALSE);
 
 	switch (domain) {
-		/* SOC_DOMGRP_J721E_SYSTEM is for backward compatibility.
-		   It behaves the same as SOC_DOMGRP_J721E_MCU */
-		case SOC_DOMGRP_J721E_SYSTEM:
-			reset_reg_offset = CTRLMMR_WKUP_MCU_WARM_RST_CTRL;
-			break;
-		case SOC_DOMGRP_J721E_MCU:
-			reset_reg_offset = CTRLMMR_WKUP_MCU_WARM_RST_CTRL;
-			break;
-		case SOC_DOMGRP_J721E_MAIN:
-			reset_reg_offset = CTRLMMR_WKUP_MAIN_WARM_RST_CTRL;
+	/* SOC_DOMGRP_J721E_SYSTEM is for backward compatibility.
+	   It behaves the same as SOC_DOMGRP_J721E_MCU */
+	case SOC_DOMGRP_J721E_SYSTEM:
+		reset_reg_offset = CTRLMMR_WKUP_MCU_WARM_RST_CTRL;
+		break;
+	case SOC_DOMGRP_J721E_MCU:
+		reset_reg_offset = CTRLMMR_WKUP_MCU_WARM_RST_CTRL;
+		break;
+	case SOC_DOMGRP_J721E_MAIN:
+		reset_reg_offset = CTRLMMR_WKUP_MAIN_WARM_RST_CTRL;
 
-			/* power management de-initialization
-			 * PM_DEVGRP_01 belongs to the MAIN domain in J721E
-			 */
-			ret = devices_deinit(PM_DEVGRP_01);
-			if (ret == SUCCESS) {
-				ret = clk_deinit_pm_devgrp(PM_DEVGRP_01);
-			}
+		/* power management de-initialization
+		 * PM_DEVGRP_01 belongs to the MAIN domain in J721E
+		 */
+		ret = devices_deinit(PM_DEVGRP_01);
+		if (ret == SUCCESS) {
+			ret = clk_deinit_pm_devgrp(PM_DEVGRP_01);
+		}
 
-			/* resource management de-initialization */
-			if (ret == SUCCESS) {
-				ret = rm_deinit(SOC_DEVGRP_J721E_MAIN);
-			}
+		/* resource management de-initialization */
+		if (ret == SUCCESS) {
+			ret = rm_deinit(SOC_DEVGRP_J721E_MAIN);
+		}
 
-			if (ret != SUCCESS) {
-				trace_val |= TRACE_PM_ACTION_SYSRESET_ERR_VAL_DEINIT_FAIL;
-			}
-			break;
-		default:
-			trace_val |= TRACE_PM_ACTION_SYSRESET_ERR_VAL_INVALID_ARG;
-			ret = -EINVAL;
-			break;
+		if (ret != SUCCESS) {
+			trace_val |= TRACE_PM_ACTION_SYSRESET_ERR_VAL_DEINIT_FAIL;
+		}
+		break;
+	default:
+		trace_val |= TRACE_PM_ACTION_SYSRESET_ERR_VAL_INVALID_ARG;
+		ret = -EINVAL;
+		break;
 	}
 
 	if (ret == SUCCESS) {
@@ -146,8 +145,8 @@ static s32 j721e_sys_reset_handler(domgrp_t domain)
 	}
 
 	pm_trace(trace_action,
-			((domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
-			TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
+		 ((domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
+		  TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
 
 	return ret;
 }

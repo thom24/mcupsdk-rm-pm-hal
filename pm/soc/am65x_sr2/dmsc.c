@@ -8,7 +8,6 @@
  */
 
 #include <sleep.h>
-#include <rat.h>
 #include <types/array_size.h>
 #include <dmsc.h>
 #include <soc/am65x/devices.h>
@@ -49,8 +48,8 @@ static s32 am6_sys_reset_handler(domgrp_t domain __attribute__((unused)))
 	writel(0, WKUP_CTRL_BASE + CTRLMMR_WKUP_MCU_WARM_RST_CTRL);
 
 	pm_trace(trace_action,
-			((domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
-			TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
+		 ((domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
+		  TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
 
 	return SUCCESS;
 }
