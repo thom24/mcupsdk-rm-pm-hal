@@ -92,7 +92,7 @@ struct clk_data {
 
 struct clk_drv {
 	/** Perform any necessary intitialization */
-	s32 (*init)(struct clk *clk);
+	s32 (*init)(struct clk *clkp);
 
 	/**
 	 * \brief Set the current state of a clock.
@@ -102,7 +102,7 @@ struct clk_drv {
 	 *
 	 * \return STRUE if the action succeeded
 	 */
-	sbool (*set_state)(struct clk *clk, sbool enabled);
+	sbool (*set_state)(struct clk *clkp, sbool enabled);
 
 	/**
 	 * \brief Get the current state of a clock.
@@ -111,7 +111,7 @@ struct clk_drv {
 	 *
 	 * \return STRUE if the clock is running
 	 */
-	u32 (*get_state)(struct clk *clk);
+	u32 (*get_state)(struct clk *clkp);
 
 	/**
 	 * \brief Program a clock to run at a given frequency. The minimum
@@ -127,7 +127,7 @@ struct clk_drv {
 	 *
 	 * \return Best frequency found in Hz, returns 0 for failure
 	 */
-	u32 (*set_freq)(struct clk *clk, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed);
+	u32 (*set_freq)(struct clk *clkp, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed);
 
 	/**
 	 * \brief Return the frequency this clock runs at.
@@ -136,7 +136,7 @@ struct clk_drv {
 	 *
 	 * \return The frequency in Hz
 	 */
-	u32 (*get_freq)(struct clk *clk);
+	u32 (*get_freq)(struct clk *clkp);
 
 	/**
 	 * \brief Notify a clock that its parent frequency has changed.
@@ -148,7 +148,7 @@ struct clk_drv {
 	 *
 	 * \return True if the change (would) succeed
 	 */
-	sbool (*notify_freq)(struct clk *clk, u32 parent_freq_hz, sbool query);
+	sbool (*notify_freq)(struct clk *clkp, u32 parent_freq_hz, sbool query);
 };
 
 struct clk_data_reg {
@@ -175,8 +175,8 @@ extern u32 soc_clock_values[];
 /** The total number of SoC clocks */
 extern const size_t soc_clock_count;
 
-u32 clk_value_set_freq(struct clk *clk, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed);
-u32 clk_value_get_freq(struct clk *clk);
+u32 clk_value_set_freq(struct clk *clkp, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed);
+u32 clk_value_get_freq(struct clk *clkp);
 
 /**
  * \brief Determine if a clock ID is valid.
@@ -189,7 +189,7 @@ u32 clk_value_get_freq(struct clk *clk);
  */
 static inline sbool clk_id_valid(clk_idx_t id)
 {
-	return id < soc_clock_count && soc_clock_data[id].drv;
+	return (id < soc_clock_count) && (soc_clock_data[id].drv);
 }
 
 /**
@@ -221,9 +221,9 @@ static inline struct clk *clk_lookup(clk_idx_t id)
  * \return
  * The clock ID.
  */
-static inline clk_idx_t clk_id(struct clk *clk)
+static inline clk_idx_t clk_id(struct clk *clkp)
 {
-	return clk - soc_clocks;
+	return (clk_idx_t) (clkp - soc_clocks);
 }
 
 /**
@@ -259,27 +259,27 @@ static inline const struct clk_range *clk_get_range(clk_idx_t idx)
  * \return
  * The pointer to the clk_data struct. No error checking is performed.
  */
-static inline const struct clk_data *clk_get_data(struct clk *clk)
+static inline const struct clk_data *clk_get_data(struct clk *clkp)
 {
-	return soc_clock_data + clk_id(clk);
+	return soc_clock_data + clk_id(clkp);
 }
 
-u32 clk_get_parent_freq(struct clk *clk);
-sbool clk_notify_freq(struct clk *clk, u32 parent_freq_hz, sbool query);
-sbool clk_notify_sibling_freq(struct clk *clk, struct clk *parent, u32 parent_freq, sbool query);
+u32 clk_get_parent_freq(struct clk *clkp);
+sbool clk_notify_freq(struct clk *clkp, u32 parent_freq_hz, sbool query);
+sbool clk_notify_sibling_freq(struct clk *clkp, struct clk *parent, u32 parent_freq, sbool query);
 sbool clk_notify_children_freq(struct clk *parent, u32 parent_freq, sbool query);
 
-u32 __clk_generic_set_freq(struct clk *clk, struct clk *parent, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed, s32 div);
-u32 clk_set_freq(struct clk *clk, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed);
-u32 clk_get_freq(struct clk *clk);
-s32 clk_get_state(struct clk *clk);
-sbool clk_set_state(struct clk *clk, sbool enable);
-sbool clk_get(struct clk *clk);
-void clk_put(struct clk *clk);
-void clk_ssc_allow(struct clk *clk);
-void clk_ssc_block(struct clk *clk);
-void clk_freq_change_allow(struct clk *clk);
-void clk_freq_change_block(struct clk *clk);
+u32 __clk_generic_set_freq(struct clk *clkp, struct clk *parent, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed, s32 div);
+u32 clk_set_freq(struct clk *clkp, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed);
+u32 clk_get_freq(struct clk *clkp);
+s32 clk_get_state(struct clk *clkp);
+sbool clk_set_state(struct clk *clkp, sbool enable);
+sbool clk_get(struct clk *clkp);
+void clk_put(struct clk *clkp);
+void clk_ssc_allow(struct clk *clkp);
+void clk_ssc_block(struct clk *clkp);
+void clk_freq_change_allow(struct clk *clkp);
+void clk_freq_change_block(struct clk *clkp);
 
 extern const struct clk_drv clk_drv_input;
 
