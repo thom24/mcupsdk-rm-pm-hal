@@ -585,9 +585,12 @@ static u32 __device_clk_set_freq(struct device *device, dev_clk_idx_t clk_idx,
 			ret_freq = clk_value_set_freq(parent, target_freq_hz, min_freq_hz,
 						      max_freq_hz, query, &changed);
 		} else {
-			ret_freq = __clk_generic_set_freq(NULL, parent, target_freq_hz,
-							  min_freq_hz, max_freq_hz, query,
-							  &changed, div);
+			ret_freq = clk_generic_set_freq_parent(NULL, parent,
+							       target_freq_hz,
+							       min_freq_hz,
+							       max_freq_hz,
+							       query, &changed,
+							       div);
 		}
 
 		/* Put the block refs back */

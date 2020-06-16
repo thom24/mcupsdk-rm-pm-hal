@@ -168,23 +168,22 @@ sbool clk_notify_children_freq(struct clk *parent, u32 parent_freq,
 	return clk_notify_sibling_freq(parent, parent, parent_freq, query);
 }
 
-u32 __clk_generic_set_freq(struct clk *clkp, struct clk *parent,
-			   u32 target_hz, u32 min_hz,
-			   u32 max_hz, sbool query,
-			   sbool *changed,
-			   s32 div)
+u32 clk_generic_set_freq_parent(struct clk *clkp, struct clk *parent,
+				u32 target_hz, u32 min_hz,
+				u32 max_hz, sbool query,
+				sbool *changed, s32 d)
 {
 	u32 new_target, new_min, new_max;
 	u32 new_parent_freq = 0;
 
 	/* Make sure target fits within out clock frequency type */
-	if (ULONG_MAX / div < min_hz) {
+	if (ULONG_MAX / d < min_hz) {
 		return 0;
 	}
 
-	new_min = min_hz * div;
-	new_target = target_hz * div;
-	new_max = max_hz * div;
+	new_min = min_hz * d;
+	new_target = target_hz * d;
+	new_max = max_hz * d;
 
 	if (new_min < min_hz) {
 		return 0;
@@ -213,7 +212,7 @@ u32 __clk_generic_set_freq(struct clk *clkp, struct clk *parent,
 	}
 
 	if (query) {
-		return new_parent_freq / div;
+		return new_parent_freq / d;
 	}
 
 	/* Actually perform the frequency change */
@@ -224,7 +223,7 @@ u32 __clk_generic_set_freq(struct clk *clkp, struct clk *parent,
 		clk_notify_sibling_freq(clkp, parent, new_parent_freq, SFALSE);
 	}
 
-	return new_parent_freq / div;
+	return new_parent_freq / d;
 }
 
 static u32 clk_generic_set_freq(struct clk *clkp,
@@ -243,10 +242,11 @@ static u32 clk_generic_set_freq(struct clk *clkp,
 		struct clk *parent;
 		parent = clk_lookup((clk_idx_t) p->clk);
 		if (parent) {
-			ret = __clk_generic_set_freq(clkp, parent, target_hz,
-						     min_hz, max_hz, query,
-						     changed,
-						     p->div);
+			ret = clk_generic_set_freq_parent(clkp, parent,
+							  target_hz,
+							  min_hz, max_hz,
+							  query, changed,
+							  p->div);
 		}
 	} else {
 		u32 freq = clk_get_freq(clkp);
