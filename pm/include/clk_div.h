@@ -35,9 +35,9 @@ struct clk_data_div_reg_go {
 
 struct clk_drv_div {
 	struct clk_drv	drv;
-	sbool		(*set_div)(struct clk *, u32);
-	u32		(*get_div)(struct clk *);
-	sbool		(*valid_div)(struct clk *, u32);
+	sbool		(*set_div)(struct clk *clkp, u32 d);
+	u32		(*get_div)(struct clk *clkp);
+	sbool		(*valid_div)(struct clk *clkp, u32 d);
 };
 
 extern const struct clk_drv_div clk_drv_div_reg;
@@ -45,17 +45,17 @@ extern const struct clk_drv_div clk_drv_div_reg_ro;
 extern const struct clk_drv_div clk_drv_div_reg_go;
 extern const struct clk_drv_div clk_drv_div_fixed;
 
-sbool clk_div_notify_freq(struct clk *clk, u32 parent_freq_hz, sbool query);
-u32 clk_div_set_freq(struct clk *clk, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed);
-u32 clk_div_get_freq(struct clk *clk);
+sbool clk_div_notify_freq(struct clk *clkp, u32 parent_freq_hz, sbool query);
+u32 clk_div_set_freq(struct clk *clkp, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed);
+u32 clk_div_get_freq(struct clk *clkp);
 
-u32 clk_div_reg_go_get_div(struct clk *clk);
-sbool clk_div_reg_go_set_div(struct clk *clk, u32 d);
-u32 clk_div_reg_get_div(struct clk *clk);
-sbool clk_div_reg_set_div(struct clk *clk, u32 d);
+u32 clk_div_reg_go_get_div(struct clk *clkp);
+sbool clk_div_reg_go_set_div(struct clk *clkp, u32 d);
+u32 clk_div_reg_get_div(struct clk *clkp);
+sbool clk_div_reg_set_div(struct clk *clkp, u32 d);
 
-u32 clk_get_div(struct clk *clk);
-sbool clk_set_div(struct clk *clk, u32 d);
-s32 clk_div_init(struct clk *clk);
+u32 clk_get_div(struct clk *clkp);
+sbool clk_set_div(struct clk *clkp, u32 d);
+s32 clk_div_init(struct clk *clkp);
 
 #endif
