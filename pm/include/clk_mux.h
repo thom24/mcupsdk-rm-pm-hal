@@ -26,14 +26,14 @@ struct clk_data_mux_reg {
 
 struct clk_drv_mux {
 	struct clk_drv		drv;
-	sbool			(*set_parent)(struct clk *, u8);
-	const struct clk_parent * (*get_parent)(struct clk *);
+	sbool			(*set_parent)(struct clk *clkp, u8 p);
+	const struct clk_parent * (*get_parent)(struct clk *clkp);
 };
 
 extern const struct clk_drv_mux clk_drv_mux_reg_ro;
 extern const struct clk_drv_mux clk_drv_mux_reg;
 
-const struct clk_parent *clk_get_parent(struct clk *clk);
-sbool clk_set_parent(struct clk *clk, u8 new_parent);
+const struct clk_parent *clk_get_parent(struct clk *clkp);
+sbool clk_set_parent(struct clk *clkp, u8 new_parent);
 
 #endif

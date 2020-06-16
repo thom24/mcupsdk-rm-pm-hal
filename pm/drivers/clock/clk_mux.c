@@ -13,9 +13,9 @@
 #include <lib/ioremap.h>
 #include <lib/trace.h>
 
-static const struct clk_parent *clk_mux_get_parent(struct clk *clk)
+static const struct clk_parent *clk_mux_get_parent(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_data = clk_get_data(clkp);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
 	u32 v;
@@ -38,9 +38,9 @@ static const struct clk_parent *clk_mux_get_parent(struct clk *clk)
 	return (v < mux->n && mux->parents[v].div) ? &mux->parents[v] : NULL;
 }
 
-static sbool clk_mux_set_parent(struct clk *clk, u8 new_parent)
+static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_data = clk_get_data(clkp);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
 	u32 v;
@@ -66,7 +66,7 @@ static sbool clk_mux_set_parent(struct clk *clk, u8 new_parent)
 			pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
 				 ((new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 				  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-				 ((clk_id(clk) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+				 ((clk_id(clkp) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 				  TRACE_PM_VAL_CLOCK_ID_MASK));
 		}
 	}
@@ -83,23 +83,23 @@ const struct clk_drv_mux clk_drv_mux_reg = {
 	.get_parent		= clk_mux_get_parent,
 };
 
-const struct clk_parent *clk_get_parent(struct clk *clk)
+const struct clk_parent *clk_get_parent(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_data = clk_get_data(clkp);
 
 	if (clk_data->type == CLK_TYPE_MUX) {
 		const struct clk_drv_mux *mux;
 		mux = container_of(clk_data->drv, const struct clk_drv_mux,
 				   drv);
-		return mux->get_parent(clk);
+		return mux->get_parent(clkp);
 	}
 	return clk_data->parent.div ? &clk_data->parent : NULL;
 }
 
 /* FIXME: freq change ok/notify? new freq in range? */
-sbool clk_set_parent(struct clk *clk, u8 new_parent)
+sbool clk_set_parent(struct clk *clkp, u8 new_parent)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_data = clk_get_data(clkp);
 	const struct clk_drv_mux *mux_drv = NULL;
 	const struct clk_data_mux *mux_data = NULL;
 	const struct clk_parent *op;
@@ -134,7 +134,7 @@ sbool clk_set_parent(struct clk *clk, u8 new_parent)
 	}
 
 	if (!done) {
-		op = mux_drv->get_parent(clk);
+		op = mux_drv->get_parent(clkp);
 		if (op && op->clk == mux_data->parents[new_parent].clk) {
 			ret = STRUE;
 			done = STRUE;
@@ -146,10 +146,10 @@ sbool clk_set_parent(struct clk *clk, u8 new_parent)
 		if (!parent) {
 			ret = SFALSE;
 			done = STRUE;
-		} else if ((clk->flags & CLK_FLAG_INITIALIZED) == 0U) {
+		} else if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
 			ret = SFALSE;
 			done = STRUE;
-		} else if (clk->ref_count == 0U) {
+		} else if (clkp->ref_count == 0U) {
 			/* No get neccessary */
 		} else if (!clk_get(parent)) {
 			ret = SFALSE;
@@ -158,8 +158,8 @@ sbool clk_set_parent(struct clk *clk, u8 new_parent)
 	}
 
 	if (!done) {
-		if (!mux_drv->set_parent(clk, new_parent)) {
-			if (clk->ref_count != 0U) {
+		if (!mux_drv->set_parent(clkp, new_parent)) {
+			if (clkp->ref_count != 0U) {
 				clk_put(parent);
 			}
 			ret = SFALSE;
@@ -168,7 +168,7 @@ sbool clk_set_parent(struct clk *clk, u8 new_parent)
 	}
 
 	if (!done) {
-		if (op && clk->ref_count != 0U) {
+		if (op && clkp->ref_count != 0U) {
 			struct clk *op_parent;
 			op_parent = clk_lookup((clk_idx_t) op->clk);
 			if (op_parent) {
