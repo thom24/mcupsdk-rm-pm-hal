@@ -13,7 +13,6 @@
 #include <dmsc.h>
 #include <soc/am64x/devices.h>
 #include <lib/ioremap.h>
-#include <lib/io.h>
 #include <sys-reset.h>
 #include <device_pm.h>
 
@@ -63,7 +62,6 @@ static s32 am64x_sys_reset_handler(domgrp_t domain __attribute__((unused)))
 
 s32 dmsc_init(void)
 {
-
 	sys_reset_handler_register(am64x_sys_reset_handler);
 
 	return sleep_modes_register(am64x_sleep_modes, am64x_sleep_block,
