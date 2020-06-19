@@ -17,8 +17,6 @@
 #include <config.h>
 #include <hosts.h>
 
-#include <osal/osal_core.h>
-#include <tisci_provider/tisci.h>
 #include <tisci/rm/tisci_rm_proxy.h>
 
 #include <rm_core.h>
@@ -314,20 +312,11 @@ static s32 proxy_set_ring_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 	return r;
 }
 
-/**
- * \brief proxy configure message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 proxy_cfg_msg_handler(u32 *msg_recv)
+s32 rm_proxy_cfg(u32 *msg_recv)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_proxy_cfg_req *msg =
 		(struct tisci_msg_rm_proxy_cfg_req *) msg_recv;
-	struct tisci_msg_rm_proxy_cfg_resp *resp =
-		(struct tisci_msg_rm_proxy_cfg_resp *) msg_recv;
 	const struct proxy_instance *inst = NULL;
 	u16 utype;
 	u8 trace_action = TRACE_RM_ACTION_PROXY_CFG;
@@ -376,17 +365,8 @@ static s32 proxy_cfg_msg_handler(u32 *msg_recv)
 			STRUE);
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  (u32) sizeof(*resp),
-				  r);
-
 	return r;
 }
-
-static struct tisci_client tisci_msg_rm_proxy_cfg = {
-	.handler	= proxy_cfg_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
 
 sbool rm_proxy_is_managed_resasg_utype(u16 utype)
 {
@@ -429,11 +409,6 @@ s32 rm_proxy_init(void)
 				proxy_inst[i].initialized = STRUE;
 			}
 		}
-	}
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(TISCI_MSG_RM_PROXY_CFG,
-					       &tisci_msg_rm_proxy_cfg);
 	}
 
 	if (r != SUCCESS) {

@@ -99,4 +99,20 @@ static inline s32 rm_irq_release(u32 *msg_recv __attribute__((unused)))
 }
 #endif
 
+#ifdef CONFIG_RM_PROXY
+/**
+ * \brief proxy configure message handler
+ *
+ * \param msg_recv Received TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_proxy_cfg(u32 *msg_recv);
+#else
+static inline s32 rm_proxy_cfg(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+#endif
+
 #endif /* RM_H */
