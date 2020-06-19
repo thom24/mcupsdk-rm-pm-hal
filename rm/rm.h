@@ -205,4 +205,86 @@ static inline s32 rm_ra_mon_cfg(u32 *msg_recv __attribute__((unused)))
 }
 #endif
 
+#ifdef CONFIG_RM_UDMAP
+/**
+ * \brief UDMAP global configuration configure message handler
+ *
+ * \param msg_recv TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_udmap_gcfg_cfg(u32 *msg_recv);
+
+/**
+ * \brief UDMAP transmit channel configure message handler
+ *
+ * \param msg_recv TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_udmap_tx_ch_cfg(u32 *msg_recv);
+
+/**
+ * \brief UDMAP receive channel configure message handler
+ *
+ * \param msg_recv TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_udmap_rx_ch_cfg(u32 *msg_recv);
+
+/**
+ * \brief UDMAP receive flow standard configuration message handler
+ *
+ * \param msg_recv TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_udmap_flow_cfg(u32 *msg_recv);
+
+/**
+ * \brief UDMAP receive flow size threshold based free queue routing config
+ *        message handler
+ *
+ * \param msg_recv TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv);
+
+/**
+ * \brief DMA flow delegate message handler
+ *
+ * \param msg_recv TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_udmap_flow_delegate(u32 *msg_recv);
+#else
+static inline s32 rm_udmap_gcfg_cfg(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+static inline s32 rm_udmap_tx_ch_cfg(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+static inline s32 rm_udmap_rx_ch_cfg(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+static inline s32 rm_udmap_flow_cfg(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+static inline s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+static inline s32 rm_udmap_flow_delegate(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+#endif
+
 #endif /* RM_H */

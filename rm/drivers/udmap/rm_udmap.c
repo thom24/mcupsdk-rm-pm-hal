@@ -18,7 +18,6 @@
 #include <config.h>
 
 #include <osal/osal_core.h>
-#include <tisci_provider/tisci.h>
 #include <tisci/rm/tisci_rm_udmap.h>
 
 #include <rm_core.h>
@@ -3906,20 +3905,11 @@ static void udmap_format_local_flow_size_thresh_cfg_msg(
 }
 #endif
 
-/**
- * \brief UDMAP global configuration configure message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 udmap_gcfg_cfg_msg_handler(u32 *msg_recv)
+s32 rm_udmap_gcfg_cfg(u32 *msg_recv)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_udmap_gcfg_cfg_req *msg =
 		(struct tisci_msg_rm_udmap_gcfg_cfg_req *) msg_recv;
-	struct tisci_msg_rm_udmap_gcfg_cfg_resp *resp =
-		(struct tisci_msg_rm_udmap_gcfg_cfg_resp *) msg_recv;
 	const struct udmap_instance *inst = NULL;
 	struct tisci_msg_rm_udmap_gcfg_cfg_req loc_msg;
 	u8 trace_action = TRACE_RM_ACTION_UDMAP_GCFG_CFG;
@@ -3953,27 +3943,14 @@ static s32 udmap_gcfg_cfg_msg_handler(u32 *msg_recv)
 		r = udmap_gcfg_cfg(inst, &loc_msg);
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
 
-/**
- * \brief UDMAP transmit channel configure message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 udmap_tx_ch_cfg_msg_handler(u32 *msg_recv)
+s32 rm_udmap_tx_ch_cfg(u32 *msg_recv)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_udmap_tx_ch_cfg_req *msg =
 		(struct tisci_msg_rm_udmap_tx_ch_cfg_req *) msg_recv;
-	struct tisci_msg_rm_udmap_tx_ch_cfg_resp *resp =
-		(struct tisci_msg_rm_udmap_tx_ch_cfg_resp *) msg_recv;
 	const struct udmap_instance *inst = NULL;
 	struct tisci_msg_rm_udmap_tx_ch_cfg_req loc_msg;
 	u16 utype;
@@ -4120,27 +4097,14 @@ static s32 udmap_tx_ch_cfg_msg_handler(u32 *msg_recv)
 		r = udmap_tx_ch_cfg(inst, &loc_msg);
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
 
-/**
- * \brief UDMAP receive channel configure message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 udmap_rx_ch_cfg_msg_handler(u32 *msg_recv)
+s32 rm_udmap_rx_ch_cfg(u32 *msg_recv)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_udmap_rx_ch_cfg_req *msg =
 		(struct tisci_msg_rm_udmap_rx_ch_cfg_req *) msg_recv;
-	struct tisci_msg_rm_udmap_rx_ch_cfg_resp *resp =
-		(struct tisci_msg_rm_udmap_rx_ch_cfg_resp *) msg_recv;
 	const struct udmap_instance *inst = NULL;
 	struct tisci_msg_rm_udmap_rx_ch_cfg_req loc_msg;
 	u16 utype;
@@ -4268,27 +4232,14 @@ static s32 udmap_rx_ch_cfg_msg_handler(u32 *msg_recv)
 		r = udmap_rx_ch_cfg(inst, &loc_msg, chan_type);
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
 
-/**
- * \brief UDMAP receive flow standard configuration message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 udmap_flow_cfg_msg_handler(u32 *msg_recv)
+s32 rm_udmap_flow_cfg(u32 *msg_recv)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_udmap_flow_cfg_req *msg =
 		(struct tisci_msg_rm_udmap_flow_cfg_req *) msg_recv;
-	struct tisci_msg_rm_udmap_flow_cfg_resp *resp =
-		(struct tisci_msg_rm_udmap_flow_cfg_resp *) msg_recv;
 	const struct udmap_instance *inst = NULL;
 	struct tisci_msg_rm_udmap_flow_cfg_req loc_msg;
 	u8 trace_action = TRACE_RM_ACTION_UDMAP_FLOW_CFG;
@@ -4480,22 +4431,10 @@ static s32 udmap_flow_cfg_msg_handler(u32 *msg_recv)
 		r = udmap_flow_cfg(inst, &loc_msg, assoc_chan_type);
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
 
-/**
- * \brief UDMAP receive flow size threshold based free queue routing config
- *        message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 udmap_flow_size_thresh_cfg_msg_handler(u32 *msg_recv)
+s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv)
 {
 	s32 r = SUCCESS;
 
@@ -4503,8 +4442,6 @@ static s32 udmap_flow_size_thresh_cfg_msg_handler(u32 *msg_recv)
 	struct tisci_msg_rm_udmap_flow_size_thresh_cfg_req *msg =
 		(struct tisci_msg_rm_udmap_flow_size_thresh_cfg_req *) msg_recv;
 #endif
-	struct tisci_msg_rm_udmap_flow_size_thresh_cfg_resp *resp =
-		(struct tisci_msg_rm_udmap_flow_size_thresh_cfg_resp *) msg_recv;
 
 	/* Silently accept any flow_size_thresh_cfg on devices without UDMAP */
 #ifdef CONFIG_UDMAP_UDMA
@@ -4618,27 +4555,14 @@ static s32 udmap_flow_size_thresh_cfg_msg_handler(u32 *msg_recv)
 	}
 #endif
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
 
-/**
- * \brief DMA flow delegate message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 udmap_flow_delegate_msg_handler(u32 *msg_recv)
+s32 rm_udmap_flow_delegate(u32 *msg_recv)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_udmap_flow_delegate_req *msg =
 		(struct tisci_msg_rm_udmap_flow_delegate_req *) msg_recv;
-	struct tisci_msg_rm_udmap_flow_delegate_resp *resp =
-		(struct tisci_msg_rm_udmap_flow_delegate_resp *) msg_recv;
 	const struct udmap_instance *inst = NULL;
 	u8 delegate_host;
 	u32 trace_action = TRACE_RM_ACTION_UDMAP_FLOW_DELEGATE;
@@ -4715,42 +4639,8 @@ static s32 udmap_flow_delegate_msg_handler(u32 *msg_recv)
 		inst->common_flow->delegates[msg->flow_index - inst->common_flow->start] = delegate_host;
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
-
-static struct tisci_client tisci_msg_rm_udmap_gcfg_cfg = {
-	.handler	= udmap_gcfg_cfg_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
-
-static struct tisci_client tisci_msg_rm_udmap_tx_ch_cfg = {
-	.handler	= udmap_tx_ch_cfg_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
-
-static struct tisci_client tisci_msg_rm_udmap_rx_ch_cfg = {
-	.handler	= udmap_rx_ch_cfg_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
-
-static struct tisci_client tisci_msg_rm_udmap_flow_cfg = {
-	.handler	= udmap_flow_cfg_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
-
-static struct tisci_client tisci_msg_rm_udmap_flow_size_thresh_cfg = {
-	.handler	= udmap_flow_size_thresh_cfg_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
-
-static struct tisci_client tisci_msg_rm_udmap_flow_delegate = {
-	.handler	= udmap_flow_delegate_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
 
 sbool rm_udmap_is_managed_resasg_utype(u16 utype)
 {
@@ -4855,42 +4745,6 @@ s32 rm_udmap_init(void)
 				udmap_inst[i].initialized = STRUE;
 			}
 		}
-	}
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(
-			TISCI_MSG_RM_UDMAP_GCFG_CFG,
-			&tisci_msg_rm_udmap_gcfg_cfg);
-	}
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(
-			TISCI_MSG_RM_UDMAP_TX_CH_CFG,
-			&tisci_msg_rm_udmap_tx_ch_cfg);
-	}
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(
-			TISCI_MSG_RM_UDMAP_RX_CH_CFG,
-			&tisci_msg_rm_udmap_rx_ch_cfg);
-	}
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(
-			TISCI_MSG_RM_UDMAP_FLOW_CFG,
-			&tisci_msg_rm_udmap_flow_cfg);
-	}
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(
-			TISCI_MSG_RM_UDMAP_FLOW_SIZE_THRESH_CFG,
-			&tisci_msg_rm_udmap_flow_size_thresh_cfg);
-	}
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(
-			TISCI_MSG_RM_UDMAP_FLOW_DELEGATE,
-			&tisci_msg_rm_udmap_flow_delegate);
 	}
 
 	if (r != SUCCESS) {
