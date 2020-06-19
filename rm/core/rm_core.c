@@ -18,7 +18,6 @@
 #include <hosts.h>
 #include <hosts_internal.h>
 
-#include <tisci_provider/tisci.h>
 #include <tisci/rm/tisci_rm_shared.h>
 #include <tisci/rm/tisci_rm_core.h>
 #include <osal/osal_core.h>
@@ -265,20 +264,14 @@ static s32 core_resasg_validate_subtype(u16 subtype, u8 trace_action)
 	return r;
 }
 
-/**
- * \brief Resource range retrieval message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 core_get_resource_range_msg_handler(u32 *msg_recv)
+s32 rm_core_get_resource_range(u32	*msg_recv,
+			       u32	*msg_resp)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_get_resource_range_req *msg =
 		(struct tisci_msg_rm_get_resource_range_req *) msg_recv;
 	struct tisci_msg_rm_get_resource_range_resp *resp =
-		(struct tisci_msg_rm_get_resource_range_resp *) msg;
+		(struct tisci_msg_rm_get_resource_range_resp *) msg_resp;
 	u8 host;
 	u16 utype;
 	sbool type_found;
@@ -371,27 +364,14 @@ static s32 core_get_resource_range_msg_handler(u32 *msg_recv)
 			     resp->range_num_sec);
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
-
-static struct tisci_client tisci_msg_rm_core_get_resource_range = {
-	.handler	= core_get_resource_range_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
 
 s32 rm_core_init(void)
 {
 	s32 r = SUCCESS;
 
 	r = core_resasg_create_index();
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(TISCI_MSG_RM_GET_RESOURCE_RANGE,
-					       &tisci_msg_rm_core_get_resource_range);
-	}
 
 	if (r != SUCCESS) {
 		rm_trace_sub(TRACE_RM_ACTION_RM_CORE_INIT |

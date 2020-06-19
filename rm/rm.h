@@ -1,7 +1,7 @@
 /*
- * DMSC RM
+ * RM
  *
- * Resource Manager core infrastructure APIs
+ * Resource Manager APIs
  *
  * Copyright (C) 2017-2020 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -17,6 +17,7 @@
 #include <boardcfg/boardcfg_rm_data.h>
 #include <soc_devgrps.h>
 
+#ifdef CONFIG_RM
 /**
  * \brief RM init function
  *
@@ -27,19 +28,29 @@
  * Status of initialization
  *      SUCCESS - Initialization completed successfully
  */
-#ifdef CONFIG_RM
 s32 rm_init(void);
 
 /**
- * \brief RM deinit function
+ * \brief RM de-init function
  *
- * Deinitializes RM data structures in a device group
+ * De-initializes RM data structures in a device group
  *
  * \return
- * Status of deinitialization
- *      SUCCESS - Deinitialization completed successfully
+ * Status of de-initialization
+ *      SUCCESS - De-initialization completed successfully
  */
 s32 rm_deinit(devgrp_t devgrp);
+
+/**
+ * \brief Resource range retrieval
+ *
+ * \param msg_recv Received TISCI message
+ *
+ * \param msg_resp Response TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_core_get_resource_range(u32 *msg_recv, u32 *msg_resp);
 #else
 static inline s32 rm_init(void)
 {
@@ -49,6 +60,12 @@ static inline s32 rm_init(void)
 static inline s32 rm_deinit(devgrp_t devgrp __attribute__((unused)))
 {
 	return SUCCESS;
+}
+
+static inline s32 rm_core_get_resource_range(u32	*msg_recv __attribute__((unused)),
+					     u32	*msg_resp __attribute__((unused)))
+{
+	return -EINIT;
 }
 #endif
 
