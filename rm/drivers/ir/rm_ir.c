@@ -585,7 +585,7 @@ s32 rm_ir_deinit(devgrp_t devgrp)
 	for (i = 0U; i < IR_INST_COUNT; i++) {
 		if ((rm_core_validate_devgrp(ir_inst[i].id, ir_inst[i].devgrp) ==
 		     SUCCESS) &&
-			(ir_inst[i].initialized == STRUE) &&
+		    (ir_inst[i].initialized == STRUE) &&
 		    (ir_inst[i].devgrp == devgrp)) {
 			ir_inst[i].initialized = SFALSE;
 			r = SUCCESS;

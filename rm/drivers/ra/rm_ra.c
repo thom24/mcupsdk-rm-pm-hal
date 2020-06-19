@@ -903,7 +903,7 @@ static s32 ra_set_ring_evt(u8 host, u16 id, u16 oes_index, u16 evt)
  * \param msg Pointer to the ring configure TISCI message
  */
 static s32 ra_configure(const struct ra_instance		*inst,
-			 const struct tisci_msg_rm_ring_cfg_req *msg)
+			const struct tisci_msg_rm_ring_cfg_req	*msg)
 {
 	mapped_addr_t maddr;
 	u32 ring_base;
@@ -935,8 +935,8 @@ static s32 ra_configure(const struct ra_instance		*inst,
 	write = SFALSE;
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_RING_ADDR_HI_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_RING_ADDR_HI_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		ba_hi_reg &= ~RA_CFG_RING_BA_HI_ADDR_HI_MASK;
 		ba_hi_reg |= rm_fmk(RA_CFG_RING_BA_HI_ADDR_HI_SHIFT,
 				    RA_CFG_RING_BA_HI_ADDR_HI_MASK,
@@ -946,8 +946,8 @@ static s32 ra_configure(const struct ra_instance		*inst,
 
 #ifdef CONFIG_RM_RA_DMSS_RING
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_RING_ASEL_VALID) ==
-	    STRUE) && (r == SUCCESS)){
+				    TISCI_MSG_VALUE_RM_RING_ASEL_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		ba_hi_reg &= ~RA_CFG_RING_BA_HI_ADDR_ASEL_MASK;
 		ba_hi_reg |= rm_fmk(RA_CFG_RING_BA_HI_ADDR_ASEL_SHIFT,
 				    RA_CFG_RING_BA_HI_ADDR_ASEL_MASK,
@@ -964,15 +964,14 @@ static s32 ra_configure(const struct ra_instance		*inst,
 			r = -EFAILVERIFY;
 		}
 	}
-	if (r == SUCCESS)
-	{
+	if (r == SUCCESS) {
 		size_reg = readl(ring_base + RA_CFG_RING_SIZE);
 		write = SFALSE;
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_RING_MODE_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_RING_MODE_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		size_reg &= ~RA_CFG_RING_SIZE_QMODE_MASK;
 		size_reg |= rm_fmk(RA_CFG_RING_SIZE_QMODE_SHIFT,
 				   RA_CFG_RING_SIZE_QMODE_MASK,
@@ -980,8 +979,8 @@ static s32 ra_configure(const struct ra_instance		*inst,
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_RING_SIZE_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_RING_SIZE_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		size_reg &= ~RA_CFG_RING_SIZE_ELSIZE_MASK;
 		size_reg |= rm_fmk(RA_CFG_RING_SIZE_ELSIZE_SHIFT,
 				   RA_CFG_RING_SIZE_ELSIZE_MASK,
@@ -989,8 +988,8 @@ static s32 ra_configure(const struct ra_instance		*inst,
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_RING_COUNT_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_RING_COUNT_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		size_reg &= ~RA_CFG_RING_SIZE_ELCNT_MASK;
 		size_reg |= rm_fmk(RA_CFG_RING_SIZE_ELCNT_SHIFT,
 				   RA_CFG_RING_SIZE_ELCNT_MASK,
@@ -1007,8 +1006,8 @@ static s32 ra_configure(const struct ra_instance		*inst,
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_RING_ORDER_ID_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_RING_ORDER_ID_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		order_id_reg = rm_fmk(
 			RA_CFG_RING_ORDERID_REPLACE_SHIFT,
 			RA_CFG_RING_ORDERID_REPLACE_MASK, 1u);
@@ -1036,7 +1035,7 @@ static s32 ra_configure(const struct ra_instance		*inst,
  * \param msg Pointer to the ring monitor configure TISCI message
  */
 static s32 ra_monitor_cfg(const struct ra_instance			*inst,
-			   const struct tisci_msg_rm_ring_mon_cfg_req	*msg)
+			  const struct tisci_msg_rm_ring_mon_cfg_req	*msg)
 {
 	mapped_addr_t maddr;
 	u32 monitor_base;
@@ -1079,8 +1078,8 @@ static s32 ra_monitor_cfg(const struct ra_instance			*inst,
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_MON_QUEUE_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_MON_QUEUE_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		queue_reg = rm_fmk(RA_CFG_MON_QUEUE_VAL_SHIFT,
 				   RA_CFG_MON_QUEUE_VAL_MASK,
 				   msg->queue);
@@ -1093,8 +1092,8 @@ static s32 ra_monitor_cfg(const struct ra_instance			*inst,
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_MON_DATA0_VAL_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_MON_DATA0_VAL_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		if (writel_verified(msg->data0_val,
 				    monitor_base + RA_CFG_MON_DATA0) !=
 		    SUCCESS) {
@@ -1103,8 +1102,8 @@ static s32 ra_monitor_cfg(const struct ra_instance			*inst,
 		}
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_MON_DATA1_VAL_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_MON_DATA1_VAL_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		if (writel_verified(msg->data1_val,
 				    monitor_base + RA_CFG_MON_DATA1) !=
 		    SUCCESS) {

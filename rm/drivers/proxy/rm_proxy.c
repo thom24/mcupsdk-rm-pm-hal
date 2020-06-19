@@ -451,7 +451,7 @@ s32 rm_proxy_deinit(devgrp_t devgrp)
 	for (i = 0U; i < PROXY_INST_COUNT; i++) {
 		if ((rm_core_validate_devgrp(proxy_inst[i].id, proxy_inst[i].devgrp) ==
 		     SUCCESS) &&
-			(proxy_inst[i].initialized == STRUE) &&
+		    (proxy_inst[i].initialized == STRUE) &&
 		    (proxy_inst[i].devgrp == devgrp)) {
 			proxy_inst[i].initialized = SFALSE;
 			r = SUCCESS;

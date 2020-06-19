@@ -291,8 +291,7 @@ static s32 psil_cfg_read(const struct psil_instance *inst, u32 thrd_id,
 		if (psil_cfg_is_cmd_timed_out(inst) == STRUE) {
 			/* Clear timeout if last transaction timed out */
 			r = psil_cfg_clear_timeout(inst);
-			if (r == SUCCESS)
-			{
+			if (r == SUCCESS) {
 				r = -ETIMEDOUT;
 			}
 		} else {
@@ -357,8 +356,7 @@ static s32 psil_cfg_write(const struct psil_instance *inst, u32 thrd_id,
 		if (psil_cfg_is_cmd_timed_out(inst) == STRUE) {
 			/* Clear timeout if last transaction timed out */
 			r = psil_cfg_clear_timeout(inst);
-			if (r == SUCCESS)
-			{
+			if (r == SUCCESS) {
 				r = -ETIMEDOUT;
 			}
 		} else {

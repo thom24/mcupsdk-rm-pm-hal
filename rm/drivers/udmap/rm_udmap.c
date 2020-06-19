@@ -2081,8 +2081,8 @@ static s32 udmap_gcfg_cfg(
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_GCFG_EMU_CTRL_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_GCFG_EMU_CTRL_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		if (writel_verified(msg->emu_ctrl,
 				    maddr + UDMAP_GCFG_EMU_CTRL) !=
 		    SUCCESS) {
@@ -2092,8 +2092,8 @@ static s32 udmap_gcfg_cfg(
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_GCFG_PSIL_TO_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_GCFG_PSIL_TO_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		if (writel_verified(msg->psil_to,
 				    maddr + UDMAP_GCFG_PSIL_TO) !=
 		    SUCCESS) {
@@ -2103,8 +2103,8 @@ static s32 udmap_gcfg_cfg(
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_GCFG_RFLOWFWSTAT_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_GCFG_RFLOWFWSTAT_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		if (writel_verified(msg->rflowfwstat,
 				    maddr + UDMAP_GCFG_RFLOWFWSTAT) !=
 		    SUCCESS) {
@@ -2327,8 +2327,8 @@ static s32 udmap_tx_ch_cfg(
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_TX_CREDIT_COUNT_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_TX_CREDIT_COUNT_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		tcredit_reg = rm_fmk(UDMAP_TCHAN_TCREDIT_COUNT_SHIFT,
 				     UDMAP_TCHAN_TCREDIT_COUNT_MASK,
 				     msg->tx_credit_count);
@@ -2341,8 +2341,8 @@ static s32 udmap_tx_ch_cfg(
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_CQ_QNUM_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_CQ_QNUM_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		tcq_reg = rm_fmk(UDMAP_TCHAN_TCQ_TXCQ_QNUM_SHIFT,
 				 UDMAP_TCHAN_TCQ_TXCQ_QNUM_MASK,
 				 msg->txcq_qnum);
@@ -2353,16 +2353,15 @@ static s32 udmap_tx_ch_cfg(
 			r = -EFAILVERIFY;
 		}
 	}
-	if (r == SUCCESS)
-	{
+	if (r == SUCCESS) {
 		/* TPRI_CTRL is available on all channel types */
 		tpri_ctrl_reg = readl(ch_base + UDMAP_TCHAN_TPRI_CTRL);
 		write = SFALSE;
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_PRIORITY_VALID) ==
-	    STRUE) && (r == SUCCESS)){
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_PRIORITY_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		tpri_ctrl_reg &= ~UDMAP_TCHAN_TPRI_CTRL_PRIORITY_MASK;
 		tpri_ctrl_reg |= rm_fmk(UDMAP_TCHAN_TPRI_CTRL_PRIORITY_SHIFT,
 					UDMAP_TCHAN_TPRI_CTRL_PRIORITY_MASK,
@@ -2370,8 +2369,8 @@ static s32 udmap_tx_ch_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_QOS_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_QOS_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		tpri_ctrl_reg &= ~UDMAP_TCHAN_TPRI_CTRL_QOS_MASK;
 		tpri_ctrl_reg |= rm_fmk(UDMAP_TCHAN_TPRI_CTRL_QOS_SHIFT,
 					UDMAP_TCHAN_TPRI_CTRL_QOS_MASK,
@@ -2379,8 +2378,8 @@ static s32 udmap_tx_ch_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_ORDER_ID_VALID) ==
-	    STRUE) && (r == SUCCESS)){
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_ORDER_ID_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		tpri_ctrl_reg &= ~UDMAP_TCHAN_TPRI_CTRL_ORDERID_MASK;
 		tpri_ctrl_reg |= rm_fmk(UDMAP_TCHAN_TPRI_CTRL_ORDERID_SHIFT,
 					UDMAP_TCHAN_TPRI_CTRL_ORDERID_MASK,
@@ -2397,8 +2396,8 @@ static s32 udmap_tx_ch_cfg(
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_TX_FDEPTH_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_TX_FDEPTH_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		tfifo_depth_reg = rm_fmk(UDMAP_TCHAN_TFIFO_DEPTH_FDEPTH_SHIFT,
 					 UDMAP_TCHAN_TFIFO_DEPTH_FDEPTH_MASK,
 					 msg->fdepth);
@@ -2411,8 +2410,8 @@ static s32 udmap_tx_ch_cfg(
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_SCHED_PRIORITY_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_SCHED_PRIORITY_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		tst_sched_reg = rm_fmk(UDMAP_TCHAN_TST_SCHED_PRIORITY_SHIFT,
 				       UDMAP_TCHAN_TST_SCHED_PRIORITY_MASK,
 				       msg->tx_sched_priority);
@@ -2765,8 +2764,8 @@ static s32 udmap_rx_ch_cfg(
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_CQ_QNUM_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_CQ_QNUM_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rcq_reg = rm_fmk(UDMAP_RCHAN_RCQ_RXCQ_QNUM_SHIFT,
 				 UDMAP_RCHAN_RCQ_RXCQ_QNUM_MASK,
 				 msg->rxcq_qnum);
@@ -2776,16 +2775,15 @@ static s32 udmap_rx_ch_cfg(
 			r = -EFAILVERIFY;
 		}
 	}
-	if (r == SUCCESS)
-	{
+	if (r == SUCCESS) {
 		/* RPRI_CTRL available on all chan types */
 		rpri_ctrl_reg = readl(ch_base + UDMAP_RCHAN_RPRI_CTRL);
 		write = SFALSE;
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_PRIORITY_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_PRIORITY_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rpri_ctrl_reg &= ~UDMAP_RCHAN_RPRI_CTRL_PRIORITY_MASK;
 		rpri_ctrl_reg |= rm_fmk(UDMAP_RCHAN_RPRI_CTRL_PRIORITY_SHIFT,
 					UDMAP_RCHAN_RPRI_CTRL_PRIORITY_MASK,
@@ -2793,8 +2791,8 @@ static s32 udmap_rx_ch_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_QOS_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_QOS_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rpri_ctrl_reg &= ~UDMAP_RCHAN_RPRI_CTRL_QOS_MASK;
 		rpri_ctrl_reg |= rm_fmk(UDMAP_RCHAN_RPRI_CTRL_QOS_SHIFT,
 					UDMAP_RCHAN_RPRI_CTRL_QOS_MASK,
@@ -2802,8 +2800,8 @@ static s32 udmap_rx_ch_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_ORDER_ID_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_ORDER_ID_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rpri_ctrl_reg &= ~UDMAP_RCHAN_RPRI_CTRL_ORDERID_MASK;
 		rpri_ctrl_reg |= rm_fmk(UDMAP_RCHAN_RPRI_CTRL_ORDERID_SHIFT,
 					UDMAP_RCHAN_RPRI_CTRL_ORDERID_MASK,
@@ -2820,8 +2818,8 @@ static s32 udmap_rx_ch_cfg(
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_SCHED_PRIORITY_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_SCHED_PRIORITY_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rst_sched_reg = rm_fmk(UDMAP_RCHAN_RST_SCHED_PRIORITY_SHIFT,
 				       UDMAP_RCHAN_RST_SCHED_PRIORITY_MASK,
 				       msg->rx_sched_priority);
@@ -2835,20 +2833,19 @@ static s32 udmap_rx_ch_cfg(
 
 	/* RFLOW_RNG only available on UDMA channel types */
 	if ((rm_core_param_is_valid(dev_mask,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_RX_FLOWID_CNT_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_RX_FLOWID_CNT_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rflow_rng_reg = readl(ch_base + UDMAP_RCHAN_RFLOW_RNG);
 	} else {
 		rflow_rng_reg = 0U;
 	}
-	if (r == SUCCESS)
-	{
+	if (r == SUCCESS) {
 		write = SFALSE;
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_RX_FLOWID_CNT_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_RX_FLOWID_CNT_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rflow_rng_reg &= ~UDMAP_RCHAN_RFLOW_RNG_FLOWID_CNT_MASK;
 		rflow_rng_reg |= rm_fmk(UDMAP_RCHAN_RFLOW_RNG_FLOWID_CNT_SHIFT,
 					UDMAP_RCHAN_RFLOW_RNG_FLOWID_CNT_MASK,
@@ -2856,8 +2853,8 @@ static s32 udmap_rx_ch_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_CH_RX_FLOWID_START_VALID) ==
-	    STRUE) && (r == SUCCESS)){
+				    TISCI_MSG_VALUE_RM_UDMAP_CH_RX_FLOWID_START_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rflow_rng_reg &= ~UDMAP_RCHAN_RFLOW_RNG_FLOWID_START_MASK;
 		rflow_rng_reg |= rm_fmk(
 			UDMAP_RCHAN_RFLOW_RNG_FLOWID_START_SHIFT,
@@ -2865,7 +2862,7 @@ static s32 udmap_rx_ch_cfg(
 			msg->flowid_start);
 		write = STRUE;
 	}
-	if ((write == STRUE) && (r == SUCCESS)){
+	if ((write == STRUE) && (r == SUCCESS)) {
 		if (writel_verified(rflow_rng_reg,
 				    ch_base + UDMAP_RCHAN_RFLOW_RNG) !=
 		    SUCCESS) {
@@ -3187,22 +3184,21 @@ static s32 udmap_flow_cfg(
 	}
 
 #ifdef CONFIG_UDMAP_UDMA
-	if (r == SUCCESS)
-	{
+	if (r == SUCCESS) {
 		write = SFALSE;
 	}
 	/* read RFB if its present in device */
 	if ((rm_core_param_is_valid(dev_mask,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SRC_TAG_HI_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_SRC_TAG_HI_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg = readl(flow_base + UDMAP_RFLOW_RFB);
 	} else {
 		rf_reg = 0U;
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SRC_TAG_HI_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_SRC_TAG_HI_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFB_RX_SRC_TAG_HI_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFB_RX_SRC_TAG_HI_SHIFT,
 				 UDMAP_RFLOW_RFB_RX_SRC_TAG_HI_MASK,
@@ -3210,8 +3206,8 @@ static s32 udmap_flow_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SRC_TAG_LO_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_SRC_TAG_LO_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFB_RX_SRC_TAG_LO_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFB_RX_SRC_TAG_LO_SHIFT,
 				 UDMAP_RFLOW_RFB_RX_SRC_TAG_LO_MASK,
@@ -3219,8 +3215,8 @@ static s32 udmap_flow_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_DEST_TAG_HI_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_DEST_TAG_HI_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFB_RX_DEST_TAG_HI_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFB_RX_DEST_TAG_HI_SHIFT,
 				 UDMAP_RFLOW_RFB_RX_DEST_TAG_HI_MASK,
@@ -3228,8 +3224,8 @@ static s32 udmap_flow_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_DEST_TAG_LO_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_DEST_TAG_LO_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFB_RX_DEST_TAG_LO_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFB_RX_DEST_TAG_LO_SHIFT,
 				 UDMAP_RFLOW_RFB_RX_DEST_TAG_LO_MASK,
@@ -3243,22 +3239,21 @@ static s32 udmap_flow_cfg(
 			r = -EFAILVERIFY;
 		}
 	}
-	if (r == SUCCESS)
-	{
+	if (r == SUCCESS) {
 		write = SFALSE;
 	}
 	/* read RFC if its present in device */
 	if ((rm_core_param_is_valid(dev_mask,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SRC_TAG_HI_SEL_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_SRC_TAG_HI_SEL_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg = readl(flow_base + UDMAP_RFLOW_RFC);
 	} else {
 		rf_reg = 0U;
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SRC_TAG_HI_SEL_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_SRC_TAG_HI_SEL_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFC_RX_SRC_TAG_HI_SEL_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFC_RX_SRC_TAG_HI_SEL_SHIFT,
 				 UDMAP_RFLOW_RFC_RX_SRC_TAG_HI_SEL_MASK,
@@ -3266,8 +3261,8 @@ static s32 udmap_flow_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SRC_TAG_LO_SEL_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_SRC_TAG_LO_SEL_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFC_RX_SRC_TAG_LO_SEL_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFC_RX_SRC_TAG_LO_SEL_SHIFT,
 				 UDMAP_RFLOW_RFC_RX_SRC_TAG_LO_SEL_MASK,
@@ -3275,8 +3270,8 @@ static s32 udmap_flow_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_DEST_TAG_HI_SEL_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_DEST_TAG_HI_SEL_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFC_RX_DEST_TAG_HI_SEL_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFC_RX_DEST_TAG_HI_SEL_SHIFT,
 				 UDMAP_RFLOW_RFC_RX_DEST_TAG_HI_SEL_MASK,
@@ -3284,8 +3279,8 @@ static s32 udmap_flow_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_DEST_TAG_LO_SEL_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_DEST_TAG_LO_SEL_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFC_RX_DEST_TAG_LO_SEL_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFC_RX_DEST_TAG_LO_SEL_SHIFT,
 				 UDMAP_RFLOW_RFC_RX_DEST_TAG_LO_SEL_MASK,
@@ -3304,16 +3299,16 @@ static s32 udmap_flow_cfg(
 	}
 	/* read RFD if its present in device */
 	if ((rm_core_param_is_valid(dev_mask,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ0_QNUM_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ0_QNUM_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg = readl(flow_base + UDMAP_RFLOW_RFD);
 	} else {
 		rf_reg = 0U;
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ0_QNUM_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ0_QNUM_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFD_RX_FDQ0_SZ0_QNUM_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFD_RX_FDQ0_SZ0_QNUM_SHIFT,
 				 UDMAP_RFLOW_RFD_RX_FDQ0_SZ0_QNUM_MASK,
@@ -3321,8 +3316,8 @@ static s32 udmap_flow_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ1_QNUM_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ1_QNUM_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFD_RX_FDQ1_QNUM_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFD_RX_FDQ1_QNUM_SHIFT,
 				 UDMAP_RFLOW_RFD_RX_FDQ1_QNUM_MASK,
@@ -3336,22 +3331,21 @@ static s32 udmap_flow_cfg(
 			r = -EFAILVERIFY;
 		}
 	}
-	if (r == SUCCESS)
-	{
+	if (r == SUCCESS) {
 		write = SFALSE;
 	}
 	/* read RFE if its present in device */
 	if ((rm_core_param_is_valid(dev_mask,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ2_QNUM_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ2_QNUM_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg = readl(flow_base + UDMAP_RFLOW_RFE);
 	} else {
 		rf_reg = 0U;
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ2_QNUM_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ2_QNUM_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFE_RX_FDQ2_QNUM_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFE_RX_FDQ2_QNUM_SHIFT,
 				 UDMAP_RFLOW_RFE_RX_FDQ2_QNUM_MASK,
@@ -3359,8 +3353,8 @@ static s32 udmap_flow_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ3_QNUM_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ3_QNUM_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFE_RX_FDQ3_QNUM_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFE_RX_FDQ3_QNUM_SHIFT,
 				 UDMAP_RFLOW_RFE_RX_FDQ3_QNUM_MASK,
@@ -3679,21 +3673,21 @@ static s32 udmap_flow_size_thresh_cfg(
 			r = -EFAILVERIFY;
 		}
 	}
-	if (r  == SUCCESS) {
+	if (r == SUCCESS) {
 		write = SFALSE;
 	}
 	/* read RFF if its present in device */
 	if ((rm_core_param_is_valid(dev_mask,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH0_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH0_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg = readl(flow_base + UDMAP_RFLOW_RFF);
 	} else {
 		rf_reg = 0U;
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH0_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH0_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFF_RX_SIZE_THRESH0_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFF_RX_SIZE_THRESH0_SHIFT,
 				 UDMAP_RFLOW_RFF_RX_SIZE_THRESH0_MASK,
@@ -3701,8 +3695,8 @@ static s32 udmap_flow_size_thresh_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH1_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH1_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFF_RX_SIZE_THRESH1_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFF_RX_SIZE_THRESH1_SHIFT,
 				 UDMAP_RFLOW_RFF_RX_SIZE_THRESH1_MASK,
@@ -3721,16 +3715,16 @@ static s32 udmap_flow_size_thresh_cfg(
 	}
 	/* read RFG if its present in device */
 	if ((rm_core_param_is_valid(dev_mask,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH2_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH2_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg = readl(flow_base + UDMAP_RFLOW_RFG);
 	} else {
 		rf_reg = 0U;
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH2_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH2_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFG_RX_SIZE_THRESH2_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFG_RX_SIZE_THRESH2_SHIFT,
 				 UDMAP_RFLOW_RFG_RX_SIZE_THRESH2_MASK,
@@ -3738,8 +3732,8 @@ static s32 udmap_flow_size_thresh_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ1_QNUM_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ1_QNUM_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFG_RX_FDQ0_SZ1_QNUM_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFG_RX_FDQ0_SZ1_QNUM_SHIFT,
 				 UDMAP_RFLOW_RFG_RX_FDQ0_SZ1_QNUM_MASK,
@@ -3758,16 +3752,16 @@ static s32 udmap_flow_size_thresh_cfg(
 	}
 	/* read RFH if its present in device */
 	if ((rm_core_param_is_valid(dev_mask,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ2_QNUM_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ2_QNUM_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg = readl(flow_base + UDMAP_RFLOW_RFH);
 	} else {
 		rf_reg = 0U;
 	}
 
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ2_QNUM_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ2_QNUM_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFH_RX_FDQ0_SZ2_QNUM_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFH_RX_FDQ0_SZ2_QNUM_SHIFT,
 				 UDMAP_RFLOW_RFH_RX_FDQ0_SZ2_QNUM_MASK,
@@ -3775,8 +3769,8 @@ static s32 udmap_flow_size_thresh_cfg(
 		write = STRUE;
 	}
 	if ((rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ3_QNUM_VALID) ==
-	    STRUE) && (r == SUCCESS)) {
+				    TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ3_QNUM_VALID) ==
+	     STRUE) && (r == SUCCESS)) {
 		rf_reg &= ~UDMAP_RFLOW_RFH_RX_FDQ0_SZ3_QNUM_MASK;
 		rf_reg |= rm_fmk(UDMAP_RFLOW_RFH_RX_FDQ0_SZ3_QNUM_SHIFT,
 				 UDMAP_RFLOW_RFH_RX_FDQ0_SZ3_QNUM_MASK,

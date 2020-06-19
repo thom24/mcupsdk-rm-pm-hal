@@ -141,15 +141,17 @@ static u8 ia_get_vint_usage_count(const struct ia_instance *inst, u16 vint)
  * \param vint IA VINT index
  *
  * \param vint_sb_index VINT status bit to map to event
+ *
+ * \return SUCCESS if VINT configured, else error
  */
 static s32 ia_configure_vint(struct ia_instance *inst, u16 evt, u16 vint,
-			      u8 vint_sb_index)
+			     u8 vint_sb_index)
 {
+	s32 r = SUCCESS;
 	mapped_addr_t maddr;
 	u32 entry_int_map_lo;
 	u32 vint_enable_set;
 	u32 vint_enable_set_addr;
-	s32 r = SUCCESS;
 
 	maddr = rm_core_map_region(inst->imap->base);
 	entry_int_map_lo = rm_fmk(IA_ENTRY_INTMAP_REGNUM_SHIFT,
@@ -161,10 +163,9 @@ static s32 ia_configure_vint(struct ia_instance *inst, u16 evt, u16 vint,
 		/* Readback of write failed: halt */
 		r = -EFAILVERIFY;
 	}
-
 	rm_core_unmap_region();
-	if (r == SUCCESS)
-	{
+
+	if (r == SUCCESS) {
 		/*
 		 * Enable the status bit via the VINT's real-time VINT_ENABLE_SET
 		 * register
@@ -188,8 +189,8 @@ static s32 ia_configure_vint(struct ia_instance *inst, u16 evt, u16 vint,
 			r = -EFAILVERIFY;
 		}
 		rm_core_unmap_region();
-		if (r == SUCCESS)
-		{
+
+		if (r == SUCCESS) {
 			/* Increment vint usage count */
 			inst->vint_usage_count[vint]++;
 
@@ -203,6 +204,7 @@ static s32 ia_configure_vint(struct ia_instance *inst, u16 evt, u16 vint,
 			}
 		}
 	}
+
 	return r;
 }
 
@@ -218,15 +220,17 @@ static s32 ia_configure_vint(struct ia_instance *inst, u16 evt, u16 vint,
  * \param vint IA VINT index
  *
  * \param vint_sb_index VINT status bit to unmap from global event
+ *
+ * \return SUCCESS if VINT cleared, else error
  */
 static s32 ia_clear_vint(const struct ia_instance *inst, u16 evt, u16 vint,
-			  u8 vint_sb_index)
+			 u8 vint_sb_index)
 {
+	s32 r = SUCCESS;
 	mapped_addr_t maddr;
 	u32 entry_int_map_lo;
 	u32 vint_enable_clr;
 	u32 vint_enable_clr_addr;
-	s32 r = SUCCESS;
 
 	/*
 	 * Disable the status bit via the VINT's real-time VINT_ENABLE_CLR
@@ -254,8 +258,8 @@ static s32 ia_clear_vint(const struct ia_instance *inst, u16 evt, u16 vint,
 		r = -EFAILVERIFY;
 	}
 	rm_core_unmap_region();
-	if (r == SUCCESS)
-	{
+
+	if (r == SUCCESS) {
 		maddr = rm_core_map_region(inst->imap->base);
 		entry_int_map_lo = rm_fmk(IA_ENTRY_INTMAP_REGNUM_SHIFT,
 					  IA_ENTRY_INTMAP_REGNUM_MASK, 0u);
@@ -267,9 +271,9 @@ static s32 ia_clear_vint(const struct ia_instance *inst, u16 evt, u16 vint,
 			/* Readback of write failed: halt */
 			r = -EFAILVERIFY;
 		}
-
 		rm_core_unmap_region();
 	}
+
 	return r;
 }
 
@@ -879,7 +883,7 @@ s32 rm_ia_deinit(devgrp_t devgrp)
 	for (i = 0U; i < IA_INST_COUNT; i++) {
 		if ((rm_core_validate_devgrp(ia_inst[i].id, ia_inst[i].devgrp) ==
 		     SUCCESS) &&
-			(ia_inst[i].initialized == STRUE) &&
+		    (ia_inst[i].initialized == STRUE) &&
 		    (ia_inst[i].devgrp == devgrp)) {
 			ia_inst[i].initialized = SFALSE;
 			r = SUCCESS;
