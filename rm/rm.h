@@ -176,4 +176,33 @@ static inline s32 rm_psil_write(u32 *msg_recv __attribute__((unused)))
 }
 #endif
 
+#ifdef CONFIG_RM_RA
+/**
+ * \brief Ring accelerator configure message handler
+ *
+ * \param msg_recv TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_ra_cfg(u32 *msg_recv);
+
+/**
+ * \brief Ring accelerator monitor configure message handler
+ *
+ * \param msg_recv TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_ra_mon_cfg(u32 *msg_recv);
+#else
+static inline s32 rm_ra_cfg(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+static inline s32 rm_ra_mon_cfg(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+#endif
+
 #endif /* RM_H */

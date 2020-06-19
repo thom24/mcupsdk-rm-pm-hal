@@ -18,7 +18,6 @@
 #include <hosts.h>
 
 #include <osal/osal_core.h>
-#include <tisci_provider/tisci.h>
 #include <tisci/rm/tisci_rm_ra.h>
 
 #include <rm_core.h>
@@ -1257,20 +1256,11 @@ static void ra_format_local_cfg_msg(
 	loc_msg->virtid = msg->virtid;
 }
 
-/**
- * \brief Ring accelerator configure message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 ra_cfg_msg_handler(u32 *msg_recv)
+s32 rm_ra_cfg(u32 *msg_recv)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_ring_cfg_req *msg =
 		(struct tisci_msg_rm_ring_cfg_req *) msg_recv;
-	struct tisci_msg_rm_ring_cfg_resp *resp =
-		(struct tisci_msg_rm_ring_cfg_resp *) msg_recv;
 	const struct ra_instance *inst = NULL;
 	struct tisci_msg_rm_ring_cfg_req loc_msg;
 	u16 utype;
@@ -1378,27 +1368,14 @@ static s32 ra_cfg_msg_handler(u32 *msg_recv)
 		r = ra_configure(inst, &loc_msg);
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
 
-/**
- * \brief Ring accelerator monitor configure message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 ra_mon_cfg_msg_handler(u32 *msg_recv)
+s32 rm_ra_mon_cfg(u32 *msg_recv)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_ring_mon_cfg_req *msg =
 		(struct tisci_msg_rm_ring_mon_cfg_req *) msg_recv;
-	struct tisci_msg_rm_ring_mon_cfg_resp *resp =
-		(struct tisci_msg_rm_ring_mon_cfg_resp *) msg_recv;
 	const struct ra_instance *inst = NULL;
 	u8 trace_action = TRACE_RM_ACTION_RING_MON_CFG;
 
@@ -1464,22 +1441,8 @@ static s32 ra_mon_cfg_msg_handler(u32 *msg_recv)
 		r = ra_monitor_cfg(inst, msg);
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
-
-static struct tisci_client tisci_msg_rm_ra_cfg = {
-	.handler	= ra_cfg_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
-
-static struct tisci_client tisci_msg_rm_ra_mon_cfg = {
-	.handler	= ra_mon_cfg_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
 
 s32 rm_ra_validate_ring_index(u16 nav_id, u8 host, u16 index)
 {
@@ -1551,16 +1514,6 @@ s32 rm_ra_init(void)
 				ra_inst[i].initialized = STRUE;
 			}
 		}
-	}
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(TISCI_MSG_RM_RING_CFG,
-					       &tisci_msg_rm_ra_cfg);
-	}
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(TISCI_MSG_RM_RING_MON_CFG,
-					       &tisci_msg_rm_ra_mon_cfg);
 	}
 
 	if (r != SUCCESS) {
