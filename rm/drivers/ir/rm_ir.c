@@ -13,7 +13,6 @@
 #include <lib/io.h>
 #include <lib/trace.h>
 #include <hosts_internal.h>
-#include <halt.h>
 
 #include <config.h>
 
@@ -121,9 +120,12 @@ static u16 ir_get_inp(const struct ir_instance *inst, u16 outp)
  * \param inp IR input index
  *
  * \param outp IR output index
+ *
+ * \return SUCCESS if programming succeeded, else -EFAILVERIFY
  */
-static void ir_configure_outp(struct ir_instance *inst, u16 inp, u16 outp)
+static s32 ir_configure_outp(struct ir_instance *inst, u16 inp, u16 outp)
 {
+	s32 r = SUCCESS;
 	mapped_addr_t maddr;
 	u32 int_ctrl_reg;
 
@@ -136,18 +138,19 @@ static void ir_configure_outp(struct ir_instance *inst, u16 inp, u16 outp)
 	}
 	if (writel_verified(int_ctrl_reg,
 			    maddr + ir_int_control_reg(outp)) != SUCCESS) {
-		/* Readback of write failed: halt */
-		osal_system_halt(-EFAILVERIFY);
+		r = -EFAILVERIFY;
 	}
 	rm_core_unmap_region();
 
-	if (inp == 0u) {
+	if ((r == SUCCESS) && (inp == 0u)) {
 		/*
 		 * Special instance storage for mapping of input zero since
 		 * output CONTROL register reset values are zero
 		 */
 		inst->inp0_mapping = outp;
 	}
+
+	return r;
 }
 
 /**
@@ -156,9 +159,12 @@ static void ir_configure_outp(struct ir_instance *inst, u16 inp, u16 outp)
  * \param inst Pointer to IR instance
  *
  * \param outp IR output index
+ *
+ * \return SUCCESS if clear succeeded, else -EFAILVERIFY
  */
-static void ir_clear_outp(const struct ir_instance *inst, u16 outp)
+static s32 ir_clear_outp(const struct ir_instance *inst, u16 outp)
 {
+	s32 r = SUCCESS;
 	mapped_addr_t maddr;
 	u32 int_ctrl_reg;
 
@@ -172,9 +178,11 @@ static void ir_clear_outp(const struct ir_instance *inst, u16 outp)
 	if (writel_verified(int_ctrl_reg, maddr +
 			    ir_int_control_reg(outp)) != SUCCESS) {
 		/* Readback of write failed: halt */
-		osal_system_halt(-EFAILVERIFY);
+		r = -EFAILVERIFY;
 	}
 	rm_core_unmap_region();
+
+	return r;
 }
 
 /**
@@ -189,13 +197,16 @@ static void ir_clear_outp(const struct ir_instance *inst, u16 outp)
  * \param outp IR output
  *
  * \param outp_valid IR output valid boolean
+ *
+ * \return SUCCESS if clear succeeded, else -EFAILVERIFY
  */
-static void ir_clear_rom_mapping(const struct ir_instance	*inst,
-				 u16				inp,
-				 sbool				inp_valid,
-				 u16				outp,
-				 sbool				outp_valid)
+static s32 ir_clear_rom_mapping(const struct ir_instance	*inst,
+				u16				inp,
+				sbool				inp_valid,
+				u16				outp,
+				sbool				outp_valid)
 {
+	s32 r = SUCCESS;
 	u8 i, j;
 	struct ir_used_mapping *used_mapping;
 
@@ -208,7 +219,9 @@ static void ir_clear_rom_mapping(const struct ir_instance	*inst,
 		    ((outp_valid == STRUE) &&
 		     (outp >= used_mapping->outp_start) &&
 		     (outp < (used_mapping->outp_start + used_mapping->length)))) {
-			for (j = 0U; j < used_mapping->length; j++) {
+			for (j = 0U;
+			     (j < used_mapping->length) && (r == SUCCESS);
+			     j++) {
 				if ((used_mapping->inp_start + j) ==
 				    ir_get_inp(inst,
 					       (used_mapping->outp_start + j))) {
@@ -217,14 +230,16 @@ static void ir_clear_rom_mapping(const struct ir_instance	*inst,
 					 * the entry.  Otherwise, the clear is
 					 * wiping out a SYSFW configuration
 					 */
-					ir_clear_outp(inst,
-						      (used_mapping->outp_start + j));
+					r = ir_clear_outp(inst,
+							  (used_mapping->outp_start + j));
 				}
 			}
 			used_mapping->cleared = STRUE;
 			break;
 		}
 	}
+
+	return r;
 }
 
 /**
@@ -256,7 +271,7 @@ static s32 ir_inp_is_free(const struct ir_instance	*inst,
 		 * output mapping is cleared if it was used by ROM.
 		 * The clear only occurs once for each mapping.
 		 */
-		ir_clear_rom_mapping(inst, inp, STRUE, NULL, SFALSE);
+		r = ir_clear_rom_mapping(inst, inp, STRUE, NULL, SFALSE);
 	}
 
 	if (r == SUCCESS) {
@@ -318,7 +333,7 @@ static s32 ir_outp_is_free(const struct ir_instance	*inst,
 		 * output mapping is cleared if it was used by ROM.
 		 * The clear only occurs once for each mapping.
 		 */
-		ir_clear_rom_mapping(inst, NULL, SFALSE, outp, STRUE);
+		r = ir_clear_rom_mapping(inst, NULL, SFALSE, outp, STRUE);
 	}
 
 	if (r == SUCCESS) {
@@ -468,7 +483,7 @@ s32 rm_ir_configure(u16 id, u16 inp, u16 outp, sbool validate)
 	}
 
 	if (r == SUCCESS) {
-		ir_configure_outp(inst, inp, outp);
+		r = ir_configure_outp(inst, inp, outp);
 	}
 
 	return r;
