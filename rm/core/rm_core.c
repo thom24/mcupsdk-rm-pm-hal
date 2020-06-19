@@ -21,7 +21,6 @@
 #include <tisci/rm/tisci_rm_shared.h>
 #include <tisci/rm/tisci_rm_core.h>
 #include <osal/osal_core.h>
-#include <osal/osal_msg.h>
 #include <boardcfg/boardcfg_rm_data.h>
 #include <resasg_types.h>
 
@@ -418,39 +417,6 @@ void rm_core_unmap_region(void)
 	 * for now.
 	 */
 	return;
-}
-
-s32 rm_core_send_response(struct tisci_header	*resp,
-			  u32			size,
-			  s32			status)
-{
-	s32 r = SUCCESS;
-
-	/*
-	 * Response reuses same buffer as receive.  Received message header is
-	 * untouched at this point so verify the ACK on process flag is set
-	 * before sending the response.
-	 */
-	if ((resp->flags & TISCI_MSG_FLAG_AOP) != 0UL) {
-		tisci_msg_clear_flags(resp);
-		if (status == SUCCESS) {
-			tisci_msg_set_ack_resp(resp);
-		} else {
-			tisci_msg_set_nak_resp(resp);
-		}
-
-		r = osal_msg_response((u32 *) resp, size);
-	}
-
-	/*
-	 * Avoid overwriting status of calling message handler if the message
-	 * handler has a failure status.
-	 */
-	if (status != SUCCESS) {
-		r = status;
-	}
-
-	return r;
 }
 
 const struct rm_resasg_index *rm_core_resasg_get_utype_index(u16 utype)

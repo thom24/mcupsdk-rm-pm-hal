@@ -15,8 +15,6 @@
 #include <types/address_types.h>
 #include <types/devgrps.h>
 
-#include <tisci/tisci_protocol.h>
-
 #include <boardcfg/boardcfg_rm_data.h>
 
 /**
@@ -110,29 +108,6 @@ mapped_addr_t rm_core_map_region(soc_phys_addr_t phy_addr);
  * implemented
  */
 void rm_core_unmap_region(void);
-
-/**
- * \brief Sends TISCI response message
- *
- * Uses the OSAL layer to send the TISCI response message created
- * by RM drivers
- *
- * \param resp
- * Pointer to the response message created by the RM driver
- *
- * \param size
- * Size of the TISCI response message in bytes
- *
- * \param status
- * Current status of the message handler.  This parameter will be used as the
- * return status for this function if the passed status is a failure.  This is
- * done to avoid overriding the caller's status.
- *
- * \return
- * Response code from the OSAL layer after sending the message or the passed
- * status if the passed status is a failure.
- */
-s32 rm_core_send_response(struct tisci_header *resp, u32 size, s32 status);
 
 /**
  * \brief Retrieve the index of the type within the resasg array
