@@ -16,7 +16,6 @@
 #include <devices_internal.h>
 
 #include <osal/osal_core.h>
-#include <tisci_provider/tisci.h>
 #include <tisci/rm/tisci_rm_shared.h>
 #include <tisci/rm/tisci_rm_psil.h>
 
@@ -811,20 +810,11 @@ static s32 psil_disable_rom_thread(const struct psil_instance *inst, u16 thread)
 	return r;
 }
 
-/**
- * \brief PSI-L thread pairing message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 psil_pair_msg_handler(u32 *msg_recv)
+s32 rm_psil_pair(u32 *msg_recv)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_psil_pair_req *msg =
 		(struct tisci_msg_rm_psil_pair_req *) msg_recv;
-	struct tisci_msg_rm_psil_pair_resp *resp =
-		(struct tisci_msg_rm_psil_pair_resp *) msg_recv;
 	const struct psil_instance *inst = NULL;
 	u8 trace_action = TRACE_RM_ACTION_PSIL_PAIR;
 
@@ -905,27 +895,14 @@ static s32 psil_pair_msg_handler(u32 *msg_recv)
 		}
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
 
-/**
- * \brief PSI-L thread unpairing message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 psil_unpair_msg_handler(u32 *msg_recv)
+s32 rm_psil_unpair(u32 *msg_recv)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_psil_unpair_req *msg =
 		(struct tisci_msg_rm_psil_unpair_req *) msg_recv;
-	struct tisci_msg_rm_psil_unpair_resp *resp =
-		(struct tisci_msg_rm_psil_unpair_resp *) msg_recv;
 	const struct psil_instance *inst = NULL;
 	u32 peer_thrd_dst;
 	u8 trace_action = TRACE_RM_ACTION_PSIL_UNPAIR;
@@ -1010,27 +987,16 @@ static s32 psil_unpair_msg_handler(u32 *msg_recv)
 		}
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
 
-/**
- * \brief PSI-L thread read message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 psil_read_msg_handler(u32 *msg_recv)
+s32 rm_psil_read(u32 *msg_recv, u32 *msg_resp)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_psil_read_req *msg =
 		(struct tisci_msg_rm_psil_read_req *) msg_recv;
 	struct tisci_msg_rm_psil_read_resp *resp =
-		(struct tisci_msg_rm_psil_read_resp *) msg_recv;
+		(struct tisci_msg_rm_psil_read_resp *) msg_resp;
 	const struct psil_instance *inst = NULL;
 	u32 value = 0U;
 	u8 trace_action = TRACE_RM_ACTION_PSIL_READ;
@@ -1074,27 +1040,14 @@ static s32 psil_read_msg_handler(u32 *msg_recv)
 		resp->data = value;
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
 
-/**
- * \brief PSI-L thread write message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 psil_write_msg_handler(u32 *msg_recv)
+s32 rm_psil_write(u32 *msg_recv)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_psil_write_req *msg =
 		(struct tisci_msg_rm_psil_write_req *) msg_recv;
-	struct tisci_msg_rm_psil_write_resp *resp =
-		(struct tisci_msg_rm_psil_write_resp *) msg_recv;
 	const struct psil_instance *inst = NULL;
 	u8 trace_action = TRACE_RM_ACTION_PSIL_WRITE;
 
@@ -1137,32 +1090,8 @@ static s32 psil_write_msg_handler(u32 *msg_recv)
 			     (msg->data & TRACE_DEBUG_SUB_ACTION_VAL_MASK));
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
-
-static struct tisci_client tisci_msg_rm_psil_pair = {
-	.handler	= psil_pair_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
-
-static struct tisci_client tisci_msg_rm_psil_unpair = {
-	.handler	= psil_unpair_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
-
-static struct tisci_client tisci_msg_rm_psil_read = {
-	.handler	= psil_read_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
-
-static struct tisci_client tisci_msg_rm_psil_write = {
-	.handler	= psil_write_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
 
 s32 rm_psil_get_dru_dst_offset(u16 nav_id, u16 *dru_dst_offset)
 {
@@ -1186,26 +1115,6 @@ s32 rm_psil_get_dru_dst_offset(u16 nav_id, u16 *dru_dst_offset)
 s32 rm_psil_init(void)
 {
 	s32 r = SUCCESS;
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(TISCI_MSG_RM_PSIL_PAIR,
-					       &tisci_msg_rm_psil_pair);
-	}
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(TISCI_MSG_RM_PSIL_UNPAIR,
-					       &tisci_msg_rm_psil_unpair);
-	}
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(TISCI_MSG_RM_PSIL_READ,
-					       &tisci_msg_rm_psil_read);
-	}
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(TISCI_MSG_RM_PSIL_WRITE,
-					       &tisci_msg_rm_psil_write);
-	}
 
 	if (r != SUCCESS) {
 		rm_trace_sub(TRACE_RM_ACTION_PSIL_INIT |
