@@ -14,10 +14,7 @@
 #include <hosts_internal.h>
 #include <devices_internal.h>
 
-#include <msg/msg.h>
-
 #include <osal/osal_core.h>
-#include <tisci_provider/tisci.h>
 #include <tisci/rm/tisci_rm_irq.h>
 
 #include <rm_core.h>
@@ -454,105 +451,6 @@ static s32 irq_program_oes_register(struct irq_cfg *cfg)
 }
 
 /**
- * \brief IRQ set message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 irq_set_msg_handler(u32 *msg_recv)
-{
-	s32 r = SUCCESS;
-	struct tisci_msg_rm_irq_set_req *msg =
-		(struct tisci_msg_rm_irq_set_req *) msg_recv;
-	struct tisci_msg_rm_irq_set_resp *resp =
-		(struct tisci_msg_rm_irq_set_resp *) msg_recv;
-	u8 dst_host;
-	struct irq_cfg cfg;
-	u8 trace_action = TRACE_RM_ACTION_IRQ_SET;
-
-	memset(&cfg, 0, sizeof(cfg));
-
-	if (rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_SECONDARY_HOST_VALID) ==
-	    STRUE) {
-		r = osal_core_verify_host_id(msg->secondary_host);
-		if (r != SUCCESS) {
-			trace_action |= TRACE_RM_ACTION_FAIL;
-		} else {
-			dst_host = msg->secondary_host;
-		}
-		rm_trace_sub(trace_action,
-			     TRACE_RM_SUB_ACTION_IRQ_SECONDARY_HOST,
-			     msg->secondary_host);
-	} else {
-		dst_host = msg->hdr.host;
-	}
-
-	if ((r == SUCCESS) &&
-	    (rm_core_param_is_valid(msg->valid_params,
-				    TISCI_MSG_VALUE_RM_GLOBAL_EVENT_VALID) ==
-	     STRUE)) {
-		r = irq_validate_global_event(dst_host, msg->global_event,
-					      trace_action);
-	}
-
-	if ((r == SUCCESS) &&
-	    (rm_core_param_is_valid(msg->valid_params,
-				    TISCI_MSG_VALUE_RM_VINT_VALID) ==
-	     STRUE)) {
-		r = rm_ia_validate_vint(dst_host, msg->ia_id, msg->vint);
-	}
-
-	if ((r == SUCCESS) &&
-	    (rm_core_param_is_valid(msg->valid_params,
-				    TISCI_MSG_VALUE_RM_DST_HOST_IRQ_VALID) ==
-	     STRUE)) {
-		r = rm_ir_validate_output(dst_host, msg->dst_id,
-					  msg->dst_host_irq);
-	}
-
-	if (r == SUCCESS) {
-		cfg.valid_params = msg->valid_params;
-		cfg.host = dst_host;
-		cfg.s_id = msg->src_id;
-		cfg.s_idx = msg->src_index;
-		cfg.d_id = msg->dst_id;
-		cfg.d_irq = msg->dst_host_irq;
-		cfg.global_evt = msg->global_event;
-		cfg.s_ia = msg->ia_id;
-		cfg.vint = msg->vint;
-		cfg.vint_sb = msg->vint_status_bit_index;
-
-		if (irq_cfg_is_ir_cfg(cfg.valid_params) == STRUE) {
-			r = irq_ir_cfg_mux(&cfg);
-		} else if (irq_cfg_is_ia_cfg(cfg.valid_params) ==
-			   STRUE) {
-			r = irq_vint_map(&cfg);
-		} else if (irq_cfg_is_oes_only(cfg.valid_params) == STRUE) {
-			/*
-			 * Just program OES register.  No IA associated with
-			 * event.  For example, a DMA trigger event
-			 */
-			r = irq_program_oes_register(&cfg);
-		} else {
-			r = -EINVAL;
-		}
-
-		if (r != SUCCESS) {
-			trace_action |= TRACE_RM_ACTION_FAIL;
-		}
-		irq_trace_remaining_params(&cfg, trace_action);
-	}
-
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
-	return r;
-}
-
-/**
  * \brief Clears an interrupt router input to output MUX based on cfg info
  *
  * \param cfg IRQ configuration
@@ -687,20 +585,124 @@ static s32 irq_clear_oes_register(struct irq_cfg *cfg)
 	return r;
 }
 
-/**
- * \brief IRQ release message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-static s32 irq_release_msg_handler(u32 *msg_recv)
+s32 rm_irq_oes_src_register(u16 id, struct rm_irq_oes_src *src)
+{
+	sbool duplicate = SFALSE;
+	struct map *map_root;
+	struct map_node *n;
+	s32 r = SUCCESS;
+
+	if (irq_is_evt_src(id) == STRUE) {
+		/* Accept duplicate registrations for same OES src */
+		n = u32map_get(oes_src_map, id);
+		if ((n != NULL) && (n == &src->node)) {
+			duplicate = STRUE;
+		}
+
+		if (duplicate != STRUE) {
+			map_root = u32map_add(oes_src_map, id, &src->node);
+			if (!map_root) {
+				r = -EBUSY;
+			}
+
+			oes_src_map = map_root;
+		}
+	}
+
+	return r;
+}
+
+s32 rm_irq_set(u32 *msg_recv)
+{
+	s32 r = SUCCESS;
+	struct tisci_msg_rm_irq_set_req *msg =
+		(struct tisci_msg_rm_irq_set_req *) msg_recv;
+	u8 dst_host;
+	struct irq_cfg cfg;
+	u8 trace_action = TRACE_RM_ACTION_IRQ_SET;
+
+	memset(&cfg, 0, sizeof(cfg));
+
+	if (rm_core_param_is_valid(msg->valid_params,
+				   TISCI_MSG_VALUE_RM_SECONDARY_HOST_VALID) ==
+	    STRUE) {
+		r = osal_core_verify_host_id(msg->secondary_host);
+		if (r != SUCCESS) {
+			trace_action |= TRACE_RM_ACTION_FAIL;
+		} else {
+			dst_host = msg->secondary_host;
+		}
+		rm_trace_sub(trace_action,
+			     TRACE_RM_SUB_ACTION_IRQ_SECONDARY_HOST,
+			     msg->secondary_host);
+	} else {
+		dst_host = msg->hdr.host;
+	}
+
+	if ((r == SUCCESS) &&
+	    (rm_core_param_is_valid(msg->valid_params,
+				    TISCI_MSG_VALUE_RM_GLOBAL_EVENT_VALID) ==
+	     STRUE)) {
+		r = irq_validate_global_event(dst_host, msg->global_event,
+					      trace_action);
+	}
+
+	if ((r == SUCCESS) &&
+	    (rm_core_param_is_valid(msg->valid_params,
+				    TISCI_MSG_VALUE_RM_VINT_VALID) ==
+	     STRUE)) {
+		r = rm_ia_validate_vint(dst_host, msg->ia_id, msg->vint);
+	}
+
+	if ((r == SUCCESS) &&
+	    (rm_core_param_is_valid(msg->valid_params,
+				    TISCI_MSG_VALUE_RM_DST_HOST_IRQ_VALID) ==
+	     STRUE)) {
+		r = rm_ir_validate_output(dst_host, msg->dst_id,
+					  msg->dst_host_irq);
+	}
+
+	if (r == SUCCESS) {
+		cfg.valid_params = msg->valid_params;
+		cfg.host = dst_host;
+		cfg.s_id = msg->src_id;
+		cfg.s_idx = msg->src_index;
+		cfg.d_id = msg->dst_id;
+		cfg.d_irq = msg->dst_host_irq;
+		cfg.global_evt = msg->global_event;
+		cfg.s_ia = msg->ia_id;
+		cfg.vint = msg->vint;
+		cfg.vint_sb = msg->vint_status_bit_index;
+
+		if (irq_cfg_is_ir_cfg(cfg.valid_params) == STRUE) {
+			r = irq_ir_cfg_mux(&cfg);
+		} else if (irq_cfg_is_ia_cfg(cfg.valid_params) ==
+			   STRUE) {
+			r = irq_vint_map(&cfg);
+		} else if (irq_cfg_is_oes_only(cfg.valid_params) == STRUE) {
+			/*
+			 * Just program OES register.  No IA associated with
+			 * event.  For example, a DMA trigger event
+			 */
+			r = irq_program_oes_register(&cfg);
+		} else {
+			r = -EINVAL;
+		}
+
+		if (r != SUCCESS) {
+			trace_action |= TRACE_RM_ACTION_FAIL;
+		}
+		irq_trace_remaining_params(&cfg, trace_action);
+	}
+
+	return r;
+}
+
+s32 rm_irq_release(u32 *msg_recv)
 {
 	s32 r = SUCCESS;
 	struct tisci_msg_rm_irq_release_req *msg =
 		(struct tisci_msg_rm_irq_release_req *) msg_recv;
-	struct tisci_msg_rm_irq_release_resp *resp =
-		(struct tisci_msg_rm_irq_release_resp *) msg;
 	u8 dst_host;
 	struct irq_cfg cfg;
 	u8 trace_action = TRACE_RM_ACTION_IRQ_RELEASE;
@@ -779,49 +781,8 @@ static s32 irq_release_msg_handler(u32 *msg_recv)
 		irq_trace_remaining_params(&cfg, trace_action);
 	}
 
-	r = rm_core_send_response((struct tisci_header *) resp,
-				  sizeof(*resp),
-				  r);
-
 	return r;
 }
-
-s32 rm_irq_oes_src_register(u16 id, struct rm_irq_oes_src *src)
-{
-	sbool duplicate = SFALSE;
-	struct map *map_root;
-	struct map_node *n;
-	s32 r = SUCCESS;
-
-	if (irq_is_evt_src(id) == STRUE) {
-		/* Accept duplicate registrations for same OES src */
-		n = u32map_get(oes_src_map, id);
-		if ((n != NULL) && (n == &src->node)) {
-			duplicate = STRUE;
-		}
-
-		if (duplicate != STRUE) {
-			map_root = u32map_add(oes_src_map, id, &src->node);
-			if (!map_root) {
-				r = -EBUSY;
-			}
-
-			oes_src_map = map_root;
-		}
-	}
-
-	return r;
-}
-
-static struct tisci_client tisci_msg_rm_irq_set = {
-	.handler	= irq_set_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
-
-static struct tisci_client tisci_msg_rm_irq_release = {
-	.handler	= irq_release_msg_handler,
-	.subsystem	= SUBSYSTEM_RM,
-};
 
 sbool rm_irq_is_managed_resasg_utype(u16 utype)
 {
@@ -853,15 +814,6 @@ s32 rm_irq_init(void)
 	r = rm_ir_init();
 	if (r == SUCCESS) {
 		r = rm_ia_init();
-	}
-
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(TISCI_MSG_RM_IRQ_SET,
-					       &tisci_msg_rm_irq_set);
-	}
-	if (r == SUCCESS) {
-		r = tisci_user_client_register(TISCI_MSG_RM_IRQ_RELEASE,
-					       &tisci_msg_rm_irq_release);
 	}
 
 	if (r != SUCCESS) {

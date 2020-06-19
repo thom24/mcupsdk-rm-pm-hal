@@ -69,4 +69,34 @@ static inline s32 rm_core_get_resource_range(u32	*msg_recv __attribute__((unused
 }
 #endif
 
+#ifdef CONFIG_RM_IRQ
+/**
+ * \brief IRQ set message handler
+ *
+ * \param msg_recv Received TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_irq_set(u32 *msg_recv);
+
+/**
+ * \brief IRQ release message handler
+ *
+ * \param msg_recv Received TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_irq_release(u32 *msg_recv);
+#else
+static inline s32 rm_irq_set(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+
+static inline s32 rm_irq_release(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+#endif
+
 #endif /* RM_H */
