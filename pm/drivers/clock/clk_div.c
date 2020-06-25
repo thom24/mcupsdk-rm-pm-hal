@@ -86,6 +86,8 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 	u32 best_parent_freq = 0UL;
 	u32 best_min_hz = 0UL;
 	u32 best_max_hz = 0UL;
+	u32 updated_min_hz = min_hz;
+	u32 updated_max_hz = max_hz;
 	sbool best_changed = SFALSE;
 	u32 min_delta = UINT_MAX;
 	u32 i;
@@ -103,7 +105,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 
 	old_div = drv_div->get_div(clkp);
 
-	for (i = 1UL; (i <= data_div->n) && (p != NULL); i++) {
+	for (i = 1UL; (i <= data_div->n) && (p != NULL) && (min_delta != 0U); i++) {
 		u32 new_target, new_min, new_max, new_parent_freq;
 		u32 delta;
 		u32 div;
@@ -120,12 +122,12 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 			continue;
 		}
 
-		new_min = min_hz * div;
+		new_min = updated_min_hz * div;
 		new_target = target_hz * div;
-		new_max = max_hz * div;
+		new_max = updated_max_hz * div;
 
 		/* If an overflow occurs in min, we are outside the range */
-		if (new_min < min_hz) {
+		if (new_min < updated_min_hz) {
 			break;
 		}
 
@@ -145,7 +147,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 		}
 
 		/* Cap overflow in max */
-		if (new_max < max_hz) {
+		if (new_max < updated_max_hz) {
 			new_max = ULONG_MAX;
 		}
 		if (parent != NULL) {
@@ -196,6 +198,27 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 		best_parent_freq = new_parent_freq;
 		best_min_hz = new_min;
 		best_max_hz = new_max;
+
+		/*
+		 * Tighten min/max to decrease search space.
+		 * Any new frequency must be an improvement by at least 1Hz.
+		 * Note that we stop searching when min_delta reaches zero.
+		 * Ensure that subtraction for min and addition for max do
+		 * not overflow.
+		 */
+		if (min_delta != 0U) {
+			u32 hz;
+
+			hz = target_hz - (min_delta - 1U);
+			if ((hz <= target_hz) && (updated_min_hz < hz)) {
+				updated_min_hz = hz;
+			}
+
+			hz = target_hz + (min_delta - 1U);
+			if ((hz >= target_hz) && (updated_max_hz > hz)) {
+				updated_max_hz = hz;
+			}
+		}
 	}
 
 	if (best_div && !query) {
