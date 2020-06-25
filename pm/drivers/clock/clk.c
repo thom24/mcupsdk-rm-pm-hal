@@ -118,7 +118,7 @@ sbool clk_notify_freq(struct clk *clkp, u32 parent_freq_hz, sbool query)
 	}
 
 	if (ret && !query) {
-		clkp->flags &= ~CLK_FLAG_CACHED;
+		clkp->flags &= (u8) ~CLK_FLAG_CACHED;
 	}
 
 	return ret;
