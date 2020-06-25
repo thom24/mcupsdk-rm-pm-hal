@@ -25,11 +25,11 @@ u32 clk_value_set_freq(struct clk *clkp, u32 target_hz,
 {
 	const struct clk_data *clk_data = clk_get_data(clkp);
 
-	if (query) {
-		return target_hz;
+	if (!query) {
+		*changed = STRUE;
+		soc_clock_values[clk_data->freq_idx] = target_hz;
 	}
-	*changed = STRUE;
-	soc_clock_values[clk_data->freq_idx] = target_hz;
+
 	return target_hz;
 }
 
