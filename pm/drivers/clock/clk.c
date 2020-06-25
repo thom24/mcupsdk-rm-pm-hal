@@ -74,7 +74,7 @@ u32 clk_get_parent_freq(struct clk *clkp)
 	struct clk *parent_clk = NULL;
 	u32 ret = 0;
 
-	if (clkp) {
+	if (clkp != NULL) {
 		p = clk_get_parent(clkp);
 	}
 
@@ -82,7 +82,7 @@ u32 clk_get_parent_freq(struct clk *clkp)
 		parent_clk = clk_lookup((clk_idx_t) p->clk);
 	}
 
-	if (parent_clk) {
+	if (parent_clk != NULL) {
 		ret = clk_get_freq(parent_clk) / p->div;
 	}
 
