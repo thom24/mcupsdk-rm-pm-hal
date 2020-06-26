@@ -15,6 +15,12 @@ config RM
 	help
 	 Enable support for Resource Manager functions
 
+config RM_LOCAL_SUBSYSTEM_REQUESTS
+	bool "Enable Resource Manager Local Subsystem Requests"
+	depends on RM
+	help
+	 Enable support for Resource Manager using local subsystem calls for some services
+
 config RM_IRQ
 	bool "Enable IRQ support in Resource Manager"
 	depends on RM

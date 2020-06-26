@@ -20,6 +20,22 @@
 #include <boardcfg/boardcfg_rm_data.h>
 
 /**
+ * \brief Resource assignment index
+ *
+ * \param resasg_indexp Pointer to element of boardcfg resasg array
+ *
+ * \param utype Unique type of the element pointed to
+ *
+ * \param len Number of contiguous elements, including pointer, with the same
+ *            unique type
+ */
+struct rm_resasg_index {
+	const struct boardcfg_rm_resasg_entry	*resasg_indexp;
+	u16					utype;
+	u8					len;
+};
+
+/**
  * \brief Register field make
  *
  * Inserts a value into a register field preserving all other bits
@@ -119,40 +135,19 @@ void rm_core_unmap_region(void);
 s32 rm_core_send_response(struct tisci_header *resp, u32 size, s32 status);
 
 /**
- * \brief Configure the channelized firewalls for a resource type
+ * \brief Retrieve the index of the type within the resasg array
  *
- * Utilizes the internal Secure firewall and RA ISC programming APIs to
- * configure the channelized firewalls for a resource type with real-time MMRs
- *
- * \param dev_id
- * SoC device ID associated with the IP whose firewall is being programmed
+ * Returns the resasg indexer entry mapped to the provided utype.  The indexer
+ * entry contains the subset of elements within the RM boardcfg resource
+ * assignment array mapped to the utype.
  *
  * \param utype
  * Unique resource assignment type
  *
- * \param fwl_id
- * Channelized firewall ID
- *
- * \param fwl_ch_offset
- * Channelized firewall channel offset for the resource
- *
- * \param res_index
- * Resource index who firewall is to be configured
- *
- * \param allow_dmsc
- * TRUE if DMSC must be added as an additional host in the firewall
- * permission slots.
- *
- * \param cfg_ra_isc
- * TRUE if the resource ia a RA ring and the ISC is to be programmed
- *
- * \param host_ro
- * TRUE if the host(s) programmed into the firewall are only allowed read only
- * permissions
- *
- * \return SUCCESS if firewall cfg succeeds, else -EFAIL
+ * \param return
+ * Pointer to resasg indexer entry mapped to the utype.
  */
-s32 rm_core_resasg_cfg_firewall(u16 dev_id, u16 utype, u16 fwl_id, u16 fwl_ch_offset, u16 res_index, sbool allow_dmsc, sbool cfg_ra_isc, sbool host_ro);
+const struct rm_resasg_index *rm_core_resasg_get_utype_index(u16 utype);
 
 /**
  * \brief Validates a resource against the board cfg data

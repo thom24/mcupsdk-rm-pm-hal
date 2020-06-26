@@ -13,7 +13,6 @@
 #include <types/devgrps.h>
 #include <devices_internal.h>
 #include <lib/trace.h>
-#include <types/fterr.h>
 
 #include <config.h>
 #include <hosts.h>
@@ -26,8 +25,6 @@
 #include <osal/osal_msg.h>
 #include <boardcfg/boardcfg_rm_data.h>
 #include <resasg_types.h>
-#include <security/rm_int_firewall.h>
-#include <security/rm_int_isc.h>
 
 #include <rm_core.h>
 
@@ -43,22 +40,6 @@
 #ifdef CONFIG_RM_PROXY
 #include <rm_proxy.h>
 #endif
-
-/**
- * \brief Resource assignment index
- *
- * \param resasg_indexp Pointer to element of boardcfg resasg array
- *
- * \param utype Unique type of the element pointed to
- *
- * \param len Number of contiguous elements, including pointer, with the same
- *            unique type
- */
-struct rm_resasg_index {
-	const struct boardcfg_rm_resasg_entry	*resasg_indexp;
-	u16					utype;
-	u8					len;
-};
 
 /**
  * \brief Resource assignment array indexer
@@ -148,61 +129,6 @@ static s32 core_resasg_create_index(void)
 }
 
 /**
- * \brief Retrieve the index of the type within the resasg array
- *
- * Returns the resasg indexer entry mapped to the provided utype.  The indexer
- * entry contains the subset of elements within the RM boardcfg resource
- * assignment array mapped to the utype.
- *
- * \param utype
- * Unique resource assignment type
- *
- * \param return
- * Pointer to resasg indexer entry mapped to the utype.
- */
-const struct rm_resasg_index *core_resasg_get_utype_index(u16 utype)
-{
-	const struct rm_resasg_index *cur_index = NULL;
-	u16 lower, upper, current, cnt;
-	sbool found = SFALSE;
-
-	lower = 0u;
-	upper = resasg_indexer.valid_cnt - 1u;
-	cnt = resasg_indexer.valid_cnt;
-
-	/*
-	 * Bounds check the search for failure robustness.  Make sure lower
-	 * and upper do not go outside searchable range.  Also, search should
-	 * be log(valid_cnt) but fail out after valid_cnt iterations to avoid
-	 * infinite loop in case of data corruption
-	 */
-	while ((lower <= upper) &&
-	       (lower < resasg_indexer.valid_cnt) &&
-	       (upper < resasg_indexer.valid_cnt) &&
-	       (cnt > 0u)) {
-		current = (lower + upper) / (2u);
-		cur_index = &resasg_indexer.indices[current];
-		if (cur_index->utype == utype) {
-			found = STRUE;
-			break;
-		} else {
-			if (cur_index->utype < utype) {
-				lower = current + (1u);
-			} else {
-				upper = current - (1u);
-			}
-		}
-		cnt--;
-	}
-
-	if (found == SFALSE) {
-		cur_index = NULL;
-	}
-
-	return cur_index;
-}
-
-/**
  * \brief Retrieve a resource range from the boardcfg resasg list
  *
  * Retrieves the resource range defined in the boardcfg resource assignment
@@ -242,7 +168,7 @@ static void core_resasg_get_range(u8 host, u16 utype, u16 *start, u16 *num,
 	const struct rm_resasg_index *utype_index;
 	u16 i;
 
-	utype_index = core_resasg_get_utype_index(utype);
+	utype_index = rm_core_resasg_get_utype_index(utype);
 
 	/*
 	 * No error if host + utype combination not found in the
@@ -547,95 +473,46 @@ s32 rm_core_send_response(struct tisci_header	*resp,
 	return r;
 }
 
-s32 rm_core_resasg_cfg_firewall(u16 dev_id, u16 utype, u16 fwl_id,
-				u16 fwl_ch_offset, u16 res_index,
-				sbool allow_dmsc, sbool cfg_ra_isc,
-				sbool host_ro)
+const struct rm_resasg_index *rm_core_resasg_get_utype_index(u16 utype)
 {
-	s32 r = SUCCESS;
-	const struct rm_resasg_index *utype_index;
-	const struct boardcfg_rm_resasg_entry *entry = NULL;
-	u16 i;
-	u16 res_end;
-	u8 hosts[FWL_MAX_PRIVID_SLOTS];
-	u8 write_perms[FWL_MAX_PRIVID_SLOTS] = { FT_TRUE, FT_TRUE, FT_TRUE };
-	u8 n_slots = 0U;
-	u16 fwl_ch;
-	u8 trace_action = TRACE_RM_ACTION_RESASG_FIREWALL_CFG;
+	const struct rm_resasg_index *cur_index = NULL;
+	u16 lower, upper, current, cnt;
+	sbool found = SFALSE;
 
-	utype_index = core_resasg_get_utype_index(utype);
+	lower = 0u;
+	upper = resasg_indexer.valid_cnt - 1u;
+	cnt = resasg_indexer.valid_cnt;
 
 	/*
-	 * Not a failure if utype is not found.  Just means boardcfg
-	 * does not assign any resources to the utype
+	 * Bounds check the search for failure robustness.  Make sure lower
+	 * and upper do not go outside searchable range.  Also, search should
+	 * be log(valid_cnt) but fail out after valid_cnt iterations to avoid
+	 * infinite loop in case of data corruption
 	 */
-	if (utype_index != NULL) {
-		for (i = 0U; i < utype_index->len; i++) {
-			entry = &utype_index->resasg_indexp[i];
-			res_end = entry->start_resource + entry->num_resource;
-			if ((res_index >= entry->start_resource) &&
-			    (res_index < res_end)) {
-				if (host_ro == STRUE) {
-					write_perms[n_slots] = FT_FALSE;
-				}
-				hosts[n_slots++] = entry->host_id;
-			}
-		}
-
-		/*
-		 * Not an error if resource is not found in matching utype
-		 * list.  Just means boardcfg does not specify assignment
-		 * for the resource
-		 */
-		if (n_slots > 0U) {
-			fwl_ch = res_index + fwl_ch_offset;
-
-			if (hosts[0U] == HOST_ID_ALL) {
-				if (sec_rm_fwl_allow_all(fwl_id, fwl_ch) !=
-				    EFTOK) {
-					r = -EFAIL;
-				}
+	while ((lower <= upper) &&
+	       (lower < resasg_indexer.valid_cnt) &&
+	       (upper < resasg_indexer.valid_cnt) &&
+	       (cnt > 0u)) {
+		current = (lower + upper) / (2u);
+		cur_index = &resasg_indexer.indices[current];
+		if (cur_index->utype == utype) {
+			found = STRUE;
+			break;
+		} else {
+			if (cur_index->utype < utype) {
+				lower = current + (1u);
 			} else {
-				if (allow_dmsc == STRUE) {
-					hosts[n_slots++] = HOST_ID_DMSC;
-				}
-
-				if (sec_rm_fwl_set_perm_ext(fwl_id, fwl_ch,
-							    hosts, n_slots,
-							    write_perms) !=
-				    EFTOK) {
-					r = -EFAIL;
-				} else {
-					if (cfg_ra_isc == STRUE) {
-						if (sec_rm_ra_isc_set_perm(dev_id, res_index,
-									   hosts[0U]) !=
-						    EFTOK) {
-							r = -EFAIL;
-						}
-					}
-				}
+				upper = current - (1u);
 			}
-
-			if (r != SUCCESS) {
-				trace_action |= TRACE_RM_ACTION_FAIL;
-			}
-
-			rm_trace_sub(trace_action,
-				     TRACE_RM_SUB_ACTION_INDEX,
-				     res_index);
-			rm_trace_sub(trace_action,
-				     TRACE_RM_SUB_ACTION_RESASG_UTYPE,
-				     utype);
-			rm_trace_sub(trace_action,
-				     TRACE_RM_SUB_ACTION_RESASG_FWL_ID,
-				     fwl_id);
-			rm_trace_sub(trace_action,
-				     TRACE_RM_SUB_ACTION_RESASG_FWL_CH,
-				     fwl_ch);
 		}
+		cnt--;
 	}
 
-	return r;
+	if (found == SFALSE) {
+		cur_index = NULL;
+	}
+
+	return cur_index;
 }
 
 s32 rm_core_resasg_validate_resource(u8 host, u16 utype, u16 res_index)

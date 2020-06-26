@@ -22,6 +22,7 @@
 #include <tisci/rm/tisci_rm_udmap.h>
 
 #include <rm_core.h>
+#include <rm_request.h>
 #include <rm_udmap.h>
 #include <rm_ra.h>
 #include <rm_psil.h>
@@ -4092,7 +4093,7 @@ static s32 udmap_tx_ch_cfg_msg_handler(u32 *msg_recv)
 		if ((inst->bc_ch_types != NULL) &&
 		    (loc_msg.index >= inst->bc_ch_offset)) {
 			/* Configure UDMAP tx ch real-time channelized firewall */
-			r = rm_core_resasg_cfg_firewall(
+			r = rm_request_resasg_cfg_firewall_ext(
 				inst->id,
 				utype,
 				inst->bchanrt->fwl_id,
@@ -4103,7 +4104,7 @@ static s32 udmap_tx_ch_cfg_msg_handler(u32 *msg_recv)
 				SFALSE);
 		} else {
 			/* Configure UDMAP tx ch real-time channelized firewall */
-			r = rm_core_resasg_cfg_firewall(
+			r = rm_request_resasg_cfg_firewall_ext(
 				inst->id,
 				utype,
 				inst->tchanrt->fwl_id,
@@ -4252,7 +4253,7 @@ static s32 udmap_rx_ch_cfg_msg_handler(u32 *msg_recv)
 
 	if (r == SUCCESS) {
 		/* Configure UDMAP rx ch real-time channelized firewall */
-		r = rm_core_resasg_cfg_firewall(
+		r = rm_request_resasg_cfg_firewall_ext(
 			inst->id,
 			utype,
 			inst->rchanrt->fwl_id,

@@ -22,6 +22,7 @@
 #include <tisci/rm/tisci_rm_proxy.h>
 
 #include <rm_core.h>
+#include <rm_request.h>
 #include <rm_proxy.h>
 
 #include <proxy_inst.h>
@@ -214,7 +215,7 @@ static s32 proxy_get_ring_evt(u8 host, u16 id, u16 oes_index, u16 *evt)
 
 	if (r == SUCCESS) {
 		/* Configure cfg channelized firewall */
-		r = rm_core_resasg_cfg_firewall(
+		r = rm_request_resasg_cfg_firewall_ext(
 			inst->id,
 			utype,
 			inst->cfg->fwl_id,
@@ -284,7 +285,7 @@ static s32 proxy_set_ring_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 
 	if (r == SUCCESS) {
 		/* Configure cfg channelized firewall */
-		r = rm_core_resasg_cfg_firewall(
+		r = rm_request_resasg_cfg_firewall_ext(
 			inst->id,
 			utype,
 			inst->cfg->fwl_id,
@@ -351,7 +352,7 @@ static s32 proxy_cfg_msg_handler(u32 *msg_recv)
 
 	if (r == SUCCESS) {
 		/* Configure proxy target0_data channelized firewall */
-		r = rm_core_resasg_cfg_firewall(
+		r = rm_request_resasg_cfg_firewall_ext(
 			inst->id,
 			utype,
 			inst->target0_data->fwl_id,
@@ -364,7 +365,7 @@ static s32 proxy_cfg_msg_handler(u32 *msg_recv)
 
 	if (r == SUCCESS) {
 		/* Configure cfg channelized firewall */
-		r = rm_core_resasg_cfg_firewall(
+		r = rm_request_resasg_cfg_firewall_ext(
 			inst->id,
 			utype,
 			inst->cfg->fwl_id,

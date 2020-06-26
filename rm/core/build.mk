@@ -5,3 +5,4 @@ cppflags-y += -I$(srctree)/rm_pm_hal/rm/core/soc/$(TARGET_SOC)
 
 obj-$(CONFIG_RM) += rm.o
 obj-$(CONFIG_RM) += rm_core.o
+obj-$(CONFIG_RM) += rm_request.o

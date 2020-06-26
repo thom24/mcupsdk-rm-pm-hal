@@ -20,9 +20,9 @@
 #include <osal/osal_core.h>
 #include <tisci_provider/tisci.h>
 #include <tisci/rm/tisci_rm_ra.h>
-#include <security/rm_int_isc.h>
 
 #include <rm_core.h>
+#include <rm_request.h>
 #include <rm_ra.h>
 
 #include <ra_inst.h>
@@ -1344,7 +1344,7 @@ static s32 ra_cfg_msg_handler(u32 *msg_recv)
 
 	if (r == SUCCESS) {
 		/* Configure ring real-time channelized firewall */
-		r = rm_core_resasg_cfg_firewall(
+		r = rm_request_resasg_cfg_firewall_ext(
 			inst->id,
 			utype,
 			inst->rt->fwl_id,
@@ -1355,7 +1355,7 @@ static s32 ra_cfg_msg_handler(u32 *msg_recv)
 			SFALSE);
 
 		/* Configure ring src FIFO channelized firewall */
-		r = rm_core_resasg_cfg_firewall(
+		r = rm_request_resasg_cfg_firewall_ext(
 			inst->id,
 			utype,
 			inst->fifos->fwl_id,
@@ -1370,12 +1370,8 @@ static s32 ra_cfg_msg_handler(u32 *msg_recv)
 	    (rm_core_param_is_valid(msg->valid_params,
 				    TISCI_MSG_VALUE_RM_RING_VIRTID_VALID) ==
 	     STRUE)) {
-		r = sec_rm_ra_isc_set_virtid(inst->id, loc_msg.index,
-					     msg->hdr.host, loc_msg.virtid);
-		if (r == EFTOK) {
-			/* Translate to user-space SUCCESS */
-			r = SUCCESS;
-		}
+		r = rm_request_cfg_ring_virtid(inst->id, loc_msg.index,
+					       msg->hdr.host, loc_msg.virtid);
 	}
 
 	if (r == SUCCESS) {
@@ -1453,7 +1449,7 @@ static s32 ra_mon_cfg_msg_handler(u32 *msg_recv)
 
 	if (r == SUCCESS) {
 		/* Configure ring monitor channelized firewall to read only */
-		r = rm_core_resasg_cfg_firewall(
+		r = rm_request_resasg_cfg_firewall_ext(
 			inst->id,
 			inst->ring_mon_utype,
 			inst->mon->fwl_id,

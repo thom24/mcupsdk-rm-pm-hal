@@ -15,9 +15,9 @@
 #include <lib/trace.h>
 
 #include <rm_core.h>
+#include <rm_request.h>
 #include <rm_ia.h>
 #include <tisci/rm/tisci_rm_irq.h>
-#include <security/rm_int_firewall.h>
 #include <hosts.h>
 
 #include <ia_inst.h>
@@ -292,7 +292,6 @@ static s32 ia_clear_rom_mapping(const struct ia_instance *inst, u16 evt)
 	u8 i;
 	struct ia_used_mapping *used_mapping;
 	u16 fwl_ch;
-	u8 hosts[FWL_MAX_PRIVID_SLOTS];
 	mapped_addr_t maddr;
 	u32 entry_int_map_lo;
 	u16 reg_vint, reg_sb;
@@ -318,12 +317,10 @@ static s32 ia_clear_rom_mapping(const struct ia_instance *inst, u16 evt)
 			 * it can be cleaned up
 			 */
 			fwl_ch = reg_vint + inst->intr->fwl_ch_start;
-			hosts[0U] = HOST_ID_DMSC;
-			if (sec_rm_fwl_set_perm(inst->intr->fwl_id,
-						fwl_ch,
-						hosts,
-						1U) != EFTOK) {
-				r = -EFAIL;
+			r = rm_request_cfg_firewall(inst->intr->fwl_id,
+						    fwl_ch,
+						    HOST_ID_DMSC);
+			if (r != SUCCESS) {
 				break;
 			}
 
@@ -693,14 +690,14 @@ s32 rm_ia_vint_map(u16 id, u16 vint, u16 global_evt, u8 vint_sb_index)
 
 	if (r == SUCCESS) {
 		/* Configure the VINT INTR channelized firewall */
-		r = rm_core_resasg_cfg_firewall(inst->id,
-						inst->vint_utype,
-						inst->intr->fwl_id,
-						inst->intr->fwl_ch_start,
-						vint,
-						STRUE,
-						SFALSE,
-						SFALSE);
+		r = rm_request_resasg_cfg_firewall_ext(inst->id,
+						       inst->vint_utype,
+						       inst->intr->fwl_id,
+						       inst->intr->fwl_ch_start,
+						       vint,
+						       STRUE,
+						       SFALSE,
+						       SFALSE);
 	}
 
 	if (r == SUCCESS) {
@@ -810,7 +807,6 @@ s32 rm_ia_init(void)
 	s32 r = SUCCESS;
 	u32 i, j;
 	u16 fwl_ch;
-	u8 hosts[FWL_MAX_PRIVID_SLOTS];
 
 	for (i = 0U; i < IA_INST_COUNT; i++) {
 		if ((rm_core_validate_devgrp(ia_inst[i].id, ia_inst[i].devgrp) ==
@@ -834,19 +830,11 @@ s32 rm_ia_init(void)
 			     (j < IA_SOC_PE_INIT_NUM) && (r == SUCCESS);
 			     j++) {
 				if (ia_soc_pe_init_list[j].id == ia_inst[i].id) {
-					/*
-					 * Configure channelized firewalls for VINTs
-					 * used by DMSC
-					 */
 					fwl_ch = ia_soc_pe_init_list[j].vint +
 						 ia_inst[i].intr->fwl_ch_start;
-					hosts[0U] = HOST_ID_DMSC;
-					if (sec_rm_fwl_set_perm(ia_inst[i].intr->fwl_id,
-								fwl_ch,
-								hosts,
-								1U) != EFTOK) {
-						r = -EFAIL;
-					}
+					r = rm_request_cfg_firewall(ia_inst[i].intr->fwl_id,
+								    fwl_ch,
+								    HOST_ID_DMSC);
 
 					if (r == SUCCESS) {
 						r = rm_ia_vint_map(
