@@ -1,0 +1,21 @@
+# PM and PM HAL configuration Main Kconfig
+#
+# For a description of the syntax of this configuration file,
+# see https://www.kernel.org/doc/Documentation/kbuild/kconfig-language.txt
+# NOTE: We ONLY support "bool"
+#
+# Copyright (C) 2020 Texas Instruments Incorporated - http://www.ti.com/
+# ALL RIGHTS RESERVED
+#
+
+menu "RM & PM HAL Configuration"
+
+# Memory organization
+
+config ADDR_REMAP_OFFSET
+	hex "Offset to apply when remapping MMR addresses"
+	default 0x00000000
+	help
+	  Address offset to apply when remapping addresses for rd/wr accesses
+
+endmenu

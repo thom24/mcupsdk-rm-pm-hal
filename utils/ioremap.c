@@ -7,6 +7,8 @@
  * ALL RIGHTS RESERVED
  */
 
+#include <config.h>
+
 #include <lib/ioremap.h>
 #include <types/short_types.h>
 
@@ -32,11 +34,10 @@ u32 ioremap_internal(u32 a)
 	 *
 	 * *NOTE*: This wont work for firewall setup and separated ops.
 	 */
-#if defined (__TI_ARM_V7M3__)
 	if (((a >= 0x100000U) && a < (0x44000000U)) ||
 	    ((a >= 0x46000000U) && (a < 0x60000000U))) {
-		addr += 0x60000000U;
+		addr += CONFIG_ADDR_REMAP_OFFSET;
 	}
-#endif
+
 	return addr;
 }

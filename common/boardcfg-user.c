@@ -18,6 +18,8 @@
 #include <types/errno.h>
 #include <stddef.h>
 
+#include <config.h>
+
 #include <boardcfg/boardcfg.h>
 #include <boardcfg/boardcfg_user_copy.h>
 #include <extboot/extboot.h>
@@ -219,7 +221,7 @@ static s32 boardcfg_memcpy(local_phys_addr_t to, soc_phys_addr_t from, u32 size)
 	 * Reuse PM mapping, was boardcfg_map() previously, see
 	 * pm/soc/k3m/dmsc.c
 	 */
-	from_mapped = soc_phys_low_u32(from) + 0x60000000;
+	from_mapped = soc_phys_low_u32(from) + CONFIG_ADDR_REMAP_OFFSET;
 
 	memcpy((void *) to, (void *) from_mapped, size);
 

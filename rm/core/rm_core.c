@@ -462,10 +462,9 @@ s32 rm_core_init(void)
 	s32 r = SUCCESS;
 
 	r = core_resasg_create_index();
-	if (r == SUCCESS)
-	{
+	if (r == SUCCESS) {
 		r = tisci_user_client_register(TISCI_MSG_RM_GET_RESOURCE_RANGE,
-				       &tisci_msg_rm_core_get_resource_range);
+					       &tisci_msg_rm_core_get_resource_range);
 	}
 
 	if (r != SUCCESS) {
@@ -498,11 +497,7 @@ mapped_addr_t rm_core_map_region(soc_phys_addr_t phy_addr)
 	 *
 	 * *NOTE*: This wont work for firewall setup and separated ops.
 	 */
-#if defined (__TI_ARM_V7M3__)
-	return soc_phys_low_u32(phy_addr) + 0x60000000U;
-#else
-	return soc_phys_low_u32(phy_addr);
-#endif
+	return soc_phys_low_u32(phy_addr) + CONFIG_ADDR_REMAP_OFFSET;
 }
 
 void rm_core_unmap_region(void)
