@@ -51,7 +51,7 @@
 #define CLK_HW_STATE_ENABLED    1
 #define CLK_HW_STATE_TRANSITION 2
 
-#define CLK_ID_NONE ((clk_idx_t) (-1U))
+#define CLK_ID_NONE ((clk_idx_t) (0xFFFFFFFFU))
 
 struct clk_range {
 	u32	min_hz;
