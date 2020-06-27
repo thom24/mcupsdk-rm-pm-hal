@@ -32,6 +32,7 @@ config INTERRUPT_AGGREGATOR_UNMAPPED_EVENTS
 	depends on RM_IRQ
 	default n if SOC_AM6
 	default n if SOC_J721E
+	default y if SOC_AM64
 	help
 	 Enable Interrupt Aggregator unmapped event support
 
@@ -46,6 +47,7 @@ config RM_RA_DMSS_RING
 	depends on RM_RA
 	default n if SOC_AM6
 	default n if SOC_J721E
+	default y if SOC_AM64
 	help
 	 Enable support for DMSS dual rings
 
@@ -54,6 +56,7 @@ config RM_RA_NAV_RING
 	depends on RM_RA
 	default y if SOC_AM6
 	default y if SOC_J721E
+	default y if SOC_AM64
 	help
 	 Enable support for Navigator rings
 
@@ -82,6 +85,7 @@ config UDMAP_UDMA
 	depends on RM_UDMAP
 	default y if SOC_AM6
 	default y if SOC_J721E
+	default n if SOC_AM64
 	help
 	 Enable support for Navigator UDMAP channel types
 
@@ -90,6 +94,7 @@ config UDMAP_BCDMA
 	depends on RM_UDMAP
 	default n if SOC_AM6
 	default n if SOC_J721E
+	default y if SOC_AM64
 	help
 	 Enable support for DMSS BCDMA channel types
 
@@ -98,6 +103,7 @@ config UDMAP_PKTDMA
 	depends on RM_UDMAP
 	default n if SOC_AM6
 	default n if SOC_J721E
+	default y if SOC_AM64
 	help
 	 Enable support for DMSS PKTDMA channel types
 
