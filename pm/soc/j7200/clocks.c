@@ -3549,6 +3549,14 @@ static const struct clk_data_mux_reg clk_data_mcu_OSPI_ref_clk_sel_out0 = {
 	.reg			= 0x40F00000 + 32816,
 	.bit			= 0,
 };
+static const struct clk_data_mux_reg clk_data_mcu_OSPI_ref_clk_sel_out1 = {
+	.data_mux		= {
+		.parents	= clk_mcu_OSPI_ref_clk_sel_out0_parents,
+		.n		= ARRAY_SIZE(clk_mcu_OSPI_ref_clk_sel_out0_parents),
+	},
+	.reg			= 0x40F00000 + 32820,
+	.bit			= 0,
+};
 static const struct clk_parent clk_mcu_WWD_clksel_out0_parents[] = {
 	{
 		CLK_J7200_GLUELOGIC_HFOSC0_CLKOUT,
@@ -5498,6 +5506,12 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_mcu_OSPI_ref_clk_sel_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J7200_MCU_OSPI_REF_CLK_SEL_OUT1] =				{
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_mcu_OSPI_ref_clk_sel_out1.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J7200_MCUUSART_CLK_SEL_OUT0] =				{

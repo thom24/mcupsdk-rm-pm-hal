@@ -4255,7 +4255,7 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__sect
 		1),
 	DEV_CLK(J7200_DEV_FSS_MCU_0_OSPI_1_CLOCKS,		   J7200_DEV_MCU_FSS0_OSPI_1_OSPI_PCLK_CLK,	       CLK_J7200_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
 		1),
-	DEV_CLK(J7200_DEV_FSS_MCU_0_OSPI_1_CLOCKS,		   J7200_DEV_MCU_FSS0_OSPI_1_OSPI_RCLK_CLK,	       CLK_J7200_HSDIV4_16FFT_MCU_1_HSDIVOUT4_CLK,
+	DEV_CLK(J7200_DEV_FSS_MCU_0_OSPI_1_CLOCKS,		   J7200_DEV_MCU_FSS0_OSPI_1_OSPI_RCLK_CLK,	       CLK_J7200_MCU_OSPI_REF_CLK_SEL_OUT1,
 		1),
 	DEV_CLK(J7200_DEV_GPIO_144_WKUP_0_CLOCKS,		   J7200_DEV_WKUP_GPIO0_MMR_CLK,		       CLK_J7200_WKUP_GPIO0_CLKSEL_OUT0,
 		1),
@@ -5610,7 +5610,7 @@ const struct devgroup soc_devgroups[] = {
 	[PM_DEVGRP_01] =   {
 		.dev_clk_data	= MAIN_dev_clk_data,
 		.dev_clk	= MAIN_dev_clk,
-		.clk_idx	= 193U,
+		.clk_idx	= 194U,
 	},
 	[PM_DEVGRP_DMSC] = {
 		.dev_clk_data	= DMSC_INTERNAL_dev_clk_data,
