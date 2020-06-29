@@ -1,3 +1,4 @@
+obj-y +=		device_process.o
 obj-y +=		device.o
 obj-y +=		resource.o
 obj-y +=		device_prepare.o

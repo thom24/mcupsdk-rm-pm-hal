@@ -19,9 +19,6 @@
 #include <tisci/pm/tisci_pm_clock.h>
 #include <tisci/pm/tisci_pm_core.h>
 #include <tisci/pm/tisci_pm_device.h>
-#if defined (__TI_ARM_V7M3__)
-#include <tisci_provider/tisci.h>
-#endif
 
 #include <dmsc.h>
 
@@ -31,11 +28,6 @@ static s32(*const startups[]) (void) = {
 	&clk_init,
 #endif
 	&devices_init,
-#if defined (__TI_ARM_V7M3__)
-	&pm_clock_message_init,
-	&pm_device_message_init,
-	&pm_core_message_init,
-#endif
 #ifdef CONFIG_TESTS
 	&test_timer64p_init,
 #endif

@@ -1,3 +1,4 @@
+obj-y += clock.o
 obj-y += clk.o
 obj-y += clk_gate.o
 obj-y += clk_div.o
