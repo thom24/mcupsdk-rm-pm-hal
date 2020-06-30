@@ -749,6 +749,30 @@ void lpsc_module_set_local_reset(struct device *dev,
 	}
 }
 
+void lpsc_module_set_module_reset(struct device *dev,
+				 struct lpsc_module *module, sbool enable)
+{
+	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
+	u32 idx = lpsc_module_idx(dev, module);
+	const struct lpsc_module_data *data = &psc->mod_data[idx];
+	sbool is_enabled;
+
+	is_enabled = module->mrst_active != 0U;
+
+	if ((enable != is_enabled) && ((data->flags & LPSC_NO_MODULE_RESET) == 0U)) {
+		if (enable) {
+			module->mrst_active = 1U;
+		} else {
+			module->mrst_active = 0U;
+		}
+
+		/*
+		 * NB: This commit is API update only, module reset action
+		 * will come in a later commit <here>.
+		 */
+	}
+}
+
 sbool lpsc_module_get_local_reset(struct device *dev, struct lpsc_module *module)
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
@@ -760,6 +784,11 @@ sbool lpsc_module_get_local_reset(struct device *dev, struct lpsc_module *module
 	}
 
 	return !(psc_read(dev, (u32) (PSC_MDCTL(idx)) & MDCTL_LRST));
+}
+
+sbool lpsc_module_get_module_reset(struct device *dev UNUSED, struct lpsc_module *module)
+{
+	return (module->mrst_active == 1U);
 }
 
 void lpsc_module_wait(struct device *dev, struct lpsc_module *module)

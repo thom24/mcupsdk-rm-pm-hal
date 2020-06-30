@@ -123,10 +123,15 @@ static void soc_device_set_resets_internal(const struct soc_device_data *dev, u3
 		module = psc_lookup_lpsc(psc_dev, dev->mod);
 		if (module) {
 			sbool local_reset = SFALSE;
-			if (resets & BIT(0)) {
+			sbool module_reset = SFALSE;
+			if ((resets & BIT(0)) != 0U) {
 				local_reset = STRUE;
 			}
+			if ((resets & BIT(1)) != 0U) {
+				module_reset = STRUE;
+			}
 			lpsc_module_set_local_reset(psc_dev, module, local_reset);
+			lpsc_module_set_module_reset(psc_dev, module, module_reset);
 		}
 	}
 }
@@ -145,7 +150,7 @@ void soc_device_set_resets(struct device *dev, u32 resets)
 static u32 soc_device_get_resets_internal(const struct soc_device_data *dev)
 {
 	struct device *psc_dev = psc_lookup((psc_idx_t) dev->psc_idx);
-	u32 resets = 0;
+	u32 resets = 0U;
 
 	if (psc_dev) {
 		struct lpsc_module *module;
@@ -154,7 +159,11 @@ static u32 soc_device_get_resets_internal(const struct soc_device_data *dev)
 			sbool ret;
 			ret = lpsc_module_get_local_reset(psc_dev, module);
 			if (ret) {
-				resets = BIT(0);
+				resets |= BIT(0);
+			}
+			ret = lpsc_module_get_module_reset(psc_dev, module);
+			if (ret) {
+				resets |= BIT(1);
 			}
 		}
 	}

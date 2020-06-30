@@ -124,6 +124,7 @@ struct lpsc_module {
 	u8	sw_state : 2;
 	u8	pwr_up_enabled : 1;
 	u8	pwr_up_ret : 1;
+	u8	mrst_active : 1;
 };
 
 /** Declare a default PSC powerdomain entry */
@@ -201,6 +202,23 @@ sbool lpsc_module_get_reset_iso(struct device *psc_dev, struct lpsc_module *modu
 void lpsc_module_set_local_reset(struct device *psc_dev, struct lpsc_module *module, sbool enable);
 
 /**
+ * \brief Set/clear the module reset state of a PSC module
+ *
+ * The function of the module reset is module specific and only available on
+ * certain modules.
+ *
+ * \param psc_dev
+ * The PSC device that controls this module.
+ *
+ * \param module
+ * The PSC module to modify.
+ *
+ * \param enable
+ * True to enable module reset, SFALSE to release module reset.
+ */
+void lpsc_module_set_module_reset(struct device *psc_dev, struct lpsc_module *module, sbool enable);
+
+/**
  * \brief Get the local reset state from a PSC module.
  *
  * This queries the STRUE hardware state.
@@ -215,6 +233,23 @@ void lpsc_module_set_local_reset(struct device *psc_dev, struct lpsc_module *mod
  * True if local reset is asserted for this module, SFALSE if otherwise.
  */
 sbool lpsc_module_get_local_reset(struct device *psc_dev, struct lpsc_module *module);
+
+/**
+ * \brief Get the module reset state from a PSC module.
+ *
+ * This queries the STRUE hardware state.
+ *
+ * \param psc_dev
+ * The PSC device that controls this module.
+ *
+ * \param module
+ * The PSC module to query.
+ *
+ * \return
+ * True if module reset is asserted for this module, SFALSE if otherwise.
+ */
+sbool lpsc_module_get_module_reset(struct device *psc_dev, struct lpsc_module *module);
+
 u32 lpsc_module_get_state(struct device *psc_dev, struct lpsc_module *module);
 
 struct device *psc_lookup(psc_idx_t id);
