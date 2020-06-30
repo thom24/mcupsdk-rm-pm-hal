@@ -760,6 +760,11 @@ void lpsc_module_set_module_reset(struct device *dev,
 	is_enabled = module->mrst_active != 0U;
 
 	if ((enable != is_enabled) && ((data->flags & LPSC_NO_MODULE_RESET) == 0U)) {
+		pm_trace(TRACE_PM_ACTION_SET_MODULE_RESET,
+			 (psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
+			 (idx << TRACE_PM_VAL_PD_SHIFT) |
+			 enable);
+
 		if (enable) {
 			module->mrst_active = 1U;
 		} else {

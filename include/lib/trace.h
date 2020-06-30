@@ -294,6 +294,7 @@
 #define TRACE_PM_ACTION_PSC_TRANSITION_TIMEOUT         0x14U
 #define TRACE_PM_ACTION_PSC_INVALID_DEP_DATA           0x15U
 #define TRACE_PM_ACTION_PSC_RST_DONE_TIMEOUT           0x16U
+#define TRACE_PM_ACTION_SET_MODULE_RESET               0x17U
 #define TRACE_PM_ACTION_INIT                           0x20U
 #define TRACE_PM_ACTION_DEV_INIT                       0x21U
 #define TRACE_PM_ACTION_SYSRESET                       0x22U
