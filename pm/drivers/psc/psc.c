@@ -1183,7 +1183,7 @@ static s32 psc_initialize_modules(struct device *dev)
 		while (((v = psc_read(dev, PSC_MDSTAT(idx))) &
 			MDSTAT_BUSY_MASK) && --i) {
 		}
-		if (!i) {
+		if (i == 0) {
 			pm_trace(TRACE_PM_ACTION_PSC_TRANSITION_TIMEOUT | TRACE_PM_ACTION_FAIL,
 				 ((psc->psc_idx) << TRACE_PM_VAL_PSC_SHIFT) |
 				 (idx << TRACE_PM_VAL_PD_SHIFT) | TRACE_PM_VAL_PD_POS3);
@@ -1195,15 +1195,17 @@ static s32 psc_initialize_modules(struct device *dev)
 		/* Ref count as if we are moving out of off state */
 		mod->sw_state = MDSTAT_STATE_SWRSTDISABLE;
 
-		switch (v) {
-		case MDSTAT_STATE_ENABLE:
+		if (v == MDSTAT_STATE_ENABLE) {
 			mod->pwr_up_enabled = STRUE;
-		case MDSTAT_STATE_DISABLE:
 			mod->pwr_up_ret = STRUE;
-		case MDSTAT_STATE_SWRSTDISABLE:
-			break;
-		default:
-			/* Invalid initial state, try turning every on */
+		} else if (v == MDSTAT_STATE_DISABLE) {
+			mod->pwr_up_enabled = SFALSE;
+			mod->pwr_up_ret = STRUE;
+		} else if (v == MDSTAT_STATE_SWRSTDISABLE) {
+			mod->pwr_up_enabled = SFALSE;
+			mod->pwr_up_ret = SFALSE;
+		} else {
+			/* Invalid initial state, try turning everything on */
 			mod->pwr_up_ret = STRUE;
 			mod->pwr_up_enabled = STRUE;
 		}
