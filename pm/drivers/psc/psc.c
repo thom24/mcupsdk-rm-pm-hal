@@ -519,6 +519,9 @@ static void lpsc_module_sync_state(struct device	*dev,
 	if ((state == MDSTAT_STATE_DISABLE) && ((data->flags & LPSC_NO_CLOCK_GATING) != 0U)) {
 		state = MDSTAT_STATE_ENABLE;
 	}
+	if ((state == MDSTAT_STATE_SYNCRST) && ((data->flags & LPSC_NO_MODULE_RESET) != 0U)) {
+		state = MDSTAT_STATE_ENABLE;
+	}
 
 	/* Track transition of old state to new state */
 	old_state = module->sw_state;
@@ -526,12 +529,12 @@ static void lpsc_module_sync_state(struct device	*dev,
 
 	/* Previous setting of retention, enable, and reset */
 	old_ret = old_state != MDSTAT_STATE_SWRSTDISABLE;
-	old_en = old_state == MDSTAT_STATE_ENABLE;
+	old_en = (old_state == MDSTAT_STATE_SYNCRST) || (old_state == MDSTAT_STATE_ENABLE);
 	old_rst = (old_state != MDSTAT_STATE_ENABLE) && (old_state != MDSTAT_STATE_DISABLE);
 
 	/* New setting of retention, enable, and reset */
 	new_ret = state != MDSTAT_STATE_SWRSTDISABLE;
-	new_en = state == MDSTAT_STATE_ENABLE;
+	new_en = (state == MDSTAT_STATE_SYNCRST) || (state == MDSTAT_STATE_ENABLE);
 	new_rst = (state != MDSTAT_STATE_ENABLE) && (state != MDSTAT_STATE_DISABLE);
 
 	/* Are we transitioning from no retention/enable to retention/enable? */
@@ -662,7 +665,8 @@ u32 lpsc_module_get_state(struct device		*dev,
 	if (state == MDSTAT_STATE_SWRSTDISABLE) {
 		ret = 0U; /* Disabled */
 	} else if ((state == MDSTAT_STATE_DISABLE) ||
-		   (state == MDSTAT_STATE_ENABLE)) {
+		   (state == MDSTAT_STATE_ENABLE) ||
+		   (state == MDSTAT_STATE_SYNCRST)) {
 		ret = 1U; /* Enabled or retention */
 	} else {
 		ret = 2U; /* Transition (other) */
@@ -1195,7 +1199,7 @@ static s32 psc_initialize_modules(struct device *dev)
 		/* Ref count as if we are moving out of off state */
 		mod->sw_state = MDSTAT_STATE_SWRSTDISABLE;
 
-		if (v == MDSTAT_STATE_ENABLE) {
+		if ((v == MDSTAT_STATE_ENABLE) || (v == MDSTAT_STATE_SYNCRST)) {
 			mod->pwr_up_enabled = STRUE;
 			mod->pwr_up_ret = STRUE;
 		} else if (v == MDSTAT_STATE_DISABLE) {
