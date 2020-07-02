@@ -499,7 +499,9 @@ static void lpsc_module_sync_state(struct device	*dev,
 	 * +---------+-----------+-------+-------------------------------+
 	 * | No      | Yes       | NA    | Disabled                      |
 	 * +---------+-----------+-------+-------------------------------+
-	 * | Yes     | NA        | NA    | Enabled                       |
+	 * | Yes     | NA        | No    | Enabled                       |
+	 * +---------+-----------+-------+-------------------------------+
+	 * | Yes     | NA        | Yes   | SyncReset                     |
 	 * +---------+-----------+-------+-------------------------------+
 	 */
 	if ((module->use_count == 0U) && (module->ret_count == 0U)) {
@@ -509,7 +511,11 @@ static void lpsc_module_sync_state(struct device	*dev,
 		state = MDSTAT_STATE_DISABLE;
 	} else {
 		/* Module enabled (retention setting is don't care) */
-		state = MDSTAT_STATE_ENABLE;
+		if (module->mrst_active == 0U) {
+			state = MDSTAT_STATE_ENABLE;
+		} else {
+			state = MDSTAT_STATE_SYNCRST;
+		}
 	}
 
 	/* Promote target state based on disallowed states */
@@ -775,10 +781,8 @@ void lpsc_module_set_module_reset(struct device *dev,
 			module->mrst_active = 0U;
 		}
 
-		/*
-		 * NB: This commit is API update only, module reset action
-		 * will come in a later commit <here>.
-		 */
+		lpsc_module_sync_state(dev, module, SFALSE);
+		lpsc_module_wait(dev, module);
 	}
 }
 
