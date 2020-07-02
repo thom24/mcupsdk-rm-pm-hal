@@ -23,14 +23,6 @@
 #include <lib/container_of.h>
 #include <pm_types.h>
 
-#define LPSC_MODULE_SWRSTDISABLE        0
-#define LPSC_MODULE_SYNCRST             1
-#define LPSC_MODULE_DISABLE             2
-#define LPSC_MODULE_ENABLE              3
-
-#define PD_STATE_DISABLED               0
-#define PD_STATE_ENABLED                1
-
 #define PSC_DEV_NONE            7
 #define PSC_DEV_MULTIPLE        6
 #define PSC_PD_NONE             31
