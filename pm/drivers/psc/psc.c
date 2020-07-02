@@ -654,16 +654,21 @@ u32 lpsc_module_get_state(struct device		*dev,
 			  struct lpsc_module	*module)
 {
 	u32 idx = lpsc_module_idx(dev, module);
+	u8 state;
+	u32 ret;
 
-	switch (psc_read(dev, PSC_MDSTAT(idx)) & MDSTAT_STATE_MASK) {
-	case MDSTAT_STATE_SWRSTDISABLE:
-		return 0;
-	case MDSTAT_STATE_DISABLE:
-	case MDSTAT_STATE_ENABLE:
-		return 1;
-	default:
-		return 2;
+	state = psc_read(dev, PSC_MDCTL(idx)) & MDSTAT_STATE_MASK;
+
+	if (state == MDSTAT_STATE_SWRSTDISABLE) {
+		ret = 0U; /* Disabled */
+	} else if ((state == MDSTAT_STATE_DISABLE) ||
+		   (state == MDSTAT_STATE_ENABLE)) {
+		ret = 1U; /* Enabled or retention */
+	} else {
+		ret = 2U; /* Transition (other) */
 	}
+
+	return ret;
 }
 
 /*
