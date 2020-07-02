@@ -118,6 +118,12 @@ struct lpsc_module {
 	u8	ret_count;
 	/** Current programmed state (MDSTAT_STATE_[...]) */
 	u8	sw_state : 2;
+	/**
+	 * True if the module is forced on due to a module reset. In this
+	 * case sw_state indicates SWRSTDISABLE but this module holds
+	 * a reference count to it's powerdomain.
+	 */
+	u8	sw_mrst_ret : 1;
 	u8	pwr_up_enabled : 1;
 	u8	pwr_up_ret : 1;
 	/** True if host has requested a module reset */

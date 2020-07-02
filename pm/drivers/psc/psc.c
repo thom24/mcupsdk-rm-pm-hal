@@ -477,6 +477,8 @@ static void lpsc_module_sync_state(struct device	*dev,
 	struct psc_pd *pd = psc_idx2pd(psc, (pd_idx_t) data->powerdomain);
 	u8 state;		/* Target module state */
 	u8 old_state;		/* Original module state */
+	sbool new_mrst_ret;	/* MRST induced retention */
+	sbool old_msrt_ret;
 	sbool old_ret;		/* Retention of any kind */
 	sbool old_en;		/* Enabled (clocks running) */
 	sbool old_rst;
@@ -497,18 +499,26 @@ static void lpsc_module_sync_state(struct device	*dev,
 	 * +=========+===========+=======+===============================+
 	 * | No      | No        | NA    | SwRstDisabled (may power off) |
 	 * +---------+-----------+-------+-------------------------------+
-	 * | No      | Yes       | NA    | Disabled                      |
+	 * | No      | Yes       | No    | Disabled                      |
+	 * +---------+-----------+-------+-------------------------------+
+	 * | No      | Yes       | Yes   | SwRstDisabled (powered-on)    |
 	 * +---------+-----------+-------+-------------------------------+
 	 * | Yes     | NA        | No    | Enabled                       |
 	 * +---------+-----------+-------+-------------------------------+
 	 * | Yes     | NA        | Yes   | SyncReset                     |
 	 * +---------+-----------+-------+-------------------------------+
 	 */
+	new_mrst_ret = SFALSE;
 	if ((module->use_count == 0U) && (module->ret_count == 0U)) {
 		state = MDSTAT_STATE_SWRSTDISABLE;
 	} else if (module->use_count == 0U) {
 		/* Retention enabled, but module disabled */
-		state = MDSTAT_STATE_DISABLE;
+		if (module->mrst_active == 0U) {
+			state = MDSTAT_STATE_DISABLE;
+		} else {
+			new_mrst_ret = STRUE;
+			state = MDSTAT_STATE_SWRSTDISABLE;
+		}
 	} else {
 		/* Module enabled (retention setting is don't care) */
 		if (module->mrst_active == 0U) {
@@ -521,6 +531,7 @@ static void lpsc_module_sync_state(struct device	*dev,
 	/* Promote target state based on disallowed states */
 	if ((state == MDSTAT_STATE_SWRSTDISABLE) && ((data->flags & LPSC_NO_MODULE_RESET) != 0U)) {
 		state = MDSTAT_STATE_DISABLE;
+		new_mrst_ret = SFALSE;
 	}
 	if ((state == MDSTAT_STATE_DISABLE) && ((data->flags & LPSC_NO_CLOCK_GATING) != 0U)) {
 		state = MDSTAT_STATE_ENABLE;
@@ -532,14 +543,16 @@ static void lpsc_module_sync_state(struct device	*dev,
 	/* Track transition of old state to new state */
 	old_state = module->sw_state;
 	module->sw_state = state;
+	old_msrt_ret = module->sw_mrst_ret;
+	module->sw_mrst_ret = new_mrst_ret;
 
 	/* Previous setting of retention, enable, and reset */
-	old_ret = old_state != MDSTAT_STATE_SWRSTDISABLE;
+	old_ret = (old_state != MDSTAT_STATE_SWRSTDISABLE) || old_msrt_ret;
 	old_en = (old_state == MDSTAT_STATE_SYNCRST) || (old_state == MDSTAT_STATE_ENABLE);
 	old_rst = (old_state != MDSTAT_STATE_ENABLE) && (old_state != MDSTAT_STATE_DISABLE);
 
 	/* New setting of retention, enable, and reset */
-	new_ret = state != MDSTAT_STATE_SWRSTDISABLE;
+	new_ret = (state != MDSTAT_STATE_SWRSTDISABLE) || new_mrst_ret;
 	new_en = (state == MDSTAT_STATE_SYNCRST) || (state == MDSTAT_STATE_ENABLE);
 	new_rst = (state != MDSTAT_STATE_ENABLE) && (state != MDSTAT_STATE_DISABLE);
 
@@ -1202,6 +1215,7 @@ static s32 psc_initialize_modules(struct device *dev)
 
 		/* Ref count as if we are moving out of off state */
 		mod->sw_state = MDSTAT_STATE_SWRSTDISABLE;
+		mod->sw_mrst_ret = SFALSE;
 
 		if ((v == MDSTAT_STATE_ENABLE) || (v == MDSTAT_STATE_SYNCRST)) {
 			mod->pwr_up_enabled = STRUE;
@@ -1287,6 +1301,7 @@ static void psc_uninitialize_modules(struct device *dev)
 
 		lpsc_module_sync_state(dev, mod, STRUE);
 		mod->sw_state = MDSTAT_STATE_SWRSTDISABLE;
+		mod->sw_mrst_ret = SFALSE;
 	}
 
 	for (i = 0U; i < ARRAY_SIZE(psc->data->mods_enabled); i++) {
