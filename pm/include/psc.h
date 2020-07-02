@@ -110,12 +110,17 @@ struct lpsc_module_data {
 };
 
 struct lpsc_module {
+	/** Incremented after module reset */
 	u32	loss_count;
+	/** Non-zero if module should be active (clocks running) */
 	u8	use_count;
+	/** Non-zero if module should be powered-up */
 	u8	ret_count;
+	/** Current programmed state (MDSTAT_STATE_[...]) */
 	u8	sw_state : 2;
 	u8	pwr_up_enabled : 1;
 	u8	pwr_up_ret : 1;
+	/** True if host has requested a module reset */
 	u8	mrst_active : 1;
 };
 
@@ -162,7 +167,7 @@ void lpsc_module_set_reset_iso(struct device *psc_dev, struct lpsc_module *modul
 /**
  * \brief Get the reset isolation setting from a PSC module.
  *
- * This queries the STRUE hardware state.
+ * This queries the true hardware state.
  *
  * \param psc_dev
  * The PSC device that controls this module.
@@ -213,7 +218,7 @@ void lpsc_module_set_module_reset(struct device *psc_dev, struct lpsc_module *mo
 /**
  * \brief Get the local reset state from a PSC module.
  *
- * This queries the STRUE hardware state.
+ * This queries the true hardware state.
  *
  * \param psc_dev
  * The PSC device that controls this module.
@@ -229,7 +234,7 @@ sbool lpsc_module_get_local_reset(struct device *psc_dev, struct lpsc_module *mo
 /**
  * \brief Get the module reset state from a PSC module.
  *
- * This queries the STRUE hardware state.
+ * This queries the true hardware state.
  *
  * \param psc_dev
  * The PSC device that controls this module.
@@ -242,6 +247,20 @@ sbool lpsc_module_get_local_reset(struct device *psc_dev, struct lpsc_module *mo
  */
 sbool lpsc_module_get_module_reset(struct device *psc_dev, struct lpsc_module *module);
 
+/**
+ * \brief Get the module state from a PSC module.
+ *
+ * This queries the true hardware state.
+ *
+ * \param psc_dev
+ * The PSC device that controls this module.
+ *
+ * \param module
+ * The PSC module to query.
+ *
+ * \return
+ * 0 for a disabled module, 1 for an enabled module, 2 for a module in transition.
+ */
 u32 lpsc_module_get_state(struct device *psc_dev, struct lpsc_module *module);
 
 struct device *psc_lookup(psc_idx_t id);
