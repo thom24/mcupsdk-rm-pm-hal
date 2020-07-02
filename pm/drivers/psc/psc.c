@@ -475,71 +475,81 @@ static void lpsc_module_sync_state(struct device	*dev,
 	u32 idx = lpsc_module_idx(dev, module);
 	const struct lpsc_module_data *data = psc->mod_data + idx;
 	struct psc_pd *pd = psc_idx2pd(psc, (pd_idx_t) data->powerdomain);
-	u8 state;
-	u8 old_state;
-	sbool transition;
-	sbool get_en;
-	sbool get_ret;
-	sbool put_en;
-	sbool put_ret;
+	u8 state;		/* Target module state */
+	u8 old_state;		/* Original module state */
+	sbool old_ret;		/* Retention of any kind */
+	sbool old_en;		/* Enabled (clocks running) */
+	sbool old_rst;
+	sbool new_ret;
+	sbool new_en;
+	sbool new_rst;
+	sbool transition;	/* A state transition is necessary */
+	sbool get_en;		/* Moving from disabled to enabled */
+	sbool get_ret;		/* Moving from off to retention */
+	sbool put_en;		/* Moving from enabled to disabled */
+	sbool put_ret;		/* Moving from retention to off */
 
-	if (!module->use_count && !module->ret_count &&
-	    !(data->flags & LPSC_NO_MODULE_RESET)) {
-		/*
-		 * A module reset is how we transition to power off. We block
-		 * module reset if the module is in use, retention is required
-		 * or reset is not allowed for the module.
-		 *
-		 * FIXME: Put module in DISABLE state if possible, delaying
-		 * transition to SWRSTDISABLE until power domain is ready to
-		 * transition to reduce unnecessary context loss.
-		 */
-
+	/*
+	 * Determine target state based on usage counts and module reset:
+	 *
+	 * +---------+-----------+-------+-------------------------------+
+	 * + Enabled | Retention | Reset | State                         |
+	 * +=========+===========+=======+===============================+
+	 * | No      | No        | NA    | SwRstDisabled (may power off) |
+	 * +---------+-----------+-------+-------------------------------+
+	 * | No      | Yes       | NA    | Disabled                      |
+	 * +---------+-----------+-------+-------------------------------+
+	 * | Yes     | NA        | NA    | Enabled                       |
+	 * +---------+-----------+-------+-------------------------------+
+	 */
+	if ((module->use_count == 0U) && (module->ret_count == 0U)) {
 		state = MDSTAT_STATE_SWRSTDISABLE;
-	} else if (module->use_count || (data->flags & LPSC_NO_CLOCK_GATING)) {
-		/*
-		 * Fully enable the module if it is in use or if clock gating
-		 * is not supported by this module.
-		 */
-		state = MDSTAT_STATE_ENABLE;
+	} else if (module->use_count == 0U) {
+		/* Retention enabled, but module disabled */
+		state = MDSTAT_STATE_DISABLE;
 	} else {
-		/*
-		 * Only reached if module is not in use, retention is required,
-		 * and clock gating is supported by the module.
-		 */
+		/* Module enabled (retention setting is don't care) */
+		state = MDSTAT_STATE_ENABLE;
+	}
+
+	/* Promote target state based on disallowed states */
+	if ((state == MDSTAT_STATE_SWRSTDISABLE) && ((data->flags & LPSC_NO_MODULE_RESET) != 0U)) {
 		state = MDSTAT_STATE_DISABLE;
 	}
-
-	old_state = module->sw_state;
-	if (old_state == state) {
-		return;
+	if ((state == MDSTAT_STATE_DISABLE) && ((data->flags & LPSC_NO_CLOCK_GATING) != 0U)) {
+		state = MDSTAT_STATE_ENABLE;
 	}
 
+	/* Track transition of old state to new state */
+	old_state = module->sw_state;
 	module->sw_state = state;
+
+	/* Previous setting of retention, enable, and reset */
+	old_ret = old_state != MDSTAT_STATE_SWRSTDISABLE;
+	old_en = old_state == MDSTAT_STATE_ENABLE;
+	old_rst = (old_state != MDSTAT_STATE_ENABLE) && (old_state != MDSTAT_STATE_DISABLE);
+
+	/* New setting of retention, enable, and reset */
+	new_ret = state != MDSTAT_STATE_SWRSTDISABLE;
+	new_en = state == MDSTAT_STATE_ENABLE;
+	new_rst = (state != MDSTAT_STATE_ENABLE) && (state != MDSTAT_STATE_DISABLE);
+
+	/* Are we transitioning from no retention/enable to retention/enable? */
+	get_ret = !old_ret && new_ret;
+	get_en = !old_en && new_en;
+
+	/* Are we transitioning from retention/enable to no retention/enable? */
+	put_ret = old_ret && !new_ret;
+	put_en = old_en && !new_en;
 
 	/* Notify of loss of functionality transitions before we do them */
 	if (domain_reset) {
 		/* no action */
-	} else if (state == MDSTAT_STATE_SWRSTDISABLE) {
-		lpsc_module_notify_suspend(dev, module);
-	} else if (state == MDSTAT_STATE_DISABLE &&
-		   old_state == MDSTAT_STATE_ENABLE) {
+	} else if (put_ret || put_en) {
 		lpsc_module_notify_suspend(dev, module);
 	}
 
-	get_en = SFALSE;
-	get_ret = SFALSE;
-	if (state == MDSTAT_STATE_ENABLE) {
-		get_en = STRUE;
-		if (old_state != MDSTAT_STATE_DISABLE) {
-			get_ret = STRUE;
-		}
-	} else if (state == MDSTAT_STATE_DISABLE) {
-		if (old_state != MDSTAT_STATE_ENABLE) {
-			get_ret = STRUE;
-		}
-	}
-
+	/* Make sure our parent LPSC is enabled as necessary */
 	if ((get_en || get_ret) && (data->flags & LPSC_DEPENDS) != 0UL) {
 		const struct psc_drv_data *depends_psc = psc;
 		struct device *depends_dev = dev;
@@ -553,8 +563,10 @@ static void lpsc_module_sync_state(struct device	*dev,
 				 (data->depends_psc_idx << TRACE_PM_VAL_PD_SHIFT) | TRACE_PM_VAL_PD_POS1);
 		} else {
 			/*
-			 * Moving from dis/off to en/dis, bump ref count on
-			 * dep.
+			 * Moving from a clock stop state to a clock enabled
+			 * state or from a retention disable to a retention
+			 * enabled state, bump the reference count on our
+			 * dependency.
 			 */
 			lpsc_module_get_internal(depends_dev,
 						 psc_idx2mod(depends_psc, data->depends),
@@ -562,12 +574,13 @@ static void lpsc_module_sync_state(struct device	*dev,
 		}
 	}
 
-	if (old_state == MDSTAT_STATE_SWRSTDISABLE) {
-		/*
-		 * Coming out of reset, bump the context loss count and make
-		 * sure pd is on.
-		 */
+	if (old_rst && !new_rst) {
+		/* Coming out of reset, bump the context loss count. */
 		module->loss_count++;
+	}
+
+	if (!old_ret && new_ret) {
+		/* Make sure pd is on. */
 		psc_pd_get(dev, pd);
 	}
 
@@ -585,7 +598,7 @@ static void lpsc_module_sync_state(struct device	*dev,
 
 	if (domain_reset) {
 		/* Do nothing */
-	} else if (state == MDSTAT_STATE_SWRSTDISABLE) {
+	} else if (old_ret && !new_ret) {
 		/* Module is ready for power down, drop ref count on pd */
 		psc_pd_put(dev, pd);
 		if (pd->use_count != 0U && transition) {
@@ -605,31 +618,11 @@ static void lpsc_module_sync_state(struct device	*dev,
 	}
 
 	/* Notify of gain of functionality transitions after we do them */
-	if (state == MDSTAT_STATE_ENABLE) {
-		lpsc_module_notify_resume(dev, module);
-	} else if (state == MDSTAT_STATE_DISABLE &&
-		   old_state == MDSTAT_STATE_SWRSTDISABLE) {
+	if (get_en || get_ret) {
 		lpsc_module_notify_resume(dev, module);
 	}
 
-	put_en = SFALSE;
-	put_ret = SFALSE;
-	if (state == MDSTAT_STATE_SWRSTDISABLE) {
-		put_ret = STRUE;
-		if (old_state == MDSTAT_STATE_ENABLE) {
-			put_en = STRUE;
-		}
-	} else if (state == MDSTAT_STATE_DISABLE) {
-		/*
-		 * If moving from MDSTAT_STATE_SWRSTDISABLE to MDSTAT_STATE_DISABLE
-		 * do not put dependency, as get is not called for dependency in
-		 * this scenario.
-		 */
-		if (old_state == MDSTAT_STATE_ENABLE) {
-			put_en = STRUE;
-		}
-	}
-
+	/* Allow our parent LPSC to be disabled as necessary */
 	if ((put_en || put_ret) && (data->flags & LPSC_DEPENDS) != 0UL) {
 		const struct psc_drv_data *depends_psc = psc;
 		struct device *depends_dev = dev;
@@ -645,8 +638,10 @@ static void lpsc_module_sync_state(struct device	*dev,
 			/* Ignore self dependencies during domain reset */
 		} else {
 			/*
-			 * Moving from enable/dis to off/dis, drop ref count on
-			 * dep
+			 * Moving from a clock enabled state to a clock stop
+			 * state or from a retention enable to a retention
+			 * disabled state, drop the reference count on our
+			 * dependency.
 			 */
 			lpsc_module_put_internal(depends_dev,
 						 psc_idx2mod(depends_psc, data->depends),
