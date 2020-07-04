@@ -8,7 +8,6 @@
  */
 
 #include <sleep.h>
-#include <rat.h>
 #include <types/array_size.h>
 #include <dmsc.h>
 #include <soc/am64x/devices.h>
