@@ -4439,7 +4439,11 @@ s32 rm_udmap_flow_cfg(u32 *msg_recv)
 	return r;
 }
 
+#ifdef CONFIG_UDMAP_UDMA
 s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv)
+#else
+s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv __attribute__((unused)))
+#endif
 {
 	s32 r = SUCCESS;
 
