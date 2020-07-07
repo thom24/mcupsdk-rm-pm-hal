@@ -786,9 +786,15 @@ static s32 psil_set_dev_thrd_id(const struct psil_instance *inst, u32 src_thrd,
  *
  * \return SUCCESS if no disable needed or if disable succeeds, else -EFAIL
  */
+#if PSIL_ROM_USAGE_CNT
 static s32 psil_disable_rom_thread(const struct psil_instance *inst, u16 thread)
+#else
+static s32 psil_disable_rom_thread(const struct psil_instance	*inst __attribute__((unused)),
+				   u16				thread __attribute__((unused)))
+#endif
 {
 	s32 r = SUCCESS;
+#if PSIL_ROM_USAGE_CNT
 	u8 i;
 	struct psil_used_thread *used_thread;
 
@@ -806,6 +812,7 @@ static s32 psil_disable_rom_thread(const struct psil_instance *inst, u16 thread)
 			break;
 		}
 	}
+#endif
 
 	return r;
 }
