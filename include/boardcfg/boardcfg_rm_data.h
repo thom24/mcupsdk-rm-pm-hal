@@ -16,6 +16,12 @@
 #include <types/short_types.h>
 #include <hosts.h>
 
+#define BOARDCFG_RM_HOST_CFG_MAGIC_NUM          (0x4C41U)
+#define BOARDCFG_RM_RESASG_MAGIC_NUM            (0x7B25U)
+
+#define BOARDCFG_RM_ABI_MAJ_VALUE               (0x00)
+#define BOARDCFG_RM_ABI_MIN_VALUE               (0x01)
+
 /**
  * \brief Contains a unique magic number for each substructure and the size
  *	  of the associated superstructure for data validation/API

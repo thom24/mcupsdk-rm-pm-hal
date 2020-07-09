@@ -3,7 +3,7 @@
  *
  * Board configuration internal copy API on HS devices
  *
- * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2019-2020 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #ifndef BOARDCFG_COPY_USER_H
@@ -23,10 +23,6 @@
  *
  * \return SUCCESS on pass, error code on fail
  */
-#ifdef CONFIG_DEVICE_TYPE_HS
 s32 boardcfg_memcpy_rm(u8 host, local_phys_addr_t to, soc_phys_addr_t from, u32 size, u32 max_size);
-#else
-static s32 boardcfg_memcpy_rm(u8 host, local_phys_addr_t to, soc_phys_addr_t from, u32 size, u32 max_size);
-#endif
 
 #endif

@@ -7,8 +7,6 @@
  * ALL RIGHTS RESERVED
  */
 
-#include <boardcfg/boardcfg_data.h>
-#include <boardcfg_constraints.h>
 #include <resasg_types.h>
 #include <hosts.h>
 #include <osal/osal_core.h>
@@ -233,9 +231,9 @@ static s32 boardcfg_memcpy(local_phys_addr_t to, soc_phys_addr_t from, u32 size)
  * common/boardcfg.c as the function needs to access static data
  * structure defined in that file.
  */
-static s32 boardcfg_memcpy_rm(u8 host __attribute__((unused)),
-			      local_phys_addr_t to, soc_phys_addr_t from,
-			      u32 size, u32 max_size)
+s32 boardcfg_memcpy_rm(u8 host __attribute__((unused)),
+		       local_phys_addr_t to, soc_phys_addr_t from,
+		       u32 size, u32 max_size)
 {
 	s32 ret;
 
