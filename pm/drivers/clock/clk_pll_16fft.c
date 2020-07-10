@@ -104,10 +104,8 @@ static const struct pll_data pll_16fft_hsdiv_data;
  * to obtain a calibration value.
  *
  * \param pll The PLL data associated with this FRACF PLL.
- *
- * \return SUCCESS on successful configuartion
  */
-static s32 clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll)
+static void clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll)
 {
 	u32 cal;
 
@@ -126,7 +124,8 @@ static s32 clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll)
 	cal &= ~PLL_16FFT_CAL_CTRL_CAL_CNT_MASK;
 	cal |= 2U << PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT;
 
-	return pm_writel_verified(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+	/* Note this register does not readback the written value. */
+	writel(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
 }
 
 /*
@@ -136,10 +135,8 @@ static s32 clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll)
  * continual background calibration.
  *
  * \param pll The PLL data associated with this FRACF PLL.
- *
- * \return SUCCESS on successful configuartion
  */
-static s32 clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll)
+static void clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll)
 {
 	u32 calout;
 	u32 cal;
@@ -166,7 +163,8 @@ static s32 clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll)
 	cal &= ~PLL_16FFT_CAL_CTRL_CAL_CNT_MASK;
 	cal |= 7U << PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT;
 
-	return pm_writel_verified(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+	/* Note this register does not readback the written value. */
+	writel(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
 }
 
 /*
@@ -309,9 +307,7 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 			 * option 3. Now that we have a calibration value,
 			 * switch to option 4.
 			 */
-			if (clk_pll_16fft_cal_option4(pll) != SUCCESS) {
-				success = SFALSE;
-			}
+			clk_pll_16fft_cal_option4(pll);
 		}
 
 
@@ -912,15 +908,15 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 		if (((cal & PLL_16FFT_CAL_CTRL_CAL_EN) != 0U) &&
 		    ((stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U)) {
 			/* Yes, go straight to option 4 */
-			ret = clk_pll_16fft_cal_option4(pll);
+			clk_pll_16fft_cal_option4(pll);
 		} else {
 			/* No, get an initial calibration via option 3 */
-			ret = clk_pll_16fft_cal_option3(pll);
+			clk_pll_16fft_cal_option3(pll);
 		}
 	}
 
 	/* Make sure PLL is enabled */
-	if (((ctrl & PLL_16FFT_CTRL_PLL_EN) == 0U) && (ret == SUCCESS)) {
+	if ((ctrl & PLL_16FFT_CTRL_PLL_EN) == 0U) {
 		ctrl |= PLL_16FFT_CTRL_PLL_EN;
 		ret = pm_writel_verified(ctrl, pll->base + PLL_16FFT_CTRL(pll->idx));
 		if (ret == SUCCESS) {
