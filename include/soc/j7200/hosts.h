@@ -3,7 +3,7 @@
  *
  * Host IDs for J7200 device
  *
- * Data version: 200505_131637
+ * Data version: 200717_093321
  *
  * Copyright (C) 2019-2020 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
