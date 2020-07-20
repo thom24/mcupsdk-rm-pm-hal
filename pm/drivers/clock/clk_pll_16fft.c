@@ -136,6 +136,7 @@ static void clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll)
  *
  * \param pll The PLL data associated with this FRACF PLL.
  */
+#if defined (CLK_PLL_16FFT_FRACF_CALIBRATION)
 static void clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll)
 {
 	u32 calout;
@@ -166,6 +167,12 @@ static void clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll)
 	/* Note this register does not readback the written value. */
 	writel(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
 }
+#else
+static void clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll __attribute__((unused)))
+{
+	return;
+}
+#endif
 
 /*
  * \brief Check if the pllm value is valid
