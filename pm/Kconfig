@@ -45,6 +45,14 @@ config CLK_PLL_16FFT
 	help
 	 Enable support for 16fft pllfrac2/pllfracf
 
+config CLK_PLL_16FFT_FRACF_CALIBRATION
+	bool "Enable support for 16fft pllfracf calibration"
+	depends on CLK_PLL_16FFT
+	default n if SOC_AM6
+	default n if SOC_J721E
+	help
+	 Enable support for 16fft pllfracf calibration
+
 config CLK_PLL_DESKEW
 	bool "Enable support for 16fft deskew PLL"
 	depends on CLOCK
