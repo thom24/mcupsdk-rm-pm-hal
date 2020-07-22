@@ -50,6 +50,7 @@ config CLK_PLL_16FFT_FRACF_CALIBRATION
 	depends on CLK_PLL_16FFT
 	default n if SOC_AM6
 	default n if SOC_J721E
+	default y if SOC_J7200
 	help
 	 Enable support for 16fft pllfracf calibration
 
