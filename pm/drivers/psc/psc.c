@@ -479,17 +479,21 @@ static void lpsc_module_sync_state(struct device	*dev,
 	u8 old_state;		/* Original module state */
 	sbool new_mrst_ret;	/* MRST induced retention */
 	sbool old_msrt_ret;
+	sbool old_pwr;		/* Power domain should be enabled */
 	sbool old_ret;		/* Retention of any kind */
 	sbool old_en;		/* Enabled (clocks running) */
 	sbool old_rst;
+	sbool new_pwr;
 	sbool new_ret;
 	sbool new_en;
 	sbool new_rst;
 	sbool transition;	/* A state transition is necessary */
 	sbool get_en;		/* Moving from disabled to enabled */
 	sbool get_ret;		/* Moving from off to retention */
+	sbool get_pwr;		/* Moving from power domain off to on */
 	sbool put_en;		/* Moving from enabled to disabled */
 	sbool put_ret;		/* Moving from retention to off */
+	sbool put_pwr;		/* Moving from power domain on to off */
 
 	/*
 	 * Determine target state based on usage counts and module reset:
@@ -547,21 +551,25 @@ static void lpsc_module_sync_state(struct device	*dev,
 	module->sw_mrst_ret = new_mrst_ret;
 
 	/* Previous setting of retention, enable, and reset */
-	old_ret = (old_state != MDSTAT_STATE_SWRSTDISABLE) || old_msrt_ret;
+	old_ret = old_state != MDSTAT_STATE_SWRSTDISABLE;
+	old_pwr = old_ret || old_msrt_ret;
 	old_en = (old_state == MDSTAT_STATE_SYNCRST) || (old_state == MDSTAT_STATE_ENABLE);
 	old_rst = (old_state != MDSTAT_STATE_ENABLE) && (old_state != MDSTAT_STATE_DISABLE);
 
 	/* New setting of retention, enable, and reset */
-	new_ret = (state != MDSTAT_STATE_SWRSTDISABLE) || new_mrst_ret;
+	new_ret = state != MDSTAT_STATE_SWRSTDISABLE;
+	new_pwr = new_ret || new_mrst_ret;
 	new_en = (state == MDSTAT_STATE_SYNCRST) || (state == MDSTAT_STATE_ENABLE);
 	new_rst = (state != MDSTAT_STATE_ENABLE) && (state != MDSTAT_STATE_DISABLE);
 
 	/* Are we transitioning from no retention/enable to retention/enable? */
 	get_ret = !old_ret && new_ret;
+	get_pwr = !old_pwr && new_pwr;
 	get_en = !old_en && new_en;
 
 	/* Are we transitioning from retention/enable to no retention/enable? */
 	put_ret = old_ret && !new_ret;
+	put_pwr = old_pwr && !new_pwr;
 	put_en = old_en && !new_en;
 
 	/* Notify of loss of functionality transitions before we do them */
@@ -601,7 +609,7 @@ static void lpsc_module_sync_state(struct device	*dev,
 		module->loss_count++;
 	}
 
-	if (!old_ret && new_ret) {
+	if (get_pwr) {
 		/* Make sure pd is on. */
 		psc_pd_get(dev, pd);
 	}
@@ -620,7 +628,7 @@ static void lpsc_module_sync_state(struct device	*dev,
 
 	if (domain_reset) {
 		/* Do nothing */
-	} else if (old_ret && !new_ret) {
+	} else if (put_pwr) {
 		/* Module is ready for power down, drop ref count on pd */
 		psc_pd_put(dev, pd);
 		if (pd->use_count != 0U && transition) {
