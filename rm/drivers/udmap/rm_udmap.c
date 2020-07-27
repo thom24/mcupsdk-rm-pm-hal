@@ -4674,8 +4674,10 @@ sbool rm_udmap_is_managed_resasg_utype(u16 utype)
 		}
 
 		if (r == SFALSE) {
-			if (utype == udmap_inst[i].common_flow->utype) {
-				r = STRUE;
+			if (udmap_inst[i].common_flow != NULL) {
+				if (utype == udmap_inst[i].common_flow->utype) {
+					r = STRUE;
+				}
 			}
 		}
 
