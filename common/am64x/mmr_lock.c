@@ -74,6 +74,7 @@ void mmr_unlock_all()
 		 * TBD....
 		 */
 		mmr_unlock(MCU_CTRL_BASE, 2);
+		mmr_unlock(MCU_CTRL_BASE, 6);
 	}
 	mmr_lock_count++;
 	osal_hwip_restore(key);
@@ -96,6 +97,7 @@ void mmr_lock_all()
 		 * TBD....
 		 */
 		mmr_lock(MCU_CTRL_BASE, 2);
+		mmr_lock(MCU_CTRL_BASE, 6);
 	}
 	osal_hwip_restore(key);
 }

@@ -36,17 +36,6 @@ static u8 am64x_sleep_block[ARRAY_SIZE(am64x_sleep_modes)];
 static s32 am64x_sys_reset_handler(domgrp_t domain __attribute__((unused)))
 {
 	u32 v;
-	struct device *dev;
-
-	/* MCU_PSC0: Disable MAIN2MCU bridge */
-	dev = device_lookup(AM64X_DEV_MAIN2MCU_VD);
-	soc_device_ret_enable(dev);
-	soc_device_disable(dev, SFALSE);
-
-	/* MCU_PSC0: Disable MCU2MAIN bridge */
-	dev = device_lookup(AM64X_DEV_MCU2MAIN_VD);
-	soc_device_ret_enable(dev);
-	soc_device_disable(dev, SFALSE);
 
 	/* Issue warm reset */
 	v = readl(MCU_CTRL_BASE + CTRLMMR_MCU_RST_CTRL);
