@@ -265,6 +265,7 @@ struct udmap_instance udmap_inst[] = {
 		.gcfg_utype = RESASG_UTYPE(AM6_DEV_NAVSS0_UDMAP0, RESASG_SUBTYPE_UDMAP_GLOBAL_CONFIG),
 		.rom_usage = NULL,
 		.n_rom_usage = 0U,
+		.dru_ch0_dst_thread_offset = 0xc800U,
 	},
 	{
 		/* MCU_NAVSS0_UDMAP0 */
@@ -298,6 +299,7 @@ struct udmap_instance udmap_inst[] = {
 		.gcfg_utype = RESASG_UTYPE(AM6_DEV_MCU_NAVSS0_UDMAP0, RESASG_SUBTYPE_UDMAP_GLOBAL_CONFIG),
 		.rom_usage = &rom_usage_mcu_navss0_udmap0[0U],
 		.n_rom_usage = ARRAY_SIZE(rom_usage_mcu_navss0_udmap0),
+		.dru_ch0_dst_thread_offset = 0xc800U,
 	},
 };
 

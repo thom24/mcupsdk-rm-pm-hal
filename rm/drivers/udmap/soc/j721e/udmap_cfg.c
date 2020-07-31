@@ -353,6 +353,7 @@ struct udmap_instance udmap_inst[] = {
 		.gcfg_utype = RESASG_UTYPE(J721E_DEV_NAVSS0_UDMAP_0, RESASG_SUBTYPE_UDMAP_GLOBAL_CONFIG),
 		.rom_usage = NULL,
 		.n_rom_usage = 0U,
+		.dru_ch0_dst_thread_offset = 0xc800U,
 	},
 	{
 		.id = J721E_DEV_MCU_NAVSS0_UDMAP_0,
@@ -385,6 +386,7 @@ struct udmap_instance udmap_inst[] = {
 		.gcfg_utype = RESASG_UTYPE(J721E_DEV_MCU_NAVSS0_UDMAP_0, RESASG_SUBTYPE_UDMAP_GLOBAL_CONFIG),
 		.rom_usage = &rom_usage_MCU_NAVSS0_UDMAP_0[0U],
 		.n_rom_usage = ARRAY_SIZE(rom_usage_MCU_NAVSS0_UDMAP_0),
+		.dru_ch0_dst_thread_offset = 0xc800U,
 	},
 };
 

@@ -1100,25 +1100,6 @@ s32 rm_psil_write(u32 *msg_recv)
 	return r;
 }
 
-s32 rm_psil_get_dru_dst_offset(u16 nav_id, u16 *dru_dst_offset)
-{
-	s32 r = SUCCESS;
-	const struct psil_instance *inst = NULL;
-	u8 trace_action = TRACE_RM_ACTION_PSIL_DRU_DST_OFFSET;
-
-	inst = psil_get_inst(nav_id, trace_action);
-	if (inst == NULL) {
-		r = -EINVAL;
-	} else {
-		*dru_dst_offset = inst->dru_ch0_dst_thread_offset;
-		rm_trace_sub(trace_action,
-			     TRACE_RM_SUB_ACTION_PSIL_THREAD,
-			     *dru_dst_offset);
-	}
-
-	return r;
-}
-
 s32 rm_psil_init(void)
 {
 	s32 r = SUCCESS;

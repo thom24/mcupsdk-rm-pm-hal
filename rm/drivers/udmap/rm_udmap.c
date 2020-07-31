@@ -24,7 +24,6 @@
 #include <rm_request.h>
 #include <rm_udmap.h>
 #include <rm_ra.h>
-#include <rm_psil.h>
 
 #include <udmap_inst.h>
 #include <udmap_cfg.h>
@@ -4707,18 +4706,13 @@ s32 rm_udmap_init(void)
 	u8 i;
 	mapped_addr_t maddr;
 	u32 utc_ctrl_reg;
-	u16 dru_dst_thread;
 
 	for (i = 0U; i < udmap_inst_count; i++) {
 		if ((rm_core_validate_devgrp(udmap_inst[i].id, udmap_inst[i].devgrp) ==
 		     SUCCESS) &&
 		    (udmap_inst[i].initialized == SFALSE)) {
-			if (r == SUCCESS) {
-				r = rm_psil_get_dru_dst_offset(udmap_inst[i].root_id,
-							       &dru_dst_thread);
-			}
-
-			if ((r == SUCCESS) && (dru_dst_thread > 0U)) {
+			if ((r == SUCCESS) &&
+			    (udmap_inst[i].dru_ch0_dst_thread_offset > 0U)) {
 				/*
 				 * Configure GCFG UTC_CTRL utc_chan_start to DRU ch0
 				 * PSI-L dst thread offset
@@ -4726,7 +4720,7 @@ s32 rm_udmap_init(void)
 				maddr = rm_core_map_region(udmap_inst[i].gcfg->base);
 				utc_ctrl_reg = rm_fmk(UDMAP_GCFG_UTC_CTRL_UTC_CH_START_SHIFT,
 						      UDMAP_GCFG_UTC_CTRL_UTC_CH_START_MASK,
-						      dru_dst_thread);
+						      udmap_inst[i].dru_ch0_dst_thread_offset);
 				r = writel_verified(utc_ctrl_reg, maddr + UDMAP_GCFG_UTC_CTRL);
 				rm_core_unmap_region();
 			}

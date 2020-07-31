@@ -75,9 +75,6 @@ struct psil_thread_type {
  *
  * \param n_dst_thread_type
  * Number of PSI-L destination thread types
- *
- * \param dru_ch0_dst_thread_offset
- * Thread offset for DRU channel zero.  Needed for UDMA UTC configuration.
  */
 struct psil_instance {
 	const u16				id;
@@ -87,7 +84,6 @@ struct psil_instance {
 	const struct psil_thread_type *const	dst_thread_types;
 	const u8				n_src_thread_type;
 	const u8				n_dst_thread_type;
-	const u16				dru_ch0_dst_thread_offset;
 };
 
 /**

@@ -275,6 +275,9 @@ struct udmap_used_mapping {
  *
  * \param n_rom_usage
  * Number of entries in the rom_usage array
+ *
+ * \param dru_ch0_dst_thread_offset
+ * Thread offset for DRU channel zero.  Needed for UDMA UTC configuration.
  */
 struct udmap_instance {
 	const u16				id;
@@ -308,6 +311,7 @@ struct udmap_instance {
 	struct rm_irq_oes_src			oes_handler;
 	struct udmap_used_mapping *const	rom_usage;
 	const u8				n_rom_usage;
+	const u16				dru_ch0_dst_thread_offset;
 };
 
 /**

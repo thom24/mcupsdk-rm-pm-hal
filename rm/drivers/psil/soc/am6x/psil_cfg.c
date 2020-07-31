@@ -183,7 +183,6 @@ struct psil_instance psil_inst[] = {
 		.dst_thread_types = &dst_thread_types_AM6[0],
 		.n_src_thread_type = ARRAY_SIZE(src_thread_types_AM6),
 		.n_dst_thread_type = ARRAY_SIZE(dst_thread_types_AM6),
-		.dru_ch0_dst_thread_offset = 0xC800U,
 	},
 	{
 		/* MCU_NAVSS0 PSI-L */
@@ -194,7 +193,6 @@ struct psil_instance psil_inst[] = {
 		.dst_thread_types = &dst_thread_types_AM6[0],
 		.n_src_thread_type = ARRAY_SIZE(src_thread_types_AM6),
 		.n_dst_thread_type = ARRAY_SIZE(dst_thread_types_AM6),
-		.dru_ch0_dst_thread_offset = 0xC800U,
 	},
 };
 

@@ -336,7 +336,6 @@ struct psil_instance psil_inst[] = {
 		.dst_thread_types = &dst_thread_types[0],
 		.n_src_thread_type = ARRAY_SIZE(src_thread_types),
 		.n_dst_thread_type = ARRAY_SIZE(dst_thread_types),
-		.dru_ch0_dst_thread_offset = 0xc800U,
 	},
 	{
 		.id = AM6_DEV_MCU_NAVSS0,
@@ -346,7 +345,6 @@ struct psil_instance psil_inst[] = {
 		.dst_thread_types = &dst_thread_types[0],
 		.n_src_thread_type = ARRAY_SIZE(src_thread_types),
 		.n_dst_thread_type = ARRAY_SIZE(dst_thread_types),
-		.dru_ch0_dst_thread_offset = 0xc800U,
 	},
 };
 
