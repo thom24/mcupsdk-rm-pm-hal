@@ -1,5 +1,5 @@
 /*
- * Data version: 200717_093321
+ * Data version: 200730_091422
  *
  * Copyright (C) 2017-2020 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -2291,7 +2291,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 	[J7200_PSC_LPSC_LPSC_A72_CLUSTER_0] =	    {
 		.powerdomain	= J7200_PSC_PD_PD_A72_CLUSTER_0,
 		.dev_array	=		    {
-			J7200_DEV_A72SS0,
+			J7200_DEV_A72SS0_CORE0,
 			DEV_ID_NONE,
 		},
 		.flags		= LPSC_MODULE_EXISTS,
@@ -2301,7 +2301,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_A72_CLUSTER_0,
 		.dev_array		=	    {
-			J7200_DEV_A72SS0,
+			J7200_DEV_A72SS0_CORE0,
 			J7200_DEV_COMPUTE_CLUSTER0_PBIST_WRAP,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
@@ -2311,7 +2311,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_A72_CLUSTER_0,
 		.dev_array		=	    {
-			J7200_DEV_A72SS0_CORE0,
+			J7200_DEV_A72SS0_CORE0_0,
 			J7200_DEV_RTI0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET | LPSC_NO_CLOCK_GATING,
@@ -2321,7 +2321,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_A72_CLUSTER_0,
 		.dev_array		=	    {
-			J7200_DEV_A72SS0_CORE1,
+			J7200_DEV_A72SS0_CORE0_1,
 			J7200_DEV_RTI1,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET | LPSC_NO_CLOCK_GATING,
@@ -4990,13 +4990,13 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK(J7200_DEV_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_CLOCKS,			J7200_DEV_COMPUTE_CLUSTER0_TB_SOC_VBUSP_DMSC_CLK,
 		CLK_J7200_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		4),
-	DEV_CLK(J7200_DEV_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_P0_A72_DUAL_1MB_CLOCKS,	J7200_DEV_A72SS0_ARM_CLK_CLK,
+	DEV_CLK(J7200_DEV_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_P0_A72_DUAL_1MB_CLOCKS,	J7200_DEV_A72SS0_CORE0_ARM_CLK_CLK,
 		CLK_J7200_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,
 		1),
-	DEV_CLK(J7200_DEV_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_P0_A72_DUAL_1MB_CLOCKS,	J7200_DEV_A72SS0_MSMC_CLK,
+	DEV_CLK(J7200_DEV_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_P0_A72_DUAL_1MB_CLOCKS,	J7200_DEV_A72SS0_CORE0_MSMC_CLK,
 		CLK_J7200_HSDIV0_16FFT_MAIN_7_HSDIVOUT0_CLK,
 		1),
-	DEV_CLK(J7200_DEV_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_P0_A72_DUAL_1MB_CLOCKS,	J7200_DEV_A72SS0_PLL_CTRL_CLK,
+	DEV_CLK(J7200_DEV_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_P0_A72_DUAL_1MB_CLOCKS,	J7200_DEV_A72SS0_CORE0_PLL_CTRL_CLK,
 		CLK_J7200_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		1),
 	DEV_CLK(J7200_DEV_DDR32V256SS_16FFC_EW_MAIN_0_CLOCKS,				J7200_DEV_DDR0_DDRSS_DDR_PLL_CLK,
@@ -7565,10 +7565,10 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       CLK_J7200_NAVSS256VCL_MAIN_0_CPTS_0_TS_GENF0),
 	DEV_CLK_OUTPUT(J7200_DEV_NAVSS256VCL_MAIN_0_CPTS_0_CLOCKS,			J7200_DEV_NAVSS0_CPTS_0_TS_GENF1,
 		       CLK_J7200_NAVSS256VCL_MAIN_0_CPTS_0_TS_GENF1),
-	DEV_CLK(J7200_DEV_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_P0_A72_DUAL_1MB_0_CLOCKS, J7200_DEV_A72SS0_CORE0_ARM_CLK_CLK,
+	DEV_CLK(J7200_DEV_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_P0_A72_DUAL_1MB_0_CLOCKS, J7200_DEV_A72SS0_CORE0_0_ARM_CLK_CLK,
 		CLK_J7200_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,
 		1),
-	DEV_CLK(J7200_DEV_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_P0_A72_DUAL_1MB_1_CLOCKS, J7200_DEV_A72SS0_CORE1_ARM_CLK_CLK,
+	DEV_CLK(J7200_DEV_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_P0_A72_DUAL_1MB_1_CLOCKS, J7200_DEV_A72SS0_CORE0_1_ARM_CLK_CLK,
 		CLK_J7200_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,
 		1),
 	DEV_CLK(J7200_DEV_NAVSS256VCL_MAIN_0_DTI_0_CLOCKS,				J7200_DEV_NAVSS0_DTI_0_CLK_CLK,
@@ -8283,7 +8283,7 @@ const struct dev_data *const soc_device_data[] = {
 	[J7200_DEV_MCU_ADC1] = &j7200_dev_adc12_core_mcu_1,
 	[J7200_DEV_ATL0] = &j7200_dev_atl_main_0,
 	[J7200_DEV_COMPUTE_CLUSTER0] = &j7200_dev_compute_cluster_j7vcl_tb_vdc_main_0,
-	[J7200_DEV_A72SS0] = &j7200_dev_compute_cluster_j7vcl_tb_vdc_main_0_p0_a72_dual_1mb,
+	[J7200_DEV_A72SS0_CORE0] = &j7200_dev_compute_cluster_j7vcl_tb_vdc_main_0_p0_a72_dual_1mb,
 	[J7200_DEV_COMPUTE_CLUSTER0_CFG_WRAP] = &j7200_dev_compute_cluster_j7vcl_tb_vdc_main_0_cfg_wrap,
 	[J7200_DEV_COMPUTE_CLUSTER0_CLEC] = &j7200_dev_compute_cluster_j7vcl_tb_vdc_main_0_clec,
 	[J7200_DEV_COMPUTE_CLUSTER0_CORE_CORE] = &j7200_dev_compute_cluster_j7vcl_tb_vdc_main_0_core_core,
@@ -8439,8 +8439,8 @@ const struct dev_data *const soc_device_data[] = {
 	[J7200_DEV_WKUP_I2C0] = &j7200_dev_mshsi2c_wkup_0,
 	[J7200_DEV_NAVSS0] = &j7200_dev_navss256vcl_main_0,
 	[J7200_DEV_NAVSS0_CPTS_0] = &j7200_dev_navss256vcl_main_0_cpts_0,
-	[J7200_DEV_A72SS0_CORE0] = &j7200_dev_compute_cluster_j7vcl_tb_vdc_main_0_p0_a72_dual_1mb_0,
-	[J7200_DEV_A72SS0_CORE1] = &j7200_dev_compute_cluster_j7vcl_tb_vdc_main_0_p0_a72_dual_1mb_1,
+	[J7200_DEV_A72SS0_CORE0_0] = &j7200_dev_compute_cluster_j7vcl_tb_vdc_main_0_p0_a72_dual_1mb_0,
+	[J7200_DEV_A72SS0_CORE0_1] = &j7200_dev_compute_cluster_j7vcl_tb_vdc_main_0_p0_a72_dual_1mb_1,
 	[J7200_DEV_NAVSS0_DTI_0] = &j7200_dev_navss256vcl_main_0_dti_0,
 	[J7200_DEV_NAVSS0_MODSS_INTA_0] = &j7200_dev_navss256vcl_main_0_modss_inta_0,
 	[J7200_DEV_NAVSS0_MODSS_INTA_1] = &j7200_dev_navss256vcl_main_0_modss_inta_1,
