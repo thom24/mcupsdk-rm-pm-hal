@@ -511,7 +511,7 @@ static const struct dev_data j721e_dev_compute_cluster_j7es_tb_vdc_main_0_p0_a72
 	.soc			= {
 		.psc_idx	= J721E_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.pd		= J721E_PSC_PD_PD_A72_CLUSTER_0,
-		.mod		= J721E_PSC_LPSC_LPSC_A72_CLUSTER_0_PBIST,
+		.mod		= J721E_PSC_LPSC_LPSC_A72_CLUSTER_0,
 	},
 	.dev_clk_idx		= J721E_DEV_COMPUTE_CLUSTER_J7ES_TB_VDC_MAIN_0_P0_A72_DUAL_1MB_CLOCKS,
 	.n_clocks		= 3,
@@ -2638,8 +2638,8 @@ static const struct lpsc_module_data j721e_j7_main_psc_wrap_main_0_mod_data[] __
 		.depends_psc_idx	= J721E_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J721E_PSC_LPSC_LPSC_A72_CLUSTER_0,
 		.dev_array		=	    {
-			J721E_DEV_A72SS0,
 			J721E_DEV_COMPUTE_CLUSTER0_PBIST_WRAP,
+			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
