@@ -25,9 +25,6 @@
 #ifdef CONFIG_RM_UDMAP
 #include <rm_udmap.h>
 #endif
-#ifdef CONFIG_RM_PSIL
-#include <rm_psil.h>
-#endif
 #ifdef CONFIG_RM_PROXY
 #include <rm_proxy.h>
 #endif
@@ -51,11 +48,6 @@ s32 rm_init(void)
 #ifdef CONFIG_RM_UDMAP
 	if (r == SUCCESS) {
 		r = rm_udmap_init();
-	}
-#endif
-#ifdef CONFIG_RM_PSIL
-	if (r == SUCCESS) {
-		r = rm_psil_init();
 	}
 #endif
 #ifdef CONFIG_RM_PROXY

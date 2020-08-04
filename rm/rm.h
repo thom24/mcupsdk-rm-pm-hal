@@ -115,67 +115,6 @@ static inline s32 rm_proxy_cfg(u32 *msg_recv __attribute__((unused)))
 }
 #endif
 
-#ifdef CONFIG_RM_PSIL
-/**
- * \brief PSI-L thread pairing message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-s32 rm_psil_pair(u32 *msg_recv);
-
-/**
- * \brief PSI-L thread unpairing message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-s32 rm_psil_unpair(u32 *msg_recv);
-
-/**
- * \brief PSI-L thread read message handler
- *
- * \param msg_recv TISCI message
- *
- * \param msg_resp Response TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-s32 rm_psil_read(u32 *msg_recv, u32 *msg_resp);
-
-/**
- * \brief PSI-L thread write message handler
- *
- * \param msg_recv TISCI message
- *
- * \return SUCCESS if message processed successfully, else error
- */
-s32 rm_psil_write(u32 *msg_recv);
-#else
-static inline s32 rm_psil_pair(u32 *msg_recv __attribute__((unused)))
-{
-	return -EINIT;
-}
-
-static inline s32 rm_psil_unpair(u32 *msg_recv __attribute__((unused)))
-{
-	return -EINIT;
-}
-
-static inline s32 rm_psil_read(u32	*msg_recv __attribute__((unused)),
-			       u32	*msg_resp __attribute__((unused)))
-{
-	return -EINIT;
-}
-
-static inline s32 rm_psil_write(u32 *msg_recv __attribute__((unused)))
-{
-	return -EINIT;
-}
-#endif
-
 #ifdef CONFIG_RM_RA
 /**
  * \brief Ring accelerator configure message handler

@@ -107,10 +107,4 @@ config RM_PROXY
 	help
 	 Enable support for Resource Manager Proxy functions
 
-config RM_PSIL
-	bool "Enable PSIL support in Resource Manager"
-	depends on RM
-	help
-	 Enable support for Resource Manager PSIL functions
-
 endmenu

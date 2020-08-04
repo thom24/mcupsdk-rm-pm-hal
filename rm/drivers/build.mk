@@ -6,5 +6,4 @@ obj-y += ir/
 obj-y += ia/
 obj-$(CONFIG_RM_RA) += ra/
 obj-$(CONFIG_RM_UDMAP) += udmap/
-obj-$(CONFIG_RM_PSIL) += psil/
 obj-$(CONFIG_RM_PROXY) += proxy/
