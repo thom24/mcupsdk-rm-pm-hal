@@ -39,11 +39,11 @@
 /* Device flags */
 #define DEV_FLAG_RETENTION              BIT(4)
 #define DEV_FLAG_ENABLED_BIT            5UL
-#define DEV_FLAG_ENABLED(host_idx)      BIT((DEV_FLAG_ENABLED_BIT) + (host_idx))
+#define DEV_FLAG_ENABLED(host_idx)      (1ULL << ((DEV_FLAG_ENABLED_BIT) + (host_idx)))
 #define DEV_FLAG_POWER_ON_ENABLED       DEV_FLAG_ENABLED(DEV_POWER_ON_ENABLED_HOST_IDX)
 
 /* Note, can support HOST_ID_CNT up to 26 */
-#define DEV_FLAG_ENABLED_MASK           (((1UL << (HOST_ID_CNT + 1UL)) - 1UL) << 6UL)
+#define DEV_FLAG_ENABLED_MASK           (((1ULL << (HOST_ID_CNT + 1ULL)) - 1ULL) << 6ULL)
 
 /* Const flags for dev_data */
 
@@ -127,6 +127,13 @@ struct device {
 #elif HOST_ID_CNT <= 26
 struct device {
 	u32	flags;          /* 6 flags plus 26 host id flags */
+	/** Host *index* of exclusive owner+1, 0 for none */
+	u8	exclusive : 7;  /* Up to 127 (only need up to 27) */
+	u8	initialized : 1;
+} __attribute__((__packed__));
+#elif HOST_ID_CNT <= 29
+struct device {
+	u64	flags;          /* 6 flags plus 29 host id flags */
 	/** Host *index* of exclusive owner+1, 0 for none */
 	u8	exclusive : 7;  /* Up to 127 (only need up to 27) */
 	u8	initialized : 1;

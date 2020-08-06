@@ -65,12 +65,12 @@ s32 set_device_handler(u32 *msg_recv)
 	if (ret == SUCCESS) {
 		if ((flags & TISCI_MSG_FLAG_DEVICE_EXCLUSIVE) != 0UL) {
 			/* Make sure no one else has the device enabled */
-			u32 mask = DEV_FLAG_ENABLED_MASK;
-			u32 enabled;
+			u64 mask = DEV_FLAG_ENABLED_MASK;
+			u64 enabled;
 			/* It's ok if we already have the device enabled */
-			mask &= (u32) ~DEV_FLAG_ENABLED(host_idx);
+			mask &= ~DEV_FLAG_ENABLED(host_idx);
 			/* It's also ok if the device in on due to power up en */
-			mask &= ~DEV_FLAG_POWER_ON_ENABLED;
+			mask &= (u64) ~DEV_FLAG_POWER_ON_ENABLED;
 			enabled = (dev->flags & mask) >> DEV_FLAG_ENABLED_BIT;
 			if (enabled != 0UL) {
 				u8 i;
