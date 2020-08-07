@@ -126,7 +126,7 @@ static bool boardcfg_validate_rm_host_cfg(
 	}
 
 	if (ret == true) {
-		ret = boardcfg_validate_size(sizeof(*host_cfg),
+		ret = boardcfg_validate_size((u16) sizeof(*host_cfg),
 					     &host_cfg->subhdr);
 	}
 
@@ -158,7 +158,7 @@ static bool boardcfg_validate_rm_resasg(const struct boardcfg_rm_resasg *resasg)
 	}
 
 	if (ret == true) {
-		ret = boardcfg_validate_size(sizeof(*resasg), &resasg->subhdr);
+		ret = boardcfg_validate_size((u16) sizeof(*resasg), &resasg->subhdr);
 	}
 
 	if (ret == true) {
