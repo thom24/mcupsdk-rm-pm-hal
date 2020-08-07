@@ -52,26 +52,4 @@ s32 rm_udmap_init(void);
  */
 s32 rm_udmap_deinit(devgrp_t devgrp);
 
-/**
- * \brief Programs a UDMAP channel's THRD_ID register
- *
- * Programs a UDMAP transmit or receive channel's TCHAN_THRD_ID or
- * RCHAN_THRD_ID register, respectively.  The channel does not have to be
- * allocated for the THRD_ID register to be programmed.  This prevents
- * ordering issues when allocating/freeing channels and pairing/unpairing
- * PSI-L threads.
- *
- * \param id SoC device ID of in which the DMA channel is located
- *
- * \param index UDMAP channel index.
- *
- * \param tx_ch Transmit channel if STRUE, Receive channel if SFALSE
- *
- * \param thread_id PSI-L thread ID to program into the channel's THRD_ID
- *                  register
- *
- * \return SUCCESS if THRD_ID register programmed successfully, else error
- */
-s32 rm_udmap_set_thrd_id(u16 id, u16 index, sbool tx_ch, u32 thread_id);
-
 #endif /* RM_UDMAP_H */
