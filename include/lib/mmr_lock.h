@@ -12,12 +12,12 @@
 /** \brief Function to unlock the Control module MMRs needed for PM to
  *         function.
  */
-void mmr_unlock_all();
+void mmr_unlock_all(void);
 
 /** \brief Function to lock the Control module MMRs needed for PM to
  *         ensure no other software entity can play around with these
  *         registers.
  */
-void mmr_lock_all();
+void mmr_lock_all(void);
 
 #endif /* MMR_LOCK_H */
