@@ -18,6 +18,8 @@
 #include <wake.h>
 #include <osal/osal_clock.h>
 #include <sys-reset.h>
+/* This header is in awkward place, but moving it breaks sysfw build */
+#include <../pm/pm.h>
 
 s32 wake_reason_handler(u32 *msg_recv)
 {
