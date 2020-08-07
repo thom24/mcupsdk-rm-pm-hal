@@ -178,7 +178,6 @@ struct boardcfg_rm_resasg {
 	struct boardcfg_substructure_rm_header	subhdr;
 	u16					resasg_entries_size;
 	u16					reserved;
-	struct boardcfg_rm_resasg_entry		resasg_entries[];
 } __attribute__((__packed__));
 
 /**
