@@ -442,7 +442,7 @@ s32 boardcfg_user_auto(u16 type, boardcfg_process_fxn fxn)
 	const struct extboot_boardcfg_desc *desc = NULL;
 
 	base = extboot_get_base();
-	if (base == 0) {
+	if (base == 0U) {
 		ret = -EINVAL;
 	}
 
