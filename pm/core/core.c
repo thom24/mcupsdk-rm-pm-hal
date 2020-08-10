@@ -27,7 +27,7 @@ s32 wake_reason_handler(u32 *msg_recv)
 		(struct tisci_msg_wake_reason_resp *) msg_recv;
 	const struct sleep_mode *mode;
 	const char *reason = "unk";
-	s32 time_ms;
+	u32 time_ms;
 	s32 ret = SUCCESS;
 
 	mmr_unlock_all();
@@ -62,7 +62,7 @@ s32 wake_reset_handler(u32 *msg_recv)
 	mmr_unlock_all();
 
 	if (ret == SUCCESS) {
-		wake_arm(host);
+		wake_arm((s32) host);
 	}
 
 	mmr_lock_all();
