@@ -21,12 +21,16 @@
 #include <tisci/rm/tisci_rm_udmap.h>
 
 #include <rm_core.h>
-#include <rm_request.h>
 #include <rm_udmap.h>
 #include <rm_ra.h>
 
 #include <udmap_inst.h>
 #include <udmap_cfg.h>
+
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+#include <security/rm_int_firewall.h>
+#include <security/secure_rm/sec_rm.h>
+#endif
 
 /*
  * UDMAP Common Channel Configuration Register Macros
@@ -3956,6 +3960,11 @@ s32 rm_udmap_tx_ch_cfg(u32 *msg_recv)
 	u8 trace_action = TRACE_RM_ACTION_UDMAP_TX_CH_CFG;
 	u8 chan_type;
 
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+	u8 hosts[FWL_MAX_PRIVID_SLOTS];
+	u8 n_hosts = 0U;
+#endif
+
 	rm_trace_sub(trace_action,
 		     TRACE_RM_SUB_ACTION_VALID_PARAM_HI,
 		     ((msg->valid_params >> 16U) & TRACE_DEBUG_SUB_ACTION_VAL_MASK));
@@ -4065,32 +4074,21 @@ s32 rm_udmap_tx_ch_cfg(u32 *msg_recv)
 	}
 #endif
 
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 	if (r == SUCCESS) {
-		if ((inst->bc_ch_types != NULL) &&
-		    (loc_msg.index >= inst->bc_ch_offset)) {
-			/* Configure UDMAP tx ch real-time channelized firewall */
-			r = rm_request_resasg_cfg_firewall_ext(
-				inst->id,
-				utype,
-				inst->bchanrt->fwl_id,
-				inst->bchanrt->fwl_ch_start,
-				loc_msg.index - inst->bc_ch_offset,
-				STRUE,
-				SFALSE,
-				SFALSE);
-		} else {
-			/* Configure UDMAP tx ch real-time channelized firewall */
-			r = rm_request_resasg_cfg_firewall_ext(
-				inst->id,
-				utype,
-				inst->tchanrt->fwl_id,
-				inst->tchanrt->fwl_ch_start,
-				loc_msg.index,
-				STRUE,
-				SFALSE,
-				SFALSE);
+		/* Call Secure RM to configure tx channel firewalls */
+
+		r = rm_core_get_resasg_hosts(utype,
+					     loc_msg.index,
+					     &n_hosts,
+					     &hosts[0U],
+					     FWL_MAX_PRIVID_SLOTS);
+
+		if (r == SUCCESS) {
+			r = sec_rm_udmap_tx_ch_fwl_cfg(msg_recv, hosts, n_hosts);
 		}
 	}
+#endif
 
 	if (r == SUCCESS) {
 		r = udmap_tx_ch_cfg(inst, &loc_msg);
@@ -4109,6 +4107,11 @@ s32 rm_udmap_rx_ch_cfg(u32 *msg_recv)
 	u16 utype;
 	u8 trace_action = TRACE_RM_ACTION_UDMAP_RX_CH_CFG;
 	u8 chan_type;
+
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+	u8 hosts[FWL_MAX_PRIVID_SLOTS];
+	u8 n_hosts = 0U;
+#endif
 
 	rm_trace_sub(trace_action,
 		     TRACE_RM_SUB_ACTION_VALID_PARAM_HI,
@@ -4214,18 +4217,21 @@ s32 rm_udmap_rx_ch_cfg(u32 *msg_recv)
 	}
 #endif
 
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 	if (r == SUCCESS) {
-		/* Configure UDMAP rx ch real-time channelized firewall */
-		r = rm_request_resasg_cfg_firewall_ext(
-			inst->id,
-			utype,
-			inst->rchanrt->fwl_id,
-			inst->rchanrt->fwl_ch_start,
-			loc_msg.index,
-			STRUE,
-			SFALSE,
-			SFALSE);
+		/* Call Secure RM to configure rx channel firewalls */
+
+		r = rm_core_get_resasg_hosts(utype,
+					     loc_msg.index,
+					     &n_hosts,
+					     &hosts[0U],
+					     FWL_MAX_PRIVID_SLOTS);
+
+		if (r == SUCCESS) {
+			r = sec_rm_udmap_rx_ch_fwl_cfg(msg_recv, hosts, n_hosts);
+		}
 	}
+#endif
 
 	if (r == SUCCESS) {
 		r = udmap_rx_ch_cfg(inst, &loc_msg, chan_type);
