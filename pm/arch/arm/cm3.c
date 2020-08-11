@@ -15,7 +15,7 @@ void scr_enable_sleepdeep(void)
 	u32 scr_reg;
 
 	scr_reg = readl(SYS_SCR);
-	scr_reg |= 1 << SYS_SCR_SD_OFFSET;
+	scr_reg |= 1U << SYS_SCR_SD_OFFSET;
 
 	writel(scr_reg, SYS_SCR);
 }
