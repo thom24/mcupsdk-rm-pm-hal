@@ -57,14 +57,14 @@ s32 pm_init(void)
 			ret = (*startups[i])();
 			if (ret == -EDEFER) {
 				pm_trace(TRACE_PM_ACTION_FAIL | TRACE_PM_ACTION_INIT,
-					 ((EDEFER & TRACE_PM_VAL_INIT_ERR_MASK) << TRACE_PM_VAL_INIT_ERR_SHIFT) |
+					 ((((u32) EDEFER) & TRACE_PM_VAL_INIT_ERR_MASK) << TRACE_PM_VAL_INIT_ERR_SHIFT) |
 					 ((i & TRACE_PM_VAL_INIT_IDX_MASK) << TRACE_PM_VAL_INIT_IDX_SHIFT));
 				done = SFALSE;
 			} else {
 				progress = STRUE;
 				if (ret < 0) {
 					pm_trace(TRACE_PM_ACTION_FAIL | TRACE_PM_ACTION_INIT,
-						 (((-ret) & TRACE_PM_VAL_INIT_ERR_MASK) << TRACE_PM_VAL_INIT_ERR_SHIFT) |
+						 ((((u32) (-ret)) & TRACE_PM_VAL_INIT_ERR_MASK) << TRACE_PM_VAL_INIT_ERR_SHIFT) |
 						 ((i & TRACE_PM_VAL_INIT_IDX_MASK) << TRACE_PM_VAL_INIT_IDX_SHIFT));
 					errors = STRUE;
 				}
