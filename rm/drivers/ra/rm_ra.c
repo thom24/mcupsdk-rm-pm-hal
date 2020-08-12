@@ -21,11 +21,15 @@
 #include <tisci/rm/tisci_rm_ra.h>
 
 #include <rm_core.h>
-#include <rm_request.h>
 #include <rm_ra.h>
 
 #include <ra_inst.h>
 #include <ra_cfg.h>
+
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+#include <security/rm_int_firewall.h>
+#include <security/secure_rm/sec_rm.h>
+#endif
 
 /*
  * RA Common Configuration Register Macros
@@ -1270,6 +1274,11 @@ s32 rm_ra_cfg(u32 *msg_recv)
 	u8 ring_type;
 	u32 masked_valid_params;
 
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+	u8 hosts[FWL_MAX_PRIVID_SLOTS];
+	u8 n_hosts = 0U;
+#endif
+
 	rm_trace_sub(trace_action,
 		     TRACE_RM_SUB_ACTION_VALID_PARAM_HI,
 		     ((msg->valid_params >> 16U) & TRACE_DEBUG_SUB_ACTION_VAL_MASK));
@@ -1332,37 +1341,21 @@ s32 rm_ra_cfg(u32 *msg_recv)
 		r = ra_validate_order_id(loc_msg.order_id, trace_action);
 	}
 
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 	if (r == SUCCESS) {
-		/* Configure ring real-time channelized firewall */
-		r = rm_request_resasg_cfg_firewall_ext(
-			inst->id,
-			utype,
-			inst->rt->fwl_id,
-			inst->rt->fwl_ch_start,
-			loc_msg.index,
-			SFALSE,
-			STRUE,
-			SFALSE);
+		/* Call Secure RM to configure ring firewalls */
 
-		/* Configure ring src FIFO channelized firewall */
-		r = rm_request_resasg_cfg_firewall_ext(
-			inst->id,
-			utype,
-			inst->fifos->fwl_id,
-			inst->fifos->fwl_ch_start,
-			loc_msg.index,
-			SFALSE,
-			STRUE,
-			SFALSE);
-	}
+		r = rm_core_get_resasg_hosts(utype,
+					     loc_msg.index,
+					     &n_hosts,
+					     &hosts[0U],
+					     FWL_MAX_PRIVID_SLOTS);
 
-	if ((r == SUCCESS) &&
-	    (rm_core_param_is_valid(msg->valid_params,
-				    TISCI_MSG_VALUE_RM_RING_VIRTID_VALID) ==
-	     STRUE)) {
-		r = rm_request_cfg_ring_virtid(inst->id, loc_msg.index,
-					       msg->hdr.host, loc_msg.virtid);
+		if (r == SUCCESS) {
+			r = sec_rm_ra_fwl_cfg(msg_recv, hosts, n_hosts);
+		}
 	}
+#endif
 
 	if (r == SUCCESS) {
 		r = ra_configure(inst, &loc_msg);
@@ -1378,6 +1371,11 @@ s32 rm_ra_mon_cfg(u32 *msg_recv)
 		(struct tisci_msg_rm_ring_mon_cfg_req *) msg_recv;
 	const struct ra_instance *inst = NULL;
 	u8 trace_action = TRACE_RM_ACTION_RING_MON_CFG;
+
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+	u8 hosts[FWL_MAX_PRIVID_SLOTS];
+	u8 n_hosts = 0U;
+#endif
 
 	rm_trace_sub(trace_action,
 		     TRACE_RM_SUB_ACTION_VALID_PARAM_HI,
@@ -1424,18 +1422,21 @@ s32 rm_ra_mon_cfg(u32 *msg_recv)
 			     msg->queue);
 	}
 
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 	if (r == SUCCESS) {
-		/* Configure ring monitor channelized firewall to read only */
-		r = rm_request_resasg_cfg_firewall_ext(
-			inst->id,
-			inst->ring_mon_utype,
-			inst->mon->fwl_id,
-			inst->mon->fwl_ch_start,
-			msg->index,
-			STRUE,
-			SFALSE,
-			STRUE);
+		/* Call Secure RM to configure ring monitor firewalls */
+
+		r = rm_core_get_resasg_hosts(inst->ring_mon_utype,
+					     msg->index,
+					     &n_hosts,
+					     &hosts[0U],
+					     FWL_MAX_PRIVID_SLOTS);
+
+		if (r == SUCCESS) {
+			r = sec_rm_ra_mon_fwl_cfg(msg_recv, hosts, n_hosts);
+		}
 	}
+#endif
 
 	if (r == SUCCESS) {
 		r = ra_monitor_cfg(inst, msg);
