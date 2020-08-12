@@ -20,11 +20,15 @@
 #include <tisci/rm/tisci_rm_proxy.h>
 
 #include <rm_core.h>
-#include <rm_request.h>
 #include <rm_proxy.h>
 
 #include <proxy_inst.h>
 #include <proxy_cfg.h>
+
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+#include <security/rm_int_firewall.h>
+#include <security/secure_rm/sec_rm.h>
+#endif
 
 /*
  * Proxy Configuration Register Macros
@@ -212,19 +216,13 @@ static s32 proxy_get_ring_evt(u8 host, u16 id, u16 oes_index, u16 *evt)
 	}
 
 	if (r == SUCCESS) {
-		/* Configure cfg channelized firewall */
-		r = rm_request_resasg_cfg_firewall_ext(
-			inst->id,
-			utype,
-			inst->cfg->fwl_id,
-			inst->cfg->fwl_ch_start,
-			oes_index,
-			STRUE,
-			SFALSE,
-			STRUE);
-	}
-
-	if (r == SUCCESS) {
+		/*
+		 * This will result in access exception if IRQ with proxy
+		 * as OES source is configured prior to the proxy being
+		 * configured.  This is because the channelized firewall
+		 * covering the proxy OES register isn't set to RW for
+		 * RM core until proxy_cfg message is sent
+		 */
 		*evt = proxy_get_evt(inst, oes_index);
 		rm_trace_sub(trace_action,
 			     TRACE_RM_SUB_ACTION_EVENT,
@@ -282,19 +280,14 @@ static s32 proxy_set_ring_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 	}
 
 	if (r == SUCCESS) {
-		/* Configure cfg channelized firewall */
-		r = rm_request_resasg_cfg_firewall_ext(
-			inst->id,
-			utype,
-			inst->cfg->fwl_id,
-			inst->cfg->fwl_ch_start,
-			oes_index,
-			STRUE,
-			SFALSE,
-			STRUE);
-	}
+		/*
+		 * This will result in access exception if IRQ with proxy
+		 * as OES source is configured prior to the proxy being
+		 * configured.  This is because the channelized firewall
+		 * covering the proxy OES register isn't set to RW for
+		 * RM core until proxy_cfg message is sent
+		 */
 
-	if (r == SUCCESS) {
 		/* oes_index verified already at this point */
 		maddr = rm_core_map_region(inst->cfg->base);
 		evt_reg = rm_fmk(PROXY_EVENT_SHIFT,
@@ -321,6 +314,11 @@ s32 rm_proxy_cfg(u32 *msg_recv)
 	u16 utype;
 	u8 trace_action = TRACE_RM_ACTION_PROXY_CFG;
 
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+	u8 hosts[FWL_MAX_PRIVID_SLOTS];
+	u8 n_hosts = 0U;
+#endif
+
 	rm_trace_sub(trace_action,
 		     TRACE_RM_SUB_ACTION_VALID_PARAM_HI,
 		     ((msg->valid_params >> 16U) & TRACE_DEBUG_SUB_ACTION_VAL_MASK));
@@ -339,31 +337,21 @@ s32 rm_proxy_cfg(u32 *msg_recv)
 					    trace_action);
 	}
 
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 	if (r == SUCCESS) {
-		/* Configure proxy target0_data channelized firewall */
-		r = rm_request_resasg_cfg_firewall_ext(
-			inst->id,
-			utype,
-			inst->target0_data->fwl_id,
-			inst->target0_data->fwl_ch_start,
-			msg->index,
-			SFALSE,
-			SFALSE,
-			SFALSE);
-	}
+		/* Call Secure RM to configure proxy firewalls */
 
-	if (r == SUCCESS) {
-		/* Configure cfg channelized firewall */
-		r = rm_request_resasg_cfg_firewall_ext(
-			inst->id,
-			utype,
-			inst->cfg->fwl_id,
-			inst->cfg->fwl_ch_start,
-			msg->index,
-			STRUE,
-			SFALSE,
-			STRUE);
+		r = rm_core_get_resasg_hosts(utype,
+					     msg->index,
+					     &n_hosts,
+					     &hosts[0U],
+					     FWL_MAX_PRIVID_SLOTS);
+
+		if (r == SUCCESS) {
+			r = sec_rm_proxy_fwl_cfg(msg_recv, hosts, n_hosts);
+		}
 	}
+#endif
 
 	return r;
 }
