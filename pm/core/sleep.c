@@ -28,11 +28,15 @@ void sleep(void)
 
 s32 sleep_modes_register(const struct sleep_mode *modes, u8 *block, size_t n)
 {
+	s32 ret = 0;
+
 	if (sleep_modes && modes != sleep_modes) {
-		return -EBUSY;
+		ret = -EBUSY;
+	} else {
+		sleep_mode_count = n;
+		sleep_modes_block = block;
+		sleep_modes = modes;
 	}
-	sleep_mode_count = n;
-	sleep_modes_block = block;
-	sleep_modes = modes;
-	return 0;
+
+	return ret;
 }
