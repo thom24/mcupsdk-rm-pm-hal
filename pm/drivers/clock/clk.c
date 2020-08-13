@@ -177,10 +177,12 @@ u32 clk_generic_set_freq_parent(struct clk *clkp, struct clk *parent,
 {
 	u32 new_target, new_min, new_max;
 	u32 new_parent_freq = 0;
+	u32 ret;
 
 	/* Make sure target fits within out clock frequency type */
 	if (ULONG_MAX / d < min_hz) {
-		return 0;
+		ret = 0;
+		goto out;
 	}
 
 	new_min = min_hz * d;
@@ -188,7 +190,8 @@ u32 clk_generic_set_freq_parent(struct clk *clkp, struct clk *parent,
 	new_max = max_hz * d;
 
 	if (new_min < min_hz) {
-		return 0;
+		ret = 0;
+		goto out;
 	}
 
 	/* Cap overflow in target and max */
@@ -204,17 +207,20 @@ u32 clk_generic_set_freq_parent(struct clk *clkp, struct clk *parent,
 				       STRUE, changed);
 
 	if (!new_parent_freq) {
-		return 0;
+		ret = 0;
+		goto out;
 	}
 
 	/* Check that any siblings can handle the new freq */
 	if (*changed && !(clk_notify_sibling_freq(clkp, parent, new_parent_freq,
 						  STRUE))) {
-		return 0;
+		ret = 0;
+		goto out;
 	}
 
 	if (query) {
-		return new_parent_freq / d;
+		ret = new_parent_freq / d;
+		goto out;
 	}
 
 	/* Actually perform the frequency change */
@@ -225,7 +231,9 @@ u32 clk_generic_set_freq_parent(struct clk *clkp, struct clk *parent,
 		clk_notify_sibling_freq(clkp, parent, new_parent_freq, SFALSE);
 	}
 
-	return new_parent_freq / d;
+	ret = new_parent_freq / d;
+out:
+	return ret;
 }
 
 static u32 clk_generic_set_freq(struct clk *clkp,
