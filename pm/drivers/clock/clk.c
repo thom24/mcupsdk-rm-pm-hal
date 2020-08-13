@@ -173,7 +173,7 @@ sbool clk_notify_children_freq(struct clk *parent, u32 parent_freq,
 u32 clk_generic_set_freq_parent(struct clk *clkp, struct clk *parent,
 				u32 target_hz, u32 min_hz,
 				u32 max_hz, sbool query,
-				sbool *changed, s32 d)
+				sbool *changed, u32 d)
 {
 	u32 new_target, new_min, new_max;
 	u32 new_parent_freq = 0;
