@@ -124,13 +124,15 @@ sbool clk_notify_freq(struct clk *clkp, u32 parent_freq_hz, sbool query)
 	return ret;
 }
 
-sbool clk_notify_sibling_freq(struct clk *clkp, struct clk *parent,
+sbool clk_notify_sibling_freq(struct clk *clkpp, struct clk *parent,
 			      u32 parent_freq, sbool query)
 {
+	struct clk *clkp = clkpp;
 	clk_idx_t i;
 	clk_idx_t pid = clk_id(parent);
 	clk_idx_t id = clkp ? clk_id(clkp) : CLK_ID_NONE;
-
+	
+	
 	/* We must unfortunately walk clock list to find children */
 	for (i = 0U; i < soc_clock_count; i++) {
 		const struct clk_parent *p;
