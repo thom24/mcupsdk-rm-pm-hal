@@ -37,23 +37,6 @@ struct ia_resource_type {
 
 /**
  * \brief
- * Describes the IA events used by ROM and if they've been cleared back to
- * hardware reset values
- *
- * \param event
- * IA event used by ROM
- *
- * \param cleared
- * Boolean storing whether or not the event and the IA VINT status bit its
- * been mapped to has been cleared
- */
-struct ia_used_mapping {
-	u16	event;
-	sbool	cleared;
-};
-
-/**
- * \brief
  * Interrupt aggregator instance containing all data required to manage a
  * Navigator Subsystem interrupt aggregator
  *
@@ -101,13 +84,6 @@ struct ia_used_mapping {
  * 0.  This field allows the IA driver to determine if VINT 0 bit 0 is truly
  * mapped to an IA event.
  *
- * \param rom_usage
- * IA event to VINT mappings used by ROM during boot that need to be reset
- * to hardware reset values
- *
- * \param n_rom_usage
- * Number of entries in the rom_usage array
- *
  * \param unmapped_events
  * Pointer to array of unmapped event types
  *
@@ -131,8 +107,6 @@ struct ia_instance {
 	const u16				n_vint;
 	u8 *const				vint_usage_count;
 	u16					v0_b0_evt;
-	struct ia_used_mapping *const		rom_usage;
-	const u8				n_rom_usage;
 	const struct ia_resource_type *const	unmapped_events;
 	const u8				n_unmapped_events;
 	struct rm_irq_oes_src			oes_handler;

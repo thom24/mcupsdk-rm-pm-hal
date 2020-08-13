@@ -15,7 +15,6 @@
 #include <lib/trace.h>
 
 #include <rm_core.h>
-#include <rm_request.h>
 #include <rm_ia.h>
 #include <tisci/rm/tisci_rm_irq.h>
 #include <hosts.h>
@@ -23,6 +22,11 @@
 #include <ia_inst.h>
 #include <ia_init.h>
 #include <ia_cfg.h>
+
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+#include <security/rm_int_firewall.h>
+#include <security/secure_rm/sec_rm.h>
+#endif
 
 #define IA_VINT_MAX_BITS             64u
 
@@ -150,8 +154,6 @@ static s32 ia_configure_vint(struct ia_instance *inst, u16 evt, u16 vint,
 	s32 r = SUCCESS;
 	mapped_addr_t maddr;
 	u32 entry_int_map_lo;
-	u32 vint_enable_set;
-	u32 vint_enable_set_addr;
 
 	maddr = rm_core_map_region(inst->imap->base);
 	entry_int_map_lo = rm_fmk(IA_ENTRY_INTMAP_REGNUM_SHIFT,
@@ -165,43 +167,23 @@ static s32 ia_configure_vint(struct ia_instance *inst, u16 evt, u16 vint,
 	}
 	rm_core_unmap_region();
 
+	/*
+	 * Status bit in the VINT's real-time VINT_ENABLE_SET
+	 * register is enabled as part of the firewall configuration
+	 * call to Secure RM
+	 */
+
 	if (r == SUCCESS) {
-		/*
-		 * Enable the status bit via the VINT's real-time VINT_ENABLE_SET
-		 * register
-		 */
-		maddr = rm_core_map_region(inst->intr->base);
-		if (vint_sb_index < 32U) {
-			vint_enable_set_addr = IA_RT_VINT_BASE(vint) +
-					       IA_RT_VINT_ENABLE_SET_LO;
-			vint_enable_set = (0x1U << vint_sb_index);
-		} else {
-			vint_enable_set_addr = IA_RT_VINT_BASE(vint) +
-					       IA_RT_VINT_ENABLE_SET_HI;
-			vint_enable_set = (0x1U << (vint_sb_index - 32U));
-		}
+		/* Increment vint usage count */
+		inst->vint_usage_count[vint]++;
 
-		/* Write then verify the bit status */
-		writel(vint_enable_set, maddr + vint_enable_set_addr);
-		if ((readl(maddr + vint_enable_set_addr) & vint_enable_set) !=
-		    vint_enable_set) {
-			/* The bit is not set after readback */
-			r = -EFAILVERIFY;
-		}
-		rm_core_unmap_region();
-
-		if (r == SUCCESS) {
-			/* Increment vint usage count */
-			inst->vint_usage_count[vint]++;
-
-			if ((vint == 0u) && (vint_sb_index == 0u)) {
-				/*
-				 * Store event associated with VINT 0 bit 0
-				 * since all INTMAP registers default to
-				 * 0x0000
-				 */
-				inst->v0_b0_evt = evt;
-			}
+		if ((vint == 0u) && (vint_sb_index == 0u)) {
+			/*
+			 * Store event associated with VINT 0 bit 0
+			 * since all INTMAP registers default to
+			 * 0x0000
+			 */
+			inst->v0_b0_evt = evt;
 		}
 	}
 
@@ -278,63 +260,6 @@ static s32 ia_clear_vint(const struct ia_instance *inst, u16 evt, u16 vint,
 }
 
 /**
- * \brief Clear an event's previously existing ROM mapping
- *
- * \param inst Pointer to IA instance
- *
- * \param evt IA event index
- *
- * \return SUCCESS if no clear performed or if clear succeeds, else -EFAIL
- */
-static s32 ia_clear_rom_mapping(const struct ia_instance *inst, u16 evt)
-{
-	s32 r = SUCCESS;
-	u8 i;
-	struct ia_used_mapping *used_mapping;
-	u16 fwl_ch;
-	mapped_addr_t maddr;
-	u32 entry_int_map_lo;
-	u16 reg_vint, reg_sb;
-
-	for (i = 0U; i < inst->n_rom_usage; i++) {
-		used_mapping = &inst->rom_usage[i];
-		if ((used_mapping->cleared == SFALSE) &&
-		    ((used_mapping->event - inst->sevt_offset) == evt)) {
-			maddr = rm_core_map_region(inst->imap->base);
-			entry_int_map_lo = readl(maddr + IA_ENTRY_INTMAP_LO(evt));
-			rm_core_unmap_region();
-
-			reg_vint = (u16) rm_fext(entry_int_map_lo,
-						 IA_ENTRY_INTMAP_REGNUM_SHIFT,
-						 IA_ENTRY_INTMAP_REGNUM_MASK);
-			reg_sb = (u16) rm_fext(entry_int_map_lo,
-					       IA_ENTRY_INTMAP_BITNUM_SHIFT,
-					       IA_ENTRY_INTMAP_BITNUM_MASK);
-
-			/*
-			 * Configure channelized firewall for VINT
-			 * used by ROM to be accessible to DMSC so
-			 * it can be cleaned up
-			 */
-			fwl_ch = reg_vint + inst->intr->fwl_ch_start;
-			r = rm_request_cfg_firewall(inst->intr->fwl_id,
-						    fwl_ch,
-						    HOST_ID_DMSC);
-			if (r != SUCCESS) {
-				break;
-			}
-
-			r = ia_clear_vint(inst, evt, reg_vint, reg_sb);
-			if (r == SUCCESS) {
-				used_mapping->cleared = STRUE;
-			}
-		}
-	}
-
-	return r;
-}
-
-/**
  * \brief Validate IA event for in use or free cases
  *
  * \param inst Pointer to IA instance
@@ -359,17 +284,6 @@ static s32 ia_validate_evt(const struct ia_instance *inst, u16 evt, u16 vint,
 
 	if (evt >= inst->n_sevt) {
 		r = -EINVAL;
-	}
-
-	if ((r == SUCCESS) &&
-	    (in_use == SFALSE) &&
-	    (inst->rom_usage != NULL)) {
-		/*
-		 * Did ROM use the event to VINT mapping during boot?
-		 * The mapping is cleared if it was used by ROM.  The clear
-		 * only occurs once for each mapping.
-		 */
-		r = ia_clear_rom_mapping(inst, evt);
 	}
 
 	if (r == SUCCESS) {
@@ -638,6 +552,11 @@ s32 rm_ia_vint_map(u16 id, u16 vint, u16 global_evt, u8 vint_sb_index)
 	u16 evt;
 	u8 trace_action = TRACE_RM_ACTION_IRQ_IA_MAP_VINT;
 
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+	u8 hosts[FWL_MAX_PRIVID_SLOTS];
+	u8 n_hosts = 0U;
+#endif
+
 	inst = ia_get_inst(id);
 	if (inst == NULL) {
 		trace_action |= TRACE_RM_ACTION_FAIL;
@@ -688,17 +607,28 @@ s32 rm_ia_vint_map(u16 id, u16 vint, u16 global_evt, u8 vint_sb_index)
 			     vint);
 	}
 
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 	if (r == SUCCESS) {
-		/* Configure the VINT INTR channelized firewall */
-		r = rm_request_resasg_cfg_firewall_ext(inst->id,
-						       inst->vint_utype,
-						       inst->intr->fwl_id,
-						       inst->intr->fwl_ch_start,
-						       vint,
-						       STRUE,
-						       SFALSE,
-						       SFALSE);
+		/* Call Secure RM to configure VINT firewalls */
+
+		r = rm_core_get_resasg_hosts(inst->vint_utype,
+					     vint,
+					     &n_hosts,
+					     &hosts[0U],
+					     FWL_MAX_PRIVID_SLOTS);
+
+		if (r == SUCCESS) {
+			/*
+			 * Status bit in the VINT's real-time VINT_ENABLE_SET
+			 * register is enabled as part of the firewall
+			 * configuration call to Secure RM
+			 */
+			r = sec_rm_ia_vint_fwl_cfg(inst->id, vint,
+						   vint_sb_index,
+						   hosts, n_hosts);
+		}
 	}
+#endif
 
 	if (r == SUCCESS) {
 		r = ia_configure_vint(inst, evt, vint, vint_sb_index);
@@ -806,7 +736,6 @@ s32 rm_ia_init(void)
 {
 	s32 r = SUCCESS;
 	u32 i, j;
-	u16 fwl_ch;
 
 	for (i = 0U; i < IA_INST_COUNT; i++) {
 		if ((rm_core_validate_devgrp(ia_inst[i].id, ia_inst[i].devgrp) ==
@@ -830,19 +759,11 @@ s32 rm_ia_init(void)
 			     (j < IA_SOC_PE_INIT_NUM) && (r == SUCCESS);
 			     j++) {
 				if (ia_soc_pe_init_list[j].id == ia_inst[i].id) {
-					fwl_ch = ia_soc_pe_init_list[j].vint +
-						 ia_inst[i].intr->fwl_ch_start;
-					r = rm_request_cfg_firewall(ia_inst[i].intr->fwl_id,
-								    fwl_ch,
-								    HOST_ID_DMSC);
-
-					if (r == SUCCESS) {
-						r = rm_ia_vint_map(
-							ia_soc_pe_init_list[j].id,
-							ia_soc_pe_init_list[j].vint,
-							ia_soc_pe_init_list[j].event_id,
-							0U);
-					}
+					r = rm_ia_vint_map(
+						ia_soc_pe_init_list[j].id,
+						ia_soc_pe_init_list[j].vint,
+						ia_soc_pe_init_list[j].event_id,
+						0U);
 				}
 			}
 
