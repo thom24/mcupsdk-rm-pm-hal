@@ -21,7 +21,7 @@ s32 system_reset(domgrp_t domain)
 {
 	s32 ret = -ENODEV;
 
-	if (sys_reset_handler) {
+	if (sys_reset_handler != NULL) {
 		ret = sys_reset_handler(domain);
 	}
 
