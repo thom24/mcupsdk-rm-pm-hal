@@ -16,7 +16,7 @@
 #include <soc/rm_mmr.h>
 #include <devices.h>
 #include <devices_internal.h>
-#include <soc/j721e/soc_devgrps.h>
+#include <soc/j721e_legacy/soc_devgrps.h>
 
 #include "../../include/psil_inst.h"
 #include "psil_cfg.h"

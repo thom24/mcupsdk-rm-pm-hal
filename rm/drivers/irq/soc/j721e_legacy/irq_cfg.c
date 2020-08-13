@@ -15,7 +15,7 @@
 #include <devices_internal.h>
 #include <hosts.h>
 #include <hosts_internal.h>
-#include <soc/j721e/resasg_types.h>
+#include <soc/j721e_legacy/resasg_types.h>
 
 #include "../../include/irq_resasg.h"
 

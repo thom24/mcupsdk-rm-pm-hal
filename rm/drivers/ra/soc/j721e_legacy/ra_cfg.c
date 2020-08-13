@@ -14,8 +14,8 @@
 #include <types/sbool.h>
 #include <soc/rm_mmr.h>
 #include <devices.h>
-#include <soc/j721e/resasg_types.h>
-#include <soc/j721e/soc_devgrps.h>
+#include <soc/j721e_legacy/resasg_types.h>
+#include <soc/j721e_legacy/soc_devgrps.h>
 
 #include "../../include/ra_inst.h"
 #include "ra_cfg.h"
