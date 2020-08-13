@@ -21,7 +21,7 @@ aflags-y += --silicon_version=7M3 --code_state=16 --little_endian
 
 ldflags-y += --disable_auto_rts
 
-LD_SCRIPT = $(objtree)/scripts/arm.ld
+LD_SCRIPT = $(objtree)/app/linkercmd/arm.ld
 extra-y += $(LD_SCRIPT)
 
 TARGET = ti-sci-user-firmware.elf
