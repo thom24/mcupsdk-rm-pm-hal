@@ -23,11 +23,11 @@ u32 clk_value_set_freq(struct clk *clkp, u32 target_hz,
 		       u32 max_hz __attribute__((unused)),
 		       sbool query, sbool *changed)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_data_p = clk_get_data(clkp);
 
 	if (!query) {
 		*changed = STRUE;
-		soc_clock_values[clk_data->freq_idx] = target_hz;
+		soc_clock_values[clk_data_p->freq_idx] = target_hz;
 	}
 
 	return target_hz;
@@ -35,9 +35,9 @@ u32 clk_value_set_freq(struct clk *clkp, u32 target_hz,
 
 u32 clk_value_get_freq(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_data_p = clk_get_data(clkp);
 
-	return soc_clock_values[clk_data->freq_idx];
+	return soc_clock_values[clk_data_p->freq_idx];
 }
 
 static sbool clk_input_notify_freq(struct clk	*clkp __attribute__((unused)),
@@ -91,18 +91,18 @@ u32 clk_get_parent_freq(struct clk *clkp)
 
 sbool clk_notify_freq(struct clk *clkp, u32 parent_freq_hz, sbool query)
 {
-	const struct clk_data *clk_data;
+	const struct clk_data *clk_data_p;
 	sbool ret = STRUE;
 
 	if (clkp->freq_change_block_count != 0U) {
 		ret = SFALSE;
 	}
 
-	clk_data = clk_get_data(clkp);
+	clk_data_p = clk_get_data(clkp);
 
 	if (ret) {
 		const struct clk_range *range;
-		range = clk_get_range(clk_data->range_idx);
+		range = clk_get_range(clk_data_p->range_idx);
 		if ((parent_freq_hz < range->min_hz) ||
 		    (parent_freq_hz > range->max_hz)) {
 			ret = SFALSE;
@@ -110,8 +110,8 @@ sbool clk_notify_freq(struct clk *clkp, u32 parent_freq_hz, sbool query)
 	}
 
 	if (ret) {
-		if (clk_data->drv->notify_freq != NULL) {
-			ret = clk_data->drv->notify_freq(clkp, parent_freq_hz, query);
+		if (clk_data_p->drv->notify_freq != NULL) {
+			ret = clk_data_p->drv->notify_freq(clkp, parent_freq_hz, query);
 		} else {
 			ret = clk_notify_children_freq(clkp, parent_freq_hz, query);
 		}
@@ -232,13 +232,13 @@ static u32 clk_generic_set_freq(struct clk *clkp,
 				u32 max_hz, sbool query,
 				sbool *changed)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_data_p = clk_get_data(clkp);
 	const struct clk_parent *p = clk_get_parent(clkp);
 	u32 ret = 0;
 
 	*changed = SFALSE;
 
-	if (p && (clk_data->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ)) {
+	if (p && (clk_data_p->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ)) {
 		struct clk *parent;
 		parent = clk_lookup((clk_idx_t) p->clk);
 		if (parent) {
@@ -291,15 +291,15 @@ u32 clk_set_freq(struct clk *clkp, u32 target_hz,
 		 u32 min_hz, u32 max_hz, sbool query,
 		 sbool *changed)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_data_p = clk_get_data(clkp);
 	u32 ret;
 
 	*changed = SFALSE;
 
 	if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
 		ret = 0U;
-	} else if (clk_data->drv->set_freq != NULL) {
-		ret = clk_data->drv->set_freq(clkp, target_hz, min_hz,
+	} else if (clk_data_p->drv->set_freq != NULL) {
+		ret = clk_data_p->drv->set_freq(clkp, target_hz, min_hz,
 					      max_hz, query, changed);
 	} else {
 		ret = clk_generic_set_freq(clkp, target_hz, min_hz, max_hz,
@@ -313,13 +313,13 @@ u32 clk_set_freq(struct clk *clkp, u32 target_hz,
 
 u32 clk_get_freq(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_data_p = clk_get_data(clkp);
 	u32 ret;
 
 	if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
 		ret = 0U;
-	} else if (clk_data->drv->get_freq != NULL) {
-		ret = clk_data->drv->get_freq(clkp);
+	} else if (clk_data_p->drv->get_freq != NULL) {
+		ret = clk_data_p->drv->get_freq(clkp);
 	} else {
 		ret = clk_get_parent_freq(clkp);
 	}
@@ -329,13 +329,13 @@ u32 clk_get_freq(struct clk *clkp)
 
 s32 clk_get_state(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_data_p = clk_get_data(clkp);
 	s32 ret = CLK_HW_STATE_DISABLED;
 
 	if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
 		ret = CLK_HW_STATE_DISABLED;
-	} else if (clk_data->drv->get_state != NULL) {
-		ret = clk_data->drv->get_state(clkp);
+	} else if (clk_data_p->drv->get_state != NULL) {
+		ret = clk_data_p->drv->get_state(clkp);
 	} else {
 		const struct clk_parent *p;
 		p = clk_get_parent(clkp);
@@ -353,16 +353,16 @@ s32 clk_get_state(struct clk *clkp)
 
 sbool clk_set_state(struct clk *clkp, sbool enable)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_data_p = clk_get_data(clkp);
 	sbool ret;
 
 	if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
 		/* defer action */
 		ret = STRUE;
-	} else if (clk_data->drv->set_state == NULL) {
+	} else if (clk_data_p->drv->set_state == NULL) {
 		ret = STRUE;
 	} else {
-		ret = clk_data->drv->set_state(clkp, enable);
+		ret = clk_data_p->drv->set_state(clkp, enable);
 	}
 
 	return ret;
@@ -464,7 +464,7 @@ void clk_freq_change_block(struct clk *clkp)
 	clkp->freq_change_block_count++;
 }
 
-static s32 clk_register_clock(struct clk *clkp, const struct clk_data *clk_data)
+static s32 clk_register_clock(struct clk *clkp, const struct clk_data *clk_data_p)
 {
 	s32 ret = SUCCESS;
 	struct clk *clk_parent = NULL;
@@ -478,8 +478,8 @@ static s32 clk_register_clock(struct clk *clkp, const struct clk_data *clk_data)
 		ret = -EDEFER;
 	}
 
-	if ((ret == SUCCESS) && (clk_data->drv->init != NULL)) {
-		ret = clk_data->drv->init(clkp);
+	if ((ret == SUCCESS) && (clk_data_p->drv->init != NULL)) {
+		ret = clk_data_p->drv->init(clkp);
 	}
 
 	if (ret == SUCCESS) {
@@ -493,8 +493,8 @@ static s32 clk_register_clock(struct clk *clkp, const struct clk_data *clk_data)
 					 clk_id(clkp));
 			}
 		}
-		if (clk_data->drv->get_state != NULL) {
-			if (clk_data->drv->get_state(clkp) != CLK_HW_STATE_DISABLED) {
+		if (clk_data_p->drv->get_state != NULL) {
+			if (clk_data_p->drv->get_state(clkp) != CLK_HW_STATE_DISABLED) {
 				clkp->flags |= CLK_FLAG_PWR_UP_EN;
 			}
 		}
@@ -597,12 +597,12 @@ s32 clk_init(void)
 	/* Loop through all the clocks to initialize them */
 	for (i = 0U; i < clock_count; i++) {
 		struct clk *clkp = soc_clocks + i;
-		const struct clk_data *clk_data = soc_clock_data + i;
+		const struct clk_data *clk_data_p = soc_clock_data + i;
 		s32 curr;
 
-		if (((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) && (clk_data->drv != NULL)) {
+		if (((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) && (clk_data_p->drv != NULL)) {
 			contents = STRUE;
-			curr = clk_register_clock(clkp, clk_data);
+			curr = clk_register_clock(clkp, clk_data_p);
 			if (curr != -EDEFER) {
 				progress = STRUE;
 				if (curr != SUCCESS) {
