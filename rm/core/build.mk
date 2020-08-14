@@ -3,4 +3,3 @@
 
 obj-$(CONFIG_RM) += rm.o
 obj-$(CONFIG_RM) += rm_core.o
-obj-$(CONFIG_RM) += rm_request.o
