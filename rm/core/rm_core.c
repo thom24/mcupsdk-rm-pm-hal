@@ -366,6 +366,44 @@ s32 rm_core_get_resource_range(u32	*msg_recv,
 	return r;
 }
 
+s32 rm_core_get_resasg_hosts(u16	utype,
+			     u32	resource_index,
+			     u8		*n_hosts,
+			     u8		*host_array,
+			     u8		host_array_max)
+{
+	s32 r = SUCCESS;
+	const struct rm_resasg_index *utype_index;
+	const struct boardcfg_rm_resasg_entry *entry = NULL;
+	u16 i;
+	u16 res_end;
+
+	*n_hosts = 0U;
+
+	utype_index = rm_core_resasg_get_utype_index(utype);
+
+	/*
+	 * Not a failure if utype is not found.  Just means boardcfg
+	 * does not assign any resources to the utype
+	 */
+	if (utype_index != NULL) {
+		for (i = 0U; i < utype_index->len; i++) {
+			entry = &utype_index->resasg_indexp[i];
+			res_end = entry->start_resource + entry->num_resource;
+			if ((resource_index >= entry->start_resource) &&
+			    (resource_index < res_end)) {
+				if (*n_hosts >= host_array_max) {
+					r = -EINVAL;
+					break;
+				}
+				host_array[(*n_hosts)++] = entry->host_id;
+			}
+		}
+	}
+
+	return r;
+}
+
 s32 rm_core_init(void)
 {
 	s32 r = SUCCESS;

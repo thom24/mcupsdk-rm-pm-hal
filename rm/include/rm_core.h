@@ -78,6 +78,29 @@ static inline u32 rm_fext(u32 reg, u32 shift, u32 mask)
 }
 
 /**
+ * \brief Retrieves a list of hosts assigned to a given resource in the
+ *        RM board configuration resource assignment array
+ *
+ * \param utype Unique type of the resource
+ *
+ * \param resource_index Index of the resource
+ *
+ * \param n_hosts Pointer to a variable which is populated with the number
+ *                of hosts assigned to the resource in the RM board
+ *                configuration
+ *
+ * \param host_array Pointer to a array variable which is populated with the
+ *                   hosts assigned to the resource in the RM board
+ *                   configuration
+ *
+ * \param host_array_max Maximum number of elements in the array pointed to by
+ *                       host_array.
+ *
+ * \return SUCCESS if host_array successfully populated, else -EINVAL
+ */
+s32 rm_core_get_resasg_hosts(u16 utype, u32 resource_index, u8 *n_hosts, u8 *host_array, u8 host_array_max);
+
+/**
  * \brief Initializes core RM
  *
  * Initializes core RM
