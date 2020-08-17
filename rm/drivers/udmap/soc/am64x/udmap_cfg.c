@@ -345,6 +345,7 @@ struct udmap_instance udmap_inst[] = {
 		.gcfg_utype = RESASG_UTYPE(AM64X_DEV_DMASS0_BCDMA_0, RESASG_SUBTYPE_UDMAP_GLOBAL_CONFIG),
 		.rom_usage = NULL,
 		.n_rom_usage = 0U,
+		.dru_ch0_dst_thread_offset = 0x0U,
 	},
 	{
 		.id = AM64X_DEV_DMASS0_PKTDMA_0,
@@ -377,6 +378,7 @@ struct udmap_instance udmap_inst[] = {
 		.gcfg_utype = RESASG_UTYPE(AM64X_DEV_DMASS0_PKTDMA_0, RESASG_SUBTYPE_UDMAP_GLOBAL_CONFIG),
 		.rom_usage = NULL,
 		.n_rom_usage = 0U,
+		.dru_ch0_dst_thread_offset = 0x0U,
 	},
 };
 

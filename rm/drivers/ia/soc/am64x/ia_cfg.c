@@ -50,29 +50,6 @@ static const struct rm_mmr mmr_DMASS0_INTAGGR_0_INTAGGR_UNMAP = {
 
 static u8 vint_usage_count_DMASS0_INTAGGR_0[184U];
 
-static struct ia_used_mapping rom_usage_DMASS0_INTAGGR_0[5U] = {
-	{
-		.event = 20U,
-		.cleared = SFALSE,
-	},
-	{
-		.event = 21U,
-		.cleared = SFALSE,
-	},
-	{
-		.event = 22U,
-		.cleared = SFALSE,
-	},
-	{
-		.event = 23U,
-		.cleared = SFALSE,
-	},
-	{
-		.event = 30U,
-		.cleared = SFALSE,
-	},
-};
-
 static const struct ia_resource_type unmapped_events_DMASS0_INTAGGR_0[16U] = {
 	{
 		.start = 0U,
@@ -171,8 +148,6 @@ struct ia_instance ia_inst[IA_INST_COUNT] = {
 		.n_vint = 184U,
 		.vint_usage_count = &vint_usage_count_DMASS0_INTAGGR_0[0U],
 		.v0_b0_evt = 0U,
-		.rom_usage = &rom_usage_DMASS0_INTAGGR_0[0U],
-		.n_rom_usage = ARRAY_SIZE(rom_usage_DMASS0_INTAGGR_0),
 		.unmapped_events = &unmapped_events_DMASS0_INTAGGR_0[0U],
 		.n_unmapped_events = ARRAY_SIZE(unmapped_events_DMASS0_INTAGGR_0),
 	},
