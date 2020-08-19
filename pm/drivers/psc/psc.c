@@ -817,7 +817,7 @@ sbool lpsc_module_get_local_reset(struct device *dev, struct lpsc_module *module
 		return SFALSE;
 	}
 
-	return !(psc_read(dev, (u32) (PSC_MDCTL(idx)) & MDCTL_LRST));
+	return !(psc_read(dev, (u32) PSC_MDCTL(idx)) & MDCTL_LRST);
 }
 
 sbool lpsc_module_get_module_reset(struct device *dev UNUSED, struct lpsc_module *module)
