@@ -27,6 +27,8 @@
 
 #include <device.h>
 
+#include <lib/ioremap.h>
+
 /**
  * \brief Local data for RM board config data
  *
@@ -215,29 +217,28 @@ static bool boardcfg_validate_abi_rev(const struct boardcfg_abi_rm_rev *rev,
 static s32 boardcfg_memcpy(local_phys_addr_t to, soc_phys_addr_t from, u32 size)
 {
 	s32 ret;
-	soc_phys_addr_t mappable_addr = (from & (~RAT_TMP_REGION_INVAL_ADDR_MASK));
-	u32 delta_addr = soc_phys_low_u32(from) & (RAT_TMP_REGION_INVAL_ADDR_MASK);
+	ftbool mapped = FT_TRUE;
 	mapped_addr_t from_mapped = 0U;
+	volatile u32 from_mapped_addr = 0U;
 
-	ret = rat_map_tmp_region(mappable_addr, &from_mapped);
-	if (ret != SUCCESS) {
-		from_mapped = 0x0U;
-		/* SHOULD NEVER EVER HAPPEN due to the sequence of events */
-	} else {
-		from_mapped += delta_addr;
+	ret = rat_map_tmp_region_user(from, &from_mapped);
+
+	/* EINVAL would mean that the address is already in the mapped regions
+	 */
+	if (ret == -EINVAL) {
+		ret = SUCCESS;
+		mapped = FT_FALSE;
 	}
 
-	/*
-	 * Reuse PM mapping, was boardcfg_map() previously, see
-	 * pm/soc/k3m/dmsc.c
-	 */
-	from_mapped = soc_phys_low_u32(from) + CONFIG_ADDR_REMAP_OFFSET;
+	from_mapped_addr = ioremap(soc_phys_low_u32(from));
 
-	memcpy((void *) to, (void *) from_mapped, size);
+	memcpy((void *) to, (void *) from_mapped_addr, size);
 
-	rat_unmap_tmp_region(mappable_addr);
+	if (mapped == FT_TRUE) {
+		ret = rat_unmap_tmp_region_user(from);
+	}
 
-	return SUCCESS;
+	return ret;
 }
 
 /*
