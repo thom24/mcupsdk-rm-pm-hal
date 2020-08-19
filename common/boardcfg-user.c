@@ -10,7 +10,7 @@
 #include <resasg_types.h>
 #include <hosts.h>
 #include <osal/osal_core.h>
-#include <rat.h>
+#include <drivers/rat.h>
 #include <stdbool.h>
 #include <types/address_types.h>
 #include <types/devgrps.h>

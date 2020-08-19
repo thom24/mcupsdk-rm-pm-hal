@@ -9,7 +9,7 @@
 
 #include <config.h>
 #include <lib/ioremap.h>
-#include <rat.h>
+#include <drivers/rat.h>
 #include <types/short_types.h>
 
 u32 ioremap_internal(u32 a)
