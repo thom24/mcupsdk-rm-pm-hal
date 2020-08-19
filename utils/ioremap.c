@@ -8,13 +8,15 @@
  */
 
 #include <config.h>
-
 #include <lib/ioremap.h>
+#include <rat.h>
 #include <types/short_types.h>
 
 u32 ioremap_internal(u32 a)
 {
 	u32 addr = a;
+	u64 lowAddr, highAddr;
+	s32 ret;
 
 	/*
 	 * The region from 0x0000_0000 to 0x5fff_ffff is remapped to the
@@ -38,6 +40,11 @@ u32 ioremap_internal(u32 a)
 	    ((a >= 0x46000000U) && (a < 0x60000000U))) {
 		addr += CONFIG_ADDR_REMAP_OFFSET;
 	}
-
+	ret = rat_get_free_map_addr_range_user(&lowAddr, &highAddr);
+	if (ret == SUCCESS) {
+		if ((a >= soc_phys_low_u32(lowAddr)) && (a < soc_phys_low_u32(highAddr))) {
+			addr += CONFIG_ADDR_REMAP_OFFSET;
+		}
+	}
 	return addr;
 }
