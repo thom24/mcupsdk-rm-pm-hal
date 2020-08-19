@@ -25,7 +25,7 @@
 
 #ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 #include <security/rm_int_firewall.h>
-#include <security/secure_rm/sec_rm.h>
+#include <tifs/src/security/secure_rm/sec_rm.h>
 #endif
 
 #define IA_VINT_MAX_BITS             64u
