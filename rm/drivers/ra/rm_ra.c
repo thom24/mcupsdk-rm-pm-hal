@@ -49,9 +49,6 @@
 #define RA_CFG_RING_ORDERID                        (0x00000050u)
 
 #define RA_CFG_MON_CONTROL                         (0x00000000U)
-#define RA_CFG_MON_QUEUE                           (0x00000004U)
-#define RA_CFG_MON_DATA0                           (0x00000008U)
-#define RA_CFG_MON_DATA1                           (0x0000000CU)
 
 /*
  * RA Ring Configuration Register Fields
@@ -80,13 +77,6 @@
 
 #define RA_CFG_MON_CONTROL_EVT_MASK                (0xFFFF0000U)
 #define RA_CFG_MON_CONTROL_EVT_SHIFT               (16U)
-#define RA_CFG_MON_CONTROL_SOURCE_MASK             (0x00000F00U)
-#define RA_CFG_MON_CONTROL_SOURCE_SHIFT            (8U)
-#define RA_CFG_MON_CONTROL_MODE_MASK               (0x00000007U)
-#define RA_CFG_MON_CONTROL_MODE_SHIFT              (0U)
-
-#define RA_CFG_MON_QUEUE_VAL_MASK                  (0x0000FFFFU)
-#define RA_CFG_MON_QUEUE_VAL_SHIFT                 (0U)
 
 #define RA_GENERIC_EVENT_EVT_MASK                  (0x0000FFFFu)
 #define RA_GENERIC_EVENT_EVT_SHIFT                 (0x00000000u)
@@ -1031,95 +1021,6 @@ static s32 ra_configure(const struct ra_instance		*inst,
 }
 
 /**
- * \brief Configure a ring monitor
- *
- * \param inst RA instance
- *
- * \param msg Pointer to the ring monitor configure TISCI message
- */
-static s32 ra_monitor_cfg(const struct ra_instance			*inst,
-			  const struct tisci_msg_rm_ring_mon_cfg_req	*msg)
-{
-	mapped_addr_t maddr;
-	u32 monitor_base;
-	u32 control_reg;
-	u32 queue_reg;
-	sbool write;
-	s32 r = SUCCESS;
-
-	maddr = rm_core_map_region(inst->mon->base);
-	monitor_base = maddr + RA_CFG_MON_BASE(msg->index);
-
-	control_reg = readl(monitor_base + RA_CFG_MON_CONTROL);
-	write = SFALSE;
-
-	if (rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_MON_SOURCE_VALID) ==
-	    STRUE) {
-		control_reg &= ~RA_CFG_MON_CONTROL_SOURCE_MASK;
-		control_reg |= rm_fmk(RA_CFG_MON_CONTROL_SOURCE_SHIFT,
-				      RA_CFG_MON_CONTROL_SOURCE_MASK,
-				      msg->source);
-		write = STRUE;
-	}
-	if (rm_core_param_is_valid(msg->valid_params,
-				   TISCI_MSG_VALUE_RM_MON_MODE_VALID) ==
-	    STRUE) {
-		control_reg &= ~RA_CFG_MON_CONTROL_MODE_MASK;
-		control_reg |= rm_fmk(RA_CFG_MON_CONTROL_MODE_SHIFT,
-				      RA_CFG_MON_CONTROL_MODE_MASK,
-				      msg->mode);
-		write = STRUE;
-	}
-	if (write == STRUE) {
-		if (writel_verified(control_reg,
-				    monitor_base + RA_CFG_MON_CONTROL) !=
-		    SUCCESS) {
-			/* Readback of write failed: halt */
-			r = -EFAILVERIFY;
-		}
-	}
-
-	if ((rm_core_param_is_valid(msg->valid_params,
-				    TISCI_MSG_VALUE_RM_MON_QUEUE_VALID) ==
-	     STRUE) && (r == SUCCESS)) {
-		queue_reg = rm_fmk(RA_CFG_MON_QUEUE_VAL_SHIFT,
-				   RA_CFG_MON_QUEUE_VAL_MASK,
-				   msg->queue);
-		if (writel_verified(queue_reg,
-				    monitor_base + RA_CFG_MON_QUEUE) !=
-		    SUCCESS) {
-			/* Readback of write failed: halt */
-			r = -EFAILVERIFY;
-		}
-	}
-
-	if ((rm_core_param_is_valid(msg->valid_params,
-				    TISCI_MSG_VALUE_RM_MON_DATA0_VAL_VALID) ==
-	     STRUE) && (r == SUCCESS)) {
-		if (writel_verified(msg->data0_val,
-				    monitor_base + RA_CFG_MON_DATA0) !=
-		    SUCCESS) {
-			/* Readback of write failed: halt */
-			r = -EFAILVERIFY;
-		}
-	}
-	if ((rm_core_param_is_valid(msg->valid_params,
-				    TISCI_MSG_VALUE_RM_MON_DATA1_VAL_VALID) ==
-	     STRUE) && (r == SUCCESS)) {
-		if (writel_verified(msg->data1_val,
-				    monitor_base + RA_CFG_MON_DATA1) !=
-		    SUCCESS) {
-			/* Readback of write failed: halt */
-			r = -EFAILVERIFY;
-		}
-	}
-
-	rm_core_unmap_region();
-	return r;
-}
-
-/**
  * \brief Create a local cfg msg using register values if the register
  *        parameter is specified as not valid
  *
@@ -1433,14 +1334,10 @@ s32 rm_ra_mon_cfg(u32 *msg_recv)
 					     FWL_MAX_PRIVID_SLOTS);
 
 		if (r == SUCCESS) {
-			r = sec_rm_ra_mon_fwl_cfg(msg_recv, hosts, n_hosts);
+			r = sec_rm_ra_mon_cfg(msg_recv, hosts, n_hosts);
 		}
 	}
 #endif
-
-	if (r == SUCCESS) {
-		r = ra_monitor_cfg(inst, msg);
-	}
 
 	return r;
 }
