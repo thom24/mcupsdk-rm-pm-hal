@@ -850,6 +850,8 @@ static s32 udmap_validate_atype(u8 atype, u8 trace_action)
 		break;
 	case TISCI_MSG_VALUE_RM_UDMAP_CH_ATYPE_VIRTUAL:
 		break;
+	case TISCI_MSG_VALUE_RM_UDMAP_CH_ATYPE_NON_COHERENT:
+		break;
 	default:
 		trace_action |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
