@@ -292,12 +292,12 @@ sbool device_clk_set_parent(struct device *device, dev_clk_idx_t clk_idx, dev_cl
 
 	clk = dev_get_clk(device, clk_idx);
 	clk_data = get_dev_clk_data(device, clk_idx);
-	if (clk == NULL || clk_data == NULL) {
+	if ((clk == NULL) || (clk_data == NULL)) {
 		ret = SFALSE;
 	}
 
 
-	if (ret && clk_data->type != DEV_CLK_TABLE_TYPE_MUX) {
+	if (ret && (clk_data->type != DEV_CLK_TABLE_TYPE_MUX)) {
 		ret = SFALSE;
 	}
 
@@ -308,16 +308,16 @@ sbool device_clk_set_parent(struct device *device, dev_clk_idx_t clk_idx, dev_cl
 		}
 	}
 
-	if (ret && parent_data->type != DEV_CLK_TABLE_TYPE_PARENT) {
+	if (ret && (parent_data->type != DEV_CLK_TABLE_TYPE_PARENT)) {
 		ret = SFALSE;
 	}
 
 	/* Make sure it's within this clock muxes parents */
-	if (ret && parent_idx - clk_idx > clk_data->idx) {
+	if (ret && ((parent_idx - clk_idx) > clk_data->idx)) {
 		ret = SFALSE;
 	}
 
-	while (ret && clk && clk_get_data(clk)->type != CLK_TYPE_MUX) {
+	while (ret && clk && ((clk_get_data(clk)->type != CLK_TYPE_MUX))) {
 		const struct clk_parent *p;
 		p = clk_get_parent(clk);
 		if (p) {
@@ -379,7 +379,7 @@ dev_clk_idx_t device_clk_get_parent(struct device *device, dev_clk_idx_t clk_idx
 	if (!fail) {
 		u32 offset = data->dev_clk_idx;
 		fail = STRUE;
-		for (i = 0UL; i < clk_data->idx && fail; i++) {
+		for (i = 0UL; (i < clk_data->idx) && fail; i++) {
 			if (devgroup->dev_clk_data[offset + i + clk_idx + 1U].clk == p->clk) {
 				ret = i + clk_idx + 1U;
 				fail = SFALSE;
@@ -398,7 +398,7 @@ dev_clk_idx_t device_clk_get_num_parents(struct device *device, dev_clk_idx_t cl
 
 	clk = dev_get_clk(device, clk_idx);
 	clk_data = get_dev_clk_data(device, clk_idx);
-	if (clk == NULL || clk_data == NULL) {
+	if ((clk == NULL) || (clk_data == NULL)) {
 		ret = DEV_CLK_ID_NONE;
 	} else if (clk_data->type != DEV_CLK_TABLE_TYPE_MUX) {
 		if (clk_get_parent(clk)) {
@@ -495,8 +495,8 @@ static u32 __device_clk_set_freq(struct device *device, dev_clk_idx_t clk_idx,
 			}
 		}
 
-		if (clk_get_data(parent)->type == CLK_TYPE_MUX &&
-		    clk_data->type == DEV_CLK_TABLE_TYPE_MUX) {
+		if ((clk_get_data(parent)->type == CLK_TYPE_MUX) &&
+		    (clk_data->type == DEV_CLK_TABLE_TYPE_MUX)) {
 			const struct dev_clk_data *parent_clk_data;
 			/* Send to parent */
 			clk_idx = device_clk_get_parent(device, clk_idx);
@@ -517,7 +517,7 @@ static u32 __device_clk_set_freq(struct device *device, dev_clk_idx_t clk_idx,
 				 * unblocked by default but can be blocked via
 				 * the TI-SCI API).
 				 */
-				if ((device->flags & DEV_FLAG_ENABLED_MASK) != 0UL &&
+				if (((device->flags & DEV_FLAG_ENABLED_MASK) != 0UL) &&
 				    !device_clk_get_sw_gated(device, clk_idx)) {
 					unblock2 = parent;
 				}
@@ -539,9 +539,9 @@ static u32 __device_clk_set_freq(struct device *device, dev_clk_idx_t clk_idx,
 			 * Make sure the mux has currently selected the target
 			 * clock.
 			 */
-			if (i >= 0 && clk_idx == device_clk_get_parent(device, i)) {
+			if ((i >= 0) && (clk_idx == device_clk_get_parent(device, i))) {
 				if (device_clk_get_freq_change(device, i)) {
-					if ((device->flags & DEV_FLAG_ENABLED_MASK) != 0UL &&
+					if (((device->flags & DEV_FLAG_ENABLED_MASK) != 0UL) &&
 					    !device_clk_get_sw_gated(device, clk_idx)) {
 						unblock2 = dev_get_clk(device, i);
 					}
@@ -558,7 +558,7 @@ static u32 __device_clk_set_freq(struct device *device, dev_clk_idx_t clk_idx,
 
 		if (!clk_data->modify_parent_freq) {
 			ret_freq = clk_get_freq(parent) / div;
-			if (ret_freq < min_freq_hz || ret_freq > max_freq_hz) {
+			if ((ret_freq < min_freq_hz) || (ret_freq > max_freq_hz)) {
 				ret_freq = 0UL;
 			}
 			done = STRUE;
@@ -628,7 +628,7 @@ u32 device_clk_get_freq(struct device *device, dev_clk_idx_t clk_idx)
 
 	clk = dev_get_clk(device, clk_idx);
 	clk_data = get_dev_clk_data(device, clk_idx);
-	if (clk == NULL || clk_data == NULL) {
+	if ((clk == NULL) || (clk_data == NULL)) {
 		freq_hz = 0UL;
 	} else {
 		freq_hz = clk_get_freq(clk);

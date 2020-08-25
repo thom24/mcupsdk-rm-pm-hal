@@ -42,12 +42,12 @@
 #define PSC_RAILSET             0x108
 #define PSC_PTCMD               0x120
 #define PSC_PTSTAT              0x128
-#define PSC_PDSTAT(domain)      (0x200 + 4 * (domain))
-#define PSC_PDCTL(domain)       (0x300 + 4 * (domain))
-#define PSC_PDCFG(domain)       (0x400 + 4 * (domain))
-#define PSC_MDCFG(id)           (0x600 + 4 * (id))
-#define PSC_MDSTAT(id)          (0x800 + 4 * (id))
-#define PSC_MDCTL(id)           (0xa00 + 4 * (id))
+#define PSC_PDSTAT(domain)      (0x200 + (4 * (domain)))
+#define PSC_PDCTL(domain)       (0x300 + (4 * (domain)))
+#define PSC_PDCFG(domain)       (0x400 + (4 * (domain)))
+#define PSC_MDCFG(id)           (0x600 + (4 * (id)))
+#define PSC_MDSTAT(id)          (0x800 + (4 * (id)))
+#define PSC_MDCTL(id)           (0xa00 + (4 * (id)))
 
 #define MDSTAT_STATE_MASK               0x3f
 #define MDSTAT_BUSY_MASK                0x30
@@ -400,7 +400,7 @@ u32 psc_pd_get_state(struct device *dev, struct psc_pd *pd)
 	}
 
 	state = psc_read(dev, PSC_PDSTAT(idx)) & PDSTAT_STATE_MASK;
-	return state == PDCTL_STATE_ON ? 1 : 0;
+	return (state == PDCTL_STATE_ON) ? 1 : 0;
 }
 
 static void lpsc_module_notify_suspend(struct device		*dev,
@@ -426,8 +426,8 @@ static void lpsc_module_notify_suspend(struct device		*dev,
 			}
 		}
 	} else {
-		for (i = 0UL; i < ARRAY_SIZE(data->dev_array) &&
-		     data->dev_array[i] != DEV_ID_NONE; i++) {
+		for (i = 0UL; (i < ARRAY_SIZE(data->dev_array)) &&
+		     (data->dev_array[i] != DEV_ID_NONE); i++) {
 			sub_dev = device_lookup(data->dev_array[i]);
 			if (sub_dev != NULL) {
 				device_suspend(sub_dev);
@@ -468,32 +468,32 @@ static void lpsc_module_notify_resume(struct device		*dev,
  */
 static void lpsc_module_sync_state(struct device	*dev,
 				   struct lpsc_module	*module,
-				   sbool domain_reset)
+				   sbool		domain_reset)
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
 	u32 mdctl;
 	u32 idx = lpsc_module_idx(dev, module);
 	const struct lpsc_module_data *data = psc->mod_data + idx;
 	struct psc_pd *pd = psc_idx2pd(psc, (pd_idx_t) data->powerdomain);
-	u8 state;		/* Target module state */
-	u8 old_state;		/* Original module state */
-	sbool new_mrst_ret;	/* MRST induced retention */
+	u8 state;               /* Target module state */
+	u8 old_state;           /* Original module state */
+	sbool new_mrst_ret;     /* MRST induced retention */
 	sbool old_msrt_ret;
-	sbool old_pwr;		/* Power domain should be enabled */
-	sbool old_ret;		/* Retention of any kind */
-	sbool old_en;		/* Enabled (clocks running) */
+	sbool old_pwr;          /* Power domain should be enabled */
+	sbool old_ret;          /* Retention of any kind */
+	sbool old_en;           /* Enabled (clocks running) */
 	sbool old_rst;
 	sbool new_pwr;
 	sbool new_ret;
 	sbool new_en;
 	sbool new_rst;
-	sbool transition;	/* A state transition is necessary */
-	sbool get_en;		/* Moving from disabled to enabled */
-	sbool get_ret;		/* Moving from off to retention */
-	sbool get_pwr;		/* Moving from power domain off to on */
-	sbool put_en;		/* Moving from enabled to disabled */
-	sbool put_ret;		/* Moving from retention to off */
-	sbool put_pwr;		/* Moving from power domain on to off */
+	sbool transition;       /* A state transition is necessary */
+	sbool get_en;           /* Moving from disabled to enabled */
+	sbool get_ret;          /* Moving from off to retention */
+	sbool get_pwr;          /* Moving from power domain off to on */
+	sbool put_en;           /* Moving from enabled to disabled */
+	sbool put_ret;          /* Moving from retention to off */
+	sbool put_pwr;          /* Moving from power domain on to off */
 
 	/*
 	 * Determine target state based on usage counts and module reset:
@@ -580,7 +580,7 @@ static void lpsc_module_sync_state(struct device	*dev,
 	}
 
 	/* Make sure our parent LPSC is enabled as necessary */
-	if ((get_en || get_ret) && (data->flags & LPSC_DEPENDS) != 0UL) {
+	if ((get_en || get_ret) && ((data->flags & LPSC_DEPENDS) != 0UL)) {
 		const struct psc_drv_data *depends_psc = psc;
 		struct device *depends_dev = dev;
 		if (data->depends_psc_idx != psc->psc_idx) {
@@ -631,7 +631,7 @@ static void lpsc_module_sync_state(struct device	*dev,
 	} else if (put_pwr) {
 		/* Module is ready for power down, drop ref count on pd */
 		psc_pd_put(dev, pd);
-		if (pd->use_count != 0U && transition) {
+		if ((pd->use_count != 0U) && transition) {
 			/*
 			 * If psc_pd_put has a use count of zero, it already
 			 * initaited the transition, otherwise we need to
@@ -653,7 +653,7 @@ static void lpsc_module_sync_state(struct device	*dev,
 	}
 
 	/* Allow our parent LPSC to be disabled as necessary */
-	if ((put_en || put_ret) && (data->flags & LPSC_DEPENDS) != 0UL) {
+	if ((put_en || put_ret) && ((data->flags & LPSC_DEPENDS) != 0UL)) {
 		const struct psc_drv_data *depends_psc = psc;
 		struct device *depends_dev = dev;
 		if (data->depends_psc_idx != psc->psc_idx) {
@@ -694,9 +694,9 @@ u32 lpsc_module_get_state(struct device		*dev,
 	} else if ((state == MDSTAT_STATE_DISABLE) ||
 		   (state == MDSTAT_STATE_ENABLE) ||
 		   (state == MDSTAT_STATE_SYNCRST)) {
-		ret = 1U; /* Enabled or retention */
+		ret = 1U;       /* Enabled or retention */
 	} else {
-		ret = 2U; /* Transition (other) */
+		ret = 2U;       /* Transition (other) */
 	}
 
 	return ret;
@@ -781,7 +781,7 @@ void lpsc_module_set_local_reset(struct device *dev,
 }
 
 void lpsc_module_set_module_reset(struct device *dev,
-				 struct lpsc_module *module, sbool enable)
+				  struct lpsc_module *module, sbool enable)
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
 	u32 idx = lpsc_module_idx(dev, module);
@@ -822,7 +822,7 @@ sbool lpsc_module_get_local_reset(struct device *dev, struct lpsc_module *module
 
 sbool lpsc_module_get_module_reset(struct device *dev UNUSED, struct lpsc_module *module)
 {
-	return (module->mrst_active == 1U);
+	return module->mrst_active == 1U;
 }
 
 void lpsc_module_wait(struct device *dev, struct lpsc_module *module)
@@ -987,10 +987,10 @@ static void lpsc_module_put_internal(struct device *dev,
 
 	if (modify) {
 		lpsc_module_sync_state(dev, module, SFALSE);
-		if (module->use_count == 0U && use) {
+		if ((module->use_count == 0U) && use) {
 			lpsc_module_clk_put(dev, module, STRUE);
 		}
-		if (module->ret_count == 0U && ret) {
+		if ((module->ret_count == 0U) && ret) {
 			lpsc_module_clk_put(dev, module, STRUE);
 		}
 	}
@@ -1055,7 +1055,7 @@ struct psc_pd *psc_lookup_pd(struct device *dev, pd_idx_t id)
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
 	struct psc_pd *pd = NULL;
 
-	if (id < psc->pd_count &&
+	if ((id < psc->pd_count) &&
 	    (psc->pd_data[id].flags & PSC_PD_EXISTS)) {
 		pd = psc_idx2pd(psc, id);
 	}
@@ -1067,7 +1067,7 @@ struct lpsc_module *psc_lookup_lpsc(struct device *dev, pd_idx_t id)
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
 	struct lpsc_module *mod = NULL;
 
-	if (id < psc->module_count &&
+	if ((id < psc->module_count) &&
 	    (psc->mod_data[id].flags & LPSC_MODULE_EXISTS)) {
 		mod = psc_idx2mod(psc, id);
 	}
@@ -1109,7 +1109,7 @@ static s32 psc_initialize_pds(struct device *dev)
 		 * off before PMMC startup is complete
 		 */
 		pd->pwr_up_enabled =
-			state == PDCTL_STATE_ON ||
+			(state == PDCTL_STATE_ON) ||
 			(psc->pd_data[idx].flags & PSC_PD_ALWAYSON);
 	}
 
@@ -1145,7 +1145,7 @@ static void psc_uninitialize_pds(struct device *dev)
 
 		if (((psc->pd_data[idx].flags & PSC_PD_EXISTS) != 0U) &&
 		    (pd->use_count != 0U) &&
-	            ((psc->pd_data[idx].flags & PSC_PD_ALWAYSON) == 0U)) {
+		    ((psc->pd_data[idx].flags & PSC_PD_ALWAYSON) == 0U)) {
 			psc_pd_clk_put(&psc->pd_data[idx]);
 		}
 
@@ -1336,7 +1336,7 @@ static s32 psc_module_deps_ready(struct device *dev)
 	sbool not_ready = SFALSE;
 	s32 ret = 0;
 
-	for (idx = 0; !not_ready && idx < psc->module_count; idx++) {
+	for (idx = 0; !not_ready && (idx < psc->module_count); idx++) {
 		if (((psc->mod_data[idx].flags & LPSC_DEPENDS) != 0UL) && (psc->mod_data[idx].depends_psc_idx != psc->psc_idx)) {
 			if (psc_lookup((psc_idx_t) psc->mod_data[idx].depends_psc_idx) == NULL) {
 				not_ready = STRUE;

@@ -196,7 +196,7 @@ extern struct device *const this_dev;
  */
 static inline sbool device_id_valid(u32 id)
 {
-	return id < (u32) soc_device_count && soc_device_data[id];
+	return (id < (u32) soc_device_count) && soc_device_data[id];
 }
 
 /**
@@ -232,7 +232,7 @@ static inline struct device *device_api_lookup(u32 id)
 {
 	return (!device_id_valid(id) ||
 		(soc_device_data[id]->flags & DEVD_FLAG_INTERNAL)) ? NULL :
-	       soc_devices + id;
+	       (soc_devices + id);
 }
 
 /**

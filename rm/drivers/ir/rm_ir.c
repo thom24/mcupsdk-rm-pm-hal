@@ -212,13 +212,13 @@ static s32 ir_clear_rom_mapping(const struct ir_instance	*inst,
 
 	for (i = 0U; i < inst->n_rom_usage; i++) {
 		used_mapping = &inst->rom_usage[i];
-		if ((used_mapping->cleared == SFALSE) &&
-		    ((inp_valid == STRUE) &&
-		     (inp >= used_mapping->inp_start) &&
-		     (inp < (used_mapping->inp_start + used_mapping->length))) ||
-		    ((outp_valid == STRUE) &&
-		     (outp >= used_mapping->outp_start) &&
-		     (outp < (used_mapping->outp_start + used_mapping->length)))) {
+		if (((used_mapping->cleared == SFALSE) &&
+		     ((inp_valid == STRUE) &&
+		      (inp >= used_mapping->inp_start) &&
+		      (inp < (used_mapping->inp_start + used_mapping->length)))) ||
+		    (((outp_valid == STRUE) &&
+		      (outp >= used_mapping->outp_start) &&
+		      (outp < (used_mapping->outp_start + used_mapping->length))))) {
 			for (j = 0U;
 			     (j < used_mapping->length) && (r == SUCCESS);
 			     j++) {

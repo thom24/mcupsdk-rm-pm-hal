@@ -543,11 +543,11 @@ static sbool adpllm_dcc_pllm_valid(struct clk *clk UNUSED, u32 pllm, sbool is_fr
 	/* Fractional multiplier M.f is not supported for M < 20 and M > 2045 */
 	if (is_frac) {
 		if (m4x) {
-			if (pllm < 20UL * 4UL || pllm > 2045UL * 4UL) {
+			if ((pllm < (20UL * 4UL)) || (pllm > (2045UL * 4UL))) {
 				ret = SFALSE;
 			}
 		} else {
-			if (pllm < 20UL || pllm > 2045UL) {
+			if ((pllm < 20UL) || (pllm > 2045UL)) {
 				ret = SFALSE;
 			}
 		}
@@ -632,22 +632,22 @@ static sbool adpllm_pllm_valid(struct clk *clk UNUSED, u32 pllm, sbool is_frac)
 	sbool m4x;
 
 	/* For values above 4094, M4X must be on. */
-	m4x = pllm > 2047UL * 2UL;
+	m4x = pllm > (2047UL * 2UL);
 
 	/* Fractional multiplier M.f is not supported for M < 20 and M > 2045 */
 	if (is_frac) {
 		if (m4x) {
-			if (pllm < 20UL * 8UL || pllm > 2045UL * 8UL) {
+			if ((pllm < (20UL * 8UL)) || (pllm > (2045UL * 8UL))) {
 				ret = SFALSE;
 			}
 		} else {
-			if (pllm < 20UL * 2UL || pllm > 2045UL * 2UL) {
+			if ((pllm < (20UL * 2UL)) || (pllm > (2045UL * 2UL))) {
 				ret = SFALSE;
 			}
 		}
 	}
 
-	if (pllm <= 1UL * 2UL) {
+	if (pllm <= (1UL * 2UL)) {
 		/* pllm must greater than 2 */
 		ret = SFALSE;
 	} else if (m4x) {
@@ -677,7 +677,7 @@ static u32 adpllm_pllm_stride(struct clk *clk UNUSED, u32 pllm)
 {
 	u32 ret;
 
-	if (pllm > 2047UL * 2UL) {
+	if (pllm > (2047UL * 2UL)) {
 		ret = 4UL * 2UL;
 	} else {
 		ret = 1UL * 2UL;
@@ -725,7 +725,7 @@ static sbool adpllj_pllm_valid(struct clk *clk UNUSED, u32 pllm, sbool is_frac)
 	sbool ret = STRUE;
 
 	/* Fractional multiplier M.f is not supported for M > 4093 */
-	if (is_frac && pllm > 4093UL) {
+	if (is_frac && (pllm > 4093UL)) {
 		ret = SFALSE;
 	}
 
@@ -1294,7 +1294,7 @@ static u32 clk_adpllm_internal_set_freq(struct adpllm_program_data *data)
 		}
 
 		/* Both returned frequencies, see which was closer */
-		if (freq != 0ULL && dcc_freq != 0UL) {
+		if ((freq != 0ULL) && (dcc_freq != 0UL)) {
 			u32 norm_delta;
 			u32 dcc_delta;
 
@@ -1314,10 +1314,10 @@ static u32 clk_adpllm_internal_set_freq(struct adpllm_program_data *data)
 				freq = 0UL;
 			} else if (norm_delta > dcc_delta) {
 				dcc_freq = 0UL;
-			} else if (data->pllfm != 0UL && dcc_pllfm == 0UL) {
+			} else if ((data->pllfm != 0UL) && (dcc_pllfm == 0UL)) {
 				/* Prefer to not use fractional */
 				freq = 0UL;
-			} else if (data->pllfm == 0UL && dcc_pllfm != 0UL) {
+			} else if ((data->pllfm == 0UL) && (dcc_pllfm != 0UL)) {
 				/* Prefer to not use fractional */
 				dcc_freq = 0UL;
 			} else {
@@ -1351,7 +1351,7 @@ static u32 clk_adpllm_internal_set_freq(struct adpllm_program_data *data)
 			/* No valid settings frequency */
 		}
 
-		if (freq != 0ULL && data->pllm > 4094UL) {
+		if ((freq != 0ULL) && (data->pllm > 4094UL)) {
 			/*
 			 * pllm value we used integrated m4x, break it
 			 * out into a boolean so we get the actual
@@ -1369,13 +1369,13 @@ static u32 clk_adpllm_internal_set_freq(struct adpllm_program_data *data)
 
 	*data->changed = STRUE;
 	/* No need to do anything if they haven't changed */
-	if (data->plld == prev_plld && data->pllm == prev_pllm && data->pllfm == prev_pllfm &&
-	    data->clkod == prev_clkod && prev_m4x == data->m4x && prev_dcc == data->dcc &&
+	if ((data->plld == prev_plld) && (data->pllm == prev_pllm) && (data->pllfm == prev_pllfm) &&
+	    (data->clkod == prev_clkod) && (prev_m4x == data->m4x) && (prev_dcc == data->dcc) &&
 	    !was_bypass) {
 		*data->changed = SFALSE;
 	}
 
-	if (freq != 0ULL && !data->query && *data->changed) {
+	if ((freq != 0ULL) && !data->query && *data->changed) {
 		clk_adpllm_program_freq(data);
 	}
 
@@ -1401,10 +1401,10 @@ static u32 clk_adpllm_set_freq(struct clk *clk,
 	 * Find our child divider that can modify our frequency, that's the
 	 * clkout output.
 	 */
-	for (i = 0; !clkout_clk && i < soc_clock_count; i++) {
+	for (i = 0; !clkout_clk && (i < soc_clock_count); i++) {
 		const struct clk_data *sub_data = soc_clock_data + i;
-		if (sub_data->drv == &clk_drv_div_hsdiv.drv &&
-		    (sub_data->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) != 0U) {
+		if ((sub_data->drv == &clk_drv_div_hsdiv.drv) &&
+		    ((sub_data->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) != 0U)) {
 			struct clk *sub_clk = soc_clocks + i;
 			if (clk_adpllm_hsdiv_get_pll_root(sub_clk) == clk) {
 				clkout_clk = sub_clk;
@@ -1577,8 +1577,8 @@ static s32 clk_adpllm_init_internal(struct clk *clk)
 
 		for (i = 0; i < soc_clock_count; i++) {
 			const struct clk_data *sub_data = soc_clock_data + i;
-			if ((sub_data->drv == &clk_drv_div_hsdiv.drv ||
-			     sub_data->drv == &clk_drv_div_hsdiv4.drv) &&
+			if (((sub_data->drv == &clk_drv_div_hsdiv.drv) ||
+			     (sub_data->drv == &clk_drv_div_hsdiv4.drv)) &&
 			    sub_data->drv->init) {
 				struct clk *sub_clk = soc_clocks + i;
 				if (clk_adpllm_hsdiv_get_pll_root(sub_clk) == clk) {
@@ -1778,7 +1778,7 @@ sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clk,
 	}
 
 	/* Try the current divisor and lower frequencies */
-	for (i = start; !found && i < data_div->n + 1UL; i++) {
+	for (i = start; !found && (i < (data_div->n + 1UL)); i++) {
 		new_freq = i;
 		found = clk_notify_children_freq(clk, new_freq, STRUE);
 		if (found) {
@@ -1800,11 +1800,11 @@ sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clk,
 		drv_div = container_of(clk_data->drv,
 				       const struct clk_drv_div, drv);
 
-		if (lower && i != div) {
+		if (lower && (i != div)) {
 			drv_div->set_div(clk, i);
 		}
 		clk_notify_children_freq(clk, new_freq, SFALSE);
-		if (raise && i != div) {
+		if (raise && (i != div)) {
 			drv_div->set_div(clk, i);
 		}
 	}
@@ -1941,7 +1941,7 @@ static u32 clk_adpllm_bypass_get_freq(struct clk *clk)
 	}
 
 	if (pll_clk) {
-		if (pll_clk->ref_count != 0U || !clk_adpllm_is_bypass(pll_clk)) {
+		if ((pll_clk->ref_count != 0U) || !clk_adpllm_is_bypass(pll_clk)) {
 			/*
 			 * If we are disabled, ignore bypass state and return
 			 * frequency we will run at once enabled.

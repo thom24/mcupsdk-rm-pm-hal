@@ -296,8 +296,8 @@ s32 rm_core_get_resource_range(u32	*msg_recv,
 	}
 
 	if (r == SUCCESS) {
-		host = msg->secondary_host ==
-		       TISCI_MSG_VALUE_RM_UNUSED_SECONDARY_HOST ?
+		host = (msg->secondary_host ==
+			TISCI_MSG_VALUE_RM_UNUSED_SECONDARY_HOST) ?
 		       msg->hdr.host :
 		       msg->secondary_host;
 		utype = RESASG_UTYPE(msg->type, msg->subtype);

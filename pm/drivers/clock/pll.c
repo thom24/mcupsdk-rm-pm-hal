@@ -72,8 +72,8 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 	sbool pll_consider_done = SFALSE;
 
 	/* Check if desired output is in given range for PLL table entry. */
-	if (data->output < entry->freq_min_hz ||
-	    data->output > entry->freq_max_hz) {
+	if ((data->output < entry->freq_min_hz) ||
+	    (data->output > entry->freq_max_hz)) {
 		pll_consider_done = STRUE;
 	}
 
@@ -161,7 +161,7 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 		 * Check if output is within our allowable bounds. Don't round
 		 * up, accept anything up to but not including max + 1.
 		 */
-		if (actual < data->min || actual > data->max) {
+		if ((actual < data->min) || (actual > data->max)) {
 			pll_consider_done = STRUE;
 		}
 	}
@@ -183,9 +183,9 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 			delta_rem = rem;
 		}
 
-		if (delta < data->min_delta ||
-		    (delta == data->min_delta && data->min_delta_rem &&
-		     delta_rem * data->min_delta_div < data->min_delta_rem * clkod_plld)) {
+		if ((delta < data->min_delta) ||
+		    ((delta == data->min_delta) && data->min_delta_rem &&
+		     ((delta_rem * data->min_delta_div) < (data->min_delta_rem * clkod_plld)))) {
 			*data->pllm = entry->pllm;
 			*data->pllfm = entry->pllfm;
 			*data->plld = entry->plld;
@@ -309,7 +309,7 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 			 * +1.
 			 */
 			ret = PLLM_HIGH;
-		} else if (vco == data->vco->max_hz && rem != 0UL) {
+		} else if ((vco == data->vco->max_hz) && rem != 0UL) {
 			/*
 			 * If we are at the vco limit and not just the output
 			 * limit, round up, don't allow any remainder.
@@ -387,7 +387,7 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 				 * and so on which would return 48 on query,
 				 * and so on.
 				 */
-				if (delta == 0UL && data->best_actual != actual) {
+				if ((delta == 0UL) && (data->best_actual != actual)) {
 					/* One result at target, one at target - 1 */
 					if (actual == data->output) {
 						/* Our result is above, we are better */
@@ -408,14 +408,14 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 		}
 
 		/* Bin is the same, but delta is worse. */
-		if (bin == data->max_bin && !same && !better) {
+		if ((bin == data->max_bin) && !same && !better) {
 			/* No action */
 		} else {
 			u32 fitness;
 			fitness = data->data->vco_fitness(data->clk, vco, curr_pllfm != 0UL);
 
 			/* Bin and delta are the same, but fitness is same or worse. */
-			if (bin == data->max_bin && same && fitness <= data->max_fitness) {
+			if ((bin == data->max_bin) && same && (fitness <= data->max_fitness)) {
 				/* No action */
 			} else {
 				/*
@@ -480,8 +480,8 @@ static inline void pll_consider_fractional(struct pll_consider_data *data,
 	 * above as it *cannot* be handled by the non-frac case.
 	 */
 	if (pllfm_estimate == pllfm_range) {
-		if (curr_pllm == data->data->pllm_max ||
-		    !(data->data->pllm_valid == NULL ||
+		if ((curr_pllm == data->data->pllm_max) ||
+		    !((data->data->pllm_valid == NULL) ||
 		      data->data->pllm_valid(data->clk, curr_pllm + stride, SFALSE))) {
 			highest_pllfm--;
 		}
@@ -510,7 +510,7 @@ static inline void pll_consider_fractional(struct pll_consider_data *data,
 		}
 		if (test_vco > data->vco_max) {
 			highest_pllfm--;
-		} else if (test_vco == data->vco->max_hz && test_vco_rem != 0UL) {
+		} else if ((test_vco == data->vco->max_hz) && (test_vco_rem != 0UL)) {
 			highest_pllfm--;
 		}
 	}
@@ -545,7 +545,7 @@ static inline void pll_consider_fractional(struct pll_consider_data *data,
 		}
 
 		/* See if it's better than our best */
-		if (!found_best || delta < best_delta) {
+		if (!found_best || (delta < best_delta)) {
 			best_delta = delta;
 			found_best = STRUE;
 			best_pllfm = curr_pllfm;
@@ -556,7 +556,7 @@ static inline void pll_consider_fractional(struct pll_consider_data *data,
 	}
 
 	if (found_best) {
-		if (best_pllfm == 0UL || best_pllfm == pllfm_range) {
+		if ((best_pllfm == 0UL) || (best_pllfm == pllfm_range)) {
 			/*
 			 * Ignore the result, we will be better served by a
 			 * whole number pllm result.
@@ -773,7 +773,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 	 * which case there are no possible combinations and we will return
 	 * 0.
 	 */
-	lowest_plld = 1UL + (consider_data->input - 1UL) / consider_data->vco_in->max_hz;
+	lowest_plld = 1UL + ((consider_data->input - 1UL) / consider_data->vco_in->max_hz);
 	if (consider_data->vco_in->min_hz) {
 		highest_plld = consider_data->input / consider_data->vco_in->min_hz;
 	} else {
@@ -824,7 +824,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 		/* 0 is a legal value for vco min_hz */
 		lowest_clkod = 0UL;
 	} else {
-		lowest_clkod = 1UL + (consider_data->vco->min_hz - 1UL) / (consider_data->max + 1UL);
+		lowest_clkod = 1UL + ((consider_data->vco->min_hz - 1UL) / (consider_data->max + 1UL));
 	}
 	if (consider_data->min == 0UL) {
 		highest_clkod = data->clkod_max;
@@ -956,7 +956,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 		} else {
 			/* vco_max = clkod * (max + 1UL) - 1UL */
 			consider_data->vco_max += clkod - 1UL;
-			if (consider_data->vco_max < clkod - 1UL) {
+			if (consider_data->vco_max < (clkod - 1UL)) {
 				/* Overflow occurred */
 				consider_data->vco_max = ULONG_MAX;
 			}
@@ -1089,9 +1089,9 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 			 * any closer.
 			 */
 			if (do_frac && low_pllm &&
-			    low_pllm <= ideal_pllm &&
-			    (ideal_pllm_rem != 0UL || low_pllm != ideal_pllm) &&
-			    (data->pllm_valid == NULL || data->pllm_valid(clk, low_pllm, STRUE))) {
+			    (low_pllm <= ideal_pllm) &&
+			    ((ideal_pllm_rem != 0UL) || (low_pllm != ideal_pllm)) &&
+			    ((data->pllm_valid == NULL) || data->pllm_valid(clk, low_pllm, STRUE))) {
 				/*
 				 * Some PLLs have an internal multiplier that
 				 * combines with the programmable multiplier.
@@ -1126,7 +1126,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 				pll_consider_fractional(consider_data, low_pllm, frem, estimate_pllfm, stride);
 			}
 
-			if (low_pllm && low_pllm == high_pllm) {
+			if (low_pllm && (low_pllm == high_pllm)) {
 				/*
 				 * If we produce the exact frequency we want,
 				 * and ideal_pllm is a valid pllm value, then
@@ -1158,7 +1158,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 				 * run out of bins or get a pllm value that
 				 * is too low.
 				 */
-				if (ret != PLLM_LOW && data->bin_prev_pllm) {
+				if ((ret != PLLM_LOW) && data->bin_prev_pllm) {
 					low_pllm = data->bin_prev_pllm(
 						clk,
 						consider_data->curr_plld,
@@ -1181,7 +1181,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 				 * run out of bins or get a pllm value that
 				 * is too high.
 				 */
-				if (ret != PLLM_HIGH && data->bin_next_pllm) {
+				if ((ret != PLLM_HIGH) && data->bin_next_pllm) {
 					high_pllm = data->bin_next_pllm(
 						clk,
 						consider_data->curr_plld,

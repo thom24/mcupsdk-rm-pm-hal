@@ -18,7 +18,7 @@ extern const u8 soc_host_indexes_sz;
 
 static inline u8 host_idx_lookup(u8 host_id)
 {
-	return host_id < soc_host_indexes_sz ? soc_host_indexes[host_id] : HOST_IDX_NONE;
+	return (host_id < soc_host_indexes_sz) ? soc_host_indexes[host_id] : HOST_IDX_NONE;
 }
 
 #endif

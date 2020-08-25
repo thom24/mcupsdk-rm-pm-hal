@@ -62,7 +62,7 @@ s32 ilog32(uint32_t _v)
 	_v |= _v >> 8;
 	_v |= _v >> 16;
 	_v = (_v >> 1) + 1;
-	ret += DEBRUIJN_IDX32[_v * 0x77CB531U >> 27 & 0x1F];
+	ret += DEBRUIJN_IDX32[((_v * 0x77CB531U) >> 27) & 0x1F];
 	return ret;
 # endif
 }
@@ -110,7 +110,7 @@ s32 ilog64(uint64_t _v)
 	v |= v >> 8;
 	v |= v >> 16;
 	v = (v >> 1) + 1;
-	ret += DEBRUIJN_IDX32[v * 0x77CB531U >> 27 & 0x1F];
+	ret += DEBRUIJN_IDX32[((v * 0x77CB531U) >> 27) & 0x1F];
 	return ret;
 # endif
 }

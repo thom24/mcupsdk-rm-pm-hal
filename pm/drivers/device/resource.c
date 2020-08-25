@@ -44,9 +44,9 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 	const struct dev_data *data = get_dev_data(dev);
 	const struct resource *r;
 
-	BUILD_ASSERT(sizeof(struct resource_clk) <= UCHAR_MAX &&
-		     sizeof(struct resource_mem) <= UCHAR_MAX &&
-		     sizeof(struct resource_rst) <= UCHAR_MAX);
+	BUILD_ASSERT((sizeof(struct resource_clk) <= UCHAR_MAX) &&
+		     (sizeof(struct resource_mem) <= UCHAR_MAX) &&
+		     (sizeof(struct resource_rst) <= UCHAR_MAX));
 	/*
 	 * If the device does not have drv_data, it does not have resources.
 	 * Return NULL
@@ -60,7 +60,7 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 			if (idx < (r->hdr & RESOURCE_COUNT_MASK)) {
 				/* Return our resource */
 				return ((const char *) &r->data) +
-				       idx * sizes[type >> 6];
+				       (idx * sizes[type >> 6]);
 			} else {
 				r = NULL;
 			}
@@ -72,8 +72,8 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 			r =
 				(const struct resource *) ((const char *) &r->
 							   data) +
-				(r->hdr & RESOURCE_COUNT_MASK) *
-				sizes[r->hdr >> 6];
+				((r->hdr & RESOURCE_COUNT_MASK) *
+				 sizes[r->hdr >> 6]);
 		}
 	}
 
@@ -84,19 +84,19 @@ const struct resource_clk *device_resource_clk(struct device *dev, u8 idx)
 {
 	const struct resource_clk *ret = resource_get(dev, RESOURCE_CLK, idx);
 
-	return ret && ret->clk_id != RESOURCE_CLK_NONE ? ret : NULL;
+	return ret && (ret->clk_id != RESOURCE_CLK_NONE) ? ret : NULL;
 }
 
 const struct resource_mem *device_resource_mem(struct device *dev, u8 idx)
 {
 	const struct resource_mem *ret = resource_get(dev, RESOURCE_MEM, idx);
 
-	return ret && ret->addr != RESOURCE_MEM_NONE ? ret : NULL;
+	return ret && (ret->addr != RESOURCE_MEM_NONE) ? ret : NULL;
 }
 
 const struct resource_rst *device_resource_rst(struct device *dev, u8 idx)
 {
 	const struct resource_rst *ret = resource_get(dev, RESOURCE_RST, idx);
 
-	return ret && ret->bit != RESOURCE_RST_NONE ? ret : NULL;
+	return ret && (ret->bit != RESOURCE_RST_NONE) ? ret : NULL;
 }

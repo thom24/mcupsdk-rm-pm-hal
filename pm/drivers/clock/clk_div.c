@@ -43,7 +43,7 @@ sbool clk_div_notify_freq(struct clk *clkp, u32 parent_freq_hz,
 	/* Just find a frequency that works for all children */
 
 	/* Try the current divisor and lower frequencies */
-	for (i = divp; !found && i < data_div->n + 1UL; i++) {
+	for (i = divp; !found && (i < (data_div->n + 1UL)); i++) {
 		if (!drv_div->valid_div || drv_div->valid_div(clkp, i)) {
 			found = clk_notify_children_freq(clkp,
 							 parent_freq_hz / i, STRUE);
@@ -51,7 +51,7 @@ sbool clk_div_notify_freq(struct clk *clkp, u32 parent_freq_hz,
 	}
 
 	/* Try larger frequencies */
-	for (i = divp - 1UL; !found && i > 0UL; i--) {
+	for (i = divp - 1UL; !found && (i > 0UL); i--) {
 		if (!drv_div->valid_div || drv_div->valid_div(clkp, i)) {
 			found = clk_notify_children_freq(clkp,
 							 parent_freq_hz / i, STRUE);
@@ -118,7 +118,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 		divider = i * p->div;
 
 		/* Make sure target fits within out clock frequency type */
-		if (ULONG_MAX / divider < min_hz) {
+		if ((ULONG_MAX / divider) < min_hz) {
 			continue;
 		}
 
@@ -239,7 +239,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 						best_parent_freq, SFALSE);
 		}
 
-		*changed = best_changed || old_div != best_div;
+		*changed = best_changed || (old_div != best_div);
 	}
 
 	if (best_div) {
@@ -284,18 +284,18 @@ static u32 clk_div_set_freq_static_parent(
 	 * function will check if the resulting divider value is within
 	 * the allowable min/max range.
 	 */
-	if (div0 > n - 1) {
+	if (div0 > (n - 1)) {
 		div0 = n - 1;
 	}
 
 	div1 = div0 + 1UL;
 
 	if (drv_div->valid_div) {
-		for (; div0 > 0UL && !drv_div->valid_div(clkp, div0); div0--) {
+		for (; (div0 > 0UL) && !drv_div->valid_div(clkp, div0); div0--) {
 			/* Step through loop until valid div is found */
 		}
 
-		for (; div1 <= n && !drv_div->valid_div(clkp, div1); div1++) {
+		for (; (div1 <= n) && !drv_div->valid_div(clkp, div1); div1++) {
 			/* Step through loop until valid div is found */
 		}
 	}
@@ -326,7 +326,7 @@ static u32 clk_div_set_freq_static_parent(
 	}
 
 	/* Make sure at least one of them is acceptable */
-	if (div1_ok && (!div0_ok || div1_delta < div0_delta)) {
+	if (div1_ok && (!div0_ok || (div1_delta < div0_delta))) {
 		div0_ok = STRUE;
 		div0 = div1;
 		div0_hz = div1_hz;
@@ -441,7 +441,7 @@ sbool clk_div_reg_set_div(struct clk *clkp, u32 d)
 	drv_div = container_of(clk_data->drv, const struct clk_drv_div, drv);
 
 	n = data_div->n;
-	if (d <= n && (!drv_div->valid_div || drv_div->valid_div(clkp, d))) {
+	if ((d <= n) && (!drv_div->valid_div || drv_div->valid_div(clkp, d))) {
 		u32 v;
 
 		if (!data_reg->start_at_1) {
@@ -527,7 +527,7 @@ sbool clk_div_reg_go_set_div(struct clk *clkp, u32 d)
 	drv_div = container_of(clk_data->drv, const struct clk_drv_div, drv);
 
 	n = data_div->n;
-	if (d <= n && (!drv_div->valid_div || drv_div->valid_div(clkp, d))) {
+	if ((d <= n) && (!drv_div->valid_div || drv_div->valid_div(clkp, d))) {
 		u32 v;
 
 		if (!data_reg->start_at_1) {

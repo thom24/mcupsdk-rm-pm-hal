@@ -682,8 +682,8 @@ static u16 ra_get_evt(const struct ra_instance *inst, u16 oes_index)
 		maddr = rm_core_map_region(inst->gcfg->base);
 		evt_addr = maddr + RA_GCFG_ERROR_EVENT;
 	} else if ((oes_index >= inst->ring_mon_oes_offset) &&
-		   (oes_index < inst->ring_mon_oes_offset +
-		    inst->n_ring_mon)) {
+		   (oes_index < (inst->ring_mon_oes_offset +
+				 inst->n_ring_mon))) {
 		/*
 		 * Breaking the evt_addr computation into multiple statements to
 		 * comply with MISRA.ETYPE.COMP.CAST.EXPL.WIDER.2012
@@ -745,8 +745,8 @@ static s32 ra_get_ring_evt(u8 host, u16 id, u16 oes_index, u16 *evt)
 				inst->err_evt_utype,
 				0u);
 		} else if ((oes_index >= inst->ring_oes_offset) &&
-			   (oes_index < inst->ring_oes_offset +
-			    inst->n_ring)) {
+			   (oes_index < (inst->ring_oes_offset +
+					 inst->n_ring))) {
 			r = ra_check_index_range(inst, host, oes_index, NULL,
 						 trace_action, NULL);
 			if (r == SUCCESS) {
@@ -757,8 +757,8 @@ static s32 ra_get_ring_evt(u8 host, u16 id, u16 oes_index, u16 *evt)
 				}
 			}
 		} else if ((oes_index >= inst->ring_mon_oes_offset) &&
-			   (oes_index < inst->ring_mon_oes_offset +
-			    inst->n_ring_mon)) {
+			   (oes_index < (inst->ring_mon_oes_offset +
+					 inst->n_ring_mon))) {
 			r = ra_check_monitor_index_range(inst, host,
 							 (oes_index -
 							  inst->ring_mon_oes_offset),
@@ -823,8 +823,8 @@ static s32 ra_set_ring_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 				inst->err_evt_utype,
 				0u);
 		} else if ((oes_index >= inst->ring_oes_offset) &&
-			   (oes_index < inst->ring_oes_offset +
-			    inst->n_ring)) {
+			   (oes_index < (inst->ring_oes_offset +
+					 inst->n_ring))) {
 			r = ra_check_index_range(inst, host, oes_index, NULL,
 						 trace_action, NULL);
 			if (r == SUCCESS) {
@@ -835,8 +835,8 @@ static s32 ra_set_ring_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 				}
 			}
 		} else if ((oes_index >= inst->ring_mon_oes_offset) &&
-			   (oes_index < inst->ring_mon_oes_offset +
-			    inst->n_ring_mon)) {
+			   (oes_index < (inst->ring_mon_oes_offset +
+					 inst->n_ring_mon))) {
 			r = ra_check_monitor_index_range(inst, host,
 							 (oes_index -
 							  inst->ring_mon_oes_offset),
@@ -859,8 +859,8 @@ static s32 ra_set_ring_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 					 RA_GENERIC_EVENT_EVT_MASK, evt);
 			evt_addr = maddr + RA_GCFG_ERROR_EVENT;
 		} else if ((oes_index >= inst->ring_mon_oes_offset) &&
-			   (oes_index < inst->ring_mon_oes_offset +
-			    inst->n_ring_mon)) {
+			   (oes_index < (inst->ring_mon_oes_offset +
+					 inst->n_ring_mon))) {
 			maddr = rm_core_map_region(inst->mon->base);
 			evt_addr = maddr +
 				   RA_CFG_MON_BASE(oes_index -

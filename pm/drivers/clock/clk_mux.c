@@ -35,7 +35,7 @@ static const struct clk_parent *clk_mux_get_parent(struct clk *clkp)
 		v &= (1 << ilog32(mux->n - 1)) - 1;
 	}
 
-	return (v < mux->n && mux->parents[v].div) ? &mux->parents[v] : NULL;
+	return ((v < mux->n) && mux->parents[v].div) ? &mux->parents[v] : NULL;
 }
 
 static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
@@ -135,7 +135,7 @@ sbool clk_set_parent(struct clk *clkp, u8 new_parent)
 
 	if (!done) {
 		op = mux_drv->get_parent(clkp);
-		if (op && op->clk == mux_data->parents[new_parent].clk) {
+		if (op && (op->clk == mux_data->parents[new_parent].clk)) {
 			ret = STRUE;
 			done = STRUE;
 		}
@@ -168,7 +168,7 @@ sbool clk_set_parent(struct clk *clkp, u8 new_parent)
 	}
 
 	if (!done) {
-		if (op && clkp->ref_count != 0U) {
+		if (op && (clkp->ref_count != 0U)) {
 			struct clk *op_parent;
 			op_parent = clk_lookup((clk_idx_t) op->clk);
 			if (op_parent) {

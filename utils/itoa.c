@@ -39,7 +39,7 @@ u8 *lib_itoa(u32 value, u8 *str, s32 base)
 		idx--;
 
 		/* Reverse the string as we converted from low digit to high */
-		for (i = 0; i <= idx / 2; i++) {
+		for (i = 0; i <= (idx / 2); i++) {
 			val = str[idx - i];
 			str[idx - i] = str[i];
 			str[i] = val;

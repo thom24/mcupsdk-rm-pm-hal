@@ -114,8 +114,8 @@ struct map *map_add(struct map *map, const void *member, const u8 *bytes,
 			break;
 		}
 		/* Subtle: bit numbers are "backwards" for comparison */
-		if (n->u.n->byte_num == byte_num && n->u.n->bit_num <
-		    bit_num) {
+		if ((n->u.n->byte_num == byte_num) && (n->u.n->bit_num <
+						       bit_num)) {
 			break;
 		}
 

@@ -131,8 +131,8 @@ sbool clk_notify_sibling_freq(struct clk *clkpp, struct clk *parent,
 	clk_idx_t i;
 	clk_idx_t pid = clk_id(parent);
 	clk_idx_t id = clkp ? clk_id(clkp) : CLK_ID_NONE;
-	
-	
+
+
 	/* We must unfortunately walk clock list to find children */
 	for (i = 0U; i < soc_clock_count; i++) {
 		const struct clk_parent *p;
@@ -148,7 +148,7 @@ sbool clk_notify_sibling_freq(struct clk *clkpp, struct clk *parent,
 		}
 
 		p = clk_get_parent(clkp);
-		if (!p || p->clk != pid) {
+		if (!p || (p->clk != pid)) {
 			continue;
 		}
 
@@ -180,7 +180,7 @@ u32 clk_generic_set_freq_parent(struct clk *clkp, struct clk *parent,
 	u32 ret;
 
 	/* Make sure target fits within out clock frequency type */
-	if (ULONG_MAX / d < min_hz) {
+	if ((ULONG_MAX / d) < min_hz) {
 		ret = 0;
 		goto out;
 	}
@@ -260,7 +260,7 @@ static u32 clk_generic_set_freq(struct clk *clkp,
 		}
 	} else {
 		u32 freq = clk_get_freq(clkp);
-		if (freq >= min_hz && freq <= max_hz) {
+		if ((freq >= min_hz) && (freq <= max_hz)) {
 			ret = freq;
 		}
 	}
@@ -310,7 +310,7 @@ u32 clk_set_freq(struct clk *clkp, u32 target_hz,
 		ret = 0U;
 	} else if (clk_data_p->drv->set_freq != NULL) {
 		ret = clk_data_p->drv->set_freq(clkp, target_hz, min_hz,
-					      max_hz, query, changed);
+						max_hz, query, changed);
 	} else {
 		ret = clk_generic_set_freq(clkp, target_hz, min_hz, max_hz,
 					   query, changed);
@@ -536,7 +536,7 @@ s32 clk_deinit_pm_devgrp(u8 pm_devgrp)
 
 	if (pm_devgrp >= soc_devgroup_count) {
 		return -EINVAL;
-	} else if (pm_devgrp == soc_devgroup_count - 1) {
+	} else if (pm_devgrp == (soc_devgroup_count - 1)) {
 		/* Last devgrp's last clock id is the same as last of all clock ids */
 		clk_id_end = soc_clock_count;
 	} else {

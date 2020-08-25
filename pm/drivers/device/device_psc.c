@@ -384,8 +384,8 @@ static s32 soc_device_verify_mapping(const struct psc_drv_data *psc,
 			}
 		} else {
 			for (i = 0U; mdata->dev_array[i] != dev_id; i++) {
-				if (i >= ARRAY_SIZE(mdata->dev_array) - 1UL ||
-				    mdata->dev_array[i] == DEV_ID_NONE) {
+				if ((i >= (ARRAY_SIZE(mdata->dev_array) - 1UL)) ||
+				    (mdata->dev_array[i] == DEV_ID_NONE)) {
 					ret = -EINVAL;
 					break;
 				}

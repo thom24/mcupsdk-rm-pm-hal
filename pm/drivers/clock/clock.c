@@ -342,8 +342,8 @@ s32 set_freq_handler(u32 *msg_recv)
 
 	ret = device_prepare_exclusive(req->hdr.host, id, NULL, &dev);
 	if (ret == SUCCESS) {
-		if (min_freq_hz > ULONG_MAX || min_freq_hz > target_freq_hz ||
-		    target_freq_hz > max_freq_hz) {
+		if ((min_freq_hz > ULONG_MAX) || (min_freq_hz > target_freq_hz) ||
+		    (target_freq_hz > max_freq_hz)) {
 			ret = -EINVAL;
 		}
 	}
@@ -400,8 +400,8 @@ s32 query_freq_handler(u32 *msg_recv)
 
 	ret = device_prepare_exclusive(req->hdr.host, id, NULL, &dev);
 	if (ret == SUCCESS) {
-		if (min_freq_hz > ULONG_MAX || min_freq_hz > target_freq_hz ||
-		    target_freq_hz > max_freq_hz) {
+		if ((min_freq_hz > ULONG_MAX) || (min_freq_hz > target_freq_hz) ||
+		    (target_freq_hz > max_freq_hz)) {
 			ret = -EINVAL;
 		}
 	}

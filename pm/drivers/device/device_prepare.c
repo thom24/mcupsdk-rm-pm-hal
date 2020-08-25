@@ -38,8 +38,8 @@ static s32 device_prepare(u8 host_id, u32 id, u8 *host_idx, struct device **devi
 		}
 	}
 
-	if (ret == SUCCESS && exclusive) {
-		if (local_device->exclusive != 0U && local_device->exclusive != local_host_idx) {
+	if ((ret == SUCCESS) && exclusive) {
+		if ((local_device->exclusive != 0U) && (local_device->exclusive != local_host_idx)) {
 			pm_trace(TRACE_PM_ACTION_EXCLUSIVE_DEVICE,
 				 (((u32) id << TRACE_PM_VAL_EXCLUSIVE_DEVICE_ID_SHIFT) &
 				  TRACE_PM_VAL_EXCLUSIVE_DEVICE_ID_MASK) |
