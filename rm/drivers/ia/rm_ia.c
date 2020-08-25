@@ -287,18 +287,29 @@ static s32 ia_validate_evt(const struct ia_instance *inst, u16 evt, u16 vint,
 	}
 
 	if (r == SUCCESS) {
+		/* The RM initialization can be called 2 times by
+		 * independent applications like bootloader and then the
+		 * Sciserver. When running like this the bootloader would
+		 * have already initialized the hardware state of the device
+		 * which is read in entry_int_map_lo.
+		 * However, when the Sciserver is run after this the
+		 * hardware state will not match the software init state.
+		 * Hence we read the hardware state of the register and
+		 * match with what we are trying to set, and if this is
+		 * matching then we set the software state accordingly.
+		 */
 		maddr = rm_core_map_region(inst->imap->base);
 
 		entry_int_map_lo = readl(maddr + IA_ENTRY_INTMAP_LO(evt));
 
+		reg_vint = (u16) rm_fext(entry_int_map_lo,
+					 IA_ENTRY_INTMAP_REGNUM_SHIFT,
+					 IA_ENTRY_INTMAP_REGNUM_MASK);
+		reg_sb = (u16) rm_fext(entry_int_map_lo,
+				       IA_ENTRY_INTMAP_BITNUM_SHIFT,
+				       IA_ENTRY_INTMAP_BITNUM_MASK);
 		if (in_use == STRUE) {
 			/* Check if event is in use */
-			reg_vint = (u16) rm_fext(entry_int_map_lo,
-						 IA_ENTRY_INTMAP_REGNUM_SHIFT,
-						 IA_ENTRY_INTMAP_REGNUM_MASK);
-			reg_sb = (u16) rm_fext(entry_int_map_lo,
-					       IA_ENTRY_INTMAP_BITNUM_SHIFT,
-					       IA_ENTRY_INTMAP_BITNUM_MASK);
 			if ((reg_vint == 0u) && (reg_sb == 0u)) {
 				/*
 				 * INTMAP register's default value is zero
@@ -318,8 +329,13 @@ static s32 ia_validate_evt(const struct ia_instance *inst, u16 evt, u16 vint,
 				}
 			}
 		} else {
-			/* Check if event is free */
-			if ((entry_int_map_lo != 0u) ||
+			/*
+			 * Check if the register is non zero and if not equal to
+			 * what is being set.
+			 */
+			if (((entry_int_map_lo != 0u) &&
+			     (vint != reg_vint) &&
+			     (vint_sb_index != reg_sb)) ||
 			    (evt == inst->v0_b0_evt)) {
 				r = -EINVAL;
 			}
