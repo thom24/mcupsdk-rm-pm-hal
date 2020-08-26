@@ -24,10 +24,10 @@
 #define FREQ_HZ(freq)   ((u32) (freq))
 
 #define CLK_RANGE(id, min, max) [(id)] = \
-{ .min_hz = (min), .max_hz = (max) }
+{ .min_hz = (u32) (min), .max_hz = (u32) (max) }
 
 #define CLK_DEFAULT(id, min, target, max) [(id)] = \
-{ .min_hz = (min), .target_hz = (target), .max_hz = (max) }
+{ .min_hz = (u32) (min), .target_hz = (u32) (target), .max_hz = (u32) (max) }
 
 #define CLK_RANGE_ANY 0
 
