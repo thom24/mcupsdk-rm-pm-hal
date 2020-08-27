@@ -217,6 +217,7 @@ enum {
 	J7200_FREQ_RANGE_J7VC_WAKEUP_16FF_WKUP_0_WKUP_RCOSC_32K_CLK,
 	J7200_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,
 	J7200_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
+	J7200_FREQ_RANGE_ID_MAX,
 };
 
 enum {
@@ -277,7 +278,7 @@ enum {
 
 u32 soc_clock_values[J7200_FREQ_VALUE_COUNT];
 
-const struct clk_range soc_clock_ranges[] = {
+const struct clk_range soc_clock_ranges[J7200_FREQ_RANGE_ID_MAX] = {
 	CLK_RANGE(J7200_FREQ_RANGE_ANY,						 0,	    ULONG_MAX),
 	CLK_RANGE(J7200_FREQ_RANGE_J7VC_WAKEUP_16FF_WKUP_0_WKUP_RCOSC_12P5M_CLK, 12500000,  12500000),
 	CLK_RANGE(J7200_FREQ_RANGE_J7VC_WAKEUP_16FF_WKUP_0_WKUP_RCOSC_32K_CLK,	 32550,	    32550),
@@ -297,336 +298,336 @@ const struct clk_default soc_clock_freq_defaults[] = {
 
 const struct pll_table_entry soc_pll_table[] = {
 	[PLL_ENTRY_MAIN_19_2MHZ_1000MHZ_F24BIT] =      {
-		.freq_min_hz	= 1000000000UL,
-		.freq_max_hz	= 1000000000UL,
+		.freq_min_hz	= 1000000000U,
+		.freq_max_hz	= 1000000000U,
 		.plld		= 1U,
 		.pllm		= 104U,
 		.pllfm		= 2796203U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_MAIN_20MHZ_1000MHZ] =	       {
-		.freq_min_hz	= 1000000000UL,
-		.freq_max_hz	= 1000000000UL,
+		.freq_min_hz	= 1000000000U,
+		.freq_max_hz	= 1000000000U,
 		.plld		= 1U,
 		.pllm		= 100U,
 		.pllfm		= 0U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_MAIN_24MHZ_1000MHZ_F24BIT] =	       {
-		.freq_min_hz	= 1000000000UL,
-		.freq_max_hz	= 1000000000UL,
+		.freq_min_hz	= 1000000000U,
+		.freq_max_hz	= 1000000000U,
 		.plld		= 1U,
 		.pllm		= 83U,
 		.pllfm		= 5592406U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_MAIN_25MHZ_1000MHZ] =	       {
-		.freq_min_hz	= 1000000000UL,
-		.freq_max_hz	= 1000000000UL,
+		.freq_min_hz	= 1000000000U,
+		.freq_max_hz	= 1000000000U,
 		.plld		= 1U,
 		.pllm		= 80U,
 		.pllfm		= 0U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_MAIN_26MHZ_1000MHZ_F24BIT] =	       {
-		.freq_min_hz	= 1000000000UL,
-		.freq_max_hz	= 1000000000UL,
+		.freq_min_hz	= 1000000000U,
+		.freq_max_hz	= 1000000000U,
 		.plld		= 1U,
 		.pllm		= 76U,
 		.pllfm		= 15486661U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_MAIN_27MHZ_1000MHZ_F24BIT] =	       {
-		.freq_min_hz	= 1000000000UL,
-		.freq_max_hz	= 1000000000UL,
+		.freq_min_hz	= 1000000000U,
+		.freq_max_hz	= 1000000000U,
 		.plld		= 1U,
 		.pllm		= 74U,
 		.pllfm		= 1242757U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER0_19_2MHZ_960MHZ] =	       {
-		.freq_min_hz	= 960000000UL,
-		.freq_max_hz	= 960000000UL,
+		.freq_min_hz	= 960000000U,
+		.freq_max_hz	= 960000000U,
 		.plld		= 1U,
 		.pllm		= 100U,
 		.pllfm		= 0U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER0_20MHZ_960MHZ] =		       {
-		.freq_min_hz	= 960000000UL,
-		.freq_max_hz	= 960000000UL,
+		.freq_min_hz	= 960000000U,
+		.freq_max_hz	= 960000000U,
 		.plld		= 1U,
 		.pllm		= 96U,
 		.pllfm		= 0U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER0_24MHZ_960MHZ] =		       {
-		.freq_min_hz	= 960000000UL,
-		.freq_max_hz	= 960000000UL,
+		.freq_min_hz	= 960000000U,
+		.freq_max_hz	= 960000000U,
 		.plld		= 1U,
 		.pllm		= 80U,
 		.pllfm		= 0U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER0_25MHZ_960MHZ_F24BIT] =	       {
-		.freq_min_hz	= 960000000UL,
-		.freq_max_hz	= 960000000UL,
+		.freq_min_hz	= 960000000U,
+		.freq_max_hz	= 960000000U,
 		.plld		= 1U,
 		.pllm		= 76U,
 		.pllfm		= 13421773U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT] =	       {
-		.freq_min_hz	= 960000000UL,
-		.freq_max_hz	= 960000000UL,
+		.freq_min_hz	= 960000000U,
+		.freq_max_hz	= 960000000U,
 		.plld		= 1U,
 		.pllm		= 73U,
 		.pllfm		= 14196106U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER0_27MHZ_960MHZ_F24BIT] =	       {
-		.freq_min_hz	= 960000000UL,
-		.freq_max_hz	= 960000000UL,
+		.freq_min_hz	= 960000000U,
+		.freq_max_hz	= 960000000U,
 		.plld		= 1U,
 		.pllm		= 71U,
 		.pllfm		= 1864136U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER1_19_2MHZ_900MHZ_F24BIT] =       {
-		.freq_min_hz	= 900000000UL,
-		.freq_max_hz	= 900000000UL,
+		.freq_min_hz	= 900000000U,
+		.freq_max_hz	= 900000000U,
 		.plld		= 1U,
 		.pllm		= 93U,
 		.pllfm		= 12582912U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER1_20MHZ_900MHZ] =		       {
-		.freq_min_hz	= 900000000UL,
-		.freq_max_hz	= 900000000UL,
+		.freq_min_hz	= 900000000U,
+		.freq_max_hz	= 900000000U,
 		.plld		= 1U,
 		.pllm		= 90U,
 		.pllfm		= 0U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER1_24MHZ_900MHZ] =		       {
-		.freq_min_hz	= 900000000UL,
-		.freq_max_hz	= 900000000UL,
+		.freq_min_hz	= 900000000U,
+		.freq_max_hz	= 900000000U,
 		.plld		= 1U,
 		.pllm		= 75U,
 		.pllfm		= 0U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER1_25MHZ_900MHZ] =		       {
-		.freq_min_hz	= 900000000UL,
-		.freq_max_hz	= 900000000UL,
+		.freq_min_hz	= 900000000U,
+		.freq_max_hz	= 900000000U,
 		.plld		= 1U,
 		.pllm		= 72U,
 		.pllfm		= 0U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER1_26MHZ_900MHZ_F24BIT] =	       {
-		.freq_min_hz	= 900000000UL,
-		.freq_max_hz	= 900000001UL,
+		.freq_min_hz	= 900000000U,
+		.freq_max_hz	= 900000001U,
 		.plld		= 1U,
 		.pllm		= 69U,
 		.pllfm		= 3871666U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER1_27MHZ_900MHZ_F24BIT] =	       {
-		.freq_min_hz	= 900000000UL,
-		.freq_max_hz	= 900000000UL,
+		.freq_min_hz	= 900000000U,
+		.freq_max_hz	= 900000000U,
 		.plld		= 1U,
 		.pllm		= 66U,
 		.pllfm		= 11184811U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_CPSW_19_2MHZ_2000MHZ_F24BIT] =      {
-		.freq_min_hz	= 2000000000UL,
-		.freq_max_hz	= 2000000000UL,
+		.freq_min_hz	= 2000000000U,
+		.freq_max_hz	= 2000000000U,
 		.plld		= 1U,
 		.pllm		= 104U,
 		.pllfm		= 2796203U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_CPSW_20MHZ_2000MHZ] =	       {
-		.freq_min_hz	= 2000000000UL,
-		.freq_max_hz	= 2000000000UL,
+		.freq_min_hz	= 2000000000U,
+		.freq_max_hz	= 2000000000U,
 		.plld		= 1U,
 		.pllm		= 100U,
 		.pllfm		= 0U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_CPSW_24MHZ_2000MHZ_F24BIT] =	       {
-		.freq_min_hz	= 2000000000UL,
-		.freq_max_hz	= 2000000000UL,
+		.freq_min_hz	= 2000000000U,
+		.freq_max_hz	= 2000000000U,
 		.plld		= 1U,
 		.pllm		= 83U,
 		.pllfm		= 5592406U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_CPSW_26MHZ_2000MHZ_F24BIT] =	       {
-		.freq_min_hz	= 2000000000UL,
-		.freq_max_hz	= 2000000000UL,
+		.freq_min_hz	= 2000000000U,
+		.freq_max_hz	= 2000000000U,
 		.plld		= 1U,
 		.pllm		= 76U,
 		.pllfm		= 15486661U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_CPSW_27MHZ_2000MHZ_F24BIT] =	       {
-		.freq_min_hz	= 2000000000UL,
-		.freq_max_hz	= 2000000000UL,
+		.freq_min_hz	= 2000000000U,
+		.freq_max_hz	= 2000000000U,
 		.plld		= 1U,
 		.pllm		= 74U,
 		.pllfm		= 1242757U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_AUDIO_19_2MHZ_2359_296MHZ_F24BIT] = {
-		.freq_min_hz	= 2359296000UL,
-		.freq_max_hz	= 2359296001UL,
+		.freq_min_hz	= 2359296000U,
+		.freq_max_hz	= 2359296001U,
 		.plld		= 1U,
 		.pllm		= 122U,
 		.pllfm		= 14763951U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_AUDIO_20MHZ_2359_296MHZ_F24BIT] =   {
-		.freq_min_hz	= 2359296000UL,
-		.freq_max_hz	= 2359296000UL,
+		.freq_min_hz	= 2359296000U,
+		.freq_max_hz	= 2359296000U,
 		.plld		= 1U,
 		.pllm		= 117U,
 		.pllfm		= 16186658U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_AUDIO_24MHZ_2359_296MHZ_F24BIT] =   {
-		.freq_min_hz	= 2359296000UL,
-		.freq_max_hz	= 2359296001UL,
+		.freq_min_hz	= 2359296000U,
+		.freq_max_hz	= 2359296001U,
 		.plld		= 1U,
 		.pllm		= 98U,
 		.pllfm		= 5100275U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_AUDIO_25MHZ_2359_296MHZ_F24BIT] =   {
-		.freq_min_hz	= 2359296000UL,
-		.freq_max_hz	= 2359296000UL,
+		.freq_min_hz	= 2359296000U,
+		.freq_max_hz	= 2359296000U,
 		.plld		= 1U,
 		.pllm		= 94U,
 		.pllfm		= 6238440U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_AUDIO_26MHZ_2359_296MHZ_F24BIT] =   {
-		.freq_min_hz	= 2359296000UL,
-		.freq_max_hz	= 2359296000UL,
+		.freq_min_hz	= 2359296000U,
+		.freq_max_hz	= 2359296000U,
 		.plld		= 1U,
 		.pllm		= 90U,
 		.pllfm		= 12451276U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_AUDIO_27MHZ_2359_296MHZ_F24BIT] =   {
-		.freq_min_hz	= 2359296000UL,
-		.freq_max_hz	= 2359296001UL,
+		.freq_min_hz	= 2359296000U,
+		.freq_max_hz	= 2359296001U,
 		.plld		= 1U,
 		.pllm		= 87U,
 		.pllfm		= 6397712U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_ARM_25MHZ_2000MHZ] =		       {
-		.freq_min_hz	= 2000000000UL,
-		.freq_max_hz	= 2000000000UL,
+		.freq_min_hz	= 2000000000U,
+		.freq_max_hz	= 2000000000U,
 		.plld		= 1U,
 		.pllm		= 80U,
 		.pllfm		= 0U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_DDR_19_2MHZ_3200MHZ_F24BIT] =       {
-		.freq_min_hz	= 3200000000UL,
-		.freq_max_hz	= 3200000000UL,
+		.freq_min_hz	= 3200000000U,
+		.freq_max_hz	= 3200000000U,
 		.plld		= 1U,
 		.pllm		= 166U,
 		.pllfm		= 11184811U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_DDR_20MHZ_3200MHZ] =		       {
-		.freq_min_hz	= 3200000000UL,
-		.freq_max_hz	= 3200000000UL,
+		.freq_min_hz	= 3200000000U,
+		.freq_max_hz	= 3200000000U,
 		.plld		= 1U,
 		.pllm		= 160U,
 		.pllfm		= 0U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_DDR_24MHZ_3200MHZ_F24BIT] =	       {
-		.freq_min_hz	= 3200000000UL,
-		.freq_max_hz	= 3200000000UL,
+		.freq_min_hz	= 3200000000U,
+		.freq_max_hz	= 3200000000U,
 		.plld		= 1U,
 		.pllm		= 133U,
 		.pllfm		= 5592406U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_DDR_25MHZ_3200MHZ] =		       {
-		.freq_min_hz	= 3200000000UL,
-		.freq_max_hz	= 3200000000UL,
+		.freq_min_hz	= 3200000000U,
+		.freq_max_hz	= 3200000000U,
 		.plld		= 1U,
 		.pllm		= 128U,
 		.pllfm		= 0U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_DDR_26MHZ_3200MHZ_F24BIT] =	       {
-		.freq_min_hz	= 3200000000UL,
-		.freq_max_hz	= 3200000001UL,
+		.freq_min_hz	= 3200000000U,
+		.freq_max_hz	= 3200000001U,
 		.plld		= 1U,
 		.pllm		= 1230U,
 		.pllfm		= 12905552U,
 		.clkod		= 10U,
 	},
 	[PLL_ENTRY_DDR_27MHZ_3200MHZ_F24BIT] =	       {
-		.freq_min_hz	= 3200000000UL,
-		.freq_max_hz	= 3200000001UL,
+		.freq_min_hz	= 3200000000U,
+		.freq_max_hz	= 3200000001U,
 		.plld		= 1U,
 		.pllm		= 118U,
 		.pllfm		= 8699298U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_MCU_PER_19_2MHZ_2400MHZ] =	       {
-		.freq_min_hz	= 2400000000UL,
-		.freq_max_hz	= 2400000000UL,
+		.freq_min_hz	= 2400000000U,
+		.freq_max_hz	= 2400000000U,
 		.plld		= 1U,
 		.pllm		= 125U,
 		.pllfm		= 0U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_MCU_PER_20MHZ_2400MHZ] =	       {
-		.freq_min_hz	= 2400000000UL,
-		.freq_max_hz	= 2400000000UL,
+		.freq_min_hz	= 2400000000U,
+		.freq_max_hz	= 2400000000U,
 		.plld		= 1U,
 		.pllm		= 120U,
 		.pllfm		= 0U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_MCU_PER_24MHZ_2400MHZ] =	       {
-		.freq_min_hz	= 2400000000UL,
-		.freq_max_hz	= 2400000000UL,
+		.freq_min_hz	= 2400000000U,
+		.freq_max_hz	= 2400000000U,
 		.plld		= 1U,
 		.pllm		= 100U,
 		.pllfm		= 0U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_MCU_PER_25MHZ_2400MHZ] =	       {
-		.freq_min_hz	= 2400000000UL,
-		.freq_max_hz	= 2400000000UL,
+		.freq_min_hz	= 2400000000U,
+		.freq_max_hz	= 2400000000U,
 		.plld		= 1U,
 		.pllm		= 96U,
 		.pllfm		= 0U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_MCU_PER_26MHZ_2400MHZ_F24BIT] =     {
-		.freq_min_hz	= 2400000000UL,
-		.freq_max_hz	= 2400000001UL,
+		.freq_min_hz	= 2400000000U,
+		.freq_max_hz	= 2400000001U,
 		.plld		= 1U,
 		.pllm		= 92U,
 		.pllfm		= 5162221U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_MCU_PER_27MHZ_2400MHZ_F24BIT] =     {
-		.freq_min_hz	= 2400000000UL,
-		.freq_max_hz	= 2400000000UL,
+		.freq_min_hz	= 2400000000U,
+		.freq_max_hz	= 2400000000U,
 		.plld		= 1U,
 		.pllm		= 88U,
 		.pllfm		= 14913081U,
@@ -3089,7 +3090,7 @@ static const struct clk_data_div_reg clk_data_hsdiv0_16fft_main_12_hsdiv0 = {
 		.n		= 128,
 		.default_div	= 4,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 12UL + 0x80UL + 0x4UL * 0UL,
+	.reg			= 0x00680000UL + (0x1000UL * 12UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv0_16fft_main_7_hsdiv0 = {
@@ -3097,7 +3098,7 @@ static const struct clk_data_div_reg clk_data_hsdiv0_16fft_main_7_hsdiv0 = {
 		.n		= 128,
 		.default_div	= 2,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 7UL + 0x80UL + 0x4UL * 0UL,
+	.reg			= 0x00680000UL + (0x1000UL * 7UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv0_16fft_main_8_hsdiv0 = {
@@ -3105,7 +3106,7 @@ static const struct clk_data_div_reg clk_data_hsdiv0_16fft_main_8_hsdiv0 = {
 		.n		= 128,
 		.default_div	= 1,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 8UL + 0x80UL + 0x4UL * 0UL,
+	.reg			= 0x00680000UL + (0x1000UL * 8UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv1_16fft_main_14_hsdiv0 = {
@@ -3113,7 +3114,7 @@ static const struct clk_data_div_reg clk_data_hsdiv1_16fft_main_14_hsdiv0 = {
 		.n		= 128,
 		.default_div	= 2,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 14UL + 0x80UL + 0x4UL * 0UL,
+	.reg			= 0x00680000UL + (0x1000UL * 14UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv1_16fft_mcu_0_hsdiv0 = {
@@ -3121,7 +3122,7 @@ static const struct clk_data_div_reg clk_data_hsdiv1_16fft_mcu_0_hsdiv0 = {
 		.n		= 128,
 		.default_div	= 2,
 	},
-	.reg			= 0x40D00000UL + 0x1000UL * 0UL + 0x80UL + 0x4UL * 0UL,
+	.reg			= 0x40D00000UL + (0x1000UL * 0UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv1_16fft_mcu_0_hsdiv1 = {
@@ -3129,7 +3130,7 @@ static const struct clk_data_div_reg clk_data_hsdiv1_16fft_mcu_0_hsdiv1 = {
 		.n		= 128,
 		.default_div	= 34,
 	},
-	.reg			= 0x40D00000UL + 0x1000UL * 0UL + 0x80UL + 0x4UL * 1UL,
+	.reg			= 0x40D00000UL + (0x1000UL * 0UL) + 0x80UL + (0x4UL * 1UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv2_16fft_main_4_hsdiv0 = {
@@ -3137,7 +3138,7 @@ static const struct clk_data_div_reg clk_data_hsdiv2_16fft_main_4_hsdiv0 = {
 		.n		= 128,
 		.default_div	= 12,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 4UL + 0x80UL + 0x4UL * 0UL,
+	.reg			= 0x00680000UL + (0x1000UL * 4UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv2_16fft_main_4_hsdiv1 = {
@@ -3145,7 +3146,7 @@ static const struct clk_data_div_reg clk_data_hsdiv2_16fft_main_4_hsdiv1 = {
 		.n		= 128,
 		.default_div	= 8,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 4UL + 0x80UL + 0x4UL * 1UL,
+	.reg			= 0x00680000UL + (0x1000UL * 4UL) + 0x80UL + (0x4UL * 1UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv2_16fft_main_4_hsdiv2 = {
@@ -3153,7 +3154,7 @@ static const struct clk_data_div_reg clk_data_hsdiv2_16fft_main_4_hsdiv2 = {
 		.n		= 128,
 		.default_div	= 12,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 4UL + 0x80UL + 0x4UL * 2UL,
+	.reg			= 0x00680000UL + (0x1000UL * 4UL) + 0x80UL + (0x4UL * 2UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_0_hsdiv0 = {
@@ -3161,7 +3162,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_0_hsdiv0 = {
 		.n		= 128,
 		.default_div	= 4,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 0UL + 0x80UL + 0x4UL * 0UL,
+	.reg			= 0x00680000UL + (0x1000UL * 0UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_0_hsdiv1 = {
@@ -3169,7 +3170,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_0_hsdiv1 = {
 		.n		= 128,
 		.default_div	= 10,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 0UL + 0x80UL + 0x4UL * 1UL,
+	.reg			= 0x00680000UL + (0x1000UL * 0UL) + 0x80UL + (0x4UL * 1UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_0_hsdiv2 = {
@@ -3177,7 +3178,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_0_hsdiv2 = {
 		.n		= 128,
 		.default_div	= 10,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 0UL + 0x80UL + 0x4UL * 2UL,
+	.reg			= 0x00680000UL + (0x1000UL * 0UL) + 0x80UL + (0x4UL * 2UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_0_hsdiv3 = {
@@ -3185,7 +3186,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_0_hsdiv3 = {
 		.n		= 128,
 		.default_div	= 15,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 0UL + 0x80UL + 0x4UL * 3UL,
+	.reg			= 0x00680000UL + (0x1000UL * 0UL) + 0x80UL + (0x4UL * 3UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_0_hsdiv4 = {
@@ -3193,7 +3194,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_0_hsdiv4 = {
 		.n		= 128,
 		.default_div	= 25,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 0UL + 0x80UL + 0x4UL * 4UL,
+	.reg			= 0x00680000UL + (0x1000UL * 0UL) + 0x80UL + (0x4UL * 4UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_1_hsdiv0 = {
@@ -3201,7 +3202,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_1_hsdiv0 = {
 		.n		= 128,
 		.default_div	= 10,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 1UL + 0x80UL + 0x4UL * 0UL,
+	.reg			= 0x00680000UL + (0x1000UL * 1UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_1_hsdiv1 = {
@@ -3209,7 +3210,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_1_hsdiv1 = {
 		.n		= 128,
 		.default_div	= 6,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 1UL + 0x80UL + 0x4UL * 1UL,
+	.reg			= 0x00680000UL + (0x1000UL * 1UL) + 0x80UL + (0x4UL * 1UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_1_hsdiv2 = {
@@ -3217,7 +3218,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_1_hsdiv2 = {
 		.n		= 128,
 		.default_div	= 10,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 1UL + 0x80UL + 0x4UL * 2UL,
+	.reg			= 0x00680000UL + (0x1000UL * 1UL) + 0x80UL + (0x4UL * 2UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_1_hsdiv3 = {
@@ -3225,14 +3226,14 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_1_hsdiv3 = {
 		.n		= 128,
 		.default_div	= 10,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 1UL + 0x80UL + 0x4UL * 3UL,
+	.reg			= 0x00680000UL + (0x1000UL * 1UL) + 0x80UL + (0x4UL * 3UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_2_hsdiv0 = {
 	.data_div	= {
 		.n	= 128,
 	},
-	.reg		= 0x00680000UL + 0x1000UL * 2UL + 0x80UL + 0x4UL * 0UL,
+	.reg		= 0x00680000UL + (0x1000UL * 2UL) + 0x80UL + (0x4UL * 0UL),
 	.bit		= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_2_hsdiv1 = {
@@ -3240,7 +3241,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_2_hsdiv1 = {
 		.n		= 128,
 		.default_div	= 3,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 2UL + 0x80UL + 0x4UL * 1UL,
+	.reg			= 0x00680000UL + (0x1000UL * 2UL) + 0x80UL + (0x4UL * 1UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_2_hsdiv2 = {
@@ -3248,7 +3249,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_2_hsdiv2 = {
 		.n		= 128,
 		.default_div	= 9,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 2UL + 0x80UL + 0x4UL * 2UL,
+	.reg			= 0x00680000UL + (0x1000UL * 2UL) + 0x80UL + (0x4UL * 2UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_2_hsdiv3 = {
@@ -3256,7 +3257,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_2_hsdiv3 = {
 		.n		= 128,
 		.default_div	= 6,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 2UL + 0x80UL + 0x4UL * 3UL,
+	.reg			= 0x00680000UL + (0x1000UL * 2UL) + 0x80UL + (0x4UL * 3UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_2_hsdiv4 = {
@@ -3264,7 +3265,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_2_hsdiv4 = {
 		.n		= 128,
 		.default_div	= 18,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 2UL + 0x80UL + 0x4UL * 4UL,
+	.reg			= 0x00680000UL + (0x1000UL * 2UL) + 0x80UL + (0x4UL * 4UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv0 = {
@@ -3272,7 +3273,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv0 = {
 		.n		= 128,
 		.default_div	= 8,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 3UL + 0x80UL + 0x4UL * 0UL,
+	.reg			= 0x00680000UL + (0x1000UL * 3UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv1 = {
@@ -3280,7 +3281,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv1 = {
 		.n		= 128,
 		.default_div	= 10,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 3UL + 0x80UL + 0x4UL * 1UL,
+	.reg			= 0x00680000UL + (0x1000UL * 3UL) + 0x80UL + (0x4UL * 1UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv2 = {
@@ -3288,7 +3289,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv2 = {
 		.n		= 128,
 		.default_div	= 10,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 3UL + 0x80UL + 0x4UL * 2UL,
+	.reg			= 0x00680000UL + (0x1000UL * 3UL) + 0x80UL + (0x4UL * 2UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv3 = {
@@ -3296,7 +3297,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv3 = {
 		.n		= 128,
 		.default_div	= 10,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 3UL + 0x80UL + 0x4UL * 3UL,
+	.reg			= 0x00680000UL + (0x1000UL * 3UL) + 0x80UL + (0x4UL * 3UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv4 = {
@@ -3304,7 +3305,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv4 = {
 		.n		= 128,
 		.default_div	= 16,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 3UL + 0x80UL + 0x4UL * 4UL,
+	.reg			= 0x00680000UL + (0x1000UL * 3UL) + 0x80UL + (0x4UL * 4UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_1_hsdiv0 = {
@@ -3312,7 +3313,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_1_hsdiv0 = {
 		.n		= 128,
 		.default_div	= 6,
 	},
-	.reg			= 0x40D00000UL + 0x1000UL * 1UL + 0x80UL + 0x4UL * 0UL,
+	.reg			= 0x40D00000UL + (0x1000UL * 1UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_1_hsdiv1 = {
@@ -3320,7 +3321,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_1_hsdiv1 = {
 		.n		= 128,
 		.default_div	= 40,
 	},
-	.reg			= 0x40D00000UL + 0x1000UL * 1UL + 0x80UL + 0x4UL * 1UL,
+	.reg			= 0x40D00000UL + (0x1000UL * 1UL) + 0x80UL + (0x4UL * 1UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_1_hsdiv2 = {
@@ -3328,7 +3329,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_1_hsdiv2 = {
 		.n		= 128,
 		.default_div	= 30,
 	},
-	.reg			= 0x40D00000UL + 0x1000UL * 1UL + 0x80UL + 0x4UL * 2UL,
+	.reg			= 0x40D00000UL + (0x1000UL * 1UL) + 0x80UL + (0x4UL * 2UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_1_hsdiv3 = {
@@ -3336,7 +3337,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_1_hsdiv3 = {
 		.n		= 128,
 		.default_div	= 25,
 	},
-	.reg			= 0x40D00000UL + 0x1000UL * 1UL + 0x80UL + 0x4UL * 3UL,
+	.reg			= 0x40D00000UL + (0x1000UL * 1UL) + 0x80UL + (0x4UL * 3UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_1_hsdiv4 = {
@@ -3344,7 +3345,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_1_hsdiv4 = {
 		.n		= 128,
 		.default_div	= 6,
 	},
-	.reg			= 0x40D00000UL + 0x1000UL * 1UL + 0x80UL + 0x4UL * 4UL,
+	.reg			= 0x40D00000UL + (0x1000UL * 1UL) + 0x80UL + (0x4UL * 4UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_2_hsdiv0 = {
@@ -3352,7 +3353,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_2_hsdiv0 = {
 		.n		= 128,
 		.default_div	= 8,
 	},
-	.reg			= 0x40D00000UL + 0x1000UL * 2UL + 0x80UL + 0x4UL * 0UL,
+	.reg			= 0x40D00000UL + (0x1000UL * 2UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_2_hsdiv1 = {
@@ -3360,7 +3361,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_2_hsdiv1 = {
 		.n		= 128,
 		.default_div	= 4,
 	},
-	.reg			= 0x40D00000UL + 0x1000UL * 2UL + 0x80UL + 0x4UL * 1UL,
+	.reg			= 0x40D00000UL + (0x1000UL * 2UL) + 0x80UL + (0x4UL * 1UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_2_hsdiv2 = {
@@ -3368,7 +3369,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_2_hsdiv2 = {
 		.n		= 128,
 		.default_div	= 10,
 	},
-	.reg			= 0x40D00000UL + 0x1000UL * 2UL + 0x80UL + 0x4UL * 2UL,
+	.reg			= 0x40D00000UL + (0x1000UL * 2UL) + 0x80UL + (0x4UL * 2UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_2_hsdiv3 = {
@@ -3376,7 +3377,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_2_hsdiv3 = {
 		.n		= 128,
 		.default_div	= 25,
 	},
-	.reg			= 0x40D00000UL + 0x1000UL * 2UL + 0x80UL + 0x4UL * 3UL,
+	.reg			= 0x40D00000UL + (0x1000UL * 2UL) + 0x80UL + (0x4UL * 3UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_2_hsdiv4 = {
@@ -3384,7 +3385,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_mcu_2_hsdiv4 = {
 		.n		= 128,
 		.default_div	= 6,
 	},
-	.reg			= 0x40D00000UL + 0x1000UL * 2UL + 0x80UL + 0x4UL * 4UL,
+	.reg			= 0x40D00000UL + (0x1000UL * 2UL) + 0x80UL + (0x4UL * 4UL),
 	.bit			= 0,
 };
 static const struct clk_data_from_dev clk_data_i3c_main_0_i3c_scl_do = {
@@ -3921,7 +3922,7 @@ static const struct clk_data_div_reg clk_data_postdiv2_16fft_main_0_hsdiv5 = {
 		.n		= 128,
 		.default_div	= 20,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 0UL + 0x80UL + 0x4UL * 5UL,
+	.reg			= 0x00680000UL + (0x1000UL * 0UL) + 0x80UL + (0x4UL * 5UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_postdiv2_16fft_main_0_hsdiv6 = {
@@ -3929,7 +3930,7 @@ static const struct clk_data_div_reg clk_data_postdiv2_16fft_main_0_hsdiv6 = {
 		.n		= 128,
 		.default_div	= 5,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 0UL + 0x80UL + 0x4UL * 6UL,
+	.reg			= 0x00680000UL + (0x1000UL * 0UL) + 0x80UL + (0x4UL * 6UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_postdiv2_16fft_main_0_hsdiv7 = {
@@ -3937,7 +3938,7 @@ static const struct clk_data_div_reg clk_data_postdiv2_16fft_main_0_hsdiv7 = {
 		.n		= 128,
 		.default_div	= 5,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 0UL + 0x80UL + 0x4UL * 7UL,
+	.reg			= 0x00680000UL + (0x1000UL * 0UL) + 0x80UL + (0x4UL * 7UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_postdiv2_16fft_main_1_hsdiv5 = {
@@ -3945,7 +3946,7 @@ static const struct clk_data_div_reg clk_data_postdiv2_16fft_main_1_hsdiv5 = {
 		.n		= 128,
 		.default_div	= 5,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 1UL + 0x80UL + 0x4UL * 5UL,
+	.reg			= 0x00680000UL + (0x1000UL * 1UL) + 0x80UL + (0x4UL * 5UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_postdiv2_16fft_main_1_hsdiv7 = {
@@ -3953,7 +3954,7 @@ static const struct clk_data_div_reg clk_data_postdiv2_16fft_main_1_hsdiv7 = {
 		.n		= 128,
 		.default_div	= 40,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 1UL + 0x80UL + 0x4UL * 7UL,
+	.reg			= 0x00680000UL + (0x1000UL * 1UL) + 0x80UL + (0x4UL * 7UL),
 	.bit			= 0,
 };
 static const struct clk_data_div_reg clk_data_postdiv2_16fft_main_2_hsdiv6 = {
@@ -3961,7 +3962,7 @@ static const struct clk_data_div_reg clk_data_postdiv2_16fft_main_2_hsdiv6 = {
 		.n		= 128,
 		.default_div	= 4,
 	},
-	.reg			= 0x00680000UL + 0x1000UL * 2UL + 0x80UL + 0x4UL * 6UL,
+	.reg			= 0x00680000UL + (0x1000UL * 2UL) + 0x80UL + (0x4UL * 6UL),
 	.bit			= 0,
 };
 static const struct clk_data_from_dev clk_data_spi_main_0_io_clkspio_clk = {
