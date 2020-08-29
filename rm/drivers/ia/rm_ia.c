@@ -260,6 +260,49 @@ static s32 ia_clear_vint(const struct ia_instance *inst, u16 evt, u16 vint,
 }
 
 /**
+ * \brief Clear an event's previously existing ROM mapping
+ *
+ * \param inst Pointer to IA instance
+ *
+ * \param evt IA event index
+ *
+ * \return SUCCESS if no clear performed or if clear succeeds, else -EFAIL
+ */
+static s32 ia_clear_rom_mapping(const struct ia_instance *inst, u16 evt)
+{
+	s32 r = SUCCESS;
+	u8 i;
+	struct ia_used_mapping *used_mapping;
+	mapped_addr_t maddr;
+	u32 entry_int_map_lo;
+
+	for (i = 0U; i < inst->n_rom_usage; i++) {
+		used_mapping = &inst->rom_usage[i];
+		if ((used_mapping->cleared == SFALSE) &&
+		    ((used_mapping->event - inst->sevt_offset) == evt)) {
+			maddr = rm_core_map_region(inst->imap->base);
+			entry_int_map_lo = rm_fmk(IA_ENTRY_INTMAP_REGNUM_SHIFT,
+						  IA_ENTRY_INTMAP_REGNUM_MASK, 0u);
+			entry_int_map_lo |= rm_fmk(IA_ENTRY_INTMAP_BITNUM_SHIFT,
+						   IA_ENTRY_INTMAP_BITNUM_MASK, 0u);
+
+			if (writel_verified(entry_int_map_lo,
+					    maddr + IA_ENTRY_INTMAP_LO(evt)) != SUCCESS) {
+				/* Readback of write failed: halt */
+				r = -EFAILVERIFY;
+			}
+			rm_core_unmap_region();
+
+			if (r == SUCCESS) {
+				used_mapping->cleared = STRUE;
+			}
+		}
+	}
+
+	return r;
+}
+
+/**
  * \brief Validate IA event for in use or free cases
  *
  * \param inst Pointer to IA instance
@@ -284,6 +327,17 @@ static s32 ia_validate_evt(const struct ia_instance *inst, u16 evt, u16 vint,
 
 	if (evt >= inst->n_sevt) {
 		r = -EINVAL;
+	}
+
+	if ((r == SUCCESS) &&
+	    (in_use == SFALSE) &&
+	    (inst->rom_usage != NULL)) {
+		/*
+		 * Did ROM use the event to VINT mapping during boot?
+		 * The mapping is cleared if it was used by ROM.  The clear
+		 * only occurs once for each mapping.
+		 */
+		r = ia_clear_rom_mapping(inst, evt);
 	}
 
 	if (r == SUCCESS) {
@@ -561,7 +615,14 @@ s32 rm_ia_validate_vint(u8 host, u16 id, u16 vint)
 	return r;
 }
 
-s32 rm_ia_vint_map(u16 id, u16 vint, u16 global_evt, u8 vint_sb_index)
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+s32 rm_ia_vint_map(u16 id, u16 vint, u16 global_evt, u8 vint_sb_index,
+		   sbool fwl_cfg_dmsc_only, sbool validate_sec_rm_devgrp)
+#else
+s32 rm_ia_vint_map(u16 id, u16 vint, u16 global_evt, u8 vint_sb_index,
+		   sbool fwl_cfg_dmsc_only __attribute__((unused)),
+		   sbool validate_sec_rm_devgrp __attribute__((unused)))
+#endif
 {
 	s32 r = SUCCESS;
 	struct ia_instance *inst;
@@ -641,7 +702,9 @@ s32 rm_ia_vint_map(u16 id, u16 vint, u16 global_evt, u8 vint_sb_index)
 			 */
 			r = sec_rm_ia_vint_fwl_cfg(inst->id, vint,
 						   vint_sb_index,
-						   hosts, n_hosts);
+						   hosts, n_hosts,
+						   fwl_cfg_dmsc_only,
+						   validate_sec_rm_devgrp);
 		}
 	}
 #endif
@@ -779,7 +842,9 @@ s32 rm_ia_init(void)
 						ia_soc_pe_init_list[j].id,
 						ia_soc_pe_init_list[j].vint,
 						ia_soc_pe_init_list[j].event_id,
-						0U);
+						0U,
+						STRUE,
+						SFALSE);
 				}
 			}
 

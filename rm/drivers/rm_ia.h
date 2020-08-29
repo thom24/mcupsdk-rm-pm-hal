@@ -63,9 +63,14 @@ s32 rm_ia_validate_vint(u8 host, u16 id, u16 vint);
  * \param vint_sb_index
  * Virtual interrupt status bit to map to global event
  *
+ * \param fwl_cfg_dmsc_only STRUE to explicitly program only DMSC with RW access
+ *
+ * \param validate_sec_rm_devgrp STRUE to validate against the configured
+ *                               Secure RM devgrp
+ *
  * \return SUCCESS if addition to VINT is successful, else error
  */
-s32 rm_ia_vint_map(u16 id, u16 vint, u16 global_evt, u8 vint_sb_index);
+s32 rm_ia_vint_map(u16 id, u16 vint, u16 global_evt, u8 vint_sb_index, sbool fwl_cfg_dmsc_only, sbool validate_sec_rm_devgrp);
 
 /**
  * \brief Unmaps an IA SEVI from an existing virtual interrupt

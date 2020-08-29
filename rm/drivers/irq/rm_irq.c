@@ -379,7 +379,7 @@ static s32 irq_vint_map(struct irq_cfg *cfg)
 
 	if (r == SUCCESS) {
 		r = rm_ia_vint_map(cfg->s_ia, cfg->vint, cfg->global_evt,
-				   cfg->vint_sb);
+				   cfg->vint_sb, SFALSE, STRUE);
 	}
 
 	if ((r == SUCCESS) && (cfg->oes_src != NULL)) {

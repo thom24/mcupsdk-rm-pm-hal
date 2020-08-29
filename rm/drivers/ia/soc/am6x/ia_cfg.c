@@ -83,6 +83,20 @@ static const struct rm_mmr mmr_mcu_navss0_intr_aggr_0__UDMASS_INTA0_GCNTRTI = {
 };
 static u8 vint_usage_count_mcu_navss0_intr_aggr_0[256];
 
+static struct ia_used_mapping rom_usage_mcu_navss0_intr_aggr_0[3U] = {
+	{
+		.event = 16404U,
+		.cleared = SFALSE,
+	},
+	{
+		.event = 16405U,
+		.cleared = SFALSE,
+	},
+	{
+		.event = 16414U,
+		.cleared = SFALSE,
+	},
+};
 
 struct ia_instance ia_inst[IA_INST_COUNT] = {
 	{
@@ -100,6 +114,8 @@ struct ia_instance ia_inst[IA_INST_COUNT] = {
 		.n_vint = 256U,
 		.vint_usage_count = &vint_usage_count_navss0_udmass_inta0[0],
 		.v0_b0_evt = 0u,
+		.rom_usage = NULL,
+		.n_rom_usage = 0U,
 		.unmapped_events = NULL,
 		.n_unmapped_events = 0U,
 	},
@@ -118,6 +134,8 @@ struct ia_instance ia_inst[IA_INST_COUNT] = {
 		.n_vint = 64U,
 		.vint_usage_count = &vint_usage_count_navss0_modss_inta0[0],
 		.v0_b0_evt = 0u,
+		.rom_usage = NULL,
+		.n_rom_usage = 0U,
 		.unmapped_events = NULL,
 		.n_unmapped_events = 0U,
 	},
@@ -136,6 +154,8 @@ struct ia_instance ia_inst[IA_INST_COUNT] = {
 		.n_vint = 64U,
 		.vint_usage_count = &vint_usage_count_navss0_modss_inta1[0],
 		.v0_b0_evt = 0u,
+		.rom_usage = NULL,
+		.n_rom_usage = 0U,
 		.unmapped_events = NULL,
 		.n_unmapped_events = 0U,
 	},
@@ -154,6 +174,8 @@ struct ia_instance ia_inst[IA_INST_COUNT] = {
 		.n_vint = 256U,
 		.vint_usage_count = &vint_usage_count_mcu_navss0_intr_aggr_0[0],
 		.v0_b0_evt = 0u,
+		.rom_usage = &rom_usage_mcu_navss0_intr_aggr_0[0U],
+		.n_rom_usage = ARRAY_SIZE(rom_usage_mcu_navss0_intr_aggr_0),
 		.unmapped_events = NULL,
 		.n_unmapped_events = 0U,
 	},
