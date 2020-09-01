@@ -98,12 +98,14 @@ struct resource {
 	u8	data[0];
 } __attribute__((__packed__));
 
-#define RDAT_HDR(type, count, last) ((type) | (count) |	\
-				     ((last) ? RESOURCE_LAST : 0))
+#define RDAT_HDR(type, count, last) ((u8) (type) | (u8) (count) |	\
+				     (u8) ((last) ? RESOURCE_LAST : 0))
 #define RDAT_CLK(clk)           (clk)
 
-#define RDAT_MEM(mem)           ((mem) & 0xff), (((mem) >> 8) & 0xff), \
-	(((mem) >> 16) & 0xff), ((mem) >> 24)
+#define RDAT_MEM(mem)           (u8) ((u32) (mem) & 0xffU),	\
+	(u8) (((u32) (mem) >> 8) & 0xffU),		\
+	(u8) (((u32) (mem) >> 16) & 0xffU),		\
+	(u8) ((u32) (mem) >> 24)
 
 #define RDAT_RST(rst)           (rst)
 
