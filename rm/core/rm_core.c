@@ -165,6 +165,7 @@ static void core_resasg_get_range(u8 host, u16 utype, u16 *start, u16 *num,
 {
 	const struct rm_resasg_index *utype_index;
 	u16 i;
+	sbool set_first;
 
 	utype_index = rm_core_resasg_get_utype_index(utype);
 
@@ -179,6 +180,8 @@ static void core_resasg_get_range(u8 host, u16 utype, u16 *start, u16 *num,
 	*start_sec = 0U;
 	*num_sec = 0U;
 
+	set_first = SFALSE;
+
 	/*
 	 * Not a failure if utype is not found.  Just means boardcfg
 	 * does not assign any resources to the utype
@@ -188,9 +191,10 @@ static void core_resasg_get_range(u8 host, u16 utype, u16 *start, u16 *num,
 			if ((utype_index->resasg_indexp[i].host_id == host) &&
 			    (utype_index->resasg_indexp[i].type == utype)) {
 				/* Populate first range then secondary range */
-				if (*num == 0U) {
+				if (set_first == SFALSE) {
 					*start = utype_index->resasg_indexp[i].start_resource;
 					*num = utype_index->resasg_indexp[i].num_resource;
+					set_first = STRUE;
 				} else {
 					*start_sec = utype_index->resasg_indexp[i].start_resource;
 					*num_sec = utype_index->resasg_indexp[i].num_resource;
