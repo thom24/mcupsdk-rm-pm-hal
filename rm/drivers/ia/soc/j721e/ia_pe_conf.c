@@ -385,7 +385,7 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 	},
 	[46] = {
 		/*
-		 * For: DMSC2DM response
+		 * For: DM err_event
 		 */
 		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x4008U,
@@ -393,7 +393,7 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 	},
 	[47] = {
 		/*
-		 * For: DM err_event
+		 * For: DM nonsec_high_priority_rx
 		 */
 		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x4009U,
@@ -409,7 +409,7 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 	},
 	[49] = {
 		/*
-		 * For: DM nonsec_high_priority_rx
+		 * For: DM nonsec_low_priority_rx
 		 */
 		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x400BU,
@@ -425,7 +425,7 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 	},
 	[51] = {
 		/*
-		 * For: DM nonsec_low_priority_rx
+		 * For: DM nonsec_notify_resp_rx
 		 */
 		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x400DU,
@@ -438,13 +438,5 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x400EU,
 		.vint		= 0x000EU,
-	},
-	[53] = {
-		/*
-		 * For: DM nonsec_notify_resp_rx
-		 */
-		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
-		.event_id	= 0x400FU,
-		.vint		= 0x000FU,
 	},
 };

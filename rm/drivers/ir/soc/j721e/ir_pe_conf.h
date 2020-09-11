@@ -11,7 +11,7 @@
 #ifndef J721E_IR_PE_CONF_H
 #define J721E_IR_PE_CONF_H
 
-/** Count of IR init list (62 entries) */
-#define IR_SOC_PE_INIT_NUM (0x3EU)
+/** Count of IR init list (61 entries) */
+#define IR_SOC_PE_INIT_NUM (0x3DU)
 
 #endif /* J721E_IR_PE_CONF_H */
