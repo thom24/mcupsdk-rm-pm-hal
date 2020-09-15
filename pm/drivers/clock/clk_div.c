@@ -377,14 +377,25 @@ s32 clk_div_init(struct clk *clkp)
 	const struct clk_data_div *data_div;
 	const struct clk_drv_div *drv_div;
 	s32 ret = SUCCESS;
+	sbool skip_hw_init = SFALSE;
 
 	data_div = container_of(clk_data->data, const struct clk_data_div,
 				data);
 	drv_div = container_of(clk_data->drv, const struct clk_drv_div, drv);
 
-	if (data_div->default_div && drv_div->set_div) {
-		if (!drv_div->set_div(clkp, data_div->default_div)) {
-			ret = -EINVAL;
+	if ((clk_data->flags & CLK_DATA_FLAG_NO_HW_REINIT) != 0) {
+		if (drv_div->get_div) {
+			if (drv_div->get_div(clkp) != 1) {
+				skip_hw_init = STRUE;
+			}
+		}
+	}
+
+	if (skip_hw_init == SFALSE) {
+		if (data_div->default_div && drv_div->set_div) {
+			if (!drv_div->set_div(clkp, data_div->default_div)) {
+				ret = -EINVAL;
+			}
 		}
 	}
 

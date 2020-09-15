@@ -39,6 +39,7 @@
 /* clk_data flags */
 #define CLK_DATA_FLAG_MODIFY_PARENT_FREQ        BIT(0)
 #define CLK_DATA_FLAG_ALLOW_FREQ_CHANGE         BIT(1)
+#define CLK_DATA_FLAG_NO_HW_REINIT              BIT(2)
 
 #define CLK_FLAG_PWR_UP_EN                      ((u8) BIT(0))
 #define CLK_FLAG_PLL_BYPASS_FREQ                ((u8) BIT(1)) /* For PLLs */

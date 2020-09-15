@@ -316,8 +316,6 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 			 */
 			clk_pll_16fft_cal_option4(pll);
 		}
-
-
 	}
 
 	return success;
@@ -885,6 +883,7 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 	u32 i;
 	u32 pllfm;
 	s32 ret = SUCCESS;
+	sbool skip_hw_init = SFALSE;
 
 	clk->flags &= ~CLK_FLAG_CACHED;
 
@@ -892,115 +891,133 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 				data);
 	pll = container_of(data_pll, const struct clk_data_pll_16fft,
 			   data_pll);
-
 	/*
-	 * Unlock write access. Note this register does not readback the
-	 * written value.
+	 * In order to honor the CLK_DATA_FLAG_NO_HW_REINIT flag when set,
+	 * we must check if the clk is enabled, and if so, skip re-setting
+	 * default frequency if it is available.
 	 */
-	writel(PLL_16FFT_LOCKKEY0_VALUE, pll->base + PLL_16FFT_LOCKKEY0(pll->idx));
-	writel(PLL_16FFT_LOCKKEY1_VALUE, pll->base + PLL_16FFT_LOCKKEY1(pll->idx));
+	if (((clk_data->flags & CLK_DATA_FLAG_NO_HW_REINIT) != 0) &&
+	    (clk_pll_16fft_check_lock(pll) == STRUE)) {
+		skip_hw_init = STRUE;
+	}
 
-	cfg = readl(pll->base + PLL_16FFT_CFG(pll->idx));
-	ctrl = readl(pll->base + PLL_16FFT_CTRL(pll->idx));
+	if (skip_hw_init == SFALSE) {
+		/*
+		* Unlock write access. Note this register does not readback the
+		* written value.
+		*/
+		writel(PLL_16FFT_LOCKKEY0_VALUE, pll->base + PLL_16FFT_LOCKKEY0(pll->idx));
+		writel(PLL_16FFT_LOCKKEY1_VALUE, pll->base + PLL_16FFT_LOCKKEY1(pll->idx));
 
-	pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
-	if (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) {
-		u32 cal;
-		u32 stat;
+		cfg = readl(pll->base + PLL_16FFT_CFG(pll->idx));
+		ctrl = readl(pll->base + PLL_16FFT_CTRL(pll->idx));
 
-		cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
-		stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
+		if (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) {
+			u32 cal;
+			u32 stat;
 
-		/* Check if calibration is already enabled and locked */
-		if (((cal & PLL_16FFT_CAL_CTRL_CAL_EN) != 0U) &&
-		    ((stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U)) {
-			/* Yes, go straight to option 4 */
-			clk_pll_16fft_cal_option4(pll);
+			cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+			stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+
+			/* Check if calibration is already enabled and locked */
+			if (((cal & PLL_16FFT_CAL_CTRL_CAL_EN) != 0U) &&
+			    ((stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U)) {
+				/* Yes, go straight to option 4 */
+				clk_pll_16fft_cal_option4(pll);
+			} else {
+				/* No, get an initial calibration via option 3 */
+				clk_pll_16fft_cal_option3(pll);
+			}
+		}
+
+		/* Make sure PLL is enabled */
+		if ((ctrl & PLL_16FFT_CTRL_PLL_EN) == 0U) {
+			ctrl |= PLL_16FFT_CTRL_PLL_EN;
+			ret = pm_writel_verified(ctrl, pll->base + PLL_16FFT_CTRL(pll->idx));
+			if (ret == SUCCESS) {
+				osal_delay(1UL); /* Wait 1us */
+			}
+		}
+
+		/* Always bypass if we lose lock */
+		ctrl |= PLL_16FFT_CTRL_BYP_ON_LOCKLOSS;
+
+		/* Prefer glitchless bypass */
+		if (ctrl & PLL_16FFT_CTRL_INTL_BYP_EN) {
+			ctrl |= PLL_16FFT_CTRL_BYPASS_EN;
+			ctrl &= ~PLL_16FFT_CTRL_INTL_BYP_EN;
+		}
+
+		/* Always enable output if PLL */
+		ctrl |= PLL_16FFT_CTRL_CLK_POSTDIV_EN;
+
+		/* Currently unused by all PLLs */
+		ctrl &= ~PLL_16FFT_CTRL_CLK_4PH_EN;
+
+		freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
+		pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
+		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
+
+		/* Make sure we have fractional support if required */
+		if (pllfm != 0UL) {
+			ctrl |= PLL_16FFT_CTRL_DSM_EN;
 		} else {
-			/* No, get an initial calibration via option 3 */
-			clk_pll_16fft_cal_option3(pll);
+			ctrl &= ~PLL_16FFT_CTRL_DSM_EN;
 		}
-	}
 
-	/* Make sure PLL is enabled */
-	if ((ctrl & PLL_16FFT_CTRL_PLL_EN) == 0U) {
-		ctrl |= PLL_16FFT_CTRL_PLL_EN;
-		ret = pm_writel_verified(ctrl, pll->base + PLL_16FFT_CTRL(pll->idx));
 		if (ret == SUCCESS) {
-			osal_delay(1UL); /* Wait 1us */
+			ret = pm_writel_verified(ctrl, pll->base + PLL_16FFT_CTRL(pll->idx));
 		}
-	}
 
-	/* Always bypass if we lose lock */
-	ctrl |= PLL_16FFT_CTRL_BYP_ON_LOCKLOSS;
+		/* Enable all HSDIV outputs */
+		for (i = 0U; (i < 16U) && (ret == SUCCESS); i++) {
+			/* Enable HSDIV output if present */
+			if ((PLL_16FFT_CFG_HSDIV_PRSNC(i) & cfg) != 0UL) {
+				ctrl = readl(pll->base + PLL_16FFT_HSDIV_CTRL(pll->idx, i));
+				ctrl |= PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
+				ret = pm_writel_verified(ctrl, pll->base + PLL_16FFT_HSDIV_CTRL(pll->idx, i));
+			}
+		}
 
-	/* Prefer glitchless bypass */
-	if (ctrl & PLL_16FFT_CTRL_INTL_BYP_EN) {
-		ctrl |= PLL_16FFT_CTRL_BYPASS_EN;
-		ctrl &= ~PLL_16FFT_CTRL_INTL_BYP_EN;
-	}
+		/*
+		* Find and program hsdiv defaults.
+		*
+		* HSDIV defaults must be programmed before programming the
+		* PLL since their power on default is /1. Most DCO
+		* frequencies will exceed clock rate maximums of the HSDIV
+		* outputs.
+		*
+		* We walk through the clock tree to find all the clocks
+		* with the hsdiv driver who have this PLL for a parent.
+		*/
+		for (i = 0; (i < soc_clock_count) && (ret == SUCCESS); i++) {
+			const struct clk_data *sub_data = soc_clock_data + i;
+			struct clk *sub_clk = soc_clocks + i;
+			if (sub_data->drv == &clk_drv_div_reg.drv &&
+			    sub_data->drv->init) {
+				if (clk_pll_16fft_postdiv_get_pll_root(sub_clk) == clk) {
+					sub_data->drv->init(sub_clk);
+				}
+			} else if (sub_data->drv == &clk_drv_div_pll_16fft_hsdiv.drv &&
+				   sub_data->drv->init) {
+				if (clk_pll_16fft_hsdiv_get_pll_root(sub_clk) == clk) {
+					sub_data->drv->init(sub_clk);
+				}
+			}
+		}
 
-	/* Always enable output if PLL */
-	ctrl |= PLL_16FFT_CTRL_CLK_POSTDIV_EN;
-
-	/* Currently unused by all PLLs */
-	ctrl &= ~PLL_16FFT_CTRL_CLK_4PH_EN;
-
-	freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
-	pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
-	pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
-
-	/* Make sure we have fractional support if required */
-	if (pllfm != 0UL) {
-		ctrl |= PLL_16FFT_CTRL_DSM_EN;
-	} else {
-		ctrl &= ~PLL_16FFT_CTRL_DSM_EN;
-	}
-
-	if (ret == SUCCESS) {
-		ret = pm_writel_verified(ctrl, pll->base + PLL_16FFT_CTRL(pll->idx));
-	}
-
-	/* Enable all HSDIV outputs */
-	for (i = 0U; (i < 16U) && (ret == SUCCESS); i++) {
-		/* Enable HSDIV output if present */
-		if ((PLL_16FFT_CFG_HSDIV_PRSNC(i) & cfg) != 0UL) {
-			ctrl = readl(pll->base + PLL_16FFT_HSDIV_CTRL(pll->idx, i));
-			ctrl |= PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
-			ret = pm_writel_verified(ctrl, pll->base + PLL_16FFT_HSDIV_CTRL(pll->idx, i));
+		if (ret == SUCCESS) {
+			ret = pll_init(clk);
 		}
 	}
 
 	/*
-	 * Find and program hsdiv defaults.
-	 *
-	 * HSDIV defaults must be programmed before programming the
-	 * PLL since their power on default is /1. Most DCO
-	 * frequencies will exceed clock rate maximums of the HSDIV
-	 * outputs.
-	 *
-	 * We walk through the clock tree to find all the clocks
-	 * with the hsdiv driver who have this PLL for a parent.
+	 * We must always assume we are enabled as we could be operating
+	 * clocks in bypass.
 	 */
-	for (i = 0; (i < soc_clock_count) && (ret == SUCCESS); i++) {
-		const struct clk_data *sub_data = soc_clock_data + i;
-		struct clk *sub_clk = soc_clocks + i;
-		if (sub_data->drv == &clk_drv_div_reg.drv &&
-		    sub_data->drv->init) {
-			if (clk_pll_16fft_postdiv_get_pll_root(sub_clk) == clk) {
-				sub_data->drv->init(sub_clk);
-			}
-		} else if (sub_data->drv == &clk_drv_div_pll_16fft_hsdiv.drv &&
-			   sub_data->drv->init) {
-			if (clk_pll_16fft_hsdiv_get_pll_root(sub_clk) == clk) {
-				sub_data->drv->init(sub_clk);
-			}
-		}
-	}
-
-
 	if (ret == SUCCESS) {
-		ret = pll_init(clk);
+		clk->flags |= CLK_FLAG_PWR_UP_EN;
 	}
 
 	return ret;
