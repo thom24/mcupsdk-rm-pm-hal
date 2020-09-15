@@ -2418,6 +2418,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= AM64X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_0,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_0.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK] =					      {
 		.parent =								      {
@@ -2550,6 +2551,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= AM64X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MCU_0,
 		.data		= &clk_data_pllfracf_ssmod_16fft_mcu_0.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_AM64X_SPI_MCU_0_IO_CLKSPIO_CLK] =						      {
 		.drv		= &clk_drv_from_device,
@@ -3211,6 +3213,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= AM64X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_1,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_1.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK] =			      {
 		.parent =								      {
@@ -3229,6 +3232,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= AM64X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_12,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_12.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_14_FOUTVCOP_CLK] =				      {
 		.parent		=							      {
@@ -3238,6 +3242,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= AM64X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_14,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_14.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK] =				      {
 		.parent		=							      {
@@ -3247,6 +3252,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= AM64X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_2,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_2.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK] =			      {
 		.parent =								      {
@@ -3265,6 +3271,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= AM64X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_8,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_8.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_AM64X_POSTDIV1_16FFT_MAIN_1_HSDIVOUT5_CLK] =				      {
 		.parent =								      {

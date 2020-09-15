@@ -4400,6 +4400,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J7200_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MCU_0,
 		.data		= &clk_data_pllfracf_ssmod_16fft_mcu_0.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J7200_HSDIV1_16FFT_MCU_0_HSDIVOUT0_CLK] =			{
 		.parent =						{
@@ -4653,6 +4654,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J7200_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MCU_1,
 		.data		= &clk_data_pllfracf_ssmod_16fft_mcu_1.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J7200_PLLFRACF_SSMOD_16FFT_MCU_2_FOUTVCOP_CLK] =		{
 		.parent		=					{
@@ -4662,6 +4664,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J7200_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MCU_2,
 		.data		= &clk_data_pllfracf_ssmod_16fft_mcu_2.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J7200_SPI_MAIN_3_IO_CLKSPIO_CLK] =				{
 		.drv		= &clk_drv_from_device,
@@ -4867,6 +4870,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J7200_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_0,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_0.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J7200_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK] =	{
 		.parent =						{
@@ -4885,6 +4889,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J7200_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_1,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_1.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J7200_PLLFRACF_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK] =	{
 		.parent =						{
@@ -4903,6 +4908,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J7200_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_3,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_3.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J7200_POSTDIV2_16FFT_MAIN_0_HSDIVOUT6_CLK] =		{
 		.parent =						{
@@ -5810,6 +5816,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J7200_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_12,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_12.data_pll.data,
+		.flags		= CLK_DATA_FLAG_NO_HW_REINIT,
 	},
 	[CLK_J7200_PLLFRACF_SSMOD_16FFT_MAIN_14_FOUTVCOP_CLK] =		{
 		.parent		=					{
@@ -5819,6 +5826,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J7200_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_14,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_14.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J7200_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK] =		{
 		.parent		=					{
@@ -5828,6 +5836,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J7200_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_2,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_2.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J7200_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK] =	{
 		.parent =						{
@@ -5846,6 +5855,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J7200_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_7,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_7.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J7200_PLLFRACF_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK] =		{
 		.parent		=					{
@@ -5855,6 +5865,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J7200_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_8,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_8.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J7200_POSTDIV2_16FFT_MAIN_0_HSDIVOUT5_CLK] =		{
 		.parent =						{
@@ -6554,7 +6565,7 @@ const struct clk_data soc_clock_data[] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
+		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ | CLK_DATA_FLAG_NO_HW_REINIT,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv0_16fft_main_12_hsdiv0.data_div.data,
 	},
@@ -6662,6 +6673,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J7200_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_4,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_4.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J7200_OBSCLK1_MUX_OUT0] =					{
 		.drv	= &clk_drv_mux_reg.drv,

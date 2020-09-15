@@ -8367,6 +8367,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MCU_0,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_mcu_0.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_HSDIV1_16FFT_MCU_0_HSDIVOUT0_CLK] =				  {
 		.parent =							  {
@@ -8655,6 +8656,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MCU_1,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_mcu_1.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MCU_2_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -8664,6 +8666,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MCU_2,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_mcu_2.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_SPI_MAIN_3_IO_CLKSPIO_CLK] =					  {
 		.drv		= &clk_drv_from_device,
@@ -8893,6 +8896,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_0,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_0.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK] =		  {
 		.parent =							  {
@@ -8911,6 +8915,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_1,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_1.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK] =		  {
 		.parent =							  {
@@ -8929,6 +8934,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_3,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_3.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_POSTDIV3_16FFT_MAIN_0_HSDIVOUT6_CLK] =			  {
 		.parent =							  {
@@ -10661,6 +10667,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_13,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_13.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_14_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -10670,6 +10677,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_14,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_14.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_16_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -10679,6 +10687,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_16,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_16.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_17_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -10688,6 +10697,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_17,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_17.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_18_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -10697,6 +10707,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_18,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_18.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_19_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -10706,6 +10717,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_19,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_19.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -10715,6 +10727,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_2,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_2.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK] =		  {
 		.parent =							  {
@@ -10733,6 +10746,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_23,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_23.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_25_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -10742,6 +10756,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_25,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_25.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_5_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -10751,6 +10766,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_5,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_5.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_6_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -10760,6 +10776,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_6,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_6.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_7_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -10769,6 +10786,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_7,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_7.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -10778,6 +10796,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_8,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_8.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRACF_SSMOD_16FFT_MAIN_12_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -10787,6 +10806,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_12,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_12.data_pll.data,
+		.flags		= CLK_DATA_FLAG_NO_HW_REINIT,
 	},
 	[CLK_J721E_POSTDIV2_16FFT_MAIN_2_HSDIVOUT5_CLK] =			  {
 		.parent =							  {
@@ -12204,7 +12224,7 @@ const struct clk_data soc_clock_data[] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
+		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ | CLK_DATA_FLAG_NO_HW_REINIT,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv0_16fft_main_12_hsdiv0.data_div.data,
 	},
@@ -12487,6 +12507,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_15,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_15.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_4_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -12496,6 +12517,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_4,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_4.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_J721E_DPHY_CLK_SEL_OUT0] =						  {
 		.drv	= &clk_drv_mux_reg.drv,
