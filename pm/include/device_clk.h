@@ -154,7 +154,7 @@ struct dev_clk {
 	  (parent), \
 	.type			= \
 		DEV_CLK_TABLE_TYPE_PARENT, \
-	.div			= (_div) + BUILD_ASSERT_OR_ZERO( \
+	.div			= (_div) + (int) BUILD_ASSERT_OR_ZERO( \
 	  _div < 256), \
 	.idx			= (_idx), \
 	.modify_parent_freq	= \
@@ -165,7 +165,7 @@ struct dev_clk {
 	  (parent), \
 	.type			= \
 		DEV_CLK_TABLE_TYPE_PARENT, \
-	.div			= (_div) + BUILD_ASSERT_OR_ZERO( \
+	.div			= (_div) + (int) BUILD_ASSERT_OR_ZERO( \
 	  _div < 256), \
 	.idx			= (_idx), \
 	.modify_parent_freq	= \
