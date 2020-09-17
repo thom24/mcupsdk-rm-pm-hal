@@ -11,7 +11,7 @@
 #ifndef J7200_IA_PE_CONF_H
 #define J7200_IA_PE_CONF_H
 
-/** Count of IA init list (26 entries) */
-#define IA_SOC_PE_INIT_NUM (0x1AU)
+/** Count of IA init list (33 entries) */
+#define IA_SOC_PE_INIT_NUM (0x21U)
 
 #endif /* J7200_IA_PE_CONF_H */
