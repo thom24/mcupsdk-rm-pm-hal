@@ -20,7 +20,7 @@
 #include <soc/j7200/control.h>
 #include <psc.h>
 
-BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == 2, dev_idx_t_is_16bit);
+BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 
 #define J7200_PSC_MULTIPLE_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_PBIST_WRAP 0
 #define J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0 0
@@ -1450,7 +1450,7 @@ static const struct dev_data j7200_dev_j7_main_porz_sync_stretch_wkup_0 __attrib
 	.pm_devgrp		= PM_DEVGRP_00,
 };
 static struct psc_data j7200_j7_main_psc_wrap_main_0_data __attribute__((__section__(".bss.devgroup.MAIN")));
-static const struct psc_pd_data j7200_j7_main_psc_wrap_main_0_pd_data[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct psc_pd_data j7200_j7_main_psc_wrap_main_0_pd_data[J7200_PSC_PD_PD_VPAC + 1] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	[J7200_PSC_PD_GP_CORE_CTL] =	  {
 		.flags	= PSC_PD_EXISTS,
 	},
@@ -1681,7 +1681,7 @@ static const dev_idx_t dev_list_LPSC_CSIRX_PHY_0[] __attribute__((__section__(".
 	J7200_DEV_I2C6,
 	DEV_ID_NONE,
 };
-static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[J7200_PSC_LPSC_LPSC_VPAC_PBIST + 1] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	[J7200_PSC_LPSC_LPSC_MAIN_ALWAYSON] =	    {
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_list	= dev_list_LPSC_main_alwayson,
@@ -1693,6 +1693,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.depends		= J7200_PSC_LPSC_LPSC_PER_VPE,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET,
 	},
@@ -1765,6 +1766,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS,
 	},
@@ -1779,6 +1781,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -1814,6 +1817,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -1821,6 +1825,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -1828,6 +1833,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -1853,6 +1859,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -1876,6 +1883,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -1891,6 +1899,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -1906,6 +1915,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -1923,6 +1933,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -1930,6 +1941,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -1937,6 +1949,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2145,6 +2158,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_DSS,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2152,6 +2166,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_DSS,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2159,6 +2174,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_ICSS,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2166,6 +2182,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_ICSS,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2189,6 +2206,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_SERDES_1,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2196,6 +2214,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_SERDES_2,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2203,6 +2222,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_SERDES_3,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2210,6 +2230,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_SERDES_4,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2217,6 +2238,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_SERDES_5,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2264,6 +2286,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_C71X_0,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2271,6 +2294,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_C71X_0,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2278,6 +2302,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_C71X_1,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2285,6 +2310,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_C71X_1,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2330,6 +2356,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_A72_CLUSTER_1,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2337,6 +2364,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_A72_CLUSTER_1,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2344,6 +2372,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_A72_2,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2351,6 +2380,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_A72_3,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2358,6 +2388,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_GPUCOM,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2365,6 +2396,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_GPUCOM,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2372,6 +2404,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_GPUCORE,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2379,6 +2412,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_C66X_0,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2386,6 +2420,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_C66X_0,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2393,6 +2428,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_C66X_1,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2400,6 +2436,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_C66X_1,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2433,6 +2470,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_PULSAR_1,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2440,6 +2478,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_PULSAR_1,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2447,6 +2486,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_PULSAR_1,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2454,6 +2494,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_DECODE_0,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2461,6 +2502,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_DECODE_0,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2468,6 +2510,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_ENCODE_0,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2475,6 +2518,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_ENCODE_0,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2482,6 +2526,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_DMPAC,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2489,6 +2534,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_DMPAC,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2496,6 +2542,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_DMPAC,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2503,6 +2550,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_VPAC,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2510,6 +2558,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_VPAC,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2559,7 +2608,7 @@ static const struct dev_data j7200_dev_j7_wkup_gpiomux_introuter_wkup_0 __attrib
 	.pm_devgrp		= PM_DEVGRP_00,
 };
 static struct psc_data j7200_j7_wkup_psc_wrap_wkup_0_data __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
-static const struct psc_pd_data j7200_j7_wkup_psc_wrap_wkup_0_pd_data[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const struct psc_pd_data j7200_j7_wkup_psc_wrap_wkup_0_pd_data[J7200_PSC_PD_PD_MCU_PULSAR + 1] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	[J7200_PSC_PD_PD_WKUP] =       {
 		.flags	= PSC_PD_EXISTS,
 	},
@@ -2617,7 +2666,7 @@ static const dev_idx_t dev_list_LPSC_wkup_gpio[] __attribute__((__section__(".co
 	J7200_DEV_WKUP_UART0,
 	DEV_ID_NONE,
 };
-static const struct lpsc_module_data j7200_j7_wkup_psc_wrap_wkup_0_mod_data[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const struct lpsc_module_data j7200_j7_wkup_psc_wrap_wkup_0_mod_data[J7200_PSC_LPSC_LPSC_MCU_PULSAR_PBIST_0 + 1] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	[J7200_PSC_LPSC_LPSC_WKUP_ALWAYSON] =	   {
 		.powerdomain		= J7200_PSC_PD_PD_WKUP,
 		.lpsc_dev.dev_list	= dev_list_LPSC_wkup_alwayson,
@@ -2635,6 +2684,7 @@ static const struct lpsc_module_data j7200_j7_wkup_psc_wrap_wkup_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_WKUP,
 		.lpsc_dev.dev_array	=	   {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
@@ -2671,6 +2721,7 @@ static const struct lpsc_module_data j7200_j7_wkup_psc_wrap_wkup_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_WKUP,
 		.lpsc_dev.dev_array	=	   {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
@@ -2742,6 +2793,7 @@ static const struct lpsc_module_data j7200_j7_wkup_psc_wrap_wkup_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_WKUP,
 		.lpsc_dev.dev_array	=	   {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2749,6 +2801,7 @@ static const struct lpsc_module_data j7200_j7_wkup_psc_wrap_wkup_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_WKUP,
 		.lpsc_dev.dev_array	=	   {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
@@ -2756,6 +2809,7 @@ static const struct lpsc_module_data j7200_j7_wkup_psc_wrap_wkup_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_WKUP,
 		.lpsc_dev.dev_array	=	   {
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},

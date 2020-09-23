@@ -20,7 +20,7 @@
 #include <soc/am64x/control.h>
 #include <psc.h>
 
-BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == 1, dev_idx_t_is_16bit);
+BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 1, dev_idx_t_is_16bit);
 
 #define AM64X_PSC_INST_SAM64_MAIN_PSC_WRAP_MAIN_0 0
 #define AM64X_PSC_PD_GP_CORE_CTL 0
@@ -1496,7 +1496,7 @@ static const struct dev_data am64x_dev_sam64_ddr_wrap_main_0 __attribute__((__se
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 static struct psc_data am64x_sam64_main_psc_wrap_main_0_data __attribute__((__section__(".bss.devgroup.MAIN")));
-static const struct psc_pd_data am64x_sam64_main_psc_wrap_main_0_pd_data[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct psc_pd_data am64x_sam64_main_psc_wrap_main_0_pd_data[AM64X_PSC_PD_PD_SPARE1 + 1] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	[AM64X_PSC_PD_GP_CORE_CTL] =	  {
 		.flags	= PSC_PD_EXISTS,
 	},
@@ -1637,7 +1637,7 @@ static const dev_idx_t dev_list_LPSC_main_alwayson[] __attribute__((__section__(
 	AM64X_DEV_UART6,
 	DEV_ID_NONE,
 };
-static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[AM64X_PSC_LPSC_LPSC_SPARE_1 + 1] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	[AM64X_PSC_LPSC_LPSC_MAIN_ALWAYSON] =	    {
 		.powerdomain		= AM64X_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_list	= dev_list_LPSC_main_alwayson,
@@ -1647,6 +1647,9 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.powerdomain		= AM64X_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_HAS_LOCAL_RESET,
 	},
@@ -1656,6 +1659,7 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 			AM64X_DEV_PBIST0,
 			AM64X_DEV_PBIST1,
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS,
 	},
@@ -1663,6 +1667,9 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.powerdomain		= AM64X_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS,
 	},
@@ -1673,6 +1680,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_MMCSD1,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1683,6 +1692,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_MMCSD0,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1693,6 +1704,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_USB0,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1703,6 +1716,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_ADC0,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1726,6 +1741,7 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 			AM64X_DEV_ELM0,
 			AM64X_DEV_GPMC0,
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1736,6 +1752,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_DDR16SS0,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1746,6 +1764,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_EMIF_DATA_0_VD,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1756,6 +1776,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_MCAN0,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1766,6 +1788,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_MCAN1,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1776,6 +1800,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_SA2_UL0,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1786,6 +1812,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_SERDES_10G0,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1796,6 +1824,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_PCIE0,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1805,6 +1835,9 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.depends		= AM64X_PSC_LPSC_LPSC_DMSC,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1814,6 +1847,9 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.depends		= AM64X_PSC_LPSC_LPSC_DMSC,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1823,6 +1859,9 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.depends		= AM64X_PSC_LPSC_LPSC_DMSC,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1833,6 +1872,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_A53SS0,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1843,6 +1884,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_COMPUTE_CLUSTER0_PBIST_0,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1854,6 +1897,7 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 			AM64X_DEV_RTI0,
 			AM64X_DEV_A53SS0_CORE_0,
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET,
 	},
@@ -1865,6 +1909,7 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 			AM64X_DEV_RTI1,
 			AM64X_DEV_A53SS0_CORE_1,
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET,
 	},
@@ -1876,6 +1921,7 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 			AM64X_DEV_R5FSS0_CORE0,
 			AM64X_DEV_RTI8,
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET,
 	},
@@ -1887,6 +1933,7 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 			AM64X_DEV_R5FSS0_CORE1,
 			AM64X_DEV_RTI9,
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET,
 	},
@@ -1897,6 +1944,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_PBIST2,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1908,6 +1957,7 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 			AM64X_DEV_R5FSS1_CORE0,
 			AM64X_DEV_RTI10,
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET,
 	},
@@ -1919,6 +1969,7 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 			AM64X_DEV_R5FSS1_CORE1,
 			AM64X_DEV_RTI11,
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET,
 	},
@@ -1929,6 +1980,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_PBIST3,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1939,6 +1992,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_PRU_ICSSG0,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1949,6 +2004,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_PRU_ICSSG1,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1958,6 +2015,9 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.depends		= AM64X_PSC_LPSC_LPSC_DMSC,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1968,6 +2028,8 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.lpsc_dev.dev_array	=	    {
 			AM64X_DEV_CPSW0,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1977,6 +2039,9 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.depends		= AM64X_PSC_LPSC_LPSC_DMSC,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -1986,6 +2051,9 @@ static const struct lpsc_module_data am64x_sam64_main_psc_wrap_main_0_mod_data[]
 		.depends		= AM64X_PSC_LPSC_LPSC_DMSC,
 		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
+			0,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -2019,7 +2087,7 @@ static const struct psc_drv_data am64x_dev_sam64_main_psc_wrap_main_0 __attribut
 	},
 };
 static struct psc_data am64x_sam64_mcu_psc_wrap_mcu_0_data __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
-static const struct psc_pd_data am64x_sam64_mcu_psc_wrap_mcu_0_pd_data[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const struct psc_pd_data am64x_sam64_mcu_psc_wrap_mcu_0_pd_data[AM64X_PSC_PD_PD_M4F + 1] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	[AM64X_PSC_PD_GP_CORE_CTL_MCU] = {
 		.flags	= PSC_PD_EXISTS,
 	},
@@ -2047,7 +2115,7 @@ static const dev_idx_t dev_list_LPSC_mcu_alwayson[] __attribute__((__section__("
 	AM64X_DEV_MCU_UART1,
 	DEV_ID_NONE,
 };
-static const struct lpsc_module_data am64x_sam64_mcu_psc_wrap_mcu_0_mod_data[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const struct lpsc_module_data am64x_sam64_mcu_psc_wrap_mcu_0_mod_data[AM64X_PSC_LPSC_LPSC_M4F + 1] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	[AM64X_PSC_LPSC_LPSC_MCU_ALWAYSON] = {
 		.powerdomain		= AM64X_PSC_PD_GP_CORE_CTL_MCU,
 		.lpsc_dev.dev_list	= dev_list_LPSC_mcu_alwayson,
@@ -2057,6 +2125,9 @@ static const struct lpsc_module_data am64x_sam64_mcu_psc_wrap_mcu_0_mod_data[] _
 		.powerdomain		= AM64X_PSC_PD_GP_CORE_CTL_MCU,
 		.lpsc_dev.dev_array	=    {
 			DEV_ID_NONE,
+			0,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS,
 	},
@@ -2066,6 +2137,9 @@ static const struct lpsc_module_data am64x_sam64_mcu_psc_wrap_mcu_0_mod_data[] _
 		.depends		= AM64X_PSC_LPSC_LPSC_SPARE2,
 		.lpsc_dev.dev_array	=    {
 			DEV_ID_NONE,
+			0,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -2074,6 +2148,8 @@ static const struct lpsc_module_data am64x_sam64_mcu_psc_wrap_mcu_0_mod_data[] _
 		.lpsc_dev.dev_array	=    {
 			AM64X_DEV_MAIN2MCU_VD,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS,
 	},
@@ -2084,6 +2160,8 @@ static const struct lpsc_module_data am64x_sam64_mcu_psc_wrap_mcu_0_mod_data[] _
 		.lpsc_dev.dev_array	=    {
 			AM64X_DEV_MCU2MAIN_VD,
 			DEV_ID_NONE,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
@@ -2091,6 +2169,9 @@ static const struct lpsc_module_data am64x_sam64_mcu_psc_wrap_mcu_0_mod_data[] _
 		.powerdomain		= AM64X_PSC_PD_GP_CORE_CTL_MCU,
 		.lpsc_dev.dev_array	=    {
 			DEV_ID_NONE,
+			0,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS,
 	},
@@ -2098,6 +2179,9 @@ static const struct lpsc_module_data am64x_sam64_mcu_psc_wrap_mcu_0_mod_data[] _
 		.powerdomain		= AM64X_PSC_PD_GP_CORE_CTL_MCU,
 		.lpsc_dev.dev_array	=    {
 			DEV_ID_NONE,
+			0,
+			0,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS,
 	},
@@ -2109,6 +2193,7 @@ static const struct lpsc_module_data am64x_sam64_mcu_psc_wrap_mcu_0_mod_data[] _
 			AM64X_DEV_MCU_M4FSS0_CORE0,
 			AM64X_DEV_MCU_RTI0,
 			DEV_ID_NONE,
+			0,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET,
 	},
