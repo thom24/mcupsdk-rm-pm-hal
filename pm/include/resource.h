@@ -93,11 +93,6 @@ struct resource_rst {
 	u8 bit;
 } __attribute__((__packed__));
 
-struct resource {
-	u8	hdr;
-	u8	data[0];
-} __attribute__((__packed__));
-
 #define RDAT_HDR(type, count, last) ((u8) (type) | (u8) (count) |	\
 				     (u8) ((last) ? RESOURCE_LAST : 0))
 #define RDAT_CLK(clk)           (clk)

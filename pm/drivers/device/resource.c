@@ -68,8 +68,10 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 		[RESOURCE_MEM >> 6] = (u8) sizeof(struct resource_mem),
 		[RESOURCE_RST >> 6] = (u8) sizeof(struct resource_rst),
 	};
-	const struct dev_data *data = get_dev_data(dev);
-	const struct resource *r;
+	const struct dev_data *ddata = get_dev_data(dev);
+	const u8 *data;
+	const u8 *r;
+	u8 hdr;
 
 	BUILD_ASSERT((sizeof(struct resource_clk) <= UCHAR_MAX) &&
 		     (sizeof(struct resource_mem) <= UCHAR_MAX) &&
@@ -78,29 +80,28 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 	 * If the device does not have drv_data, it does not have resources.
 	 * Return NULL
 	 */
-	r = (data->flags & DEVD_FLAG_DRV_DATA) ? to_drv_data(data)->r : NULL;
+	r = (ddata->flags & DEVD_FLAG_DRV_DATA) ? to_drv_data(ddata)->r : NULL;
 
 	while (r) {
+		hdr = r[0];
+		data = r + 1;
 		/* Is this the right resource type? */
-		if ((r->hdr & RESOURCE_TYPE_MASK) == type) {
+		if ((hdr & RESOURCE_TYPE_MASK) == type) {
 			/* Is the array long enough? */
-			if (idx < (r->hdr & RESOURCE_COUNT_MASK)) {
+			if (idx < (hdr & RESOURCE_COUNT_MASK)) {
 				/* Return our resource */
-				return ((const char *) &r->data) +
+				return ((const char *) data) +
 				       (idx * sizes[type >> 6]);
 			} else {
 				r = NULL;
 			}
-		} else if (r->hdr & RESOURCE_LAST) {
+		} else if (hdr & RESOURCE_LAST) {
 			/* We've reached the end of the table, stop walking */
 			r = NULL;
 		} else {
 			/* Walk to the next entry */
-			r =
-				(const struct resource *) ((const char *) &r->
-							   data) +
-				((r->hdr & RESOURCE_COUNT_MASK) *
-				 sizes[r->hdr >> 6]);
+			r = data + ((hdr & RESOURCE_COUNT_MASK) *
+				    sizes[hdr >> 6]);
 		}
 	}
 

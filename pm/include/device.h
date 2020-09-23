@@ -133,7 +133,7 @@ struct drv_data {
 	const struct drv	*drv;
 
 	/** Resources for device */
-	const struct resource	*r;
+	const u8		*r;
 
 	/** Encapsulated dev_data */
 	struct dev_data		dev_data;
