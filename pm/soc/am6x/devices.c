@@ -1530,7 +1530,7 @@ static const struct psc_drv_data am6_dev_k3_main_psc_wrap_main_0 __attribute__((
 			.flags			= DEVD_FLAG_DO_INIT | DEVD_FLAG_DRV_DATA,
 		},
 		.drv				= &psc_drv,
-		.r				= (const struct resource *) am6_dev_k3_main_psc_wrap_main_0_resources,
+		.r				= am6_dev_k3_main_psc_wrap_main_0_resources,
 	},
 };
 static const struct dev_data am6_dev_k3_mcu_debug_cell_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
@@ -1905,7 +1905,7 @@ static const struct psc_drv_data am6_dev_k3_wkup_psc_wrap_wkup_0 __attribute__((
 			.flags			= DEVD_FLAG_DO_INIT | DEVD_FLAG_DRV_DATA,
 		},
 		.drv				= &psc_drv,
-		.r				= (const struct resource *) am6_dev_k3_wkup_psc_wrap_wkup_0_resources,
+		.r				= am6_dev_k3_wkup_psc_wrap_wkup_0_resources,
 	},
 };
 static const struct dev_data am6_dev_k3vtm_wkup_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {

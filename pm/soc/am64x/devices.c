@@ -2083,7 +2083,7 @@ static const struct psc_drv_data am64x_dev_sam64_main_psc_wrap_main_0 __attribut
 			.flags			= DEVD_FLAG_DO_INIT | DEVD_FLAG_DRV_DATA,
 		},
 		.drv				= &psc_drv,
-		.r				= (const struct resource *) am64x_dev_sam64_main_psc_wrap_main_0_resources,
+		.r				= am64x_dev_sam64_main_psc_wrap_main_0_resources,
 	},
 };
 static struct psc_data am64x_sam64_mcu_psc_wrap_mcu_0_data __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
@@ -2223,7 +2223,7 @@ static const struct psc_drv_data am64x_dev_sam64_mcu_psc_wrap_mcu_0 __attribute_
 			.flags			= DEVD_FLAG_DO_INIT | DEVD_FLAG_DRV_DATA,
 		},
 		.drv				= &psc_drv,
-		.r				= (const struct resource *) am64x_dev_sam64_mcu_psc_wrap_mcu_0_resources,
+		.r				= am64x_dev_sam64_mcu_psc_wrap_mcu_0_resources,
 	},
 };
 static const struct dev_data am64x_dev_spi_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {

@@ -2588,7 +2588,7 @@ static const struct psc_drv_data j7200_dev_j7_main_psc_wrap_main_0 __attribute__
 			.flags			= DEVD_FLAG_DO_INIT | DEVD_FLAG_DRV_DATA,
 		},
 		.drv				= &psc_drv,
-		.r				= (const struct resource *) j7200_dev_j7_main_psc_wrap_main_0_resources,
+		.r				= j7200_dev_j7_main_psc_wrap_main_0_resources,
 	},
 };
 static const struct dev_data j7200_dev_j7_timesync_event_introuter_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
@@ -2865,7 +2865,7 @@ static const struct psc_drv_data j7200_dev_j7_wkup_psc_wrap_wkup_0 __attribute__
 			.flags			= DEVD_FLAG_DO_INIT | DEVD_FLAG_DRV_DATA,
 		},
 		.drv				= &psc_drv,
-		.r				= (const struct resource *) j7200_dev_j7_wkup_psc_wrap_wkup_0_resources,
+		.r				= j7200_dev_j7_wkup_psc_wrap_wkup_0_resources,
 	},
 };
 static const struct dev_data j7200_dev_k3_pbist_8c28p_wrap_main_infra_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {

@@ -2940,7 +2940,7 @@ static const struct psc_drv_data j721e_dev_j7_main_psc_wrap_main_0 __attribute__
 			.flags			= DEVD_FLAG_DO_INIT | DEVD_FLAG_DRV_DATA,
 		},
 		.drv				= &psc_drv,
-		.r				= (const struct resource *) j721e_dev_j7_main_psc_wrap_main_0_resources,
+		.r				= j721e_dev_j7_main_psc_wrap_main_0_resources,
 	},
 };
 static const struct dev_data j721e_dev_j7_main_pulsar0_introuter_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
@@ -3241,7 +3241,7 @@ static const struct psc_drv_data j721e_dev_j7_wkup_psc_wrap_wkup_0 __attribute__
 			.flags			= DEVD_FLAG_DO_INIT | DEVD_FLAG_DRV_DATA,
 		},
 		.drv				= &psc_drv,
-		.r				= (const struct resource *) j721e_dev_j7_wkup_psc_wrap_wkup_0_resources,
+		.r				= j721e_dev_j7_wkup_psc_wrap_wkup_0_resources,
 	},
 };
 static const struct dev_data j721e_dev_k3_aasrc_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
