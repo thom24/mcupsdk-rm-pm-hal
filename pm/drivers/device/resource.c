@@ -100,7 +100,7 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 			} else {
 				r = NULL;
 			}
-		} else if (hdr & RESOURCE_LAST) {
+		} else if ((hdr & RESOURCE_LAST) != 0) {
 			/* We've reached the end of the table, stop walking */
 			r = NULL;
 		} else {
