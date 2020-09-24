@@ -67,9 +67,9 @@
  * header followed by count resources. The last resource header has
  * a it's last flag set. Resource types can be defined in any order.
  */
-#define RESOURCE_TYPE_MASK      0xc0
-#define RESOURCE_LAST           0x20
-#define RESOURCE_COUNT_MASK     0x1f
+#define RESOURCE_TYPE_MASK      0xc0U
+#define RESOURCE_LAST           0x20U
+#define RESOURCE_COUNT_MASK     0x1fU
 
 #define RESOURCE_CLK_NONE       DEV_CLK_ID_NONE
 
