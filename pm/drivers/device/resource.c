@@ -39,6 +39,9 @@
 #include <stddef.h>
 #include <limits.h>
 
+#define RESOURCE_MAX2(a, b) ((a) > (b) ? (a) : (b))
+#define RESOURCE_MAX3(A, B, C) RESOURCE_MAX2(A, RESOURCE_MAX2(B, C))
+
 /**
  * \brief Lookup a resource table entry.
  *
@@ -63,10 +66,12 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 	 * The downshift here is just because the macro that defines the type
 	 * starts at bit 6.
 	 */
-	const u8 sizes[] = {
-		[RESOURCE_CLK >> 6] = (u8) sizeof(struct resource_clk),
-		[RESOURCE_MEM >> 6] = (u8) sizeof(struct resource_mem),
-		[RESOURCE_RST >> 6] = (u8) sizeof(struct resource_rst),
+	static const u8 sizes[RESOURCE_MAX3(RESOURCE_CLK >> 6U,
+					    RESOURCE_MEM >> 6U,
+					    RESOURCE_RST >> 6U) + 1] = {
+		[RESOURCE_CLK >> 6U] = (u8) sizeof(struct resource_clk),
+		[RESOURCE_MEM >> 6U] = (u8) sizeof(struct resource_mem),
+		[RESOURCE_RST >> 6U] = (u8) sizeof(struct resource_rst),
 	};
 	const struct dev_data *ddata = get_dev_data(dev);
 	const u8 *data;
