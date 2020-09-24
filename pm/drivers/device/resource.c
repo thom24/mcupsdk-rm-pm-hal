@@ -87,7 +87,7 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 	 */
 	r = (ddata->flags & DEVD_FLAG_DRV_DATA) ? to_drv_data(ddata)->r : NULL;
 
-	while (r) {
+	while (r != NULL) {
 		hdr = r[0];
 		data = r + 1;
 		/* Is this the right resource type? */
