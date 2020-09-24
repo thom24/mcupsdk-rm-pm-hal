@@ -95,7 +95,8 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 			/* Is the array long enough? */
 			if (idx < (hdr & RESOURCE_COUNT_MASK)) {
 				/* Return our resource */
-				return &data[idx * sizes[type >> 6]];
+				r = &data[idx * sizes[type >> 6]];
+				break;
 			} else {
 				r = NULL;
 			}
