@@ -57,10 +57,10 @@
  * RESOURCE_xxx_NONE for the missing resources.
  */
 
-#define RESOURCE_IRQ    0x00
-#define RESOURCE_CLK    0x40
-#define RESOURCE_MEM    0x80
-#define RESOURCE_RST    0xc0
+#define RESOURCE_IRQ    0x00U
+#define RESOURCE_CLK    0x40U
+#define RESOURCE_MEM    0x80U
+#define RESOURCE_RST    0xc0U
 
 /*
  * Each resource set includes a set of resources including a resource
