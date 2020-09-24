@@ -22,10 +22,6 @@ void sleep_mode_update(u8 sleep_mode __attribute__((unused)), sbool allow __attr
 {
 }
 
-void sleep(void)
-{
-}
-
 s32 sleep_modes_register(const struct sleep_mode *modes, u8 *block, size_t n)
 {
 	s32 ret = 0;
