@@ -25,13 +25,13 @@ static struct map *closest(struct map *n, const u8 *bytes, size_t len)
 	return n;
 }
 
-struct map_node *strmap_get(const struct map *map, const char *member)
+struct map_node *strmap_get(const struct map *mapp, const char *member)
 {
 	struct map *n;
 
 	/* Not empty map? */
-	if (map) {
-		n = closest((struct map *) map, (const u8 *) member,
+	if (mapp) {
+		n = closest((struct map *) mapp, (const u8 *) member,
 			    strlen(member));
 		if (streq(member, (const char *) n->u.s)) {
 			return n->v;
@@ -40,13 +40,13 @@ struct map_node *strmap_get(const struct map *map, const char *member)
 	return NULL;
 }
 
-struct map_node *u32map_get(const struct map *map, u32 member)
+struct map_node *u32map_get(const struct map *mapp, u32 member)
 {
 	struct map *n;
 
 	/* Not empty map? */
-	if (map) {
-		n = closest((struct map *) map, (const u8 *) &member,
+	if (mapp) {
+		n = closest((struct map *) mapp, (const u8 *) &member,
 			    sizeof(u32));
 		if (member == (u32) n->u.s) {
 			return n->v;
@@ -55,17 +55,17 @@ struct map_node *u32map_get(const struct map *map, u32 member)
 	return NULL;
 }
 
-const u8 *str_get_bytes(struct map *map)
+const u8 *str_get_bytes(struct map *mapp)
 {
-	return (const u8 *) map->u.s;
+	return (const u8 *) mapp->u.s;
 }
 
-const u8 *u32_get_bytes(struct map *map)
+const u8 *u32_get_bytes(struct map *mapp)
 {
-	return (const u8 *) &map->u.s;
+	return (const u8 *) &mapp->u.s;
 }
 
-struct map *map_add(struct map *map, const void *member, const u8 *bytes,
+struct map *map_add(struct map *mapp, const void *member, const u8 *bytes,
 		    size_t len, struct map_node *newn,
 		    const u8 *(*get_bytes)(struct map *))
 {
@@ -75,15 +75,15 @@ struct map *map_add(struct map *map, const void *member, const u8 *bytes,
 	const u8 *s;
 
 	/* Empty map? */
-	if (!map) {
-		map = &newn->child[0];
-		map->u.s = member;
-		map->v = newn;
-		return map;
+	if (!mapp) {
+		mapp = &newn->child[0];
+		mapp->u.s = member;
+		mapp->v = newn;
+		return mapp;
 	}
 
 	/* Find closest existing member. */
-	n = closest(map, bytes, len);
+	n = closest(mapp, bytes, len);
 
 	/* Find where they differ. */
 	s = get_bytes(n);
@@ -106,7 +106,7 @@ struct map *map_add(struct map *map, const void *member, const u8 *bytes,
 	newn->child[new_dir].u.s = member;
 
 	/* Find where to insert: not closest, but first which differs! */
-	n = map;
+	n = mapp;
 	while (!n->v) {
 		u8 direction = 0;
 
@@ -129,7 +129,7 @@ struct map *map_add(struct map *map, const void *member, const u8 *bytes,
 	newn->child[!new_dir] = *n;
 	n->u.n = newn;
 	n->v = NULL;
-	return map;
+	return mapp;
 }
 
 static sbool str_iterate(struct map n,
@@ -144,16 +144,16 @@ static sbool str_iterate(struct map n,
 	       && str_iterate(n.u.n->child[1], handle, data);
 }
 
-void strmap_iterate_(const struct map *map,
+void strmap_iterate_(const struct map *mapp,
 		     sbool (*handle)(const char *, struct map_node *, void *),
 		     const void *data)
 {
 	/* Empty map? */
-	if (!map) {
+	if (!mapp) {
 		return;
 	}
 
-	str_iterate(*map, handle, data);
+	str_iterate(*mapp, handle, data);
 }
 
 static sbool u32_iterate(struct map n,
@@ -168,30 +168,30 @@ static sbool u32_iterate(struct map n,
 	       && u32_iterate(n.u.n->child[1], handle, data);
 }
 
-void u32map_iterate_(const struct map *map,
+void u32map_iterate_(const struct map *mapp,
 		     sbool (*handle)(u32, struct map_node *, void *),
 		     const void *data)
 {
 	/* Empty map? */
-	if (!map) {
+	if (!mapp) {
 		return;
 	}
 
-	u32_iterate(*map, handle, data);
+	u32_iterate(*mapp, handle, data);
 }
 
-const struct map *strmap_prefix(const struct map *map, const char *prefix)
+const struct map *strmap_prefix(const struct map *mapp, const char *prefix)
 {
 	const struct map *n, *top;
 	size_t len = strlen(prefix);
 	const u8 *bytes = (const u8 *) prefix;
 
 	/* Empty map -> return empty map. */
-	if (!map) {
-		return map;
+	if (!mapp) {
+		return mapp;
 	}
 
-	top = n = map;
+	top = n = mapp;
 
 	/* We walk to find the top, but keep going to check prefix matches. */
 	while (!n->v) {
