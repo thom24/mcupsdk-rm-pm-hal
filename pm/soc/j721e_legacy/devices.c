@@ -13615,7 +13615,7 @@ const struct soc_device_data *const soc_psc_multiple_domains[] = {
 	[J721E_PSC_MULTIPLE_COMPUTE_CLUSTER_J7ES_TB_VDC_MAIN_0_PBIST_WRAP] = compute_cluster_j7es_tb_vdc_main_0_pbist_wrap_domains,
 };
 
-const struct dev_data *const soc_device_data[] = {
+const struct dev_data *const soc_device_data[J721E_DEV_C71X_0_PBIST_VD + 1] = {
 	[J721E_DEV_MCU_ADC12_16FFC0] = &j721e_dev_adc12_16ffc_mcu_0,
 	[J721E_DEV_MCU_ADC12_16FFC1] = &j721e_dev_adc12_16ffc_mcu_1,
 	[J721E_DEV_ATL0] = &j721e_dev_atl_main_0,

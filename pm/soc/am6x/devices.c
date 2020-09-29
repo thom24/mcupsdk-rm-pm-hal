@@ -6675,7 +6675,7 @@ const struct soc_device_data *const soc_psc_multiple_domains[] = {
 	[AM6_PSC_MULTIPLE_CPT2_AGGREGATOR32_MAIN_0] = cpt2_aggregator32_main_0_domains,
 };
 
-const struct dev_data *const soc_device_data[] = {
+const struct dev_data *const soc_device_data[AM6_DEV_MCU_FSS0_OSPI_1 + 1] = {
 	[AM6_DEV_MCU_ADC0] = &am6_dev_adc12_gs80_mcu_0,
 	[AM6_DEV_MCU_ADC1] = &am6_dev_adc12_gs80_mcu_1,
 	[AM6_DEV_CAL0] = &am6_dev_cal_main_0,

@@ -5412,7 +5412,7 @@ const size_t soc_devgroup_count = ARRAY_SIZE(soc_devgroups);
 const struct soc_device_data *const soc_psc_multiple_domains[] = {
 };
 
-const struct dev_data *const soc_device_data[] = {
+const struct dev_data *const soc_device_data[AM64X_DEV_COMPUTE_CLUSTER0_PBIST_0 + 1] = {
 	[AM64X_DEV_ADC0] = &am64x_dev_adc12_core_main_0,
 	[AM64X_DEV_CMP_EVENT_INTROUTER0] = &am64x_dev_am64_cmp_event_introuter_main_0,
 	[AM64X_DEV_DBGSUSPENDROUTER0] = &am64x_dev_am64_dbgsuspendrouter_main_0,
