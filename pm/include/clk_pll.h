@@ -176,7 +176,7 @@ struct pll_data {
 	 * \return
 	 * True if divider can be used, SFALSE otherwise.
 	 */
-	sbool (*plld_valid)(struct clk *clk, u32 plld);
+	sbool (*plld_valid)(struct clk *clkp, u32 plld);
 
 	/**
 	 * \brief Indicate if a multiplier is valid.
@@ -200,7 +200,7 @@ struct pll_data {
 	 * \return
 	 * True if multiplier can be used, SFALSE otherwise.
 	 */
-	sbool (*pllm_valid)(struct clk *clk, u32 pllm, sbool is_frac);
+	sbool (*pllm_valid)(struct clk *clkp, u32 pllm, sbool is_frac);
 
 	/**
 	 * \brief Stride value for a given pllm.
@@ -223,7 +223,7 @@ struct pll_data {
 	 * \return
 	 * The stride size for the given pllm, or 1 if there is no stride.
 	 */
-	u32 (*pllm_stride)(struct clk *clk, u32 pllm);
+	u32 (*pllm_stride)(struct clk *clkp, u32 pllm);
 
 	/**
 	 * \brief Indicate if a post-divider is valid.
@@ -241,7 +241,7 @@ struct pll_data {
 	 * \return
 	 * True if post-divider can be used, SFALSE otherwise.
 	 */
-	sbool (*clkod_valid)(struct clk *clk, u32 clkod);
+	sbool (*clkod_valid)(struct clk *clkp, u32 clkod);
 
 	/**
 	 * \brief Indicate a bin for this setting combination.
@@ -268,7 +268,7 @@ struct pll_data {
 	 * The bin number. 0 for least preference, INT_MAX for greatest
 	 * preference. Negative for disallowed combinations.
 	 */
-	s32 (*bin)(struct clk *clk, u32 plld, u32 pllm, sbool is_frac, u32 clkod);
+	s32 (*bin)(struct clk *clkp, u32 plld, u32 pllm, sbool is_frac, u32 clkod);
 
 	/**
 	 * \brief Try to find a larger pllm value that exists in a better bin
@@ -302,7 +302,7 @@ struct pll_data {
 	 * higher bin number for the new plld/pllm/clkod combination. 0 if
 	 * no such value exists.
 	 */
-	u32 (*bin_next_pllm)(struct clk *clk, u32 plld, u32 pllm, u32 clkod);
+	u32 (*bin_next_pllm)(struct clk *clkp, u32 plld, u32 pllm, u32 clkod);
 
 	/**
 	 * \brief Try to find a smaller pllm value that exists in a better bin
@@ -336,7 +336,7 @@ struct pll_data {
 	 * higher bin number for the new plld/pllm/clkod combination. 0 if
 	 * no such value exists.
 	 */
-	u32 (*bin_prev_pllm)(struct clk *clk, u32 plld, u32 pllm, u32 clkod);
+	u32 (*bin_prev_pllm)(struct clk *clkp, u32 plld, u32 pllm, u32 clkod);
 
 	/**
 	 * \brief Return fitness value based on VCO frequency.
@@ -360,7 +360,7 @@ struct pll_data {
 	 * The "fitness" of the VCO frequency. 0 for minimum fitness, UINT_MAX
 	 * for maximum fitness.
 	 */
-	u32 (*vco_fitness)(struct clk *clk, u32 vco, sbool is_frac);
+	u32 (*vco_fitness)(struct clk *clkp, u32 vco, sbool is_frac);
 };
 
 /**
@@ -413,7 +413,7 @@ struct pll_data {
  * plld/pllm/clkod values. 0 if no combination of settings could produce an
  * output between min and max.
  */
-u32 pll_calc(struct clk *clk, const struct pll_data *pll_data, u32 input, u32 output, u32 min, u32 max, u32 *plld, u32 *pllm, u32 *pllfm, u32 *clkod);
+u32 pll_calc(struct clk *clkp, const struct pll_data *pll_d, u32 input, u32 output, u32 min, u32 max, u32 *plld, u32 *pllm, u32 *pllfm, u32 *clkod);
 
 /**
  * \brief Base PLL initialization function
@@ -427,6 +427,6 @@ u32 pll_calc(struct clk *clk, const struct pll_data *pll_data, u32 input, u32 ou
  * \return
  * SUCCESS on success, error code on error.
  */
-s32 pll_init(struct clk *clk);
+s32 pll_init(struct clk *clkp);
 
 #endif
