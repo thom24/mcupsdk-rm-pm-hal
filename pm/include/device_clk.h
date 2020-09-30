@@ -179,7 +179,7 @@ struct dev_clk {
 /**
  * \brief Get the dynamic data associated with a device clock.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -191,12 +191,12 @@ struct dev_clk {
  * is actually returned. Both struct dev_clk and struct device contain a
  * single u8 flags field. The flags are mutually exclusive.
  */
-struct dev_clk *get_dev_clk(struct device *device, dev_clk_idx_t clk_idx);
+struct dev_clk *get_dev_clk(struct device *dev, dev_clk_idx_t clk_idx);
 
 /**
  * \brief Get the const data associated with a device clock.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -206,12 +206,12 @@ struct dev_clk *get_dev_clk(struct device *device, dev_clk_idx_t clk_idx);
  * The const data associated with the given clock, NULL if the clk_idx is
  * invalid.
  */
-const struct dev_clk_data *get_dev_clk_data(struct device *device, dev_clk_idx_t clk_idx);
+const struct dev_clk_data *get_dev_clk_data(struct device *dev, dev_clk_idx_t clk_idx);
 
 /**
  * \brief Lookup the clock API clock associated with a device clock index.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -221,7 +221,7 @@ const struct dev_clk_data *get_dev_clk_data(struct device *device, dev_clk_idx_t
  * The internal clock API clock. NULL if the clk_idx is invalid or no such
  * clock exists.
  */
-struct clk *dev_get_clk(struct device *device, dev_clk_idx_t clk_idx);
+struct clk *dev_get_clk(struct device *dev, dev_clk_idx_t clk_idx);
 
 /**
  * \brief Set the gate/ungate property for a device clock
@@ -231,7 +231,7 @@ struct clk *dev_get_clk(struct device *device, dev_clk_idx_t clk_idx);
  * counted. If it is ungated, then the refcount is incremented when the device
  * is enabled and decremented when the device is disabled.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -243,7 +243,7 @@ struct clk *dev_get_clk(struct device *device, dev_clk_idx_t clk_idx);
  * \return
  * True if operation succeeded, SFALSE if it failed or clk_idx was invalid.
  */
-sbool device_clk_set_gated(struct device *device, dev_clk_idx_t clk_idx, sbool gated);
+sbool device_clk_set_gated(struct device *dev, dev_clk_idx_t clk_idx, sbool gated);
 
 /**
  * \brief Get the current hardware state of the clock.
@@ -253,7 +253,7 @@ sbool device_clk_set_gated(struct device *device, dev_clk_idx_t clk_idx, sbool g
  * running even though the clock is set to gated. This is mainly for
  * diagnostic purposes.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -263,12 +263,12 @@ sbool device_clk_set_gated(struct device *device, dev_clk_idx_t clk_idx, sbool g
  * True if the clock is currently running, SFALSE if the clock is gated or
  * in transition.
  */
-sbool device_clk_get_hw_ready(struct device *device, dev_clk_idx_t clk_idx);
+sbool device_clk_get_hw_ready(struct device *dev, dev_clk_idx_t clk_idx);
 
 /**
  * \brief Get the current state of the gated flag.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -277,7 +277,7 @@ sbool device_clk_get_hw_ready(struct device *device, dev_clk_idx_t clk_idx);
  * \return
  * The current state of the gated flag as set by device_clk_set_gated.
  */
-sbool device_clk_get_sw_gated(struct device *device, dev_clk_idx_t clk_idx);
+sbool device_clk_get_sw_gated(struct device *dev, dev_clk_idx_t clk_idx);
 
 /**
  * \brief Allow or block SSC (Spread Spectrum Clocking)
@@ -286,7 +286,7 @@ sbool device_clk_get_sw_gated(struct device *device, dev_clk_idx_t clk_idx);
  * If all clocks downsteam from a PLL are either disabled and/or allow SSC,
  * SSC will be enabled for that PLL.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -295,12 +295,12 @@ sbool device_clk_get_sw_gated(struct device *device, dev_clk_idx_t clk_idx);
  * \param allow
  * True to allow SSC, SFALSE to block SSC while the clock is enabled.
  */
-void device_clk_set_ssc(struct device *device, dev_clk_idx_t clk_idx, sbool allow);
+void device_clk_set_ssc(struct device *dev, dev_clk_idx_t clk_idx, sbool allow);
 
 /**
  * \brief Get the current state of the SSC flag for this device clock.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -309,7 +309,7 @@ void device_clk_set_ssc(struct device *device, dev_clk_idx_t clk_idx, sbool allo
  * \return
  * True if SSC is allowed for this clock, SFALSE if SSC is blocked.
  */
-sbool device_clk_get_ssc(struct device *device, dev_clk_idx_t clk_idx);
+sbool device_clk_get_ssc(struct device *dev, dev_clk_idx_t clk_idx);
 
 /**
  * \brief Get the current SSC state of this clock.
@@ -318,7 +318,7 @@ sbool device_clk_get_ssc(struct device *device, dev_clk_idx_t clk_idx);
  * it is allowed by all other users of the PLL. This call can be used to
  * determine if SSC has actually been activated.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -327,7 +327,7 @@ sbool device_clk_get_ssc(struct device *device, dev_clk_idx_t clk_idx);
  * \return
  * True if SSC is active.
  */
-sbool device_clk_get_hw_ssc(struct device *device, dev_clk_idx_t clk_idx);
+sbool device_clk_get_hw_ssc(struct device *dev, dev_clk_idx_t clk_idx);
 
 /**
  * \brief Allow or block frequency changes.
@@ -340,7 +340,7 @@ sbool device_clk_get_hw_ssc(struct device *device, dev_clk_idx_t clk_idx);
  * For some clocks, such as observation clocks, this flag is set to STRUE by
  * default.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -350,12 +350,12 @@ sbool device_clk_get_hw_ssc(struct device *device, dev_clk_idx_t clk_idx);
  * True to allow frequency changes of this clock, even when enabled. False
  * to block frequency changes while the clock is enabled.
  */
-void device_clk_set_freq_change(struct device *device, dev_clk_idx_t clk_idx, sbool allow);
+void device_clk_set_freq_change(struct device *dev, dev_clk_idx_t clk_idx, sbool allow);
 
 /**
  * \brief Get the current state of the allow frequency change flag.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -364,7 +364,7 @@ void device_clk_set_freq_change(struct device *device, dev_clk_idx_t clk_idx, sb
  * \return
  * True if frequency changes are allowed, even when enabled. False otherwise.
  */
-sbool device_clk_get_freq_change(struct device *device, dev_clk_idx_t clk_idx);
+sbool device_clk_get_freq_change(struct device *dev, dev_clk_idx_t clk_idx);
 
 /**
  * \brief Set/clear the input termination flag for a device clock.
@@ -372,7 +372,7 @@ sbool device_clk_get_freq_change(struct device *device, dev_clk_idx_t clk_idx);
  * This API is not yet fully implemented, but is meant to control the input
  * termination setting for clocks.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -381,12 +381,12 @@ sbool device_clk_get_freq_change(struct device *device, dev_clk_idx_t clk_idx);
  * \param enable
  * True to enable termination flag, SFALSE to disable.
  */
-void device_clk_set_input_term(struct device *device, dev_clk_idx_t clk_idx, sbool enable);
+void device_clk_set_input_term(struct device *dev, dev_clk_idx_t clk_idx, sbool enable);
 
 /**
  * \brief Get the current state of the termination flag.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -395,12 +395,12 @@ void device_clk_set_input_term(struct device *device, dev_clk_idx_t clk_idx, sbo
  * \return
  * True if terminatino is enabled, SFALSE if it is disabled.
  */
-sbool device_clk_get_input_term(struct device *device, dev_clk_idx_t clk_idx);
+sbool device_clk_get_input_term(struct device *dev, dev_clk_idx_t clk_idx);
 
 /**
  * \brief Change a device mux clocks's parent.
  *
- * \param device
+ * \param dev
  * The device ID that the clock mux and new parent is connected to.
  *
  * \param clk_idx
@@ -413,12 +413,12 @@ sbool device_clk_get_input_term(struct device *device, dev_clk_idx_t clk_idx);
  * True if parent change was successful, SFALSE if it failed or one of the
  * clock indexes was invalid.
  */
-sbool device_clk_set_parent(struct device *device, dev_clk_idx_t clk_idx, dev_clk_idx_t parent_idx);
+sbool device_clk_set_parent(struct device *dev, dev_clk_idx_t clk_idx, dev_clk_idx_t parent_idx);
 
 /**
  * \brief Get the current parent of a device mux clock.
  *
- * \param device
+ * \param dev
  * The device ID that the clock mux is connected to.
  *
  * \param clk_idx
@@ -429,12 +429,12 @@ sbool device_clk_set_parent(struct device *device, dev_clk_idx_t clk_idx, dev_cl
  * DEV_CLK_ID_NONE if clk_idx was invalid, is not a mux, or does not point to
  * a valid clock.
  */
-dev_clk_idx_t device_clk_get_parent(struct device *device, dev_clk_idx_t clk_idx);
+dev_clk_idx_t device_clk_get_parent(struct device *dev, dev_clk_idx_t clk_idx);
 
 /**
  * \brief Get the number of parents of a given device mux clock.
  *
- * \param device
+ * \param dev
  * The device ID that the clock mux is connected to.
  *
  * \param clk_idx
@@ -446,7 +446,7 @@ dev_clk_idx_t device_clk_get_parent(struct device *device, dev_clk_idx_t clk_idx
  * has a parent, or 0 if it is a parentless clock. If clk_idx is invalid,
  * DEV_CLK_ID_NONE is returned.
  */
-dev_clk_idx_t device_clk_get_num_parents(struct device *device, dev_clk_idx_t clk_idx);
+dev_clk_idx_t device_clk_get_num_parents(struct device *dev, dev_clk_idx_t clk_idx);
 
 /**
  * \brief Set the frequency of a device's clock
@@ -456,7 +456,7 @@ dev_clk_idx_t device_clk_get_num_parents(struct device *device, dev_clk_idx_t cl
  * the parent. This is because calling set freq on the mux may switch the mux
  * which is not what we want on muxes that are exposed on devices.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -475,7 +475,7 @@ dev_clk_idx_t device_clk_get_num_parents(struct device *device, dev_clk_idx_t cl
  * \return
  * True if the new frequency was accepted, SFALSE otherwise.
  */
-sbool device_clk_set_freq(struct device *device, dev_clk_idx_t clk_idx, u32 min_freq_hz, u32 target_freq_hz, u32 max_freq_hz);
+sbool device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx, u32 min_freq_hz, u32 target_freq_hz, u32 max_freq_hz);
 
 /**
  * \brief Query the clock API.
@@ -483,7 +483,7 @@ sbool device_clk_set_freq(struct device *device, dev_clk_idx_t clk_idx, u32 min_
  * This determines what response the current clock tree would have to a
  * hypothetical frequency change request.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -504,12 +504,12 @@ sbool device_clk_set_freq(struct device *device, dev_clk_idx_t clk_idx, u32 min_
  * with the same parameters. Returns 0 if an acceptable configuration was not
  * found.
  */
-u32 device_clk_query_freq(struct device *device, dev_clk_idx_t clk_idx, u32 min_freq_hz, u32 target_freq_hz, u32 max_freq_hz);
+u32 device_clk_query_freq(struct device *dev, dev_clk_idx_t clk_idx, u32 min_freq_hz, u32 target_freq_hz, u32 max_freq_hz);
 
 /**
  * \brief Get the current frequency of a device clock.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
@@ -521,7 +521,7 @@ u32 device_clk_query_freq(struct device *device, dev_clk_idx_t clk_idx, u32 min_
  * were enabled. Returns 0 if the clk_idx is invalid or if the clock cannot
  * run for some reason.
  */
-u32 device_clk_get_freq(struct device *device, dev_clk_idx_t clk_idx);
+u32 device_clk_get_freq(struct device *dev, dev_clk_idx_t clk_idx);
 
 #ifdef CONFIG_CLOCK
 /**
@@ -530,13 +530,13 @@ u32 device_clk_get_freq(struct device *device, dev_clk_idx_t clk_idx);
  * This is called by the device pm code for each clock when the device is
  * enabled. This allows the device clk code to take appropriate action.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
  * The index of the clock on this device.
  */
-void device_clk_enable(struct device *device, dev_clk_idx_t clk_idx);
+void device_clk_enable(struct device *dev, dev_clk_idx_t clk_idx);
 
 /**
  * \brief Disable a device clock
@@ -544,13 +544,13 @@ void device_clk_enable(struct device *device, dev_clk_idx_t clk_idx);
  * This is called by the device pm code for each clock when the device is
  * disabled. This allows the device clk code to take appropriate action.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
  * The index of the clock on this device.
  */
-void device_clk_disable(struct device *device, dev_clk_idx_t clk_idx);
+void device_clk_disable(struct device *dev, dev_clk_idx_t clk_idx);
 
 /**
  * \brief Initialize a device clock
@@ -559,22 +559,22 @@ void device_clk_disable(struct device *device, dev_clk_idx_t clk_idx);
  * disabled. This allows the device clk code to take appropriate action such
  * setting default state.
  *
- * \param device
+ * \param dev
  * The device ID that the clock is connected to.
  *
  * \param clk_idx
  * The index of the clock on this device.
  */
-void device_clk_init(struct device *device, dev_clk_idx_t clk_idx);
+void device_clk_init(struct device *dev, dev_clk_idx_t clk_idx);
 
 #else
-static inline void device_clk_enable(struct device *device, dev_clk_idx_t clk_idx)
+static inline void device_clk_enable(struct device *dev, dev_clk_idx_t clk_idx)
 {
 }
-static inline void device_clk_disable(struct device *device, dev_clk_idx_t clk_idx)
+static inline void device_clk_disable(struct device *dev, dev_clk_idx_t clk_idx)
 {
 }
-static inline void device_clk_init(struct device *device, dev_clk_idx_t clk_idx)
+static inline void device_clk_init(struct device *dev, dev_clk_idx_t clk_idx)
 {
 }
 #endif
