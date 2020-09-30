@@ -150,15 +150,15 @@ s32 devices_init(void)
 				continue;
 			}
 
-			if (soc_device_data[idx] == NULL) {
+			if (soc_device_data_arr[idx] == NULL) {
 				continue;
 			}
 
 			/* Translate compressed internal representation to bitfield */
-			if (soc_device_data[idx]->pm_devgrp == PM_DEVGRP_DMSC) {
+			if (soc_device_data_arr[idx]->pm_devgrp == PM_DEVGRP_DMSC) {
 				devgrp = DEVGRP_DMSC;
 			} else {
-				devgrp = BIT(soc_device_data[idx]->pm_devgrp - 1U);
+				devgrp = BIT(soc_device_data_arr[idx]->pm_devgrp - 1U);
 			}
 
 			if (!pm_devgroup_is_enabled(devgrp)) {
@@ -243,10 +243,10 @@ s32 devices_deinit(u8 pm_devgrp)
 	sbool flag_enabled;
 
 	for (i = 0U; i < soc_device_count; i++) {
-		if (soc_device_data[i] == NULL) {
+		if (soc_device_data_arr[i] == NULL) {
 			continue;
 		}
-		if (soc_device_data[i]->pm_devgrp == pm_devgrp) {
+		if (soc_device_data_arr[i]->pm_devgrp == pm_devgrp) {
 			struct device *dev = &soc_devices[i];
 			const struct dev_data *data = get_dev_data(dev);
 

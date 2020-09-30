@@ -13615,7 +13615,7 @@ const struct soc_device_data *const soc_psc_multiple_domains[] = {
 	[J721E_PSC_MULTIPLE_COMPUTE_CLUSTER_J7ES_TB_VDC_MAIN_0_PBIST_WRAP] = compute_cluster_j7es_tb_vdc_main_0_pbist_wrap_domains,
 };
 
-const struct dev_data *const soc_device_data[J721E_DEV_C71X_0_PBIST_VD + 1] = {
+const struct dev_data *const soc_device_data_arr[J721E_DEV_C71X_0_PBIST_VD + 1] = {
 	[J721E_DEV_MCU_ADC12_16FFC0] = &j721e_dev_adc12_16ffc_mcu_0,
 	[J721E_DEV_MCU_ADC12_16FFC1] = &j721e_dev_adc12_16ffc_mcu_1,
 	[J721E_DEV_ATL0] = &j721e_dev_atl_main_0,
@@ -13932,7 +13932,7 @@ const struct dev_data *const soc_device_data[J721E_DEV_C71X_0_PBIST_VD + 1] = {
 	[J721E_DEV_C71X_0_PBIST_VD] = &j721e_dev_c71x_0_pbist_VD,
 };
 
-struct device soc_devices[ARRAY_SIZE(soc_device_data)];
-const size_t soc_device_count = ARRAY_SIZE(soc_device_data);
+struct device soc_devices[ARRAY_SIZE(soc_device_data_arr)];
+const size_t soc_device_count = ARRAY_SIZE(soc_device_data_arr);
 
 struct device *const this_dev = soc_devices + J721E_DEV_WKUP_DMSC0;

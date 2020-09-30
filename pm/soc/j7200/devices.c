@@ -8332,7 +8332,7 @@ const struct soc_device_data *const soc_psc_multiple_domains[] = {
 	[J7200_PSC_MULTIPLE_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_PBIST_WRAP] = compute_cluster_j7vcl_tb_vdc_main_0_pbist_wrap_domains,
 };
 
-const struct dev_data *const soc_device_data[J7200_DEV_FFI_MAIN_RC_CBASS_VD + 1] = {
+const struct dev_data *const soc_device_data_arr[J7200_DEV_FFI_MAIN_RC_CBASS_VD + 1] = {
 	[J7200_DEV_MCU_ADC0] = &j7200_dev_adc12_core_mcu_0,
 	[J7200_DEV_MCU_ADC1] = &j7200_dev_adc12_core_mcu_1,
 	[J7200_DEV_ATL0] = &j7200_dev_atl_main_0,
@@ -8576,7 +8576,7 @@ const struct dev_data *const soc_device_data[J7200_DEV_FFI_MAIN_RC_CBASS_VD + 1]
 	[J7200_DEV_FFI_MAIN_RC_CBASS_VD] = &j7200_dev_ffi_main_rc_cbass_VD,
 };
 
-struct device soc_devices[ARRAY_SIZE(soc_device_data)];
-const size_t soc_device_count = ARRAY_SIZE(soc_device_data);
+struct device soc_devices[ARRAY_SIZE(soc_device_data_arr)];
+const size_t soc_device_count = ARRAY_SIZE(soc_device_data_arr);
 
 struct device *const this_dev = soc_devices + J7200_DEV_WKUP_DMSC0;

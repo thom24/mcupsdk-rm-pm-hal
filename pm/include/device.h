@@ -195,7 +195,7 @@ struct devgroup {
 extern struct device soc_devices[];
 
 /** The table of const device data */
-extern const struct dev_data *const soc_device_data[];
+extern const struct dev_data *const soc_device_data_arr[];
 
 /** The total number of SoC devices */
 extern const size_t soc_device_count;
@@ -223,7 +223,7 @@ extern struct device *const this_dev;
  */
 static inline sbool device_id_valid(u32 id)
 {
-	return (id < (u32) soc_device_count) && soc_device_data[id];
+	return (id < (u32) soc_device_count) && soc_device_data_arr[id];
 }
 
 /**
@@ -258,7 +258,7 @@ static inline struct device *device_lookup(dev_idx_t id)
 static inline struct device *device_api_lookup(u32 id)
 {
 	return (!device_id_valid(id) ||
-		(soc_device_data[id]->flags & DEVD_FLAG_INTERNAL)) ? NULL :
+		(soc_device_data_arr[id]->flags & DEVD_FLAG_INTERNAL)) ? NULL :
 	       (soc_devices + id);
 }
 
@@ -295,7 +295,7 @@ static inline u32 device_id(struct device *device)
  */
 static inline const struct dev_data *get_dev_data(struct device *dev)
 {
-	return soc_device_data[device_id(dev)];
+	return soc_device_data_arr[device_id(dev)];
 }
 
 /**
