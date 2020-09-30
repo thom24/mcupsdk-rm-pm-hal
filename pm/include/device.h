@@ -99,10 +99,10 @@ struct dev_clk_data;
 struct resource;
 
 struct drv {
-	int	(*pre_init)(struct device *device);
-	int	(*post_init)(struct device *device);
-	void	(*uninit)(struct device *device);
-	void	(*suspend)(struct device *device);
+	int	(*pre_init)(struct device *dev);
+	int	(*post_init)(struct device *dev);
+	void	(*uninit)(struct device *dev);
+	void	(*suspend)(struct device *dev);
 };
 
 struct dev_data {
@@ -275,9 +275,9 @@ static inline struct device *device_api_lookup(u32 id)
  * \return
  * The device ID.
  */
-static inline u32 device_id(struct device *device)
+static inline u32 device_id(struct device *dev)
 {
-	return device - soc_devices;
+	return dev - soc_devices;
 }
 
 /**
@@ -327,9 +327,9 @@ static inline const struct drv_data *to_drv_data(const struct dev_data *data)
  */
 static inline const struct drv_data *get_drv_data(struct device *dev)
 {
-	const struct dev_data *dev_data = get_dev_data(dev);
+	const struct dev_data *dev_datap = get_dev_data(dev);
 
-	return dev_data ? to_drv_data(dev_data) : NULL;
+	return dev_datap ? to_drv_data(dev_datap) : NULL;
 }
 
 /**
@@ -345,9 +345,9 @@ static inline const struct drv_data *get_drv_data(struct device *dev)
  */
 static inline const struct drv *get_dev_drv(struct device *dev)
 {
-	const struct dev_data *dev_data = get_dev_data(dev);
+	const struct dev_data *dev_datap = get_dev_data(dev);
 
-	return dev_data ? to_drv_data(dev_data)->drv : NULL;
+	return dev_datap ? to_drv_data(dev_datap)->drv : NULL;
 }
 
 /**
