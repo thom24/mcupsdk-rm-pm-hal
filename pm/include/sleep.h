@@ -48,7 +48,7 @@ struct sleep_mode {
 	int	(*exit)(void);
 };
 
-void sleep_mode_update(u8 sleep_mode, sbool allow);
+void sleep_mode_update(u8 sleepmode, sbool allow);
 
 s32 sleep_modes_register(const struct sleep_mode *modes, u8 *block, size_t n);
 
