@@ -180,9 +180,9 @@ extern void soc_device_init_complete(void);
  * \param enable
  * True to enable reset isolation, SFALSE to disable.
  */
-static inline void device_set_reset_iso(struct device *device, sbool enable)
+static inline void device_set_reset_iso(struct device *dev, sbool enable)
 {
-	soc_device_set_reset_iso(device, enable);
+	soc_device_set_reset_iso(dev, enable);
 }
 
 /**
@@ -194,9 +194,9 @@ static inline void device_set_reset_iso(struct device *device, sbool enable)
  * \return
  * True if the reset isolation flag is set, SFALSE otherwise.
  */
-static inline sbool device_get_reset_iso(struct device *device)
+static inline sbool device_get_reset_iso(struct device *dev)
 {
-	return soc_device_get_reset_iso(device);
+	return soc_device_get_reset_iso(dev);
 }
 
 /**
@@ -211,9 +211,9 @@ static inline sbool device_get_reset_iso(struct device *device)
  * \param resets
  * Bit-field representing desired reset state.
  */
-static inline void device_set_resets(struct device *device, u32 resets)
+static inline void device_set_resets(struct device *dev, u32 resets)
 {
-	soc_device_set_resets(device, resets);
+	soc_device_set_resets(dev, resets);
 }
 
 /**
@@ -225,9 +225,9 @@ static inline void device_set_resets(struct device *device, u32 resets)
  * \return
  * The current bitfield of device resets, as set by device_set_resets.
  */
-static inline u32 device_get_resets(struct device *device)
+static inline u32 device_get_resets(struct device *dev)
 {
-	return soc_device_get_resets(device);
+	return soc_device_get_resets(dev);
 }
 
 /**
@@ -246,9 +246,9 @@ static inline u32 device_get_resets(struct device *device)
  * \return
  * The current loss count of the device.
  */
-static inline u32 device_get_context_loss_count(struct device *device)
+static inline u32 device_get_context_loss_count(struct device *dev)
 {
-	return soc_device_get_context_loss_count(device);
+	return soc_device_get_context_loss_count(dev);
 }
 
 /**
@@ -286,7 +286,7 @@ void device_suspend(struct device *dev);
  * \param enable
  * True to enable the device, SFALSE to allow the PMMC to power down the device.
  */
-void device_set_state(struct device *device, u8 host_idx, sbool enable);
+void device_set_state(struct device *dev, u8 host_idx, sbool enable);
 
 /**
  * \brief Get the current device state.
@@ -300,9 +300,9 @@ void device_set_state(struct device *device, u8 host_idx, sbool enable);
  * True if the device is configured to be enabled, SFALSE if the device is
  * configured to be disabled.
  */
-static inline u32 device_get_state(struct device *device)
+static inline u32 device_get_state(struct device *dev)
 {
-	return soc_device_get_state(device);
+	return soc_device_get_state(dev);
 }
 
 /**
@@ -319,7 +319,7 @@ static inline u32 device_get_state(struct device *device)
  * \param retention
  * True to enable retention, SFALSE to disable it.
  */
-void device_set_retention(struct device *device, sbool retention);
+void device_set_retention(struct device *dev, sbool retention);
 
 #else
 
@@ -327,15 +327,15 @@ static inline void device_suspend(struct device *dev)
 {
 }
 
-static inline u32 device_get_state(struct device *device)
+static inline u32 device_get_state(struct device *dev)
 {
 	return 0;
 }
 
-static inline void device_set_state(struct device *device, u8 host_idx, sbool enable)
+static inline void device_set_state(struct device *dev, u8 host_idx, sbool enable)
 {
 }
-static inline void device_set_retention(struct device *device, sbool ret)
+static inline void device_set_retention(struct device *dev, sbool ret)
 {
 }
 
