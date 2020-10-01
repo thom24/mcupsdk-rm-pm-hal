@@ -190,8 +190,8 @@ static inline struct psc_pd *psc_idx2pd(const struct psc_drv_data	*psc,
 	return psc->powerdomains + id;
 }
 
-static const struct psc_pd_data *psc_pd_data(struct device	*dev,
-					     struct psc_pd	*pd)
+static const struct psc_pd_data *get_psc_pd_data(struct device	*dev,
+						 struct psc_pd	*pd)
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
 
@@ -214,7 +214,7 @@ static inline struct lpsc_module *psc_idx2mod(const struct psc_drv_data *psc,
 /* FIXME: Timeout behavior */
 void psc_pd_wait(struct device *dev, struct psc_pd *pd)
 {
-	if (!(psc_pd_data(dev, pd)->flags & PSC_PD_ALWAYSON)) {
+	if (!(get_psc_pd_data(dev, pd)->flags & PSC_PD_ALWAYSON)) {
 		s32 i = PSC_TRANSITION_TIMEOUT;
 		while ((psc_read(dev, PSC_PTSTAT) &
 			BIT(psc_pd_idx(dev, pd))) && --i) {
@@ -250,9 +250,9 @@ static void psc_pd_clk_get(const struct psc_pd_data *data)
 	u32 i;
 
 	for (i = 0UL; i < ARRAY_SIZE(data->clock_dep); i++) {
-		struct clk *clk = clk_lookup(data->clock_dep[i]);
-		if (clk != NULL) {
-			clk_get(clk);
+		struct clk *clkp = clk_lookup(data->clock_dep[i]);
+		if (clkp != NULL) {
+			clk_get(clkp);
 		}
 	}
 }
@@ -358,9 +358,9 @@ static void psc_pd_clk_put(const struct psc_pd_data *data)
 	u32 i;
 
 	for (i = 0UL; i < ARRAY_SIZE(data->clock_dep); i++) {
-		struct clk *clk = clk_lookup(data->clock_dep[i]);
-		if (clk != NULL) {
-			clk_put(clk);
+		struct clk *clkp = clk_lookup(data->clock_dep[i]);
+		if (clkp != NULL) {
+			clk_put(clkp);
 		}
 	}
 }
@@ -897,9 +897,9 @@ static void lpsc_module_clk_get(struct device *dev, struct lpsc_module *mod)
 	u32 i;
 
 	for (i = 0UL; i < ARRAY_SIZE(data->clock_dep); i++) {
-		struct clk *clk = clk_lookup(data->clock_dep[i]);
-		if (clk != NULL) {
-			clk_get(clk);
+		struct clk *clkp = clk_lookup(data->clock_dep[i]);
+		if (clkp != NULL) {
+			clk_get(clkp);
 		}
 	}
 }
@@ -929,8 +929,8 @@ static void lpsc_module_clk_put(struct device *dev, struct lpsc_module *mod, sbo
 	u32 i;
 
 	for (i = 0UL; i < ARRAY_SIZE(data->clock_dep); i++) {
-		struct clk *clk = clk_lookup(data->clock_dep[i]);
-		if (clk != NULL) {
+		struct clk *clkp = clk_lookup(data->clock_dep[i]);
+		if (clkp != NULL) {
 			/*
 			 * We have to wait for the transition to complete
 			 * taking a clock away.
@@ -939,7 +939,7 @@ static void lpsc_module_clk_put(struct device *dev, struct lpsc_module *mod, sbo
 				lpsc_module_wait(dev, mod);
 				wait = SFALSE;
 			}
-			clk_put(clk);
+			clk_put(clkp);
 		}
 	}
 }
