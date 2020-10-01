@@ -429,22 +429,22 @@ static s32 soc_device_verify_mapping(const struct psc_drv_data *psc,
 
 static s32 soc_device_init_internal(struct device *dev)
 {
-	const struct dev_data *dev_data;
+	const struct dev_data *devdata;
 	struct device *psc_dev = NULL;
 	const struct psc_drv_data *psc = NULL;
 	u32 dev_id;
 	s32 ret = 0;
 
 	dev_id = device_id(dev);
-	dev_data = get_dev_data(dev);
+	devdata = get_dev_data(dev);
 
 	/* Check if this PSC manages it's own power domain */
-	if (dev_data->flags & DEVD_FLAG_DRV_DATA) {
-		const struct drv_data *drv_data;
-		drv_data = to_drv_data(dev_data);
-		if (drv_data->drv == &psc_drv) {
-			psc = to_psc_drv_data(drv_data);
-			if (psc->psc_idx == dev_data->soc.psc_idx) {
+	if (devdata->flags & DEVD_FLAG_DRV_DATA) {
+		const struct drv_data *drvdata;
+		drvdata = to_drv_data(devdata);
+		if (drvdata->drv == &psc_drv) {
+			psc = to_psc_drv_data(drvdata);
+			if (psc->psc_idx == devdata->soc.psc_idx) {
 				psc_dev = dev;
 			} else {
 				psc = NULL;
@@ -454,12 +454,12 @@ static s32 soc_device_init_internal(struct device *dev)
 
 	if (psc) {
 		/* We are our own PSC */
-		ret = soc_device_verify_mapping(psc, dev_id, &dev_data->soc);
-	} else if (dev_data->soc.psc_idx == PSC_DEV_MULTIPLE) {
+		ret = soc_device_verify_mapping(psc, dev_id, &devdata->soc);
+	} else if (devdata->soc.psc_idx == PSC_DEV_MULTIPLE) {
 		/* Find all the PSCs this device needs */
 		u32 i;
 		const struct soc_device_data *domains;
-		domains = soc_psc_multiple_domains[dev_data->soc.mod];
+		domains = soc_psc_multiple_domains[devdata->soc.mod];
 		for (i = 0; domains[i].psc_idx != PSC_DEV_NONE; i++) {
 			psc_dev = psc_lookup((psc_idx_t) domains[i].psc_idx);
 			if (ret != 0) {
@@ -473,7 +473,7 @@ static s32 soc_device_init_internal(struct device *dev)
 		}
 	} else {
 		/* We just need the one PSC */
-		psc_dev = psc_lookup((psc_idx_t) dev_data->soc.psc_idx);
+		psc_dev = psc_lookup((psc_idx_t) devdata->soc.psc_idx);
 		if (!psc_dev) {
 			/*
 			 * Don't try to bring this dev up before calling init
@@ -482,7 +482,7 @@ static s32 soc_device_init_internal(struct device *dev)
 			ret = -EDEFER;
 		} else {
 			psc = to_psc_drv_data(get_drv_data(psc_dev));
-			ret = soc_device_verify_mapping(psc, dev_id, &dev_data->soc);
+			ret = soc_device_verify_mapping(psc, dev_id, &devdata->soc);
 		}
 	}
 
@@ -492,12 +492,12 @@ static s32 soc_device_init_internal(struct device *dev)
 /* Defer all other device intialization until PSC initializes */
 s32 soc_device_init(struct device *dev)
 {
-	const struct dev_data *dev_data;
+	const struct dev_data *devdata;
 	s32 ret = 0;
 
-	dev_data = get_dev_data(dev);
+	devdata = get_dev_data(dev);
 
-	if (dev_data->soc.psc_idx != PSC_DEV_NONE) {
+	if (devdata->soc.psc_idx != PSC_DEV_NONE) {
 		ret = soc_device_init_internal(dev);
 	}
 
