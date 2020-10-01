@@ -82,21 +82,21 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 
 const struct resource_clk *device_resource_clk(struct device *dev, u8 idx)
 {
-	const struct resource_clk *ret = resource_get(dev, RESOURCE_CLK, idx);
+	const struct resource_clk *ret = (const struct resource_clk *)resource_get(dev, RESOURCE_CLK, idx);
 
 	return ret && (ret->clk_id != RESOURCE_CLK_NONE) ? ret : NULL;
 }
 
 const struct resource_mem *device_resource_mem(struct device *dev, u8 idx)
 {
-	const struct resource_mem *ret = resource_get(dev, RESOURCE_MEM, idx);
+	const struct resource_mem *ret = (const struct resource_mem *)resource_get(dev, RESOURCE_MEM, idx);
 
 	return ret && (ret->addr != RESOURCE_MEM_NONE) ? ret : NULL;
 }
 
 const struct resource_rst *device_resource_rst(struct device *dev, u8 idx)
 {
-	const struct resource_rst *ret = resource_get(dev, RESOURCE_RST, idx);
+	const struct resource_rst *ret = (const struct resource_rst *)resource_get(dev, RESOURCE_RST, idx);
 
 	return ret && (ret->bit != RESOURCE_RST_NONE) ? ret : NULL;
 }
