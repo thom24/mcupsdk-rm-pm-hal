@@ -92,9 +92,48 @@
 #define PLL_16FFT_HSDIV_CTRL_HSDIV_SHIFT        0UL
 #define PLL_16FFT_HSDIV_CTRL_HSDIV_MASK         (0x7fUL << 0UL)
 
-static const struct pll_data pll_16fft_raw_data;
-static const struct pll_data pll_16fft_postdiv_data;
-static const struct pll_data pll_16fft_hsdiv_data;
+static sbool pll_16fft_pllm_valid(struct clk *clk UNUSED, u32 pllm, sbool is_frac);
+
+static s32 pll_16fft_bin(struct clk *clk UNUSED, u32 plld UNUSED,
+			 u32 pllm UNUSED, sbool is_frac, u32 clkod UNUSED);
+
+static u32 pll_16fft_vco_fitness(struct clk *clk UNUSED, u32 vco, sbool is_frac UNUSED);
+
+static sbool pll_16fft_clkod_valid(struct clk *clk UNUSED, u32 clkod);
+
+static const struct pll_data pll_16fft_raw_data = {
+	.plld_max	= 1U,
+	.pllm_max	= 640U,
+	.pllfm_bits	= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS,
+	.clkod_max	= 1U,
+	.pllm_valid	= pll_16fft_pllm_valid,
+	.bin		= pll_16fft_bin,
+	.vco_fitness	= pll_16fft_vco_fitness,
+};
+
+
+static const struct pll_data pll_16fft_postdiv_data = {
+	.plld_max	= 1U,
+	.pllm_max	= 640U,
+	.pllfm_bits	= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS,
+	.clkod_max	= 49U,
+	.pllm_valid	= pll_16fft_pllm_valid,
+	.clkod_valid	= pll_16fft_clkod_valid,
+	.bin		= pll_16fft_bin,
+	.vco_fitness	= pll_16fft_vco_fitness,
+};
+
+
+static const struct pll_data pll_16fft_hsdiv_data = {
+	.plld_max	= 1U,
+	.pllm_max	= 640U,
+	.pllfm_bits	= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS,
+	.clkod_max	= 128U,
+	.pllm_valid	= pll_16fft_pllm_valid,
+	.bin		= pll_16fft_bin,
+	.vco_fitness	= pll_16fft_vco_fitness,
+};
+
 
 /*
  * \brief Implement the option 3 PLL calibration method.
@@ -1049,16 +1088,6 @@ const struct clk_drv clk_drv_pll_16fft = {
 	.set_state	= clk_pll_16fft_set_state,
 };
 
-static const struct pll_data pll_16fft_raw_data = {
-	.plld_max	= 1U,
-	.pllm_max	= 640U,
-	.pllfm_bits	= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS,
-	.clkod_max	= 1U,
-	.pllm_valid	= pll_16fft_pllm_valid,
-	.bin		= pll_16fft_bin,
-	.vco_fitness	= pll_16fft_vco_fitness,
-};
-
 /*
  * There are two post dividers. Total post divide is postdiv1 * postdiv2.
  * postdiv1 must always be greater than or equal to postdiv2. Rather than
@@ -1109,17 +1138,6 @@ static sbool pll_16fft_clkod_valid(struct clk *clk UNUSED, u32 clkod)
 {
 	return clkod < ARRAY_SIZE(postdiv_mapping) && postdiv_mapping[clkod] != 0U;
 }
-
-static const struct pll_data pll_16fft_postdiv_data = {
-	.plld_max	= 1U,
-	.pllm_max	= 640U,
-	.pllfm_bits	= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS,
-	.clkod_max	= 49U,
-	.pllm_valid	= pll_16fft_pllm_valid,
-	.clkod_valid	= pll_16fft_clkod_valid,
-	.bin		= pll_16fft_bin,
-	.vco_fitness	= pll_16fft_vco_fitness,
-};
 
 static u32 clk_pll_16fft_postdiv_set_freq(struct clk *clk,
 					  u32 target_hz,
@@ -1251,16 +1269,6 @@ const struct clk_drv_div clk_drv_div_pll_16fft_postdiv = {
 	.valid_div		= clk_pll_16fft_postdiv_valid_div,
 	.set_div		= clk_pll_16fft_postdiv_set_div,
 	.get_div		= clk_pll_16fft_postdiv_get_div,
-};
-
-static const struct pll_data pll_16fft_hsdiv_data = {
-	.plld_max	= 1U,
-	.pllm_max	= 640U,
-	.pllfm_bits	= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS,
-	.clkod_max	= 128U,
-	.pllm_valid	= pll_16fft_pllm_valid,
-	.bin		= pll_16fft_bin,
-	.vco_fitness	= pll_16fft_vco_fitness,
 };
 
 static u32 clk_pll_16fft_hsdiv_set_freq(struct clk *clk,
