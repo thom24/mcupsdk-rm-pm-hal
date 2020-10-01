@@ -60,9 +60,9 @@ void device_suspend(struct device *dev)
 	const struct dev_data *data = get_dev_data(dev);
 
 	if (data->flags & DEVD_FLAG_DRV_DATA) {
-		const struct drv *drv = to_drv_data(data)->drv;
-		if (drv && drv->suspend) {
-			drv->suspend(dev);
+		const struct drv *drvp = to_drv_data(data)->drv;
+		if (drvp && drvp->suspend) {
+			drvp->suspend(dev);
 		}
 	}
 }
