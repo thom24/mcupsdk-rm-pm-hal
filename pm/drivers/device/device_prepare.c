@@ -40,7 +40,7 @@
 #include <types/errno.h>
 #include <soc/host_idx_mapping.h>
 
-static s32 device_prepare(u8 host_id, u32 id, u8 *host_idx, struct device **device, sbool exclusive)
+static s32 device_prepare(u8 host_id, u32 id, u8 *host_idx, struct device **dev, sbool exclusive)
 {
 	s32 ret = SUCCESS;
 	struct device *local_device = NULL;
@@ -76,8 +76,8 @@ static s32 device_prepare(u8 host_id, u32 id, u8 *host_idx, struct device **devi
 		}
 	}
 
-	if (device) {
-		*device = local_device;
+	if (dev) {
+		*dev = local_device;
 	}
 	if (host_idx) {
 		*host_idx = local_host_idx;
@@ -86,7 +86,7 @@ static s32 device_prepare(u8 host_id, u32 id, u8 *host_idx, struct device **devi
 	return ret;
 }
 
-s32 device_prepare_exclusive(u8 host_id, u32 id, u8 *host_idx, struct device **device)
+s32 device_prepare_exclusive(u8 host_id, u32 id, u8 *host_idx, struct device **dev)
 {
 	s32 ret;
 
@@ -94,12 +94,12 @@ s32 device_prepare_exclusive(u8 host_id, u32 id, u8 *host_idx, struct device **d
 	ret = devices_init_rw();
 
 	if (ret == SUCCESS) {
-		ret = device_prepare(host_id, id, host_idx, device, STRUE);
+		ret = device_prepare(host_id, id, host_idx, dev, STRUE);
 	}
 	return ret;
 }
 
-s32 device_prepare_nonexclusive(u8 host_id, u32 id, u8 *host_idx, struct device **device)
+s32 device_prepare_nonexclusive(u8 host_id, u32 id, u8 *host_idx, struct device **dev)
 {
-	return device_prepare(host_id, id, host_idx, device, SFALSE);
+	return device_prepare(host_id, id, host_idx, dev, SFALSE);
 }
