@@ -321,8 +321,8 @@ static inline const void *list_tail_(const struct list_head *h, size_t off)
  *		parent->num_children--;
  *	}
  */
-#define list_for_each_safe(h, i, nxt, member)				\
-	list_for_each_safe_off(h, i, nxt, list_off_var_(i, member))
+#define list_for_each_safe(h, i, nxt, member, type)				\
+	list_for_each_safe_off(h, i, nxt, list_off_var_(i, member), type)
 
 /**
  * list_next - get the next entry in a list
@@ -473,14 +473,14 @@ static inline void list_prepend_list(struct list_head	*to,
  *		next, offsetof(struct child, list))
  *		printf("Name: %s\n", child->name);
  */
-#define list_for_each_safe_off(h, i, nxt, off)				\
-	for (i = list_node_to_off_((h)->n.next,	\
+#define list_for_each_safe_off(h, i, nxt, off, type)				\
+	for (i = (type *) list_node_to_off_((h)->n.next,	\
 				   (off)),				\
-	     nxt = list_node_to_off_(list_node_from_off_(i, (off))->next,   \
+	     nxt = (type *) list_node_to_off_(list_node_from_off_(i, (off))->next, \
 				     (off));				    \
 	     list_node_from_off_(i, (off)) != & (h)->n;			       \
 	     i = nxt,							      \
-	     nxt = list_node_to_off_(list_node_from_off_(i, (off))->next,   \
+	     nxt = (type *) list_node_to_off_(list_node_from_off_(i, (off))->next, \
 				     (off)))
 
 
