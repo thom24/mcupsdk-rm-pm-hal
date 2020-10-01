@@ -33,7 +33,7 @@ struct map_node *strmap_get(const struct map *map, const char *member)
 	if (map) {
 		n = closest((struct map *) map, (const u8 *) member,
 			    strlen(member));
-		if (streq(member, n->u.s)) {
+		if (streq(member, (const char *) n->u.s)) {
 			return n->v;
 		}
 	}
@@ -137,7 +137,7 @@ static sbool str_iterate(struct map n,
 			 const void *data)
 {
 	if (n.v) {
-		return handle(n.u.s, n.v, (void *) data);
+		return handle((const char *) n.u.s, n.v, (void *) data);
 	}
 
 	return str_iterate(n.u.n->child[0], handle, data)
@@ -208,7 +208,7 @@ const struct map *strmap_prefix(const struct map *map, const char *prefix)
 		}
 	}
 
-	if (!strstarts(n->u.s, prefix)) {
+	if (!strstarts((const char *) n->u.s, prefix)) {
 		return NULL;
 	}
 
