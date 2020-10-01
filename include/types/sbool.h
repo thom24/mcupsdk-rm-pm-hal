@@ -13,7 +13,11 @@
 /**
  * Internal definition of boolean type
  */
+#ifndef __cplusplus
 typedef _Bool sbool;
+#else
+typedef bool sbool;
+#endif
 
 #define STRUE           ((sbool) 1U)
 #define SFALSE          ((sbool) 0U)
