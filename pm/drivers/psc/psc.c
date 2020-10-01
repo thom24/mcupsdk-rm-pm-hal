@@ -419,16 +419,16 @@ static void lpsc_module_notify_suspend(struct device		*dev,
 	 * FIXME: Block transition if suspend fails
 	 */
 	if (data->flags & LPSC_DEVICES_LIST) {
-		for (i = 0UL; data->dev_list[i] != DEV_ID_NONE; i++) {
-			sub_dev = device_lookup(data->dev_list[i]);
+		for (i = 0UL; data->lpsc_dev.dev_list[i] != DEV_ID_NONE; i++) {
+			sub_dev = device_lookup(data->lpsc_dev.dev_list[i]);
 			if (sub_dev != NULL) {
 				device_suspend(sub_dev);
 			}
 		}
 	} else {
-		for (i = 0UL; (i < ARRAY_SIZE(data->dev_array)) &&
-		     (data->dev_array[i] != DEV_ID_NONE); i++) {
-			sub_dev = device_lookup(data->dev_array[i]);
+		for (i = 0UL; (i < ARRAY_SIZE(data->lpsc_dev.dev_array)) &&
+		     (data->lpsc_dev.dev_array[i] != DEV_ID_NONE); i++) {
+			sub_dev = device_lookup(data->lpsc_dev.dev_array[i]);
 			if (sub_dev != NULL) {
 				device_suspend(sub_dev);
 			}

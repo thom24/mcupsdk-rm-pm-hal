@@ -376,16 +376,16 @@ static s32 soc_device_verify_mapping(const struct psc_drv_data *psc,
 		u32 i;
 
 		if ((mdata->flags & LPSC_DEVICES_LIST) != 0UL) {
-			for (i = 0U; mdata->dev_list[i] != dev_id; i++) {
-				if (mdata->dev_list[i] == DEV_ID_NONE) {
+			for (i = 0U; mdata->lpsc_dev.dev_list[i] != dev_id; i++) {
+				if (mdata->lpsc_dev.dev_list[i] == DEV_ID_NONE) {
 					ret = -EINVAL;
 					break;
 				}
 			}
 		} else {
-			for (i = 0U; mdata->dev_array[i] != dev_id; i++) {
-				if ((i >= (ARRAY_SIZE(mdata->dev_array) - 1UL)) ||
-				    (mdata->dev_array[i] == DEV_ID_NONE)) {
+			for (i = 0U; mdata->lpsc_dev.dev_array[i] != dev_id; i++) {
+				if ((i >= (ARRAY_SIZE(mdata->lpsc_dev.dev_array) - 1UL)) ||
+				    (mdata->lpsc_dev.dev_array[i] == DEV_ID_NONE)) {
 					ret = -EINVAL;
 					break;
 				}
