@@ -290,7 +290,7 @@ s32 boardcfg_rm_receive_and_validate(u8		host,
 		* Just do a memcpy */
 		else if (ft_is_true(extboot_is_valid()) &&
 			 ft_is_true(extboot_boardcfg_is_present(TISCI_MSG_BOARD_CONFIG_RM))) {
-			validp = memcpy(&local_rm_config.config_rm_cfg, (struct boardcfg_rm *) boardcfg_rmp_low,
+			validp = (u8 *) memcpy(&local_rm_config.config_rm_cfg, (struct boardcfg_rm *) boardcfg_rmp_low,
 					boardcfg_rm_size);
 			if (validp == NULL) {
 				ret = -EINVAL;
