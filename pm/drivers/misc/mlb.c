@@ -38,9 +38,9 @@
 #include <resource.h>
 #include <device.h>
 
-void mlb_suspend(struct device *device)
+void mlb_suspend(struct device *dev)
 {
-	const struct resource_mem *mem = device_resource_mem(device, 0);
+	const struct resource_mem *mem = device_resource_mem(dev, 0);
 
 	if (mem) {
 		unsigned long v;
