@@ -22,7 +22,7 @@
 
 static const struct sleep_mode am6_sleep_modes[] = {
 	{
-		.name = "WFI",
+		.name = (char *) "WFI",
 	},
 };
 

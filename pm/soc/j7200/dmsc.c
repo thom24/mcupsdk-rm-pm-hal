@@ -35,7 +35,7 @@
 
 static const struct sleep_mode j7200_sleep_modes[] = {
 	{
-		.name = "WFI",
+		.name = (char *) "WFI",
 	},
 };
 
