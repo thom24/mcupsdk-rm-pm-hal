@@ -94,7 +94,7 @@ struct lpsc_module_data {
 		 * set.
 		 */
 		const dev_idx_t *dev_list;
-	};
+	} lpsc_dev;
 	/**
 	 * Some modules need a clock running in order to transition. This
 	 * is the id of that clock. If no such clock is needed, set to
