@@ -604,7 +604,7 @@ static inline void pll_consider_fractional(struct pll_consider_data *data,
  * and high values are walked up/down until they find the first valid pllm
  * value. If no such value exists, they return 0.
  */
-static inline void pll_find_pllm(struct clk *clk, const struct pll_data *data,
+static inline void pll_find_pllm(struct clk *clkp, const struct pll_data *data,
 				 u32 ideal, u32 remainder,
 				 u32 *low, u32 *high)
 {
@@ -643,7 +643,7 @@ static inline void pll_find_pllm(struct clk *clk, const struct pll_data *data,
 	}
 
 	/* Walk pllm down to find the first valid value */
-	while (data->pllm_valid && !data->pllm_valid(clk, *low, SFALSE)) {
+	while (data->pllm_valid && !data->pllm_valid(clkp, *low, SFALSE)) {
 		if (!--(*low)) {
 			/*
 			 * Walked off the end of valid values, low = 0
@@ -654,7 +654,7 @@ static inline void pll_find_pllm(struct clk *clk, const struct pll_data *data,
 	}
 
 	/* Walk pllm up to find the second valid value */
-	while (data->pllm_valid && !data->pllm_valid(clk, *high, SFALSE)) {
+	while (data->pllm_valid && !data->pllm_valid(clkp, *high, SFALSE)) {
 		if ((*high)++ == data->pllm_max) {
 			/*
 			 * Walked off the end of valid values, set high = 0
@@ -772,7 +772,7 @@ static inline void pll_find_pllm(struct clk *clk, const struct pll_data *data,
  */
 static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 {
-	struct clk *clk = consider_data->clk;
+	struct clk *clkp = consider_data->clk;
 	const struct pll_data *data = consider_data->data;
 	u32 lowest_clkod;
 	u32 highest_clkod;
@@ -992,7 +992,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 			consider_data->vco_max = consider_data->vco->max_hz;
 		}
 
-		if (data->clkod_valid && !data->clkod_valid(clk, clkod)) {
+		if (data->clkod_valid && !data->clkod_valid(clkp, clkod)) {
 			continue;
 		}
 
@@ -1080,7 +1080,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 			consider_data->clkod_plld += clkod * plld;
 
 			if (data->plld_valid &&
-			    !data->plld_valid(clk, plld)) {
+			    !data->plld_valid(clkp, plld)) {
 				continue;
 			}
 
@@ -1103,7 +1103,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 			 * Closest pllm values that will produce a frequency
 			 * just below and above our target.
 			 */
-			pll_find_pllm(clk, data, ideal_pllm,
+			pll_find_pllm(clkp, data, ideal_pllm,
 				      ideal_pllm_rem != 0UL,
 				      &low_pllm, &high_pllm);
 
@@ -1118,7 +1118,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 			if (do_frac && low_pllm &&
 			    (low_pllm <= ideal_pllm) &&
 			    ((ideal_pllm_rem != 0UL) || (low_pllm != ideal_pllm)) &&
-			    ((data->pllm_valid == NULL) || data->pllm_valid(clk, low_pllm, STRUE))) {
+			    ((data->pllm_valid == NULL) || data->pllm_valid(clkp, low_pllm, STRUE))) {
 				/*
 				 * Some PLLs have an internal multiplier that
 				 * combines with the programmable multiplier.
@@ -1131,7 +1131,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 				u32 frem = ideal_pllm_rem;
 
 				if (data->pllm_stride != NULL) {
-					stride = data->pllm_stride(clk, low_pllm);
+					stride = data->pllm_stride(clkp, low_pllm);
 				}
 				if (stride != 1UL) {
 					/*
@@ -1164,7 +1164,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 				 */
 				if (data->bin_next_pllm) {
 					high_pllm = data->bin_next_pllm(
-						clk,
+						clkp,
 						consider_data->curr_plld,
 						high_pllm,
 						consider_data->curr_clkod);
@@ -1187,7 +1187,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 				 */
 				if ((ret != PLLM_LOW) && data->bin_prev_pllm) {
 					low_pllm = data->bin_prev_pllm(
-						clk,
+						clkp,
 						consider_data->curr_plld,
 						low_pllm,
 						consider_data->curr_clkod);
@@ -1210,7 +1210,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 				 */
 				if ((ret != PLLM_HIGH) && data->bin_next_pllm) {
 					high_pllm = data->bin_next_pllm(
-						clk,
+						clkp,
 						consider_data->curr_plld,
 						high_pllm,
 						consider_data->curr_clkod);
@@ -1222,17 +1222,17 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 	}
 }
 
-u32 pll_calc(struct clk *clk, const struct pll_data *data,
+u32 pll_calc(struct clk *clkp, const struct pll_data *data,
 	     u32 input, u32 output, u32 min, u32 max,
 	     u32 *plld, u32 *pllm, u32 *pllfm, u32 *clkod)
 {
 	u32 ret = 0UL;
 
 	if (input && output) {
-		const struct clk_data *clk_data = clk_get_data(clk);
-		const struct clk_data_pll *pll = container_of(clk_data->data, struct clk_data_pll, data);
+		const struct clk_data *clk_datap = clk_get_data(clkp);
+		const struct clk_data_pll *pll = container_of(clk_datap->data, struct clk_data_pll, data);
 		struct pll_consider_data consider_data = {
-			.clk		= clk,
+			.clk		= clkp,
 			.data		= data,
 			.pll		= pll,
 			.vco		= clk_get_range(pll->vco_range_idx),
@@ -1283,14 +1283,14 @@ u32 pll_calc(struct clk *clk, const struct pll_data *data,
 	return ret;
 }
 
-s32 pll_init(struct clk *clk)
+s32 pll_init(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_drv *drv;
 	const struct clk_data_pll *data_pll;
 
-	drv = clk_data->drv;
-	data_pll = container_of(clk_data->data,
+	drv = clk_datap->drv;
+	data_pll = container_of(clk_datap->data,
 				const struct clk_data_pll, data);
 
 	if (data_pll->default_freq_idx) {
@@ -1301,7 +1301,7 @@ s32 pll_init(struct clk *clk)
 		dflt = &soc_clock_freq_defaults[data_pll->default_freq_idx];
 
 		/* Attempt to set default frequency */
-		drv->set_freq(clk, dflt->target_hz, dflt->min_hz, dflt->max_hz,
+		drv->set_freq(clkp, dflt->target_hz, dflt->min_hz, dflt->max_hz,
 			      SFALSE, &changed);
 	}
 
@@ -1309,7 +1309,7 @@ s32 pll_init(struct clk *clk)
 	 * We must always assume we are enabled as we could be operating
 	 * clocks in bypass.
 	 */
-	clk->flags |= CLK_FLAG_PWR_UP_EN;
+	clkp->flags |= CLK_FLAG_PWR_UP_EN;
 
 	return SUCCESS;
 }
