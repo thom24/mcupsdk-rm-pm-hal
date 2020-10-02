@@ -81,9 +81,9 @@ static s32 device_init(struct device *dev)
 
 	if ((data != NULL) && ((data->flags & DEVD_FLAG_DRV_DATA) != 0U) &&
 	    ((data->flags & DEVD_FLAG_DO_INIT) != 0U)) {
-		const struct drv *drv = to_drv_data(data)->drv;
-		if ((drv != NULL) && (drv->pre_init != NULL)) {
-			ret = drv->pre_init(dev);
+		const struct drv *drvp = to_drv_data(data)->drv;
+		if ((drvp != NULL) && (drvp->pre_init != NULL)) {
+			ret = drvp->pre_init(dev);
 		}
 	}
 
@@ -115,9 +115,9 @@ static s32 device_init(struct device *dev)
 
 		if (((data->flags & DEVD_FLAG_DRV_DATA) != 0U) &&
 		    ((data->flags & DEVD_FLAG_DO_INIT) != 0U)) {
-			const struct drv *drv = to_drv_data(data)->drv;
-			if ((drv != NULL) && (drv->post_init != NULL)) {
-				ret = drv->post_init(dev);
+			const struct drv *drvp = to_drv_data(data)->drv;
+			if ((drvp != NULL) && (drvp->post_init != NULL)) {
+				ret = drvp->post_init(dev);
 			}
 		}
 	}
@@ -262,9 +262,9 @@ s32 devices_deinit(u8 pm_devgrp)
 
 			if ((data != NULL) && ((data->flags & DEVD_FLAG_DRV_DATA) != 0U) &&
 			    ((data->flags & DEVD_FLAG_DO_INIT) != 0U)) {
-				const struct drv *drv = to_drv_data(data)->drv;
-				if ((drv != NULL) && (drv->uninit != NULL)) {
-					drv->uninit(dev);
+				const struct drv *drvp = to_drv_data(data)->drv;
+				if ((drvp != NULL) && (drvp->uninit != NULL)) {
+					drvp->uninit(dev);
 				}
 			}
 		}
