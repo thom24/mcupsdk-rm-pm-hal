@@ -45,15 +45,15 @@
 #define PLLCTRL_PLLSTAT                 0x13cU
 #define PLLCTRL_PLLSTAT_LOCK            BIT(1)
 
-static const struct clk_parent *clk_pllctrl_mux_get_parent(struct clk *clk)
+static const struct clk_parent *clk_pllctrl_mux_get_parent(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
 	const struct clk_parent *parent = NULL;
 	u32 v;
 
-	mux = container_of(clk_data->data, const struct clk_data_mux, data);
+	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
 
 	v = readl(reg->reg + PLLCTRL_PLLCTRL);
