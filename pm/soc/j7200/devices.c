@@ -1683,15 +1683,15 @@ static const dev_idx_t dev_list_LPSC_CSIRX_PHY_0[] __attribute__((__section__(".
 };
 static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	[J7200_PSC_LPSC_LPSC_MAIN_ALWAYSON] =	    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_list	= dev_list_LPSC_main_alwayson,
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET | LPSC_DEVICES_LIST,
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_list	= dev_list_LPSC_main_alwayson,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET | LPSC_DEVICES_LIST,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_TEST] =	    {
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_PER_VPE,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET,
@@ -1700,7 +1700,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_PER_VPE,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_PBIST0,
 			J7200_DEV_PBIST1,
 		},
@@ -1710,83 +1710,83 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_USB_2,
-		.dev_list		= dev_list_LPSC_PER_audio,
+		.lpsc_dev.dev_list	= dev_list_LPSC_PER_audio,
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_DEVICES_LIST,
 	},
 	[J7200_PSC_LPSC_LPSC_PER_ATL] =		    {
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_USB_2,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_ATL0,
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 	[J7200_PSC_LPSC_LPSC_PER_MLB] =		    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_NAVSS0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_PER_MOTOR] =	    {
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_USB_2,
-		.dev_list		= dev_list_LPSC_PER_motor,
+		.lpsc_dev.dev_list	= dev_list_LPSC_PER_motor,
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_DEVICES_LIST,
 	},
 	[J7200_PSC_LPSC_LPSC_PER_MISCIO] =	    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_I2C0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_PER_GPMC] =	    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_ELM0,
 			J7200_DEV_GPMC0,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_PER_VPFE] =	    {
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_PER_VPE,
-		.dev_list		= dev_list_LPSC_PER_VPFE,
+		.lpsc_dev.dev_list	= dev_list_LPSC_PER_VPFE,
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_DEVICES_LIST,
 	},
 	[J7200_PSC_LPSC_LPSC_PER_VPE] =		    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_PER_SPARE0] =	    {
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_USB_2,
-		.dev_list		= dev_list_LPSC_PER_spare0,
+		.lpsc_dev.dev_list	= dev_list_LPSC_PER_spare0,
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_DEVICES_LIST,
 	},
 	[J7200_PSC_LPSC_LPSC_PER_SPARE1] =	    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_DEBUG] =	    {
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= J7200_PSC_INST_J7_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= J7200_PSC_LPSC_LPSC_MCU_DEBUG,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_STM0,
 			J7200_DEV_DEBUGSS_WRAP0,
 		},
@@ -1796,435 +1796,435 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_EMIF_CFG_0,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_EMIF_DATA_0_VD,
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 	[J7200_PSC_LPSC_LPSC_EMIF_CFG_0] =	    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_DDR0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_EMIF_DATA_1] =	    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_EMIF_CFG_1] =	    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_PER_SPARE2] =	    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_CC_TOP_PBIST] =	    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_COMPUTE_CLUSTER0_PBIST_WRAP,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_USB_0] =		    {
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_UFS_1,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_USB0,
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 	[J7200_PSC_LPSC_LPSC_USB_1] =		    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_USB_2] =		    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_FFI_MAIN_IP_CBASS_VD,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MMC4B_0] =		    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MMCSD1,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MMC4B_1] =		    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_MMC8B_0] =		    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MMCSD0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_UFS_0] =		    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_UFS_1] =		    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_FFI_MAIN_RC_CBASS_VD,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_PCIE_0] =		    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_PCIE_1] =		    {
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_UFS_1,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_PCIE1,
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 	[J7200_PSC_LPSC_LPSC_PCIE_2] =		    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_PCIE_3] =		    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_SAUL] =		    {
-		.powerdomain	= J7200_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_PER_I3C] =		    {
 		.powerdomain		= J7200_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_USB_2,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_I3C0,
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_0] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_1] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN1,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_2] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN2,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_3] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN3,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_4] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN4,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_5] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN5,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_6] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN6,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_7] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN7,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_8] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN8,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_9] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN9,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_10] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN10,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_11] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN11,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_12] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN12,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN_MCANSS_13] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_MCANSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_MCANSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN13,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_DSS] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_DSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_DSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN14,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_DSS_PBIST] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_DSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_DSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN15,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_DSI] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_DSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_DSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN16,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_EDP_0] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_DSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_DSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_MCAN17,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_EDP_1] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_DSS,
-		.dev_list	= dev_list_LPSC_eDP_1,
-		.flags		= LPSC_MODULE_EXISTS | LPSC_DEVICES_LIST,
+		.powerdomain		= J7200_PSC_PD_PD_DSS,
+		.lpsc_dev.dev_list	= dev_list_LPSC_eDP_1,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_DEVICES_LIST,
 	},
 	[J7200_PSC_LPSC_LPSC_CSIRX_0] =		    {
 		.powerdomain		= J7200_PSC_PD_PD_DSS,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_USB_2,
-		.dev_list		= dev_list_LPSC_CSIRX_0,
+		.lpsc_dev.dev_list	= dev_list_LPSC_CSIRX_0,
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_DEVICES_LIST,
 	},
 	[J7200_PSC_LPSC_LPSC_CSIRX_1] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_DSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_DSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_UART0,
 			J7200_DEV_UART1,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_CSIRX_2] =		    {
 		.powerdomain		= J7200_PSC_PD_PD_DSS,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_USB_2,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_UART2,
 			J7200_DEV_UART3,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 	[J7200_PSC_LPSC_LPSC_CSITX_0] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_DSS,
-		.dev_list	= dev_list_LPSC_CSITX_0,
-		.flags		= LPSC_MODULE_EXISTS | LPSC_DEVICES_LIST,
+		.powerdomain		= J7200_PSC_PD_PD_DSS,
+		.lpsc_dev.dev_list	= dev_list_LPSC_CSITX_0,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_DEVICES_LIST,
 	},
 	[J7200_PSC_LPSC_LPSC_TX_DPHY_0] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_DSS,
-		.dev_list	= dev_list_LPSC_TX_DPHY_0,
-		.flags		= LPSC_MODULE_EXISTS | LPSC_DEVICES_LIST,
+		.powerdomain		= J7200_PSC_PD_PD_DSS,
+		.lpsc_dev.dev_list	= dev_list_LPSC_TX_DPHY_0,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_DEVICES_LIST,
 	},
 	[J7200_PSC_LPSC_LPSC_CSIRX_PHY_0] =	    {
 		.powerdomain		= J7200_PSC_PD_PD_DSS,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_USB_2,
-		.dev_list		= dev_list_LPSC_CSIRX_PHY_0,
+		.lpsc_dev.dev_list	= dev_list_LPSC_CSIRX_PHY_0,
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_DEVICES_LIST,
 	},
 	[J7200_PSC_LPSC_LPSC_CSIRX_PHY_1] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_DSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_DSS,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_CSIRX_PHY_2] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_DSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_DSS,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_ICSSG_0] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_ICSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_ICSS,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_ICSSG_1] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_ICSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_ICSS,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_9GSS] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_9GSS,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_9GSS,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_CPSW0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_SERDES_0] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_SERDES_0,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_SERDES_0,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_SERDES_10G1,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_SERDES_1] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_SERDES_1,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_SERDES_1,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_SERDES_2] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_SERDES_2,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_SERDES_2,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_SERDES_3] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_SERDES_3,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_SERDES_3,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_SERDES_4] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_SERDES_4,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_SERDES_4,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_SERDES_5] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_SERDES_5,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_SERDES_5,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_DMTIMER_0] =	    {
 		.powerdomain		= J7200_PSC_PD_PD_TIMER,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_USB_2,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_TIMER0,
 			DEV_ID_NONE,
 		},
@@ -2234,7 +2234,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_TIMER,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_USB_2,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_TIMER1,
 			DEV_ID_NONE,
 		},
@@ -2244,7 +2244,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_TIMER,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_USB_2,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_TIMER2,
 			DEV_ID_NONE,
 		},
@@ -2254,53 +2254,53 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_TIMER,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_USB_2,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_TIMER3,
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 	[J7200_PSC_LPSC_LPSC_C71X_0] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_C71X_0,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_C71X_0,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_C71X_0_PBIST] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_C71X_0,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_C71X_0,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_C71X_1] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_C71X_1,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_C71X_1,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_C71X_1_PBIST] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_C71X_1,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_C71X_1,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_A72_CLUSTER_0] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_A72_CLUSTER_0,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_A72_CLUSTER_0,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_A72SS0_CORE0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_A72_CLUSTER_0_PBIST] = {
 		.powerdomain		= J7200_PSC_PD_PD_A72_CLUSTER_0,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_A72_CLUSTER_0,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_A72SS0_CORE0,
 			J7200_DEV_COMPUTE_CLUSTER0_PBIST_WRAP,
 		},
@@ -2310,7 +2310,7 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_A72_0,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_A72_CLUSTER_0,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_A72SS0_CORE0_0,
 			J7200_DEV_RTI0,
 		},
@@ -2320,198 +2320,198 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[] __
 		.powerdomain		= J7200_PSC_PD_PD_A72_1,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_A72_CLUSTER_0,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_A72SS0_CORE0_1,
 			J7200_DEV_RTI1,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_A72_CLUSTER_1] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_A72_CLUSTER_1,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_A72_CLUSTER_1,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_A72_CLUSTER_1_PBIST] = {
-		.powerdomain	= J7200_PSC_PD_PD_A72_CLUSTER_1,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_A72_CLUSTER_1,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_A72_2] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_A72_2,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_A72_2,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_A72_3] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_A72_3,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_A72_3,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_GPUCOM] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_GPUCOM,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_GPUCOM,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_GPUPBIST] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_GPUCOM,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_GPUCOM,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_GPUCORE] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_GPUCORE,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_GPUCORE,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_C66X_0] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_C66X_0,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_C66X_0,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_C66X_PBIST_0] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_C66X_0,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_C66X_0,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_C66X_1] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_C66X_1,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_C66X_1,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_C66X_PBIST_1] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_C66X_1,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_C66X_1,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_PULSAR_0_R5_0] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_PULSAR_0,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_PULSAR_0,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_R5FSS0_CORE0,
 			J7200_DEV_RTI28,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_HAS_LOCAL_RESET,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_HAS_LOCAL_RESET,
 	},
 	[J7200_PSC_LPSC_LPSC_PULSAR_0_R5_1] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_PULSAR_0,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_PULSAR_0,
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_R5FSS0_CORE1,
 			J7200_DEV_RTI29,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_HAS_LOCAL_RESET,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_HAS_LOCAL_RESET,
 	},
 	[J7200_PSC_LPSC_LPSC_PULSAR_PBIST_0] =	    {
 		.powerdomain		= J7200_PSC_PD_PD_PULSAR_0,
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_PULSAR_0_R5_1,
-		.dev_array		=	    {
+		.lpsc_dev.dev_array	=	    {
 			J7200_DEV_PBIST2,
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 	[J7200_PSC_LPSC_LPSC_PULSAR_1_R5_0] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_PULSAR_1,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_PULSAR_1,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_PULSAR_1_R5_1] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_PULSAR_1,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_PULSAR_1,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_PULSAR_PBIST_1] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_PULSAR_1,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_PULSAR_1,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_DECODE_0] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_DECODE_0,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_DECODE_0,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_DECODE_PBIST] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_DECODE_0,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_DECODE_0,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_ENCODE_0] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_ENCODE_0,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_ENCODE_0,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_ENCODE_PBIST] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_ENCODE_0,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_ENCODE_0,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_DMPAC] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_DMPAC,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_DMPAC,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_SDE] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_DMPAC,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_DMPAC,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_DMPAC_PBIST] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_DMPAC,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_DMPAC,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_VPAC] =		    {
-		.powerdomain	= J7200_PSC_PD_PD_VPAC,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_VPAC,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_VPAC_PBIST] =	    {
-		.powerdomain	= J7200_PSC_PD_PD_VPAC,
-		.dev_array	=		    {
+		.powerdomain		= J7200_PSC_PD_PD_VPAC,
+		.lpsc_dev.dev_array	=	    {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 };
 static struct lpsc_module j7200_j7_main_psc_wrap_main_0_modules[ARRAY_SIZE(j7200_j7_main_psc_wrap_main_0_mod_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
@@ -2619,167 +2619,167 @@ static const dev_idx_t dev_list_LPSC_wkup_gpio[] __attribute__((__section__(".co
 };
 static const struct lpsc_module_data j7200_j7_wkup_psc_wrap_wkup_0_mod_data[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	[J7200_PSC_LPSC_LPSC_WKUP_ALWAYSON] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_list	= dev_list_LPSC_wkup_alwayson,
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET | LPSC_DEVICES_LIST,
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_list	= dev_list_LPSC_wkup_alwayson,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET | LPSC_DEVICES_LIST,
 	},
 	[J7200_PSC_LPSC_LPSC_DMSC] =		   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_WKUP_DMSC0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_HAS_LOCAL_RESET,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_HAS_LOCAL_RESET,
 	},
 	[J7200_PSC_LPSC_LPSC_DEBUG2DMSC] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
 	[J7200_PSC_LPSC_LPSC_WKUP_GPIO] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_list	= dev_list_LPSC_wkup_gpio,
-		.flags		= LPSC_MODULE_EXISTS | LPSC_DEVICES_LIST,
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_list	= dev_list_LPSC_wkup_gpio,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_DEVICES_LIST,
 	},
 	[J7200_PSC_LPSC_LPSC_WKUPMCU2MAIN] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_WKUPMCU2MAIN_VD,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN2WKUPMCU] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_MAIN2WKUPMCU_VD,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_TEST] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_MCU_PBIST0,
 			J7200_DEV_MCU_PBIST1,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_DEBUG] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_MCAN_0] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_MCU_MCAN0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_MCAN_1] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_MCU_MCAN1,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_OSPI_0] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_MCU_FSS0_OSPI_0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_OSPI_1] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_MCU_FSS0_OSPI_1,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_HYPERBUS] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_MCU_FSS0_HYPERBUS1P0_0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_I3C_0] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_MCU_I3C0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_I3C_1] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_MCU_I3C1,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_ADC_0] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_MCU_ADC0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_ADC_1] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_WKUP_SPARE0] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_WKUP_SPARE1] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_WKUP,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=	   {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_R5_0] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_MCU_PULSAR,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_MCU_PULSAR,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_MCU_R5FSS0_CORE0,
 			J7200_DEV_MCU_RTI0,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_HAS_LOCAL_RESET,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_HAS_LOCAL_RESET,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_R5_1] =	   {
-		.powerdomain	= J7200_PSC_PD_PD_MCU_PULSAR,
-		.dev_array	=		   {
+		.powerdomain		= J7200_PSC_PD_PD_MCU_PULSAR,
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_MCU_R5FSS0_CORE1,
 			J7200_DEV_MCU_RTI1,
 		},
-		.flags		= LPSC_MODULE_EXISTS | LPSC_HAS_LOCAL_RESET,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_HAS_LOCAL_RESET,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_PULSAR_PBIST_0] = {
 		.powerdomain		= J7200_PSC_PD_PD_MCU_PULSAR,
 		.depends_psc_idx	= J7200_PSC_INST_J7_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= J7200_PSC_LPSC_LPSC_MCU_R5_1,
-		.dev_array		=	   {
+		.lpsc_dev.dev_array	=	   {
 			J7200_DEV_MCU_PBIST2,
 			DEV_ID_NONE,
 		},

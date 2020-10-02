@@ -1145,38 +1145,38 @@ static const dev_idx_t dev_list_LPSC_per_common[] __attribute__((__section__(".c
 };
 static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	[AM6_PSC_LPSC_LPSC_MAIN_INFRA] =	  {
-		.powerdomain	= AM6_PSC_PD_GP_CORE_CTL,
-		.dev_list	= dev_list_LPSC_main_infra,
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_HAS_LOCAL_RESET | LPSC_NO_MODULE_RESET | LPSC_DEVICES_LIST,
+		.powerdomain		= AM6_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_list	= dev_list_LPSC_main_infra,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_HAS_LOCAL_RESET | LPSC_NO_MODULE_RESET | LPSC_DEVICES_LIST,
 	},
 	[AM6_PSC_LPSC_LPSC_MAIN_TEST] =		  {
-		.powerdomain	= AM6_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		  {
+		.powerdomain		= AM6_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_DFTSS0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[AM6_PSC_LPSC_LPSC_MAIN_PBIST] =	  {
-		.powerdomain	= AM6_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		  {
+		.powerdomain		= AM6_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_PBIST0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[AM6_PSC_LPSC_LPSC_MAIN_RESERV] =	  {
-		.powerdomain	= AM6_PSC_PD_GP_CORE_CTL,
-		.dev_array	=		  {
+		.powerdomain		= AM6_PSC_PD_GP_CORE_CTL,
+		.lpsc_dev.dev_array	=	  {
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[AM6_PSC_LPSC_LPSC_CC_RESERVE] =	  {
 		.powerdomain		= AM6_PSC_PD_PD_CC_TOP,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_CC_TOP,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
@@ -1185,7 +1185,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_CC_TOP,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_COMPUTE_CLUSTER_MSMC0,
 			DEV_ID_NONE,
 		},
@@ -1195,7 +1195,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_CC_TOP,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_CC_TOP,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_COMPUTE_CLUSTER_PBIST0,
 			DEV_ID_NONE,
 		},
@@ -1205,7 +1205,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_A53_0,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_A53_CLUSTER_0,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_COMPUTE_CLUSTER_A53_0,
 			AM6_DEV_RTI0,
 			DEV_ID_NONE,
@@ -1216,7 +1216,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_A53_1,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_A53_CLUSTER_0,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_COMPUTE_CLUSTER_A53_1,
 			AM6_DEV_RTI1,
 			DEV_ID_NONE,
@@ -1227,7 +1227,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_A53_2,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_A53_CLUSTER_1,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_COMPUTE_CLUSTER_A53_2,
 			AM6_DEV_RTI2,
 			DEV_ID_NONE,
@@ -1238,7 +1238,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_A53_3,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_A53_CLUSTER_1,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_COMPUTE_CLUSTER_A53_3,
 			AM6_DEV_RTI3,
 			DEV_ID_NONE,
@@ -1249,7 +1249,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_A53_CLUSTER_0,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_CC_TOP,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_COMPUTE_CLUSTER_CPAC0,
 			DEV_ID_NONE,
 		},
@@ -1259,7 +1259,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_A53_CLUSTER_0,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_CC_TOP,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_COMPUTE_CLUSTER_CPAC_PBIST0,
 			DEV_ID_NONE,
 		},
@@ -1269,7 +1269,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_A53_CLUSTER_1,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_CC_TOP,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_COMPUTE_CLUSTER_CPAC1,
 			DEV_ID_NONE,
 		},
@@ -1279,7 +1279,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_A53_CLUSTER_1,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_A53_CLUSTER_1,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_COMPUTE_CLUSTER_CPAC_PBIST1,
 			DEV_ID_NONE,
 		},
@@ -1289,14 +1289,14 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_DEBUG,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_list		= dev_list_LPSC_main_debug,
+		.lpsc_dev.dev_list	= dev_list_LPSC_main_debug,
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_DEVICES_LIST,
 	},
 	[AM6_PSC_LPSC_LPSC_PER_RESERVE1] =	  {
 		.powerdomain		= AM6_PSC_PD_PD_PER,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
@@ -1305,7 +1305,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_MMCSD1,
 			AM6_DEV_MMCSD0,
 			DEV_ID_NONE,
@@ -1316,7 +1316,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_CAL0,
 			DEV_ID_NONE,
 		},
@@ -1326,7 +1326,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_SERDES_0,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_PCIE0,
 			DEV_ID_NONE,
 		},
@@ -1336,7 +1336,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
@@ -1345,7 +1345,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
@@ -1354,7 +1354,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
@@ -1363,21 +1363,21 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 	[AM6_PSC_LPSC_LPSC_PER_COMMON] =	  {
-		.powerdomain	= AM6_PSC_PD_PD_PER,
-		.dev_list	= dev_list_LPSC_per_common,
-		.flags		= LPSC_MODULE_EXISTS | LPSC_DEVICES_LIST,
+		.powerdomain		= AM6_PSC_PD_PD_PER,
+		.lpsc_dev.dev_list	= dev_list_LPSC_per_common,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_DEVICES_LIST,
 	},
 	[AM6_PSC_LPSC_LPSC_NB] =		  {
 		.powerdomain		= AM6_PSC_PD_PD_PER,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_CC_TOP,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_NAVSS0,
 			DEV_ID_NONE,
 		},
@@ -1387,7 +1387,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
@@ -1396,7 +1396,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_SERDES,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_SERDES0,
 			DEV_ID_NONE,
 		},
@@ -1406,7 +1406,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_SERDES,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_SERDES1,
 			DEV_ID_NONE,
 		},
@@ -1416,7 +1416,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_ICSSG,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_PRU_ICSSG0,
 			DEV_ID_NONE,
 		},
@@ -1426,7 +1426,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_ICSSG,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_PRU_ICSSG1,
 			DEV_ID_NONE,
 		},
@@ -1436,7 +1436,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_ICSSG,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
@@ -1445,7 +1445,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_GPU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_GPU0,
 			DEV_ID_NONE,
 		},
@@ -1455,7 +1455,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_GPU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_GPU,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_PBIST1,
 			DEV_ID_NONE,
 		},
@@ -1465,7 +1465,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_EMIF,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_EMIF_CFG,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_DUMMY_IP_LPSC_EMIF_DATA_VD,
 			DEV_ID_NONE,
 		},
@@ -1475,7 +1475,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_EMIF,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_DDRSS0,
 			DEV_ID_NONE,
 		},
@@ -1485,7 +1485,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER2,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_DSS0,
 			DEV_ID_NONE,
 		},
@@ -1495,7 +1495,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER2,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_SERDES_1,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_PCIE1,
 			DEV_ID_NONE,
 		},
@@ -1505,7 +1505,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER2,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_USB3SS0,
 			DEV_ID_NONE,
 		},
@@ -1515,7 +1515,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER2,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_USB3SS1,
 			DEV_ID_NONE,
 		},
@@ -1525,7 +1525,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER2,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_SA2_UL0,
 			DEV_ID_NONE,
 		},
@@ -1535,7 +1535,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_PER2,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
@@ -1544,7 +1544,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_ICSSG2,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			AM6_DEV_PRU_ICSSG2,
 			DEV_ID_NONE,
 		},
@@ -1554,7 +1554,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_ICSSG2,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=	  {
+		.lpsc_dev.dev_array	=	  {
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
@@ -1723,61 +1723,61 @@ static const dev_idx_t dev_list_LPSC_mcu_common[] __attribute__((__section__(".c
 };
 static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	[AM6_PSC_LPSC_LPSC_WKUP_COMMON] =     {
-		.powerdomain	= AM6_PSC_PD_PD_WKUP,
-		.dev_list	= dev_list_LPSC_wkup_common,
-		.flags		= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET | LPSC_DEVICES_LIST,
+		.powerdomain		= AM6_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_list	= dev_list_LPSC_wkup_common,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET | LPSC_DEVICES_LIST,
 	},
 	[AM6_PSC_LPSC_LPSC_DMSC] =	      {
-		.powerdomain	= AM6_PSC_PD_PD_WKUP,
-		.dev_array	=	      {
+		.powerdomain		= AM6_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_DUMMY_IP_LPSC_DMSC_VD,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[AM6_PSC_LPSC_LPSC_WKUP2MCU] =	      {
 		.powerdomain		= AM6_PSC_PD_PD_WKUP,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_MCU_COMMON,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_DUMMY_IP_LPSC_WKUP2MCU_VD,
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 	[AM6_PSC_LPSC_LPSC_WKUP2MAIN_INFRA] = {
-		.powerdomain	= AM6_PSC_PD_PD_WKUP,
-		.dev_array	=	      {
+		.powerdomain		= AM6_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_DUMMY_IP_LPSC_WKUP2MAIN_INFRA_VD,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[AM6_PSC_LPSC_LPSC_DEBUG2DMSC] =      {
 		.powerdomain		= AM6_PSC_PD_PD_WKUP,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_MAIN_DEBUG,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_DUMMY_IP_LPSC_DEBUG2DMSC_VD,
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 	[AM6_PSC_LPSC_LPSC_WKUP_GPIO] =	      {
-		.powerdomain	= AM6_PSC_PD_PD_WKUP,
-		.dev_array	=	      {
+		.powerdomain		= AM6_PSC_PD_PD_WKUP,
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_WKUP_UART0,
 			AM6_DEV_WKUP_GPIO0,
 			AM6_DEV_WKUP_I2C0,
 			DEV_ID_NONE,
 		},
-		.flags		= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[AM6_PSC_LPSC_LPSC_MCU2MAIN_INFRA] =  {
 		.powerdomain		= AM6_PSC_PD_PD_MCU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_WKUP2MCU,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_DUMMY_IP_LPSC_MCU2MAIN_INFRA_VD,
 			DEV_ID_NONE,
 		},
@@ -1787,7 +1787,7 @@ static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_MCU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_WKUP2MCU,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_DUMMY_IP_LPSC_MCU2MAIN_VD,
 			DEV_ID_NONE,
 		},
@@ -1797,7 +1797,7 @@ static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_MCU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_WKUP2MCU,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_DUMMY_IP_LPSC_MCU2WKUP_VD,
 			DEV_ID_NONE,
 		},
@@ -1807,22 +1807,22 @@ static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_MCU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM6_PSC_LPSC_LPSC_PER_COMMON,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_DUMMY_IP_LPSC_MAIN2MCU_VD,
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 	[AM6_PSC_LPSC_LPSC_MCU_COMMON] =      {
-		.powerdomain	= AM6_PSC_PD_PD_MCU,
-		.dev_list	= dev_list_LPSC_mcu_common,
-		.flags		= LPSC_MODULE_EXISTS | LPSC_DEVICES_LIST,
+		.powerdomain		= AM6_PSC_PD_PD_MCU,
+		.lpsc_dev.dev_list	= dev_list_LPSC_mcu_common,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_DEVICES_LIST,
 	},
 	[AM6_PSC_LPSC_LPSC_MCU_TEST] =	      {
 		.powerdomain		= AM6_PSC_PD_PD_MCU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_WKUP2MCU,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_MCU_PBIST0,
 			DEV_ID_NONE,
 		},
@@ -1832,7 +1832,7 @@ static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_MCU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_WKUP2MCU,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_MCU_MCAN0,
 			DEV_ID_NONE,
 		},
@@ -1842,7 +1842,7 @@ static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_MCU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_WKUP2MCU,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_MCU_MCAN1,
 			DEV_ID_NONE,
 		},
@@ -1852,7 +1852,7 @@ static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_MCU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_WKUP2MCU,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_MCU_FSS0_OSPI_0,
 			DEV_ID_NONE,
 		},
@@ -1862,7 +1862,7 @@ static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_MCU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_WKUP2MCU,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_MCU_FSS0_OSPI_1,
 			DEV_ID_NONE,
 		},
@@ -1872,7 +1872,7 @@ static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_MCU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_WKUP2MCU,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_MCU_FSS0_HYPERBUS0,
 			DEV_ID_NONE,
 		},
@@ -1882,7 +1882,7 @@ static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_MCU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_WKUP2MCU,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET,
@@ -1891,7 +1891,7 @@ static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_MCU,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_WKUP2MCU,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
@@ -1900,7 +1900,7 @@ static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_MCU_PULSAR,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_WKUP2MCU,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_MCU_ARMSS0_CPU0,
 			AM6_DEV_MCU_RTI0,
 			DEV_ID_NONE,
@@ -1911,7 +1911,7 @@ static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[] __at
 		.powerdomain		= AM6_PSC_PD_PD_MCU_PULSAR,
 		.depends_psc_idx	= AM6_PSC_INST_K3_WKUP_PSC_WRAP_WKUP_0,
 		.depends		= AM6_PSC_LPSC_LPSC_WKUP2MCU,
-		.dev_array		=     {
+		.lpsc_dev.dev_array	=     {
 			AM6_DEV_MCU_RTI1,
 			AM6_DEV_MCU_ARMSS0_CPU1,
 			DEV_ID_NONE,

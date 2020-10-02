@@ -18,6 +18,7 @@
 #include <soc/j7200/resasg_types.h>
 
 #include "../../include/irq_resasg.h"
+#include <irq_cfg.h>
 
 /*
  * SoC devices capable of sourcing global events
