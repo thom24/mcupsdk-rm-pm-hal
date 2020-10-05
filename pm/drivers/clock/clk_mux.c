@@ -42,12 +42,12 @@
 
 static const struct clk_parent *clk_mux_get_parent(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
 	u32 v;
 
-	mux = container_of(clk_data->data, const struct clk_data_mux, data);
+	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
 
 	/*
@@ -67,13 +67,13 @@ static const struct clk_parent *clk_mux_get_parent(struct clk *clkp)
 
 static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
 	u32 v;
 	sbool ret = STRUE;
 
-	mux = container_of(clk_data->data, const struct clk_data_mux, data);
+	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
 
 	if (reg->reg == 0) {
@@ -112,21 +112,21 @@ const struct clk_drv_mux clk_drv_mux_reg = {
 
 const struct clk_parent *clk_get_parent(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 
-	if (clk_data->type == CLK_TYPE_MUX) {
+	if (clk_datap->type == CLK_TYPE_MUX) {
 		const struct clk_drv_mux *mux;
-		mux = container_of(clk_data->drv, const struct clk_drv_mux,
+		mux = container_of(clk_datap->drv, const struct clk_drv_mux,
 				   drv);
 		return mux->get_parent(clkp);
 	}
-	return clk_data->parent.div ? &clk_data->parent : NULL;
+	return clk_datap->parent.div ? &clk_datap->parent : NULL;
 }
 
 /* FIXME: freq change ok/notify? new freq in range? */
 sbool clk_set_parent(struct clk *clkp, u8 new_parent)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_drv_mux *mux_drv = NULL;
 	const struct clk_data_mux *mux_data = NULL;
 	const struct clk_parent *op;
@@ -134,13 +134,13 @@ sbool clk_set_parent(struct clk *clkp, u8 new_parent)
 	sbool ret = STRUE;
 	sbool done = SFALSE;
 
-	if (clk_data->type != CLK_TYPE_MUX) {
+	if (clk_datap->type != CLK_TYPE_MUX) {
 		ret = SFALSE;
 		done = STRUE;
 	}
 
 	if (!done) {
-		mux_data = container_of(clk_data->data,
+		mux_data = container_of(clk_datap->data,
 					const struct clk_data_mux, data);
 		if (new_parent >= mux_data->n) {
 			ret = SFALSE;
@@ -152,7 +152,7 @@ sbool clk_set_parent(struct clk *clkp, u8 new_parent)
 	}
 
 	if (!done) {
-		mux_drv = container_of(clk_data->drv,
+		mux_drv = container_of(clk_datap->drv,
 				       const struct clk_drv_mux, drv);
 		if (!mux_drv->set_parent) {
 			ret = SFALSE;
