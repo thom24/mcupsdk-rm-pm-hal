@@ -513,7 +513,7 @@
 /* LDO power down acknowledge */
 #define ADPLLM_HSDIV_PWR_STAT_LPOPWDN           BIT(14)
 
-static struct clk *clk_adpllm_hsdiv_get_pll_root(struct clk *clk);
+static struct clk *clk_adpllm_hsdiv_get_pll_root(struct clk *clkp);
 
 struct adpllm_program_data {
 	/** The ADPLLM clock */
@@ -554,12 +554,12 @@ struct adpllm_program_data {
 /*
  * \brief Check if the ADPLLM pllm value is valid (dcc on)
  *
- * \param clk The ADPLLM clock.
+ * \param clkp The ADPLLM clock.
  * \param pllm The multiplier value
  *
  * \return STRUE if pllm value is valid, SFALSE otherwise
  */
-static sbool adpllm_dcc_pllm_valid(struct clk *clk UNUSED, u32 pllm, sbool is_frac)
+static sbool adpllm_dcc_pllm_valid(struct clk *clkp UNUSED, u32 pllm, sbool is_frac)
 {
 	sbool ret = STRUE;
 	sbool m4x;
@@ -596,12 +596,12 @@ static sbool adpllm_dcc_pllm_valid(struct clk *clk UNUSED, u32 pllm, sbool is_fr
 /*
  * \brief Return the stride size for a give pllm (dcc on)
  *
- * \param clk The ADPLLM clock.
+ * \param clkp The ADPLLM clock.
  * \param pllm The multiplier value
  *
  * \return stride size between multipliers
  */
-static u32 adpllm_dcc_pllm_stride(struct clk *clk UNUSED, u32 pllm)
+static u32 adpllm_dcc_pllm_stride(struct clk *clkp UNUSED, u32 pllm)
 {
 	u32 ret;
 
@@ -614,7 +614,7 @@ static u32 adpllm_dcc_pllm_stride(struct clk *clk UNUSED, u32 pllm)
 	return ret;
 }
 
-static s32 adpllm_bin(struct clk *clk UNUSED, u32 plld UNUSED,
+static s32 adpllm_bin(struct clk *clkp UNUSED, u32 plld UNUSED,
 		      u32 pllm UNUSED, sbool do_frac, u32 clkod UNUSED)
 {
 	/* Prefer a non-fractional configuration if possible */
@@ -629,7 +629,7 @@ static s32 adpllm_bin(struct clk *clk UNUSED, u32 plld UNUSED,
 }
 
 /* Prefer higher VCO frequencies */
-static u32 adpllm_vco_fitness(struct clk *clk UNUSED, u32 vco, sbool do_frac UNUSED)
+static u32 adpllm_vco_fitness(struct clk *clkp UNUSED, u32 vco, sbool do_frac UNUSED)
 {
 	return vco;
 }
@@ -648,12 +648,12 @@ static const struct pll_data adpllm_dcc_data = {
 /*
  * \brief Check if the ADPLLM pllm value is valid (dcc off)
  *
- * \param clk The ADPLLM clock.
+ * \param clkp The ADPLLM clock.
  * \param pllm The multiplier value
  *
  * \return STRUE if pllm value is valid, SFALSE otherwise
  */
-static sbool adpllm_pllm_valid(struct clk *clk UNUSED, u32 pllm, sbool is_frac)
+static sbool adpllm_pllm_valid(struct clk *clkp UNUSED, u32 pllm, sbool is_frac)
 {
 	sbool ret = STRUE;
 	sbool m4x;
@@ -695,12 +695,12 @@ static sbool adpllm_pllm_valid(struct clk *clk UNUSED, u32 pllm, sbool is_frac)
 /*
  * \brief Return the stride size for a give pllm (dcc off)
  *
- * \param clk The ADPLLM clock.
+ * \param clkp The ADPLLM clock.
  * \param pllm The multiplier value
  *
  * \return stride size between multipliers
  */
-static u32 adpllm_pllm_stride(struct clk *clk UNUSED, u32 pllm)
+static u32 adpllm_pllm_stride(struct clk *clkp UNUSED, u32 pllm)
 {
 	u32 ret;
 
@@ -716,12 +716,12 @@ static u32 adpllm_pllm_stride(struct clk *clk UNUSED, u32 pllm)
 /*
  * \brief Check if the ADPLLM clkod value is valid.
  *
- * \param clk The ADPLLM clock.
+ * \param clkp The ADPLLM clock.
  * \param clkod The clock output divider value
  *
  * \return STRUE if clkod value is valid, SFALSE otherwise
  */
-static sbool adpllm_clkod_valid(struct clk *clk UNUSED, u32 clkod)
+static sbool adpllm_clkod_valid(struct clk *clkp UNUSED, u32 clkod)
 {
 	/* Only even numbers are allowed. */
 	return !(clkod & 1UL);
@@ -742,12 +742,12 @@ static const struct pll_data adpllm_data = {
 /*
  * \brief Check if the ADPLLLJM pllm value is valid.
  *
- * \param clk The ADPLLLJM clock.
+ * \param clkp The ADPLLLJM clock.
  * \param pllm The multiplier value
  *
  * \return STRUE if pllm value is valid, SFALSE otherwise
  */
-static sbool adpllj_pllm_valid(struct clk *clk UNUSED, u32 pllm, sbool is_frac)
+static sbool adpllj_pllm_valid(struct clk *clkp UNUSED, u32 pllm, sbool is_frac)
 {
 	sbool ret = STRUE;
 
@@ -777,19 +777,19 @@ static const struct pll_data adpllj_data = {
 /*
  * \brief Check if the ADPLLM VCO/DCO is locked.
  *
- * \param clk The ADPLLM clock.
+ * \param clkp The ADPLLM clock.
  *
  * \return STRUE if VCO/DCO is locked, SFALSE otherwise
  */
-static sbool clk_adpllm_check_lock(struct clk *clk)
+static sbool clk_adpllm_check_lock(struct clk *clkp)
 {
-	const struct clk_data *clk_data;
+	const struct clk_data *clk_datap;
 	const struct clk_data_pll_adpllm *pll;
 	const struct clk_data_pll *data_pll;
 	u32 stat;
 
-	clk_data = clk_get_data(clk);
-	data_pll = container_of(clk_data->data, const struct clk_data_pll,
+	clk_datap = clk_get_data(clkp);
+	data_pll = container_of(clk_datap->data, const struct clk_data_pll,
 				data);
 	pll = container_of(data_pll, const struct clk_data_pll_adpllm,
 			   data_pll);
@@ -801,17 +801,17 @@ static sbool clk_adpllm_check_lock(struct clk *clk)
 /*
  * \brief Wait for ADPLLM VCO/DCO to lock.
  *
- * \param clk The ADPLLM clock.
+ * \param clkp The ADPLLM clock.
  *
  * \return STRUE if VCO/DCO is now locked, SFALSE if there was a timeout.
  */
-static sbool clk_adpllm_wait_for_lock(struct clk *clk)
+static sbool clk_adpllm_wait_for_lock(struct clk *clkp)
 {
 	s32 i;
 
 	/* FIXME: Proper delay */
 	for (i = 0; i < 100; i++) {
-		if (clk_adpllm_check_lock(clk)) {
+		if (clk_adpllm_check_lock(clkp)) {
 			break;
 		}
 	}
@@ -823,20 +823,20 @@ static sbool clk_adpllm_wait_for_lock(struct clk *clk)
 /*
  * \brief Query bypass state of ADPLLM
  *
- * \param clk The ADPLLM clock.
+ * \param clkp The ADPLLM clock.
  *
  * \return STRUE if ADPLLM is in IDLE or MN bypass.
  */
-static sbool clk_adpllm_is_bypass(struct clk *clk)
+static sbool clk_adpllm_is_bypass(struct clk *clkp)
 {
-	const struct clk_data *clk_data;
+	const struct clk_data *clk_datap;
 	const struct clk_data_pll_adpllm *pll;
 	const struct clk_data_pll *data_pll;
 	sbool ret = SFALSE;
 	u32 ctrl;
 
-	clk_data = clk_get_data(clk);
-	data_pll = container_of(clk_data->data, const struct clk_data_pll,
+	clk_datap = clk_get_data(clkp);
+	data_pll = container_of(clk_datap->data, const struct clk_data_pll,
 				data);
 	pll = container_of(data_pll, const struct clk_data_pll_adpllm,
 			   data_pll);
@@ -863,12 +863,12 @@ static sbool clk_adpllm_is_bypass(struct clk *clk)
  * Puts the ADPLLM in and out of IDLE bypass mode. Can also take ADPLLM
  * out of MN bypass mode.
  *
- * \param clk The ADPLLM clock.
+ * \param clkp The ADPLLM clock.
  * \param bypass STRUE to enable bypass, SFALSE disable.
  */
-static void clk_adpllm_bypass(struct clk *clk, sbool bypass)
+static void clk_adpllm_bypass(struct clk *clkp, sbool bypass)
 {
-	const struct clk_data *clk_data;
+	const struct clk_data *clk_datap;
 	const struct clk_data_pll_adpllm *pll;
 	const struct clk_data_pll *data_pll;
 	u32 ctrl;
@@ -876,8 +876,8 @@ static void clk_adpllm_bypass(struct clk *clk, sbool bypass)
 	u32 prog;
 	sbool load_freq_ctrl0 = SFALSE;
 
-	clk_data = clk_get_data(clk);
-	data_pll = container_of(clk_data->data, const struct clk_data_pll,
+	clk_datap = clk_get_data(clkp);
+	data_pll = container_of(clk_datap->data, const struct clk_data_pll,
 				data);
 	pll = container_of(data_pll, const struct clk_data_pll_adpllm,
 			   data_pll);
@@ -937,16 +937,16 @@ static void clk_adpllm_bypass(struct clk *clk, sbool bypass)
  * the output divider in that calculation insures we only have to perform
  * one 64 bit division and that we also don't lose any precision.
  *
- * \param clk The ADPLLM clock
+ * \param clkp The ADPLLM clock
  * \param multiplier Additional multiplier to be applied to parent frequency
  * \param clkod The output clock divider
  *
  * \return The output frequency in Hz.
  */
-static u32 clk_adpllm_get_freq_internal(struct clk *clk,
+static u32 clk_adpllm_get_freq_internal(struct clk *clkp,
 					u32 multiplier, u32 clkod)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_pll_adpllm *pll;
 	const struct clk_data_pll *data_pll;
 	u32 freq_ctrl0;
@@ -962,7 +962,7 @@ static u32 clk_adpllm_get_freq_internal(struct clk *clk,
 	u32 clkod_plld; /* clkod * plld */
 	u32 parent_freq_hz;
 
-	data_pll = container_of(clk_data->data, const struct clk_data_pll,
+	data_pll = container_of(clk_datap->data, const struct clk_data_pll,
 				data);
 	pll = container_of(data_pll, const struct clk_data_pll_adpllm,
 			   data_pll);
@@ -1002,7 +1002,7 @@ static u32 clk_adpllm_get_freq_internal(struct clk *clk,
 
 	/* Calculate non-fractional part */
 	clkod_plld = clkod * plld;
-	parent_freq_hz = clk_get_parent_freq(clk);
+	parent_freq_hz = clk_get_parent_freq(clkp);
 	ret = ((u64) (parent_freq_hz / clkod_plld)) * pllm * multiplier;
 	rem = ((u64) (parent_freq_hz % clkod_plld)) * pllm * multiplier;
 	if (rem > (u64) ULONG_MAX) {
@@ -1414,7 +1414,7 @@ static u32 clk_adpllm_internal_set_freq(struct adpllm_program_data *data)
  * directly, it is only called by pll_init. We actually want to set the
  * frequency of clkout not the DCO.
  */
-static u32 clk_adpllm_set_freq(struct clk *clk,
+static u32 clk_adpllm_set_freq(struct clk *clkp,
 			       u32 target_hz,
 			       u32 min_hz,
 			       u32 max_hz,
@@ -1433,7 +1433,7 @@ static u32 clk_adpllm_set_freq(struct clk *clk,
 		if ((sub_data->drv == &clk_drv_div_hsdiv.drv) &&
 		    ((sub_data->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) != 0U)) {
 			struct clk *sub_clk = soc_clocks + i;
-			if (clk_adpllm_hsdiv_get_pll_root(sub_clk) == clk) {
+			if (clk_adpllm_hsdiv_get_pll_root(sub_clk) == clkp) {
 				clkout_clk = sub_clk;
 			}
 		}
@@ -1441,7 +1441,7 @@ static u32 clk_adpllm_set_freq(struct clk *clk,
 
 	if (clkout_clk) {
 		struct adpllm_program_data data = {
-			.pll_clk	= clk,
+			.pll_clk	= clkp,
 			.clkout_clk	= clkout_clk,
 			.target_hz	= target_hz,
 			.min_hz		= min_hz,
@@ -1458,31 +1458,31 @@ static u32 clk_adpllm_set_freq(struct clk *clk,
 /*
  * \brief Return the ADPLLM DCO frequency.
  *
- * \param clk The ADPLLM clock.
+ * \param clkp The ADPLLM clock.
  *
  * \return The DCO frequency of the ADPLLM in Hz.
  */
-static u32 clk_adpllm_get_freq(struct clk *clk)
+static u32 clk_adpllm_get_freq(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	u32 ret;
 
 	/*
 	 * If disabled, return the frequency we would be running at once
 	 * we bring it out of bypass. If enabled and in bypass, return 0.
 	 */
-	if (clk->ref_count == 0U) {
+	if (clkp->ref_count == 0U) {
 		ret = 0U;
-	} else if ((clk->flags & CLK_FLAG_CACHED) != 0U) {
-		ret = soc_clock_values[clk_data->freq_idx];
+	} else if ((clkp->flags & CLK_FLAG_CACHED) != 0U) {
+		ret = soc_clock_values[clk_datap->freq_idx];
 	} else {
-		if (clk_adpllm_is_bypass(clk)) {
+		if (clk_adpllm_is_bypass(clkp)) {
 			ret = 0U;
 		} else {
-			ret = clk_adpllm_get_freq_internal(clk, 1UL, 1UL);
+			ret = clk_adpllm_get_freq_internal(clkp, 1UL, 1UL);
 		}
-		soc_clock_values[clk_data->freq_idx] = ret;
-		clk->flags |= CLK_FLAG_CACHED;
+		soc_clock_values[clk_datap->freq_idx] = ret;
+		clkp->flags |= CLK_FLAG_CACHED;
 	}
 
 	return ret;
@@ -1491,19 +1491,19 @@ static u32 clk_adpllm_get_freq(struct clk *clk)
 /*
  * \brief Program the state of the ADPLLM.
  *
- * \param clk The ADPLLM clock.
+ * \param clkp The ADPLLM clock.
  * \param enabled STRUE to enable (take out of bypass) SFALSE disable (bypass).
  *
  * \return True on success, SFALSE on failure (always returns STRUE)
  */
-static sbool clk_adpllm_set_state(struct clk *clk, sbool enabled)
+static sbool clk_adpllm_set_state(struct clk *clkp, sbool enabled)
 {
-	clk->flags &= ~CLK_FLAG_CACHED;
+	clkp->flags &= ~CLK_FLAG_CACHED;
 
-	clk_adpllm_bypass(clk, !enabled);
+	clk_adpllm_bypass(clkp, !enabled);
 
 	if (enabled) {
-		clk_adpllm_wait_for_lock(clk);
+		clk_adpllm_wait_for_lock(clkp);
 	}
 
 	return STRUE;
@@ -1512,35 +1512,35 @@ static sbool clk_adpllm_set_state(struct clk *clk, sbool enabled)
 /*
  * \brief Get the state of the ADPLLM.
  *
- * \param clk The ADPLLM clock.
+ * \param clkp The ADPLLM clock.
  *
  * \return Returns HW state using the CLK_HW_STATE macro.
  */
-static u32 clk_adpllm_get_state(struct clk *clk)
+static u32 clk_adpllm_get_state(struct clk *clkp)
 {
-	struct clk *clk_parent = NULL;
+	struct clk *clkp_parent = NULL;
 	u32 ret = CLK_HW_STATE_ENABLED;
 
-	if (clk->ref_count == 0U) {
+	if (clkp->ref_count == 0U) {
 		ret = CLK_HW_STATE_DISABLED;
 	}
 
 	/* PLLs can't function without an enabled parent */
 	if (ret == CLK_HW_STATE_ENABLED) {
 		const struct clk_parent *p;
-		p = clk_get_parent(clk);
+		p = clk_get_parent(clkp);
 		if (p) {
-			clk_parent = clk_lookup((clk_idx_t) p->clk);
+			clkp_parent = clk_lookup((clk_idx_t) p->clk);
 		}
-		if (clk_parent) {
-			ret = clk_get_state(clk_parent);
+		if (clkp_parent) {
+			ret = clk_get_state(clkp_parent);
 		} else {
 			ret = CLK_HW_STATE_DISABLED;
 		}
 	}
 
 	if (ret == CLK_HW_STATE_ENABLED) {
-		if (!clk_adpllm_is_bypass(clk) && !clk_adpllm_check_lock(clk)) {
+		if (!clk_adpllm_is_bypass(clkp) && !clk_adpllm_check_lock(clkp)) {
 			ret = CLK_HW_STATE_TRANSITION;
 		}
 	}
@@ -1548,16 +1548,16 @@ static u32 clk_adpllm_get_state(struct clk *clk)
 	return ret;
 }
 
-static s32 clk_adpllm_init_internal(struct clk *clk)
+static s32 clk_adpllm_init_internal(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_pll_adpllm *pll;
 	const struct clk_data_pll *data_pll;
 	u32 ctrl;
 
-	clk->flags &= ~CLK_FLAG_CACHED;
+	clkp->flags &= ~CLK_FLAG_CACHED;
 
-	data_pll = container_of(clk_data->data, const struct clk_data_pll,
+	data_pll = container_of(clk_datap->data, const struct clk_data_pll,
 				data);
 	pll = container_of(data_pll, const struct clk_data_pll_adpllm,
 			   data_pll);
@@ -1608,27 +1608,27 @@ static s32 clk_adpllm_init_internal(struct clk *clk)
 			     (sub_data->drv == &clk_drv_div_hsdiv4.drv)) &&
 			    sub_data->drv->init) {
 				struct clk *sub_clk = soc_clocks + i;
-				if (clk_adpllm_hsdiv_get_pll_root(sub_clk) == clk) {
-					sub_data->drv->init(clk);
+				if (clk_adpllm_hsdiv_get_pll_root(sub_clk) == clkp) {
+					sub_data->drv->init(clkp);
 				}
 			}
 		}
 	}
 
-	return pll_init(clk);
+	return pll_init(clkp);
 }
 
-static s32 clk_adpllm_init(struct clk *clk)
+static s32 clk_adpllm_init(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_pll *data_pll;
 	s32 ret;
 
-	data_pll = container_of(clk_data->data, const struct clk_data_pll,
+	data_pll = container_of(clk_datap->data, const struct clk_data_pll,
 				data);
 
 	if (pm_devgroup_is_enabled(data_pll->devgrp)) {
-		ret = clk_adpllm_init_internal(clk);
+		ret = clk_adpllm_init_internal(clkp);
 	} else {
 		ret = -EDEFER;
 	}
@@ -1644,20 +1644,20 @@ const struct clk_drv clk_drv_adpllm = {
 	.get_state	= clk_adpllm_get_state,
 };
 
-static sbool clk_adpllm_hsdiv_set_div(struct clk *clk, u32 d)
+static sbool clk_adpllm_hsdiv_set_div(struct clk *clkp, u32 d)
 {
 	sbool ret;
 
-	ret = clk_div_reg_set_div(clk, d);
+	ret = clk_div_reg_set_div(clkp, d);
 	if (ret) {
-		const struct clk_data *clk_data;
+		const struct clk_data *clk_datap;
 		const struct clk_data_div *data_div;
 		const struct clk_data_div_reg *data_reg;
 		const struct clk_data_hsdiv *data_hsdiv;
 		u32 prog;
 
-		clk_data = clk_get_data(clk);
-		data_div = container_of(clk_data->data,
+		clk_datap = clk_get_data(clkp);
+		data_div = container_of(clk_datap->data,
 					const struct clk_data_div, data);
 		data_reg = container_of(data_div,
 					const struct clk_data_div_reg, data_div);
@@ -1676,15 +1676,15 @@ static sbool clk_adpllm_hsdiv_set_div(struct clk *clk, u32 d)
 /*
  * \brief Get the divider for an HSDIV.
  *
- * \param clk The HSDIV clock
+ * \param clkp The HSDIV clock
  *
  * \return HSDIV clock divider
  */
-static u32 clk_adpllm_hsdiv_get_div(struct clk *clk)
+static u32 clk_adpllm_hsdiv_get_div(struct clk *clkp)
 {
 	u32 ret;
 
-	ret = clk_div_reg_get_div(clk);
+	ret = clk_div_reg_get_div(clkp);
 	if (ret == 64UL) {
 		/* Only valid for /2.5 HSDIV */
 		ret = 1UL;
@@ -1693,13 +1693,13 @@ static u32 clk_adpllm_hsdiv_get_div(struct clk *clk)
 	return ret;
 }
 
-static struct clk *clk_adpllm_hsdiv_get_pll_root(struct clk *clk)
+static struct clk *clk_adpllm_hsdiv_get_pll_root(struct clk *clkp)
 {
 	const struct clk_parent *p = NULL;
 	struct clk *pll_clk = NULL;
 
 	/* Get PLL root */
-	p = clk_get_parent(clk);
+	p = clk_get_parent(clkp);
 	if (p) {
 		pll_clk = clk_lookup((clk_idx_t) p->clk);
 	}
@@ -1722,25 +1722,25 @@ static struct clk *clk_adpllm_hsdiv_get_pll_root(struct clk *clk)
 	return pll_clk;
 }
 
-static u32 clk_adpllm_hsdiv_set_freq(struct clk *clk,
+static u32 clk_adpllm_hsdiv_set_freq(struct clk *clkp,
 				     u32 target_hz,
 				     u32 min_hz,
 				     u32 max_hz,
 				     sbool query, sbool *changed)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	u32 ret = 0UL;
 
-	if ((clk_data->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) != 0U) {
+	if ((clk_datap->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) != 0U) {
 		/* Program the whole PLL */
-		struct clk *pll_clk = clk_adpllm_hsdiv_get_pll_root(clk);
+		struct clk *pll_clk = clk_adpllm_hsdiv_get_pll_root(clkp);
 
 		/* FIXME: Add extra notify to parent */
 
 		if (pll_clk) {
 			struct adpllm_program_data data = {
 				.pll_clk	= pll_clk,
-				.clkout_clk	= clk,
+				.clkout_clk	= clkp,
 				.target_hz	= target_hz,
 				.min_hz		= min_hz,
 				.max_hz		= max_hz,
@@ -1754,7 +1754,7 @@ static u32 clk_adpllm_hsdiv_set_freq(struct clk *clk,
 		 * Just program the output divider.
 		 * NB: programming /2.5 for hsdiv4 not currenly supported
 		 */
-		ret = clk_div_set_freq(clk, target_hz, min_hz, max_hz,
+		ret = clk_div_set_freq(clkp, target_hz, min_hz, max_hz,
 				       query, changed);
 	}
 
@@ -1772,13 +1772,13 @@ const struct clk_drv_div clk_drv_div_hsdiv = {
 	.get_div		= clk_adpllm_hsdiv_get_div,
 };
 
-sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clk,
+sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clkp,
 				    u32		parent_freq_hz __attribute__((unused)),
 				    sbool	query)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_div *data_div;
-	u32 div = clk_get_div(clk);
+	u32 div = clk_get_div(clkp);
 	u32 start = div;
 	u32 i;
 	sbool found = SFALSE;
@@ -1786,17 +1786,17 @@ sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clk,
 	sbool lower = SFALSE;
 	u32 new_freq = 0UL;
 
-	data_div = container_of(clk_data->data, const struct clk_data_div,
+	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
 	/* Just find a frequency that works for all children */
 
 	/* Check if current /2.5 works */
 	if (div == 64UL) {
-		struct clk *pll_clk = clk_adpllm_hsdiv_get_pll_root(clk);
+		struct clk *pll_clk = clk_adpllm_hsdiv_get_pll_root(clkp);
 		if (pll_clk) {
 			new_freq = clk_adpllm_get_freq_internal(pll_clk,
 								2ULL, 5UL);
-			found = clk_notify_children_freq(clk, new_freq, STRUE);
+			found = clk_notify_children_freq(clkp, new_freq, STRUE);
 		}
 		if (!found) {
 			/* Start at /3 */
@@ -1807,7 +1807,7 @@ sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clk,
 	/* Try the current divisor and lower frequencies */
 	for (i = start; !found && (i < (data_div->n + 1UL)); i++) {
 		new_freq = i;
-		found = clk_notify_children_freq(clk, new_freq, STRUE);
+		found = clk_notify_children_freq(clkp, new_freq, STRUE);
 		if (found) {
 			lower = STRUE;
 		}
@@ -1816,7 +1816,7 @@ sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clk,
 	/* Try larger frequencies */
 	for (i = start - 1UL; i > 0UL; i--) {
 		new_freq = i;
-		found = clk_notify_children_freq(clk, new_freq, STRUE);
+		found = clk_notify_children_freq(clkp, new_freq, STRUE);
 		if (found) {
 			raise = STRUE;
 		}
@@ -1824,15 +1824,15 @@ sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clk,
 
 	if (!query && found) {
 		const struct clk_drv_div *drv_div;
-		drv_div = container_of(clk_data->drv,
+		drv_div = container_of(clk_datap->drv,
 				       const struct clk_drv_div, drv);
 
 		if (lower && (i != div)) {
-			drv_div->set_div(clk, i);
+			drv_div->set_div(clkp, i);
 		}
-		clk_notify_children_freq(clk, new_freq, SFALSE);
+		clk_notify_children_freq(clkp, new_freq, SFALSE);
 		if (raise && (i != div)) {
-			drv_div->set_div(clk, i);
+			drv_div->set_div(clkp, i);
 		}
 	}
 
@@ -1845,21 +1845,21 @@ sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clk,
  * Override default divider frequency calculation function to handle
  * divide by 2.5.
  *
- * \param clk The HSDIV clock
+ * \param clkp The HSDIV clock
  *
  * \return The frequency in Hz
  */
-static u32 clk_adpllm_hsdiv4_get_freq(struct clk *clk)
+static u32 clk_adpllm_hsdiv4_get_freq(struct clk *clkp)
 {
 	struct clk *pll_clk;
 	u32 ret = 0UL;
 
-	pll_clk = clk_adpllm_hsdiv_get_pll_root(clk);
+	pll_clk = clk_adpllm_hsdiv_get_pll_root(clkp);
 	if (pll_clk == NULL) {
 		/* Invalid clock tree */
 		ret = 0UL;
 	} else {
-		u32 div = clk_get_div(clk);
+		u32 div = clk_get_div(clkp);
 		u32 multiplier = 1UL;
 
 		if (div == 64UL) {
@@ -1884,14 +1884,14 @@ const struct clk_drv_div clk_drv_div_hsdiv4 = {
 	.get_div		= clk_div_reg_get_div,
 };
 
-static const struct clk_parent *clk_adpllm_get_div_parent(struct clk *clk)
+static const struct clk_parent *clk_adpllm_get_div_parent(struct clk *clkp)
 {
 	const struct clk_parent *p = NULL;
-	const struct clk_data *clk_data;
+	const struct clk_data *clk_datap;
 	const struct clk_data_mux *mux;
 
-	clk_data = clk_get_data(clk);
-	mux = container_of(clk_data->data, const struct clk_data_mux, data);
+	clk_datap = clk_get_data(clkp);
+	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 
 	/* div (clkout/hsdiv) is parent 0 */
 	if (mux->parents[0].div) {
@@ -1901,14 +1901,14 @@ static const struct clk_parent *clk_adpllm_get_div_parent(struct clk *clk)
 	return p;
 }
 
-static const struct clk_parent *clk_adpllm_get_bypass_parent(struct clk *clk)
+static const struct clk_parent *clk_adpllm_get_bypass_parent(struct clk *clkp)
 {
 	const struct clk_parent *p = NULL;
-	const struct clk_data *clk_data;
+	const struct clk_data *clk_datap;
 	const struct clk_data_mux *mux;
 
-	clk_data = clk_get_data(clk);
-	mux = container_of(clk_data->data, const struct clk_data_mux, data);
+	clk_datap = clk_get_data(clkp);
+	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 
 	/* Bypass clock is parent 1 */
 	if (mux->parents[1].div) {
@@ -1918,13 +1918,13 @@ static const struct clk_parent *clk_adpllm_get_bypass_parent(struct clk *clk)
 	return p;
 }
 
-static struct clk *clk_adpllm_bypass_get_pll_root(struct clk *clk)
+static struct clk *clk_adpllm_bypass_get_pll_root(struct clk *clkp)
 {
 	const struct clk_parent *p = NULL;
 	struct clk *div_clk = NULL;
 	struct clk *pll_clk = NULL;
 
-	p = clk_adpllm_get_div_parent(clk);
+	p = clk_adpllm_get_div_parent(clkp);
 	if (p) {
 		div_clk = clk_lookup((clk_idx_t) p->clk);
 	}
@@ -1936,29 +1936,29 @@ static struct clk *clk_adpllm_bypass_get_pll_root(struct clk *clk)
 	return pll_clk;
 }
 
-static const struct clk_parent *clk_adpllm_bypass_get_parent(struct clk *clk)
+static const struct clk_parent *clk_adpllm_bypass_get_parent(struct clk *clkp)
 {
 	const struct clk_parent *p = NULL;
 	struct clk *pll_clk;
 
-	pll_clk = clk_adpllm_bypass_get_pll_root(clk);
+	pll_clk = clk_adpllm_bypass_get_pll_root(clkp);
 	if (pll_clk && clk_adpllm_is_bypass(pll_clk)) {
-		p = clk_adpllm_get_bypass_parent(clk);
+		p = clk_adpllm_get_bypass_parent(clkp);
 	} else {
-		p = clk_adpllm_get_div_parent(clk);
+		p = clk_adpllm_get_div_parent(clkp);
 	}
 
 	return p;
 }
 
-static u32 clk_adpllm_bypass_get_freq(struct clk *clk)
+static u32 clk_adpllm_bypass_get_freq(struct clk *clkp)
 {
 	const struct clk_parent *p = NULL;
 	struct clk *div_clk = NULL;
 	struct clk *pll_clk = NULL;
 	u32 ret = 0UL;
 
-	p = clk_adpllm_get_div_parent(clk);
+	p = clk_adpllm_get_div_parent(clkp);
 	if (p) {
 		div_clk = clk_lookup((clk_idx_t) p->clk);
 	}
@@ -1980,7 +1980,7 @@ static u32 clk_adpllm_bypass_get_freq(struct clk *clk)
 			 * frequency.
 			 */
 			struct clk *bypass_clk = NULL;
-			p = clk_adpllm_get_bypass_parent(clk);
+			p = clk_adpllm_get_bypass_parent(clkp);
 			if (p) {
 				bypass_clk = clk_lookup((clk_idx_t) p->clk);
 			}
@@ -1993,7 +1993,7 @@ static u32 clk_adpllm_bypass_get_freq(struct clk *clk)
 	return ret;
 }
 
-static u32 clk_adpllm_bypass_set_freq(struct clk *clk,
+static u32 clk_adpllm_bypass_set_freq(struct clk *clkp,
 				      u32 target_hz,
 				      u32 min_hz,
 				      u32 max_hz,
@@ -2003,7 +2003,7 @@ static u32 clk_adpllm_bypass_set_freq(struct clk *clk,
 	struct clk *div_clk = NULL;
 	u32 ret = 0;
 
-	p = clk_adpllm_get_div_parent(clk);
+	p = clk_adpllm_get_div_parent(clkp);
 	if (p) {
 		div_clk = clk_lookup((clk_idx_t) p->clk);
 	}
