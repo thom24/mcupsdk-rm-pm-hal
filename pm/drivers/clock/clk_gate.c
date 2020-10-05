@@ -39,15 +39,15 @@
 #include <lib/container_of.h>
 #include <lib/ioremap.h>
 
-static sbool clk_gate_set_state(struct clk *clk, sbool enable)
+static sbool clk_gate_set_state(struct clk *clkp, sbool enable)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_reg *reg;
 	u32 v;
 	s32 err;
 	sbool ret = STRUE;
 
-	reg = container_of(clk_data->data, const struct clk_data_reg, data);
+	reg = container_of(clk_datap->data, const struct clk_data_reg, data);
 
 	v = readl(reg->reg);
 	if (enable) {
@@ -63,20 +63,20 @@ static sbool clk_gate_set_state(struct clk *clk, sbool enable)
 	return ret;
 }
 
-static u32 clk_gate_get_state(struct clk *clk)
+static u32 clk_gate_get_state(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_parent *p;
-	struct clk *clk_parent = NULL;
+	struct clk *clk_parentp = NULL;
 	s32 ret = CLK_HW_STATE_ENABLED;
 
-	p = clk_get_parent(clk);
+	p = clk_get_parent(clkp);
 	if (p) {
-		clk_parent = clk_lookup((clk_idx_t) p->clk);
+		clk_parentp = clk_lookup((clk_idx_t) p->clk);
 	}
 
-	if (clk_parent) {
-		ret = clk_get_state(clk_parent);
+	if (clk_parentp) {
+		ret = clk_get_state(clk_parentp);
 	} else {
 		/* No parent...cannot function */
 		ret = CLK_HW_STATE_DISABLED;
@@ -86,7 +86,7 @@ static u32 clk_gate_get_state(struct clk *clk)
 		const struct clk_data_reg *reg;
 
 		/* Parent is enabled, are we gating it? */
-		reg = container_of(clk_data->data, const struct clk_data_reg,
+		reg = container_of(clk_datap->data, const struct clk_data_reg,
 				   data);
 		if (!(readl(reg->reg) & BIT(reg->bit))) {
 			ret = CLK_HW_STATE_DISABLED;
