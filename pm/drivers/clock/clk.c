@@ -377,10 +377,10 @@ s32 clk_get_state(struct clk *clkp)
 		const struct clk_parent *p;
 		p = clk_get_parent(clkp);
 		if (p) {
-			struct clk *clk_parent;
-			clk_parent = clk_lookup((clk_idx_t) p->clk);
-			if (clk_parent) {
-				ret = clk_get_state(clk_parent);
+			struct clk *clkp_parent;
+			clkp_parent = clk_lookup((clk_idx_t) p->clk);
+			if (clkp_parent) {
+				ret = clk_get_state(clkp_parent);
 			}
 		}
 	}
@@ -411,23 +411,23 @@ sbool clk_get(struct clk *clkp)
 
 	if (!clkp->ref_count) {
 		const struct clk_parent *p;
-		struct clk *clk_parent = NULL;
+		struct clk *clkp_parent = NULL;
 
 		p = clk_get_parent(clkp);
 		if (p) {
-			clk_parent = clk_lookup((clk_idx_t) p->clk);
+			clkp_parent = clk_lookup((clk_idx_t) p->clk);
 		}
 
-		if (clk_parent) {
-			ret = clk_get(clk_parent);
+		if (clkp_parent) {
+			ret = clk_get(clkp_parent);
 		}
 
 		if (ret) {
 			ret = clk_set_state(clkp, STRUE);
-			if (!ret && clk_parent) {
+			if (!ret && clkp_parent) {
 				pm_trace(TRACE_PM_ACTION_CLOCK_ENABLE |
 					 TRACE_PM_ACTION_FAIL, clk_id(clkp));
-				clk_put(clk_parent);
+				clk_put(clkp_parent);
 			} else {
 				pm_trace(TRACE_PM_ACTION_CLOCK_ENABLE,
 					 clk_id(clkp));
@@ -451,10 +451,10 @@ void clk_put(struct clk *clkp)
 		clk_set_state(clkp, SFALSE);
 		pm_trace(TRACE_PM_ACTION_CLOCK_DISABLE, clk_id(clkp));
 		if (p) {
-			struct clk *clk_parent;
-			clk_parent = clk_lookup((clk_idx_t) p->clk);
-			if (clk_parent) {
-				clk_put(clk_parent);
+			struct clk *clkp_parent;
+			clkp_parent = clk_lookup((clk_idx_t) p->clk);
+			if (clkp_parent) {
+				clk_put(clkp_parent);
 			}
 		}
 	}
@@ -467,10 +467,10 @@ void clk_ssc_allow(struct clk *clkp)
 		const struct clk_parent *p;
 		p = clk_get_parent(clkp);
 		if (p) {
-			struct clk *clk_parent;
-			clk_parent = clk_lookup((clk_idx_t) p->clk);
-			if (clk_parent) {
-				clk_ssc_allow(clk_parent);
+			struct clk *clkp_parent;
+			clkp_parent = clk_lookup((clk_idx_t) p->clk);
+			if (clkp_parent) {
+				clk_ssc_allow(clkp_parent);
 			}
 		}
 	}
@@ -482,10 +482,10 @@ void clk_ssc_block(struct clk *clkp)
 		const struct clk_parent *p;
 		p = clk_get_parent(clkp);
 		if (p) {
-			struct clk *clk_parent;
-			clk_parent = clk_lookup((clk_idx_t) p->clk);
-			if (clk_parent) {
-				clk_ssc_block(clk_parent);
+			struct clk *clkp_parent;
+			clkp_parent = clk_lookup((clk_idx_t) p->clk);
+			if (clkp_parent) {
+				clk_ssc_block(clkp_parent);
 			}
 		}
 	}
@@ -504,14 +504,14 @@ void clk_freq_change_block(struct clk *clkp)
 static s32 clk_register_clock(struct clk *clkp, const struct clk_data *clk_data_p)
 {
 	s32 ret = SUCCESS;
-	struct clk *clk_parent = NULL;
+	struct clk *clkp_parent = NULL;
 	const struct clk_parent *p;
 
 	p = clk_get_parent(clkp);
 	if (p) {
-		clk_parent = clk_lookup((clk_idx_t) p->clk);
+		clkp_parent = clk_lookup((clk_idx_t) p->clk);
 	}
-	if ((clk_parent != NULL) && ((clk_parent->flags & CLK_FLAG_INITIALIZED) == 0U)) {
+	if ((clkp_parent != NULL) && ((clkp_parent->flags & CLK_FLAG_INITIALIZED) == 0U)) {
 		ret = -EDEFER;
 	}
 
