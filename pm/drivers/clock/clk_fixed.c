@@ -37,14 +37,14 @@
 #include <lib/ioremap.h>
 #include <compiler.h>
 
-static u32 clk_fixed_get_freq(struct clk *clk)
+static u32 clk_fixed_get_freq(struct clk *clkp)
 {
-	const struct clk_data *clk_data;
+	const struct clk_data *clk_datap;
 	const struct clk_range *range;
 	u32 ret = 0;
 
-	clk_data = clk_get_data(clk);
-	range = clk_get_range(clk_data->range_idx);
+	clk_datap = clk_get_data(clkp);
+	range = clk_get_range(clk_datap->range_idx);
 	if (range) {
 		ret = range->min_hz;
 	}
@@ -52,7 +52,7 @@ static u32 clk_fixed_get_freq(struct clk *clk)
 	return ret;
 }
 
-static u32 clk_fixed_get_state(struct clk *clk UNUSED)
+static u32 clk_fixed_get_state(struct clk *clkp UNUSED)
 {
 	return CLK_HW_STATE_ENABLED;
 }
