@@ -42,30 +42,30 @@
 
 u32 clk_get_div(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_drv_div *divp;
 
-	if (clk_data->type != CLK_TYPE_DIV) {
+	if (clk_datap->type != CLK_TYPE_DIV) {
 		return 1;
 	}
 
-	divp = container_of(clk_data->drv, const struct clk_drv_div, drv);
+	divp = container_of(clk_datap->drv, const struct clk_drv_div, drv);
 	return divp->get_div(clkp);
 }
 
 sbool clk_div_notify_freq(struct clk *clkp, u32 parent_freq_hz,
 			  sbool query)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_div *data_div;
 	const struct clk_drv_div *drv_div;
 	u32 divp = clk_get_div(clkp);
 	u32 i;
 	sbool found = SFALSE;
 
-	data_div = container_of(clk_data->data, const struct clk_data_div,
+	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
-	drv_div = container_of(clk_data->drv, const struct clk_drv_div, drv);
+	drv_div = container_of(clk_datap->drv, const struct clk_drv_div, drv);
 
 	/* Just find a frequency that works for all children */
 
@@ -104,7 +104,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 				       u32 target_hz, u32 min_hz, u32 max_hz,
 				       sbool query, sbool *changed)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_parent *p = clk_get_parent(clkp);
 	const struct clk_data_div *data_div;
 	const struct clk_drv_div *drv_div;
@@ -121,9 +121,9 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 	u32 ret;
 	struct clk *parent = NULL;
 
-	data_div = container_of(clk_data->data, const struct clk_data_div,
+	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
-	drv_div = container_of(clk_data->drv, const struct clk_drv_div, drv);
+	drv_div = container_of(clk_datap->drv, const struct clk_drv_div, drv);
 
 	/* p and clk_lookup verified by caller */
 	if (p != NULL) {
@@ -287,7 +287,7 @@ static u32 clk_div_set_freq_static_parent(
 	sbool		*changed
 	__attribute__((unused)))
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_div *data_div;
 	const struct clk_drv_div *drv_div;
 	u32 parent_freq_hz = clk_get_parent_freq(clkp);
@@ -300,9 +300,9 @@ static u32 clk_div_set_freq_static_parent(
 	/* Calculate 2 best potential frequencies */
 	div0 = parent_freq_hz / target_hz;
 
-	data_div = container_of(clk_data->data, const struct clk_data_div,
+	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
-	drv_div = container_of(clk_data->drv, const struct clk_drv_div, drv);
+	drv_div = container_of(clk_datap->drv, const struct clk_drv_div, drv);
 
 	n = data_div->n;
 
@@ -372,7 +372,7 @@ u32 clk_div_set_freq(struct clk *clkp, u32 target_hz,
 		     u32 min_hz, u32 max_hz,
 		     sbool query, sbool *changed)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_parent *p = clk_get_parent(clkp);
 	u32 ret = 0;
 
@@ -380,7 +380,7 @@ u32 clk_div_set_freq(struct clk *clkp, u32 target_hz,
 
 	if (!p || !clk_lookup((clk_idx_t) p->clk)) {
 		/* Cannot function without parent */
-	} else if (clk_data->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) {
+	} else if (clk_datap->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) {
 		ret = clk_div_set_freq_dyn_parent(clkp, target_hz, min_hz,
 						  max_hz, query, changed);
 	} else {
@@ -400,17 +400,17 @@ u32 clk_div_get_freq(struct clk *clkp)
 
 s32 clk_div_init(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_div *data_div;
 	const struct clk_drv_div *drv_div;
 	s32 ret = SUCCESS;
 	sbool skip_hw_init = SFALSE;
 
-	data_div = container_of(clk_data->data, const struct clk_data_div,
+	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
-	drv_div = container_of(clk_data->drv, const struct clk_drv_div, drv);
+	drv_div = container_of(clk_datap->drv, const struct clk_drv_div, drv);
 
-	if ((clk_data->flags & CLK_DATA_FLAG_NO_HW_REINIT) != 0) {
+	if ((clk_datap->flags & CLK_DATA_FLAG_NO_HW_REINIT) != 0) {
 		if (drv_div->get_div) {
 			if (drv_div->get_div(clkp) != 1) {
 				skip_hw_init = STRUE;
@@ -431,12 +431,12 @@ s32 clk_div_init(struct clk *clkp)
 
 u32 clk_div_reg_get_div(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_div *data_div;
 	const struct clk_data_div_reg *data_reg;
 	u32 v;
 
-	data_div = container_of(clk_data->data, const struct clk_data_div,
+	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
 	data_reg = container_of(data_div, const struct clk_data_div_reg,
 				data_div);
@@ -464,7 +464,7 @@ u32 clk_div_reg_get_div(struct clk *clkp)
 
 sbool clk_div_reg_set_div(struct clk *clkp, u32 d)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_div *data_div;
 	const struct clk_data_div_reg *data_reg;
 	const struct clk_drv_div *drv_div;
@@ -472,11 +472,11 @@ sbool clk_div_reg_set_div(struct clk *clkp, u32 d)
 	u32 n;
 	s32 err;
 
-	data_div = container_of(clk_data->data, const struct clk_data_div,
+	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
 	data_reg = container_of(data_div, const struct clk_data_div_reg,
 				data_div);
-	drv_div = container_of(clk_data->drv, const struct clk_drv_div, drv);
+	drv_div = container_of(clk_datap->drv, const struct clk_drv_div, drv);
 
 	n = data_div->n;
 	if ((d <= n) && (!drv_div->valid_div || drv_div->valid_div(clkp, d))) {
@@ -519,12 +519,12 @@ const struct clk_drv_div clk_drv_div_reg = {
 
 u32 clk_div_reg_go_get_div(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_div *data_div;
 	const struct clk_data_div_reg_go *data_reg;
 	u32 v;
 
-	data_div = container_of(clk_data->data, const struct clk_data_div,
+	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
 	data_reg = container_of(data_div, const struct clk_data_div_reg_go,
 				data_div);
@@ -550,7 +550,7 @@ u32 clk_div_reg_go_get_div(struct clk *clkp)
 
 sbool clk_div_reg_go_set_div(struct clk *clkp, u32 d)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_div *data_div;
 	const struct clk_data_div_reg_go *data_reg;
 	const struct clk_drv_div *drv_div;
@@ -558,11 +558,11 @@ sbool clk_div_reg_go_set_div(struct clk *clkp, u32 d)
 	u32 n;
 	s32 err;
 
-	data_div = container_of(clk_data->data, const struct clk_data_div,
+	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
 	data_reg = container_of(data_div, const struct clk_data_div_reg_go,
 				data_div);
-	drv_div = container_of(clk_data->drv, const struct clk_drv_div, drv);
+	drv_div = container_of(clk_datap->drv, const struct clk_drv_div, drv);
 
 	n = data_div->n;
 	if ((d <= n) && (!drv_div->valid_div || drv_div->valid_div(clkp, d))) {
@@ -605,10 +605,10 @@ const struct clk_drv_div clk_drv_div_reg_go = {
 
 static u32 clk_div_fixed_get_div(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clkp);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_div *data_div;
 
-	data_div = container_of(clk_data->data, const struct clk_data_div,
+	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
 	return data_div->n;
 }
