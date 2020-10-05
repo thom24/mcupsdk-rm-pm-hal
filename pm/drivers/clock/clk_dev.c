@@ -41,7 +41,7 @@
 #include <device_clk.h>
 #include <clk.h>
 
-static sbool clk_from_device_notify_freq(struct clk	*clk __attribute__(
+static sbool clk_from_device_notify_freq(struct clk	*clkp __attribute__(
 						 (unused)),
 					 u32		parent_freq
 					 __attribute__(
@@ -53,7 +53,7 @@ static sbool clk_from_device_notify_freq(struct clk	*clk __attribute__(
 }
 
 /* It might be useful to prevent the device from disabling in this case */
-static sbool clk_from_device_set_state(struct clk	*clk __attribute__(
+static sbool clk_from_device_set_state(struct clk	*clkp __attribute__(
 					       (unused)),
 				       sbool		enabled __attribute__(
 					       (unused)))
@@ -61,35 +61,35 @@ static sbool clk_from_device_set_state(struct clk	*clk __attribute__(
 	return STRUE;
 }
 
-static u32 clk_from_device_get_state(struct clk *clk)
+static u32 clk_from_device_get_state(struct clk *clkp)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_from_dev *from_device;
-	struct device *device;
+	struct device *dev;
 	u32 ret;
 
-	from_device = container_of(clk_data->data,
+	from_device = container_of(clk_datap->data,
 				   const struct clk_data_from_dev, data);
 
-	device = device_lookup(from_device->dev);
+	dev = device_lookup(from_device->dev);
 
-	if (!device || !device->initialized) {
+	if (!dev || !dev->initialized) {
 		ret = CLK_HW_STATE_DISABLED;
 	} else {
 		s32 state;
 
-		state = device_get_state(device);
+		state = device_get_state(dev);
 		if (state == 0) {
 			ret = CLK_HW_STATE_DISABLED;
 		} else if (state == 2) {
 			ret = CLK_HW_STATE_TRANSITION;
 		} else {
-			struct dev_clk *dev_clk;
+			struct dev_clk *dev_clkp;
 
-			dev_clk = get_dev_clk(device, from_device->clk_idx);
-			if (!dev_clk) {
+			dev_clkp = get_dev_clk(dev, from_device->clk_idx);
+			if (!dev_clkp) {
 				ret = CLK_HW_STATE_DISABLED;
-			} else if (dev_clk->flags & DEV_CLK_FLAG_DISABLE) {
+			} else if (dev_clkp->flags & DEV_CLK_FLAG_DISABLE) {
 				ret = CLK_HW_STATE_DISABLED;
 			} else {
 				ret = CLK_HW_STATE_ENABLED;
