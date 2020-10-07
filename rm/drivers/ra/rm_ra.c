@@ -478,7 +478,7 @@ static s32 ra_validate_base_addr(u32 addr_lo, u32 size_bytes, u8 mode,
 	s32 r = SUCCESS;
 	u32 loc_size_bytes;
 
-	if (addr_lo != NULL) {
+	if (addr_lo != 0) {
 		/*
 		 * The base address must be aligned to the element size
 		 * of the ring for ring and message modes.  For
