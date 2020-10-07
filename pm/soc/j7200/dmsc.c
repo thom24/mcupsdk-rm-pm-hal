@@ -76,7 +76,6 @@ static s32 j7200_sys_reset_handler(domgrp_t domain)
 {
 	struct device *dev;
 	s32 ret = SUCCESS;
-	u32 val;
 	u32 reset_reg_offset;
 	u8 trace_action = TRACE_PM_ACTION_SYSRESET;
 	u32 trace_val = TRACE_PM_ACTION_SYSRESET_ERR_VAL_SUCCESS;
@@ -130,15 +129,9 @@ static s32 j7200_sys_reset_handler(domgrp_t domain)
 		/* Issue chosen domain warm reset. */
 		writel(WARM_RST_CTRL_VAL, WKUP_CTRL_BASE + reset_reg_offset);
 
-		val = readl(WKUP_CTRL_BASE + reset_reg_offset);
-		if (val == WARM_RST_CTRL_VAL) {
-			ret = wait_reset_done_with_timeout(domain);
-			if (ret != SUCCESS) {
-				trace_val |= TRACE_PM_ACTION_SYSRESET_ERR_VAL_TIMEOUT;
-			}
-		} else {
-			trace_val |= TRACE_PM_ACTION_SYSRESET_ERR_VAL_WRITE_FAIL;
-			ret = -EFAIL;
+		ret = wait_reset_done_with_timeout(domain);
+		if (ret != SUCCESS) {
+			trace_val |= TRACE_PM_ACTION_SYSRESET_ERR_VAL_TIMEOUT;
 		}
 	} else {
 		trace_action |= TRACE_PM_ACTION_FAIL;
