@@ -298,7 +298,7 @@ static s32 ir_inp_is_free(const struct ir_instance	*inst,
 		 * output mapping is cleared if it was used by ROM.
 		 * The clear only occurs once for each mapping.
 		 */
-		r = ir_clear_rom_mapping(inst, inp, STRUE, NULL, SFALSE);
+		r = ir_clear_rom_mapping(inst, inp, STRUE, 0, SFALSE);
 	}
 
 	if (r == SUCCESS) {
@@ -360,7 +360,7 @@ static s32 ir_outp_is_free(const struct ir_instance	*inst,
 		 * output mapping is cleared if it was used by ROM.
 		 * The clear only occurs once for each mapping.
 		 */
-		r = ir_clear_rom_mapping(inst, NULL, SFALSE, outp, STRUE);
+		r = ir_clear_rom_mapping(inst, 0, SFALSE, outp, STRUE);
 	}
 
 	if (r == SUCCESS) {
