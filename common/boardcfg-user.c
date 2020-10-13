@@ -199,18 +199,14 @@ static bool boardcfg_validate_abi_rev(const struct boardcfg_abi_rm_rev *rev,
 	return ret;
 }
 
-#ifdef CONFIG_DEVICE_TYPE_GP
+#if defined(CONFIG_DEVICE_TYPE_GP) || defined(CONFIG_DM_BUILD)
 /**
  * \brief memcpy to be used specifically for copying boardcfg binary
  *
- * TEMPORARY HACKED MEMCPY IMPLEMENTATION.
- *
- * Eventually we will use DMA for this. It will allow automatic
- * validation of the address space. However it has not yet been
- * proven to work for this particular use case, so until it can
- * be, make use of a regular memcpy with a hacked RAT mapping.
- * This will copy the board config from MCU memory as provided
- * by the R5.
+ * This is used in the following build configurations:
+ * - GP SYSFW, to copy RM boardcfg data to local DMSC memory
+ * - GP and HS DM to copy RM boardcfg data to local DM memory. On HS, boardcfg
+ *   data is authenticated in TIFS prior to this copy.
  *
  * \return SUCCESS always.
  */
