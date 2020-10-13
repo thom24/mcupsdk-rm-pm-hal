@@ -18,4 +18,12 @@ config ADDR_REMAP_OFFSET
 	help
 	  Address offset to apply when remapping addresses for rd/wr accesses
 
+config DM_BUILD
+	bool "Build for a Device Manager configuration"
+	default n if TIFS_BUILD
+	default y
+	help
+	  Determine if RM & PM HAL are included as part of a Device Manager
+	  build configuration
+
 endmenu
