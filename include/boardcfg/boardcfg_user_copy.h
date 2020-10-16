@@ -3,7 +3,7 @@
  *
  * Board configuration internal copy API on HS devices
  *
- * Copyright (C) 2019-2020, Texas Instruments Incorporated
+ * Copyright (C) 2019-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,26 @@
  *
  * \return SUCCESS on pass, error code on fail
  */
+#ifdef CONFIG_DEVICE_TYPE_HS
 s32 boardcfg_memcpy_rm(u8 host, local_phys_addr_t to, soc_phys_addr_t from, u32 size, u32 max_size);
+#else
+static s32 boardcfg_memcpy_rm(u8 host, local_phys_addr_t to, soc_phys_addr_t from, u32 size, u32 max_size);
+#endif
+
+/**
+ * \brief on GP, copy the boardcfg after size check. On HS, validate the binary and copy to destination.
+ *
+ * \param host ID of the host sending the message
+ * \param to SOC address where boardcfg will be overwritten
+ * \param local_cfg local address from which boardcfg needs to be picked up
+ * \param size Size of the board configuration to be copied
+ *
+ * \return SUCCESS on pass, error code on fail
+ */
+#ifdef CONFIG_DEVICE_TYPE_HS
+s32 boardcfg_rm_overwrite_hdr(u8 host, soc_phys_addr_t to, local_phys_addr_t local_cfg, u16 size);
+#else
+static s32 boardcfg_rm_overwrite_hdr(u8 host, soc_phys_addr_t to, local_phys_addr_t local_cfg, u16 size);
+#endif
 
 #endif

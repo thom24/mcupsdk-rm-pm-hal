@@ -3,7 +3,7 @@
  *
  * Board configuration Public API
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,7 @@
 #define BOARD_CFG_API_H
 
 #include <types/devgrps.h>
-#include <types/sbool.h>
+#include <boardcfg/boardcfg_data.h>
 
 /**
  * \brief Get a pointer to the local copy of the boardcfg_control data.
@@ -130,10 +130,11 @@ s32 boardcfg_pm_receive_and_validate(u8 host, u32 boardcfg_pmp_low, u32 boardcfg
  * \param boardcfg_securityp_low Low 32-bit of boardcfg security struct address.
  * \param boardcfg_securityp_high High 32-bit of boardcfg security struct address.
  * \param boardcfg_security_size Size of the full boardcfg security struct.
+ * \param boardcfg_security_devgrp Device group for the security configuration.
  *
  * \return Error code on failure, SUCCESS otherwise.
  */
-s32 boardcfg_security_receive_and_validate(u8 host, u32 boardcfg_securityp_low, u32 boardcfg_securityp_high, u16 boardcfg_security_size);
+s32 boardcfg_security_receive_and_validate(u8 host, u32 boardcfg_securityp_low, u32 boardcfg_securityp_high, u16 boardcfg_security_size, devgrp_t boardcfg_security_devgrp);
 
 /**
  * \brief Receive a boardcfg resource management structure placed at an
@@ -314,5 +315,68 @@ s32 boardcfg_auto(u16 type, boardcfg_process_fxn fxn);
  * \return Error code on failure, SUCCESS otherwise.
  */
 s32 boardcfg_user_auto(u16 type, boardcfg_process_fxn fxn);
+/**
+ * \brief check if JTAG can be unlocked at runtime using a signed certificate
+ *
+ * \return STRUE if jtag unlock is allowed, SFALSE if it is not.
+ */
+sbool boardcfg_sec_is_jtag_unlock_allowed(void);
+
+/**
+ * \brief check if the certificate revision in the jtag unlock certificate is
+ *        above the specified minimum. This is used for anti rollback protection.
+ *
+ * \param swrv Revision specified in the certificate.
+ *
+ * \return STRUE if swrv is above the specified minimum, SFALSE otherwise.
+ */
+sbool boardcfg_sec_check_jtag_unlock_cert_rev(u32 swrv);
+
+/**
+ * \brief check if the specified host can do jtag unlock with a certificate
+ *
+ * \param host_id ID of host sending the jtag unlock command
+ *
+ * \return STRUE if the host can unlock jtag with a certificate, SFALSE otherwise.
+ */
+sbool boardcfg_sec_check_jtag_unlock_host(u8 host_id);
+
+/**
+ * \brief check if JTAG can be unlocked at runtime using a wildcard signed certificate
+ *
+ * \return STRUE if wildcard jtag unlock is allowed, SFALSE if it is not.
+ */
+sbool boardcfg_sec_is_wildcard_jtag_unlock_allowed(void);
+
+/**
+ * \brief Get the security device group from the local boardcfg_security data.
+ *
+ * \param devgrp Pointer to a device group variable in which the device group
+ *        is returned on SUCCESS
+ *
+ * \return EINIT if the local security board data has not yet been received or is
+ *         invalid, SUCCESS if in the board data has been received and is valid.
+ */
+s32 boardcfg_get_sec_devgrp(devgrp_t *devgrp);
+
+/**
+ * \brief Trigger automatic boardcfg processing using the given handler
+ *
+ * \param msg_sender ID of the host sending the handover message
+ * \param new_owner ID of the host receiving the security handover
+ *
+ * \return Error code on failure, SUCCESS otherwise.
+ */
+s32 boardcfg_sec_get_handover_hosts(u8 *msg_sender, u8 *new_owner);
+
+/**
+ * \brief Set the security device group from the local boardcfg_security data.
+ *
+ * \param devgrp Device group variable
+ *
+ * \return EINIT when the devgrp is not set
+ *         SUCCESS if the devgrp is set
+ */
+s32 boardcfg_set_sec_devgrp(devgrp_t boardcfg_security_devgrp);
 
 #endif /* BOARD_CFG_API_H */
