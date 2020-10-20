@@ -75,9 +75,9 @@
 /** set if a cached frequency is stored in freq_idx (used for PLLs) */
 #define CLK_FLAG_CACHED                         ((u8) BIT(3))
 
-#define CLK_HW_STATE_DISABLED   0
-#define CLK_HW_STATE_ENABLED    1
-#define CLK_HW_STATE_TRANSITION 2
+#define CLK_HW_STATE_DISABLED   0U
+#define CLK_HW_STATE_ENABLED    1U
+#define CLK_HW_STATE_TRANSITION 2U
 
 #define CLK_ID_NONE ((clk_idx_t) (0xFFFFFFFFU))
 

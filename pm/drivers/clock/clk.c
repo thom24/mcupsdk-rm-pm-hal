@@ -444,7 +444,7 @@ sbool clk_get(struct clk *clkp)
 
 void clk_put(struct clk *clkp)
 {
-	if (--clkp->ref_count == 0) {
+	if (--clkp->ref_count == 0U) {
 		const struct clk_parent *p;
 
 		p = clk_get_parent(clkp);
@@ -463,7 +463,7 @@ void clk_put(struct clk *clkp)
 /* FIXME: Stop propogation at PLL and notify PLL */
 void clk_ssc_allow(struct clk *clkp)
 {
-	if (--clkp->ssc_block_count == 0) {
+	if (--clkp->ssc_block_count == 0U) {
 		const struct clk_parent *p;
 		p = clk_get_parent(clkp);
 		if (p) {
@@ -563,12 +563,12 @@ s32 clk_deinit_pm_devgrp(u8 pm_devgrp)
 
 	if (pm_devgrp >= soc_devgroup_count) {
 		return -EINVAL;
-	} else if (pm_devgrp == (soc_devgroup_count - 1)) {
+	} else if (pm_devgrp == (soc_devgroup_count - 1U)) {
 		/* Last devgrp's last clock id is the same as last of all clock ids */
 		clk_id_end = soc_clock_count;
 	} else {
 		/* Chosen devgrp's last clock id is next devgrp's first clock id */
-		clk_id_end = soc_devgroups[pm_devgrp + 1].clk_idx;
+		clk_id_end = soc_devgroups[pm_devgrp + 1U].clk_idx;
 	}
 
 	/*

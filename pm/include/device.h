@@ -87,11 +87,11 @@
 #define DEVD_FLAG_DO_INIT               BIT(2)
 
 /** Internal mapping from devices to device groups */
-#define PM_DEVGRP_DMSC                  0
-#define PM_DEVGRP_00                    1
-#define PM_DEVGRP_01                    2
-#define PM_DEVGRP_02                    3
-#define PM_DEVGRP_03                    4
+#define PM_DEVGRP_DMSC                  0U
+#define PM_DEVGRP_00                    1U
+#define PM_DEVGRP_01                    2U
+#define PM_DEVGRP_02                    3U
+#define PM_DEVGRP_03                    4U
 
 struct device;
 struct dev_clk;
