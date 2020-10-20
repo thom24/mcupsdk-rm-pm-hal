@@ -45,9 +45,9 @@
 #include <config.h>
 #include <lib/bitops.h>
 
-#define FREQ_GHZ(freq)  ((u32) (freq * 1000000000.0))
-#define FREQ_MHZ(freq)  ((u32) (freq * 1000000.0))
-#define FREQ_KHZ(freq)  ((u32) (freq * 1000.0))
+#define FREQ_GHZ(freq)  ((u32) ((double) freq * 1000000000.0))
+#define FREQ_MHZ(freq)  ((u32) ((double) freq * 1000000.0))
+#define FREQ_KHZ(freq)  ((u32) ((double) freq * 1000.0))
 #define FREQ_HZ(freq)   ((u32) (freq))
 
 #define CLK_RANGE(id, min, max) [(id)] = \
@@ -59,9 +59,9 @@
 #define CLK_RANGE_ANY 0
 
 /* Type */
-#define CLK_TYPE_CLK    0
-#define CLK_TYPE_DIV    1
-#define CLK_TYPE_MUX    2
+#define CLK_TYPE_CLK    0U
+#define CLK_TYPE_DIV    1U
+#define CLK_TYPE_MUX    2U
 
 /* clk_data flags */
 #define CLK_DATA_FLAG_MODIFY_PARENT_FREQ        BIT(0)
