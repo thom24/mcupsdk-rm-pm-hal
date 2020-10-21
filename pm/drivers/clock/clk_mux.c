@@ -54,12 +54,12 @@ static const struct clk_parent *clk_mux_get_parent(struct clk *clkp)
 	 * Hack, temporarily return parent 0 for muxes without register
 	 * assignments.
 	 */
-	if (reg->reg == 0) {
+	if (reg->reg == 0U) {
 		v = 0;
 	} else {
 		v = readl(reg->reg);
 		v >>= reg->bit;
-		v &= (1 << ilog32(mux->n - 1)) - 1;
+		v &= (1U << ilog32(mux->n - 1U)) - 1U;
 	}
 
 	return ((v < mux->n) && mux->parents[v].div) ? &mux->parents[v] : NULL;
@@ -76,7 +76,7 @@ static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
 
-	if (reg->reg == 0) {
+	if (reg->reg == 0U) {
 		/*
 		 * Hack, temporarily ignore assignments for muxes without
 		 * register assignments.
@@ -84,7 +84,7 @@ static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 	} else {
 		s32 err;
 		v = readl(reg->reg);
-		v &= ~(((1 << ilog32(mux->n - 1)) - 1) << reg->bit);
+		v &= ~(((1U << ilog32(mux->n - 1U)) - 1U) << reg->bit);
 		v |= new_parent << reg->bit;
 		err = pm_writel_verified(v, reg->reg);
 		if (err != SUCCESS) {
