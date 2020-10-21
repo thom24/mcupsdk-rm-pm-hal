@@ -311,8 +311,8 @@ static u32 clk_div_set_freq_static_parent(
 	 * function will check if the resulting divider value is within
 	 * the allowable min/max range.
 	 */
-	if (div0 > (n - 1)) {
-		div0 = n - 1;
+	if (div0 > (n - 1U)) {
+		div0 = n - 1U;
 	}
 
 	div1 = div0 + 1UL;
@@ -410,9 +410,9 @@ s32 clk_div_init(struct clk *clkp)
 				data);
 	drv_div = container_of(clk_datap->drv, const struct clk_drv_div, drv);
 
-	if ((clk_datap->flags & CLK_DATA_FLAG_NO_HW_REINIT) != 0) {
+	if ((clk_datap->flags & CLK_DATA_FLAG_NO_HW_REINIT) != 0U) {
 		if (drv_div->get_div) {
-			if (drv_div->get_div(clkp) != 1) {
+			if (drv_div->get_div(clkp) != 1U) {
 				skip_hw_init = STRUE;
 			}
 		}
@@ -445,17 +445,17 @@ u32 clk_div_reg_get_div(struct clk *clkp)
 	 * Hack, temporarily return parent 0 for muxes without register
 	 * assignments.
 	 */
-	if (data_reg->reg == 0) {
+	if (data_reg->reg == 0U) {
 		v = 1;
 	} else {
 		u32 n = data_div->n;
 		if (!data_reg->start_at_1) {
-			n -= 1;
+			n -= 1U;
 		}
 		v = readl(data_reg->reg) >> data_reg->bit;
-		v &= (1 << ilog32(n)) - 1;
+		v &= (1U << ilog32(n)) - 1U;
 		if (!data_reg->start_at_1) {
-			v += 1;
+			v += 1U;
 		}
 	}
 
@@ -533,16 +533,16 @@ u32 clk_div_reg_go_get_div(struct clk *clkp)
 	 * Hack, temporarily return parent 0 for muxes without register
 	 * assignments.
 	 */
-	if (data_reg->reg == 0) {
+	if (data_reg->reg == 0U) {
 		v = 1;
 	} else {
 		u32 n = data_div->n;
 		if (!data_reg->start_at_1) {
-			n -= 1;
+			n -= 1U;
 		}
 		v = readl(data_reg->reg) >> data_reg->bit;
-		v &= (1 << ilog32(n)) - 1;
-		v += 1;
+		v &= (1U << ilog32(n)) - 1U;
+		v += 1U;
 	}
 
 	return v;
@@ -569,12 +569,12 @@ sbool clk_div_reg_go_set_div(struct clk *clkp, u32 d)
 		u32 v;
 
 		if (!data_reg->start_at_1) {
-			d -= 1;
-			n -= 1;
+			d -= 1U;
+			n -= 1U;
 		}
 
 		v = readl(data_reg->reg);
-		v &= ~(((1 << ilog32(n)) - 1) << data_reg->bit);
+		v &= ~(((1U << ilog32(n)) - 1U) << data_reg->bit);
 		v &= ~BIT(data_reg->go);
 		v |= d << data_reg->bit;
 		err = pm_writel_verified(v, data_reg->reg);
