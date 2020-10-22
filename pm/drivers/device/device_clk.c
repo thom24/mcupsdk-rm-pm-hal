@@ -557,8 +557,8 @@ static u32 __device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 			 */
 			s32 i;
 			u32 offset = data->dev_clk_idx;
-			for (i = clk_idx - 1L; i >= 0L; i--) {
-				if (devgroup->dev_clk_data[offset + i].type == DEV_CLK_TABLE_TYPE_MUX) {
+			for (i = (s32) clk_idx - 1; i >= 0L; i--) {
+				if (devgroup->dev_clk_data[(s32) offset + i].type == DEV_CLK_TABLE_TYPE_MUX) {
 					break;
 				}
 			}
