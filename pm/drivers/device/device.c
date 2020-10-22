@@ -77,7 +77,7 @@ static s32 device_init(struct device *dev)
 {
 	const struct dev_data *data = get_dev_data(dev);
 	s32 ret = SUCCESS;
-	s32 i;
+	u32 i;
 
 	if ((data != NULL) && ((data->flags & DEVD_FLAG_DRV_DATA) != 0U) &&
 	    ((data->flags & DEVD_FLAG_DO_INIT) != 0U)) {
@@ -175,7 +175,7 @@ s32 devices_init(void)
 				dev->initialized = STRUE;
 				if (ret < 0) {
 					pm_trace(TRACE_PM_ACTION_FAIL | TRACE_PM_ACTION_DEV_INIT,
-						 (((-ret) & TRACE_PM_VAL_DEV_INIT_ERR_MASK) << TRACE_PM_VAL_DEV_INIT_ERR_SHIFT) |
+						 ((((u32) (-ret)) & TRACE_PM_VAL_DEV_INIT_ERR_MASK) << TRACE_PM_VAL_DEV_INIT_ERR_SHIFT) |
 						 ((((u16) idx) & TRACE_PM_VAL_DEV_INIT_DEVICE_ID_MASK) << TRACE_PM_VAL_DEV_INIT_DEVICE_ID_SHIFT));
 					errors = STRUE;
 				}
