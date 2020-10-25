@@ -50,10 +50,10 @@
 #include <lib/container_of.h>
 #include <pm_types.h>
 
-#define PSC_DEV_NONE            7
-#define PSC_DEV_MULTIPLE        6
-#define PSC_PD_NONE             31
-#define PSC_LPSC_NONE           55
+#define PSC_DEV_NONE            7U
+#define PSC_DEV_MULTIPLE        6U
+#define PSC_PD_NONE             31U
+#define PSC_LPSC_NONE           55U
 
 #define PSC_PD_EXISTS           BIT(0)
 #define PSC_PD_ALWAYSON         BIT(1)
