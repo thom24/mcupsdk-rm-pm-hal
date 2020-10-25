@@ -107,7 +107,7 @@ void device_disable(struct device *dev, sbool domain_reset)
 	device_notify(dev);
 
 	soc_device_disable(dev, domain_reset);
-	for (i = data->n_clocks - 1L; i >= 0L; i--) {
+	for (i = (s32) data->n_clocks - 1L; i >= 0L; i--) {
 		device_clk_disable(dev, i);
 	}
 }
