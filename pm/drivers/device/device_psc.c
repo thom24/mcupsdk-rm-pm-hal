@@ -69,7 +69,7 @@ u32 soc_device_get_state(struct device *dev)
 		for (i = 0; domains[i].psc_idx != PSC_DEV_NONE; i++) {
 			u32 this_ret;
 			this_ret = soc_device_get_state_internal(&domains[i]);
-			if (i == 0) {
+			if (i == 0U) {
 				ret = this_ret;
 			} else if (ret != this_ret) {
 				/* Mixed state of our domains, label as transition */
