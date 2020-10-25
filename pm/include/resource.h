@@ -77,13 +77,13 @@ struct resource_clk {
 	dev_clk_idx_t clk_id;
 } __attribute__((__packed__));
 
-#define RESOURCE_MEM_NONE       0xffffffff
+#define RESOURCE_MEM_NONE       0xffffffffU
 
 struct resource_mem {
 	u32 addr;
 } __attribute__((__packed__));
 
-#define RESOURCE_RST_NONE       255
+#define RESOURCE_RST_NONE       255U
 
 struct resource_rst {
 	/**
@@ -94,7 +94,7 @@ struct resource_rst {
 } __attribute__((__packed__));
 
 #define RDAT_HDR(type, count, last) ((u8) (type) | (u8) (count) |	\
-				     (u8) ((last) ? RESOURCE_LAST : 0))
+				     (u8) ((last) ? RESOURCE_LAST : 0U))
 #define RDAT_CLK(clk)           (clk)
 
 #define RDAT_MEM(mem)           (u8) ((u32) (mem) & 0xffU),	\
