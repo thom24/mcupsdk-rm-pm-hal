@@ -78,9 +78,9 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 	const u8 *r;
 	u8 hdr;
 
-	BUILD_ASSERT((sizeof(struct resource_clk) <= UCHAR_MAX) &&
-		     (sizeof(struct resource_mem) <= UCHAR_MAX) &&
-		     (sizeof(struct resource_rst) <= UCHAR_MAX));
+	BUILD_ASSERT((sizeof(struct resource_clk) <= (size_t) UCHAR_MAX) &&
+		     (sizeof(struct resource_mem) <= (size_t) UCHAR_MAX) &&
+		     (sizeof(struct resource_rst) <= (size_t) UCHAR_MAX));
 	/*
 	 * If the device does not have drv_data, it does not have resources.
 	 * Return NULL
