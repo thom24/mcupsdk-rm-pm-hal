@@ -55,14 +55,14 @@ s32 ilog32(uint32_t _v)
 /*This de Bruijn sequence version is faster if you have a fast multiplier.*/
 # else
 	s32 ret;
-	ret = _v > 0;
+	ret = _v > 0U;
 	_v |= _v >> 1;
 	_v |= _v >> 2;
 	_v |= _v >> 4;
 	_v |= _v >> 8;
 	_v |= _v >> 16;
-	_v = (_v >> 1) + 1;
-	ret += DEBRUIJN_IDX32[((_v * 0x77CB531U) >> 27) & 0x1F];
+	_v = (_v >> 1) + 1U;
+	ret += (s32) DEBRUIJN_IDX32[((_v * 0x77CB531U) >> 27) & 0x1FU];
 	return ret;
 # endif
 }
@@ -100,7 +100,7 @@ s32 ilog64(uint64_t _v)
 	uint32_t v;
 	s32 ret;
 	s32 m;
-	ret = _v > 0;
+	ret = _v > 0U;
 	m = (_v > 0xFFFFFFFFU) << 5;
 	v = (uint32_t) (_v >> m);
 	ret |= m;
@@ -109,8 +109,8 @@ s32 ilog64(uint64_t _v)
 	v |= v >> 4;
 	v |= v >> 8;
 	v |= v >> 16;
-	v = (v >> 1) + 1;
-	ret += DEBRUIJN_IDX32[((v * 0x77CB531U) >> 27) & 0x1F];
+	v = (v >> 1) + 1U;
+	ret += (s32) DEBRUIJN_IDX32[((v * 0x77CB531U) >> 27) & 0x1FU];
 	return ret;
 # endif
 }
