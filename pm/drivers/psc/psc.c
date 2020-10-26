@@ -51,50 +51,50 @@
 #include <osal/osal_clock.h>
 #include <config.h>
 
-#define PSC_PID                 0x000
-#define PSC_GBLCTL              0x010
-#define PSC_GBLSTAT             0x014
-#define PSC_INTEVAL             0x018
-#define PSC_IPWKCNT             0x01c
-#define PSC_MERRPR0             0x040
-#define PSC_MERRPR1             0x044
-#define PSC_MERRCR0             0x050
-#define PSC_MERRCR1             0x054
-#define PSC_PERRPR              0x060
-#define PSC_PERRCR              0x068
-#define PSC_EPCPR               0x070
-#define PSC_EPCRR               0x078
-#define PSC_RAILSTAT            0x100
-#define PSC_RAILCTL             0x104
-#define PSC_RAILSET             0x108
-#define PSC_PTCMD               0x120
-#define PSC_PTSTAT              0x128
-#define PSC_PDSTAT(domain)      (0x200 + (4 * (domain)))
-#define PSC_PDCTL(domain)       (0x300 + (4 * (domain)))
-#define PSC_PDCFG(domain)       (0x400 + (4 * (domain)))
-#define PSC_MDCFG(id)           (0x600 + (4 * (id)))
-#define PSC_MDSTAT(id)          (0x800 + (4 * (id)))
-#define PSC_MDCTL(id)           (0xa00 + (4 * (id)))
+#define PSC_PID                 0x000U
+#define PSC_GBLCTL              0x010U
+#define PSC_GBLSTAT             0x014U
+#define PSC_INTEVAL             0x018U
+#define PSC_IPWKCNT             0x01cU
+#define PSC_MERRPR0             0x040U
+#define PSC_MERRPR1             0x044U
+#define PSC_MERRCR0             0x050U
+#define PSC_MERRCR1             0x054U
+#define PSC_PERRPR              0x060U
+#define PSC_PERRCR              0x068U
+#define PSC_EPCPR               0x070U
+#define PSC_EPCRR               0x078U
+#define PSC_RAILSTAT            0x100U
+#define PSC_RAILCTL             0x104U
+#define PSC_RAILSET             0x108U
+#define PSC_PTCMD               0x120U
+#define PSC_PTSTAT              0x128U
+#define PSC_PDSTAT(domain)      (0x200U + (4U * (domain)))
+#define PSC_PDCTL(domain)       (0x300U + (4U * (domain)))
+#define PSC_PDCFG(domain)       (0x400U + (4U * (domain)))
+#define PSC_MDCFG(id)           (0x600U + (4U * (id)))
+#define PSC_MDSTAT(id)          (0x800U + (4U * (id)))
+#define PSC_MDCTL(id)           (0xa00U + (4U * (id)))
 
-#define MDSTAT_STATE_MASK               0x3f
-#define MDSTAT_BUSY_MASK                0x30
-#define MDSTAT_STATE_SWRSTDISABLE       0x00
-#define MDSTAT_STATE_SYNCRST            0x01
-#define MDSTAT_STATE_DISABLE            0x02
-#define MDSTAT_STATE_ENABLE             0x03
-#define MDSTAT_STATE_AUTO_SLEEP         0x04
-#define MDSTAT_STATE_AUTO_WAKE          0x05
-#define MDSTAT_STATE_DISABLE_CLK_ON     0x21
-#define MDSTAT_STATE_DISABLE_IN_PROG    0x22
-#define MDSTAT_STATE_RETRY_DISABLE      0x23
-#define MDSTAT_STATE_ENABLE_IN_PROG     0x24
-#define MDSTAT_STATE_SLEEP_IN_PROG      0x25
-#define MDSTAT_STATE_CLK_ON1            0x26
-#define MDSTAT_STATE_CLK_OFF1           0x27
-#define MDSTAT_STATE_CLK_ON2            0x28
-#define MDSTAT_STATE_CLK_OFF2           0x29
-#define MDSTAT_STATE_CLK_ON3            0x2a
-#define MDSTAT_STATE_CLK_OFF3           0x2b
+#define MDSTAT_STATE_MASK               0x3fU
+#define MDSTAT_BUSY_MASK                0x30U
+#define MDSTAT_STATE_SWRSTDISABLE       0x00U
+#define MDSTAT_STATE_SYNCRST            0x01U
+#define MDSTAT_STATE_DISABLE            0x02U
+#define MDSTAT_STATE_ENABLE             0x03U
+#define MDSTAT_STATE_AUTO_SLEEP         0x04U
+#define MDSTAT_STATE_AUTO_WAKE          0x05U
+#define MDSTAT_STATE_DISABLE_CLK_ON     0x21U
+#define MDSTAT_STATE_DISABLE_IN_PROG    0x22U
+#define MDSTAT_STATE_RETRY_DISABLE      0x23U
+#define MDSTAT_STATE_ENABLE_IN_PROG     0x24U
+#define MDSTAT_STATE_SLEEP_IN_PROG      0x25U
+#define MDSTAT_STATE_CLK_ON1            0x26U
+#define MDSTAT_STATE_CLK_OFF1           0x27U
+#define MDSTAT_STATE_CLK_ON2            0x28U
+#define MDSTAT_STATE_CLK_OFF2           0x29U
+#define MDSTAT_STATE_CLK_ON3            0x2aU
+#define MDSTAT_STATE_CLK_OFF3           0x2bU
 
 #define MDSTAT_EMUIHB           BIT(17) /* EMU alters module state */
 #define MDSTAT_EMURST           BIT(16) /* EMU alters reset to module */
@@ -114,24 +114,24 @@
 #define PDSTAT_PWRBAD                   BIT(10) /* Power bad error */
 #define PDSTAT_PORDONE                  BIT(9)  /* Power on reset done */
 #define PDSTAT_POR                      BIT(8)  /* Power on reset deasserted */
-#define PDSTAT_STATE_MASK               0x1f
-#define PDSTAT_STATE_OFF                0x00
-#define PDSTAT_STATE_ON                 0x01
-#define PDSTAT_STATE_ON_ARB             0x10
-#define PDSTAT_STATE_SWITCH_ON          0x11
-#define PDSTAT_STATE_ON_RAIL_CNT        0x12
-#define PDSTAT_STATE_WAIT_ALL_SYNC_RST  0x13
-#define PDSTAT_STATE_STRETCH_POR        0x14
-#define PDSTAT_STATE_WAIT_POR_DONE      0x15
-#define PDSTAT_STATE_COUNT16            0x16
-#define PDSTAT_STATE_WAIT_ALL_SWRST_DIS 0x17
-#define PDSTAT_STATE_OFF_ARB            0x18
-#define PDSTAT_STATE_SWITCH_OFF         0x19
-#define PDSTAT_STATE_OFF_RAIL_CNT       0x1a
+#define PDSTAT_STATE_MASK               0x1fU
+#define PDSTAT_STATE_OFF                0x00U
+#define PDSTAT_STATE_ON                 0x01U
+#define PDSTAT_STATE_ON_ARB             0x10U
+#define PDSTAT_STATE_SWITCH_ON          0x11U
+#define PDSTAT_STATE_ON_RAIL_CNT        0x12U
+#define PDSTAT_STATE_WAIT_ALL_SYNC_RST  0x13U
+#define PDSTAT_STATE_STRETCH_POR        0x14U
+#define PDSTAT_STATE_WAIT_POR_DONE      0x15U
+#define PDSTAT_STATE_COUNT16            0x16U
+#define PDSTAT_STATE_WAIT_ALL_SWRST_DIS 0x17U
+#define PDSTAT_STATE_OFF_ARB            0x18U
+#define PDSTAT_STATE_SWITCH_OFF         0x19U
+#define PDSTAT_STATE_OFF_RAIL_CNT       0x1aU
 
 #define PDCTL_STATE_MASK        BIT(0)
-#define PDCTL_STATE_OFF         0
-#define PDCTL_STATE_ON          1
+#define PDCTL_STATE_OFF         0U
+#define PDCTL_STATE_ON          1U
 #define PDCTL_EPCGOOD           BIT(8)  /* Externel power control on */
 #define PDCTL_EMUIHBIE          BIT(9)  /* EMU alters domain state IE */
 #define PDCTL_FORCE             BIT(31)
@@ -144,7 +144,7 @@
 #endif
 
 /* Extra delay time between powerdomain off and on in nanoseconds */
-#define PSC_PTSTAT_ERRATA_DELAY_NS 10000
+#define PSC_PTSTAT_ERRATA_DELAY_NS 10000U
 
 static struct device *psc_devs;
 
@@ -794,7 +794,7 @@ void lpsc_module_set_local_reset(struct device *dev,
 		pm_trace(TRACE_PM_ACTION_SET_LOCAL_RESET,
 			 (psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
 			 (idx << TRACE_PM_VAL_PD_SHIFT) |
-			 enable);
+			 (u32) enable);
 
 		if (enable) {
 			mdctl &= ~MDCTL_LRST;
@@ -821,7 +821,7 @@ void lpsc_module_set_module_reset(struct device *dev,
 		pm_trace(TRACE_PM_ACTION_SET_MODULE_RESET,
 			 (psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
 			 (idx << TRACE_PM_VAL_PD_SHIFT) |
-			 enable);
+			 (u32) enable);
 
 		if (enable) {
 			module->mrst_active = 1U;
