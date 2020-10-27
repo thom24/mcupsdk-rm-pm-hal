@@ -1572,7 +1572,7 @@ static const struct clk_data_mux clk_data_adpllljm_hsdiv_wrap_main_0_hsdiv0_mux 
 	.n		= ARRAY_SIZE(clk_adpllljm_hsdiv_wrap_main_0_hsdiv0_parents),
 };
 static const struct clk_data_reg clk_data_adpllljm_hsdiv_wrap_main_0_hsdiv0_gate = {
-	.reg	= 0x00680000 + (0x1000UL * 0) + 0x30UL,
+	.reg	= 0x00680000U + (0x1000UL * 0U) + 0x30UL,
 	.bit	= 3,
 };
 static const struct clk_data_hsdiv clk_data_adpllljm_hsdiv_wrap_main_0_hsdiv1 = {
@@ -1745,7 +1745,7 @@ static const struct clk_data_mux clk_data_adpllljm_hsdiv_wrap_main_2_hsdiv0_mux 
 	.n		= ARRAY_SIZE(clk_adpllljm_hsdiv_wrap_main_2_hsdiv0_parents),
 };
 static const struct clk_data_reg clk_data_adpllljm_hsdiv_wrap_main_2_hsdiv0_gate = {
-	.reg	= 0x00680000 + (0x1000UL * 2) + 0x30UL,
+	.reg	= 0x00680000U + (0x1000UL * 2U) + 0x30UL,
 	.bit	= 3,
 };
 static const struct clk_data_hsdiv clk_data_adpllljm_hsdiv_wrap_main_2_hsdiv1 = {
@@ -1918,7 +1918,7 @@ static const struct clk_data_mux clk_data_adpllljm_wrap_main_1_hsdiv0_mux = {
 	.n		= ARRAY_SIZE(clk_adpllljm_wrap_main_1_hsdiv0_parents),
 };
 static const struct clk_data_reg clk_data_adpllljm_wrap_main_1_hsdiv0_gate = {
-	.reg	= 0x00680000 + (0x1000UL * 1) + 0x30UL,
+	.reg	= 0x00680000U + (0x1000UL * 1U) + 0x30UL,
 	.bit	= 3,
 };
 static const struct clk_data_pll_adpllm clk_data_adpllljm_wrap_main_3 = {
@@ -1967,7 +1967,7 @@ static const struct clk_data_mux clk_data_adpllljm_wrap_main_3_hsdiv0_mux = {
 	.n		= ARRAY_SIZE(clk_adpllljm_wrap_main_3_hsdiv0_parents),
 };
 static const struct clk_data_reg clk_data_adpllljm_wrap_main_3_hsdiv0_gate = {
-	.reg	= 0x00680000 + (0x1000UL * 3) + 0x30UL,
+	.reg	= 0x00680000U + (0x1000UL * 3U) + 0x30UL,
 	.bit	= 3,
 };
 static const struct clk_data_pll_adpllm clk_data_adpllljm_wrap_main_4 = {
@@ -2016,7 +2016,7 @@ static const struct clk_data_mux clk_data_adpllljm_wrap_main_4_hsdiv0_mux = {
 	.n		= ARRAY_SIZE(clk_adpllljm_wrap_main_4_hsdiv0_parents),
 };
 static const struct clk_data_reg clk_data_adpllljm_wrap_main_4_hsdiv0_gate = {
-	.reg	= 0x00680000 + (0x1000UL * 4) + 0x30UL,
+	.reg	= 0x00680000U + (0x1000UL * 4U) + 0x30UL,
 	.bit	= 3,
 };
 static const struct clk_data_pll_adpllm clk_data_adpllm_hsdiv_wrap_mcu_0 = {
@@ -2078,7 +2078,7 @@ static const struct clk_data_mux clk_data_adpllm_hsdiv_wrap_mcu_0_hsdiv0_mux = {
 	.n		= ARRAY_SIZE(clk_adpllm_hsdiv_wrap_mcu_0_hsdiv0_parents),
 };
 static const struct clk_data_reg clk_data_adpllm_hsdiv_wrap_mcu_0_hsdiv0_gate = {
-	.reg	= 0x40D00000 + (0x1000UL * 0) + 0x30UL,
+	.reg	= 0x40D00000U + (0x1000UL * 0U) + 0x30UL,
 	.bit	= 3,
 };
 static const struct clk_data_hsdiv clk_data_adpllm_hsdiv_wrap_mcu_0_hsdiv1 = {
@@ -2265,7 +2265,7 @@ static const struct clk_data_mux clk_data_adpllm_hsdiv_wrap_mcu_1_hsdiv0_mux = {
 	.n		= ARRAY_SIZE(clk_adpllm_hsdiv_wrap_mcu_1_hsdiv0_parents),
 };
 static const struct clk_data_reg clk_data_adpllm_hsdiv_wrap_mcu_1_hsdiv0_gate = {
-	.reg	= 0x40D00000 + (0x1000UL * 1) + 0x30UL,
+	.reg	= 0x40D00000U + (0x1000UL * 1U) + 0x30UL,
 	.bit	= 3,
 };
 static const struct clk_data_hsdiv clk_data_adpllm_hsdiv_wrap_mcu_1_hsdiv1 = {
@@ -2452,7 +2452,7 @@ static const struct clk_data_mux clk_data_adpllm_wrap_main_6_hsdiv0_mux = {
 	.n		= ARRAY_SIZE(clk_adpllm_wrap_main_6_hsdiv0_parents),
 };
 static const struct clk_data_reg clk_data_adpllm_wrap_main_6_hsdiv0_gate = {
-	.reg	= 0x00680000 + (0x1000UL * 6) + 0x30UL,
+	.reg	= 0x00680000U + (0x1000UL * 6U) + 0x30UL,
 	.bit	= 3,
 };
 static const struct clk_data_pll_adpllm clk_data_adpllm_wrap_main_7 = {
@@ -2515,7 +2515,7 @@ static const struct clk_data_mux clk_data_adpllm_wrap_main_7_hsdiv0_mux = {
 	.n		= ARRAY_SIZE(clk_adpllm_wrap_main_7_hsdiv0_parents),
 };
 static const struct clk_data_reg clk_data_adpllm_wrap_main_7_hsdiv0_gate = {
-	.reg	= 0x00680000 + (0x1000UL * 7) + 0x30UL,
+	.reg	= 0x00680000U + (0x1000UL * 7U) + 0x30UL,
 	.bit	= 3,
 };
 static const struct clk_data_from_dev clk_data_board_0_hfosc1_clk_out = {
