@@ -57,8 +57,8 @@
  */
 
 #define RESASG_UTYPE(type, subtype) \
-	(((type << RESASG_TYPE_SHIFT) & RESASG_TYPE_MASK) | \
-	 ((subtype << RESASG_SUBTYPE_SHIFT) & RESASG_SUBTYPE_MASK))
+	((((u16) (type) << RESASG_TYPE_SHIFT) & RESASG_TYPE_MASK) |	\
+	 (((u16) (subtype) << RESASG_SUBTYPE_SHIFT) & RESASG_SUBTYPE_MASK))
 
 /**
  * IA subtypes definitions
