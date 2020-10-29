@@ -47,6 +47,6 @@
  *
  * \returns Pointer to str.
  */
-u8 *lib_itoa(u32 value, u8 *str, s32 base);
+u8 *lib_itoa(u32 value, u8 *str, u32 base);
 
 #endif /* ITOA_H */
