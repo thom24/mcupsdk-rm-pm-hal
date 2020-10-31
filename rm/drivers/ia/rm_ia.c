@@ -211,35 +211,6 @@ static s32 ia_clear_vint(const struct ia_instance *inst, u16 evt, u16 vint,
 	s32 r = SUCCESS;
 	mapped_addr_t maddr;
 	u32 entry_int_map_lo;
-	u32 vint_enable_clr;
-	u32 vint_enable_clr_addr;
-
-	/*
-	 * Disable the status bit via the VINT's real-time VINT_ENABLE_CLR
-	 * register
-	 */
-	maddr = rm_core_map_region(inst->intr->base);
-	if (vint_sb_index < 32u) {
-		vint_enable_clr_addr = IA_RT_VINT_BASE(vint) +
-				       IA_RT_VINT_ENABLE_CLR_LO;
-		vint_enable_clr = 0x1u << vint_sb_index;
-	} else {
-		vint_enable_clr_addr = IA_RT_VINT_BASE(vint) +
-				       IA_RT_VINT_ENABLE_CLR_HI;
-		vint_enable_clr = 0x1u << (vint_sb_index - 32u);
-	}
-	writel(vint_enable_clr, maddr + vint_enable_clr_addr);
-	/*
-	 * Clearing the enable of the status bit will cause a readback to
-	 * return the status of the internal enable register.  The cleared
-	 * status bit must be zero.
-	 */
-	if ((readl(maddr + vint_enable_clr_addr) & vint_enable_clr) !=
-	    0U) {
-		/* Readback of cleared enable failed: halt */
-		r = -EFAILVERIFY;
-	}
-	rm_core_unmap_region();
 
 	if (r == SUCCESS) {
 		maddr = rm_core_map_region(inst->imap->base);
