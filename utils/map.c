@@ -18,7 +18,7 @@ static struct map *closest(struct map *n, const u8 *bytes, size_t len)
 
 		if (n->u.n->byte_num < len) {
 			u8 c = bytes[n->u.n->byte_num];
-			direction = (c >> n->u.n->bit_num) & 1;
+			direction = (c >> n->u.n->bit_num) & 1U;
 		}
 		n = &n->u.n->child[direction];
 	}
@@ -98,7 +98,7 @@ struct map *map_add(struct map *mapp, const void *member, const u8 *bytes,
 	bit_num = ilog32_nz(s[byte_num] ^ bytes[byte_num]) - 1;
 
 	/* Which direction do we go at this bit? */
-	new_dir = ((bytes[byte_num]) >> bit_num) & 1;
+	new_dir = ((bytes[byte_num]) >> bit_num) & 1U;
 
 	newn->byte_num = byte_num;
 	newn->bit_num = bit_num;
@@ -121,7 +121,7 @@ struct map *map_add(struct map *mapp, const void *member, const u8 *bytes,
 
 		if (n->u.n->byte_num < len) {
 			u8 c = bytes[n->u.n->byte_num];
-			direction = (c >> n->u.n->bit_num) & 1;
+			direction = (c >> n->u.n->bit_num) & 1U;
 		}
 		n = &n->u.n->child[direction];
 	}
@@ -201,7 +201,7 @@ const struct map *strmap_prefix(const struct map *mapp, const char *prefix)
 			c = bytes[n->u.n->byte_num];
 		}
 
-		direction = (c >> n->u.n->bit_num) & 1;
+		direction = (c >> n->u.n->bit_num) & 1U;
 		n = &n->u.n->child[direction];
 		if (c) {
 			top = n;
