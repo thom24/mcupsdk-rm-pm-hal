@@ -809,6 +809,7 @@ s32 rm_ia_init(void)
 			     (j < IA_SOC_PE_INIT_NUM) && (r == SUCCESS);
 			     j++) {
 				if (ia_soc_pe_init_list[j].id == ia_inst[i].id) {
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 					r = rm_ia_vint_map(
 						ia_soc_pe_init_list[j].id,
 						ia_soc_pe_init_list[j].vint,
@@ -816,6 +817,29 @@ s32 rm_ia_init(void)
 						0U,
 						STRUE,
 						SFALSE);
+#else
+					struct ia_instance *inst;
+					u16 evt;
+					u16 vint_sb_index = 0U;
+					u16 vint = ia_soc_pe_init_list[j].vint;
+					inst = ia_get_inst(ia_soc_pe_init_list[j].id);
+					if (inst == NULL) {
+						r = -EINVAL;
+					}
+					if (r == SUCCESS) {
+						evt = ia_soc_pe_init_list[j].event_id - inst->sevt_offset;
+						/* Increment vint usage count */
+						inst->vint_usage_count[vint]++;
+						if ((vint == 0u) && (vint_sb_index == 0u)) {
+							/*
+							 * Store event associated with VINT 0 bit 0
+							 * since all INTMAP registers default to
+							 * 0x0000
+							 */
+							inst->v0_b0_evt = evt;
+						}
+					}
+#endif
 				}
 			}
 
