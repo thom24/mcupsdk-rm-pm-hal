@@ -475,13 +475,13 @@ static inline void list_prepend_list(struct list_head	*to,
  */
 #define list_for_each_safe_off(h, i, nxt, off, type)				\
 	for (i = (type *) list_node_to_off_((h)->n.next,	\
-				   (off)),				\
+					    (off)),				 \
 	     nxt = (type *) list_node_to_off_(list_node_from_off_(i, (off))->next, \
-				     (off));				    \
+					      (off));				     \
 	     list_node_from_off_(i, (off)) != & (h)->n;			       \
 	     i = nxt,							      \
 	     nxt = (type *) list_node_to_off_(list_node_from_off_(i, (off))->next, \
-				     (off)))
+					      (off)))
 
 
 /* Other -off variants. */

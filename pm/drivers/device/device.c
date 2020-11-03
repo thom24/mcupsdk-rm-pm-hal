@@ -3,8 +3,35 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020 Texas Instruments Incorporated - http://www.ti.com/
- * ALL RIGHTS RESERVED
+ * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * *  Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ *
+ * *  Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * *  Neither the name of Texas Instruments Incorporated nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stddef.h>
@@ -216,8 +243,7 @@ s32 devices_deinit(u8 pm_devgrp)
 	sbool flag_enabled;
 
 	for (i = 0U; i < soc_device_count; i++) {
-		if(soc_device_data[i] == NULL)
-		{
+		if (soc_device_data[i] == NULL) {
 			continue;
 		}
 		if (soc_device_data[i]->pm_devgrp == pm_devgrp) {
@@ -228,7 +254,7 @@ s32 devices_deinit(u8 pm_devgrp)
 
 			dev->flags &= ~DEV_FLAG_RETENTION;
 
-			if (dev->initialized && flag_enabled)  {
+			if (dev->initialized && flag_enabled) {
 				device_disable(dev, STRUE);
 				dev->initialized = 0;
 				dev->flags &= ~DEV_FLAG_ENABLED_MASK;
