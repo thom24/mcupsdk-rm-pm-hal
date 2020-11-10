@@ -38,7 +38,7 @@
 #include <lib/ioremap.h>
 #include <lib/mmr_lock.h>
 #include <lib/trace.h>
-#include <osal/osal_hwi.h>
+#include <osal_hwi.h>
 
 #define MAIN_CTRL_BASE                          (0x43000000UL)
 #define MCU_CTRL_BASE                           (0x4500000UL)

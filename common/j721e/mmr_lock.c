@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2019-2020, Texas Instruments Incorporated
+ * Copyright (C) 2019-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,7 @@
 #include <lib/ioremap.h>
 #include <lib/mmr_lock.h>
 #include <lib/trace.h>
-#include <osal/osal_hwi.h>
+#include <osal_hwi.h>
 
 #define MAIN_CTRL_BASE  0x00100000
 #define WKUP_CTRL_BASE  0x43000000
