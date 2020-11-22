@@ -232,12 +232,19 @@ static s32 ia_configure_vint(struct ia_instance *inst, u16 evt, u16 vint,
  *
  * \return SUCCESS if VINT cleared, else error
  */
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 static s32 ia_clear_vint(const struct ia_instance *inst, u16 evt, u16 vint,
 			 u8 vint_sb_index)
+#else
+static s32 ia_clear_vint(const struct ia_instance *inst, u16 evt, u16 vint __attribute__((unused)),
+			 u8 vint_sb_index __attribute__((unused)))
+#endif
 {
 	s32 r = SUCCESS;
 	mapped_addr_t maddr;
 	u32 entry_int_map_lo;
+
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 	u32 vint_enable_clr;
 	u32 vint_enable_clr_addr;
 
@@ -267,7 +274,7 @@ static s32 ia_clear_vint(const struct ia_instance *inst, u16 evt, u16 vint,
 		r = -EFAILVERIFY;
 	}
 	rm_core_unmap_region();
-
+#endif
 	if (r == SUCCESS) {
 		maddr = rm_core_map_region(inst->imap->base);
 		entry_int_map_lo = rm_fmk(IA_ENTRY_INTMAP_REGNUM_SHIFT,
