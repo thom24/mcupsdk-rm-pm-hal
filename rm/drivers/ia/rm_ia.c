@@ -232,7 +232,8 @@ static s32 ia_configure_vint(struct ia_instance *inst, u16 evt, u16 vint,
  *
  * \return SUCCESS if VINT cleared, else error
  */
-static s32 ia_clear_vint(const struct ia_instance *inst, u16 evt)
+static s32 ia_clear_vint(const struct ia_instance *inst, u16 evt, u16 vint,
+			 u8 vint_sb_index)
 {
 	s32 r = SUCCESS;
 	mapped_addr_t maddr;
@@ -798,7 +799,7 @@ s32 rm_ia_vint_unmap(u16 id, u16 vint, u16 global_evt, u8 vint_sb_index)
 	}
 
 	if (r == SUCCESS) {
-		r = ia_clear_vint(inst, evt);
+		r = ia_clear_vint(inst, evt, vint, vint_sb_index);
 	}
 	if (r == SUCCESS) {
 		inst->vint_usage_count[vint]--;
