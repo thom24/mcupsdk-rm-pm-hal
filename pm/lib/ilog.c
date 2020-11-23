@@ -101,8 +101,8 @@ s32 ilog64(uint64_t _v)
 	s32 ret;
 	s32 m;
 	ret = _v > 0U;
-	m = (_v > 0xFFFFFFFFU) << 5;
-	v = (uint32_t) (_v >> m);
+	m = (_v > 0xFFFFFFFFU) << 5U;
+	v = (uint32_t) (_v >> (u32) m);
 	ret |= m;
 	v |= v >> 1;
 	v |= v >> 2;
