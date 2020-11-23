@@ -254,7 +254,7 @@ s32 devices_deinit(u8 pm_devgrp)
 
 			dev->flags &= ~DEV_FLAG_RETENTION;
 
-			if (dev->initialized && flag_enabled) {
+			if ((dev->initialized != 0U) && flag_enabled) {
 				device_disable(dev, STRUE);
 				dev->initialized = 0;
 				dev->flags &= ~DEV_FLAG_ENABLED_MASK;
