@@ -211,7 +211,7 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 		}
 
 		if ((delta < data->min_delta) ||
-		    ((delta == data->min_delta) && data->min_delta_rem &&
+		    ((delta == data->min_delta) && (data->min_delta_rem != 0U) &&
 		     ((delta_rem * data->min_delta_div) < (data->min_delta_rem * clkod_plld)))) {
 			*data->pllm = entry->pllm;
 			*data->pllfm = entry->pllfm;
@@ -1115,7 +1115,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 			 * without a remainder, a fractional value won't get us
 			 * any closer.
 			 */
-			if (do_frac && low_pllm &&
+			if (do_frac && (low_pllm != 0U) &&
 			    (low_pllm <= ideal_pllm) &&
 			    ((ideal_pllm_rem != 0UL) || (low_pllm != ideal_pllm)) &&
 			    ((data->pllm_valid == NULL) || data->pllm_valid(clkp, low_pllm, STRUE))) {
@@ -1153,7 +1153,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 				pll_consider_fractional(consider_data, low_pllm, frem, estimate_pllfm, stride);
 			}
 
-			if (low_pllm && (low_pllm == high_pllm)) {
+			if ((low_pllm != 0U) && (low_pllm == high_pllm)) {
 				/*
 				 * If we produce the exact frequency we want,
 				 * and ideal_pllm is a valid pllm value, then
@@ -1228,7 +1228,7 @@ u32 pll_calc(struct clk *clkp, const struct pll_data *data,
 {
 	u32 ret = 0UL;
 
-	if (input && output) {
+	if ((input != 0U) && (output != 0U)) {
 		const struct clk_data *clk_datap = clk_get_data(clkp);
 		const struct clk_data_pll *pll = container_of(clk_datap->data, struct clk_data_pll, data);
 		struct pll_consider_data consider_data = {
