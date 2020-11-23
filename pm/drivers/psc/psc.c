@@ -216,8 +216,8 @@ void psc_pd_wait(struct device *dev, struct psc_pd *pd)
 {
 	if (!(get_psc_pd_data(dev, pd)->flags & PSC_PD_ALWAYSON)) {
 		s32 i = PSC_TRANSITION_TIMEOUT;
-		while ((psc_read(dev, PSC_PTSTAT) &
-			BIT(psc_pd_idx(dev, pd))) && --i) {
+		while (((psc_read(dev, PSC_PTSTAT) &
+			 BIT(psc_pd_idx(dev, pd))) != 0U) && (--i != 0)) {
 		}
 		if (!i) {
 			/* Directly convert to psc to get psc_idx */
@@ -863,7 +863,8 @@ void lpsc_module_wait(struct device *dev, struct lpsc_module *module)
 
 	psc_pd_wait(dev, pd);
 
-	while ((psc_read(dev, PSC_MDSTAT(idx)) & MDSTAT_BUSY_MASK) && --i) {
+	while (((psc_read(dev, PSC_MDSTAT(idx)) & MDSTAT_BUSY_MASK) != 0U) &&
+	       (--i != 0)) {
 	}
 	if (!i) {
 		pm_trace(TRACE_PM_ACTION_PSC_TRANSITION_TIMEOUT | TRACE_PM_ACTION_FAIL,
@@ -879,7 +880,7 @@ void lpsc_module_wait(struct device *dev, struct lpsc_module *module)
 		if (!lpsc_module_get_local_reset(dev, module)) {
 			mask |= MDSTAT_LRSTDONE;
 		}
-		while (!(psc_read(dev, PSC_MDSTAT(idx)) & mask) && --i) {
+		while (!(psc_read(dev, PSC_MDSTAT(idx)) & mask) && (--i != 0)) {
 		}
 		if (!i) {
 			pm_trace(TRACE_PM_ACTION_PSC_RST_DONE_TIMEOUT | TRACE_PM_ACTION_FAIL,
@@ -1083,7 +1084,7 @@ struct psc_pd *psc_lookup_pd(struct device *dev, pd_idx_t id)
 	struct psc_pd *pd = NULL;
 
 	if ((id < psc->pd_count) &&
-	    (psc->pd_data[id].flags & PSC_PD_EXISTS)) {
+	    ((psc->pd_data[id].flags & PSC_PD_EXISTS) != 0U)) {
 		pd = psc_idx2pd(psc, id);
 	}
 	return pd;
@@ -1095,7 +1096,7 @@ struct lpsc_module *psc_lookup_lpsc(struct device *dev, pd_idx_t id)
 	struct lpsc_module *mod = NULL;
 
 	if ((id < psc->module_count) &&
-	    (psc->mod_data[id].flags & LPSC_MODULE_EXISTS)) {
+	    ((psc->mod_data[id].flags & LPSC_MODULE_EXISTS) != 0U)) {
 		mod = psc_idx2mod(psc, id);
 	}
 	return mod;
@@ -1137,7 +1138,7 @@ static s32 psc_initialize_pds(struct device *dev)
 		 */
 		pd->pwr_up_enabled =
 			(state == PDCTL_STATE_ON) ||
-			(psc->pd_data[idx].flags & PSC_PD_ALWAYSON);
+			((psc->pd_data[idx].flags & PSC_PD_ALWAYSON) != 0U);
 	}
 
 	/* Second pass, sync use count and impossible hardware states */
@@ -1236,8 +1237,8 @@ static s32 psc_initialize_modules(struct device *dev)
 		v = psc_read(dev, PSC_MDCTL(idx));
 
 		i = PSC_TRANSITION_TIMEOUT;
-		while (((v = psc_read(dev, PSC_MDSTAT(idx))) &
-			MDSTAT_BUSY_MASK) && --i) {
+		while ((((v = psc_read(dev, PSC_MDSTAT(idx))) &
+			 MDSTAT_BUSY_MASK) != 0U) && (--i != 0)) {
 		}
 		if (i == 0) {
 			pm_trace(TRACE_PM_ACTION_PSC_TRANSITION_TIMEOUT | TRACE_PM_ACTION_FAIL,
