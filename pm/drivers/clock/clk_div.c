@@ -248,7 +248,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 		}
 	}
 
-	if (best_div && !query) {
+	if ((best_div != 0U) && !query) {
 		/* Actually program out parents */
 		if (best_changed) {
 			clk_set_freq(parent, best_parent_freq, best_min_hz,
@@ -453,7 +453,7 @@ u32 clk_div_reg_get_div(struct clk *clkp)
 			n -= 1U;
 		}
 		v = readl(data_reg->reg) >> data_reg->bit;
-		v &= (1U << ilog32(n)) - 1U;
+		v &= (1U << (u32) ilog32(n)) - 1U;
 		if (!data_reg->start_at_1) {
 			v += 1U;
 		}
@@ -488,7 +488,7 @@ sbool clk_div_reg_set_div(struct clk *clkp, u32 d)
 		}
 
 		v = readl(data_reg->reg);
-		v &= ~(((1UL << ilog32(n)) - 1UL) << data_reg->bit);
+		v &= ~(((1UL << (u32) ilog32(n)) - 1UL) << data_reg->bit);
 		v |= d << data_reg->bit;
 		err = pm_writel_verified(v, (u32) data_reg->reg);
 		if (err == SUCCESS) {
@@ -574,7 +574,7 @@ sbool clk_div_reg_go_set_div(struct clk *clkp, u32 d)
 		}
 
 		v = readl(data_reg->reg);
-		v &= ~(((1U << ilog32(n)) - 1U) << data_reg->bit);
+		v &= ~(((1U << (u32) ilog32(n)) - 1U) << data_reg->bit);
 		v &= ~BIT(data_reg->go);
 		v |= d << data_reg->bit;
 		err = pm_writel_verified(v, data_reg->reg);
