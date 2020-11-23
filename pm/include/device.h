@@ -258,8 +258,8 @@ static inline struct device *device_lookup(dev_idx_t id)
 static inline struct device *device_api_lookup(u32 id)
 {
 	return (!device_id_valid(id) ||
-		(soc_device_data_arr[id]->flags & DEVD_FLAG_INTERNAL)) ? NULL :
-	       (soc_devices + id);
+		((soc_device_data_arr[id]->flags & DEVD_FLAG_INTERNAL) != 0U)) ?
+	       NULL : (soc_devices + id);
 }
 
 /**
