@@ -33,7 +33,8 @@
 	((containing_type *)					       \
 	 ((char *) (member_ptr)						\
 	  - container_off(containing_type, member))		       \
-	 + check_types_match(*(member_ptr), ((containing_type *) 0)->member))
+	 + (check_types_match(*(member_ptr), ((containing_type *) 0)->member) \
+	    ? 1 : 0))
 
 /**
  * container_off - get offset to enclosing structure
