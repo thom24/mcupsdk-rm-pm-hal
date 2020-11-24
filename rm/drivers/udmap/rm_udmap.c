@@ -396,7 +396,8 @@
 		TISCI_MSG_VALUE_RM_UDMAP_CH_BURST_SIZE_VALID | \
 		TISCI_MSG_VALUE_RM_UDMAP_CH_TX_SUPR_TDPKT_VALID | \
 		TISCI_MSG_VALUE_RM_UDMAP_CH_TX_FDEPTH_VALID | \
-		TISCI_MSG_VALUE_RM_UDMAP_CH_TX_TDTYPE_VALID \
+		TISCI_MSG_VALUE_RM_UDMAP_CH_TX_TDTYPE_VALID | \
+		TISCI_MSG_VALUE_RM_UDMAP_EXTENDED_CH_TYPE_VALID	\
 		)
 
 #define UDMAP_BCDMA_RX_CHAN_DEVMASK ( \
@@ -413,7 +414,8 @@
 		TISCI_MSG_VALUE_RM_UDMAP_CH_PRIORITY_VALID | \
 		TISCI_MSG_VALUE_RM_UDMAP_CH_ORDER_ID_VALID | \
 		TISCI_MSG_VALUE_RM_UDMAP_CH_SCHED_PRIORITY_VALID | \
-		TISCI_MSG_VALUE_RM_UDMAP_CH_BURST_SIZE_VALID \
+		TISCI_MSG_VALUE_RM_UDMAP_CH_BURST_SIZE_VALID | \
+		TISCI_MSG_VALUE_RM_UDMAP_EXTENDED_CH_TYPE_VALID	\
 		)
 #else
 #define UDMAP_BCDMA_GCFG_DEVMASK (0U)
@@ -621,7 +623,7 @@ static const struct udmap_instance *udmap_get_inst(u16 id, u8 trace_action)
  */
 static s32 udmap_check_index_range(const struct udmap_instance *inst, u8 host,
 				   u16 index, u16 *utype, u8 *chan_type,
-				   sbool tx_ch, u8 trace_action)
+				   sbool tx_ch, u8 trace_action, u8 extended_ch_type)
 {
 	s32 r = -EINVAL;
 	u8 n_ch_type = ((tx_ch == STRUE) ? inst->n_tx_ch_type :
@@ -633,10 +635,9 @@ static s32 udmap_check_index_range(const struct udmap_instance *inst, u8 host,
 	u16 loc_index = index;
 
 	if ((inst->bc_ch_types != NULL) && (tx_ch == STRUE) &&
-	    (index >= inst->bc_ch_offset)) {
+	    (extended_ch_type == (u8) 1)) {
 		/* Use block copy channel types array */
 		ch_types = inst->bc_ch_types;
-		loc_index -= inst->bc_ch_offset;
 	}
 
 	for (i = 0U; i < n_ch_type; i++) {
@@ -1217,7 +1218,7 @@ static s32 udmap_validate_rx_flowid_range(const struct udmap_instance *inst,
 				 */
 				r = udmap_check_index_range(inst, host, i,
 							    NULL, NULL, SFALSE,
-							    trace_action);
+							    trace_action, 0);
 			} else {
 				r = rm_core_resasg_validate_resource(
 					host,
@@ -1692,6 +1693,28 @@ static s32 udmap_validate_tdtype(u8 tdtype, u8 trace_action)
 	return r;
 }
 #endif
+
+static s32 udmap_validate_extended_ch_type(u8 extended_ch_type, u8 trace_action)
+{
+	s32 r = SUCCESS;
+
+	switch (extended_ch_type) {
+	case 0:
+		break;
+	case 1:
+		break;
+	default:
+		trace_action |= TRACE_RM_ACTION_FAIL;
+		r = -EINVAL;
+		break;
+	}
+
+	rm_trace_sub(trace_action,
+		     TRACE_RM_SUB_ACTION_UDMA_TX_CH_EXTENDED_CH_TYPE,
+		     extended_ch_type);
+
+	return r;
+}
 
 /**
  * \brief Checks if the OES index is valid for the UDMAP instance and, if
@@ -2251,11 +2274,14 @@ static s32 udmap_tx_ch_cfg(
 	u32 tst_sched_reg = 0u;
 	sbool write;
 	s32 r = SUCCESS;
+	u8 extended_ch_type =
+		((msg->valid_params & TISCI_MSG_VALUE_RM_UDMAP_EXTENDED_CH_TYPE_VALID) == 0) ?
+		0 : msg->extended_ch_type;
 
 	if ((inst->bc_ch_types != NULL) &&
-	    (msg->index >= inst->bc_ch_offset)) {
+	    (extended_ch_type == (u8) 1)) {
 		maddr = rm_core_map_region(inst->bchan->base);
-		ch_base = maddr + UDMAP_CH_BASE(msg->index - inst->bc_ch_offset);
+		ch_base = maddr + UDMAP_CH_BASE(msg->index);
 	} else {
 		maddr = rm_core_map_region(inst->tchan->base);
 		ch_base = maddr + UDMAP_CH_BASE(msg->index);
@@ -2486,13 +2512,16 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	u32 tfifo_depth_reg;
 	u32 tst_sched_reg;
 	u32 dev_mask;
+	u8 extended_ch_type =
+		((msg->valid_params & TISCI_MSG_VALUE_RM_UDMAP_EXTENDED_CH_TYPE_VALID) == 0) ?
+		0 : msg->extended_ch_type;
 
 	dev_mask = local_rm_udmap_ch_valid_masks[chan_type].chan_mask;
 
 	if ((inst->bc_ch_types != NULL) &&
-	    (msg->index >= inst->bc_ch_offset)) {
+	    (extended_ch_type == (u8) 1)) {
 		maddr = rm_core_map_region(inst->bchan->base);
-		ch_base = maddr + UDMAP_CH_BASE(msg->index - inst->bc_ch_offset);
+		ch_base = maddr + UDMAP_CH_BASE(msg->index);
 	} else {
 		maddr = rm_core_map_region(inst->tchan->base);
 		ch_base = maddr + UDMAP_CH_BASE(msg->index);
@@ -2686,6 +2715,13 @@ static void udmap_format_local_tx_ch_cfg_msg(
 #else
 	loc_msg->tx_tdtype = 0U;
 #endif
+	if (rm_core_param_is_valid(loc_msg->valid_params,
+				   TISCI_MSG_VALUE_RM_UDMAP_EXTENDED_CH_TYPE_VALID) ==
+	    STRUE) {
+		loc_msg->extended_ch_type = msg->extended_ch_type;
+	} else {
+		loc_msg->extended_ch_type = (u8) 0;
+	}
 }
 
 /**
@@ -3988,6 +4024,9 @@ s32 rm_udmap_tx_ch_cfg(u32 *msg_recv)
 	u16 utype;
 	u8 trace_action = TRACE_RM_ACTION_UDMAP_TX_CH_CFG;
 	u8 chan_type;
+	u8 extended_ch_type =
+		((msg->valid_params & TISCI_MSG_VALUE_RM_UDMAP_EXTENDED_CH_TYPE_VALID) == 0) ?
+		0 : msg->extended_ch_type;
 
 #ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 	u8 hosts[FWL_MAX_PRIVID_SLOTS];
@@ -4009,7 +4048,7 @@ s32 rm_udmap_tx_ch_cfg(u32 *msg_recv)
 	if (r == SUCCESS) {
 		r = udmap_check_index_range(inst, msg->hdr.host, msg->index,
 					    &utype, &chan_type, STRUE,
-					    trace_action);
+					    trace_action, extended_ch_type);
 	}
 
 	if (r == SUCCESS) {
@@ -4102,6 +4141,9 @@ s32 rm_udmap_tx_ch_cfg(u32 *msg_recv)
 		r = udmap_validate_tdtype(loc_msg.tx_tdtype, trace_action);
 	}
 #endif
+	if (r == SUCCESS) {
+		r = udmap_validate_extended_ch_type(loc_msg.extended_ch_type, trace_action);
+	}
 
 #ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 	if (r == SUCCESS) {
@@ -4157,7 +4199,7 @@ s32 rm_udmap_rx_ch_cfg(u32 *msg_recv)
 	if (r == SUCCESS) {
 		r = udmap_check_index_range(inst, msg->hdr.host, msg->index,
 					    &utype, &chan_type, SFALSE,
-					    trace_action);
+					    trace_action, 0);
 	}
 
 	if (r == SUCCESS) {
