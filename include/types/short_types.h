@@ -4,7 +4,11 @@
 #include <stdint.h>
 
 #ifndef NULL
+#ifndef __cplusplus
 #define NULL     ((void *) 0)
+#else
+#define NULL     (nullptr)
+#endif
 #endif
 
 /**
