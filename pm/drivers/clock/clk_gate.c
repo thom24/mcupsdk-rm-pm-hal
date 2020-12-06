@@ -68,7 +68,7 @@ static u32 clk_gate_get_state(struct clk *clkp)
 	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_parent *p;
 	struct clk *clk_parentp = NULL;
-	s32 ret = CLK_HW_STATE_ENABLED;
+	u32 ret = CLK_HW_STATE_ENABLED;
 
 	p = clk_get_parent(clkp);
 	if (p) {

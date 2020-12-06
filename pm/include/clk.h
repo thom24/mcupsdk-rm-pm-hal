@@ -300,7 +300,7 @@ sbool clk_notify_children_freq(struct clk *parent, u32 parent_freq, sbool query)
 u32 clk_generic_set_freq_parent(struct clk *clkp, struct clk *parent, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed, u32 d);
 u32 clk_set_freq(struct clk *clkp, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed);
 u32 clk_get_freq(struct clk *clkp);
-s32 clk_get_state(struct clk *clkp);
+u32 clk_get_state(struct clk *clkp);
 sbool clk_set_state(struct clk *clkp, sbool enable);
 sbool clk_get(struct clk *clkp);
 void clk_put(struct clk *clkp);

@@ -441,7 +441,7 @@ static u32 clk_rpll028_get_state(struct clk *clk)
 {
 	const struct clk_parent *p = NULL;
 	struct clk *clk_parent = NULL;
-	s32 ret = CLK_HW_STATE_ENABLED;
+	u32 ret = CLK_HW_STATE_ENABLED;
 
 	if (!clk->ref_count) {
 		ret = CLK_HW_STATE_DISABLED;

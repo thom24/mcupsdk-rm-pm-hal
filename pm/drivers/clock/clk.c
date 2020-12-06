@@ -364,10 +364,10 @@ u32 clk_get_freq(struct clk *clkp)
 	return ret;
 }
 
-s32 clk_get_state(struct clk *clkp)
+u32 clk_get_state(struct clk *clkp)
 {
 	const struct clk_data *clk_data_p = clk_get_data(clkp);
-	s32 ret = CLK_HW_STATE_DISABLED;
+	u32 ret = CLK_HW_STATE_DISABLED;
 
 	if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
 		ret = CLK_HW_STATE_DISABLED;
