@@ -618,7 +618,7 @@ s32 clk_init(void)
 		if (i == PM_DEVGRP_DMSC) {
 			devgrp = DEVGRP_DMSC;
 		} else {
-			devgrp = BIT(i - 1U);
+			devgrp = (devgrp_t) BIT(i - 1U);
 		}
 
 		/* First disabled devgroup, stop at this clock index */
