@@ -160,6 +160,8 @@ struct ia_instance {
 	u16					v0_b0_evt;
 	struct ia_used_mapping *const		rom_usage;
 	const u8				n_rom_usage;
+	struct ia_used_mapping *const		rom_usage_unmapped_events;
+	const u8				n_rom_usage_unmapped_events;
 	const struct ia_resource_type *const	unmapped_events;
 	const u8				n_unmapped_events;
 	struct rm_irq_oes_src			oes_handler;

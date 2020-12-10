@@ -100,6 +100,13 @@ static struct ia_used_mapping rom_usage_DMASS0_INTAGGR_0[5U] = {
 	},
 };
 
+static struct ia_used_mapping rom_usage_unmapped_events_DMASS0_INTAGGR_0[1U] = {
+	{
+		.event = 5648U,
+		.cleared = SFALSE,
+	},
+};
+
 static const struct ia_resource_type unmapped_events_DMASS0_INTAGGR_0[16U] = {
 	{
 		.start = 0U,
@@ -200,6 +207,8 @@ struct ia_instance ia_inst[IA_INST_COUNT] = {
 		.v0_b0_evt = 0U,
 		.rom_usage = &rom_usage_DMASS0_INTAGGR_0[0U],
 		.n_rom_usage = ARRAY_SIZE(rom_usage_DMASS0_INTAGGR_0),
+		.rom_usage_unmapped_events = &rom_usage_unmapped_events_DMASS0_INTAGGR_0[0U],
+		.n_rom_usage_unmapped_events = ARRAY_SIZE(rom_usage_unmapped_events_DMASS0_INTAGGR_0),
 		.unmapped_events = &unmapped_events_DMASS0_INTAGGR_0[0U],
 		.n_unmapped_events = ARRAY_SIZE(unmapped_events_DMASS0_INTAGGR_0),
 	},
