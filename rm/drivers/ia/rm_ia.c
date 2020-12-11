@@ -336,6 +336,51 @@ static s32 ia_clear_rom_mapping(const struct ia_instance *inst, u16 evt)
 	return r;
 }
 
+#ifdef CONFIG_INTERRUPT_AGGREGATOR_UNMAPPED_EVENTS
+/**
+ * \brief Clear an unmapped event's previously existing ROM mapping
+ *
+ * \param inst Pointer to IA instance
+ *
+ * \param evt IA unmapped event index
+ *
+ * \return SUCCESS if no clear performed or if clear succeeds, else -EFAIL
+ */
+static s32 ia_unmap_clear_rom_mapping(const struct ia_instance *inst, u16 evt)
+{
+	s32 r = SUCCESS;
+	u8 i;
+	struct ia_used_mapping *used_mapping;
+	mapped_addr_t maddr;
+	u32 evt_reg;
+
+	for (i = 0U; i < inst->n_rom_usage_unmapped_events; i++) {
+		used_mapping = &inst->rom_usage_unmapped_events[i];
+		if ((used_mapping->cleared == SFALSE) &&
+		    ((used_mapping->event - inst->sevt_offset) == evt)) {
+			maddr = rm_core_map_region(inst->unmap->base);
+			evt_reg = rm_fmk(IA_UENTRY_MAP_IRQMODE_SHIFT,
+					 IA_UENTRY_MAP_IRQMODE_MASK, 0U);
+			evt_reg |= rm_fmk(IA_UENTRY_MAP_UMAPIDX_SHIFT,
+					  IA_UENTRY_MAP_UMAPIDX_MASK, 0xFFFFU);
+
+			if (writel_verified(evt_reg,
+					    maddr + IA_UENTRY_MAP_LO(evt)) != SUCCESS) {
+				/* Readback of write failed: halt */
+				r = -EFAILVERIFY;
+			}
+			rm_core_unmap_region();
+
+			if (r == SUCCESS) {
+				used_mapping->cleared = STRUE;
+			}
+		}
+	}
+
+	return r;
+}
+#endif /* CONFIG_INTERRUPT_AGGREGATOR_UNMAPPED_EVENTS */
+
 /**
  * \brief Validate IA event for in use or free cases
  *
@@ -454,6 +499,7 @@ static s32 ia_validate_evt(const struct ia_instance *inst, u16 evt, u16 vint,
 static s32 ia_get_oes_evt(u8 host, u16 id, u16 oes_index, u16 *evt)
 {
 	s32 r = SUCCESS;
+	s32 clear = SUCCESS;
 	const struct ia_instance *inst = NULL;
 	u8 trace_action = TRACE_RM_ACTION_IRQ_IA_OES_GET;
 	u8 i;
@@ -476,13 +522,27 @@ static s32 ia_get_oes_evt(u8 host, u16 id, u16 oes_index, u16 *evt)
 	}
 
 	if (r == SUCCESS) {
+		r = -EINVAL;
+
 		for (i = 0U; i < inst->n_unmapped_events; i++) {
 			if ((oes_index >= inst->unmapped_events[i].start) &&
 			    (oes_index < inst->unmapped_events[i].end)) {
-				r = rm_core_resasg_validate_resource(
-					host,
-					inst->unmapped_events[i].utype,
-					oes_index);
+				if (inst->rom_usage_unmapped_events != NULL) {
+					/*
+					 * Did ROM use the unmapped event during boot?
+					 * The mapping is cleared if it was used by ROM.
+					 * The clear only occurs once for each mapping.
+					 */
+					clear = ia_unmap_clear_rom_mapping(inst, oes_index);
+				}
+				if (clear == SUCCESS) {
+					r = rm_core_resasg_validate_resource(
+						host,
+						inst->unmapped_events[i].utype,
+						oes_index);
+				} else {
+					r = clear;
+				}
 				break;
 			}
 		}
@@ -531,6 +591,7 @@ static s32 ia_get_oes_evt(u8 host, u16 id, u16 oes_index, u16 *evt)
 static s32 ia_set_oes_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 {
 	s32 r = SUCCESS;
+	s32 clear = SUCCESS;
 	const struct ia_instance *inst = NULL;
 	u8 i;
 	mapped_addr_t maddr;
@@ -557,10 +618,22 @@ static s32 ia_set_oes_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 		for (i = 0U; i < inst->n_unmapped_events; i++) {
 			if ((oes_index >= inst->unmapped_events[i].start) &&
 			    (oes_index < inst->unmapped_events[i].end)) {
-				r = rm_core_resasg_validate_resource(
-					host,
-					inst->unmapped_events[i].utype,
-					oes_index);
+				if (inst->rom_usage_unmapped_events != NULL) {
+					/*
+					 * Did ROM use the unmapped event during boot?
+					 * The mapping is cleared if it was used by ROM.
+					 * The clear only occurs once for each mapping.
+					 */
+					clear = ia_unmap_clear_rom_mapping(inst, oes_index);
+				}
+				if (clear == SUCCESS) {
+					r = rm_core_resasg_validate_resource(
+						host,
+						inst->unmapped_events[i].utype,
+						oes_index);
+				} else {
+					r = clear;
+				}
 				break;
 			}
 		}
