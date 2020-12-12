@@ -177,32 +177,32 @@
  */
 
 /* Registers */
-#define ADPLLM_PID                      0x00UL
-#define ADPLLM_MMR_CFG0                 0x08UL
-#define ADPLLM_MMR_CFG1                 0x0cUL
+#define ADPLLM_PID                      ((u32) 0x00U)
+#define ADPLLM_MMR_CFG0                 ((u32) 0x08U)
+#define ADPLLM_MMR_CFG1                 ((u32) 0x0cU)
 
-#define ADPLLM_PLL_KICK0(idx)           ((idx * 0x1000UL) + 0x10UL)
-#define ADPLLM_PLL_KICK1(idx)           ((idx * 0x1000UL) + 0x14UL)
-#define ADPLLM_PLL_FREQ_CTRL0(idx)      ((idx * 0x1000UL) + 0x20UL)
-#define ADPLLM_PLL_FREQ_CTRL1(idx)      ((idx * 0x1000UL) + 0x24UL)
-#define ADPLLM_PLL_CLKDIV(idx)          ((idx * 0x1000UL) + 0x28UL)
-#define ADPLLM_PLL_PROG(idx)            ((idx * 0x1000UL) + 0x2cUL)
-#define ADPLLM_PLL_CTRL(idx)            ((idx * 0x1000UL) + 0x30UL)
-#define ADPLLM_PLL_STAT(idx)            ((idx * 0x1000UL) + 0x34UL)
-#define ADPLLM_PLL_PWR_CTRL(idx)        ((idx * 0x1000UL) + 0x38UL)
-#define ADPLLM_PLL_PWR_STAT(idx)        ((idx * 0x1000UL) + 0x3cUL)
-#define ADPLLM_PLL_SS_SPREAD(idx)       ((idx * 0x1000UL) + 0x40UL)
-#define ADPLLM_PLL_SS_MODFREQ(idx)      ((idx * 0x1000UL) + 0x44UL)
+#define ADPLLM_PLL_KICK0(idx)           ((idx * 0x1000U) + 0x10U)
+#define ADPLLM_PLL_KICK1(idx)           ((idx * 0x1000U) + 0x14U)
+#define ADPLLM_PLL_FREQ_CTRL0(idx)      ((idx * 0x1000U) + 0x20U)
+#define ADPLLM_PLL_FREQ_CTRL1(idx)      ((idx * 0x1000U) + 0x24U)
+#define ADPLLM_PLL_CLKDIV(idx)          ((idx * 0x1000U) + 0x28U)
+#define ADPLLM_PLL_PROG(idx)            ((idx * 0x1000U) + 0x2cU)
+#define ADPLLM_PLL_CTRL(idx)            ((idx * 0x1000U) + 0x30U)
+#define ADPLLM_PLL_STAT(idx)            ((idx * 0x1000U) + 0x34U)
+#define ADPLLM_PLL_PWR_CTRL(idx)        ((idx * 0x1000U) + 0x38U)
+#define ADPLLM_PLL_PWR_STAT(idx)        ((idx * 0x1000U) + 0x3cU)
+#define ADPLLM_PLL_SS_SPREAD(idx)       ((idx * 0x1000U) + 0x40U)
+#define ADPLLM_PLL_SS_MODFREQ(idx)      ((idx * 0x1000U) + 0x44U)
 
-#define ADPLLM_HSDIV_CLKDIV(idx)        ((idx * 0x1000UL) + 0x120UL)
-#define ADPLLM_HSDIV_CTRL(idx)          ((idx * 0x1000UL) + 0x124UL)
-#define ADPLLM_HSDIV_STAT(idx)          ((idx * 0x1000UL) + 0x128UL)
-#define ADPLLM_HSDIV_PWR_CTRL(idx)      ((idx * 0x1000UL) + 0x12cUL)
-#define ADPLLM_HSDIV_PWR_STAT(idx)      ((idx * 0x1000UL) + 0x130UL)
+#define ADPLLM_HSDIV_CLKDIV(idx)        ((idx * 0x1000U) + 0x120U)
+#define ADPLLM_HSDIV_CTRL(idx)          ((idx * 0x1000U) + 0x124U)
+#define ADPLLM_HSDIV_STAT(idx)          ((idx * 0x1000U) + 0x128U)
+#define ADPLLM_HSDIV_PWR_CTRL(idx)      ((idx * 0x1000U) + 0x12cU)
+#define ADPLLM_HSDIV_PWR_STAT(idx)      ((idx * 0x1000U) + 0x130U)
 
 /* PLL_KICK */
-#define ADPLLM_PLL_KICK0_VALUE          0x68ef3490UL
-#define ADPLLM_PLL_KICK1_VALUE          0xd172bc5aUL
+#define ADPLLM_PLL_KICK0_VALUE          0x68ef3490U
+#define ADPLLM_PLL_KICK1_VALUE          0xd172bc5aU
 
 /* FREQ_CTRL0 */
 /*
@@ -210,47 +210,47 @@
  * Ensure that the sigma-delta operation frequency is as close as possible,
  * but less than 250MHz for optimal performance.
  */
-#define ADPLLM_FREQ_CTRL0_SD_DIV_SHIFT          24UL    /* ADPLLJ only */
-#define ADPLLM_FREQ_CTRL0_SD_DIV_MASK           (0xffUL << 24UL)
+#define ADPLLM_FREQ_CTRL0_SD_DIV_SHIFT          24U    /* ADPLLJ only */
+#define ADPLLM_FREQ_CTRL0_SD_DIV_MASK           (((u32) 0xffU) << 24U)
 /*
  * Feedback Multiplier is REGM
  * Can be loaded on the fly if N is not changed and value does not change
  * by more than 3%.
  */
-#define ADPLLM_FREQ_CTRL0_M_INT_MULT_SHIFT      8UL
-#define ADPLLM_FREQ_CTRL0_M_INT_MULT_MASK       (0xfffUL << 8UL)
+#define ADPLLM_FREQ_CTRL0_M_INT_MULT_SHIFT      8U
+#define ADPLLM_FREQ_CTRL0_M_INT_MULT_MASK       (((u32) 0xfffU) << 8U)
 /* Input divider */
-#define ADPLLM_FREQ_CTRL0_N_DIV_SHIFT           0UL
-#define ADPLLM_FREQ_CTRL0_N_DIV_MASK            0xffUL
+#define ADPLLM_FREQ_CTRL0_N_DIV_SHIFT           0U
+#define ADPLLM_FREQ_CTRL0_N_DIV_MASK            ((u32) 0xffU)
 
 /*
  * FREQ_CTRL1
  * DCO frequency range selector, ADPLLJ only
  */
-#define ADPLLM_FREQ_CTRL1_SEL_FREQ_DCO_SHIFT    24UL
-#define ADPLLM_FREQ_CTRL1_SEL_FREQ_DCO_MASK     (7UL << 24UL)
-#define ADPLLM_FREQ_CTRL1_SEL_FREQ_DCO_1500MHZ  (2UL << 24UL)
-#define ADPLLM_FREQ_CTRL1_SEL_FREQ_DCO_2500MHZ  (4UL << 24UL)
+#define ADPLLM_FREQ_CTRL1_SEL_FREQ_DCO_SHIFT    24U
+#define ADPLLM_FREQ_CTRL1_SEL_FREQ_DCO_MASK     (((u32) 7U) << 24U)
+#define ADPLLM_FREQ_CTRL1_SEL_FREQ_DCO_1500MHZ  (((u32) 2U) << 24U)
+#define ADPLLM_FREQ_CTRL1_SEL_FREQ_DCO_2500MHZ  (((u32) 4U) << 24U)
 /*
  * Fractional part of the M divider, 0 disables.
  * Fractional multiplier M.f is not supported for M < 20 and M > 2045 for type
  * ADPLLM.
  * Fractional multiplier M.f is not supported for M > 4093 for type ADPLLJ.
  */
-#define ADPLLM_FREQ_CTRL1_M_FRAC_MULT_SHIFT     0UL
-#define ADPLLM_FREQ_CTRL1_M_FRAC_MULT_BITS      18UL
-#define ADPLLM_FREQ_CTRL1_M_FRAC_MULT_MASK      0x3ffffUL
+#define ADPLLM_FREQ_CTRL1_M_FRAC_MULT_SHIFT     0U
+#define ADPLLM_FREQ_CTRL1_M_FRAC_MULT_BITS      18U
+#define ADPLLM_FREQ_CTRL1_M_FRAC_MULT_MASK      0x3ffffU
 
 /* CLKDIV */
 /* Additional divider is REGM3 */
-#define ADPLLM_CLKDIV_M3_DIV_SHIFT              16UL    /* ADPLLM only */
-#define ADPLLM_CLKDIV_M3_DIV_MASK               (0x1fUL << 16UL)
+#define ADPLLM_CLKDIV_M3_DIV_SHIFT              16U    /* ADPLLM only */
+#define ADPLLM_CLKDIV_M3_DIV_MASK               (((u32) 0x1fU) << 16U)
 /* Post divider is REGM2 */
-#define ADPLLM_CLKDIV_M2_DIV_SHIFT              8UL
-#define ADPLLM_CLKDIV_M2_DIV_MASK               (0x7fUL << 8UL)
+#define ADPLLM_CLKDIV_M2_DIV_SHIFT              8U
+#define ADPLLM_CLKDIV_M2_DIV_MASK               (((u32) 0x7fU) << 8U)
 /* Bypass divider is REGM1+1 */
-#define ADPLLM_CLKDIV_M1_DIV_SHIFT              0UL
-#define ADPLLM_CLKDIV_M1_DIV_MASK               0xfUL
+#define ADPLLM_CLKDIV_M1_DIV_SHIFT              0U
+#define ADPLLM_CLKDIV_M1_DIV_MASK               ((u32) 0xfU)
 
 /* PROG */
 /* Core RegM3/M2/M1 and HSDIV load enable (L-H). Should return to low. */
@@ -279,16 +279,16 @@
  * Can be used to reduce BW from default (Nominal Fref/50) to reduce jitter in
  * FractionalM usage.
  */
-#define ADPLLM_CTRL_BW_CONTROL_SHIFT            24UL
-#define ADPLLM_CTRL_BW_CONTROL_MASK             (0x3UL << 24UL)
+#define ADPLLM_CTRL_BW_CONTROL_SHIFT            24U
+#define ADPLLM_CTRL_BW_CONTROL_MASK             (((u32) 0x3U) << 24U)
 /* BW=Fref/30 to Fref/70. */
-#define ADPLLM_CTRL_BW_CONTROL_FREF30_FREF70    (0x0UL << 24UL)
+#define ADPLLM_CTRL_BW_CONTROL_FREF30_FREF70    (((u32) 0x0U) << 24U)
 /* BW=Fref/60 to Fref/140. */
-#define ADPLLM_CTRL_BW_CONTROL_FREF60_FREF140   (0x1UL << 24UL)
+#define ADPLLM_CTRL_BW_CONTROL_FREF60_FREF140   (((u32) 0x1U) << 24U)
 /* BW=Fref/120 to Fref/280. */
-#define ADPLLM_CTRL_BW_CONTROL_FREF120_FREF280  (0x2UL << 24UL)
+#define ADPLLM_CTRL_BW_CONTROL_FREF120_FREF280  (((u32) 0x2U) << 24U)
 /* BW=Fref/240 to Fref/560. */
-#define ADPLLM_CTRL_BW_CONTROL_FREF240_FREF560  (0x3UL << 24UL)
+#define ADPLLM_CTRL_BW_CONTROL_FREF240_FREF560  (((u32) 0x3U) << 24U)
 /* Can be set with VCO input <= 1MHz and VCO output <= 100MHz */
 #define ADPLLM_CTRL_LPMODE                      BIT(23) /* ADPLLM only */
 /* FREQLOCK asserted when DC frequency error < 1% on '0', < 2% on '1' */
@@ -317,24 +317,24 @@
 #define ADPLLM_CTRL_ULOWCLK_EN                  BIT(15)
 /* Controls the ramp sequence. */
 #define ADPLLM_CTRL_CLKRAMP_LEVEL_SHIFT         12UL    /* ADPLLM only */
-#define ADPLLM_CTRL_CLKRAMP_LEVEL_MASK          (0x3UL << 12UL)
+#define ADPLLM_CTRL_CLKRAMP_LEVEL_MASK          (((u32) 0x3U) << 12U)
 /* No ramping */
-#define ADPLLM_CTRL_CLKRAMP_LEVEL_NONE          (0x0UL << 12UL)
+#define ADPLLM_CTRL_CLKRAMP_LEVEL_NONE          (((u32) 0x0U) << 12U)
 /* Fout/8, Fout/4, Fout/2, Fout */
-#define ADPLLM_CTRL_CLKRAMP_LEVEL_8_4_2_1       (0x1UL << 12UL)
+#define ADPLLM_CTRL_CLKRAMP_LEVEL_8_4_2_1       (((u32) 0x1U) << 12U)
 /* Fout/4, Fout/2, Fout/1.5, Fout */
-#define ADPLLM_CTRL_CLKRAMP_LEVEL_4_2_15_1      (0x2UL << 12UL)
+#define ADPLLM_CTRL_CLKRAMP_LEVEL_4_2_15_1      (((u32) 0x2U) << 12U)
 /* Controls the time spent on each ramp step */
-#define ADPLLM_CTRL_CLKRAMP_RATE_SHIFT          8UL     /* ADPLLM only */
-#define ADPLLM_CTRL_CLKRAMP_RATE_MASK           (0x7UL << 8UL)
-#define ADPLLM_CTRL_CLKRAMP_RATE_2_REFCLKS      (0x0UL << 8UL)
-#define ADPLLM_CTRL_CLKRAMP_RATE_4_REFCLKS      (0x1UL << 8UL)
-#define ADPLLM_CTRL_CLKRAMP_RATE_8_REFCLKS      (0x2UL << 8UL)
-#define ADPLLM_CTRL_CLKRAMP_RATE_16_REFCLKS     (0x3UL << 8UL)
-#define ADPLLM_CTRL_CLKRAMP_RATE_32_REFCLKS     (0x4UL << 8UL)
-#define ADPLLM_CTRL_CLKRAMP_RATE_64_REFCLKS     (0x5UL << 8UL)
-#define ADPLLM_CTRL_CLKRAMP_RATE_128_REFCLKS    (0x6UL << 8UL)
-#define ADPLLM_CTRL_CLKRAMP_RATE_512_REFCLKS    (0x7UL << 8UL)
+#define ADPLLM_CTRL_CLKRAMP_RATE_SHIFT          8U     /* ADPLLM only */
+#define ADPLLM_CTRL_CLKRAMP_RATE_MASK           (((u32) 0x7U) << 8U)
+#define ADPLLM_CTRL_CLKRAMP_RATE_2_REFCLKS      (((u32) 0x0U) << 8U)
+#define ADPLLM_CTRL_CLKRAMP_RATE_4_REFCLKS      (((u32) 0x1U) << 8U)
+#define ADPLLM_CTRL_CLKRAMP_RATE_8_REFCLKS      (((u32) 0x2U) << 8U)
+#define ADPLLM_CTRL_CLKRAMP_RATE_16_REFCLKS     (((u32) 0x3U) << 8U)
+#define ADPLLM_CTRL_CLKRAMP_RATE_32_REFCLKS     (((u32) 0x4U) << 8U)
+#define ADPLLM_CTRL_CLKRAMP_RATE_64_REFCLKS     (((u32) 0x5U) << 8U)
+#define ADPLLM_CTRL_CLKRAMP_RATE_128_REFCLKS    (((u32) 0x6U) << 8U)
+#define ADPLLM_CTRL_CLKRAMP_RATE_512_REFCLKS    (((u32) 0x7U) << 8U)
 /* Sets PLL to Idle mode */
 #define ADPLLM_CTRL_IDLE                        BIT(7)
 /* Synchronously enables/disables CLKOUTLDO */
@@ -435,21 +435,21 @@
  * SS_SPREAD
  * Integer part of Frequency Spread control.
  */
-#define ADPLLM_SS_SPREAD_DELTA_MSTEP_INT_SHIFT  24UL
-#define ADPLLM_SS_SPREAD_DELTA_MSTEP_INT_MASK   (0x7UL << 24UL)
+#define ADPLLM_SS_SPREAD_DELTA_MSTEP_INT_SHIFT  24U
+#define ADPLLM_SS_SPREAD_DELTA_MSTEP_INT_MASK   (((u32) 0x7U) << 24U)
 /* Fraction part of Frequency Spread control. */
-#define ADPLLM_SS_SPREAD_DELTA_MSTEP_FRAC_SHIFT 0UL
-#define ADPLLM_SS_SPREAD_DELTA_MSTEP_FRAC_MASK  0x3ffffUL
+#define ADPLLM_SS_SPREAD_DELTA_MSTEP_FRAC_SHIFT 0U
+#define ADPLLM_SS_SPREAD_DELTA_MSTEP_FRAC_MASK  0x3ffffU
 
 /*
  * SS_MODFREQ
  * Exponent of the REFCLK divider to define the modulation frequency.
  */
-#define ADPLLM_SS_MODFREQ_DIV_EXP_SHIFT         8UL
-#define ADPLLM_SS_MODFREQ_DIV_EXP_MASK          (0x7UL << 8UL)
+#define ADPLLM_SS_MODFREQ_DIV_EXP_SHIFT         8U
+#define ADPLLM_SS_MODFREQ_DIV_EXP_MASK          (((u32) 0x7U) << 8U)
 /* Mantissa of the REFCLK divider to define the modulation frequency.  */
-#define ADPLLM_SS_MODFREQ_DIV_MANT_SHIFT        0UL
-#define ADPLLM_SS_MODFREQ_DIV_MANT_MASK         0x7fUL
+#define ADPLLM_SS_MODFREQ_DIV_MANT_SHIFT        0U
+#define ADPLLM_SS_MODFREQ_DIV_MANT_MASK         ((u32) 0x7fU)
 
 /*
  * CLKNIP -		Control clock.
@@ -463,18 +463,18 @@
  * Divide value = DIVx+1. Max DIVx=62 for DIV1,DIV2, DIV3. For DIV4 value of
  * 63 is mapped to divide by 2.5 (idx 1-4)
  */
-#define ADPLLM_HSDIV_CLKDIV_SHIFT(n)            ((n - 1UL) * 8UL)
-#define ADPLLM_HSDIV_CLKDIV_MASK(n)             (0x3fUL << ((n - 1UL) * 8UL))
+#define ADPLLM_HSDIV_CLKDIV_SHIFT(n)            ((n - 1U) * 8U)
+#define ADPLLM_HSDIV_CLKDIV_MASK(n)             (((u32) 0x3fU) << ((n - 1U) * 8U))
 
 #define ADPLLM_HSDIV_CTRL_TENABLEDIV            BIT(31)
-#define ADPLLM_HSDIV_CTRL_SPAREIN_SHIFT         16UL
-#define ADPLLM_HSDIV_CTRL_SPAREIN_MASK          (0x1fUL << 16UL)
+#define ADPLLM_HSDIV_CTRL_SPAREIN_SHIFT         16U
+#define ADPLLM_HSDIV_CTRL_SPAREIN_MASK          (((u32) 0x1fU) << 16U)
 
 /* Synchronously enables/disables CLKOUTx (idx 1-4) */
-#define ADPLLM_HSDIV_CTRL_CLKOUT_EN(n)          BIT((n - 1UL))
+#define ADPLLM_HSDIV_CTRL_CLKOUT_EN(n)          BIT((n - 1U))
 /* HSDIV_STAT */
-#define ADPLLM_HSDIV_STAT_SPAREOUT_SHIFT        16UL
-#define ADPLLM_HSDIV_STAT_SPAREOUT_MASK         (0x1fUL << 16UL)
+#define ADPLLM_HSDIV_STAT_SPAREOUT_SHIFT        16U
+#define ADPLLM_HSDIV_STAT_SPAREOUT_MASK         (((u32) 0x1fU) << 16U)
 
 /*
  * Indicates all the active output clocks (respective CLKOUTxEN='1') are out
@@ -606,9 +606,9 @@ static u32 adpllm_dcc_pllm_stride(struct clk *clkp UNUSED, u32 pllm)
 	u32 ret;
 
 	if (pllm > 2047UL) {
-		ret = 4UL;
+		ret = 4U;
 	} else {
-		ret = 1UL;
+		ret = 1U;
 	}
 
 	return ret;
@@ -621,9 +621,9 @@ static s32 adpllm_bin(struct clk *clkp UNUSED, u32 plld UNUSED,
 	s32 ret;
 
 	if (do_frac) {
-		ret = 0UL;
+		ret = 0;
 	} else {
-		ret = 1UL;
+		ret = 1;
 	}
 	return ret;
 }
@@ -872,7 +872,7 @@ static void clk_adpllm_bypass(struct clk *clkp, sbool bypass)
 	const struct clk_data_pll_adpllm *pll;
 	const struct clk_data_pll *data_pll;
 	u32 ctrl;
-	u32 freq_ctrl0 = 0UL;
+	u32 freq_ctrl0 = 0U;
 	u32 prog;
 	sbool load_freq_ctrl0 = SFALSE;
 
@@ -898,7 +898,7 @@ static void clk_adpllm_bypass(struct clk *clkp, sbool bypass)
 		pllm = freq_ctrl0 & ADPLLM_FREQ_CTRL0_M_INT_MULT_MASK;
 		pllm >>= ADPLLM_FREQ_CTRL0_M_INT_MULT_SHIFT;
 		if (pllm <= 1UL) {
-			pllm = 2UL;
+			pllm = 2U;
 			freq_ctrl0 &= ADPLLM_FREQ_CTRL0_M_INT_MULT_MASK;
 			freq_ctrl0 |= pllm << ADPLLM_FREQ_CTRL0_M_INT_MULT_SHIFT;
 			load_freq_ctrl0 = STRUE;
@@ -987,17 +987,17 @@ static u32 clk_adpllm_get_freq_internal(struct clk *clkp,
 
 	plld = freq_ctrl0 & ADPLLM_FREQ_CTRL0_N_DIV_MASK;
 	plld >>= ADPLLM_FREQ_CTRL0_N_DIV_SHIFT;
-	plld += 1UL;
+	plld += 1U;
 
 	pllfm = freq_ctrl1 & ADPLLM_FREQ_CTRL1_M_FRAC_MULT_MASK;
 	pllfm >>= ADPLLM_FREQ_CTRL1_M_FRAC_MULT_SHIFT;
 
 	if (m4x) {
-		multiplier *= 4UL;
+		multiplier *= 4U;
 	}
 
 	if (!dcc) {
-		multiplier *= 2UL;
+		multiplier *= 2U;
 	}
 
 	/* Calculate non-fractional part */
@@ -1105,7 +1105,7 @@ static void clk_adpllm_program_freq(struct adpllm_program_data *data)
 	u32 ctrl;
 	u32 prog;
 
-	data->pll_clk->flags &= ~CLK_FLAG_CACHED;
+	data->pll_clk->flags &= (u8) ~CLK_FLAG_CACHED;
 
 	if (!clk_adpllm_is_bypass(data->pll_clk)) {
 		/* Put the PLL into IDLE bypass */
@@ -1118,7 +1118,7 @@ static void clk_adpllm_program_freq(struct adpllm_program_data *data)
 	ctrl = readl(data->pll->base + ADPLLM_PLL_CTRL(data->pll->idx));
 
 	freq_ctrl0 &= ~ADPLLM_FREQ_CTRL0_N_DIV_MASK;
-	freq_ctrl0 |= (data->plld - 1UL) << ADPLLM_FREQ_CTRL0_N_DIV_SHIFT;
+	freq_ctrl0 |= (data->plld - 1U) << ADPLLM_FREQ_CTRL0_N_DIV_SHIFT;
 
 	freq_ctrl0 &= ~ADPLLM_FREQ_CTRL0_M_INT_MULT_MASK;
 	freq_ctrl0 |= data->pllm << ADPLLM_FREQ_CTRL0_M_INT_MULT_SHIFT;
@@ -1225,10 +1225,10 @@ static u32 clk_adpllm_internal_set_freq(struct adpllm_program_data *data)
 	u32 freq;
 	sbool was_bypass;
 
-	data->plld = 0UL;
-	data->pllm = 0UL;
-	data->pllfm = 0UL;
-	data->clkod = 0UL;
+	data->plld = 0U;
+	data->pllm = 0U;
+	data->pllfm = 0U;
+	data->clkod = 0U;
 	data->m4x = SFALSE;
 	data->dcc = SFALSE;
 
@@ -1264,7 +1264,7 @@ static u32 clk_adpllm_internal_set_freq(struct adpllm_program_data *data)
 
 	prev_plld = freq_ctrl0 & ADPLLM_FREQ_CTRL0_N_DIV_MASK;
 	prev_plld >>= ADPLLM_FREQ_CTRL0_N_DIV_SHIFT;
-	prev_plld += 1UL;
+	prev_plld += 1U;
 
 	prev_clkod = clkdiv & ADPLLM_CLKDIV_M2_DIV_MASK;
 	prev_clkod >>= ADPLLM_CLKDIV_M2_DIV_SHIFT;
@@ -1276,11 +1276,11 @@ static u32 clk_adpllm_internal_set_freq(struct adpllm_program_data *data)
 				data->target_hz, data->min_hz, data->max_hz,
 				&data->plld, &data->pllm, &data->pllfm, &data->clkod);
 	} else {
-		u32 dcc_freq = 0UL;
-		u32 dcc_plld = 0UL;
-		u32 dcc_pllm = 0UL;
-		u32 dcc_pllfm = 0UL;
-		u32 dcc_clkod = 0UL;
+		u32 dcc_freq = 0U;
+		u32 dcc_plld = 0U;
+		u32 dcc_pllm = 0U;
+		u32 dcc_pllfm = 0U;
+		u32 dcc_clkod = 0U;
 		freq = 0ULL;
 
 		/* Check "DCC off" range */
@@ -1338,18 +1338,18 @@ static u32 clk_adpllm_internal_set_freq(struct adpllm_program_data *data)
 			}
 
 			if (dcc_delta < norm_delta) {
-				freq = 0UL;
+				freq = 0U;
 			} else if (norm_delta > dcc_delta) {
-				dcc_freq = 0UL;
+				dcc_freq = 0U;
 			} else if ((data->pllfm != 0UL) && (dcc_pllfm == 0UL)) {
 				/* Prefer to not use fractional */
-				freq = 0UL;
+				freq = 0U;
 			} else if ((data->pllfm == 0UL) && (dcc_pllfm != 0UL)) {
 				/* Prefer to not use fractional */
-				dcc_freq = 0UL;
+				dcc_freq = 0U;
 			} else {
 				/* Prefer DCC off */
-				dcc_freq = 0UL;
+				dcc_freq = 0U;
 			}
 		}
 
@@ -1367,13 +1367,13 @@ static u32 clk_adpllm_internal_set_freq(struct adpllm_program_data *data)
 			 * break it out so we get the actual register value
 			 * instead.
 			 */
-			data->pllm /= 2UL;
+			data->pllm /= 2U;
 			/*
 			 * clkod integrated the divide by 2 that gets added
 			 * as part of "DCC off" mode, get the actual register
 			 * value instead.
 			 */
-			data->clkod /= 2UL;
+			data->clkod /= 2U;
 		} else {
 			/* No valid settings frequency */
 		}
@@ -1388,7 +1388,7 @@ static u32 clk_adpllm_internal_set_freq(struct adpllm_program_data *data)
 			 *	CLKOUT*M2 > 850MHz when LPMODE = '0'
 			 *	CLKOUT*M2 > 80MHz when LPMODE = '1'
 			 */
-			data->pllm /= 4UL;
+			data->pllm /= 4U;
 			data->m4x = STRUE;
 		}
 	}
@@ -1421,7 +1421,7 @@ static u32 clk_adpllm_set_freq(struct clk *clkp,
 			       sbool query, sbool *changed)
 {
 	struct clk *clkout_clk = NULL;
-	u32 ret = 0UL;
+	u32 ret = 0U;
 	u32 i;
 
 	/*
@@ -1479,7 +1479,7 @@ static u32 clk_adpllm_get_freq(struct clk *clkp)
 		if (clk_adpllm_is_bypass(clkp)) {
 			ret = 0U;
 		} else {
-			ret = clk_adpllm_get_freq_internal(clkp, 1UL, 1UL);
+			ret = clk_adpllm_get_freq_internal(clkp, 1U, 1U);
 		}
 		soc_clock_values[clk_datap->freq_idx] = ret;
 		clkp->flags |= CLK_FLAG_CACHED;
@@ -1687,7 +1687,7 @@ static u32 clk_adpllm_hsdiv_get_div(struct clk *clkp)
 	ret = clk_div_reg_get_div(clkp);
 	if (ret == 64UL) {
 		/* Only valid for /2.5 HSDIV */
-		ret = 1UL;
+		ret = 1U;
 	}
 
 	return ret;
@@ -1729,7 +1729,7 @@ static u32 clk_adpllm_hsdiv_set_freq(struct clk *clkp,
 				     sbool query, sbool *changed)
 {
 	const struct clk_data *clk_datap = clk_get_data(clkp);
-	u32 ret = 0UL;
+	u32 ret = 0U;
 
 	if ((clk_datap->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) != 0U) {
 		/* Program the whole PLL */
@@ -1784,7 +1784,7 @@ sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clkp,
 	sbool found = SFALSE;
 	sbool raise = SFALSE;
 	sbool lower = SFALSE;
-	u32 new_freq = 0UL;
+	u32 new_freq = 0U;
 
 	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
@@ -1795,12 +1795,12 @@ sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clkp,
 		struct clk *pll_clk = clk_adpllm_hsdiv_get_pll_root(clkp);
 		if (pll_clk) {
 			new_freq = clk_adpllm_get_freq_internal(pll_clk,
-								2ULL, 5UL);
+								2U, 5U);
 			found = clk_notify_children_freq(clkp, new_freq, STRUE);
 		}
 		if (!found) {
 			/* Start at /3 */
-			start = 3UL;
+			start = 3U;
 		}
 	}
 
@@ -1814,7 +1814,7 @@ sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clkp,
 	}
 
 	/* Try larger frequencies */
-	for (i = start - 1UL; i > 0UL; i--) {
+	for (i = start - 1U; i > 0UL; i--) {
 		new_freq = i;
 		found = clk_notify_children_freq(clkp, new_freq, STRUE);
 		if (found) {
@@ -1852,20 +1852,20 @@ sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clkp,
 static u32 clk_adpllm_hsdiv4_get_freq(struct clk *clkp)
 {
 	struct clk *pll_clk;
-	u32 ret = 0UL;
+	u32 ret = 0U;
 
 	pll_clk = clk_adpllm_hsdiv_get_pll_root(clkp);
 	if (pll_clk == NULL) {
 		/* Invalid clock tree */
-		ret = 0UL;
+		ret = 0U;
 	} else {
 		u32 div = clk_get_div(clkp);
-		u32 multiplier = 1UL;
+		u32 multiplier = 1U;
 
 		if (div == 64UL) {
 			/* Handle divide by 2.5, 5/2. */
-			multiplier *= 2UL;
-			div = 5UL;
+			multiplier *= 2U;
+			div = 5U;
 		}
 		ret = clk_adpllm_get_freq_internal(pll_clk, multiplier, div);
 	}
@@ -1956,7 +1956,7 @@ static u32 clk_adpllm_bypass_get_freq(struct clk *clkp)
 	const struct clk_parent *p = NULL;
 	struct clk *div_clk = NULL;
 	struct clk *pll_clk = NULL;
-	u32 ret = 0UL;
+	u32 ret = 0U;
 
 	p = clk_adpllm_get_div_parent(clkp);
 	if (p) {
