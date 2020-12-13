@@ -272,11 +272,11 @@ s32 get_clock_parent_handler(u32 *msg_recv)
 		} else {
 			/* Use extended API for clock indexes >= 255 */
 			if (parent >= 255UL) {
-				resp->parent = 255UL;
+				resp->parent = 255U;
 				resp->parent32 = parent;
 			} else {
-				resp->parent = parent;
-				resp->parent32 = 0xffffffffUL;
+				resp->parent = (u8) parent;
+				resp->parent32 = 0xffffffffU;
 			}
 		}
 	}
@@ -324,11 +324,11 @@ s32 get_num_clock_parents_handler(u32 *msg_recv)
 		} else {
 			/* Use extended API for clock indexes >= 255 */
 			if (num_parents >= 255UL) {
-				resp->num_parents = 255UL;
+				resp->num_parents = 255U;
 				resp->num_parents32 = num_parents;
 			} else {
-				resp->num_parents = num_parents;
-				resp->num_parents32 = 0xffffffffUL;
+				resp->num_parents = (u8) num_parents;
+				resp->num_parents32 = 0xffffffffU;
 			}
 		}
 	}
@@ -384,8 +384,8 @@ s32 set_freq_handler(u32 *msg_recv)
 			target_freq_hz = ULONG_MAX;
 		}
 
-		if (!device_clk_set_freq(dev, clkidx, min_freq_hz,
-					 target_freq_hz, max_freq_hz)) {
+		if (!device_clk_set_freq(dev, clkidx, (u32) min_freq_hz,
+					 (u32) target_freq_hz, (u32) max_freq_hz)) {
 			ret = -EINVAL;
 		}
 	}
