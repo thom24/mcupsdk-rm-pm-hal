@@ -61,7 +61,7 @@ static u32 clk_soc_hfosc0_get_freq(struct clk *clk UNUSED)
 	u32 ret = 0;
 	u32 v;
 
-	v = readl(AM6_MAIN_CTRL_MMR + AM6_MAIN_DEVSTAT) & 0x7UL;
+	v = readl(AM6_MAIN_CTRL_MMR + AM6_MAIN_DEVSTAT) & 0x7U;
 	if (v < ARRAY_SIZE(freq_table)) {
 		ret = freq_table[v];
 	}

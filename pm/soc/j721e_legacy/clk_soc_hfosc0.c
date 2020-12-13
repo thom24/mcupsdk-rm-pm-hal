@@ -61,7 +61,7 @@ static u32 clk_soc_hfosc0_get_freq(struct clk *clk UNUSED)
 	u32 ret = 0;
 	u32 v;
 
-	v = readl(J7_WKUP_CTRL_MMR + J7_WKUP_DEVSTAT) & 0x7UL;
+	v = readl(J7_WKUP_CTRL_MMR + J7_WKUP_DEVSTAT) & 0x7U;
 	if (v < ARRAY_SIZE(freq_table)) {
 		ret = freq_table[v];
 	}
