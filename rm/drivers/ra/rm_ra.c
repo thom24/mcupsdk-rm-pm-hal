@@ -732,7 +732,7 @@ static u16 ra_get_evt(const struct ra_instance *inst, u16 oes_index)
 	evt_reg = readl(evt_addr);
 	rm_core_unmap_region();
 
-	return rm_fext(evt_reg, shift, mask);
+	return (u16) rm_fext(evt_reg, shift, mask);
 }
 
 /**
