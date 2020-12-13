@@ -55,7 +55,7 @@ s32 ilog32(uint32_t _v)
 /*This de Bruijn sequence version is faster if you have a fast multiplier.*/
 # else
 	s32 ret;
-	ret = _v > 0U;
+	ret = (s32) (_v > 0U);
 	_v |= _v >> 1;
 	_v |= _v >> 2;
 	_v |= _v >> 4;
@@ -100,7 +100,7 @@ s32 ilog64(uint64_t _v)
 	uint32_t v;
 	s32 ret;
 	s32 m;
-	ret = _v > 0U;
+	ret = (s32) (_v > 0U);
 	m = (_v > 0xFFFFFFFFU) << 5U;
 	v = (uint32_t) (_v >> (u32) m);
 	ret |= m;
