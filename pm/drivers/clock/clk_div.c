@@ -78,7 +78,7 @@ sbool clk_div_notify_freq(struct clk *clkp, u32 parent_freq_hz,
 	}
 
 	/* Try larger frequencies */
-	for (i = divp - 1UL; !found && (i > 0UL); i--) {
+	for (i = divp - 1U; !found && (i > 0UL); i--) {
 		if (!drv_div->valid_div || drv_div->valid_div(clkp, i)) {
 			found = clk_notify_children_freq(clkp,
 							 parent_freq_hz / i, STRUE);
@@ -109,10 +109,10 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 	const struct clk_data_div *data_div;
 	const struct clk_drv_div *drv_div;
 	u32 old_div;
-	u32 best_div = 0UL;
-	u32 best_parent_freq = 0UL;
-	u32 best_min_hz = 0UL;
-	u32 best_max_hz = 0UL;
+	u32 best_div = 0U;
+	u32 best_parent_freq = 0U;
+	u32 best_min_hz = 0U;
+	u32 best_max_hz = 0U;
 	u32 updated_min_hz = min_hz;
 	u32 updated_max_hz = max_hz;
 	sbool best_changed = SFALSE;
@@ -132,7 +132,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 
 	old_div = drv_div->get_div(clkp);
 
-	for (i = 1UL; (i <= data_div->n) && (p != NULL) && (min_delta != 0U); i++) {
+	for (i = 1U; (i <= data_div->n) && (p != NULL) && (min_delta != 0U); i++) {
 		u32 new_target, new_min, new_max, new_parent_freq;
 		u32 delta;
 		u32 divider;
@@ -272,7 +272,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 	if (best_div) {
 		ret = best_parent_freq / (best_div * p->div);
 	} else {
-		ret = 0UL;
+		ret = 0U;
 	}
 
 	return ret;
@@ -315,7 +315,7 @@ static u32 clk_div_set_freq_static_parent(
 		div0 = n - 1U;
 	}
 
-	div1 = div0 + 1UL;
+	div1 = div0 + 1U;
 
 	if (drv_div->valid_div) {
 		for (; (div0 > 0UL) && !drv_div->valid_div(clkp, div0); div0--) {
@@ -328,7 +328,7 @@ static u32 clk_div_set_freq_static_parent(
 	}
 
 	div0_ok = SFALSE;
-	div0_hz = 0UL;
+	div0_hz = 0U;
 	if (div0 != 0UL) {
 		div0_hz = parent_freq_hz / div0;
 		/* Check for in range */
@@ -336,19 +336,19 @@ static u32 clk_div_set_freq_static_parent(
 			div0_ok = STRUE;
 			div0_delta = div0_hz - target_hz;
 		} else {
-			div0_hz = 0UL;
+			div0_hz = 0U;
 		}
 	}
 
 	div1_ok = SFALSE;
-	div1_hz = 0UL;
+	div1_hz = 0U;
 	if (div1 <= n) {
 		div1_hz = parent_freq_hz / div1;
 		if (div1_hz >= min_hz) {
 			div1_ok = STRUE;
 			div1_delta = target_hz - div1_hz;
 		} else {
-			div1_hz = 0UL;
+			div1_hz = 0U;
 		}
 	}
 
@@ -483,12 +483,12 @@ sbool clk_div_reg_set_div(struct clk *clkp, u32 d)
 		u32 v;
 
 		if (!data_reg->start_at_1) {
-			d -= 1UL;
-			n -= 1UL;
+			d -= 1U;
+			n -= 1U;
 		}
 
 		v = readl(data_reg->reg);
-		v &= ~(((1UL << (u32) ilog32(n)) - 1UL) << data_reg->bit);
+		v &= (u32) ~(((1UL << (u32) ilog32(n)) - 1UL) << data_reg->bit);
 		v |= d << data_reg->bit;
 		err = pm_writel_verified(v, (u32) data_reg->reg);
 		if (err == SUCCESS) {
@@ -574,8 +574,8 @@ sbool clk_div_reg_go_set_div(struct clk *clkp, u32 d)
 		}
 
 		v = readl(data_reg->reg);
-		v &= ~(((1U << (u32) ilog32(n)) - 1U) << data_reg->bit);
-		v &= ~BIT(data_reg->go);
+		v &= (u32) ~(((1UL << (u32) ilog32(n)) - 1U) << data_reg->bit);
+		v &= (u32) ~BIT(data_reg->go);
 		v |= d << data_reg->bit;
 		err = pm_writel_verified(v, data_reg->reg);
 		if (err == SUCCESS) {
@@ -584,7 +584,7 @@ sbool clk_div_reg_go_set_div(struct clk *clkp, u32 d)
 			/* Go bit registers typically do not read back */
 			v |= BIT(data_reg->go);
 			writel(v, (u32) data_reg->reg);
-			v &= ~BIT(data_reg->go);
+			v &= (u32) ~BIT(data_reg->go);
 			writel(v, (u32) data_reg->reg);
 		}
 	}
