@@ -123,7 +123,7 @@ sbool device_clk_set_gated(struct device *dev, dev_clk_idx_t clk_idx, sbool gate
 			}
 		}
 	} else if (clkp) {
-		dev_clkp->flags &= ~DEV_CLK_FLAG_DISABLE;
+		dev_clkp->flags &= (u8) ~DEV_CLK_FLAG_DISABLE;
 		if (is_enabled) {
 			if (!(dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
 				clk_ssc_block(clkp);
@@ -406,7 +406,7 @@ dev_clk_idx_t device_clk_get_parent(struct device *dev, dev_clk_idx_t clk_idx)
 	if (!fail) {
 		u32 offset = data->dev_clk_idx;
 		fail = STRUE;
-		for (i = 0UL; (i < clk_data->idx) && fail; i++) {
+		for (i = 0U; (i < clk_data->idx) && fail; i++) {
 			if (devgroup->dev_clk_data[offset + i + clk_idx + 1U].clk == p->clk) {
 				ret = i + clk_idx + 1U;
 				fail = SFALSE;
@@ -485,7 +485,7 @@ static u32 __device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 	struct clk *unblock2 = NULL;
 	u32 div = 1U;
 	sbool done = SFALSE;
-	u32 ret_freq = 0UL;
+	u32 ret_freq = 0U;
 
 	if (devgroup == NULL) {
 		done = STRUE;
@@ -566,11 +566,11 @@ static u32 __device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 			 * Make sure the mux has currently selected the target
 			 * clock.
 			 */
-			if ((i >= 0) && (clk_idx == device_clk_get_parent(dev, i))) {
-				if (device_clk_get_freq_change(dev, i)) {
+			if ((i >= 0) && (clk_idx == device_clk_get_parent(dev, (u16) i))) {
+				if (device_clk_get_freq_change(dev, (u16) i)) {
 					if (((dev->flags & DEV_FLAG_ENABLED_MASK) != 0UL) &&
 					    !device_clk_get_sw_gated(dev, clk_idx)) {
-						unblock2 = dev_get_clk(dev, i);
+						unblock2 = dev_get_clk(dev, (u16) i);
 					}
 				}
 			}
@@ -586,7 +586,7 @@ static u32 __device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 		if (!clk_data->modify_parent_freq) {
 			ret_freq = clk_get_freq(parent) / div;
 			if ((ret_freq < min_freq_hz) || (ret_freq > max_freq_hz)) {
-				ret_freq = 0UL;
+				ret_freq = 0U;
 			}
 			done = STRUE;
 		}
@@ -656,7 +656,7 @@ u32 device_clk_get_freq(struct device *dev, dev_clk_idx_t clk_idx)
 	clkp = dev_get_clk(dev, clk_idx);
 	clk_data = get_dev_clk_data(dev, clk_idx);
 	if ((clkp == NULL) || (clk_data == NULL)) {
-		freq_hz = 0UL;
+		freq_hz = 0U;
 	} else {
 		freq_hz = clk_get_freq(clkp);
 		if (clk_data->type != DEV_CLK_TABLE_TYPE_OUTPUT) {
