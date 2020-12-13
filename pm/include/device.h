@@ -277,7 +277,7 @@ static inline struct device *device_api_lookup(u32 id)
  */
 static inline u32 device_id(struct device *dev)
 {
-	return dev - soc_devices;
+	return (u32) (dev - soc_devices);
 }
 
 /**
