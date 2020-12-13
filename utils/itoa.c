@@ -43,23 +43,23 @@ u8 *lib_itoa(u32 value, u8 *str, u32 base)
 	u32 i;
 
 	if (value == 0U) {
-		str[0] = '0';
+		str[0] = (u8) '0';
 		idx++;
 	}
 
 	while (value > 0U) {
 		val = value % base;
 		if (val < 10) {
-			str[idx] = val + '0';
+			str[idx] = (u8) (val + '0');
 		} else {
-			str[idx] = (val - 10U) + 'A';
+			str[idx] = (u8) ((val - 10U) + 'A');
 		}
 
 		idx++;
 		value /= base;
 	}
 
-	str[idx] = '\0';
+	str[idx] = (u8) '\0';
 
 	if (idx > 1U) {
 		/* Get length of string - NULL terminator*/
@@ -69,7 +69,7 @@ u8 *lib_itoa(u32 value, u8 *str, u32 base)
 		for (i = 0U; i <= (idx / 2U); i++) {
 			val = str[idx - i];
 			str[idx - i] = str[i];
-			str[i] = val;
+			str[i] = (u8) val;
 		}
 	}
 
