@@ -77,7 +77,7 @@ static s32 device_init(struct device *dev)
 {
 	const struct dev_data *data = get_dev_data(dev);
 	s32 ret = SUCCESS;
-	u32 i;
+	u16 i;
 
 	if ((data != NULL) && ((data->flags & DEVD_FLAG_DRV_DATA) != 0U) &&
 	    ((data->flags & DEVD_FLAG_DO_INIT) != 0U)) {
