@@ -115,8 +115,8 @@ static s32 core_resasg_create_index(void)
 		if (resasg == NULL) {
 			r = -ECONFUSED;
 		} else {
-			resasg_entry_cnt = resasg_size /
-					   sizeof(struct boardcfg_rm_resasg_entry);
+			resasg_entry_cnt = (u16)
+					   (resasg_size / sizeof(struct boardcfg_rm_resasg_entry));
 
 			/* Initialize the resasg type indices */
 			for (i = 0u; i < resasg_indexer.max_cnt; i++) {
@@ -143,7 +143,7 @@ static s32 core_resasg_create_index(void)
 			}
 
 			/* Store number of unique indexes found for the resasg list */
-			resasg_indexer.valid_cnt = ++j;
+			resasg_indexer.valid_cnt = (u8)++ j;
 
 			if (resasg_indexer.valid_cnt > resasg_indexer.max_cnt) {
 				r = -ECONFUSED;
