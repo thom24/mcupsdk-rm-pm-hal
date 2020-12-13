@@ -131,8 +131,8 @@ static u16 ir_get_inp(const struct ir_instance *inst, u16 outp)
 
 	/* Get the input by reading the output control register */
 	int_ctrl_reg = readl(maddr + ir_int_control_reg(outp));
-	inp = rm_fext(int_ctrl_reg, IR_INT_CONTROL_MUX_CONTROL_SHIFT,
-		      IR_INT_CONTROL_MUX_CONTROL_MASK);
+	inp = (u16) rm_fext(int_ctrl_reg, IR_INT_CONTROL_MUX_CONTROL_SHIFT,
+			    IR_INT_CONTROL_MUX_CONTROL_MASK);
 
 	rm_core_unmap_region();
 
@@ -316,7 +316,7 @@ static s32 ir_inp_is_free(const struct ir_instance	*inst,
 			for (i = 0u; i < inst->n_outp; i++) {
 				int_ctrl_reg = readl(maddr +
 						     ir_int_control_reg(i));
-				extracted_inp = rm_fext(
+				extracted_inp = (u16) rm_fext(
 					int_ctrl_reg,
 					IR_INT_CONTROL_MUX_CONTROL_SHIFT,
 					IR_INT_CONTROL_MUX_CONTROL_MASK);
@@ -435,7 +435,7 @@ s32 rm_ir_get_outp(u16 id, u16 inp, u16 *outp)
 		 */
 		for (i = 0u; i < inst->n_outp; i++) {
 			int_ctrl_reg = readl(maddr + ir_int_control_reg(i));
-			extracted_inp = rm_fext(
+			extracted_inp = (u16) rm_fext(
 				int_ctrl_reg,
 				IR_INT_CONTROL_MUX_CONTROL_SHIFT,
 				IR_INT_CONTROL_MUX_CONTROL_MASK);
