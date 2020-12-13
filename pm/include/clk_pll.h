@@ -46,7 +46,7 @@
  * Indexes into const PLL table entries are currently u8s
  * terminated by UCHAR_MAX. This allows for up to 255 entries.
  */
-#define PLL_TABLE_LAST  ((u32) UCHAR_MAX)
+#define PLL_TABLE_LAST  ((u8) UCHAR_MAX)
 
 /**
  * \brief PLL table entry
