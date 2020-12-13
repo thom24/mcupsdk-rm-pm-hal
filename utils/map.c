@@ -95,7 +95,7 @@ struct map *map_add(struct map *mapp, const void *member, const u8 *bytes,
 	}
 
 	/* Find which bit differs (if we had ilog8, we'd use it) */
-	bit_num = ilog32_nz(s[byte_num] ^ bytes[byte_num]) - 1;
+	bit_num = (u8) (ilog32_nz((s32) (s[byte_num] ^ bytes[byte_num])) - 1);
 
 	/* Which direction do we go at this bit? */
 	new_dir = ((bytes[byte_num]) >> bit_num) & 1U;
