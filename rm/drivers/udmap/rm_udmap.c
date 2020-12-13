@@ -1944,8 +1944,8 @@ static u16 udmap_get_evt(const struct udmap_instance *inst, u32 ch_index,
 	evt_reg = readl(evt_addr);
 	rm_core_unmap_region();
 
-	return rm_fext(evt_reg, UDMAP_GENERIC_EVENT_EVT_SHIFT,
-		       UDMAP_GENERIC_EVENT_EVT_MASK);
+	return (u16) rm_fext(evt_reg, UDMAP_GENERIC_EVENT_EVT_SHIFT,
+			     UDMAP_GENERIC_EVENT_EVT_MASK);
 }
 
 /**
@@ -2553,9 +2553,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_pause_on_err = msg->tx_pause_on_err;
 	} else {
-		loc_msg->tx_pause_on_err = rm_fext(tcfg_reg,
-						   UDMAP_TCHAN_TCFG_PAUSE_ON_ERR_SHIFT,
-						   UDMAP_TCHAN_TCFG_PAUSE_ON_ERR_MASK);
+		loc_msg->tx_pause_on_err = (u8) rm_fext(tcfg_reg,
+							UDMAP_TCHAN_TCFG_PAUSE_ON_ERR_SHIFT,
+							UDMAP_TCHAN_TCFG_PAUSE_ON_ERR_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -2563,9 +2563,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_filt_einfo = msg->tx_filt_einfo;
 	} else {
-		loc_msg->tx_filt_einfo = rm_fext(tcfg_reg,
-						 UDMAP_TCHAN_TCFG_FILT_EINFO_SHIFT,
-						 UDMAP_TCHAN_TCFG_FILT_EINFO_MASK);
+		loc_msg->tx_filt_einfo = (u8) rm_fext(tcfg_reg,
+						      UDMAP_TCHAN_TCFG_FILT_EINFO_SHIFT,
+						      UDMAP_TCHAN_TCFG_FILT_EINFO_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -2573,9 +2573,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_filt_pswords = msg->tx_filt_pswords;
 	} else {
-		loc_msg->tx_filt_pswords = rm_fext(tcfg_reg,
-						   UDMAP_TCHAN_TCFG_FILT_PSWORDS_SHIFT,
-						   UDMAP_TCHAN_TCFG_FILT_PSWORDS_MASK);
+		loc_msg->tx_filt_pswords = (u8) rm_fext(tcfg_reg,
+							UDMAP_TCHAN_TCFG_FILT_PSWORDS_SHIFT,
+							UDMAP_TCHAN_TCFG_FILT_PSWORDS_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -2583,9 +2583,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_atype = msg->tx_atype;
 	} else {
-		loc_msg->tx_atype = rm_fext(tcfg_reg,
-					    UDMAP_TCHAN_TCFG_ATYPE_SHIFT,
-					    UDMAP_TCHAN_TCFG_ATYPE_MASK);
+		loc_msg->tx_atype = (u8) rm_fext(tcfg_reg,
+						 UDMAP_TCHAN_TCFG_ATYPE_SHIFT,
+						 UDMAP_TCHAN_TCFG_ATYPE_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -2593,9 +2593,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_chan_type = msg->tx_chan_type;
 	} else {
-		loc_msg->tx_chan_type = rm_fext(tcfg_reg,
-						UDMAP_TCHAN_TCFG_CHAN_TYPE_SHIFT,
-						UDMAP_TCHAN_TCFG_CHAN_TYPE_MASK);
+		loc_msg->tx_chan_type = (u8) rm_fext(tcfg_reg,
+						     UDMAP_TCHAN_TCFG_CHAN_TYPE_SHIFT,
+						     UDMAP_TCHAN_TCFG_CHAN_TYPE_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -2603,9 +2603,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_supr_tdpkt = msg->tx_supr_tdpkt;
 	} else {
-		loc_msg->tx_supr_tdpkt = rm_fext(tcfg_reg,
-						 UDMAP_TCHAN_TCFG_SUPR_TDPKT_SHIFT,
-						 UDMAP_TCHAN_TCFG_SUPR_TDPKT_MASK);
+		loc_msg->tx_supr_tdpkt = (u8) rm_fext(tcfg_reg,
+						      UDMAP_TCHAN_TCFG_SUPR_TDPKT_SHIFT,
+						      UDMAP_TCHAN_TCFG_SUPR_TDPKT_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -2613,9 +2613,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_fetch_size = msg->tx_fetch_size;
 	} else {
-		loc_msg->tx_fetch_size = rm_fext(tcfg_reg,
-						 UDMAP_TCHAN_TCFG_FETCH_SIZE_SHIFT,
-						 UDMAP_TCHAN_TCFG_FETCH_SIZE_MASK);
+		loc_msg->tx_fetch_size = (u16) rm_fext(tcfg_reg,
+						       UDMAP_TCHAN_TCFG_FETCH_SIZE_SHIFT,
+						       UDMAP_TCHAN_TCFG_FETCH_SIZE_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -2623,9 +2623,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_credit_count = msg->tx_credit_count;
 	} else {
-		loc_msg->tx_credit_count = rm_fext(tcredit_reg,
-						   UDMAP_TCHAN_TCREDIT_COUNT_SHIFT,
-						   UDMAP_TCHAN_TCREDIT_COUNT_MASK);
+		loc_msg->tx_credit_count = (u8) rm_fext(tcredit_reg,
+							UDMAP_TCHAN_TCREDIT_COUNT_SHIFT,
+							UDMAP_TCHAN_TCREDIT_COUNT_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -2633,9 +2633,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->txcq_qnum = msg->txcq_qnum;
 	} else {
-		loc_msg->txcq_qnum = rm_fext(tcq_reg,
-					     UDMAP_TCHAN_TCQ_TXCQ_QNUM_SHIFT,
-					     UDMAP_TCHAN_TCQ_TXCQ_QNUM_MASK);
+		loc_msg->txcq_qnum = (u16) rm_fext(tcq_reg,
+						   UDMAP_TCHAN_TCQ_TXCQ_QNUM_SHIFT,
+						   UDMAP_TCHAN_TCQ_TXCQ_QNUM_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -2643,9 +2643,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_priority = msg->tx_priority;
 	} else {
-		loc_msg->tx_priority = rm_fext(tpri_ctrl_reg,
-					       UDMAP_TCHAN_TPRI_CTRL_PRIORITY_SHIFT,
-					       UDMAP_TCHAN_TPRI_CTRL_PRIORITY_MASK);
+		loc_msg->tx_priority = (u8) rm_fext(tpri_ctrl_reg,
+						    UDMAP_TCHAN_TPRI_CTRL_PRIORITY_SHIFT,
+						    UDMAP_TCHAN_TPRI_CTRL_PRIORITY_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -2653,9 +2653,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_qos = msg->tx_qos;
 	} else {
-		loc_msg->tx_qos = rm_fext(tpri_ctrl_reg,
-					  UDMAP_TCHAN_TPRI_CTRL_QOS_SHIFT,
-					  UDMAP_TCHAN_TPRI_CTRL_QOS_MASK);
+		loc_msg->tx_qos = (u8) rm_fext(tpri_ctrl_reg,
+					       UDMAP_TCHAN_TPRI_CTRL_QOS_SHIFT,
+					       UDMAP_TCHAN_TPRI_CTRL_QOS_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -2663,9 +2663,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_orderid = msg->tx_orderid;
 	} else {
-		loc_msg->tx_orderid = rm_fext(tpri_ctrl_reg,
-					      UDMAP_TCHAN_TPRI_CTRL_ORDERID_SHIFT,
-					      UDMAP_TCHAN_TPRI_CTRL_ORDERID_MASK);
+		loc_msg->tx_orderid = (u8) rm_fext(tpri_ctrl_reg,
+						   UDMAP_TCHAN_TPRI_CTRL_ORDERID_SHIFT,
+						   UDMAP_TCHAN_TPRI_CTRL_ORDERID_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -2673,9 +2673,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->fdepth = msg->fdepth;
 	} else {
-		loc_msg->fdepth = rm_fext(tfifo_depth_reg,
-					  UDMAP_TCHAN_TFIFO_DEPTH_FDEPTH_SHIFT,
-					  UDMAP_TCHAN_TFIFO_DEPTH_FDEPTH_MASK);
+		loc_msg->fdepth = (u16) rm_fext(tfifo_depth_reg,
+						UDMAP_TCHAN_TFIFO_DEPTH_FDEPTH_SHIFT,
+						UDMAP_TCHAN_TFIFO_DEPTH_FDEPTH_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -2683,9 +2683,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_sched_priority = msg->tx_sched_priority;
 	} else {
-		loc_msg->tx_sched_priority = rm_fext(tst_sched_reg,
-						     UDMAP_TCHAN_TST_SCHED_PRIORITY_SHIFT,
-						     UDMAP_TCHAN_TST_SCHED_PRIORITY_MASK);
+		loc_msg->tx_sched_priority = (u8) rm_fext(tst_sched_reg,
+							  UDMAP_TCHAN_TST_SCHED_PRIORITY_SHIFT,
+							  UDMAP_TCHAN_TST_SCHED_PRIORITY_MASK);
 	}
 
 #ifdef CONFIG_UDMAP_CHANNEL_BURST_SIZE
@@ -2694,9 +2694,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_burst_size = msg->tx_burst_size;
 	} else {
-		loc_msg->tx_burst_size = rm_fext(tcfg_reg,
-						 UDMAP_TCHAN_TCFG_BURST_SIZE_SHIFT,
-						 UDMAP_TCHAN_TCFG_BURST_SIZE_MASK);
+		loc_msg->tx_burst_size = (u8) rm_fext(tcfg_reg,
+						      UDMAP_TCHAN_TCFG_BURST_SIZE_SHIFT,
+						      UDMAP_TCHAN_TCFG_BURST_SIZE_MASK);
 	}
 #else
 	loc_msg->tx_burst_size = 0U;
@@ -2708,9 +2708,9 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->tx_tdtype = msg->tx_tdtype;
 	} else {
-		loc_msg->tx_tdtype = rm_fext(tcfg_reg,
-					     UDMAP_TCHAN_TCFG_TDTYPE_SHIFT,
-					     UDMAP_TCHAN_TCFG_TDTYPE_MASK);
+		loc_msg->tx_tdtype = (u8) rm_fext(tcfg_reg,
+						  UDMAP_TCHAN_TCFG_TDTYPE_SHIFT,
+						  UDMAP_TCHAN_TCFG_TDTYPE_MASK);
 	}
 #else
 	loc_msg->tx_tdtype = 0U;
@@ -2999,9 +2999,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_fetch_size = msg->rx_fetch_size;
 	} else {
-		loc_msg->rx_fetch_size = rm_fext(rcfg_reg,
-						 UDMAP_RCHAN_RCFG_FETCH_SIZE_SHIFT,
-						 UDMAP_RCHAN_RCFG_FETCH_SIZE_MASK);
+		loc_msg->rx_fetch_size = (u16) rm_fext(rcfg_reg,
+						       UDMAP_RCHAN_RCFG_FETCH_SIZE_SHIFT,
+						       UDMAP_RCHAN_RCFG_FETCH_SIZE_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3009,9 +3009,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->rxcq_qnum = msg->rxcq_qnum;
 	} else {
-		loc_msg->rxcq_qnum = rm_fext(rcq_reg,
-					     UDMAP_RCHAN_RCQ_RXCQ_QNUM_SHIFT,
-					     UDMAP_RCHAN_RCQ_RXCQ_QNUM_MASK);
+		loc_msg->rxcq_qnum = (u16) rm_fext(rcq_reg,
+						   UDMAP_RCHAN_RCQ_RXCQ_QNUM_SHIFT,
+						   UDMAP_RCHAN_RCQ_RXCQ_QNUM_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3019,9 +3019,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_priority = msg->rx_priority;
 	} else {
-		loc_msg->rx_priority = rm_fext(rpri_ctrl_reg,
-					       UDMAP_RCHAN_RPRI_CTRL_PRIORITY_SHIFT,
-					       UDMAP_RCHAN_RPRI_CTRL_PRIORITY_MASK);
+		loc_msg->rx_priority = (u8) rm_fext(rpri_ctrl_reg,
+						    UDMAP_RCHAN_RPRI_CTRL_PRIORITY_SHIFT,
+						    UDMAP_RCHAN_RPRI_CTRL_PRIORITY_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3029,9 +3029,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_qos = msg->rx_qos;
 	} else {
-		loc_msg->rx_qos = rm_fext(rpri_ctrl_reg,
-					  UDMAP_RCHAN_RPRI_CTRL_QOS_SHIFT,
-					  UDMAP_RCHAN_RPRI_CTRL_QOS_MASK);
+		loc_msg->rx_qos = (u8) rm_fext(rpri_ctrl_reg,
+					       UDMAP_RCHAN_RPRI_CTRL_QOS_SHIFT,
+					       UDMAP_RCHAN_RPRI_CTRL_QOS_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3039,9 +3039,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_orderid = msg->rx_orderid;
 	} else {
-		loc_msg->rx_orderid = rm_fext(rpri_ctrl_reg,
-					      UDMAP_RCHAN_RPRI_CTRL_ORDERID_SHIFT,
-					      UDMAP_RCHAN_RPRI_CTRL_ORDERID_MASK);
+		loc_msg->rx_orderid = (u8) rm_fext(rpri_ctrl_reg,
+						   UDMAP_RCHAN_RPRI_CTRL_ORDERID_SHIFT,
+						   UDMAP_RCHAN_RPRI_CTRL_ORDERID_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3049,9 +3049,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_sched_priority = msg->rx_sched_priority;
 	} else {
-		loc_msg->rx_sched_priority = rm_fext(rst_sched_reg,
-						     UDMAP_RCHAN_RST_SCHED_PRIORITY_SHIFT,
-						     UDMAP_RCHAN_RST_SCHED_PRIORITY_MASK);
+		loc_msg->rx_sched_priority = (u8) rm_fext(rst_sched_reg,
+							  UDMAP_RCHAN_RST_SCHED_PRIORITY_SHIFT,
+							  UDMAP_RCHAN_RST_SCHED_PRIORITY_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3059,9 +3059,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->flowid_start = msg->flowid_start;
 	} else {
-		loc_msg->flowid_start = rm_fext(rflow_rng_reg,
-						UDMAP_RCHAN_RFLOW_RNG_FLOWID_START_SHIFT,
-						UDMAP_RCHAN_RFLOW_RNG_FLOWID_START_MASK);
+		loc_msg->flowid_start = (u16) rm_fext(rflow_rng_reg,
+						      UDMAP_RCHAN_RFLOW_RNG_FLOWID_START_SHIFT,
+						      UDMAP_RCHAN_RFLOW_RNG_FLOWID_START_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3069,9 +3069,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->flowid_cnt = msg->flowid_cnt;
 	} else {
-		loc_msg->flowid_cnt = rm_fext(rflow_rng_reg,
-					      UDMAP_RCHAN_RFLOW_RNG_FLOWID_CNT_SHIFT,
-					      UDMAP_RCHAN_RFLOW_RNG_FLOWID_CNT_MASK);
+		loc_msg->flowid_cnt = (u16) rm_fext(rflow_rng_reg,
+						    UDMAP_RCHAN_RFLOW_RNG_FLOWID_CNT_SHIFT,
+						    UDMAP_RCHAN_RFLOW_RNG_FLOWID_CNT_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3079,9 +3079,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_pause_on_err = msg->rx_pause_on_err;
 	} else {
-		loc_msg->rx_pause_on_err = rm_fext(rcfg_reg,
-						   UDMAP_RCHAN_RCFG_PAUSE_ON_ERR_SHIFT,
-						   UDMAP_RCHAN_RCFG_PAUSE_ON_ERR_MASK);
+		loc_msg->rx_pause_on_err = (u8) rm_fext(rcfg_reg,
+							UDMAP_RCHAN_RCFG_PAUSE_ON_ERR_SHIFT,
+							UDMAP_RCHAN_RCFG_PAUSE_ON_ERR_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3089,9 +3089,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_atype = msg->rx_atype;
 	} else {
-		loc_msg->rx_atype = rm_fext(rcfg_reg,
-					    UDMAP_RCHAN_RCFG_ATYPE_SHIFT,
-					    UDMAP_RCHAN_RCFG_ATYPE_MASK);
+		loc_msg->rx_atype = (u8) rm_fext(rcfg_reg,
+						 UDMAP_RCHAN_RCFG_ATYPE_SHIFT,
+						 UDMAP_RCHAN_RCFG_ATYPE_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3099,9 +3099,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_chan_type = msg->rx_chan_type;
 	} else {
-		loc_msg->rx_chan_type = rm_fext(rcfg_reg,
-						UDMAP_RCHAN_RCFG_CHAN_TYPE_SHIFT,
-						UDMAP_RCHAN_RCFG_CHAN_TYPE_MASK);
+		loc_msg->rx_chan_type = (u8) rm_fext(rcfg_reg,
+						     UDMAP_RCHAN_RCFG_CHAN_TYPE_SHIFT,
+						     UDMAP_RCHAN_RCFG_CHAN_TYPE_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3109,9 +3109,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_ignore_short = msg->rx_ignore_short;
 	} else {
-		loc_msg->rx_ignore_short = rm_fext(rcfg_reg,
-						   UDMAP_RCHAN_RCFG_RX_IGNORE_SHORT_SHIFT,
-						   UDMAP_RCHAN_RCFG_RX_IGNORE_SHORT_MASK);
+		loc_msg->rx_ignore_short = (u8) rm_fext(rcfg_reg,
+							UDMAP_RCHAN_RCFG_RX_IGNORE_SHORT_SHIFT,
+							UDMAP_RCHAN_RCFG_RX_IGNORE_SHORT_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3119,9 +3119,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_ignore_long = msg->rx_ignore_long;
 	} else {
-		loc_msg->rx_ignore_long = rm_fext(rcfg_reg,
-						  UDMAP_RCHAN_RCFG_RX_IGNORE_LONG_SHIFT,
-						  UDMAP_RCHAN_RCFG_RX_IGNORE_LONG_MASK);
+		loc_msg->rx_ignore_long = (u8) rm_fext(rcfg_reg,
+						       UDMAP_RCHAN_RCFG_RX_IGNORE_LONG_SHIFT,
+						       UDMAP_RCHAN_RCFG_RX_IGNORE_LONG_MASK);
 	}
 
 #ifdef CONFIG_UDMAP_CHANNEL_BURST_SIZE
@@ -3130,9 +3130,9 @@ static void udmap_format_local_rx_ch_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_burst_size = msg->rx_burst_size;
 	} else {
-		loc_msg->rx_burst_size = rm_fext(rcfg_reg,
-						 UDMAP_RCHAN_RCFG_BURST_SIZE_SHIFT,
-						 UDMAP_RCHAN_RCFG_BURST_SIZE_MASK);
+		loc_msg->rx_burst_size = (u8) rm_fext(rcfg_reg,
+						      UDMAP_RCHAN_RCFG_BURST_SIZE_SHIFT,
+						      UDMAP_RCHAN_RCFG_BURST_SIZE_MASK);
 	}
 #else
 	loc_msg->rx_burst_size = 0U;
@@ -3501,9 +3501,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_einfo_present = msg->rx_einfo_present;
 	} else {
-		loc_msg->rx_einfo_present = rm_fext(rfa_reg,
-						    UDMAP_RFLOW_RFA_RX_EINFO_PRESENT_SHIFT,
-						    UDMAP_RFLOW_RFA_RX_EINFO_PRESENT_MASK);
+		loc_msg->rx_einfo_present = (u8) rm_fext(rfa_reg,
+							 UDMAP_RFLOW_RFA_RX_EINFO_PRESENT_SHIFT,
+							 UDMAP_RFLOW_RFA_RX_EINFO_PRESENT_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3511,9 +3511,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_psinfo_present = msg->rx_psinfo_present;
 	} else {
-		loc_msg->rx_psinfo_present = rm_fext(rfa_reg,
-						     UDMAP_RFLOW_RFA_RX_PSINFO_PRESENT_SHIFT,
-						     UDMAP_RFLOW_RFA_RX_PSINFO_PRESENT_MASK);
+		loc_msg->rx_psinfo_present = (u8) rm_fext(rfa_reg,
+							  UDMAP_RFLOW_RFA_RX_PSINFO_PRESENT_SHIFT,
+							  UDMAP_RFLOW_RFA_RX_PSINFO_PRESENT_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3521,9 +3521,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_error_handling = msg->rx_error_handling;
 	} else {
-		loc_msg->rx_error_handling = rm_fext(rfa_reg,
-						     UDMAP_RFLOW_RFA_RX_ERROR_HANDLING_SHIFT,
-						     UDMAP_RFLOW_RFA_RX_ERROR_HANDLING_MASK);
+		loc_msg->rx_error_handling = (u8) rm_fext(rfa_reg,
+							  UDMAP_RFLOW_RFA_RX_ERROR_HANDLING_SHIFT,
+							  UDMAP_RFLOW_RFA_RX_ERROR_HANDLING_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3531,9 +3531,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_desc_type = msg->rx_desc_type;
 	} else {
-		loc_msg->rx_desc_type = rm_fext(rfa_reg,
-						UDMAP_RFLOW_RFA_RX_DESC_TYPE_SHIFT,
-						UDMAP_RFLOW_RFA_RX_DESC_TYPE_MASK);
+		loc_msg->rx_desc_type = (u8) rm_fext(rfa_reg,
+						     UDMAP_RFLOW_RFA_RX_DESC_TYPE_SHIFT,
+						     UDMAP_RFLOW_RFA_RX_DESC_TYPE_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3541,9 +3541,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_sop_offset = msg->rx_sop_offset;
 	} else {
-		loc_msg->rx_sop_offset = rm_fext(rfa_reg,
-						 UDMAP_RFLOW_RFA_RX_SOP_OFFSET_SHIFT,
-						 UDMAP_RFLOW_RFA_RX_SOP_OFFSET_MASK);
+		loc_msg->rx_sop_offset = (u16) rm_fext(rfa_reg,
+						       UDMAP_RFLOW_RFA_RX_SOP_OFFSET_SHIFT,
+						       UDMAP_RFLOW_RFA_RX_SOP_OFFSET_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3551,9 +3551,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_dest_qnum = msg->rx_dest_qnum;
 	} else {
-		loc_msg->rx_dest_qnum = rm_fext(rfa_reg,
-						UDMAP_RFLOW_RFA_RX_DEST_QNUM_SHIFT,
-						UDMAP_RFLOW_RFA_RX_DEST_QNUM_MASK);
+		loc_msg->rx_dest_qnum = (u16) rm_fext(rfa_reg,
+						      UDMAP_RFLOW_RFA_RX_DEST_QNUM_SHIFT,
+						      UDMAP_RFLOW_RFA_RX_DEST_QNUM_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3561,9 +3561,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_src_tag_hi = msg->rx_src_tag_hi;
 	} else {
-		loc_msg->rx_src_tag_hi = rm_fext(rfb_reg,
-						 UDMAP_RFLOW_RFB_RX_SRC_TAG_HI_SHIFT,
-						 UDMAP_RFLOW_RFB_RX_SRC_TAG_HI_MASK);
+		loc_msg->rx_src_tag_hi = (u8) rm_fext(rfb_reg,
+						      UDMAP_RFLOW_RFB_RX_SRC_TAG_HI_SHIFT,
+						      UDMAP_RFLOW_RFB_RX_SRC_TAG_HI_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3571,9 +3571,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_src_tag_lo = msg->rx_src_tag_lo;
 	} else {
-		loc_msg->rx_src_tag_lo = rm_fext(rfb_reg,
-						 UDMAP_RFLOW_RFB_RX_SRC_TAG_LO_SHIFT,
-						 UDMAP_RFLOW_RFB_RX_SRC_TAG_LO_MASK);
+		loc_msg->rx_src_tag_lo = (u8) rm_fext(rfb_reg,
+						      UDMAP_RFLOW_RFB_RX_SRC_TAG_LO_SHIFT,
+						      UDMAP_RFLOW_RFB_RX_SRC_TAG_LO_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3581,9 +3581,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_dest_tag_hi = msg->rx_dest_tag_hi;
 	} else {
-		loc_msg->rx_dest_tag_hi = rm_fext(rfb_reg,
-						  UDMAP_RFLOW_RFB_RX_DEST_TAG_HI_SHIFT,
-						  UDMAP_RFLOW_RFB_RX_DEST_TAG_HI_MASK);
+		loc_msg->rx_dest_tag_hi = (u8) rm_fext(rfb_reg,
+						       UDMAP_RFLOW_RFB_RX_DEST_TAG_HI_SHIFT,
+						       UDMAP_RFLOW_RFB_RX_DEST_TAG_HI_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3591,9 +3591,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_dest_tag_lo = msg->rx_dest_tag_lo;
 	} else {
-		loc_msg->rx_dest_tag_lo = rm_fext(rfb_reg,
-						  UDMAP_RFLOW_RFB_RX_DEST_TAG_LO_SHIFT,
-						  UDMAP_RFLOW_RFB_RX_DEST_TAG_LO_MASK);
+		loc_msg->rx_dest_tag_lo = (u8) rm_fext(rfb_reg,
+						       UDMAP_RFLOW_RFB_RX_DEST_TAG_LO_SHIFT,
+						       UDMAP_RFLOW_RFB_RX_DEST_TAG_LO_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3601,9 +3601,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_src_tag_hi_sel = msg->rx_src_tag_hi_sel;
 	} else {
-		loc_msg->rx_src_tag_hi_sel = rm_fext(rfc_reg,
-						     UDMAP_RFLOW_RFC_RX_SRC_TAG_HI_SEL_SHIFT,
-						     UDMAP_RFLOW_RFC_RX_SRC_TAG_HI_SEL_MASK);
+		loc_msg->rx_src_tag_hi_sel = (u8) rm_fext(rfc_reg,
+							  UDMAP_RFLOW_RFC_RX_SRC_TAG_HI_SEL_SHIFT,
+							  UDMAP_RFLOW_RFC_RX_SRC_TAG_HI_SEL_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3611,9 +3611,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_src_tag_lo_sel = msg->rx_src_tag_lo_sel;
 	} else {
-		loc_msg->rx_src_tag_lo_sel = rm_fext(rfc_reg,
-						     UDMAP_RFLOW_RFC_RX_SRC_TAG_LO_SEL_SHIFT,
-						     UDMAP_RFLOW_RFC_RX_SRC_TAG_LO_SEL_MASK);
+		loc_msg->rx_src_tag_lo_sel = (u8) rm_fext(rfc_reg,
+							  UDMAP_RFLOW_RFC_RX_SRC_TAG_LO_SEL_SHIFT,
+							  UDMAP_RFLOW_RFC_RX_SRC_TAG_LO_SEL_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3621,9 +3621,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_dest_tag_hi_sel = msg->rx_dest_tag_hi_sel;
 	} else {
-		loc_msg->rx_dest_tag_hi_sel = rm_fext(rfc_reg,
-						      UDMAP_RFLOW_RFC_RX_DEST_TAG_HI_SEL_SHIFT,
-						      UDMAP_RFLOW_RFC_RX_DEST_TAG_HI_SEL_MASK);
+		loc_msg->rx_dest_tag_hi_sel = (u8) rm_fext(rfc_reg,
+							   UDMAP_RFLOW_RFC_RX_DEST_TAG_HI_SEL_SHIFT,
+							   UDMAP_RFLOW_RFC_RX_DEST_TAG_HI_SEL_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3631,9 +3631,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_dest_tag_lo_sel = msg->rx_dest_tag_lo_sel;
 	} else {
-		loc_msg->rx_dest_tag_lo_sel = rm_fext(rfc_reg,
-						      UDMAP_RFLOW_RFC_RX_DEST_TAG_LO_SEL_SHIFT,
-						      UDMAP_RFLOW_RFC_RX_DEST_TAG_LO_SEL_MASK);
+		loc_msg->rx_dest_tag_lo_sel = (u8) rm_fext(rfc_reg,
+							   UDMAP_RFLOW_RFC_RX_DEST_TAG_LO_SEL_SHIFT,
+							   UDMAP_RFLOW_RFC_RX_DEST_TAG_LO_SEL_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3641,9 +3641,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_fdq0_sz0_qnum = msg->rx_fdq0_sz0_qnum;
 	} else {
-		loc_msg->rx_fdq0_sz0_qnum = rm_fext(rfd_reg,
-						    UDMAP_RFLOW_RFD_RX_FDQ0_SZ0_QNUM_SHIFT,
-						    UDMAP_RFLOW_RFD_RX_FDQ0_SZ0_QNUM_MASK);
+		loc_msg->rx_fdq0_sz0_qnum = (u16) rm_fext(rfd_reg,
+							  UDMAP_RFLOW_RFD_RX_FDQ0_SZ0_QNUM_SHIFT,
+							  UDMAP_RFLOW_RFD_RX_FDQ0_SZ0_QNUM_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3651,9 +3651,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_fdq1_qnum = msg->rx_fdq1_qnum;
 	} else {
-		loc_msg->rx_fdq1_qnum = rm_fext(rfd_reg,
-						UDMAP_RFLOW_RFD_RX_FDQ1_QNUM_SHIFT,
-						UDMAP_RFLOW_RFD_RX_FDQ1_QNUM_MASK);
+		loc_msg->rx_fdq1_qnum = (u16) rm_fext(rfd_reg,
+						      UDMAP_RFLOW_RFD_RX_FDQ1_QNUM_SHIFT,
+						      UDMAP_RFLOW_RFD_RX_FDQ1_QNUM_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3661,9 +3661,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_fdq2_qnum = msg->rx_fdq2_qnum;
 	} else {
-		loc_msg->rx_fdq2_qnum = rm_fext(rfe_reg,
-						UDMAP_RFLOW_RFE_RX_FDQ2_QNUM_SHIFT,
-						UDMAP_RFLOW_RFE_RX_FDQ2_QNUM_MASK);
+		loc_msg->rx_fdq2_qnum = (u16) rm_fext(rfe_reg,
+						      UDMAP_RFLOW_RFE_RX_FDQ2_QNUM_SHIFT,
+						      UDMAP_RFLOW_RFE_RX_FDQ2_QNUM_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3671,9 +3671,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_fdq3_qnum = msg->rx_fdq3_qnum;
 	} else {
-		loc_msg->rx_fdq3_qnum = rm_fext(rfe_reg,
-						UDMAP_RFLOW_RFE_RX_FDQ3_QNUM_SHIFT,
-						UDMAP_RFLOW_RFE_RX_FDQ3_QNUM_MASK);
+		loc_msg->rx_fdq3_qnum = (u16) rm_fext(rfe_reg,
+						      UDMAP_RFLOW_RFE_RX_FDQ3_QNUM_SHIFT,
+						      UDMAP_RFLOW_RFE_RX_FDQ3_QNUM_MASK);
 	}
 
 	if (rm_core_param_is_valid(loc_msg->valid_params,
@@ -3681,9 +3681,9 @@ static void udmap_format_local_flow_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_ps_location = msg->rx_ps_location;
 	} else {
-		loc_msg->rx_ps_location = rm_fext(rfa_reg,
-						  UDMAP_RFLOW_RFA_RX_PS_LOCATION_SHIFT,
-						  UDMAP_RFLOW_RFA_RX_PS_LOCATION_MASK);
+		loc_msg->rx_ps_location = (u8) rm_fext(rfa_reg,
+						       UDMAP_RFLOW_RFA_RX_PS_LOCATION_SHIFT,
+						       UDMAP_RFLOW_RFA_RX_PS_LOCATION_MASK);
 	}
 }
 
@@ -3912,18 +3912,18 @@ static void udmap_format_local_flow_size_thresh_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_size_thresh0 = msg->rx_size_thresh0;
 	} else {
-		loc_msg->rx_size_thresh0 = rm_fext(rff_reg,
-						   UDMAP_RFLOW_RFF_RX_SIZE_THRESH0_SHIFT,
-						   UDMAP_RFLOW_RFF_RX_SIZE_THRESH0_MASK);
+		loc_msg->rx_size_thresh0 = (u16) rm_fext(rff_reg,
+							 UDMAP_RFLOW_RFF_RX_SIZE_THRESH0_SHIFT,
+							 UDMAP_RFLOW_RFF_RX_SIZE_THRESH0_MASK);
 	}
 	if (rm_core_param_is_valid(loc_msg->valid_params,
 				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH1_VALID) ==
 	    STRUE) {
 		loc_msg->rx_size_thresh1 = msg->rx_size_thresh1;
 	} else {
-		loc_msg->rx_size_thresh1 = rm_fext(rff_reg,
-						   UDMAP_RFLOW_RFF_RX_SIZE_THRESH1_SHIFT,
-						   UDMAP_RFLOW_RFF_RX_SIZE_THRESH1_MASK);
+		loc_msg->rx_size_thresh1 = (u16) rm_fext(rff_reg,
+							 UDMAP_RFLOW_RFF_RX_SIZE_THRESH1_SHIFT,
+							 UDMAP_RFLOW_RFF_RX_SIZE_THRESH1_MASK);
 	}
 	if (rm_core_param_is_valid(loc_msg->valid_params,
 				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH2_VALID) ==
@@ -3939,36 +3939,36 @@ static void udmap_format_local_flow_size_thresh_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_fdq0_sz1_qnum = msg->rx_fdq0_sz1_qnum;
 	} else {
-		loc_msg->rx_fdq0_sz1_qnum = rm_fext(rfg_reg,
-						    UDMAP_RFLOW_RFG_RX_FDQ0_SZ1_QNUM_SHIFT,
-						    UDMAP_RFLOW_RFG_RX_FDQ0_SZ1_QNUM_MASK);
+		loc_msg->rx_fdq0_sz1_qnum = (u16) rm_fext(rfg_reg,
+							  UDMAP_RFLOW_RFG_RX_FDQ0_SZ1_QNUM_SHIFT,
+							  UDMAP_RFLOW_RFG_RX_FDQ0_SZ1_QNUM_MASK);
 	}
 	if (rm_core_param_is_valid(loc_msg->valid_params,
 				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ2_QNUM_VALID) ==
 	    STRUE) {
 		loc_msg->rx_fdq0_sz2_qnum = msg->rx_fdq0_sz2_qnum;
 	} else {
-		loc_msg->rx_fdq0_sz2_qnum = rm_fext(rfh_reg,
-						    UDMAP_RFLOW_RFH_RX_FDQ0_SZ2_QNUM_SHIFT,
-						    UDMAP_RFLOW_RFH_RX_FDQ0_SZ2_QNUM_MASK);
+		loc_msg->rx_fdq0_sz2_qnum = (u16) rm_fext(rfh_reg,
+							  UDMAP_RFLOW_RFH_RX_FDQ0_SZ2_QNUM_SHIFT,
+							  UDMAP_RFLOW_RFH_RX_FDQ0_SZ2_QNUM_MASK);
 	}
 	if (rm_core_param_is_valid(loc_msg->valid_params,
 				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ3_QNUM_VALID) ==
 	    STRUE) {
 		loc_msg->rx_fdq0_sz3_qnum = msg->rx_fdq0_sz3_qnum;
 	} else {
-		loc_msg->rx_fdq0_sz3_qnum = rm_fext(rfh_reg,
-						    UDMAP_RFLOW_RFH_RX_FDQ0_SZ3_QNUM_SHIFT,
-						    UDMAP_RFLOW_RFH_RX_FDQ0_SZ3_QNUM_MASK);
+		loc_msg->rx_fdq0_sz3_qnum = (u16) rm_fext(rfh_reg,
+							  UDMAP_RFLOW_RFH_RX_FDQ0_SZ3_QNUM_SHIFT,
+							  UDMAP_RFLOW_RFH_RX_FDQ0_SZ3_QNUM_MASK);
 	}
 	if (rm_core_param_is_valid(loc_msg->valid_params,
 				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH_EN_VALID) ==
 	    STRUE) {
 		loc_msg->rx_size_thresh_en = msg->rx_size_thresh_en;
 	} else {
-		loc_msg->rx_size_thresh_en = rm_fext(rfc_reg,
-						     UDMAP_RFLOW_RFC_RX_SIZE_THRESH_EN_SHIFT,
-						     UDMAP_RFLOW_RFC_RX_SIZE_THRESH_EN_MASK);
+		loc_msg->rx_size_thresh_en = (u8) rm_fext(rfc_reg,
+							  UDMAP_RFLOW_RFC_RX_SIZE_THRESH_EN_SHIFT,
+							  UDMAP_RFLOW_RFC_RX_SIZE_THRESH_EN_MASK);
 	}
 }
 #endif
@@ -4537,7 +4537,7 @@ s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv __attribute__((unused)))
 		     TRACE_RM_SUB_ACTION_VALID_PARAM_LO,
 		     (msg->valid_params & TRACE_DEBUG_SUB_ACTION_VAL_MASK));
 
-	inst = udmap_get_inst(msg->nav_id, trace_action);
+	inst = udmap_get_inst(msg->nav_id, (u8) trace_action);
 	if (inst == NULL) {
 		r = -EINVAL;
 	}
@@ -4546,7 +4546,7 @@ s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv __attribute__((unused)))
 		r = udmap_check_flow_index(inst, msg->hdr.host,
 					   msg->flow_index, STRUE,
 					   &assoc_chan_type,
-					   trace_action);
+					   (u8) trace_action);
 	}
 
 	if (r == SUCCESS) {
@@ -4627,7 +4627,7 @@ s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv __attribute__((unused)))
 	}
 	if (r == SUCCESS) {
 		r = udmap_validate_flow_size_thresh_en(msg->rx_size_thresh_en,
-						       trace_action);
+						       (u8) trace_action);
 	}
 
 	if (r == SUCCESS) {
@@ -4654,7 +4654,7 @@ s32 rm_udmap_flow_delegate(u32 *msg_recv)
 		     TRACE_RM_SUB_ACTION_VALID_PARAM_LO,
 		     (msg->valid_params & TRACE_DEBUG_SUB_ACTION_VAL_MASK));
 
-	inst = udmap_get_inst(msg->dev_id, trace_action);
+	inst = udmap_get_inst(msg->dev_id, (u8) trace_action);
 	if (inst == NULL) {
 		r = -EINVAL;
 	}
@@ -4673,7 +4673,7 @@ s32 rm_udmap_flow_delegate(u32 *msg_recv)
 		r = udmap_check_flow_index(inst, msg->hdr.host,
 					   msg->flow_index, SFALSE,
 					   NULL,
-					   trace_action);
+					   (u8) trace_action);
 	}
 
 	if ((r == SUCCESS) &&
