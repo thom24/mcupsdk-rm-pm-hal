@@ -181,7 +181,7 @@ pd_idx_t psc_pd_idx(struct device *dev, struct psc_pd *pd)
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
 
-	return pd - psc->powerdomains;
+	return (pd_idx_t) (pd - psc->powerdomains);
 }
 
 static inline struct psc_pd *psc_idx2pd(const struct psc_drv_data	*psc,
@@ -202,7 +202,7 @@ lpsc_idx_t lpsc_module_idx(struct device *dev, struct lpsc_module *module)
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
 
-	return module - psc->modules;
+	return (lpsc_idx_t) (module - psc->modules);
 }
 
 static inline struct lpsc_module *psc_idx2mod(const struct psc_drv_data *psc,
@@ -249,7 +249,7 @@ static void psc_pd_clk_get(const struct psc_pd_data *data)
 {
 	u32 i;
 
-	for (i = 0UL; i < ARRAY_SIZE(data->clock_dep); i++) {
+	for (i = 0U; i < ARRAY_SIZE(data->clock_dep); i++) {
 		struct clk *clkp = clk_lookup(data->clock_dep[i]);
 		if (clkp != NULL) {
 			clk_get(clkp);
@@ -320,7 +320,7 @@ void psc_pd_get(struct device *dev, struct psc_pd *pd)
 				 * ceiling value to ensure we wait the
 				 * minimum required time.
 				 */
-				delay_us = (PSC_PTSTAT_ERRATA_DELAY_NS - ((u32) delta_ns) + 999UL) / 1000UL;
+				delay_us = (PSC_PTSTAT_ERRATA_DELAY_NS - ((u32) delta_ns) + 999U) / 1000U;
 				osal_delay(delay_us);
 			}
 			/*
@@ -357,7 +357,7 @@ static void psc_pd_clk_put(const struct psc_pd_data *data)
 {
 	u32 i;
 
-	for (i = 0UL; i < ARRAY_SIZE(data->clock_dep); i++) {
+	for (i = 0U; i < ARRAY_SIZE(data->clock_dep); i++) {
 		struct clk *clkp = clk_lookup(data->clock_dep[i]);
 		if (clkp != NULL) {
 			clk_put(clkp);
@@ -426,8 +426,8 @@ u32 psc_pd_get_state(struct device *dev, struct psc_pd *pd)
 		return 2;
 	}
 
-	state = psc_read(dev, PSC_PDSTAT(idx)) & PDSTAT_STATE_MASK;
-	return (state == PDCTL_STATE_ON) ? 1 : 0;
+	state = (u8) (psc_read(dev, PSC_PDSTAT(idx)) & PDSTAT_STATE_MASK);
+	return (state == PDCTL_STATE_ON) ? 1U : 0U;
 }
 
 static void lpsc_module_notify_suspend(struct device		*dev,
@@ -446,14 +446,14 @@ static void lpsc_module_notify_suspend(struct device		*dev,
 	 * FIXME: Block transition if suspend fails
 	 */
 	if (data->flags & LPSC_DEVICES_LIST) {
-		for (i = 0UL; data->lpsc_dev.dev_list[i] != DEV_ID_NONE; i++) {
+		for (i = 0U; data->lpsc_dev.dev_list[i] != DEV_ID_NONE; i++) {
 			sub_dev = device_lookup(data->lpsc_dev.dev_list[i]);
 			if (sub_dev != NULL) {
 				device_suspend(sub_dev);
 			}
 		}
 	} else {
-		for (i = 0UL; (i < ARRAY_SIZE(data->lpsc_dev.dev_array)) &&
+		for (i = 0U; (i < ARRAY_SIZE(data->lpsc_dev.dev_array)) &&
 		     (data->lpsc_dev.dev_array[i] != DEV_ID_NONE); i++) {
 			sub_dev = device_lookup(data->lpsc_dev.dev_array[i]);
 			if (sub_dev != NULL) {
@@ -574,8 +574,8 @@ static void lpsc_module_sync_state(struct device	*dev,
 	/* Track transition of old state to new state */
 	old_state = module->sw_state;
 	module->sw_state = state;
-	old_msrt_ret = module->sw_mrst_ret;
-	module->sw_mrst_ret = new_mrst_ret;
+	old_msrt_ret = (sbool) module->sw_mrst_ret;
+	module->sw_mrst_ret = (u8) new_mrst_ret;
 
 	/* Previous setting of retention, enable, and reset */
 	old_ret = old_state != MDSTAT_STATE_SWRSTDISABLE;
@@ -714,7 +714,7 @@ u32 lpsc_module_get_state(struct device		*dev,
 	u8 state;
 	u32 ret;
 
-	state = psc_read(dev, PSC_MDCTL(idx)) & MDSTAT_STATE_MASK;
+	state = (u8) (psc_read(dev, PSC_MDCTL(idx)) & MDSTAT_STATE_MASK);
 
 	if (state == MDSTAT_STATE_SWRSTDISABLE) {
 		ret = 0U; /* Disabled */
@@ -897,7 +897,7 @@ static void lpsc_module_clk_get(struct device *dev, struct lpsc_module *mod)
 	const struct lpsc_module_data *data = psc->mod_data + idx;
 	u32 i;
 
-	for (i = 0UL; i < ARRAY_SIZE(data->clock_dep); i++) {
+	for (i = 0U; i < ARRAY_SIZE(data->clock_dep); i++) {
 		struct clk *clkp = clk_lookup(data->clock_dep[i]);
 		if (clkp != NULL) {
 			clk_get(clkp);
@@ -929,7 +929,7 @@ static void lpsc_module_clk_put(struct device *dev, struct lpsc_module *mod, sbo
 	const struct lpsc_module_data *data = psc->mod_data + idx;
 	u32 i;
 
-	for (i = 0UL; i < ARRAY_SIZE(data->clock_dep); i++) {
+	for (i = 0U; i < ARRAY_SIZE(data->clock_dep); i++) {
 		struct clk *clkp = clk_lookup(data->clock_dep[i]);
 		if (clkp != NULL) {
 			/*
@@ -1053,7 +1053,7 @@ static void psc_pd_drop_pwr_up_ref(struct device *dev)
 	for (idx = 0U; idx < psc->pd_count; idx++) {
 		struct psc_pd *pd = psc_idx2pd(psc, idx);
 		if (pd->pwr_up_enabled) {
-			pd->pwr_up_enabled = SFALSE;
+			pd->pwr_up_enabled = (u8) SFALSE;
 			psc_pd_put(dev, pd);
 		}
 	}
@@ -1130,15 +1130,15 @@ static s32 psc_initialize_pds(struct device *dev)
 			 (psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
 			 (idx << TRACE_PM_VAL_PD_SHIFT));
 		psc_pd_wait(dev, pd);
-		state = psc_read(dev, PSC_PDSTAT(idx)) & PDSTAT_STATE_MASK;
+		state = (u8) (psc_read(dev, PSC_PDSTAT(idx)) & PDSTAT_STATE_MASK);
 
 		/*
 		 * Mark a PD as power up in use so we don't power everything
 		 * off before PMMC startup is complete
 		 */
-		pd->pwr_up_enabled =
-			(state == PDCTL_STATE_ON) ||
-			((psc->pd_data[idx].flags & PSC_PD_ALWAYSON) != 0U);
+		pd->pwr_up_enabled = (u8)
+				     ((state == PDCTL_STATE_ON) ||
+				      ((psc->pd_data[idx].flags & PSC_PD_ALWAYSON) != 0U));
 	}
 
 	/* Second pass, sync use count and impossible hardware states */
@@ -1198,11 +1198,11 @@ void psc_drop_pwr_up_ref(void)
 		for (idx = 0U; idx < psc->module_count; idx++) {
 			struct lpsc_module *mod = psc_idx2mod(psc, idx);
 			if (mod->pwr_up_enabled) {
-				mod->pwr_up_enabled = SFALSE;
+				mod->pwr_up_enabled = (u8) SFALSE;
 				lpsc_module_put(dev, mod);
 			}
 			if (mod->pwr_up_ret) {
-				mod->pwr_up_ret = SFALSE;
+				mod->pwr_up_ret = (u8) SFALSE;
 				lpsc_module_ret_put(dev, mod);
 			}
 		}
@@ -1251,21 +1251,21 @@ static s32 psc_initialize_modules(struct device *dev)
 
 		/* Ref count as if we are moving out of off state */
 		mod->sw_state = MDSTAT_STATE_SWRSTDISABLE;
-		mod->sw_mrst_ret = SFALSE;
+		mod->sw_mrst_ret = (u8) SFALSE;
 
 		if ((v == MDSTAT_STATE_ENABLE) || (v == MDSTAT_STATE_SYNCRST)) {
-			mod->pwr_up_enabled = STRUE;
-			mod->pwr_up_ret = STRUE;
+			mod->pwr_up_enabled = (u8) STRUE;
+			mod->pwr_up_ret = (u8) STRUE;
 		} else if (v == MDSTAT_STATE_DISABLE) {
-			mod->pwr_up_enabled = SFALSE;
-			mod->pwr_up_ret = STRUE;
+			mod->pwr_up_enabled = (u8) SFALSE;
+			mod->pwr_up_ret = (u8) STRUE;
 		} else if (v == MDSTAT_STATE_SWRSTDISABLE) {
-			mod->pwr_up_enabled = SFALSE;
-			mod->pwr_up_ret = SFALSE;
+			mod->pwr_up_enabled = (u8) SFALSE;
+			mod->pwr_up_ret = (u8) SFALSE;
 		} else {
 			/* Invalid initial state, try turning everything on */
-			mod->pwr_up_ret = STRUE;
-			mod->pwr_up_enabled = STRUE;
+			mod->pwr_up_ret = (u8) STRUE;
+			mod->pwr_up_enabled = (u8) STRUE;
 		}
 	}
 
@@ -1289,8 +1289,8 @@ static s32 psc_initialize_modules_finish(struct device *dev)
 	/* Second pass, sync ref counts */
 	for (idx = 0U; idx < psc->module_count; idx++) {
 		struct lpsc_module *mod = psc_idx2mod(psc, idx);
-		lpsc_module_get_internal(dev, mod, mod->pwr_up_enabled,
-					 mod->pwr_up_ret);
+		lpsc_module_get_internal(dev, mod, (sbool) mod->pwr_up_enabled,
+					 (sbool) mod->pwr_up_ret);
 	}
 
 	psc_pd_drop_pwr_up_ref(dev);
@@ -1332,12 +1332,12 @@ static void psc_uninitialize_modules(struct device *dev)
 
 		mod->use_count = 0U;
 		mod->ret_count = 0U;
-		mod->pwr_up_enabled = SFALSE;
-		mod->pwr_up_ret = SFALSE;
+		mod->pwr_up_enabled = (u8) SFALSE;
+		mod->pwr_up_ret = (u8) SFALSE;
 
 		lpsc_module_sync_state(dev, mod, STRUE);
 		mod->sw_state = MDSTAT_STATE_SWRSTDISABLE;
-		mod->sw_mrst_ret = SFALSE;
+		mod->sw_mrst_ret = (u8) SFALSE;
 	}
 
 	for (i = 0U; i < ARRAY_SIZE(psc->data->mods_enabled); i++) {
