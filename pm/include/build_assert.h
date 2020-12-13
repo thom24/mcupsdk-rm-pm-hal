@@ -52,7 +52,7 @@
  */
 #ifndef __cplusplus
 #define BUILD_ASSERT_GLOBAL(cond, name)	\
-	static const char name = sizeof(char [1 - (2 * (int) !(cond))]); \
+	static const char name = (char) sizeof(char [1 - (2 * (int) !(cond))]);	\
 	static const char name \
 	__attribute__((unused, section(".discard.asserts")))
 #else
