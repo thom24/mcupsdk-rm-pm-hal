@@ -172,7 +172,7 @@ s32 devices_init(void)
 				done = SFALSE;
 			} else {
 				progress = STRUE;
-				dev->initialized = STRUE;
+				dev->initialized = (u32) STRUE;
 				if (ret < 0) {
 					pm_trace(TRACE_PM_ACTION_FAIL | TRACE_PM_ACTION_DEV_INIT,
 						 ((((u32) (-ret)) & TRACE_PM_VAL_DEV_INIT_ERR_MASK) << TRACE_PM_VAL_DEV_INIT_ERR_SHIFT) |
@@ -257,7 +257,7 @@ s32 devices_deinit(u8 pm_devgrp)
 			if ((dev->initialized != 0U) && flag_enabled) {
 				device_disable(dev, STRUE);
 				dev->initialized = 0;
-				dev->flags &= ~DEV_FLAG_ENABLED_MASK;
+				dev->flags &= (u32) ~DEV_FLAG_ENABLED_MASK;
 			}
 
 			if ((data != NULL) && ((data->flags & DEVD_FLAG_DRV_DATA) != 0U) &&
