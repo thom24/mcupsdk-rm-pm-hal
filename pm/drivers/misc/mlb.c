@@ -43,7 +43,7 @@ void mlb_suspend(struct device *dev)
 	const struct resource_mem *mem = device_resource_mem(dev, 0);
 
 	if (mem) {
-		unsigned long v;
+		u32 v;
 
 		/* Allow clock stop and power-off */
 		v = mem_readl(mem, MLB_PWR);
