@@ -288,4 +288,4 @@ const u8 soc_host_indexes[] = {
 	[248U] = HOST_IDX_NONE,
 	[249U] = HOST_IDX_NONE,
 };
-const u8 soc_host_indexes_sz = sizeof(soc_host_indexes);
+const u8 soc_host_indexes_sz = (u8) sizeof(soc_host_indexes);
