@@ -1,5 +1,5 @@
 /*
- * Data version: 200505_104840
+ * Data version: 201208_205323
  *
  * Copyright (C) 2017-2020, Texas Instruments Incorporated
  * All rights reserved.
@@ -160,7 +160,6 @@ enum {
 	AM64X_FREQ_VALUE_WIZ16B2M4CT_MAIN_0_IP2_LN0_RXFCLK,
 	AM64X_FREQ_VALUE_WIZ16B2M4CT_MAIN_0_IP2_LN0_TXFCLK,
 	AM64X_FREQ_VALUE_WIZ16B2M4CT_MAIN_0_IP2_LN0_TXMCLK,
-	AM64X_FREQ_VALUE_WIZ16B2M4CT_MAIN_0_REF_OUT_CLK,
 	AM64X_FREQ_VALUE_COUNT,
 };
 
@@ -730,7 +729,7 @@ static const struct clk_parent clk_MAIN_OBSCLK0_MUX_SEL_parents[] = {
 		1,
 	},
 	{
-		CLK_AM64X_SAM64_A53_256KB_WRAP_MAIN_0_ARM_COREPACK_0_A53_DIVH_CLK4_OBSCLK_OUT_CLK,
+		CLK_AM64X_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,
 		1,
 	},
 	{
@@ -826,10 +825,44 @@ static const struct clk_data_mux_reg clk_data_MAIN_OSPI_REF_CLK_SEL_out0 = {
 	.reg			= 0x43000000 + 34048,
 	.bit			= 0,
 };
+static const struct clk_parent clk_MAIN_PCIE0_CPTS_CLK_SEL_parents[] = {
+	{
+		CLK_AM64X_POSTDIV4_16FF_MAIN_2_HSDIVOUT5_CLK,
+		1,
+	},
+	{
+		CLK_AM64X_POSTDIV4_16FF_MAIN_0_HSDIVOUT6_CLK,
+		1,
+	},
+	{
+		CLK_AM64X_BOARD_0_CP_GEMAC_CPTS0_RFT_CLK_OUT,
+		1,
+	},
+	{
+		CLK_AM64X_BOARD_0_CPTS0_RFT_CLK_OUT,
+		1,
+	},
+	{
+		CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		1,
+	},
+	{
+		CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
+		1,
+	},
+	{
+		CLK_AM64X_WIZ16B2M4CT_MAIN_0_IP1_LN0_TXMCLK,
+		1,
+	},
+	{
+		0,
+		1,
+	},
+};
 static const struct clk_data_mux_reg clk_data_MAIN_PCIE0_CPTS_CLK_SEL_out0 = {
 	.data_mux		= {
-		.parents	= clk_MAIN_CPTS_CLK_SEL_parents,
-		.n		= ARRAY_SIZE(clk_MAIN_CPTS_CLK_SEL_parents),
+		.parents	= clk_MAIN_PCIE0_CPTS_CLK_SEL_parents,
+		.n		= ARRAY_SIZE(clk_MAIN_PCIE0_CPTS_CLK_SEL_parents),
 	},
 	.reg			= 0x43000000 + 33056,
 	.bit			= 0,
@@ -2427,10 +2460,6 @@ static const struct clk_data_from_dev clk_data_wiz16b2m4ct_main_0_ip2_ln0_txmclk
 	.dev		= AM64X_DEV_SERDES_10G0,
 	.clk_idx	= AM64X_DEV_SERDES_10G0_IP2_LN0_TXMCLK,
 };
-static const struct clk_data_from_dev clk_data_wiz16b2m4ct_main_0_ref_out_clk = {
-	.dev		= AM64X_DEV_SERDES_10G0,
-	.clk_idx	= AM64X_DEV_SERDES_10G0_REF_OUT_CLK,
-};
 
 const struct clk_data soc_clock_data[] = {
 	[CLK_AM64X_GLUELOGIC_HFOSC0_CLKOUT] =						      {
@@ -3521,12 +3550,6 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_wiz16b2m4ct_main_0_ip2_ln0_txmclk.data,
 		.freq_idx	= AM64X_FREQ_VALUE_WIZ16B2M4CT_MAIN_0_IP2_LN0_TXMCLK,
-	},
-	[CLK_AM64X_WIZ16B2M4CT_MAIN_0_REF_OUT_CLK] =					      {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_wiz16b2m4ct_main_0_ref_out_clk.data,
-		.freq_idx	= AM64X_FREQ_VALUE_WIZ16B2M4CT_MAIN_0_REF_OUT_CLK,
 	},
 	[CLK_AM64X_MAIN_ADC_CLK_SEL_OUT0] =						      {
 		.drv	= &clk_drv_mux_reg.drv,
