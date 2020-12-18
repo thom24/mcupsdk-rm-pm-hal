@@ -53,7 +53,7 @@
 /**
  * DMASS0_BCDMA_0 block copy channel offset
  */
-#define UDMAP_DMASS0_BCDMA_0_BC_CHAN_OFFSET (32U)
+#define UDMAP_DMASS0_BCDMA_0_BC_CHAN_OFFSET (0U)
 /**
  * DMASS0_PKTDMA_0 total number of UDMAP transmit channels
  */
