@@ -1,7 +1,7 @@
 /*
  * DMSC firmware
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -160,7 +160,7 @@ static const struct pll_data pll_16fft_hsdiv_data = {
 	.vco_fitness	= pll_16fft_vco_fitness,
 };
 
-
+#if defined (CONFIG_CLK_PLL_16FFT_FRACF_CALIBRATION)
 /*
  * \brief Implement the option 3 PLL calibration method.
  *
@@ -201,7 +201,6 @@ static void clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll)
  *
  * \param pll The PLL data associated with this FRACF PLL.
  */
-#if defined (CLK_PLL_16FFT_FRACF_CALIBRATION)
 static void clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll)
 {
 	u32 calout;
@@ -232,8 +231,29 @@ static void clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll)
 	/* Note this register does not readback the written value. */
 	writel(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
 }
+static void clk_pll_16fft_disable_cal(const struct clk_data_pll_16fft *pll)
+{
+	u32 cal, stat;
+
+	cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+	cal &= ~PLL_16FFT_CAL_CTRL_CAL_EN;
+	/* Note this register does not readback the written value. */
+	writel(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+	do {
+		stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+	} while ((stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U);
+	return;
+}
 #else
+static void clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll __attribute__((unused)))
+{
+	return;
+}
 static void clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll __attribute__((unused)))
+{
+	return;
+}
+static void clk_pll_16fft_disable_cal(const struct clk_data_pll_16fft *pll __attribute__((unused)))
 {
 	return;
 }
@@ -323,6 +343,8 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 	u32 cfg;
 	u32 pll_type;
 	sbool success;
+	u32 freq_ctrl1;
+	u32 pllfm;
 
 	clk_data = clk_get_data(clk);
 	data_pll = container_of(clk_data->data, const struct clk_data_pll,
@@ -348,7 +370,15 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 		}
 	}
 
-	if (success && (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF)) {
+	/* Disable calibration in the fractional mode of the FRACF PLL based on data
+	 * from silicon and simulation data.
+	 */
+	freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
+	pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
+	pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
+
+	if (success &&
+	    (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL)) {
 		/*
 		 * Wait for calibration lock.
 		 *
@@ -360,17 +390,22 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 		 * CALCNT = 2, PFD = 5-50MHz. This gives a range of 41uS to
 		 * 410uS depending on PFD frequency. Using the above logic
 		 * we calculate a maximum expected 41000 loop cycles.
+		 *
+		 * The recommend timeout for CALLOCK to go high is 2.2 ms
 		 */
 		success = SFALSE;
-		for (i = 0U; i < 410U * 100U; i++) {
+		for (i = 0U; i < 2200U * 100U; i++) {
 			if (clk_pll_16fft_check_cal_lock(pll)) {
 				success = STRUE;
 				break;
 			}
 		}
 	}
-
-	if (success && (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF)) {
+	/* Disable calibration in the fractional mode of the FRACF PLL based on data
+	 * from silicon and simulation data.
+	 */
+	if (success && (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF)
+	    && (pllfm == 0UL)) {
 		u32 cal;
 		cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
 		if ((cal & PLL_16FFT_CAL_CTRL_FAST_CAL) != 0U) {
@@ -556,6 +591,8 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 	u32 ctrl;
 	sbool ret = STRUE;
 	s32 err;
+	u32 cfg;
+	u32 pll_type;
 
 	pll_clk->flags &= ~CLK_FLAG_CACHED;
 
@@ -564,6 +601,30 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 		err = clk_pll_16fft_bypass(pll_clk, STRUE);
 		if (err != SUCCESS) {
 			ret = SFALSE;
+		}
+	}
+
+	cfg = readl(pll->base + PLL_16FFT_CFG(pll->idx));
+	pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
+	if ((pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm != 0UL)) {
+		clk_pll_16fft_disable_cal(pll);
+	}
+
+	if ((pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL)) {
+		u32 cal;
+		u32 stat;
+
+		cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+		stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+
+		/* Check if calibration is already enabled and locked */
+		if (((cal & PLL_16FFT_CAL_CTRL_CAL_EN) != 0U) &&
+		    ((stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U)) {
+			/* Yes, go straight to option 4 */
+			clk_pll_16fft_cal_option4(pll);
+		} else {
+			/* No, get an initial calibration via option 3 */
+			clk_pll_16fft_cal_option3(pll);
 		}
 	}
 
@@ -978,7 +1039,13 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 		ctrl = readl(pll->base + PLL_16FFT_CTRL(pll->idx));
 
 		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
-		if (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) {
+		freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
+		pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
+		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
+		/* Disable calibration in the fractional mode of the FRACF PLL based on
+		 * data from silicon and simulation data.
+		 */
+		if ((pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL)) {
 			u32 cal;
 			u32 stat;
 
@@ -1019,10 +1086,6 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 
 		/* Currently unused by all PLLs */
 		ctrl &= ~PLL_16FFT_CTRL_CLK_4PH_EN;
-
-		freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
-		pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
-		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
 
 		/* Make sure we have fractional support if required */
 		if (pllfm != 0UL) {
