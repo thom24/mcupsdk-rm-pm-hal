@@ -227,7 +227,7 @@ static bool boardcfg_validate_abi_rev(const struct boardcfg_abi_rm_rev *rev,
 	return ret;
 }
 
-#if defined(CONFIG_DEVICE_TYPE_GP) || defined(CONFIG_DM_BUILD)
+#if defined(CONFIG_DEVICE_TYPE_GP) || defined(CONFIG_LIBRARY_BUILD_DM)
 /**
  * \brief memcpy to be used specifically for copying boardcfg binary
  *
