@@ -44,7 +44,7 @@
 #include <compiler.h>
 #include <lib/trace.h>
 #include <delay.h>
-#include <osal/osal_clock.h>
+#include <osal/osal_clock_user.h>
 
 #define PLL_16FFT_PID   (idx)                   (0x1000UL * (idx) + 0x00UL)
 #define PLL_16FFT_CFG(idx)                      (0x1000UL * (idx) + 0x08UL)

@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2020, Texas Instruments Incorporated
+ * Copyright (C) 2020-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,7 @@
 #include <tisci/pm/tisci_pm_core.h>
 #include <types/errno.h>
 #include <wake.h>
-#include <osal/osal_clock.h>
+#include <osal/osal_clock_user.h>
 #include <sys-reset.h>
 /* This header is in awkward place, but moving it breaks sysfw build */
 #include <../pm/pm.h>

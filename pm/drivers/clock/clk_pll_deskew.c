@@ -1,7 +1,7 @@
 /*
  * DMSC firmware
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,7 @@
 #include <compiler.h>
 #include <lib/trace.h>
 #include <delay.h>
-#include <osal/osal_clock.h>
+#include <osal/osal_clock_user.h>
 
 #define PLL_DESKEW_PID  (idx)                   (0x1000UL * (idx) + 0x00UL)
 #define PLL_DESKEW_CFG(idx)                     (0x1000UL * (idx) + 0x08UL)

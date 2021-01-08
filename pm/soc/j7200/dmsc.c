@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2019-2020, Texas Instruments Incorporated
+ * Copyright (C) 2019-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,7 @@
 #include <sys-reset.h>
 #include <device_pm.h>
 #include <lib/trace.h>
-#include <osal/osal_clock.h>
+#include <osal/osal_clock_user.h>
 #include <clk.h>
 #include <soc_domgrps.h>
 #include <soc_devgrps.h>

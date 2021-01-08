@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2014-2020, Texas Instruments Incorporated
+ * Copyright (C) 2014-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@
 #include <resource.h>
 #include <clk.h>
 #include <pm_types.h>
-#include <osal/osal_clock.h>
+#include <osal/osal_clock_user.h>
 #include <config.h>
 
 #define PSC_PID                 0x000U
