@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -208,18 +208,5 @@ s32 goodbye_handler(u32 *msg_recv);
  *                   EFAIL   if the API failed to execute.
  */
 s32 sys_reset_handler(u32 *msg_recv);
-
-/**
- *  \brief  PM Send a secure Proxy response API
- *
- *  \param  resp    Pointer to Response message Header
- *  \param  flags   Flags set by the caller for AOP.
- *  \param  size    Size of the full response message.
- *  \param  status  Status returned by the message handler called before calling
- *                  this function.
- *  \return ret     SUCCESS if the API executed successfully.
- *                  EFAIL   if the API failed to execute.
- */
-s32 pm_send_response(struct tisci_header *resp, u32 flags, u32 size, s32 status);
 
 #endif /* PM_H */
