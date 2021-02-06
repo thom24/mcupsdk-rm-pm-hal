@@ -47,9 +47,14 @@ __src := $(src)
 cppflags-y += -I$(__src)/include
 
 cflags-y += --unaligned_access=off
-cflags-y += --silicon_version=7M3 --code_state=16 --little_endian
 
+ifeq ($(CONFIG_ARMM4),y)
+cflags-y += --silicon_version=7M4 --code_state=16 --little_endian
+aflags-y += --silicon_version=7M4 --code_state=16 --little_endian
+else
+cflags-y += --silicon_version=7M3 --code_state=16 --little_endian
 aflags-y += --silicon_version=7M3 --code_state=16 --little_endian
+endif
 
 ldflags-y += --disable_auto_rts
 
