@@ -61,6 +61,7 @@ config INTERRUPT_AGGREGATOR_UNMAPPED_EVENTS
 	default n if SOC_AM6
 	default n if SOC_J721E
 	default n if SOC_J7200
+	default y if SOC_J721S2
 	default y if SOC_AM64
 	help
 	 Enable Interrupt Aggregator unmapped event support
@@ -77,6 +78,7 @@ config RM_RA_DMSS_RING
 	default n if SOC_AM6
 	default n if SOC_J721E
 	default n if SOC_J7200
+	default y if SOC_J721S2
 	default y if SOC_AM64
 	help
 	 Enable support for DMSS dual rings
@@ -87,6 +89,7 @@ config RM_RA_NAV_RING
 	default y if SOC_AM6
 	default y if SOC_J721E
 	default y if SOC_J7200
+	default y if SOC_J721S2
 	default y if SOC_AM64
 	help
 	 Enable support for Navigator rings
@@ -103,6 +106,7 @@ config UDMAP_CHANNEL_BURST_SIZE
 	default n if SOC_AM6
 	default y if SOC_J721E
 	default y if SOC_J7200
+	default y if SOC_J721S2
 	default n if SOC_AM64
 	help
 	 Enable UDMAP Tx & Rx channel burst size configuration parameter
@@ -113,6 +117,7 @@ config UDMAP_TX_CHANNEL_TEARDOWN_TYPE
 	default n if SOC_AM6
 	default y if SOC_J721E
 	default y if SOC_J7200
+	default y if SOC_J721S2
 	default n if SOC_AM64
 	help
 	 Enable UDMAP Tx channel teardown type configuration parameter
@@ -123,6 +128,7 @@ config UDMAP_UDMA
 	default y if SOC_AM6
 	default y if SOC_J721E
 	default y if SOC_J7200
+	default y if SOC_J721S2
 	default n if SOC_AM64
 	help
 	 Enable support for Navigator UDMAP channel types
@@ -133,6 +139,7 @@ config UDMAP_BCDMA
 	default n if SOC_AM6
 	default n if SOC_J721E
 	default n if SOC_J7200
+	default y if SOC_J721S2
 	default y if SOC_AM64
 	help
 	 Enable support for DMSS BCDMA channel types
@@ -143,6 +150,7 @@ config UDMAP_PKTDMA
 	default n if SOC_AM6
 	default n if SOC_J721E
 	default n if SOC_J7200
+	default n if SOC_J721S2
 	default y if SOC_AM64
 	help
 	 Enable support for DMSS PKTDMA channel types
