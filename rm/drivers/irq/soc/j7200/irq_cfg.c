@@ -5,7 +5,7 @@
  *
  * Data version: 200730_091422
  *
- * Copyright (C) 2019-2020 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2019-2021 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 

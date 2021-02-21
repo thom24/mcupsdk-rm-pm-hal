@@ -5,7 +5,7 @@
  *
  * Data version: 000000_000000
  *
- * Copyright (C) 2020, Texas Instruments Incorporated
+ * Copyright (C) 2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

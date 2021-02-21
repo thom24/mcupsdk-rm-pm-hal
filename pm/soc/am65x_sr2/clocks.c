@@ -1,7 +1,7 @@
 /*
  * Data version: 000000_000000
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -110,6 +110,10 @@ enum {
 	AM6_FREQ_VALUE_ICSS_G_MAIN_2_BUS_WIZ0_TX_MST_CLK,
 	AM6_FREQ_VALUE_ICSS_G_MAIN_2_BUS_WIZ1_TX_MST_CLK,
 	AM6_FREQ_VALUE_K3_DSS_UL_MAIN_0_BUS_DPI_1_OUT_CLK,
+	AM6_FREQ_VALUE_NAVSS256L_MAIN_0_BUS_CPTS0_GENF2_0,
+	AM6_FREQ_VALUE_NAVSS256L_MAIN_0_BUS_CPTS0_GENF3_0,
+	AM6_FREQ_VALUE_NAVSS256L_MAIN_0_BUS_CPTS0_GENF4_0,
+	AM6_FREQ_VALUE_NAVSS256L_MAIN_0_BUS_CPTS0_GENF5_0,
 	AM6_FREQ_VALUE_PCIE_G3X2_MAIN_0_BUS_PCIE_TXR0_CLK,
 	AM6_FREQ_VALUE_PCIE_G3X2_MAIN_0_BUS_PCIE_TXR1_CLK,
 	AM6_FREQ_VALUE_PCIE_G3X2_MAIN_1_BUS_PCIE_TXR0_CLK,
@@ -1375,19 +1379,19 @@ static const struct clk_parent clk_Timer_mux_bus_out0_parents[] = {
 		1,
 	},
 	{
-		0,
+		CLK_AM6_NAVSS256L_MAIN_0_BUS_CPTS0_GENF2_0,
 		1,
 	},
 	{
-		0,
+		CLK_AM6_NAVSS256L_MAIN_0_BUS_CPTS0_GENF3_0,
 		1,
 	},
 	{
-		0,
+		CLK_AM6_NAVSS256L_MAIN_0_BUS_CPTS0_GENF4_0,
 		1,
 	},
 	{
-		0,
+		CLK_AM6_NAVSS256L_MAIN_0_BUS_CPTS0_GENF5_0,
 		1,
 	},
 };
@@ -3408,6 +3412,22 @@ static const struct clk_data_mux_reg clk_data_mcu_usart_fclksel_bus_out0 = {
 	.reg			= 0x40F00000 + 33216,
 	.bit			= 0,
 };
+static const struct clk_data_from_dev clk_data_navss256l_main_0_bus_cpts0_genf2_0 = {
+	.dev		= AM6_DEV_NAVSS0,
+	.clk_idx	= AM6_DEV_NAVSS0_BUS_CPTS0_GENF2_0,
+};
+static const struct clk_data_from_dev clk_data_navss256l_main_0_bus_cpts0_genf3_0 = {
+	.dev		= AM6_DEV_NAVSS0,
+	.clk_idx	= AM6_DEV_NAVSS0_BUS_CPTS0_GENF3_0,
+};
+static const struct clk_data_from_dev clk_data_navss256l_main_0_bus_cpts0_genf4_0 = {
+	.dev		= AM6_DEV_NAVSS0,
+	.clk_idx	= AM6_DEV_NAVSS0_BUS_CPTS0_GENF4_0,
+};
+static const struct clk_data_from_dev clk_data_navss256l_main_0_bus_cpts0_genf5_0 = {
+	.dev		= AM6_DEV_NAVSS0,
+	.clk_idx	= AM6_DEV_NAVSS0_BUS_CPTS0_GENF5_0,
+};
 static const struct clk_parent clk_obsclk_parents[] = {
 	{
 		CLK_AM6_BOARD_0_HFOSC1_CLK_OUT,
@@ -4986,6 +5006,30 @@ const struct clk_data soc_clock_data[] = {
 		.flags	= 0,
 		.data	= &clk_data_mcu_ospi1_iclk_sel_bus_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM6_NAVSS256L_MAIN_0_BUS_CPTS0_GENF2_0] =			 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_navss256l_main_0_bus_cpts0_genf2_0.data,
+		.freq_idx	= AM6_FREQ_VALUE_NAVSS256L_MAIN_0_BUS_CPTS0_GENF2_0,
+	},
+	[CLK_AM6_NAVSS256L_MAIN_0_BUS_CPTS0_GENF3_0] =			 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_navss256l_main_0_bus_cpts0_genf3_0.data,
+		.freq_idx	= AM6_FREQ_VALUE_NAVSS256L_MAIN_0_BUS_CPTS0_GENF3_0,
+	},
+	[CLK_AM6_NAVSS256L_MAIN_0_BUS_CPTS0_GENF4_0] =			 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_navss256l_main_0_bus_cpts0_genf4_0.data,
+		.freq_idx	= AM6_FREQ_VALUE_NAVSS256L_MAIN_0_BUS_CPTS0_GENF4_0,
+	},
+	[CLK_AM6_NAVSS256L_MAIN_0_BUS_CPTS0_GENF5_0] =			 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_navss256l_main_0_bus_cpts0_genf5_0.data,
+		.freq_idx	= AM6_FREQ_VALUE_NAVSS256L_MAIN_0_BUS_CPTS0_GENF5_0,
 	},
 	[CLK_AM6_PCIE_G3X2_MAIN_0_BUS_PCIE_TXR0_CLK] =			 {
 		.drv		= &clk_drv_from_device,

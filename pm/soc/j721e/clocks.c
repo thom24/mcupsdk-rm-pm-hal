@@ -1,7 +1,7 @@
 /*
- * Data version: 200529_213657
+ * Data version: 210421_084401
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -201,6 +201,14 @@ enum {
 	J721E_FREQ_VALUE_FSS_MCU_0_HYPERBUS1P0_0_HPB_OUT_CLK_P,
 	J721E_FREQ_VALUE_FSS_MCU_0_OSPI_0_OSPI_OCLK_CLK,
 	J721E_FREQ_VALUE_FSS_MCU_0_OSPI_1_OSPI_OCLK_CLK,
+	J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER0_CLKOUT0_N,
+	J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER0_CLKOUT0_P,
+	J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER0_CLKOUT1_N,
+	J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER0_CLKOUT1_P,
+	J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT0_N,
+	J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT0_P,
+	J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT1_N,
+	J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT1_P,
 	J721E_FREQ_VALUE_GPMC_MAIN_0_PO_GPMC_DEV_CLK,
 	J721E_FREQ_VALUE_I3C_MAIN_0_I3C_SCL_DO,
 	J721E_FREQ_VALUE_I3C_MCU_0_I3C_SCL_DO,
@@ -276,20 +284,28 @@ enum {
 	J721E_FREQ_VALUE_MCASP_MAIN_9_MCASP_ACLKX_POUT,
 	J721E_FREQ_VALUE_MCASP_MAIN_9_MCASP_AHCLKR_POUT,
 	J721E_FREQ_VALUE_MCASP_MAIN_9_MCASP_AHCLKX_POUT,
+	J721E_FREQ_VALUE_MSHSI2C_MAIN_0_PORSCL,
+	J721E_FREQ_VALUE_MSHSI2C_MAIN_1_PORSCL,
+	J721E_FREQ_VALUE_MSHSI2C_MAIN_2_PORSCL,
+	J721E_FREQ_VALUE_MSHSI2C_MAIN_3_PORSCL,
+	J721E_FREQ_VALUE_MSHSI2C_MAIN_4_PORSCL,
+	J721E_FREQ_VALUE_MSHSI2C_MAIN_5_PORSCL,
+	J721E_FREQ_VALUE_MSHSI2C_MAIN_6_PORSCL,
 	J721E_FREQ_VALUE_MSHSI2C_MCU_0_PORSCL,
+	J721E_FREQ_VALUE_MSHSI2C_MCU_1_PORSCL,
 	J721E_FREQ_VALUE_MSHSI2C_WKUP_0_PORSCL,
 	J721E_FREQ_VALUE_NAVSS512L_MAIN_0_CPTS0_GENF2,
 	J721E_FREQ_VALUE_NAVSS512L_MAIN_0_CPTS0_GENF3,
 	J721E_FREQ_VALUE_NAVSS512L_MAIN_0_CPTS_0_TS_GENF0,
 	J721E_FREQ_VALUE_NAVSS512L_MAIN_0_CPTS_0_TS_GENF1,
-	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_0_PCIE_LANE0_TXCLK,
-	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_0_PCIE_LANE1_TXCLK,
-	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_1_PCIE_LANE0_TXCLK,
-	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_1_PCIE_LANE1_TXCLK,
-	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_2_PCIE_LANE0_TXCLK,
-	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_2_PCIE_LANE1_TXCLK,
-	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_3_PCIE_LANE0_TXCLK,
-	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_3_PCIE_LANE1_TXCLK,
+	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_0_COMMON_0_PCIE_LANE0_TXCLK,
+	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_0_COMMON_0_PCIE_LANE1_TXCLK,
+	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_1_COMMON_0_PCIE_LANE0_TXCLK,
+	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_1_COMMON_0_PCIE_LANE1_TXCLK,
+	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_2_COMMON_0_PCIE_LANE0_TXCLK,
+	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_2_COMMON_0_PCIE_LANE1_TXCLK,
+	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_3_COMMON_0_PCIE_LANE0_TXCLK,
+	J721E_FREQ_VALUE_PCIE_G4X2_MAIN_3_COMMON_0_PCIE_LANE1_TXCLK,
 	J721E_FREQ_VALUE_PLLDESKEW_16FFT_MAIN_24,
 	J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_0,
 	J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_1,
@@ -353,6 +369,7 @@ enum {
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_0_IP3_LN1_TXFCLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_0_IP3_LN1_TXMCLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_0_REF1_OUT_CLK,
+	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_0_REF_DER_OUT_CLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_0_REF_OUT_CLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_IP1_LN0_REFCLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_IP1_LN0_RXCLK,
@@ -390,6 +407,7 @@ enum {
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_IP4_LN1_TXFCLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_IP4_LN1_TXMCLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_REF1_OUT_CLK,
+	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_REF_DER_OUT_CLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_REF_OUT_CLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_IP2_LN0_REFCLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_IP2_LN0_RXCLK,
@@ -417,6 +435,7 @@ enum {
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_IP4_LN1_TXFCLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_IP4_LN1_TXMCLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_REF1_OUT_CLK,
+	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_REF_DER_OUT_CLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_REF_OUT_CLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_IP2_LN0_REFCLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_IP2_LN0_RXCLK,
@@ -434,6 +453,7 @@ enum {
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_IP3_LN1_TXFCLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_IP3_LN1_TXMCLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_REF1_OUT_CLK,
+	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_REF_DER_OUT_CLK,
 	J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_REF_OUT_CLK,
 	J721E_FREQ_VALUE_WIZ16B8M4CDT_MAIN_0_CK_M,
 	J721E_FREQ_VALUE_WIZ16B8M4CDT_MAIN_0_CK_P,
@@ -1443,6 +1463,74 @@ static const u8 pllfracf_ssmod_16fft_main_12_entries[] = {
 	PLL_TABLE_LAST,
 };
 
+static const struct clk_parent clk_ACSPCIE0_REFCLK_OUT_MUX_out0_parents[] = {
+	{
+		CLK_J721E_WIZ16B4M4CS_MAIN_0_REF_DER_OUT_CLK,
+		1,
+	},
+	{
+		CLK_J721E_WIZ16B4M4CS_MAIN_1_REF_DER_OUT_CLK,
+		1,
+	},
+	{
+		CLK_J721E_WIZ16B4M4CS_MAIN_0_REF1_OUT_CLK,
+		1,
+	},
+	{
+		CLK_J721E_WIZ16B4M4CS_MAIN_1_REF1_OUT_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_ACSPCIE0_REFCLK_OUT_MUX_out0 = {
+	.data_mux		= {
+		.parents	= clk_ACSPCIE0_REFCLK_OUT_MUX_out0_parents,
+		.n		= ARRAY_SIZE(clk_ACSPCIE0_REFCLK_OUT_MUX_out0_parents),
+	},
+	.reg			= 0x00100000 + 32880,
+	.bit			= 0,
+};
+static const struct clk_data_mux_reg clk_data_ACSPCIE0_REFCLK_OUT_MUX_out1 = {
+	.data_mux		= {
+		.parents	= clk_ACSPCIE0_REFCLK_OUT_MUX_out0_parents,
+		.n		= ARRAY_SIZE(clk_ACSPCIE0_REFCLK_OUT_MUX_out0_parents),
+	},
+	.reg			= 0x00100000 + 32884,
+	.bit			= 0,
+};
+static const struct clk_parent clk_ACSPCIE1_REFCLK_OUT_MUX_out0_parents[] = {
+	{
+		CLK_J721E_WIZ16B4M4CS_MAIN_2_REF_DER_OUT_CLK,
+		1,
+	},
+	{
+		CLK_J721E_WIZ16B4M4CS_MAIN_3_REF_DER_OUT_CLK,
+		1,
+	},
+	{
+		CLK_J721E_WIZ16B4M4CS_MAIN_2_REF1_OUT_CLK,
+		1,
+	},
+	{
+		CLK_J721E_WIZ16B4M4CS_MAIN_3_REF1_OUT_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_ACSPCIE1_REFCLK_OUT_MUX_out0 = {
+	.data_mux		= {
+		.parents	= clk_ACSPCIE1_REFCLK_OUT_MUX_out0_parents,
+		.n		= ARRAY_SIZE(clk_ACSPCIE1_REFCLK_OUT_MUX_out0_parents),
+	},
+	.reg			= 0x00100000 + 32888,
+	.bit			= 0,
+};
+static const struct clk_data_mux_reg clk_data_ACSPCIE1_REFCLK_OUT_MUX_out1 = {
+	.data_mux		= {
+		.parents	= clk_ACSPCIE1_REFCLK_OUT_MUX_out0_parents,
+		.n		= ARRAY_SIZE(clk_ACSPCIE1_REFCLK_OUT_MUX_out0_parents),
+	},
+	.reg			= 0x00100000 + 32892,
+	.bit			= 0,
+};
 static const struct clk_parent clk_ASRC_RXSYNC_SEL_out0_parents[] = {
 	{
 		CLK_J721E_BOARD_0_MCASP0_AFSR_OUT,
@@ -2466,6 +2554,38 @@ static const struct clk_data_mux_reg clk_data_EMMCSD_REFCLK_SEL_out2 = {
 	},
 	.reg			= 0x00100000 + 32952,
 	.bit			= 0,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER0_CLKOUT0_N = {
+	.dev		= J721E_DEV_ASCPCIE_BUFFER0,
+	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER0_CLKOUT0_N,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER0_CLKOUT0_P = {
+	.dev		= J721E_DEV_ASCPCIE_BUFFER0,
+	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER0_CLKOUT0_P,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER0_CLKOUT1_N = {
+	.dev		= J721E_DEV_ASCPCIE_BUFFER0,
+	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER0_CLKOUT1_N,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER0_CLKOUT1_P = {
+	.dev		= J721E_DEV_ASCPCIE_BUFFER0,
+	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER0_CLKOUT1_P,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER1_CLKOUT0_N = {
+	.dev		= J721E_DEV_ASCPCIE_BUFFER1,
+	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER1_CLKOUT0_N,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER1_CLKOUT0_P = {
+	.dev		= J721E_DEV_ASCPCIE_BUFFER1,
+	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER1_CLKOUT0_P,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER1_CLKOUT1_N = {
+	.dev		= J721E_DEV_ASCPCIE_BUFFER1,
+	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER1_CLKOUT1_N,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER1_CLKOUT1_P = {
+	.dev		= J721E_DEV_ASCPCIE_BUFFER1,
+	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER1_CLKOUT1_P,
 };
 static const struct clk_data_mux_reg clk_data_GTC_CLK_MUX_out0 = {
 	.data_mux		= {
@@ -6972,9 +7092,41 @@ static const struct clk_data_mux_reg clk_data_mcuusart_clk_sel_out0 = {
 	.reg			= 0x40F00000 + 33216,
 	.bit			= 0,
 };
+static const struct clk_data_from_dev clk_data_mshsi2c_main_0_porscl = {
+	.dev		= J721E_DEV_I2C0,
+	.clk_idx	= J721E_DEV_I2C0_PORSCL,
+};
+static const struct clk_data_from_dev clk_data_mshsi2c_main_1_porscl = {
+	.dev		= J721E_DEV_I2C1,
+	.clk_idx	= J721E_DEV_I2C1_PORSCL,
+};
+static const struct clk_data_from_dev clk_data_mshsi2c_main_2_porscl = {
+	.dev		= J721E_DEV_I2C2,
+	.clk_idx	= J721E_DEV_I2C2_PORSCL,
+};
+static const struct clk_data_from_dev clk_data_mshsi2c_main_3_porscl = {
+	.dev		= J721E_DEV_I2C3,
+	.clk_idx	= J721E_DEV_I2C3_PORSCL,
+};
+static const struct clk_data_from_dev clk_data_mshsi2c_main_4_porscl = {
+	.dev		= J721E_DEV_I2C4,
+	.clk_idx	= J721E_DEV_I2C4_PORSCL,
+};
+static const struct clk_data_from_dev clk_data_mshsi2c_main_5_porscl = {
+	.dev		= J721E_DEV_I2C5,
+	.clk_idx	= J721E_DEV_I2C5_PORSCL,
+};
+static const struct clk_data_from_dev clk_data_mshsi2c_main_6_porscl = {
+	.dev		= J721E_DEV_I2C6,
+	.clk_idx	= J721E_DEV_I2C6_PORSCL,
+};
 static const struct clk_data_from_dev clk_data_mshsi2c_mcu_0_porscl = {
 	.dev		= J721E_DEV_MCU_I2C0,
 	.clk_idx	= J721E_DEV_MCU_I2C0_PORSCL,
+};
+static const struct clk_data_from_dev clk_data_mshsi2c_mcu_1_porscl = {
+	.dev		= J721E_DEV_MCU_I2C1,
+	.clk_idx	= J721E_DEV_MCU_I2C1_PORSCL,
 };
 static const struct clk_data_from_dev clk_data_mshsi2c_wkup_0_porscl = {
 	.dev		= J721E_DEV_WKUP_I2C0,
@@ -7167,35 +7319,35 @@ static const struct clk_data_div_reg clk_data_osbclk0_div_out0 = {
 	.reg		= 0x00100000 + 32768,
 	.bit		= 8,
 };
-static const struct clk_data_from_dev clk_data_pcie_g4x2_main_0_pcie_lane0_txclk = {
+static const struct clk_data_from_dev clk_data_pcie_g4x2_main_0_common_0_pcie_lane0_txclk = {
 	.dev		= J721E_DEV_PCIE0,
 	.clk_idx	= J721E_DEV_PCIE0_PCIE_LANE0_TXCLK,
 };
-static const struct clk_data_from_dev clk_data_pcie_g4x2_main_0_pcie_lane1_txclk = {
+static const struct clk_data_from_dev clk_data_pcie_g4x2_main_0_common_0_pcie_lane1_txclk = {
 	.dev		= J721E_DEV_PCIE0,
 	.clk_idx	= J721E_DEV_PCIE0_PCIE_LANE1_TXCLK,
 };
-static const struct clk_data_from_dev clk_data_pcie_g4x2_main_1_pcie_lane0_txclk = {
+static const struct clk_data_from_dev clk_data_pcie_g4x2_main_1_common_0_pcie_lane0_txclk = {
 	.dev		= J721E_DEV_PCIE1,
 	.clk_idx	= J721E_DEV_PCIE1_PCIE_LANE0_TXCLK,
 };
-static const struct clk_data_from_dev clk_data_pcie_g4x2_main_1_pcie_lane1_txclk = {
+static const struct clk_data_from_dev clk_data_pcie_g4x2_main_1_common_0_pcie_lane1_txclk = {
 	.dev		= J721E_DEV_PCIE1,
 	.clk_idx	= J721E_DEV_PCIE1_PCIE_LANE1_TXCLK,
 };
-static const struct clk_data_from_dev clk_data_pcie_g4x2_main_2_pcie_lane0_txclk = {
+static const struct clk_data_from_dev clk_data_pcie_g4x2_main_2_common_0_pcie_lane0_txclk = {
 	.dev		= J721E_DEV_PCIE2,
 	.clk_idx	= J721E_DEV_PCIE2_PCIE_LANE0_TXCLK,
 };
-static const struct clk_data_from_dev clk_data_pcie_g4x2_main_2_pcie_lane1_txclk = {
+static const struct clk_data_from_dev clk_data_pcie_g4x2_main_2_common_0_pcie_lane1_txclk = {
 	.dev		= J721E_DEV_PCIE2,
 	.clk_idx	= J721E_DEV_PCIE2_PCIE_LANE1_TXCLK,
 };
-static const struct clk_data_from_dev clk_data_pcie_g4x2_main_3_pcie_lane0_txclk = {
+static const struct clk_data_from_dev clk_data_pcie_g4x2_main_3_common_0_pcie_lane0_txclk = {
 	.dev		= J721E_DEV_PCIE3,
 	.clk_idx	= J721E_DEV_PCIE3_PCIE_LANE0_TXCLK,
 };
-static const struct clk_data_from_dev clk_data_pcie_g4x2_main_3_pcie_lane1_txclk = {
+static const struct clk_data_from_dev clk_data_pcie_g4x2_main_3_common_0_pcie_lane1_txclk = {
 	.dev		= J721E_DEV_PCIE3,
 	.clk_idx	= J721E_DEV_PCIE3_PCIE_LANE1_TXCLK,
 };
@@ -7721,6 +7873,10 @@ static const struct clk_data_from_dev clk_data_wiz16b4m4cs_main_0_ref1_out_clk =
 	.dev		= J721E_DEV_SERDES_16G0,
 	.clk_idx	= J721E_DEV_SERDES_16G0_REF1_OUT_CLK,
 };
+static const struct clk_data_from_dev clk_data_wiz16b4m4cs_main_0_ref_der_out_clk = {
+	.dev		= J721E_DEV_SERDES_16G0,
+	.clk_idx	= J721E_DEV_SERDES_16G0_REF_DER_OUT_CLK,
+};
 static const struct clk_data_from_dev clk_data_wiz16b4m4cs_main_0_ref_out_clk = {
 	.dev		= J721E_DEV_SERDES_16G0,
 	.clk_idx	= J721E_DEV_SERDES_16G0_REF_OUT_CLK,
@@ -7869,6 +8025,10 @@ static const struct clk_data_from_dev clk_data_wiz16b4m4cs_main_1_ref1_out_clk =
 	.dev		= J721E_DEV_SERDES_16G1,
 	.clk_idx	= J721E_DEV_SERDES_16G1_REF1_OUT_CLK,
 };
+static const struct clk_data_from_dev clk_data_wiz16b4m4cs_main_1_ref_der_out_clk = {
+	.dev		= J721E_DEV_SERDES_16G1,
+	.clk_idx	= J721E_DEV_SERDES_16G1_REF_DER_OUT_CLK,
+};
 static const struct clk_data_from_dev clk_data_wiz16b4m4cs_main_1_ref_out_clk = {
 	.dev		= J721E_DEV_SERDES_16G1,
 	.clk_idx	= J721E_DEV_SERDES_16G1_REF_OUT_CLK,
@@ -7977,6 +8137,10 @@ static const struct clk_data_from_dev clk_data_wiz16b4m4cs_main_2_ref1_out_clk =
 	.dev		= J721E_DEV_SERDES_16G2,
 	.clk_idx	= J721E_DEV_SERDES_16G2_REF1_OUT_CLK,
 };
+static const struct clk_data_from_dev clk_data_wiz16b4m4cs_main_2_ref_der_out_clk = {
+	.dev		= J721E_DEV_SERDES_16G2,
+	.clk_idx	= J721E_DEV_SERDES_16G2_REF_DER_OUT_CLK,
+};
 static const struct clk_data_from_dev clk_data_wiz16b4m4cs_main_2_ref_out_clk = {
 	.dev		= J721E_DEV_SERDES_16G2,
 	.clk_idx	= J721E_DEV_SERDES_16G2_REF_OUT_CLK,
@@ -8044,6 +8208,10 @@ static const struct clk_data_from_dev clk_data_wiz16b4m4cs_main_3_ip3_ln1_txmclk
 static const struct clk_data_from_dev clk_data_wiz16b4m4cs_main_3_ref1_out_clk = {
 	.dev		= J721E_DEV_SERDES_16G3,
 	.clk_idx	= J721E_DEV_SERDES_16G3_REF1_OUT_CLK,
+};
+static const struct clk_data_from_dev clk_data_wiz16b4m4cs_main_3_ref_der_out_clk = {
+	.dev		= J721E_DEV_SERDES_16G3,
+	.clk_idx	= J721E_DEV_SERDES_16G3_REF_DER_OUT_CLK,
 };
 static const struct clk_data_from_dev clk_data_wiz16b4m4cs_main_3_ref_out_clk = {
 	.dev		= J721E_DEV_SERDES_16G3,
@@ -8669,6 +8837,12 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_mshsi2c_mcu_0_porscl.data,
 		.freq_idx	= J721E_FREQ_VALUE_MSHSI2C_MCU_0_PORSCL,
 	},
+	[CLK_J721E_MSHSI2C_MCU_1_PORSCL] =					  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_mshsi2c_mcu_1_porscl.data,
+		.freq_idx	= J721E_FREQ_VALUE_MSHSI2C_MCU_1_PORSCL,
+	},
 	[CLK_J721E_MSHSI2C_WKUP_0_PORSCL] =					  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -9124,6 +9298,54 @@ const struct clk_data soc_clock_data[] = {
 		.flags	= 0,
 		.data	= &clk_data_MCU_TIMER9_CASCADE_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_GLUELOGIC_ACSPCIE_LJCB_BUFFER0_CLKOUT0_N] =			  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER0_CLKOUT0_N.data,
+		.freq_idx	= J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER0_CLKOUT0_N,
+	},
+	[CLK_J721E_GLUELOGIC_ACSPCIE_LJCB_BUFFER0_CLKOUT0_P] =			  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER0_CLKOUT0_P.data,
+		.freq_idx	= J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER0_CLKOUT0_P,
+	},
+	[CLK_J721E_GLUELOGIC_ACSPCIE_LJCB_BUFFER0_CLKOUT1_N] =			  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER0_CLKOUT1_N.data,
+		.freq_idx	= J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER0_CLKOUT1_N,
+	},
+	[CLK_J721E_GLUELOGIC_ACSPCIE_LJCB_BUFFER0_CLKOUT1_P] =			  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER0_CLKOUT1_P.data,
+		.freq_idx	= J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER0_CLKOUT1_P,
+	},
+	[CLK_J721E_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT0_N] =			  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER1_CLKOUT0_N.data,
+		.freq_idx	= J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT0_N,
+	},
+	[CLK_J721E_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT0_P] =			  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER1_CLKOUT0_P.data,
+		.freq_idx	= J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT0_P,
+	},
+	[CLK_J721E_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT1_N] =			  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER1_CLKOUT1_N.data,
+		.freq_idx	= J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT1_N,
+	},
+	[CLK_J721E_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT1_P] =			  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER1_CLKOUT1_P.data,
+		.freq_idx	= J721E_FREQ_VALUE_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT1_P,
 	},
 	[CLK_J721E_K3_DPHY_RX_MAIN_0_PPI_RX_BYTE_CLK] =				  {
 		.drv		= &clk_drv_from_device,
@@ -10614,6 +10836,48 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_mcasp_main_9_mcasp_ahclkx_pout.data,
 		.freq_idx	= J721E_FREQ_VALUE_MCASP_MAIN_9_MCASP_AHCLKX_POUT,
 	},
+	[CLK_J721E_MSHSI2C_MAIN_0_PORSCL] =					  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_mshsi2c_main_0_porscl.data,
+		.freq_idx	= J721E_FREQ_VALUE_MSHSI2C_MAIN_0_PORSCL,
+	},
+	[CLK_J721E_MSHSI2C_MAIN_1_PORSCL] =					  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_mshsi2c_main_1_porscl.data,
+		.freq_idx	= J721E_FREQ_VALUE_MSHSI2C_MAIN_1_PORSCL,
+	},
+	[CLK_J721E_MSHSI2C_MAIN_2_PORSCL] =					  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_mshsi2c_main_2_porscl.data,
+		.freq_idx	= J721E_FREQ_VALUE_MSHSI2C_MAIN_2_PORSCL,
+	},
+	[CLK_J721E_MSHSI2C_MAIN_3_PORSCL] =					  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_mshsi2c_main_3_porscl.data,
+		.freq_idx	= J721E_FREQ_VALUE_MSHSI2C_MAIN_3_PORSCL,
+	},
+	[CLK_J721E_MSHSI2C_MAIN_4_PORSCL] =					  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_mshsi2c_main_4_porscl.data,
+		.freq_idx	= J721E_FREQ_VALUE_MSHSI2C_MAIN_4_PORSCL,
+	},
+	[CLK_J721E_MSHSI2C_MAIN_5_PORSCL] =					  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_mshsi2c_main_5_porscl.data,
+		.freq_idx	= J721E_FREQ_VALUE_MSHSI2C_MAIN_5_PORSCL,
+	},
+	[CLK_J721E_MSHSI2C_MAIN_6_PORSCL] =					  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_mshsi2c_main_6_porscl.data,
+		.freq_idx	= J721E_FREQ_VALUE_MSHSI2C_MAIN_6_PORSCL,
+	},
 	[CLK_J721E_NAVSS512L_MAIN_0_CPTS0_GENF2] =				  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -10638,53 +10902,53 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_navss512l_main_0_cpts_0_ts_genf1.data,
 		.freq_idx	= J721E_FREQ_VALUE_NAVSS512L_MAIN_0_CPTS_0_TS_GENF1,
 	},
-	[CLK_J721E_PCIE_G4X2_MAIN_0_PCIE_LANE0_TXCLK] =				  {
+	[CLK_J721E_PCIE_G4X2_MAIN_0_COMMON_0_PCIE_LANE0_TXCLK] =		  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
-		.data		= &clk_data_pcie_g4x2_main_0_pcie_lane0_txclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_0_PCIE_LANE0_TXCLK,
+		.data		= &clk_data_pcie_g4x2_main_0_common_0_pcie_lane0_txclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_0_COMMON_0_PCIE_LANE0_TXCLK,
 	},
-	[CLK_J721E_PCIE_G4X2_MAIN_0_PCIE_LANE1_TXCLK] =				  {
+	[CLK_J721E_PCIE_G4X2_MAIN_0_COMMON_0_PCIE_LANE1_TXCLK] =		  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
-		.data		= &clk_data_pcie_g4x2_main_0_pcie_lane1_txclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_0_PCIE_LANE1_TXCLK,
+		.data		= &clk_data_pcie_g4x2_main_0_common_0_pcie_lane1_txclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_0_COMMON_0_PCIE_LANE1_TXCLK,
 	},
-	[CLK_J721E_PCIE_G4X2_MAIN_1_PCIE_LANE0_TXCLK] =				  {
+	[CLK_J721E_PCIE_G4X2_MAIN_1_COMMON_0_PCIE_LANE0_TXCLK] =		  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
-		.data		= &clk_data_pcie_g4x2_main_1_pcie_lane0_txclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_1_PCIE_LANE0_TXCLK,
+		.data		= &clk_data_pcie_g4x2_main_1_common_0_pcie_lane0_txclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_1_COMMON_0_PCIE_LANE0_TXCLK,
 	},
-	[CLK_J721E_PCIE_G4X2_MAIN_1_PCIE_LANE1_TXCLK] =				  {
+	[CLK_J721E_PCIE_G4X2_MAIN_1_COMMON_0_PCIE_LANE1_TXCLK] =		  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
-		.data		= &clk_data_pcie_g4x2_main_1_pcie_lane1_txclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_1_PCIE_LANE1_TXCLK,
+		.data		= &clk_data_pcie_g4x2_main_1_common_0_pcie_lane1_txclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_1_COMMON_0_PCIE_LANE1_TXCLK,
 	},
-	[CLK_J721E_PCIE_G4X2_MAIN_2_PCIE_LANE0_TXCLK] =				  {
+	[CLK_J721E_PCIE_G4X2_MAIN_2_COMMON_0_PCIE_LANE0_TXCLK] =		  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
-		.data		= &clk_data_pcie_g4x2_main_2_pcie_lane0_txclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_2_PCIE_LANE0_TXCLK,
+		.data		= &clk_data_pcie_g4x2_main_2_common_0_pcie_lane0_txclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_2_COMMON_0_PCIE_LANE0_TXCLK,
 	},
-	[CLK_J721E_PCIE_G4X2_MAIN_2_PCIE_LANE1_TXCLK] =				  {
+	[CLK_J721E_PCIE_G4X2_MAIN_2_COMMON_0_PCIE_LANE1_TXCLK] =		  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
-		.data		= &clk_data_pcie_g4x2_main_2_pcie_lane1_txclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_2_PCIE_LANE1_TXCLK,
+		.data		= &clk_data_pcie_g4x2_main_2_common_0_pcie_lane1_txclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_2_COMMON_0_PCIE_LANE1_TXCLK,
 	},
-	[CLK_J721E_PCIE_G4X2_MAIN_3_PCIE_LANE0_TXCLK] =				  {
+	[CLK_J721E_PCIE_G4X2_MAIN_3_COMMON_0_PCIE_LANE0_TXCLK] =		  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
-		.data		= &clk_data_pcie_g4x2_main_3_pcie_lane0_txclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_3_PCIE_LANE0_TXCLK,
+		.data		= &clk_data_pcie_g4x2_main_3_common_0_pcie_lane0_txclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_3_COMMON_0_PCIE_LANE0_TXCLK,
 	},
-	[CLK_J721E_PCIE_G4X2_MAIN_3_PCIE_LANE1_TXCLK] =				  {
+	[CLK_J721E_PCIE_G4X2_MAIN_3_COMMON_0_PCIE_LANE1_TXCLK] =		  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
-		.data		= &clk_data_pcie_g4x2_main_3_pcie_lane1_txclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_3_PCIE_LANE1_TXCLK,
+		.data		= &clk_data_pcie_g4x2_main_3_common_0_pcie_lane1_txclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_3_COMMON_0_PCIE_LANE1_TXCLK,
 	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_13_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
@@ -11119,6 +11383,12 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_wiz16b4m4cs_main_0_ref1_out_clk.data,
 		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_0_REF1_OUT_CLK,
 	},
+	[CLK_J721E_WIZ16B4M4CS_MAIN_0_REF_DER_OUT_CLK] =			  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b4m4cs_main_0_ref_der_out_clk.data,
+		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_0_REF_DER_OUT_CLK,
+	},
 	[CLK_J721E_WIZ16B4M4CS_MAIN_0_REF_OUT_CLK] =				  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -11329,6 +11599,12 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_wiz16b4m4cs_main_1_ref1_out_clk.data,
 		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_REF1_OUT_CLK,
 	},
+	[CLK_J721E_WIZ16B4M4CS_MAIN_1_REF_DER_OUT_CLK] =			  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b4m4cs_main_1_ref_der_out_clk.data,
+		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_REF_DER_OUT_CLK,
+	},
 	[CLK_J721E_WIZ16B4M4CS_MAIN_1_REF_OUT_CLK] =				  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -11479,6 +11755,12 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_wiz16b4m4cs_main_2_ref1_out_clk.data,
 		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_REF1_OUT_CLK,
 	},
+	[CLK_J721E_WIZ16B4M4CS_MAIN_2_REF_DER_OUT_CLK] =			  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b4m4cs_main_2_ref_der_out_clk.data,
+		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_REF_DER_OUT_CLK,
+	},
 	[CLK_J721E_WIZ16B4M4CS_MAIN_2_REF_OUT_CLK] =				  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -11568,6 +11850,12 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_wiz16b4m4cs_main_3_ref1_out_clk.data,
 		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_REF1_OUT_CLK,
+	},
+	[CLK_J721E_WIZ16B4M4CS_MAIN_3_REF_DER_OUT_CLK] =			  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b4m4cs_main_3_ref_der_out_clk.data,
+		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_REF_DER_OUT_CLK,
 	},
 	[CLK_J721E_WIZ16B4M4CS_MAIN_3_REF_OUT_CLK] =				  {
 		.drv		= &clk_drv_from_device,
@@ -11855,6 +12143,30 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.data	= &clk_data_wkup_obsclk_mux_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_ACSPCIE0_REFCLK_OUT_MUX_OUT0] =				  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ACSPCIE0_REFCLK_OUT_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_ACSPCIE0_REFCLK_OUT_MUX_OUT1] =				  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ACSPCIE0_REFCLK_OUT_MUX_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_ACSPCIE1_REFCLK_OUT_MUX_OUT0] =				  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ACSPCIE1_REFCLK_OUT_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_ACSPCIE1_REFCLK_OUT_MUX_OUT1] =				  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ACSPCIE1_REFCLK_OUT_MUX_out1.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721E_CLKOUT_MUX_OUT0] =						  {

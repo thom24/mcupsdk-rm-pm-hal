@@ -3,9 +3,9 @@
  *
  * Host IDs for J721E device
  *
- * Data version: 200529_213657
+ * Data version: 210421_084401
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
