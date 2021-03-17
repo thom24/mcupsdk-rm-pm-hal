@@ -1,0 +1,21 @@
+
+menu "Low Power Mode support"
+
+config LPM_DM_STUB
+	bool "Build an LPM Stub binary"
+	help
+	 Enable Low Power Mode Stub Generation
+
+config LNK_NSPS_BASE
+	hex "LNK_NSPS base address"
+	default 0x00040000
+	help
+	  Default base address of Non-secure Preserved Storage Memory
+
+config LNK_NSPS_LEN
+	hex "Size of NSPS"
+	default 0x00008000
+	help
+	  Set the maximum size of Non-secure Preserved Storage Memory
+
+endmenu
