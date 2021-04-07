@@ -3,7 +3,7 @@
  *
  * Host IDs for internal use
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,5 +53,16 @@
  *  behalf of any processing entity - and not exclusive to one.
  */
 #define HOST_ID_NONE (255U)
+
+#ifdef HOST_ID_DMSC
+/* Create name alias for HOST_ID_DMSC to enable legacy platform compatibility */
+#define HOST_ID_TIFS HOST_ID_DMSC
+#endif
+#ifdef HOST_ID_DM2DMSC
+/*
+ * Create name alias for HOST_ID_DM2DMSC to enable legacy platform compatibility
+ */
+#define HOST_ID_DM2TIFS HOST_ID_DM2DMSC
+#endif
 
 #endif /* HOSTS_INTERNAL_H */

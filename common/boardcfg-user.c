@@ -3,7 +3,7 @@
  *
  * Boardcfg API for receiving and storing board configuration
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,7 @@
 
 #include <resasg_types.h>
 #include <hosts.h>
+#include <hosts_internal.h>
 #include <osal/osal_core.h>
 #include <drivers/rat.h>
 #include <stdbool.h>
@@ -478,7 +479,7 @@ s32 boardcfg_user_auto(u16 type, boardcfg_process_fxn fxn)
 	}
 
 	if (ret == SUCCESS) {
-		ret = fxn(HOST_ID_DMSC, base + desc->offset, 0x0,
+		ret = fxn(HOST_ID_TIFS, base + desc->offset, 0x0,
 			  desc->size, desc->devgrp);
 	}
 
