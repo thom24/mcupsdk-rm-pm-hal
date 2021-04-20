@@ -48,13 +48,15 @@
  *
  * \param nav_id RA device ID
  *
+ * \param udma_chan_type UDMA channel type
+ *
  * \param host Host ID
  *
  * \param index Ring index
  *
  * \return SUCCESS if ring index is valid, else -EINVAL
  */
-s32 rm_ra_validate_ring_index(u16 nav_id, u8 host, u16 index);
+s32 rm_ra_validate_ring_index(u16 nav_id, u8 udma_chan_type, u8 host, u16 index);
 
 /**
  * \brief Confirms managed resource assignment types for RA driver

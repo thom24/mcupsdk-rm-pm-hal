@@ -31,6 +31,7 @@
 #
 
 cppflags-y += -I$(srctree)/rm_pm_hal/rm/drivers/ra/include
+cppflags-y += -I$(srctree)/rm_pm_hal/rm/drivers/udmap/include
 cppflags-y += -I$(srctree)/rm_pm_hal/rm/drivers/ra/soc/$(TARGET_SOC)
 
 obj-$(CONFIG_RM_RA) += rm_ra.o

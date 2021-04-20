@@ -3,7 +3,7 @@
  *
  * UDMAP management infrastructure
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -4107,7 +4107,7 @@ s32 rm_udmap_tx_ch_cfg(u32 *msg_recv)
 		 * either reset value or a previously validated and configured
 		 * ring
 		 */
-		r = rm_ra_validate_ring_index(inst->root_id, msg->hdr.host,
+		r = rm_ra_validate_ring_index(inst->root_id, chan_type, msg->hdr.host,
 					      loc_msg.txcq_qnum);
 		if (r != SUCCESS) {
 			trace_action |= TRACE_RM_ACTION_FAIL;
@@ -4226,7 +4226,7 @@ s32 rm_udmap_rx_ch_cfg(u32 *msg_recv)
 		 * either reset value or a previously validated and configured
 		 * ring
 		 */
-		r = rm_ra_validate_ring_index(inst->root_id, msg->hdr.host,
+		r = rm_ra_validate_ring_index(inst->root_id, chan_type, msg->hdr.host,
 					      loc_msg.rxcq_qnum);
 		if (r != SUCCESS) {
 			trace_action |= TRACE_RM_ACTION_FAIL;
@@ -4382,7 +4382,7 @@ s32 rm_udmap_flow_cfg(u32 *msg_recv)
 		 * either reset value or a previously validated and configured
 		 * ring
 		 */
-		r = rm_ra_validate_ring_index(inst->root_id, msg->hdr.host,
+		r = rm_ra_validate_ring_index(inst->root_id, assoc_chan_type, msg->hdr.host,
 					      loc_msg.rx_dest_qnum);
 		if (r != SUCCESS) {
 			trace_action |= TRACE_RM_ACTION_FAIL;
@@ -4421,7 +4421,7 @@ s32 rm_udmap_flow_cfg(u32 *msg_recv)
 		 * either reset value or a previously validated and configured
 		 * ring
 		 */
-		r = rm_ra_validate_ring_index(inst->root_id, msg->hdr.host,
+		r = rm_ra_validate_ring_index(inst->root_id, assoc_chan_type, msg->hdr.host,
 					      loc_msg.rx_fdq0_sz0_qnum);
 		if (r != SUCCESS) {
 			trace_action |= TRACE_RM_ACTION_FAIL;
@@ -4443,7 +4443,7 @@ s32 rm_udmap_flow_cfg(u32 *msg_recv)
 		 * either reset value or a previously validated and configured
 		 * ring
 		 */
-		r = rm_ra_validate_ring_index(inst->root_id, msg->hdr.host,
+		r = rm_ra_validate_ring_index(inst->root_id, assoc_chan_type, msg->hdr.host,
 					      loc_msg.rx_fdq1_qnum);
 		if (r != SUCCESS) {
 			trace_action |= TRACE_RM_ACTION_FAIL;
@@ -4465,7 +4465,7 @@ s32 rm_udmap_flow_cfg(u32 *msg_recv)
 		 * either reset value or a previously validated and configured
 		 * ring
 		 */
-		r = rm_ra_validate_ring_index(inst->root_id, msg->hdr.host,
+		r = rm_ra_validate_ring_index(inst->root_id, assoc_chan_type, msg->hdr.host,
 					      loc_msg.rx_fdq2_qnum);
 		if (r != SUCCESS) {
 			trace_action |= TRACE_RM_ACTION_FAIL;
@@ -4487,7 +4487,7 @@ s32 rm_udmap_flow_cfg(u32 *msg_recv)
 		 * either reset value or a previously validated and configured
 		 * ring
 		 */
-		r = rm_ra_validate_ring_index(inst->root_id, msg->hdr.host,
+		r = rm_ra_validate_ring_index(inst->root_id, assoc_chan_type, msg->hdr.host,
 					      loc_msg.rx_fdq3_qnum);
 		if (r != SUCCESS) {
 			trace_action |= TRACE_RM_ACTION_FAIL;
@@ -4571,7 +4571,7 @@ s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv __attribute__((unused)))
 		 * either reset value or a previously validated and configured
 		 * ring
 		 */
-		r = rm_ra_validate_ring_index(inst->root_id, msg->hdr.host,
+		r = rm_ra_validate_ring_index(inst->root_id, assoc_chan_type, msg->hdr.host,
 					      loc_msg.rx_fdq0_sz1_qnum);
 		if (r != SUCCESS) {
 			trace_action |= TRACE_RM_ACTION_FAIL;
@@ -4593,7 +4593,7 @@ s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv __attribute__((unused)))
 		 * either reset value or a previously validated and configured
 		 * ring
 		 */
-		r = rm_ra_validate_ring_index(inst->root_id, msg->hdr.host,
+		r = rm_ra_validate_ring_index(inst->root_id, assoc_chan_type, msg->hdr.host,
 					      loc_msg.rx_fdq0_sz2_qnum);
 		if (r != SUCCESS) {
 			trace_action |= TRACE_RM_ACTION_FAIL;
@@ -4615,7 +4615,7 @@ s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv __attribute__((unused)))
 		 * either reset value or a previously validated and configured
 		 * ring
 		 */
-		r = rm_ra_validate_ring_index(inst->root_id, msg->hdr.host,
+		r = rm_ra_validate_ring_index(inst->root_id, assoc_chan_type, msg->hdr.host,
 					      loc_msg.rx_fdq0_sz3_qnum);
 		if (r != SUCCESS) {
 			trace_action |= TRACE_RM_ACTION_FAIL;

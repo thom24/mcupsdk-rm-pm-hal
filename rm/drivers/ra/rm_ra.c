@@ -3,7 +3,7 @@
  *
  * Ring Accelerator management infrastructure
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,6 +52,7 @@
 
 #include <ra_inst.h>
 #include <ra_cfg.h>
+#include <udmap_inst.h>
 
 #ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 #include <security/rm_int_firewall.h>
@@ -190,23 +191,28 @@ static const struct ra_instance *ra_get_inst(u16 id, u8 trace_action)
 
 /**
  * \brief Get RA instance mapped to provided Navigator Subsystem root
- *        device ID
+ *        device ID and ring_type
  *
  * \param root_id SoC device ID of Navigator Subsystem in which the RA
  *                device is located
+ *
+ * \param ring_type Ring Type for properly matching the RA instance
  *
  * \param trace_action RA action to trace
  *
  * \return Pointer to RA instance, NULL if no instance mapped to root ID
  */
-static const struct ra_instance *ra_get_inst_from_root_id(u16	root_id,
-							  u8	trace_action)
+static const struct ra_instance *ra_get_inst_from_root_id_ring_type(u16 root_id,
+								    u8	ring_type,
+								    u8	trace_action)
 {
 	const struct ra_instance *inst = NULL;
 	u8 i;
 
 	for (i = 0; i < ra_inst_count; i++) {
-		if (ra_inst[i].root_id == root_id) {
+		/* A properly matched RA in NAVSS must also have matching ring_type */
+		if ((ra_inst[i].root_id == root_id) &&
+		    (ra_inst[i].ring_types[0].type == ring_type)) {
 			inst = &ra_inst[i];
 
 			if (rm_core_validate_devgrp(inst->id, inst->devgrp) !=
@@ -1369,18 +1375,44 @@ s32 rm_ra_mon_cfg(u32 *msg_recv)
 	return r;
 }
 
-s32 rm_ra_validate_ring_index(u16 nav_id, u8 host, u16 index)
+s32 rm_ra_validate_ring_index(u16 nav_id, u8 udma_chan_type, u8 host, u16 index)
 {
 	s32 r = SUCCESS;
 	const struct ra_instance *inst;
 	u8 trace_action = TRACE_RM_ACTION_RING_VALIDATE_INDEX;
+	u8 ring_type = RA_NUM_RING_TYPES;
 
-	inst = ra_get_inst_from_root_id(nav_id, trace_action);
-	if (inst == NULL) {
+	switch (udma_chan_type) {
+	case UDMAP_TX_CHAN:
+	case UDMAP_TX_HCHAN:
+	case UDMAP_TX_UHCHAN:
+	case UDMAP_TX_ECHAN:
+	case UDMAP_RX_CHAN:
+	case UDMAP_RX_HCHAN:
+	case UDMAP_RX_UHCHAN:
+		ring_type = RA_STANDARD_RING;
+		break;
+	case DMSS_BCDMA_TX_CHAN:
+	case DMSS_BCDMA_RX_CHAN:
+	case DMSS_BCDMA_BLOCK_COPY_CHAN:
+	case DMSS_PKTDMA_TX_CHAN:
+	case DMSS_PKTDMA_RX_CHAN:
+		ring_type = RA_DMSS_RING;
+		break;
+	default:
+		trace_action |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
-	} else {
-		r = ra_check_index_range(inst, host, index, NULL,
-					 trace_action, NULL);
+		break;
+	}
+
+	if (r == SUCCESS) {
+		inst = ra_get_inst_from_root_id_ring_type(nav_id, ring_type, trace_action);
+		if (inst == NULL) {
+			r = -EINVAL;
+		} else {
+			r = ra_check_index_range(inst, host, index, NULL,
+						 trace_action, NULL);
+		}
 	}
 
 	return r;
