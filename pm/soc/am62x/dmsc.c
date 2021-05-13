@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2017-2021, Texas Instruments Incorporated
+ * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,20 +37,19 @@
 #include <sleep.h>
 #include <types/array_size.h>
 #include <dmsc.h>
-#include <soc/am64x/devices.h>
+#include <soc/am62x/devices.h>
 #include <lib/ioremap.h>
 #include <sys-reset.h>
 #include <device_pm.h>
 
-#define MAIN_CTRL_BASE  0x100000UL
-#define MCU_CTRL_BASE   0x4500000UL
+#define WKUP_CTRL_BASE  0x43000000UL
 
 #define CTRL_MMR0_PARTITION_SIZE                        0x4000
 
-#define CTRLMMR_MCU_RST_CTRL                            0x18170U
-#define CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_OFFSET      8U
-#define CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_MASK        0xFU
-#define CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_VAL         0x6U
+#define CTRLMMR_WKUP_RST_CTRL                            0x18170U
+#define CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_OFFSET     0U
+#define CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_MASK       0xFU
+#define CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_VAL        0x6U
 
 static const struct sleep_mode am62x_sleep_modes[] = {
 	{
@@ -65,12 +64,19 @@ static s32 am62x_sys_reset_handler(domgrp_t domain __attribute__((unused)))
 	u32 v;
 
 	/* Issue warm reset */
-	v = readl(MCU_CTRL_BASE + CTRLMMR_MCU_RST_CTRL);
-	v &= ~(CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_MASK <<
-	       CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_OFFSET);
-	v |= CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_VAL <<
-	     CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_OFFSET;
-	writel(v, MCU_CTRL_BASE + CTRLMMR_MCU_RST_CTRL);
+	/*
+	 * We are using WKUP CTRL_MMR here as MCU CTRL_MMR won't
+	 * be accessible from DMSC in case MCU domain isolation is
+	 * enabled.
+	 * Also, in AM62x when not in MCU isolation, resets from MAIN
+	 * domain also propagates through MCU domain.
+	 */
+	v = readl(WKUP_CTRL_BASE + CTRLMMR_WKUP_RST_CTRL);
+	v &= ~(CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_MASK <<
+	       CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_OFFSET);
+	v |= CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_VAL <<
+	     CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_OFFSET;
+	writel(v, WKUP_CTRL_BASE + CTRLMMR_WKUP_RST_CTRL);
 
 	return SUCCESS;
 }
