@@ -10,3 +10,4 @@ obj-y += pll_16fft_raw.o
 obj-y += ctrlmmr_raw.o
 obj-y += 8250.o
 obj-y += timeout.o
+obj-y += sec_proxy.o
