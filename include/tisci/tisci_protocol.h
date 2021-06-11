@@ -3,35 +3,8 @@
  *
  * TISCI Protocol Definitions
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * *  Redistributions of source code must retain the above copyright
- * notice, this list of conditions and the following disclaimer.
- *
- * *  Redistributions in binary form must reproduce the above copyright
- * notice, this list of conditions and the following disclaimer in the
- * documentation and/or other materials provided with the distribution.
- *
- * *  Neither the name of Texas Instruments Incorporated nor the names of
- * its contributors may be used to endorse or promote products derived
- * from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
- * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * Copyright (C) 2017-2021 Texas Instruments Incorporated - http://www.ti.com/
+ * ALL RIGHTS RESERVED
  */
 
 #ifndef TISCI_PROTOCOL_H
@@ -136,6 +109,20 @@ struct tisci_sec_header {
 #define TISCI_MSG_SET_DEVICE_RESETS             (0x0202U)
 #define TISCI_MSG_DEVICE_DROP_POWERUP_REF       (0x0203U)
 
+#define TISCI_MSG_PREPARE_SLEEP                 (0x0300U)
+#define TISCI_MSG_ENTER_SLEEP                   (0x0301U)
+
+/*
+ * NOTE: These can likely be marked reserved here and defined in a
+ * tisci_protocol_priv.h?
+ */
+#define TISCI_MSG_SYNC_RESUME                   (0x0302U)
+#define TISCI_MSG_CONTINUE_RESUME               (0x0303U)
+#define TISCI_MSG_CORE_RESUME                   (0x0304U)
+
+#define TISCI_MSG_FIRMWARE_LOAD                 (0x8105U)
+#define MSG_FIRMWARE_LOAD_RESULT                (0x8805U)
+
 /** Message to set a firewall region configuration */
 #define TISCI_MSG_SET_FWL_REGION                (0x9000U)
 /** Message to get a firewall region configuration */
@@ -238,6 +225,18 @@ struct tisci_sec_header {
 
 /* Keywriter TISCI message to write keys from a certificate  */
 #define TISCI_MSG_KEY_WRITER                    (0x9031U)
+
+/** Message to write SWREV values */
+#define TISCI_MSG_WRITE_SWREV                   (0x9032U)
+
+/** Message to read SWREV values */
+#define TISCI_MSG_READ_SWREV                    (0x9033U)
+
+/** Message to read KEYCNT and KEYREV */
+#define TISCI_MSG_READ_KEYCNT_KEYREV            (0x9034U)
+
+/** Message to write KEYREV value */
+#define TISCI_MSG_WRITE_KEYREV                  (0x9035U)
 
 /* Processor Control APIs */
 
