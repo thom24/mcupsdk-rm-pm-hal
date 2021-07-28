@@ -1,20 +1,29 @@
 
 menu "Low Power Mode support"
 
+config LPM_DM
+	bool "Enable DM Low Power Mode support"
+	help
+	depends on LIBRARY_BUILD_DM
+	 Enable required features in the DM to support low power modes.
+
 config LPM_DM_STUB
 	bool "Build an LPM Stub binary"
+	depends on LPM_DM
 	help
 	 Enable Low Power Mode Stub Generation
 
 config LNK_NSPS_BASE
 	hex "LNK_NSPS base address"
 	default 0x00040000
+	depends on LPM_DM_STUB
 	help
 	  Default base address of Non-secure Preserved Storage Memory
 
 config LNK_NSPS_LEN
 	hex "Size of NSPS"
 	default 0x00008000
+	depends on LPM_DM_STUB
 	help
 	  Set the maximum size of Non-secure Preserved Storage Memory
 
