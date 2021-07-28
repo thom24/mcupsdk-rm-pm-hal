@@ -520,9 +520,7 @@ static const struct dev_data j721e_dev_atl_main_0 __attribute__((__section__(".c
 };
 static const struct dev_data j721e_dev_compute_cluster_j7es_tb_vdc_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
-		.psc_idx	= J721E_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
-		.pd		= J721E_PSC_PD_GP_CORE_CTL,
-		.mod		= J721E_PSC_LPSC_LPSC_EMIF_DATA_0,
+		.psc_idx	= PSC_DEV_NONE,
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
 };
@@ -946,7 +944,7 @@ static const struct dev_data j721e_dev_ddr32ss_16ffc_ew_dv_wrap_main_0 __attribu
 	.soc			= {
 		.psc_idx	= J721E_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.pd		= J721E_PSC_PD_GP_CORE_CTL,
-		.mod		= J721E_PSC_LPSC_LPSC_EMIF_DATA_0,
+		.mod		= J721E_PSC_LPSC_LPSC_EMIF_CFG_0,
 	},
 	.dev_clk_idx		= J721E_DEV_DDR32SS_16FFC_EW_DV_WRAP_MAIN_0_CLOCKS,
 	.n_clocks		= 6,
@@ -2023,12 +2021,6 @@ static const dev_idx_t dev_list_LPSC_PER_miscio[] __attribute__((__section__(".c
 	J721E_DEV_UART9,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_EMIF_DATA_0[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
-	J721E_DEV_COMPUTE_CLUSTER0,
-	J721E_DEV_DDR0,
-	J721E_DEV_EMIF_DATA_0_VD,
-	DEV_ID_NONE,
-};
 static const struct lpsc_module_data j721e_j7_main_psc_wrap_main_0_mod_data[J721E_PSC_LPSC_LPSC_VPAC_PBIST + 1] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	[J721E_PSC_LPSC_LPSC_MAIN_ALWAYSON] =	    {
 		.powerdomain		= J721E_PSC_PD_GP_CORE_CTL,
@@ -2133,8 +2125,11 @@ static const struct lpsc_module_data j721e_j7_main_psc_wrap_main_0_mod_data[J721
 		.powerdomain		= J721E_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= J721E_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J721E_PSC_LPSC_LPSC_EMIF_CFG_0,
-		.lpsc_dev.dev_list	= dev_list_LPSC_EMIF_DATA_0,
-		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_DEVICES_LIST,
+		.lpsc_dev.dev_array	=	    {
+			J721E_DEV_EMIF_DATA_0_VD,
+			DEV_ID_NONE,
+		},
+		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 	[J721E_PSC_LPSC_LPSC_EMIF_CFG_0] =	    {
 		.powerdomain		= J721E_PSC_PD_GP_CORE_CTL,

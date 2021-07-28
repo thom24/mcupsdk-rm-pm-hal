@@ -450,9 +450,7 @@ static const struct dev_data j7200_dev_atl_main_0 __attribute__((__section__(".c
 };
 static const struct dev_data j7200_dev_compute_cluster_j7vcl_tb_vdc_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
-		.psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
-		.pd		= J7200_PSC_PD_GP_CORE_CTL,
-		.mod		= J7200_PSC_LPSC_LPSC_EMIF_DATA_0,
+		.psc_idx	= PSC_DEV_NONE,
 	},
 	.dev_clk_idx		= J7200_DEV_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_CLOCKS,
 	.n_clocks		= 7,
@@ -1825,8 +1823,8 @@ static const struct lpsc_module_data j7200_j7_main_psc_wrap_main_0_mod_data[J720
 		.depends_psc_idx	= J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J7200_PSC_LPSC_LPSC_EMIF_CFG_0,
 		.lpsc_dev.dev_array	=	    {
-			J7200_DEV_COMPUTE_CLUSTER0,
 			J7200_DEV_EMIF_DATA_0_VD,
+			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
