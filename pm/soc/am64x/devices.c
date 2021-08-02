@@ -5236,12 +5236,12 @@ const struct devgroup soc_devgroups[] = {
 	[PM_DEVGRP_00] =   {
 		.dev_clk_data	= MCU_WAKEUP_dev_clk_data,
 		.dev_clk	= MCU_WAKEUP_dev_clk,
-		.clk_idx	= 6U,
+		.clk_idx	= 2U,
 	},
 	[PM_DEVGRP_01] =   {
 		.dev_clk_data	= MAIN_dev_clk_data,
 		.dev_clk	= MAIN_dev_clk,
-		.clk_idx	= 39U,
+		.clk_idx	= 34U,
 	},
 	[PM_DEVGRP_DMSC] = {
 		.dev_clk_data	= DMSC_INTERNAL_dev_clk_data,

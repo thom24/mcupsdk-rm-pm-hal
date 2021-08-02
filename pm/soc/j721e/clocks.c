@@ -8618,6 +8618,12 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_MCU_R5_phase1_clksel_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
+	[CLK_J721E_MCU_SPI1_CLK_MUX_OUT0] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCU_SPI1_CLK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
 	[CLK_J721E_BOARD_0_HFOSC1_CLK_OUT] =					  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -8869,12 +8875,6 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_pllfrac2_ssmod_16fft_mcu_2.data_pll.data,
 		.flags		= 0,
 	},
-	[CLK_J721E_SPI_MAIN_3_IO_CLKSPIO_CLK] =					  {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_spi_main_3_io_clkspio_clk.data,
-		.freq_idx	= J721E_FREQ_VALUE_SPI_MAIN_3_IO_CLKSPIO_CLK,
-	},
 	[CLK_J721E_SPI_MCU_0_IO_CLKSPIO_CLK] =					  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -8892,78 +8892,6 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_spi_mcu_2_io_clkspio_clk.data,
 		.freq_idx	= J721E_FREQ_VALUE_SPI_MCU_2_IO_CLKSPIO_CLK,
-	},
-	[CLK_J721E_WIZ16B4M4CS_MAIN_0_IP2_LN0_TXMCLK] =				  {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_wiz16b4m4cs_main_0_ip2_ln0_txmclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_0_IP2_LN0_TXMCLK,
-	},
-	[CLK_J721E_WIZ16B4M4CS_MAIN_0_IP2_LN1_TXMCLK] =				  {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_wiz16b4m4cs_main_0_ip2_ln1_txmclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_0_IP2_LN1_TXMCLK,
-	},
-	[CLK_J721E_WIZ16B4M4CS_MAIN_1_IP2_LN0_TXMCLK] =				  {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_wiz16b4m4cs_main_1_ip2_ln0_txmclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_IP2_LN0_TXMCLK,
-	},
-	[CLK_J721E_WIZ16B4M4CS_MAIN_1_IP2_LN1_TXMCLK] =				  {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_wiz16b4m4cs_main_1_ip2_ln1_txmclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_IP2_LN1_TXMCLK,
-	},
-	[CLK_J721E_WIZ16B4M4CS_MAIN_2_IP2_LN0_TXMCLK] =				  {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_wiz16b4m4cs_main_2_ip2_ln0_txmclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_IP2_LN0_TXMCLK,
-	},
-	[CLK_J721E_WIZ16B4M4CS_MAIN_2_IP2_LN1_TXMCLK] =				  {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_wiz16b4m4cs_main_2_ip2_ln1_txmclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_IP2_LN1_TXMCLK,
-	},
-	[CLK_J721E_WIZ16B4M4CS_MAIN_3_IP2_LN0_TXMCLK] =				  {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_wiz16b4m4cs_main_3_ip2_ln0_txmclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_IP2_LN0_TXMCLK,
-	},
-	[CLK_J721E_WIZ16B4M4CS_MAIN_3_IP2_LN1_TXMCLK] =				  {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_wiz16b4m4cs_main_3_ip2_ln1_txmclk.data,
-		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_IP2_LN1_TXMCLK,
-	},
-	[CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT0] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_PLL_HFOSC_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT1] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_PLL_HFOSC_SEL_out1.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT3] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_PLL_HFOSC_SEL_out3.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCU_SPI1_CLK_MUX_OUT0] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCU_SPI1_CLK_MUX_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721E_HSDIV4_16FFT_MCU_1_HSDIVOUT0_CLK] =				  {
 		.parent =							  {
@@ -9089,73 +9017,11 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_mcu_mcan_clk_sel_out1.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK] =			  {
-		.parent		=						  {
-			CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT0,
-			1,
-		},
-		.drv		= &clk_drv_pll_16fft,
-		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_0,
-		.data		= &clk_data_pllfrac2_ssmod_16fft_main_0.data_pll.data,
-		.flags		= 0,
-	},
-	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK] =		  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_postdiv.drv,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_pllfrac2_ssmod_16fft_main_0_postdiv.data,
-	},
-	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK] =			  {
-		.parent		=						  {
-			CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT1,
-			1,
-		},
-		.drv		= &clk_drv_pll_16fft,
-		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_1,
-		.data		= &clk_data_pllfrac2_ssmod_16fft_main_1.data_pll.data,
-		.flags		= 0,
-	},
-	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK] =		  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_postdiv.drv,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_pllfrac2_ssmod_16fft_main_1_postdiv.data,
-	},
-	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_3_FOUTVCOP_CLK] =			  {
-		.parent		=						  {
-			CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT3,
-			1,
-		},
-		.drv		= &clk_drv_pll_16fft,
-		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_3,
-		.data		= &clk_data_pllfrac2_ssmod_16fft_main_3.data_pll.data,
-		.flags		= 0,
-	},
-	[CLK_J721E_POSTDIV3_16FFT_MAIN_0_HSDIVOUT6_CLK] =			  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
+	[CLK_J721E_MCUUSART_CLK_SEL_OUT0] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_postdiv3_16fft_main_0_hsdiv6.data_div.data,
-	},
-	[CLK_J721E_POSTDIV3_16FFT_MAIN_1_HSDIVOUT5_CLK] =			  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_postdiv3_16fft_main_1_hsdiv5.data_div.data,
+		.data	= &clk_data_mcuusart_clk_sel_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721E_WKUP_I2C0_MCUPLL_BYPASS_CLKSEL_OUT0] =			  {
 		.drv	= &clk_drv_mux_reg.drv,
@@ -9167,6 +9033,12 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_wkupusart_clk_sel_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_CPSW2G_CPTS_RCLK_MUX_OUT0] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_CPSW2G_CPTS_RCLK_MUX_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721E_MCU_ADC_CLK_SEL_OUT0] =					  {
@@ -9241,32 +9113,10 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_MCU_TIMER_CLKSEL_out9.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_3_HSDIVOUT1_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_3_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_3_hsdiv1.data_div.data,
-	},
-	[CLK_J721E_MCUUSART_CLK_SEL_OUT0] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_mcuusart_clk_sel_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
 	[CLK_J721E_WKUP_USART_MCUPLL_BYPASS_CLKSEL_OUT0] =			  {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_wkup_usart_mcupll_bypass_clksel_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_CPSW2G_CPTS_RCLK_MUX_OUT0] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_CPSW2G_CPTS_RCLK_MUX_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721E_MCU_TIMER1_CASCADE_OUT0] =					  {
@@ -9365,6 +9215,18 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_MAIN_PLL25_HFOSC_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
+	[CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT0] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_PLL_HFOSC_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT1] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_PLL_HFOSC_SEL_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
 	[CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT12] =					  {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
@@ -9423,6 +9285,12 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_MAIN_PLL_HFOSC_SEL_out23.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT3] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_PLL_HFOSC_SEL_out3.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT4] =					  {
@@ -9519,12 +9387,6 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_MCU_CLKOUT_MUX_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_SPI3_CLK_MUX_OUT0] =						  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_SPI3_CLK_MUX_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721E_USB0_REFCLK_SEL_OUT0] =					  {
@@ -10271,136 +10133,6 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_gpmc_main_0_po_gpmc_dev_clk.data,
 		.freq_idx	= J721E_FREQ_VALUE_GPMC_MAIN_0_PO_GPMC_DEV_CLK,
 	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv0.data_div.data,
-	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_0_HSDIVOUT1_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv1.data_div.data,
-	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_0_HSDIVOUT2_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv2.data_div.data,
-	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_0_HSDIVOUT3_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv3.data_div.data,
-	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv4.data_div.data,
-	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_1_hsdiv0.data_div.data,
-	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT1_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_1_hsdiv1.data_div.data,
-	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT2_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_1_hsdiv2.data_div.data,
-	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT3_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_1_hsdiv3.data_div.data,
-	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_3_HSDIVOUT0_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_3_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_3_hsdiv0.data_div.data,
-	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_3_HSDIVOUT2_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_3_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_3_hsdiv2.data_div.data,
-	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_3_HSDIVOUT3_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_3_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_3_hsdiv3.data_div.data,
-	},
-	[CLK_J721E_HSDIV4_16FFT_MAIN_3_HSDIVOUT4_CLK] =				  {
-		.parent =							  {
-			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_3_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_3_hsdiv4.data_div.data,
-	},
 	[CLK_J721E_I3C_MAIN_0_I3C_SCL_DO] =					  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -10532,21 +10264,6 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_k3_dss_main_0_dss_inst0_dpi_3_out_clk.data,
 		.freq_idx	= J721E_FREQ_VALUE_K3_DSS_MAIN_0_DSS_INST0_DPI_3_OUT_CLK,
-	},
-	[CLK_J721E_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK] =			  {
-		.drv	= &clk_drv_pllctrl_mux_reg_ro.drv,
-		.flags	= 0,
-		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_sysclkout_clk.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK] =			  {
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_chip_div1_clk_clk.data_div.data,
-		.parent =							  {
-			CLK_J721E_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK,
-			1,
-		},
 	},
 	[CLK_J721E_MCASP_MAIN_0_MCASP_ACLKR_POUT] =				  {
 		.drv		= &clk_drv_from_device,
@@ -10950,6 +10667,44 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_pcie_g4x2_main_3_common_0_pcie_lane1_txclk.data,
 		.freq_idx	= J721E_FREQ_VALUE_PCIE_G4X2_MAIN_3_COMMON_0_PCIE_LANE1_TXCLK,
 	},
+	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK] =			  {
+		.parent		=						  {
+			CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT0,
+			1,
+		},
+		.drv		= &clk_drv_pll_16fft,
+		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_0,
+		.data		= &clk_data_pllfrac2_ssmod_16fft_main_0.data_pll.data,
+		.flags		= 0,
+	},
+	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK] =		  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_postdiv.drv,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_pllfrac2_ssmod_16fft_main_0_postdiv.data,
+	},
+	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK] =			  {
+		.parent		=						  {
+			CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT1,
+			1,
+		},
+		.drv		= &clk_drv_pll_16fft,
+		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_1,
+		.data		= &clk_data_pllfrac2_ssmod_16fft_main_1.data_pll.data,
+		.flags		= 0,
+	},
+	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK] =		  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_postdiv.drv,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_pllfrac2_ssmod_16fft_main_1_postdiv.data,
+	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_13_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
 			CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT13,
@@ -11049,6 +10804,16 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_25.data_pll.data,
 		.flags		= 0,
 	},
+	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_3_FOUTVCOP_CLK] =			  {
+		.parent		=						  {
+			CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT3,
+			1,
+		},
+		.drv		= &clk_drv_pll_16fft,
+		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_3,
+		.data		= &clk_data_pllfrac2_ssmod_16fft_main_3.data_pll.data,
+		.flags		= 0,
+	},
 	[CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_5_FOUTVCOP_CLK] =			  {
 		.parent		=						  {
 			CLK_J721E_MAIN_PLL_HFOSC_SEL_OUT5,
@@ -11129,6 +10894,16 @@ const struct clk_data soc_clock_data[] = {
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_postdiv3_16fft_main_0_hsdiv5.data_div.data,
 	},
+	[CLK_J721E_POSTDIV3_16FFT_MAIN_0_HSDIVOUT6_CLK] =			  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_postdiv3_16fft_main_0_hsdiv6.data_div.data,
+	},
 	[CLK_J721E_POSTDIV3_16FFT_MAIN_0_HSDIVOUT7_CLK] =			  {
 		.parent =							  {
 			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK,
@@ -11148,6 +10923,16 @@ const struct clk_data soc_clock_data[] = {
 		.flags	= 0,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_postdiv3_16fft_main_0_hsdiv8.data_div.data,
+	},
+	[CLK_J721E_POSTDIV3_16FFT_MAIN_1_HSDIVOUT5_CLK] =			  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_postdiv3_16fft_main_1_hsdiv5.data_div.data,
 	},
 	[CLK_J721E_POSTDIV3_16FFT_MAIN_1_HSDIVOUT6_CLK] =			  {
 		.parent =							  {
@@ -11196,6 +10981,12 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_spi_main_2_io_clkspio_clk.data,
 		.freq_idx	= J721E_FREQ_VALUE_SPI_MAIN_2_IO_CLKSPIO_CLK,
+	},
+	[CLK_J721E_SPI_MAIN_3_IO_CLKSPIO_CLK] =					  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_spi_main_3_io_clkspio_clk.data,
+		.freq_idx	= J721E_FREQ_VALUE_SPI_MAIN_3_IO_CLKSPIO_CLK,
 	},
 	[CLK_J721E_SPI_MAIN_4_IO_CLKSPIO_CLK] =					  {
 		.drv		= &clk_drv_from_device,
@@ -11323,6 +11114,12 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_wiz16b4m4cs_main_0_ip2_ln0_txfclk.data,
 		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_0_IP2_LN0_TXFCLK,
 	},
+	[CLK_J721E_WIZ16B4M4CS_MAIN_0_IP2_LN0_TXMCLK] =				  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b4m4cs_main_0_ip2_ln0_txmclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_0_IP2_LN0_TXMCLK,
+	},
 	[CLK_J721E_WIZ16B4M4CS_MAIN_0_IP2_LN1_REFCLK] =				  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -11346,6 +11143,12 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_wiz16b4m4cs_main_0_ip2_ln1_txfclk.data,
 		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_0_IP2_LN1_TXFCLK,
+	},
+	[CLK_J721E_WIZ16B4M4CS_MAIN_0_IP2_LN1_TXMCLK] =				  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b4m4cs_main_0_ip2_ln1_txmclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_0_IP2_LN1_TXMCLK,
 	},
 	[CLK_J721E_WIZ16B4M4CS_MAIN_0_IP3_LN1_REFCLK] =				  {
 		.drv		= &clk_drv_from_device,
@@ -11479,6 +11282,12 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_wiz16b4m4cs_main_1_ip2_ln0_txfclk.data,
 		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_IP2_LN0_TXFCLK,
 	},
+	[CLK_J721E_WIZ16B4M4CS_MAIN_1_IP2_LN0_TXMCLK] =				  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b4m4cs_main_1_ip2_ln0_txmclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_IP2_LN0_TXMCLK,
+	},
 	[CLK_J721E_WIZ16B4M4CS_MAIN_1_IP2_LN1_REFCLK] =				  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -11502,6 +11311,12 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_wiz16b4m4cs_main_1_ip2_ln1_txfclk.data,
 		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_IP2_LN1_TXFCLK,
+	},
+	[CLK_J721E_WIZ16B4M4CS_MAIN_1_IP2_LN1_TXMCLK] =				  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b4m4cs_main_1_ip2_ln1_txmclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_1_IP2_LN1_TXMCLK,
 	},
 	[CLK_J721E_WIZ16B4M4CS_MAIN_1_IP3_LN1_REFCLK] =				  {
 		.drv		= &clk_drv_from_device,
@@ -11635,6 +11450,12 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_wiz16b4m4cs_main_2_ip2_ln0_txfclk.data,
 		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_IP2_LN0_TXFCLK,
 	},
+	[CLK_J721E_WIZ16B4M4CS_MAIN_2_IP2_LN0_TXMCLK] =				  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b4m4cs_main_2_ip2_ln0_txmclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_IP2_LN0_TXMCLK,
+	},
 	[CLK_J721E_WIZ16B4M4CS_MAIN_2_IP2_LN1_REFCLK] =				  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -11658,6 +11479,12 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_wiz16b4m4cs_main_2_ip2_ln1_txfclk.data,
 		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_IP2_LN1_TXFCLK,
+	},
+	[CLK_J721E_WIZ16B4M4CS_MAIN_2_IP2_LN1_TXMCLK] =				  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b4m4cs_main_2_ip2_ln1_txmclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_2_IP2_LN1_TXMCLK,
 	},
 	[CLK_J721E_WIZ16B4M4CS_MAIN_2_IP3_LN1_REFCLK] =				  {
 		.drv		= &clk_drv_from_device,
@@ -11791,6 +11618,12 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_wiz16b4m4cs_main_3_ip2_ln0_txfclk.data,
 		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_IP2_LN0_TXFCLK,
 	},
+	[CLK_J721E_WIZ16B4M4CS_MAIN_3_IP2_LN0_TXMCLK] =				  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b4m4cs_main_3_ip2_ln0_txmclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_IP2_LN0_TXMCLK,
+	},
 	[CLK_J721E_WIZ16B4M4CS_MAIN_3_IP2_LN1_REFCLK] =				  {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -11814,6 +11647,12 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_wiz16b4m4cs_main_3_ip2_ln1_txfclk.data,
 		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_IP2_LN1_TXFCLK,
+	},
+	[CLK_J721E_WIZ16B4M4CS_MAIN_3_IP2_LN1_TXMCLK] =				  {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b4m4cs_main_3_ip2_ln1_txmclk.data,
+		.freq_idx	= J721E_FREQ_VALUE_WIZ16B4M4CS_MAIN_3_IP2_LN1_TXMCLK,
 	},
 	[CLK_J721E_WIZ16B4M4CS_MAIN_3_IP3_LN1_REFCLK] =				  {
 		.drv		= &clk_drv_from_device,
@@ -12169,36 +12008,6 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_ACSPCIE1_REFCLK_OUT_MUX_out1.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_J721E_CLKOUT_MUX_OUT0] =						  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_CLKOUT_MUX_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_CPSW9G_CPTS_RCLK_MUX_OUT0] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_CPSW9G_CPTS_RCLK_MUX_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_GTC_CLK_MUX_OUT0] =						  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_GTC_CLK_MUX_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_ICSSG_IEPCLK_SEL_OUT0] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_ICSSG_IEPCLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_ICSSG_IEPCLK_SEL_OUT1] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_ICSSG_IEPCLK_SEL_out1.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
 	[CLK_J721E_ICSS_G1_SGMII1_SERDES_REFCLK_MUX_OUT0] =			  {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
@@ -12277,118 +12086,10 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_MAIN_PLL4_XREF_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT0] =						  {
+	[CLK_J721E_SPI3_CLK_MUX_OUT0] =						  {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT1] =						  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out1.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT10] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out10.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT11] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out11.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT12] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out12.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT13] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out13.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT2] =						  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out2.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT3] =						  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out3.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT4] =						  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out4.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT5] =						  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out5.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT6] =						  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out6.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT7] =						  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out7.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT8] =						  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out8.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_MCAN_CLK_SEL_OUT9] =						  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCAN_CLK_SEL_out9.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_NAVSS_CPTS_RCLK_SEL_OUT0] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_NAVSS_CPTS_RCLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_PCIEN_CPTS_RCLK_SEL_OUT0] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_PCIEn_CPTS_RCLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_PCIEN_CPTS_RCLK_SEL_OUT1] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_PCIEn_CPTS_RCLK_SEL_out1.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_PCIEN_CPTS_RCLK_SEL_OUT2] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_PCIEn_CPTS_RCLK_SEL_out2.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_PCIEN_CPTS_RCLK_SEL_OUT3] =					  {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_PCIEn_CPTS_RCLK_SEL_out3.data_mux.data,
+		.data	= &clk_data_SPI3_CLK_MUX_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721E_UFS_CLK_SEL_OUT0] =						  {
@@ -12396,106 +12097,6 @@ const struct clk_data soc_clock_data[] = {
 		.flags	= 0,
 		.data	= &clk_data_UFS_CLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT0] =			  {
-		.parent =							  {
-			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_USART_Programmable_Clock_Divider_out0.data_div.data,
-		.type	= CLK_TYPE_DIV,
-	},
-	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT1] =			  {
-		.parent =							  {
-			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_USART_Programmable_Clock_Divider_out1.data_div.data,
-		.type	= CLK_TYPE_DIV,
-	},
-	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT2] =			  {
-		.parent =							  {
-			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_USART_Programmable_Clock_Divider_out2.data_div.data,
-		.type	= CLK_TYPE_DIV,
-	},
-	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT3] =			  {
-		.parent =							  {
-			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_USART_Programmable_Clock_Divider_out3.data_div.data,
-		.type	= CLK_TYPE_DIV,
-	},
-	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT4] =			  {
-		.parent =							  {
-			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_USART_Programmable_Clock_Divider_out4.data_div.data,
-		.type	= CLK_TYPE_DIV,
-	},
-	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT5] =			  {
-		.parent =							  {
-			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_USART_Programmable_Clock_Divider_out5.data_div.data,
-		.type	= CLK_TYPE_DIV,
-	},
-	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT6] =			  {
-		.parent =							  {
-			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_USART_Programmable_Clock_Divider_out6.data_div.data,
-		.type	= CLK_TYPE_DIV,
-	},
-	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT7] =			  {
-		.parent =							  {
-			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_USART_Programmable_Clock_Divider_out7.data_div.data,
-		.type	= CLK_TYPE_DIV,
-	},
-	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT8] =			  {
-		.parent =							  {
-			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_USART_Programmable_Clock_Divider_out8.data_div.data,
-		.type	= CLK_TYPE_DIV,
-	},
-	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT9] =			  {
-		.parent =							  {
-			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_USART_Programmable_Clock_Divider_out9.data_div.data,
-		.type	= CLK_TYPE_DIV,
 	},
 	[CLK_J721E_USB0_SERDES_REFCLK_MUX_OUT0] =				  {
 		.drv	= &clk_drv_mux_reg.drv,
@@ -12757,6 +12358,96 @@ const struct clk_data soc_clock_data[] = {
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv3_16fft_main_5_hsdiv1.data_div.data,
 	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv0.data_div.data,
+	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_0_HSDIVOUT1_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv1.data_div.data,
+	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_0_HSDIVOUT2_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv2.data_div.data,
+	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_0_HSDIVOUT3_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv3.data_div.data,
+	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv4.data_div.data,
+	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_1_hsdiv0.data_div.data,
+	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT1_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_1_hsdiv1.data_div.data,
+	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT2_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_1_hsdiv2.data_div.data,
+	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT3_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_1_hsdiv3.data_div.data,
+	},
 	[CLK_J721E_HSDIV4_16FFT_MAIN_2_HSDIVOUT0_CLK] =				  {
 		.parent =							  {
 			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK,
@@ -12806,6 +12497,71 @@ const struct clk_data soc_clock_data[] = {
 		.flags	= 0,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv4_16fft_main_2_hsdiv4.data_div.data,
+	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_3_HSDIVOUT0_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_3_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_3_hsdiv0.data_div.data,
+	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_3_HSDIVOUT1_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_3_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_3_hsdiv1.data_div.data,
+	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_3_HSDIVOUT2_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_3_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_3_hsdiv2.data_div.data,
+	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_3_HSDIVOUT3_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_3_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_3_hsdiv3.data_div.data,
+	},
+	[CLK_J721E_HSDIV4_16FFT_MAIN_3_HSDIVOUT4_CLK] =				  {
+		.parent =							  {
+			CLK_J721E_PLLFRAC2_SSMOD_16FFT_MAIN_3_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_3_hsdiv4.data_div.data,
+	},
+	[CLK_J721E_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK] =			  {
+		.drv	= &clk_drv_pllctrl_mux_reg_ro.drv,
+		.flags	= 0,
+		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_sysclkout_clk.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK] =			  {
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_chip_div1_clk_clk.data_div.data,
+		.parent =							  {
+			CLK_J721E_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK,
+			1,
+		},
 	},
 	[CLK_J721E_MCU_OBSCLK_DIV_OUT0] =					  {
 		.parent =							  {
@@ -12857,6 +12613,18 @@ const struct clk_data soc_clock_data[] = {
 		.freq_idx	= J721E_FREQ_VALUE_PLLFRAC2_SSMOD_16FFT_MAIN_4,
 		.data		= &clk_data_pllfrac2_ssmod_16fft_main_4.data_pll.data,
 		.flags		= 0,
+	},
+	[CLK_J721E_CLKOUT_MUX_OUT0] =						  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_CLKOUT_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_CPSW9G_CPTS_RCLK_MUX_OUT0] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_CPSW9G_CPTS_RCLK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721E_DPHY_CLK_SEL_OUT0] =						  {
 		.drv	= &clk_drv_mux_reg.drv,
@@ -12912,6 +12680,12 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_EMMCSD_REFCLK_SEL_out2.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
+	[CLK_J721E_GTC_CLK_MUX_OUT0] =						  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_GTC_CLK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
 	[CLK_J721E_ICSSG_CORE_CLK_SEL_OUT0] =					  {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
@@ -12922,6 +12696,132 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_ICSSG_CORE_CLK_SEL_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_ICSSG_IEPCLK_SEL_OUT0] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ICSSG_IEPCLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_ICSSG_IEPCLK_SEL_OUT1] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ICSSG_IEPCLK_SEL_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT0] =						  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT1] =						  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT10] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out10.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT11] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out11.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT12] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out12.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT13] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out13.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT2] =						  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out2.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT3] =						  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out3.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT4] =						  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out4.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT5] =						  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out5.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT6] =						  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out6.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT7] =						  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out7.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT8] =						  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out8.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_MCAN_CLK_SEL_OUT9] =						  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCAN_CLK_SEL_out9.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_NAVSS_CPTS_RCLK_SEL_OUT0] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_NAVSS_CPTS_RCLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_PCIEN_CPTS_RCLK_SEL_OUT0] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_PCIEn_CPTS_RCLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_PCIEN_CPTS_RCLK_SEL_OUT1] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_PCIEn_CPTS_RCLK_SEL_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_PCIEN_CPTS_RCLK_SEL_OUT2] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_PCIEn_CPTS_RCLK_SEL_out2.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_PCIEN_CPTS_RCLK_SEL_OUT3] =					  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_PCIEn_CPTS_RCLK_SEL_out3.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721E_SERDES0_CORE_REFCLK_OUT0] =					  {
@@ -12971,6 +12871,106 @@ const struct clk_data soc_clock_data[] = {
 		.flags	= 0,
 		.data	= &clk_data_SERDES3_CORE_REFCLK_out1.data_mux.data,
 		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT0] =			  {
+		.parent =							  {
+			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_USART_Programmable_Clock_Divider_out0.data_div.data,
+		.type	= CLK_TYPE_DIV,
+	},
+	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT1] =			  {
+		.parent =							  {
+			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_USART_Programmable_Clock_Divider_out1.data_div.data,
+		.type	= CLK_TYPE_DIV,
+	},
+	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT2] =			  {
+		.parent =							  {
+			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_USART_Programmable_Clock_Divider_out2.data_div.data,
+		.type	= CLK_TYPE_DIV,
+	},
+	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT3] =			  {
+		.parent =							  {
+			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_USART_Programmable_Clock_Divider_out3.data_div.data,
+		.type	= CLK_TYPE_DIV,
+	},
+	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT4] =			  {
+		.parent =							  {
+			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_USART_Programmable_Clock_Divider_out4.data_div.data,
+		.type	= CLK_TYPE_DIV,
+	},
+	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT5] =			  {
+		.parent =							  {
+			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_USART_Programmable_Clock_Divider_out5.data_div.data,
+		.type	= CLK_TYPE_DIV,
+	},
+	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT6] =			  {
+		.parent =							  {
+			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_USART_Programmable_Clock_Divider_out6.data_div.data,
+		.type	= CLK_TYPE_DIV,
+	},
+	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT7] =			  {
+		.parent =							  {
+			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_USART_Programmable_Clock_Divider_out7.data_div.data,
+		.type	= CLK_TYPE_DIV,
+	},
+	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT8] =			  {
+		.parent =							  {
+			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_USART_Programmable_Clock_Divider_out8.data_div.data,
+		.type	= CLK_TYPE_DIV,
+	},
+	[CLK_J721E_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT9] =			  {
+		.parent =							  {
+			CLK_J721E_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_USART_Programmable_Clock_Divider_out9.data_div.data,
+		.type	= CLK_TYPE_DIV,
 	},
 	[CLK_J721E_EDP_CORE_REFCLK_SEL_OUT0] =					  {
 		.drv	= &clk_drv_mux_reg.drv,

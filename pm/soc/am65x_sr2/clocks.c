@@ -3804,74 +3804,6 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_HFOSC_sel_bus_out1.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_DCOCLKLDO_CLK] =	 {
-		.parent		=					 {
-			CLK_AM6_HFOSC_SEL_BUS_OUT0,
-			1,
-		},
-		.drv		= &clk_drv_adpllm,
-		.data		= &clk_data_adpllljm_hsdiv_wrap_main_0.data_pll.data,
-		.freq_idx	= AM6_FREQ_VALUE_ADPLLLJM_HSDIV_WRAP_MAIN_0,
-	},
-	[CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_HSDIV_CLKOUT1_CLK_DIV] = {
-		.parent =						 {
-			CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_DCOCLKLDO_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_adpllljm_hsdiv_wrap_main_0_hsdiv1.data_div_reg.data_div.data,
-	},
-	[CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_HSDIV_CLKOUT1_CLK_AON] = {
-		.drv	= &clk_drv_adpllm_bypass_mux.drv,
-		.data	= &clk_data_adpllljm_hsdiv_wrap_main_0_hsdiv1_mux.data,
-		.flags	= 0,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_HSDIV_CLKOUT1_CLK] =	 {
-		.parent =						 {
-			CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_HSDIV_CLKOUT1_CLK_AON,
-			1,
-		},
-		.drv	= &clk_gate_drv_reg,
-		.data	= &clk_data_adpllljm_hsdiv_wrap_main_0_hsdiv1_gate.data,
-		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
-	},
-	[CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_DCOCLKLDO_CLK] =		 {
-		.parent		=					 {
-			CLK_AM6_HFOSC_SEL_BUS_OUT1,
-			1,
-		},
-		.drv		= &clk_drv_adpllm,
-		.data		= &clk_data_adpllljm_wrap_main_1.data_pll.data,
-		.freq_idx	= AM6_FREQ_VALUE_ADPLLLJM_WRAP_MAIN_1,
-	},
-	[CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_CLKOUT_CLK_DIV] =		 {
-		.parent =						 {
-			CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_DCOCLKLDO_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_hsdiv.drv,
-		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_adpllljm_wrap_main_1_hsdiv0.data_div_reg.data_div.data,
-	},
-	[CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_CLKOUT_CLK_AON] =		 {
-		.drv	= &clk_drv_adpllm_bypass_mux.drv,
-		.data	= &clk_data_adpllljm_wrap_main_1_hsdiv0_mux.data,
-		.flags	= 0,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_CLKOUT_CLK] =			 {
-		.parent =						 {
-			CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_CLKOUT_CLK_AON,
-			1,
-		},
-		.drv	= &clk_gate_drv_reg,
-		.data	= &clk_data_adpllljm_wrap_main_1_hsdiv0_gate.data,
-		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
-	},
 	[CLK_AM6_ADPLLM_HSDIV_WRAP_MCU_0_BUS_DCOCLKLDO_CLK] =		 {
 		.parent		=					 {
 			CLK_AM6_MX_WAKEUP_GS80_WKUP_0_BUS_WKUP_OSC0_CLK,
@@ -4150,21 +4082,6 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_adpllm_hsdiv_wrap_mcu_1_hsdiv4_gate.data,
 		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
 	},
-	[CLK_AM6_K3_PLL_CTRL_WRAP_MAIN_0_BUS_SYSCLKOUT_CLK] =		 {
-		.drv	= &clk_drv_pllctrl_mux_reg_ro.drv,
-		.flags	= 0,
-		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_bus_sysclkout_clk.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM6_K3_PLL_CTRL_WRAP_MAIN_0_BUS_CHIP_DIV1_CLK_CLK] =	 {
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_bus_chip_div1_clk_clk.data_div.data,
-		.parent =						 {
-			CLK_AM6_K3_PLL_CTRL_WRAP_MAIN_0_BUS_SYSCLKOUT_CLK,
-			1,
-		},
-	},
 	[CLK_AM6_K3_PLL_CTRL_WRAP_WKUP_0_BUS_SYSCLKOUT_CLK] =		 {
 		.drv	= &clk_drv_pllctrl_mux_reg_ro.drv,
 		.flags	= 0,
@@ -4340,6 +4257,15 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_USB0_PIPE3_CLK_SEL_div_bus_in1.data,
 		.type	= CLK_TYPE_DIV,
 	},
+	[CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_DCOCLKLDO_CLK] =	 {
+		.parent		=					 {
+			CLK_AM6_HFOSC_SEL_BUS_OUT0,
+			1,
+		},
+		.drv		= &clk_drv_adpllm,
+		.data		= &clk_data_adpllljm_hsdiv_wrap_main_0.data_pll.data,
+		.freq_idx	= AM6_FREQ_VALUE_ADPLLLJM_HSDIV_WRAP_MAIN_0,
+	},
 	[CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_CLKOUT_CLK_DIV] =	 {
 		.parent =						 {
 			CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_DCOCLKLDO_CLK,
@@ -4363,6 +4289,31 @@ const struct clk_data soc_clock_data[] = {
 		},
 		.drv	= &clk_gate_drv_reg,
 		.data	= &clk_data_adpllljm_hsdiv_wrap_main_0_hsdiv0_gate.data,
+		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
+	},
+	[CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_HSDIV_CLKOUT1_CLK_DIV] = {
+		.parent =						 {
+			CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_DCOCLKLDO_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_adpllljm_hsdiv_wrap_main_0_hsdiv1.data_div_reg.data_div.data,
+	},
+	[CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_HSDIV_CLKOUT1_CLK_AON] = {
+		.drv	= &clk_drv_adpllm_bypass_mux.drv,
+		.data	= &clk_data_adpllljm_hsdiv_wrap_main_0_hsdiv1_mux.data,
+		.flags	= 0,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_HSDIV_CLKOUT1_CLK] =	 {
+		.parent =						 {
+			CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_HSDIV_CLKOUT1_CLK_AON,
+			1,
+		},
+		.drv	= &clk_gate_drv_reg,
+		.data	= &clk_data_adpllljm_hsdiv_wrap_main_0_hsdiv1_gate.data,
 		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
 	},
 	[CLK_AM6_ADPLLLJM_HSDIV_WRAP_MAIN_0_BUS_HSDIV_CLKOUT2_CLK_DIV] = {
@@ -4440,6 +4391,25 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_adpllljm_hsdiv_wrap_main_0_hsdiv4_gate.data,
 		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
 	},
+	[CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_DCOCLKLDO_CLK] =		 {
+		.parent		=					 {
+			CLK_AM6_HFOSC_SEL_BUS_OUT1,
+			1,
+		},
+		.drv		= &clk_drv_adpllm,
+		.data		= &clk_data_adpllljm_wrap_main_1.data_pll.data,
+		.freq_idx	= AM6_FREQ_VALUE_ADPLLLJM_WRAP_MAIN_1,
+	},
+	[CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_CLKOUT_CLK_DIV] =		 {
+		.parent =						 {
+			CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_DCOCLKLDO_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_hsdiv.drv,
+		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_adpllljm_wrap_main_1_hsdiv0.data_div_reg.data_div.data,
+	},
 	[CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_CLKOUTLDO_CLK] =		 {
 		.parent =						 {
 			CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_CLKOUT_CLK_DIV,
@@ -4448,6 +4418,21 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_gate_drv_reg,
 		.data	= &clk_data_adpllljm_wrap_main_1_bus_clkoutldo_clk.data,
 		.flags	= 0,
+	},
+	[CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_CLKOUT_CLK_AON] =		 {
+		.drv	= &clk_drv_adpllm_bypass_mux.drv,
+		.data	= &clk_data_adpllljm_wrap_main_1_hsdiv0_mux.data,
+		.flags	= 0,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_CLKOUT_CLK] =			 {
+		.parent =						 {
+			CLK_AM6_ADPLLLJM_WRAP_MAIN_1_BUS_CLKOUT_CLK_AON,
+			1,
+		},
+		.drv	= &clk_gate_drv_reg,
+		.data	= &clk_data_adpllljm_wrap_main_1_hsdiv0_gate.data,
+		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
 	},
 	[CLK_AM6_ADPLLLJM_WRAP_MAIN_3_BUS_DCOCLKLDO_CLK] =		 {
 		.parent		=					 {
@@ -4876,6 +4861,21 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_k3_dss_ul_main_0_bus_dpi_1_out_clk.data,
 		.freq_idx	= AM6_FREQ_VALUE_K3_DSS_UL_MAIN_0_BUS_DPI_1_OUT_CLK,
+	},
+	[CLK_AM6_K3_PLL_CTRL_WRAP_MAIN_0_BUS_SYSCLKOUT_CLK] =		 {
+		.drv	= &clk_drv_pllctrl_mux_reg_ro.drv,
+		.flags	= 0,
+		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_bus_sysclkout_clk.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM6_K3_PLL_CTRL_WRAP_MAIN_0_BUS_CHIP_DIV1_CLK_CLK] =	 {
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_bus_chip_div1_clk_clk.data_div.data,
+		.parent =						 {
+			CLK_AM6_K3_PLL_CTRL_WRAP_MAIN_0_BUS_SYSCLKOUT_CLK,
+			1,
+		},
 	},
 	[CLK_AM6_MAIN_USART_DIV_BUS_OUT0] =				 {
 		.parent =						 {

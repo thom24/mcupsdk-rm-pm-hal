@@ -2643,41 +2643,6 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_drv_soc_hfosc0,
 		.flags	= 0,
 	},
-	[CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK] =				      {
-		.parent		=							      {
-			CLK_AM64X_GLUELOGIC_HFOSC0_CLKOUT,
-			1,
-		},
-		.drv		= &clk_drv_pll_16fft,
-		.freq_idx	= AM64X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_0,
-		.data		= &clk_data_pllfracf_ssmod_16fft_main_0.data_pll.data,
-		.flags		= 0,
-	},
-	[CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK] =					      {
-		.parent =								      {
-			CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv0.data_div.data,
-	},
-	[CLK_AM64X_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK] =				      {
-		.drv	= &clk_drv_pllctrl_mux_reg_ro.drv,
-		.flags	= 0,
-		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_sysclkout_clk.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM64X_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK] =				      {
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_chip_div1_clk_clk.data_div.data,
-		.parent =								      {
-			CLK_AM64X_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK,
-			1,
-		},
-	},
 	[CLK_AM64X_GLUELOGIC_RCOSC_CLKOUT] =						      {
 		.drv		= &clk_drv_fixed,
 		.flags		= 0,
@@ -2723,12 +2688,6 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_board_0_MCU_SPI1_CLK_out.data,
 		.freq_idx	= AM64X_FREQ_VALUE_BOARD_0_MCU_SPI1_CLK_OUT,
-	},
-	[CLK_AM64X_CPSW_3GUSS_MAIN_0_CPTS_GENF0] =					      {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_cpsw_3guss_main_0_cpts_genf0.data,
-		.freq_idx	= AM64X_FREQ_VALUE_CPSW_3GUSS_MAIN_0_CPTS_GENF0,
 	},
 	[CLK_AM64X_DMTIMER_DMC1MS_MCU_0_TIMER_PWM] =					      {
 		.drv		= &clk_drv_from_device,
@@ -3169,6 +3128,12 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_board_0_TCK_out.data,
 		.freq_idx	= AM64X_FREQ_VALUE_BOARD_0_TCK_OUT,
 	},
+	[CLK_AM64X_CPSW_3GUSS_MAIN_0_CPTS_GENF0] =					      {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_cpsw_3guss_main_0_cpts_genf0.data,
+		.freq_idx	= AM64X_FREQ_VALUE_CPSW_3GUSS_MAIN_0_CPTS_GENF0,
+	},
 	[CLK_AM64X_CPSW_3GUSS_MAIN_0_CPTS_GENF1] =					      {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -3289,46 +3254,6 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_gpmc_main_0_po_gpmc_dev_clk.data,
 		.freq_idx	= AM64X_FREQ_VALUE_GPMC_MAIN_0_PO_GPMC_DEV_CLK,
 	},
-	[CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT1_CLK] =					      {
-		.parent =								      {
-			CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv1.data_div.data,
-	},
-	[CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT2_CLK] =					      {
-		.parent =								      {
-			CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv2.data_div.data,
-	},
-	[CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT3_CLK] =					      {
-		.parent =								      {
-			CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv3.data_div.data,
-	},
-	[CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK] =					      {
-		.parent =								      {
-			CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv4.data_div.data,
-	},
 	[CLK_AM64X_ICSS_G_16FF_MAIN_0_PR1_MDIO_MDCLK_O] =				      {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -3428,6 +3353,16 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_pcie_g2x1_64_main_0_pcie_lane0_txclk.data,
 		.freq_idx	= AM64X_FREQ_VALUE_PCIE_G2X1_64_MAIN_0_PCIE_LANE0_TXCLK,
+	},
+	[CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK] =				      {
+		.parent		=							      {
+			CLK_AM64X_GLUELOGIC_HFOSC0_CLKOUT,
+			1,
+		},
+		.drv		= &clk_drv_pll_16fft,
+		.freq_idx	= AM64X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_0,
+		.data		= &clk_data_pllfracf_ssmod_16fft_main_0.data_pll.data,
+		.flags		= 0,
 	},
 	[CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK] =			      {
 		.parent =								      {
@@ -3734,70 +3669,16 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_MAIN_ADC_clk_sel_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_AM64X_MAIN_CPTS_CLK_SEL_OUT0] =						      {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_CPTS_CLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM64X_MAIN_CP_GEMAC_CPTS_CLK_SEL_OUT0] =					      {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_CP_GEMAC_CPTS_CLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
 	[CLK_AM64X_MAIN_EMMCSD1_IO_CLKLB_SEL_OUT0] =					      {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_MAIN_EMMCSD1_IO_CLKLB_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_AM64X_MAIN_GPMC_FCLK_SEL_OUT0] =						      {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_GPMC_FCLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM64X_MAIN_GTCCLK_SEL_OUT0] =						      {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_GTCCLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM64X_MAIN_ICSSGN_IEPCLK_SEL_OUT0] =					      {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_ICSSGn_IEPCLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM64X_MAIN_ICSSGN_IEPCLK_SEL_OUT1] =					      {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_ICSSGn_IEPCLK_SEL_out1.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM64X_MAIN_MCANN_CLK_SEL_OUT0] =						      {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_MCANn_CLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM64X_MAIN_MCANN_CLK_SEL_OUT1] =						      {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_MCANn_CLK_SEL_out1.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
 	[CLK_AM64X_MAIN_OSPI_LOOPBACK_CLK_SEL_OUT0] =					      {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_MAIN_OSPI_LOOPBACK_CLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM64X_MAIN_OSPI_REF_CLK_SEL_OUT0] =					      {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_OSPI_REF_CLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM64X_MAIN_PCIE0_CPTS_CLK_SEL_OUT0] =					      {
@@ -3881,6 +3762,56 @@ const struct clk_data soc_clock_data[] = {
 		.flags	= 0,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv1_16fft_main_14_hsdiv1.data_div.data,
+	},
+	[CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK] =					      {
+		.parent =								      {
+			CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv0.data_div.data,
+	},
+	[CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT1_CLK] =					      {
+		.parent =								      {
+			CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv1.data_div.data,
+	},
+	[CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT2_CLK] =					      {
+		.parent =								      {
+			CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv2.data_div.data,
+	},
+	[CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT3_CLK] =					      {
+		.parent =								      {
+			CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv3.data_div.data,
+	},
+	[CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK] =					      {
+		.parent =								      {
+			CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_main_0_hsdiv4.data_div.data,
 	},
 	[CLK_AM64X_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK] =					      {
 		.parent =								      {
@@ -3972,6 +3903,33 @@ const struct clk_data soc_clock_data[] = {
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv4_16fft_main_2_hsdiv4.data_div.data,
 	},
+	[CLK_AM64X_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK] =				      {
+		.drv	= &clk_drv_pllctrl_mux_reg_ro.drv,
+		.flags	= 0,
+		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_sysclkout_clk.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM64X_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK] =				      {
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_k3_pll_ctrl_wrap_main_0_chip_div1_clk_clk.data_div.data,
+		.parent =								      {
+			CLK_AM64X_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK,
+			1,
+		},
+	},
+	[CLK_AM64X_MAIN_CPTS_CLK_SEL_OUT0] =						      {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_CPTS_CLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM64X_MAIN_CP_GEMAC_CPTS_CLK_SEL_OUT0] =					      {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_CP_GEMAC_CPTS_CLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
 	[CLK_AM64X_MAIN_EMMCSD0_REFCLK_SEL_OUT0] =					      {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
@@ -3982,6 +3940,18 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_MAIN_EMMCSD1_REFCLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM64X_MAIN_GPMC_FCLK_SEL_OUT0] =						      {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_GPMC_FCLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM64X_MAIN_GTCCLK_SEL_OUT0] =						      {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_GTCCLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM64X_MAIN_ICSSGN_CORE_CLK_SEL_OUT0] =					      {
@@ -3996,10 +3966,40 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_MAIN_ICSSGn_CORE_CLK_SEL_out1.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
+	[CLK_AM64X_MAIN_ICSSGN_IEPCLK_SEL_OUT0] =					      {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_ICSSGn_IEPCLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM64X_MAIN_ICSSGN_IEPCLK_SEL_OUT1] =					      {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_ICSSGn_IEPCLK_SEL_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM64X_MAIN_MCANN_CLK_SEL_OUT0] =						      {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_MCANn_CLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM64X_MAIN_MCANN_CLK_SEL_OUT1] =						      {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_MCANn_CLK_SEL_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
 	[CLK_AM64X_MAIN_OBSCLK0_MUX_SEL_OUT0] =						      {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_MAIN_OBSCLK0_MUX_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM64X_MAIN_OSPI_REF_CLK_SEL_OUT0] =					      {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_OSPI_REF_CLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM64X_MAIN_SERDES0_CORE_REFCLK_SEL_OUT0] =					      {

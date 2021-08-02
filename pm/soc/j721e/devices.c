@@ -14589,7 +14589,7 @@ const struct devgroup soc_devgroups[] = {
 	[PM_DEVGRP_01] =   {
 		.dev_clk_data	= MAIN_dev_clk_data,
 		.dev_clk	= MAIN_dev_clk,
-		.clk_idx	= 113U,
+		.clk_idx	= 93U,
 	},
 	[PM_DEVGRP_DMSC] = {
 		.dev_clk_data	= DMSC_INTERNAL_dev_clk_data,
