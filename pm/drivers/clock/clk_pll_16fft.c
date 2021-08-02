@@ -319,6 +319,7 @@ static sbool clk_pll_16fft_check_lock(const struct clk_data_pll_16fft *pll)
 	return (stat & PLL_16FFT_STAT_LOCK) != 0U;
 }
 
+#if defined (CONFIG_CLK_PLL_16FFT_FRACF_CALIBRATION)
 /*
  * \brief Check if the PLL deskew calibration is complete.
  *
@@ -333,6 +334,7 @@ static sbool clk_pll_16fft_check_cal_lock(const struct clk_data_pll_16fft *pll)
 	stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
 	return (stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U;
 }
+#endif
 
 static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 {
@@ -340,8 +342,6 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 	const struct clk_data_pll_16fft *pll;
 	const struct clk_data_pll *data_pll;
 	u32 i;
-	u32 cfg;
-	u32 pll_type;
 	sbool success;
 	u32 freq_ctrl1;
 	u32 pllfm;
@@ -352,8 +352,6 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 	pll = container_of(data_pll, const struct clk_data_pll_16fft,
 			   data_pll);
 
-	cfg = readl(pll->base + PLL_16FFT_CFG(pll->idx));
-	pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
 
 	/*
 	 * Minimum VCO input freq is 5MHz, and the longest a lock should
@@ -377,47 +375,54 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 	pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
 	pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
 
-	if (success &&
-	    (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL)) {
-		/*
-		 * Wait for calibration lock.
-		 *
-		 * Lock should occur within:
-		 *
-		 *	32 * 2^(4+CALCNT) / PFD
-		 *       2048 / PFD
-		 *
-		 * CALCNT = 2, PFD = 5-50MHz. This gives a range of 41uS to
-		 * 410uS depending on PFD frequency. Using the above logic
-		 * we calculate a maximum expected 41000 loop cycles.
-		 *
-		 * The recommend timeout for CALLOCK to go high is 2.2 ms
+#if defined (CONFIG_CLK_PLL_16FFT_FRACF_CALIBRATION)
+	{
+		u32 pll_type;
+		u32 cfg;
+		cfg = readl(pll->base + PLL_16FFT_CFG(pll->idx));
+		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
+		if (success &&
+		    (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL)) {
+			/*
+			 * Wait for calibration lock.
+			 *
+			 * Lock should occur within:
+			 *
+			 *	32 * 2^(4+CALCNT) / PFD
+			 *       2048 / PFD
+			 *
+			 * CALCNT = 2, PFD = 5-50MHz. This gives a range of 41uS to
+			 * 410uS depending on PFD frequency. Using the above logic
+			 * we calculate a maximum expected 41000 loop cycles.
+			 *
+			 * The recommend timeout for CALLOCK to go high is 2.2 ms
+			 */
+			success = SFALSE;
+			for (i = 0U; i < 2200U * 100U; i++) {
+				if (clk_pll_16fft_check_cal_lock(pll)) {
+					success = STRUE;
+					break;
+				}
+			}
+		}
+		/* Disable calibration in the fractional mode of the FRACF PLL based on data
+		 * from silicon and simulation data.
 		 */
-		success = SFALSE;
-		for (i = 0U; i < 2200U * 100U; i++) {
-			if (clk_pll_16fft_check_cal_lock(pll)) {
-				success = STRUE;
-				break;
+		if (success && (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF)
+		    && (pllfm == 0UL)) {
+			u32 cal;
+			cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+			if ((cal & PLL_16FFT_CAL_CTRL_FAST_CAL) != 0U) {
+				/*
+				 * Fast cal enabled indicates we were performing
+				 * option 3. Now that we have a calibration value,
+				 * switch to option 4.
+				 */
+				clk_pll_16fft_cal_option4(pll);
 			}
 		}
 	}
-	/* Disable calibration in the fractional mode of the FRACF PLL based on data
-	 * from silicon and simulation data.
-	 */
-	if (success && (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF)
-	    && (pllfm == 0UL)) {
-		u32 cal;
-		cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
-		if ((cal & PLL_16FFT_CAL_CTRL_FAST_CAL) != 0U) {
-			/*
-			 * Fast cal enabled indicates we were performing
-			 * option 3. Now that we have a calibration value,
-			 * switch to option 4.
-			 */
-			clk_pll_16fft_cal_option4(pll);
-		}
-	}
-
+#endif
 	return success;
 }
 
