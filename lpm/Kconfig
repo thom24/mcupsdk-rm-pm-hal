@@ -27,4 +27,10 @@ config LNK_NSPS_LEN
 	help
 	  Set the maximum size of Non-secure Preserved Storage Memory
 
+config LPM_DM_TRACE
+	bool "Enable LPM Debug Trace"
+	depends on LPM_DM
+	help
+	 Enable Low Power Mode Debug Output over wakeup UART
+
 endmenu

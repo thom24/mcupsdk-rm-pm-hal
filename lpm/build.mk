@@ -13,3 +13,4 @@ obj-y += timeout.o
 obj-y += sec_proxy.o
 obj-y += ddr.o
 obj-y += vim_raw.o
+obj-$(CONFIG_LPM_DM_TRACE) += lpm_trace.o
