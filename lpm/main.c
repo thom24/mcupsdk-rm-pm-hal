@@ -47,6 +47,7 @@
 #include "lpm_io.h"
 #include "ctrlmmr_raw.h"
 #include "ddr.h"
+#include "lpm_trace.h"
 #include "pll_16fft_raw.h"
 #include "psc_raw.h"
 #include "sec_proxy.h"
@@ -430,6 +431,8 @@ void dm_stub_entry(void)
 	u32 reg;
 	u32 n_lpscs;
 
+	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_START);
+
 #ifdef CONFIG_LPM_DM_STUB_STANDALONE
 	/* FIXME parameters should be passed in from DM */
 	g_params.mode = LPM_DEEPSLEEP;
@@ -443,22 +446,32 @@ void dm_stub_entry(void)
 	/* unlock mcu_ctrl_mmr region 2 */
 	ctrlmmr_unlock(MCU_CTRL_MMR_BASE, 2);
 
+	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MMR_UNLOCK);
+
 	ddr_enter_self_refesh();
+
+	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_SR_ENTER);
 
 	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
 		set_ddr_reset_isolation();
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_RST_ISO);
 		set_usb_reset_isolation();
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
 
 		/* Disable all LPSCs in MAIN except Debug, Always ON */
 		n_lpscs = sizeof(main_lpscs_phase1) / sizeof(struct main_pd_lpsc);
 		if (disable_main_lpsc(main_lpscs_phase1, n_lpscs)) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC);
 			abort();
 		}
+
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC);
 
 		/* Disable all HSDIVs in MAIN_PLL, bypass all MAIN PLLs,
 		 * except clock for debug, PLL0_HSDIV0, PLL15
 		 */
 		bypass_main_pll();
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_BYPASS_MAIN_PLL);
 	}
 
 	wait_for_debug();
@@ -468,43 +481,63 @@ void dm_stub_entry(void)
 		 * with writes to WKUP0_EN IN WKUP_CTRL
 		 */
 		config_wake_sources();
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CONFIG_WAKE_SRC);
 
 		if (enable_main_io_isolation()) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_IO_ISO);
 			abort();
 		}
+
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_IO_ISO);
 
 		/* Disable remaining MAIN LPSCs for debug */
 		n_lpscs = sizeof(main_lpscs_phase2) / sizeof(struct main_pd_lpsc);
 		if (disable_main_lpsc(main_lpscs_phase2, n_lpscs)) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
 			abort();
 		}
+
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
 
 		/* Modify WKUP_CLKSEL in WKUP_CTRL
 		 * to use MCU_PLL instead of MAIN PLL
 		 */
 		writel(WKUP_CLKSEL_MCU, WKUP_CTRL_MMR_BASE + WKUP_CLKSEL);
 
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WKUP_CLKSEL_MCU);
+
 		/* Configure GPIO/WDT/32k Clock muxes */
 		config_clk_muxes();
 
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CONF_CLK_MUXES);
+
 		/* Disable remaining MAIN HSDIVs and PLLs */
 		disable_main_remain_pll();
+
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_PLLS);
 
 		/* Set WKUP_CTRL DS_DM_RESET.mask to isolate DM
 		 * from MAIN domain reset
 		 */
 		writel(DS_DM_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DM_RESET);
 
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_DS_RST_MASK);
+
 		/* Write to WKUP_CTRL DS_MAIN.por_pdoff bits to
 		 * place Main domain in reset, gate PD_SMS and PD_DEBUG
 		 */
 		writel(DS_MAIN_OFF, WKUP_CTRL_MMR_BASE + DS_MAIN);
+
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_OFF);
 	}
 
 	if (g_params.mode == LPM_DEEPSLEEP) {
 		/* Disable MCU Domain LPSCs, PDs */
 		if (disable_mcu_domain()) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MCU_DOM);
 			abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MCU_DOM);
 		}
 	}
 
@@ -515,6 +548,7 @@ void dm_stub_entry(void)
 		reg = readl(WKUP_CTRL_MMR_BASE + RST_CTRL);
 		reg |= RST_CTRL_MAIN_RST_ISO_DONE_Z;
 		writel(reg, WKUP_CTRL_MMR_BASE + RST_CTRL);
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_RST_ISO_DONE);
 	} else {
 		/* Send TISCI message to bypass SMS PLL */
 		send_msg_bypass_sms_pll();
@@ -522,10 +556,12 @@ void dm_stub_entry(void)
 
 	/* Use WKUP_CTRL.WKUP_WWD0_CTRL to gate clock to RTI */
 	writel(WWD_STOP, WKUP_CTRL_MMR_BASE + WKUP_WWD0_CTRL);
+	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MSK_WWD0_CTRL);
 
 	if (g_params.mode == LPM_DEEPSLEEP) {
 		pll_save(&mcu_pll);
 		pll_bypass(&mcu_pll);
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_BYPASS_MCU_PLL);
 
 		/* set MCU_MMR.MCU_PLL_CLKSEL.clkloss_switch_en to 0
 		 *     to avoid clk switch
@@ -533,20 +569,27 @@ void dm_stub_entry(void)
 		reg = readl(MCU_CTRL_MMR_BASE + MCU_PLL_CLKSEL);
 		reg &= ~MCU_PLL_CLKSEL_CLKLOSS_SWTCH_EN;
 		writel(reg, MCU_CTRL_MMR_BASE + MCU_PLL_CLKSEL);
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CLR_CLKLOSS_EN);
 
 		/* set MCU_MMR.HFOSC0_CTRL.pd_c to power off of HFOSC PD */
 		reg = readl(MCU_CTRL_MMR_BASE + HFOSC0_CTRL);
 		reg |= HFOSC0_CTRL_PD_C;
 		writel(reg, MCU_CTRL_MMR_BASE + HFOSC0_CTRL);
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_HFOSC_PD_C);
 
 		/* set OSC_CG_ON_WFI bit in WKUP_CTRL.PMCTRL_MOSC */
 		reg = readl(WKUP_CTRL_MMR_BASE + PMCTRL_MOSC);
 		reg |= PMCTRL_MOSC_OSC_CG_ON_WFI;
 		writel(reg, WKUP_CTRL_MMR_BASE + PMCTRL_MOSC);
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_OSC_CG_WFI);
 	}
+
+	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_PRE_WFI);
 
 	/* enter WFI */
 	__asm volatile ("\tWFI");
+
+	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_POST_WFI);
 
 	/* start resume */
 	if (g_params.mode == LPM_DEEPSLEEP) {
@@ -555,6 +598,8 @@ void dm_stub_entry(void)
 		reg &= ~PMCTRL_MOSC_OSC_CG_ON_WFI;
 		writel(reg, WKUP_CTRL_MMR_BASE + PMCTRL_MOSC);
 
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CLR_OSC_CG_WFI);
+
 		/* clear MCU_MMR.HFOSC0_CTRL.pd_c and
 		 * set MCU_MMR.MCU_PLL_CLKSEL.clkloss_switch_en
 		 */
@@ -562,21 +607,32 @@ void dm_stub_entry(void)
 		reg &= ~HFOSC0_CTRL_PD_C;
 		writel(reg, MCU_CTRL_MMR_BASE + HFOSC0_CTRL);
 
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CLR_HFOSC_PD_C);
+
 		reg = readl(MCU_CTRL_MMR_BASE + MCU_PLL_CLKSEL);
 		reg |= MCU_PLL_CLKSEL_CLKLOSS_SWTCH_EN;
 		writel(reg, MCU_CTRL_MMR_BASE + MCU_PLL_CLKSEL);
 
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_SET_CLKLOSS_EN);
+
 		if (pll_restore(&mcu_pll)) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL);
 			abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL);
 		}
 	}
 
 	/* Use WKUP_CTRL.WKUP_WWD0_CTRL to ungate clock to RTI */
 	writel(WWD_RUN, WKUP_CTRL_MMR_BASE + WKUP_WWD0_CTRL);
 
+	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_UNMSK_WWD0_CTRL);
+
 	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
 		/* Disable WKUP IO Daisy Chain and IO Isolation */
 		disable_mcu_io_isolation();
+
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DIS_MCU_IO_ISO);
 
 		/* Write 0xdee51ee5 to WKUP DS_MAGIC_WORD to
 		 * indicate resume is required to TIFS ROM
@@ -584,10 +640,14 @@ void dm_stub_entry(void)
 		writel(DS_MAGIC_WORD_RESUME_TIFS,
 		       WKUP_CTRL_MMR_BASE + DS_MAGIC_WORD);
 
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_SET_MGC_WRD);
+
 		/* Write to WKUP_CTRL DS_MAIN.por_pdoff
 		 * bits to release Main domain reset
 		 */
 		writel(DS_MAIN_ON, WKUP_CTRL_MMR_BASE + DS_MAIN);
+
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_ON);
 
 		/* FIXME unmask WKUP_CTRL.DS_DM_REST? it is set in suspend */
 	}
@@ -598,15 +658,21 @@ void dm_stub_entry(void)
 		/* Wait for RESET_STATZ */
 		wait_for_reset_statz();
 
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST);
+
 		/* Modify WKUP_CLKSEL in WKUP_CTRL
 		 * to use SMS_PLL instead of MCU PLL
 		 */
 		writel(WKUP_CLKSEL_MAIN, WKUP_CTRL_MMR_BASE + WKUP_CLKSEL);
 
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WKUP_CLKSEL_MAIN);
+
 		/* Configure additional MCU PLLs and PSCs to return to
 		 * pre-DeepSleep state
 		 */
 		enable_mcu_remain_pll();
+
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MCU_PLLS);
 
 		/* Poll on WKUP DS_MAGIC_WORD for 0x00d5d02e that indicates
 		 * TIFS ROM has completed and execution can continue.
@@ -614,28 +680,42 @@ void dm_stub_entry(void)
 		 */
 		wait_for_tifs_ready();
 
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
+
 		/* Send TISCI ROM Boot image message containing location
 		 * and boot address to load FS stub from SPS Memory
 		 * TISCI_MSG_FIRMWARE_LOAD
 		 */
 		if (send_tisci_msg_firmware_load()) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_FS_STUB_LD);
 			abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_FS_STUB_LD);
 		}
 
 		/* Wait for TISCI Message to indicate DDR restore can resume */
 		/* TISCI_MSG_CONTINUE_RESUME */
 		if (receive_tisci_msg_continue_resume()) {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_CONT_RES);
 			abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_CONT_RES);
 		}
 
 		/* Disable MAIN IO Daisy Chain and IO Isolation */
 		if (disable_main_io_isolation()) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_IO_ISO);
 			abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_IO_ISO);
 		}
 
 		/* Configure additional MAIN PLLs and PSCs for EMIF operation */
 		if (enable_main_remain_pll()) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_PLLS);
 			abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_PLLS);
 		}
 
 		/* Follow procedure to take DDR out of reset isolation
@@ -644,6 +724,8 @@ void dm_stub_entry(void)
 		 * from Cadence
 		 */
 		release_ddr_reset_isolation();
+
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_DDR_RST_ISO);
 	} else {
 		/* Send TISCI message to restore SMS PLL */
 		send_msg_restore_sms_pll();
@@ -656,19 +738,29 @@ void dm_stub_entry(void)
 
 	ddr_exit_self_refresh();
 
+	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_SR_EXIT);
+
 	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
 		release_usb_reset_isolation();
+
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_DDR_RST_ISO);
 
 		/* Send TISCI Message to TIFS to indicate DDR is active and
 		 * resume can proceed, include address of TIFS context
 		 */
 		if (send_tisci_msg_continue_resume()) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESP_CONT_RES);
 			abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESP_CONT_RES);
 		}
 
 		/* Wait for TISCI_MSG_SYNC_RESUME msg */
 		if (receive_tisci_msg_sync_resume()) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_SYNC_RES);
 			abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_SYNC_RES);
 		}
 	}
 
