@@ -52,7 +52,7 @@ _data_abt_handler:
 _reserved_handler:
 	.word reserved_handler
 _irq_handler:
-	.word irq_handler
+	.word irq_handler_asm
 _fiq_handler:
 	.word fiq_handler
 _end_vectors:
@@ -86,6 +86,12 @@ wordcopy:
 	; At this point we should be CPU0
 	; jump to proper reset handler
 	ldr pc, _c_stub_entry
+
+irq_handler_asm:
+	stmdb	sp!,{r0-r3,r12,lr}
+	bl irq_handler
+	ldmia	sp!,{r0-r3,r12,lr}
+	subs	pc, lr, #4
 
 _c_stub_entry:
 	.word stub_entry
