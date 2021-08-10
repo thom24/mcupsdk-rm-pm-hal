@@ -77,6 +77,22 @@ wordcopy:
 	SUBS    r2, r2, #1
 	BNE     wordcopy
 
+	; switch to irq mode, set irq stack
+	mrs	r0, cpsr
+	mvn	r1, #0x1f
+	and	r2, r1, r0
+	orr	r2, r2, #0x12
+	msr	cpsr_cf, r2
+	ldr	r13, _irq_stack_addr
+	mov 	r14,#0
+
+	; switch to SYS mode
+	mrs	r0, cpsr
+	mvn	r1, #0x1f
+	and	r2, r1, r0
+	orr	r2, r2, #0x1f
+	msr	cpsr_cf, r2
+
 	; initialize the stack
 	ldr sp, _stack_addr
 	; Space for the jump
@@ -97,6 +113,8 @@ _c_stub_entry:
 	.word stub_entry
 _stack_addr:
 	.word _end_stack
+_irq_stack_addr:
+	.word _end_stack - 0x200
 _sys_stack_pointer:
 	.word 0x00000000
 _sys_lr_register:
