@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -163,7 +163,8 @@ sbool clk_set_parent(struct clk *clkp, u8 new_parent)
 
 	if (!done) {
 		op = mux_drv->get_parent(clkp);
-		if (op && (op->clk == mux_data->parents[new_parent].clk)) {
+		if (op && (op->clk == mux_data->parents[new_parent].clk)
+		    && (op->div == mux_data->parents[new_parent].div)) {
 			ret = STRUE;
 			done = STRUE;
 		}
