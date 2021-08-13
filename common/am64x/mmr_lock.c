@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2019-2020, Texas Instruments Incorporated
+ * Copyright (C) 2019-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,15 +57,6 @@
 #define CTRLMMR_RST_MAGIC_WORD                  (0x1817c)
 
 static volatile s32 mmr_lock_count = 0;
-static void mmr_writel(u32 v, u32 a)
-{
-	writel(v, 0x60000000 + a);
-}
-
-static u32 mmr_readl(u32 a)
-{
-	return readl(0x60000000 + a);
-}
 
 static void mmr_unlock(u32 base, u32 partition)
 {
@@ -76,8 +67,8 @@ static void mmr_unlock(u32 base, u32 partition)
 	 * Unlock the requested partition if locked using two-step sequence.
 	 * This register does not read back the value written.
 	 */
-	mmr_writel(CTRLMMR_LOCK_KICK0_UNLOCK_VAL, part_base + CTRLMMR_LOCK_KICK0);
-	mmr_writel(CTRLMMR_LOCK_KICK1_UNLOCK_VAL, part_base + CTRLMMR_LOCK_KICK1);
+	writel(CTRLMMR_LOCK_KICK0_UNLOCK_VAL, part_base + CTRLMMR_LOCK_KICK0);
+	writel(CTRLMMR_LOCK_KICK1_UNLOCK_VAL, part_base + CTRLMMR_LOCK_KICK1);
 }
 
 static void mmr_lock(u32 base, u32 partition)
@@ -89,8 +80,8 @@ static void mmr_lock(u32 base, u32 partition)
 	 * Unlock the requested partition if locked using two-step sequence.
 	 * This register does not read back the value written.
 	 */
-	mmr_writel(CTRLMMR_LOCK_KICK0_LOCK_VAL, part_base + CTRLMMR_LOCK_KICK0);
-	mmr_writel(CTRLMMR_LOCK_KICK1_LOCK_VAL, part_base + CTRLMMR_LOCK_KICK1);
+	writel(CTRLMMR_LOCK_KICK0_LOCK_VAL, part_base + CTRLMMR_LOCK_KICK0);
+	writel(CTRLMMR_LOCK_KICK1_LOCK_VAL, part_base + CTRLMMR_LOCK_KICK1);
 }
 
 void mmr_unlock_all()
@@ -109,7 +100,7 @@ void mmr_unlock_all()
 		 * a non-zero value; hence, the MCU_CTRLMMMR may not be accessible by
 		 * DMSC-lite (M3).
 		 */
-		mcu_magic_word = mmr_readl(MAIN_CTRL_BASE + CTRLMMR_RST_MAGIC_WORD);
+		mcu_magic_word = readl(MAIN_CTRL_BASE + CTRLMMR_RST_MAGIC_WORD);
 		if (mcu_magic_word == 0) {
 			mmr_unlock(MCU_CTRL_BASE, 2);
 			mmr_unlock(MCU_CTRL_BASE, 6);
@@ -136,7 +127,7 @@ void mmr_lock_all()
 		 * a non-zero value; hence, the MCU_CTRLMMMR may not be accessible by
 		 * DMSC-lite (M3).
 		 */
-		mcu_magic_word = mmr_readl(MAIN_CTRL_BASE + CTRLMMR_RST_MAGIC_WORD);
+		mcu_magic_word = readl(MAIN_CTRL_BASE + CTRLMMR_RST_MAGIC_WORD);
 		if (mcu_magic_word == 0) {
 			mmr_lock(MCU_CTRL_BASE, 2);
 			mmr_lock(MCU_CTRL_BASE, 6);
