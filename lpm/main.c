@@ -346,18 +346,17 @@ static s32 send_tisci_msg_continue_resume_resp()
 
 static s32 receive_tisci_msg_sync_resume_req()
 {
-	struct tisci_msg_sync_resume_resp resp;
+	struct tisci_msg_sync_resume_req req;
 	s32 ret = 0;
 
-	memset(&resp, 0, sizeof(resp));
-	ret = sproxy_receive_msg_tifs_fw(&resp, sizeof(resp));
+	memset(&req, 0, sizeof(req));
+	ret = sproxy_receive_msg_tifs_fw(&req, sizeof(req));
 
 	if (ret) {
 		return ret;
 	}
 
-	if ((resp.hdr.type != TISCI_MSG_CONTINUE_RESUME) ||
-	    !(resp.hdr.flags & TISCI_MSG_FLAG_ACK)) {
+	if (req.hdr.type != TISCI_MSG_SYNC_RESUME) {
 		ret = -EINVAL;
 	}
 
