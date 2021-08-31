@@ -279,6 +279,7 @@ static s32 send_tisci_msg_firmware_load()
 	struct tisci_msg_firmware_load_req req = {
 		.hdr		= {
 			.type	= TISCI_MSG_FIRMWARE_LOAD,
+			.flags	= 8 << 24,
 		},
 		.image_addr	= CONFIG_TIFSFW_SPS_BASE,
 		.image_size	= CONFIG_TIFSFW_SPS_LEN,
@@ -297,8 +298,7 @@ static s32 send_tisci_msg_firmware_load()
 	}
 
 	if (resp.hdr.type != MSG_FIRMWARE_LOAD_RESULT ||
-	    resp.hdr.flags != MSG_FLAG_CERT_AUTH_PASS ||
-	    !(resp.hdr.flags & TISCI_MSG_FLAG_ACK)) {
+	    resp.hdr.flags != MSG_FLAG_CERT_AUTH_PASS) {
 		ret = -EINVAL;
 	}
 
