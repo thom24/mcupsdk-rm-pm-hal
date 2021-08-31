@@ -305,7 +305,7 @@ static s32 send_tisci_msg_firmware_load()
 	return ret;
 }
 
-static s32 receive_tisci_msg_continue_resume()
+static s32 receive_tisci_msg_continue_resume_req()
 {
 	struct tisci_msg_continue_resume_req req;
 	s32 ret = 0;
@@ -324,7 +324,7 @@ static s32 receive_tisci_msg_continue_resume()
 	return ret;
 }
 
-static s32 send_tisci_msg_continue_resume()
+static s32 send_tisci_msg_continue_resume_resp()
 {
 	s32 ret = 0;
 	struct tisci_msg_continue_resume_resp resp = {
@@ -344,7 +344,7 @@ static s32 send_tisci_msg_continue_resume()
 	return ret;
 }
 
-static s32 receive_tisci_msg_sync_resume()
+static s32 receive_tisci_msg_sync_resume_req()
 {
 	struct tisci_msg_sync_resume_resp resp;
 	s32 ret = 0;
@@ -368,15 +368,15 @@ static s32 send_tisci_msg_firmware_load()
 {
 	return 0;
 }
-static s32 receive_tisci_msg_continue_resume()
+static s32 receive_tisci_msg_continue_resume_req()
 {
 	return 0;
 }
-static s32 send_tisci_msg_continue_resume()
+static s32 send_tisci_msg_continue_resume_resp()
 {
 	return 0;
 }
-static s32 receive_tisci_msg_sync_resume()
+static s32 receive_tisci_msg_sync_resume_req()
 {
 	return 0;
 }
@@ -695,7 +695,7 @@ void dm_stub_entry(void)
 
 		/* Wait for TISCI Message to indicate DDR restore can resume */
 		/* TISCI_MSG_CONTINUE_RESUME */
-		if (receive_tisci_msg_continue_resume()) {
+		if (receive_tisci_msg_continue_resume_req()) {
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_CONT_RES);
 			abort();
 		} else {
@@ -748,7 +748,7 @@ void dm_stub_entry(void)
 		/* Send TISCI Message to TIFS to indicate DDR is active and
 		 * resume can proceed, include address of TIFS context
 		 */
-		if (send_tisci_msg_continue_resume()) {
+		if (send_tisci_msg_continue_resume_resp()) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESP_CONT_RES);
 			abort();
 		} else {
@@ -756,7 +756,7 @@ void dm_stub_entry(void)
 		}
 
 		/* Wait for TISCI_MSG_SYNC_RESUME msg */
-		if (receive_tisci_msg_sync_resume()) {
+		if (receive_tisci_msg_sync_resume_req()) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_SYNC_RES);
 			abort();
 		} else {
