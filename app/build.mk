@@ -3,6 +3,8 @@
 
 obj-$(CONFIG_LPM_DM_STUB) += dmstub/
 
+ifdef CONFIG_LPM_DM_STUB_STANDALONE
+
 ifneq ($(CONFIG_BINARY_POST_FIX),"")
 TARGET_POSTFIX = -$(shell echo $(CONFIG_BINARY_POST_FIX))
 else
@@ -62,3 +64,4 @@ $(objtree)/$(TARGET_BIN): $(objtree)/$(TARGET_STRIPPED) $(BIN_SCRIPT)
 
 $(objtree)/$(TARGET_VBIN): $(objtree)/$(TARGET_STRIPPED) $(VECTOR_BIN_SCRIPT)
 	$(call make,rule_bin_elf)
+endif

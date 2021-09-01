@@ -24,6 +24,7 @@
 	.retainrefs
 
        .text
+       .arm
        .retain
        .retainrefs
 
@@ -56,7 +57,26 @@ _fiq_handler:
 	.word fiq_handler
 _end_vectors:
 
+_reset_vector_address:
+	.word 0x00000000
+
 _stub_start:
+	; Save current stack pointer
+	adr r1, _sys_stack_pointer
+	str sp, [r1]
+	adr r1, _sys_lr_register
+	str lr, [r1]
+
+	; Copy vector table
+	adr     r0, _reset
+	ldr     r1, _reset_vector_address
+	MOV     r2, #0x10
+wordcopy:
+	ldr     r3, [r0], #4
+	str     r3, [r1], #4
+	SUBS    r2, r2, #1
+	BNE     wordcopy
+
 	; initialize the stack
 	ldr sp, _stack_addr
 	; Space for the jump
@@ -71,3 +91,7 @@ _c_stub_entry:
 	.word stub_entry
 _stack_addr:
 	.word _end_stack
+_sys_stack_pointer:
+	.word 0x00000000
+_sys_lr_register:
+	.word 0x00000000

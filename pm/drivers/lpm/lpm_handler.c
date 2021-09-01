@@ -39,6 +39,13 @@
 #include <tisci/lpm/tisci_lpm.h>
 #include "lpm_handler.h"
 
+
+
+extern void _stub_start(void);
+extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
+
+u32 key;
+
 static s32 lpm_sleep_wait_for_all_cores()
 {
 	/* Wait for all cores to reach WFI, timeout and abort if not */
@@ -78,6 +85,7 @@ static s32 lpm_sleep_suspend_dm()
 static s32 lpm_sleep_jump_to_dm_Stub()
 {
 	/* Jump to DM stub */
+	_stub_start();
 	return SUCCESS;
 }
 
@@ -90,6 +98,8 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 
 	/* Only DEEP_SLEEP mode supported at the moment */
 	if (mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) {
+		/* Parse and store the mode info and ctx address in the prepare sleep message*/
+		lpm_populate_prepare_sleep_data(req);
 		/* TODO: Parse and store the mode info and ctx address */
 		/* TODO: Forward TISCI_MSG_PREPARE_SLEEP to TIFS */
 	} else {
