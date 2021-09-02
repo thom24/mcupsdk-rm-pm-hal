@@ -184,11 +184,18 @@ static void wait_for_debug(void)
 static void config_wake_sources()
 {
 	u32 i;
+	u32 val = 0;
 
 	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
+		/* Enable interrupt */
 		vim_set_intr_enable(soc_wake_sources_data[i].int_num,
 				    INTR_ENABLE);
+
+		/* Set WKUP0_EN BIT to be enabled */
+		val |= BIT(soc_wake_sources_data[i].wkup_idx);
 	}
+	/* Write all bits to enable at once */
+	writel(val, (WKUP_CTRL_MMR_BASE + WKUP0_EN));
 }
 
 static int enable_main_io_isolation()
