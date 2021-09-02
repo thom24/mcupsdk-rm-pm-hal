@@ -229,13 +229,21 @@ static int enable_main_remain_pll()
 		return ret;
 	}
 
-	/* FIXME skip enabling LPSC_MAIN_IP since it's not disabled due to vlab */
-#if 0
-	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_MAIN_IP,
-			       MDCTL_STATE_DISABLE, 0);
-	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_MAIN_IP);
-	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_MAIN_IP);
-#endif
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
+			       MDCTL_STATE_ENABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
+			       MDCTL_STATE_ENABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
+			       MDCTL_STATE_ENABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
 	return ret;
 }
 
