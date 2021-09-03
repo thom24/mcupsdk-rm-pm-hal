@@ -44,6 +44,7 @@
 #include <types/devgrps.h>
 #include <types/errno.h>
 #include <stddef.h>
+#include <string.h>
 
 #include <config.h>
 

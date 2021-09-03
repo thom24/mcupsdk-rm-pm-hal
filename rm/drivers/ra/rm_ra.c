@@ -124,7 +124,7 @@ struct ra_valid_masks_local {
  */
 static const struct ra_valid_masks_local local_rm_ra_valid_masks[RA_NUM_RING_TYPES] = {
 #ifdef CONFIG_RM_RA_NAV_RING
-	[RA_STANDARD_RING] = (
+	[RA_STANDARD_RING] = {
 		TISCI_MSG_VALUE_RM_RING_ADDR_LO_VALID |
 		TISCI_MSG_VALUE_RM_RING_ADDR_HI_VALID |
 		TISCI_MSG_VALUE_RM_RING_COUNT_VALID |
@@ -132,19 +132,19 @@ static const struct ra_valid_masks_local local_rm_ra_valid_masks[RA_NUM_RING_TYP
 		TISCI_MSG_VALUE_RM_RING_SIZE_VALID |
 		TISCI_MSG_VALUE_RM_RING_ORDER_ID_VALID |
 		TISCI_MSG_VALUE_RM_RING_VIRTID_VALID
-		),
+    },
 #else
-	[RA_STANDARD_RING] = 0U,
+	[RA_STANDARD_RING] = {0U},
 #endif
 #ifdef CONFIG_RM_RA_DMSS_RING
-	[RA_DMSS_RING] = (
+	[RA_DMSS_RING] = {
 		TISCI_MSG_VALUE_RM_RING_ADDR_LO_VALID |
 		TISCI_MSG_VALUE_RM_RING_ADDR_HI_VALID |
 		TISCI_MSG_VALUE_RM_RING_COUNT_VALID |
 		TISCI_MSG_VALUE_RM_RING_ASEL_VALID
-		),
+    },
 #else
-	[RA_DMSS_RING] = 0U,
+	[RA_DMSS_RING] = {0U},
 #endif
 };
 

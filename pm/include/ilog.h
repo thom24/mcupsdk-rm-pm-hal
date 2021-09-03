@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <limits.h>
 #include <compiler.h>
+#include <arm_acle.h>
 
 /**
  * ilog32 - Integer binary logarithm of a 32-bit value.
