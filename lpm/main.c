@@ -710,7 +710,7 @@ void dm_stub_entry(void)
 		/* Wait for TISCI Message to indicate DDR restore can resume */
 		/* TISCI_MSG_CONTINUE_RESUME */
 		if (receive_tisci_msg_continue_resume_req()) {
-			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_CONT_RES);
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_CONT_RES);
 			abort();
 		} else {
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_CONT_RES);
