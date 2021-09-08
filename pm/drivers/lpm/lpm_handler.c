@@ -42,6 +42,7 @@
 #include <osal_hwi.h>
 #include <osal_dm.h>
 #include "lpm_handler.h"
+#include "padcfg.h"
 
 /* TODO move the base addresses to device specific header files. */
 #define WKUP_CTRL_BASE             (0x43000000UL)
@@ -81,12 +82,6 @@ static s32 lpm_sleep_disable_sec_lpsc()
 static s32 lpm_sleep_disable_misc_lpsc()
 {
 	/* Disable non-crtitical  LPSCs */
-	return SUCCESS;
-}
-
-static s32 lpm_sleep_save_main_padconf()
-{
-	/* Save MAIN PADCONFIG MMRs */
 	return SUCCESS;
 }
 
