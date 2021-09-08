@@ -37,6 +37,8 @@
 
 #include <types/errno.h>
 #include <tisci/lpm/tisci_lpm.h>
+#include <osal_hwi.h>
+#include <osal_dm.h>
 #include "lpm_handler.h"
 
 
@@ -79,6 +81,9 @@ static s32 lpm_sleep_suspend_gtc()
 static s32 lpm_sleep_suspend_dm()
 {
 	/* Suspend DM OS */
+	osal_dm_disable_interrupt();  	/* Disable sciserver interrupt */
+	osal_suspend_dm();				/* Suspend DM task scheduler */
+	key = osal_hwip_disable();		/* Disable Global interrupt */
 	return SUCCESS;
 }
 
