@@ -286,7 +286,8 @@ static void disable_mcu_io_isolation()
 /* Send TISCI ROM Boot image message containing location
  * and boot address to load FS stub from SPS Memory
  */
-#ifndef CONFIG_LPM_DM_STUB_STANDALONE
+
+#ifndef CONFIG_LPM_DM_STUB_NO_FS_STUB
 static s32 send_tisci_msg_firmware_load()
 {
 	s32 ret = 0;
