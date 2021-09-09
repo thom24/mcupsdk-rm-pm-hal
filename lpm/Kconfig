@@ -39,4 +39,23 @@ config LPM_DM_TRACE
 	help
 	 Enable Low Power Mode Debug Output over wakeup UART
 
+menu "Low Power Debug Options"
+
+config LPM_DM_STUB_STANDALONE
+	bool "Build a standalone DM Stub"
+	depends on LPM_DM
+	help
+	 Enable build of a standalone DM Stub binary that can be loaded
+	 directly and used, can be useful for very specific debug
+	 scenarios.
+
+config LPM_DM_STUB_NO_FS_STUB
+	bool "Disable all attempted communication with TIFS/FS Stub"
+	depends on LPM_DM
+	help
+	 Disable attempted communication with TIFS or FS Stub using
+	 secure proxy. Useful for very specific debug scenarios.
+
+endmenu
+
 endmenu
