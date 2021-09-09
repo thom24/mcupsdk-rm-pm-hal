@@ -3,15 +3,15 @@ menu "Low Power Mode support"
 
 config LPM_DM
 	bool "Enable DM Low Power Mode support"
-	help
 	depends on LIBRARY_BUILD_DM
+	help
 	 Enable required features in the DM to support low power modes.
 
 config LPM_INCLUDE_OSAL
 	bool "Enable OSAL support for LPM"
-    help
-    depends on LPM_DM
-     Enable OSAL layer calls for LPM
+	depends on LPM_DM
+	help
+	 Enable OSAL layer calls for LPM
 
 config LPM_DM_STUB
 	bool "Build an LPM Stub binary"
