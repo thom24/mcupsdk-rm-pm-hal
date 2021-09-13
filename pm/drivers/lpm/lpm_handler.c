@@ -41,6 +41,7 @@
 #include <osal/osal_clock_user.h>
 #include <osal_hwi.h>
 #include <osal_dm.h>
+#include "gtc.h"
 #include "lpm_handler.h"
 #include "padcfg.h"
 
@@ -82,12 +83,6 @@ static s32 lpm_sleep_disable_sec_lpsc()
 static s32 lpm_sleep_disable_misc_lpsc()
 {
 	/* Disable non-crtitical  LPSCs */
-	return SUCCESS;
-}
-
-static s32 lpm_sleep_suspend_gtc()
-{
-	/* Save GTC counter and Disable */
 	return SUCCESS;
 }
 
