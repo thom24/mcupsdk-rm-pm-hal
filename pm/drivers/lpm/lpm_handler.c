@@ -35,23 +35,41 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <lib/ioremap.h>
 #include <types/errno.h>
 #include <tisci/lpm/tisci_lpm.h>
+#include <osal/osal_clock_user.h>
 #include <osal_hwi.h>
 #include <osal_dm.h>
 #include "lpm_handler.h"
 
+/* TODO move the base addresses to device specific header files. */
+#define WKUP_CTRL_BASE             (0x43000000UL)
+#define WKUP_CTRL_WFI_STATUS       (0x18400UL)
+#define SMS_CPU0_WFI               BIT(2)
 
+/* counts of 1us delay for 10ms */
+#define TIMEOUT_10MS                    10000
 
 extern void _stub_start(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
 
 u32 key;
 
-static s32 lpm_sleep_wait_for_all_cores()
+static s32 lpm_sleep_wait_for_tifs_wfi()
 {
-	/* Wait for all cores to reach WFI, timeout and abort if not */
-	return SUCCESS;
+	u32 reg;
+	int i = 0;
+
+	do {
+		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_WFI_STATUS);
+		if ((reg & SMS_CPU0_WFI) == SMS_CPU0_WFI) {
+			return SUCCESS;
+		}
+		osal_delay(1);
+	} while (i++ < TIMEOUT_10MS);
+
+	return -ETIMEDOUT;
 }
 
 static s32 lpm_sleep_disable_sec_lpsc()
@@ -127,7 +145,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 	/* Only DEEP_SLEEP mode supported at the moment */
 	if (mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) {
-		ret = lpm_sleep_wait_for_all_cores();
+		ret = lpm_sleep_wait_for_tifs_wfi();
 
 		if (ret == SUCCESS) {
 			ret = lpm_sleep_disable_sec_lpsc();
