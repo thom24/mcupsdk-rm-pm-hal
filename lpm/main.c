@@ -51,6 +51,7 @@
 #include "pll_16fft_raw.h"
 #include "psc_raw.h"
 #include "sec_proxy.h"
+#include "timeout.h"
 #include "vim_raw.h"
 
 enum lpm_mode {
@@ -404,22 +405,36 @@ static void send_msg_restore_sms_pll()
 {
 }
 
-static void wait_for_reset_statz()
+static s32 wait_for_reset_statz()
 {
 	u32 val;
+	int i = 0;
 
 	do {
 		val = readl(WKUP_CTRL_MMR_BASE + SLEEP_STATUS);
-	} while ((val & SLEEP_STATUS_MAIN_RESETSTATZ) != SLEEP_STATUS_MAIN_RESETSTATZ);
+		if (val & SLEEP_STATUS_MAIN_RESETSTATZ) {
+			return 0;
+		}
+		delay_1us();
+	} while (i++ <RETRY_CNT_10ms);
+
+	return -ETIMEDOUT;
 }
 
-static void wait_for_tifs_ready()
+static s32 wait_for_tifs_ready()
 {
 	u32 val;
+	int i = 0;
 
 	do {
 		val = readl(WKUP_CTRL_MMR_BASE + DS_MAGIC_WORD);
-	} while (val != DS_MAGIC_WORD_RESUME_ROM);
+		if (val == DS_MAGIC_WORD_RESUME_ROM) {
+			return 0;
+		}
+		delay_1us();
+	} while (i++ <RETRY_CNT_10ms);
+
+	return -ETIMEDOUT;
 }
 
 static void enable_pll_standby()
@@ -670,8 +685,10 @@ void dm_stub_entry(void)
 	wait_for_debug();
 
 	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
-		/* Wait for RESET_STATZ */
-		wait_for_reset_statz();
+		if (wait_for_reset_statz()) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST);
+			abort();
+		}
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST);
 
@@ -693,7 +710,10 @@ void dm_stub_entry(void)
 		 * TIFS ROM has completed and execution can continue.
 		 * Clear WKUP DS_MAGIC_WORD
 		 */
-		wait_for_tifs_ready();
+		if (wait_for_tifs_ready()) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
+			abort();
+		}
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
 
