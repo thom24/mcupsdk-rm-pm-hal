@@ -56,7 +56,7 @@ config RM_IRQ
 	 Enable support for Resource Manager IRQ functions
 
 config INTERRUPT_AGGREGATOR_UNMAPPED_EVENTS
-	bool
+	bool "Enable Interrupt Aggregator unmapped event support"
 	depends on RM_IRQ
 	default n if SOC_AM6
 	default n if SOC_J721E
