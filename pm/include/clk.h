@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,6 +74,9 @@
 
 /** set if a cached frequency is stored in freq_idx (used for PLLs) */
 #define CLK_FLAG_CACHED                         ((u8) BIT(3))
+
+/** set if a clock has has suspend handler called but not resume handler */
+#define CLK_FLAG_SUSPENDED                      ((u8) BIT(4))
 
 #define CLK_HW_STATE_DISABLED   0U
 #define CLK_HW_STATE_ENABLED    1U
@@ -177,6 +180,26 @@ struct clk_drv {
 	 * \return True if the change (would) succeed
 	 */
 	sbool (*notify_freq)(struct clk *clkp, u32 parent_freq_hz, sbool query);
+
+#ifdef CONFIG_LPM_CLK
+	/**
+	 * \brief Suspend and save clock context during suspend path.
+	 *
+	 * \param clkp The clock to suspend and save
+	 *
+	 * \return SUCCESS for success, error code otherwise
+	 */
+	s32 (*suspend_save)(struct clk *clkp);
+
+	/**
+	 * \brief Resume and restore clock context during resume path.
+	 *
+	 * \param clkp The clock to resume and restore
+	 *
+	 * \return SUCCESS for success, error code otherwise
+	 */
+	s32 (*resume_restore)(struct clk *clkp);
+#endif
 };
 
 struct clk_data_reg {
