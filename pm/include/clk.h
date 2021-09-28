@@ -37,6 +37,7 @@
 #ifndef CLK_H
 #define CLK_H
 
+#include <types/errno.h>
 #include <types/sbool.h>
 #include <stddef.h>
 #include <types/short_types.h>
@@ -350,6 +351,21 @@ s32 clk_init(void);
  * The status of deinitialization. SUCCESS if the action succeeded
  */
 s32 clk_deinit_pm_devgrp(u8 pm_devgrp);
+
+#ifdef CONFIG_LPM_CLK
+/**
+ * \brief Loop through all clocks on device and call suspend_save handlers.
+ */
+s32 clks_suspend(void);
+
+/**
+ * \brief Loop through all clocks on device and call resume_restore handlers.
+ */
+s32 clks_resume(void);
+#else
+static inline s32 clks_suspend(void) { return SUCCESS; }
+static inline s32 clks_resume(void) { return SUCCESS; }
+#endif
 
 #ifdef CONFIG_CLOCK
 void clk_drop_pwr_up_en(void);

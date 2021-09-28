@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,9 @@
 #include <lib/container_of.h>
 #include <lib/trace.h>
 #include <types/array_size.h>
+
+/** Maximum number of times to walk the clock tree in LPM handlers */
+#define LPM_CLK_MAX_TRIES		10
 
 u32 clk_value_set_freq(struct clk *clkp, u32 target_hz,
 		       u32 min_hz __attribute__((unused)),
@@ -601,6 +604,135 @@ s32 clk_deinit_pm_devgrp(u8 pm_devgrp)
 	return ret;
 }
 
+#ifdef CONFIG_LPM_CLK
+static s32 clk_suspend_save(struct clk *clkp)
+{
+	const struct clk_data *clk_data_p = clk_get_data(clkp);
+	s32 ret = SUCCESS;
+
+	if ((clkp->flags & CLK_FLAG_SUSPENDED) == 0) {
+		if (clk_data_p->drv->suspend_save) {
+			ret = clk_data_p->drv->suspend_save(clkp);
+			/* Mark clock as suspended to avoid duplicate operations */
+			clkp->flags |= CLK_FLAG_SUSPENDED;
+		} else {
+			/* Mark clock as resumed if no handler is provided */
+			clkp->flags |= CLK_FLAG_SUSPENDED;
+			ret = SUCCESS;
+		}
+	}
+
+	return ret;
+}
+
+static s32 clk_resume_restore(struct clk *clkp)
+{
+	const struct clk_data *clk_data_p = clk_get_data(clkp);
+	const struct clk_parent *p = NULL;
+	struct clk *parent_clk = NULL;
+	s32 ret = SUCCESS;
+
+	p = clk_get_parent(clkp);
+	if (p) {
+		parent_clk = clk_lookup((clk_idx_t) p->clk);
+	}
+
+	if (parent_clk != NULL) {
+		/* If parent is still suspended, defer until it has resumed. */
+		if ((parent_clk->flags & CLK_FLAG_SUSPENDED) == CLK_FLAG_SUSPENDED) {
+			ret = -EDEFER;
+		}
+	}
+
+	if ((ret != -EDEFER) && ((clkp->flags & CLK_FLAG_SUSPENDED) == CLK_FLAG_SUSPENDED)) {
+		if (clk_data_p->drv->resume_restore) {
+			ret = clk_data_p->drv->resume_restore(clkp);
+			/* Clear suspended flag to avoid duplicate operations */
+			clkp->flags &= ~CLK_FLAG_SUSPENDED;
+		} else {
+			/* Mark clock as resumed if no handler is provided */
+			clkp->flags &= ~CLK_FLAG_SUSPENDED;
+			ret = SUCCESS;
+		}
+	}
+
+	return ret;
+}
+
+s32 clks_suspend(void)
+{
+	u32 i;
+	s32 ret = SUCCESS;
+	u32 clock_count = soc_clock_count;
+	u8 max_tries = LPM_CLK_MAX_TRIES;
+	sbool done, error;
+
+	do {
+		done = STRUE;
+		error = SFALSE;
+
+		for (i = 1u; i < clock_count; i++) {
+			struct clk *clkp = soc_clocks + i;
+
+			ret = clk_suspend_save(clkp);
+
+			if (ret == -EDEFER) {
+				done = SFALSE;
+			} else if (ret != SUCCESS) {
+				error = STRUE;
+			}
+		}
+
+		/* Avoid getting stuck forever, bound the number of loops */
+		max_tries--;
+	} while (!done && !error && (max_tries != 0));
+
+	if (max_tries == 0) {
+		ret = -ETIMEDOUT;
+	} else {
+		ret = SUCCESS;
+	}
+
+	return ret;
+}
+
+s32 clks_resume(void)
+{
+	u32 i;
+	s32 ret = SUCCESS;
+	u32 clock_count = soc_clock_count;
+	u8 max_tries = 10;
+	sbool done, error;
+
+	do {
+		done = STRUE;
+		error = SFALSE;
+
+		for (i = 1u; i < clock_count; i++) {
+			struct clk *clkp = soc_clocks + i;
+
+			ret = clk_resume_restore(clkp);
+
+			if (ret == -EDEFER) {
+				done = SFALSE;
+			} else if (ret != SUCCESS) {
+				error = STRUE;
+			}
+		}
+
+		/* Avoid getting stuck forever, bound the number of loops */
+		max_tries--;
+	} while (!done && !error && (max_tries != 0));
+
+	if (max_tries == 0) {
+		ret = -ETIMEDOUT;
+	} else {
+		ret = SUCCESS;
+	}
+
+	return ret;
+}
+#endif
 
 s32 clk_init(void)
 {
