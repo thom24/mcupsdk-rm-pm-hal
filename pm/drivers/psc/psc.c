@@ -138,11 +138,6 @@
 
 #define PSC_TRANSITION_TIMEOUT  10000
 
-/* Enable PTSTAT errata only for J721E and AM65x PG 1.0 */
-#if defined(CONFIG_SOC_J721E) || defined(CONFIG_SOC_AM6)
-#define PSC_PTSTAT_ERRATA_ENABLE
-#endif
-
 /* Extra delay time between powerdomain off and on in nanoseconds */
 #define PSC_PTSTAT_ERRATA_DELAY_NS 10000U
 
@@ -151,7 +146,7 @@ static struct device *psc_devs;
 static void lpsc_module_get_internal(struct device *dev, struct lpsc_module *module, sbool use, sbool ret);
 static void lpsc_module_put_internal(struct device *dev, struct lpsc_module *module, sbool use, sbool ret);
 
-#ifdef PSC_PTSTAT_ERRATA_ENABLE
+#ifdef CONFIG_PSC_PTSTAT_ERRATA
 /* Timestamp of last powerdomain poweroff for use in PTSTAT errata check */
 static u64 psc_last_pd_off_ns;
 #endif
@@ -293,7 +288,7 @@ void psc_pd_get(struct device *dev, struct psc_pd *pd)
 		pdctl &= ~PDCTL_STATE_MASK;
 		pdctl |= PDCTL_STATE_ON;
 
-#ifdef PSC_PTSTAT_ERRATA_ENABLE
+#ifdef CONFIG_PSC_PTSTAT_ERRATA
 		/*
 		 * Handle PTSTAT errata.
 		 *
@@ -398,7 +393,7 @@ void psc_pd_put(struct device *dev, struct psc_pd *pd)
 		pd_initiate(dev, pd);
 		psc_pd_wait(dev, pd);
 
-#ifdef PSC_PTSTAT_ERRATA_ENABLE
+#ifdef CONFIG_PSC_PTSTAT_ERRATA
 		/*
 		 * Store the last powerdomain poweroff time for use in the
 		 * PTSTAT errata check.

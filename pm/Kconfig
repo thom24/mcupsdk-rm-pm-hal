@@ -49,6 +49,14 @@ config PSC
 	help
 	 Enable support for PSC controller
 
+config PSC_PTSTAT_ERRATA
+        bool "Enable support for PSC PTSTAT ERRATA"
+        depends on PSC
+        default y if SOC_AM6
+        default y if SOC_J721E
+        help
+         Enable support for PSC PTSTAT ERRATA
+
 config CLOCK
 	bool "Enable support for clock"
 	depends on PM
