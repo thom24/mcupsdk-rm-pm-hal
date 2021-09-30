@@ -115,6 +115,41 @@ static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 	return ret;
 }
 
+#ifdef CONFIG_LPM_CLK
+static s32 clk_mux_suspend_save(struct clk *clkp)
+{
+	const struct clk_data *clk_datap = clk_get_data(clkp);
+	const struct clk_data_mux *mux;
+	struct clk_data_mux_reg *reg;
+
+	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
+	reg = container_of(mux, struct clk_data_mux_reg, data_mux);
+
+	reg->saved_parent = clk_mux_get_parent_value(clkp);
+
+	return 0;
+}
+
+static s32 clk_mux_resume_restore(struct clk *clkp)
+{
+	const struct clk_data *clk_datap = clk_get_data(clkp);
+	const struct clk_data_mux *mux;
+	const struct clk_data_mux_reg *reg;
+	sbool error;
+	s32 ret = SUCCESS;
+
+	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
+	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
+
+	error = clk_mux_set_parent(clkp, reg->saved_parent);
+	if (error == SFALSE) {
+		ret = -EFAIL;
+	}
+
+	return ret;
+}
+#endif
+
 const struct clk_drv_mux clk_drv_mux_reg_ro = {
 	.get_parent	= clk_mux_get_parent,
 };
@@ -122,6 +157,12 @@ const struct clk_drv_mux clk_drv_mux_reg_ro = {
 const struct clk_drv_mux clk_drv_mux_reg = {
 	.set_parent		= clk_mux_set_parent,
 	.get_parent		= clk_mux_get_parent,
+#ifdef CONFIG_LPM_CLK
+	.drv = {
+		.suspend_save = clk_mux_suspend_save,
+		.resume_restore = clk_mux_resume_restore,
+	},
+#endif
 };
 
 const struct clk_parent *clk_get_parent(struct clk *clkp)

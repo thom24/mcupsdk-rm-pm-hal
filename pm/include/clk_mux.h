@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@
 #define CLK_MUX_H
 
 #include <clk.h>
+#include <config.h>
 
 struct clk_data_mux {
 	struct clk_drv_data	data;
@@ -49,6 +50,9 @@ struct clk_data_mux_reg {
 	struct clk_data_mux	data_mux;
 	u32			reg;
 	u8			bit;
+#ifdef CONFIG_LPM_CLK
+	u8			saved_parent;
+#endif
 };
 
 struct clk_drv_mux {
