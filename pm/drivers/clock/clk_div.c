@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -499,6 +499,40 @@ sbool clk_div_reg_set_div(struct clk *clkp, u32 d)
 	return ret;
 }
 
+#ifdef CONFIG_LPM_CLK
+s32 clk_div_suspend_save(struct clk *clkp)
+{
+	const struct clk_data *clk_datap = clk_get_data(clkp);
+	const struct clk_data_div *data_div;
+	struct clk_data_div_reg *data_reg;
+
+	data_div = container_of(clk_datap->data, const struct clk_data_div,
+				data);
+	data_reg = container_of(data_div, struct clk_data_div_reg,
+				data_div);
+
+	data_reg->saved_div = clk_div_reg_get_div(clkp);
+
+	return 0;
+}
+
+s32 clk_div_resume_restore(struct clk *clkp)
+{
+	const struct clk_data *clk_datap = clk_get_data(clkp);
+	const struct clk_data_div *data_div;
+	const struct clk_data_div_reg *data_reg;
+
+	data_div = container_of(clk_datap->data, const struct clk_data_div,
+				data);
+	data_reg = container_of(data_div, const struct clk_data_div_reg,
+				data_div);
+
+	clk_div_reg_set_div(clkp, data_reg->saved_div);
+
+	return SUCCESS;
+}
+#endif
+
 const struct clk_drv_div clk_drv_div_reg_ro = {
 	.drv			= {
 		.get_freq	= clk_div_get_freq,
@@ -512,6 +546,10 @@ const struct clk_drv_div clk_drv_div_reg = {
 		.set_freq	= clk_div_set_freq,
 		.get_freq	= clk_div_get_freq,
 		.init		= clk_div_init,
+#ifdef CONFIG_LPM_CLK
+		.suspend_save   = clk_div_suspend_save,
+		.resume_restore = clk_div_resume_restore,
+#endif
 	},
 	.set_div		= clk_div_reg_set_div,
 	.get_div		= clk_div_reg_get_div,
