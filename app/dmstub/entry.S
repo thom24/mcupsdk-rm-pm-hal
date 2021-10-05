@@ -107,7 +107,34 @@ wordcopy:
 
 	; At this point we should be CPU0
 	; jump to proper reset handler
-	ldr pc, _c_stub_entry
+	bl stub_entry
+
+	; switching back to DDR
+	; disable interrupt
+	cpsid i
+	; switch to irq mode, set irq stack
+	mrs	r0, cpsr
+	mvn	r1, #0x1f
+	and	r2, r1, r0
+	orr	r2, r2, #0x12
+	msr	cpsr_cf, r2
+	ldr	r13, _sys_irq_stack_pointer
+	mov 	r14,#0
+
+	; switch to SYS mode
+	mrs	r0, cpsr
+	mvn	r1, #0x1f
+	and	r2, r1, r0
+	orr	r2, r2, #0x1f
+	msr	cpsr_cf, r2
+
+	; reload the stack
+	ldr sp, _sys_stack_pointer
+	ldmia	sp!,{r4-r11}
+	; Space for the jump
+	nop
+	nop
+	ldr pc, _sys_lr_register
 
 irq_handler_asm:
 	stmdb	sp!,{r0-r3,r12,lr}
@@ -115,8 +142,6 @@ irq_handler_asm:
 	ldmia	sp!,{r0-r3,r12,lr}
 	subs	pc, lr, #4
 
-_c_stub_entry:
-	.word stub_entry
 _stack_addr:
 	.word _end_stack
 _irq_stack_addr:
