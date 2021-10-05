@@ -61,6 +61,8 @@ _reset_vector_address:
 	.word 0x00000000
 
 _stub_start:
+	; save r4-r11 registers
+	stmdb   sp!,{r4-r11}
 	; Save current stack pointer
 	adr r1, _sys_stack_pointer
 	str sp, [r1]
@@ -83,6 +85,8 @@ wordcopy:
 	and	r2, r1, r0
 	orr	r2, r2, #0x12
 	msr	cpsr_cf, r2
+	adr r1, _sys_irq_stack_pointer ; save the current irq stack pointer
+	str sp, [r1]
 	ldr	r13, _irq_stack_addr
 	mov 	r14,#0
 
@@ -120,4 +124,6 @@ _irq_stack_addr:
 _sys_stack_pointer:
 	.word 0x00000000
 _sys_lr_register:
+	.word 0x00000000
+_sys_irq_stack_pointer:
 	.word 0x00000000
