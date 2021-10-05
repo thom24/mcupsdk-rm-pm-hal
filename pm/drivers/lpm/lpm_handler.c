@@ -86,12 +86,52 @@ static s32 lpm_sleep_disable_misc_lpsc()
 	return SUCCESS;
 }
 
+static s32 lpm_resume_enable_lpsc()
+{
+	/* enable LPSCs as needed for cores to resume */
+	return SUCCESS;
+}
+
+static s32 lpm_resume_disable_DM_reset_isolation()
+{
+	/* Clear WKUP_CTRL DS_DM_RESET.mask to stop
+	* isolation of DM from MAIN domain
+	*/
+	return SUCCESS;
+}
+
+static s32 lpm_resume_restore_RM_context()
+{
+	/* restore IA and IR configurations */
+	return SUCCESS;
+}
+
+static s32 lpm_resume_send_core_resume_message()
+{
+	/* send core resume message */
+	return SUCCESS;
+}
+
+static s32 lpm_resume_release_reset_of_power_master()
+{
+	/* release reset of power master */
+	return SUCCESS;
+}
+
+
 static s32 lpm_sleep_suspend_dm()
 {
 	/* Suspend DM OS */
 	osal_dm_disable_interrupt();  	/* Disable sciserver interrupt */
 	osal_suspend_dm();				/* Suspend DM task scheduler */
 	key = osal_hwip_disable();		/* Disable Global interrupt */
+	return SUCCESS;
+}
+
+
+static s32 lpm_resume_dm()
+{
+	/* Resume DM OS */
 	return SUCCESS;
 }
 
@@ -159,6 +199,38 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 		if (ret == SUCCESS) {
 			ret = lpm_sleep_jump_to_dm_Stub();
+		}
+
+		if (ret == SUCCESS) {
+			ret = lpm_resume_enable_lpsc();
+		}
+
+		if (ret == SUCCESS) {
+			ret = lpm_resume_disable_DM_reset_isolation();
+		}
+
+		if (ret == SUCCESS) {
+			ret = lpm_resume_restore_RM_context();
+		}
+
+		if (ret == SUCCESS) {
+			ret = lpm_resume_gtc();
+		}
+
+		if (ret == SUCCESS) {
+			ret = lpm_resume_send_core_resume_message();
+		}
+
+		if (ret == SUCCESS) {
+			ret = lpm_resume_release_reset_of_power_master();
+		}
+
+		if (ret == SUCCESS) {
+			ret = lpm_resume_restore_main_padconf();
+		}
+
+		if (ret == SUCCESS) {
+			ret = lpm_resume_dm();
 		}
 	} else {
 		ret = -EINVAL;
