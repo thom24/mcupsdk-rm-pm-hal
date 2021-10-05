@@ -50,6 +50,9 @@
 #define WKUP_CTRL_WFI_STATUS       (0x18400UL)
 #define SMS_CPU0_WFI               BIT(2)
 
+#define DS_DM_RESET_UNMASK              0xF
+#define DS_DM_RESET                     (0x00018440U)
+
 /* counts of 1us delay for 10ms */
 #define TIMEOUT_10MS                    10000
 
@@ -97,6 +100,7 @@ static s32 lpm_resume_disable_DM_reset_isolation()
 	/* Clear WKUP_CTRL DS_DM_RESET.mask to stop
 	* isolation of DM from MAIN domain
 	*/
+	writel(DS_DM_RESET_UNMASK, WKUP_CTRL_BASE + DS_DM_RESET);
 	return SUCCESS;
 }
 
