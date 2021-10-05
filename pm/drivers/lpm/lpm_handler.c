@@ -136,6 +136,9 @@ static s32 lpm_sleep_suspend_dm()
 static s32 lpm_resume_dm()
 {
 	/* Resume DM OS */
+	osal_dm_enable_interrupt();  	/* Enable sciserver interrupts */
+	osal_resume_dm();				/* Resume DM task scheduler */
+	osal_hwip_restore(key);		/* Enable Global interrupts */
 	return SUCCESS;
 }
 
