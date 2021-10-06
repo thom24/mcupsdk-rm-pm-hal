@@ -72,6 +72,8 @@ static struct tisci_msg_prepare_sleep_req g_params;
 #define PLLOFFSET(idx) (0x1000 * (idx))
 
 static struct pll_raw_data mcu_pll = { .base = MCU_PLL_MMR_BASE, };
+static struct pll_raw_data main_pll0 =
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(0), };
 static struct pll_raw_data main_pll1 =
 { .base = MAIN_PLL_MMR_BASE + PLLOFFSET(1), };
 static struct pll_raw_data main_pll2 =
@@ -160,6 +162,7 @@ static void bypass_main_pll()
 	/* disable all HSDIV in MAIN_PLLCTRL, bypass all MAIN PLL
 	 * except clock for Debug, PLL0, PLL15
 	 */
+	pll_save(&main_pll0);
 	pll_save(&main_pll1);
 	pll_save(&main_pll2);
 	pll_save(&main_pll8);
@@ -223,6 +226,21 @@ static void disable_main_remain_pll()
 static int enable_main_remain_pll()
 {
 	s32 ret = 0;
+
+	ret = pll_restore(&main_pll0);
+	if (ret) {
+		return ret;
+	}
+
+	ret = pll_restore(&main_pll1);
+	if (ret) {
+		return ret;
+	}
+
+	ret = pll_restore(&main_pll2);
+	if (ret) {
+		return ret;
+	}
 
 	/* config additional MAIN PLLs and PSCs for EMIF */
 	ret = pll_restore(&main_pll12);
