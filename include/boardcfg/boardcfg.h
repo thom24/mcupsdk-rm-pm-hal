@@ -38,7 +38,7 @@
 #define BOARD_CFG_API_H
 
 #include <types/devgrps.h>
-#include <boardcfg/boardcfg_data.h>
+#include <types/sbool.h>
 
 /**
  * \brief Get a pointer to the local copy of the boardcfg_control data.
