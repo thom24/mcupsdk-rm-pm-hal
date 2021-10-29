@@ -46,13 +46,14 @@
  * This stores the SoC specific const data for each device.
  */
 struct soc_device_data {
+#if defined (CONFIG_PSC_PD_MAX_COUNT_64)
+	u8		psc_idx;   /** PSC index */
+	u8		pd;        /** PSC powerdomain */
+#else
 	u8		psc_idx : 3;
-
-	/** The PSC powerdomain that this device is part of. */
 	u8		pd : 5;
-
-	/** The PSC module that this device is part of. */
-	lpsc_idx_t	mod;
+#endif
+	lpsc_idx_t	mod;   /** PSC module index */
 };
 
 #endif

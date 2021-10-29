@@ -68,7 +68,9 @@
 #define PSC_RAILCTL             0x104U
 #define PSC_RAILSET             0x108U
 #define PSC_PTCMD               0x120U
+#define PSC_PTCMD_H             0x124U
 #define PSC_PTSTAT              0x128U
+#define PSC_PTSTAT_H            0x12CU
 #define PSC_PDSTAT(domain)      (0x200U + (4U * (domain)))
 #define PSC_PDCTL(domain)       (0x300U + (4U * (domain)))
 #define PSC_PDCFG(domain)       (0x400U + (4U * (domain)))
@@ -209,10 +211,17 @@ static inline struct lpsc_module *psc_idx2mod(const struct psc_drv_data *psc,
 /* FIXME: Timeout behavior */
 void psc_pd_wait(struct device *dev, struct psc_pd *pd)
 {
+	u32      psc_ptstat = PSC_PTSTAT;
+	pd_idx_t psc_idx    = psc_pd_idx(dev, pd);
+
 	if (!(get_psc_pd_data(dev, pd)->flags & PSC_PD_ALWAYSON)) {
 		s32 i = PSC_TRANSITION_TIMEOUT;
-		while (((psc_read(dev, PSC_PTSTAT) &
-			 BIT(psc_pd_idx(dev, pd))) != 0U) && (--i != 0)) {
+		/* power domain >= 32 uses PSC_PTSTAT_H register */
+		if (psc_idx >= 32U) {
+			psc_ptstat = PSC_PTSTAT_H;
+		}
+		while (((psc_read(dev, psc_ptstat) &
+			 BIT(psc_idx % 32U)) != 0U) && (--i != 0)) {
 		}
 		if (!i) {
 			/* Directly convert to psc to get psc_idx */
@@ -225,8 +234,15 @@ void psc_pd_wait(struct device *dev, struct psc_pd *pd)
 
 static void pd_initiate(struct device *dev, struct psc_pd *pd)
 {
+	u32      psc_ptcmd = PSC_PTCMD;
+	pd_idx_t psc_idx   = psc_pd_idx(dev, pd);
+	/* power domain >= 32 uses PSC_PTCMD_H register */
+	if (psc_idx >= 32U) {
+		psc_ptcmd = PSC_PTCMD_H;
+	}
+
 	/* Note: This is a state machine reg */
-	psc_write(dev, BIT(psc_pd_idx(dev, pd)), PSC_PTCMD);
+	psc_write(dev, BIT(psc_idx % 32U), psc_ptcmd);
 }
 
 /**
@@ -414,14 +430,21 @@ void psc_pd_put(struct device *dev, struct psc_pd *pd)
 
 u32 psc_pd_get_state(struct device *dev, struct psc_pd *pd)
 {
-	u32 idx = psc_pd_idx(dev, pd);
+	u32      psc_ptstat = PSC_PTSTAT;
+	pd_idx_t psc_idx    = psc_pd_idx(dev, pd);
+
 	u8 state;
 
-	if (psc_read(dev, PSC_PTSTAT) & BIT(idx)) {
+	/* power domain >= 32 uses PSC_PTSTAT_H register */
+	if (psc_idx >= 32U) {
+		psc_ptstat = PSC_PTSTAT_H;
+	}
+
+	if (psc_read(dev, psc_ptstat) & BIT(psc_idx % 32U)) {
 		return 2;
 	}
 
-	state = (u8) (psc_read(dev, PSC_PDSTAT(idx)) & PDSTAT_STATE_MASK);
+	state = (u8) (psc_read(dev, PSC_PDSTAT(psc_idx)) & PDSTAT_STATE_MASK);
 	return (state == PDCTL_STATE_ON) ? 1U : 0U;
 }
 

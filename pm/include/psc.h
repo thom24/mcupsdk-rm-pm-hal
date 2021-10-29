@@ -52,7 +52,11 @@
 
 #define PSC_DEV_NONE            7U
 #define PSC_DEV_MULTIPLE        6U
+#if defined (CONFIG_PSC_PD_MAX_COUNT_64)
+#define PSC_PD_NONE             63U
+#else
 #define PSC_PD_NONE             31U
+#endif
 #define PSC_LPSC_NONE           55U
 
 #define PSC_PD_EXISTS           BIT(0)
@@ -60,8 +64,13 @@
 #define PSC_PD_DEPENDS          BIT(2)
 
 struct psc_pd_data {
+#if defined (CONFIG_PSC_PD_MAX_COUNT_64)
+	u8	flags;
+	u8	depends;        /* pd_idx_t */
+#else
 	u8	flags : 3;
 	u8	depends : 5;    /* pd_idx_t */
+#endif
 	/**
 	 * Some domains need a clock running in order to transition. This
 	 * is the id of that clock. If no such clock is needed, set to
@@ -132,8 +141,13 @@ struct lpsc_module_data {
 	clk_idx_t	clock_dep[1];
 	u8		flags;
 	lpsc_idx_t	depends;
+#if defined (CONFIG_PSC_PD_MAX_COUNT_64)
+	u8		depends_psc_idx;        /* psc_idx_t */
+	u8		powerdomain;            /* pd_idx_t */
+#else
 	u8		depends_psc_idx : 3;    /* psc_idx_t */
 	u8		powerdomain : 5;        /* pd_idx_t */
+#endif
 };
 
 struct lpsc_module {

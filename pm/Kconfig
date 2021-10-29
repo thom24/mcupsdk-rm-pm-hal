@@ -49,6 +49,14 @@ config PSC
 	help
 	 Enable support for PSC controller
 
+config PSC_PD_MAX_COUNT_64
+	bool "Expand power tree to support 64 power domains"
+	depends on PSC
+	default n
+	default y if SOC_J721S2
+	help
+	 Enable support for 64 power domains (PD). Default is 32 PDs.
+
 config PSC_PTSTAT_ERRATA
         bool "Enable support for PSC PTSTAT ERRATA"
         depends on PSC
