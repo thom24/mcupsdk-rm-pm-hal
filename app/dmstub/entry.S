@@ -90,6 +90,39 @@ wordcopy:
 	ldr	r13, _irq_stack_addr
 	mov 	r14,#0
 
+	;switch to fiq mode and save stack pointer
+	mrs	r0, cpsr
+	bic r0, r0, #0x1f
+	orr r0, r0, #0x11
+	msr	cpsr_cf, r0
+	adr r1, _sys_fiq_stack_pointer
+	str sp, [r1]
+
+	;switch to abort mode and save stack pointer
+	mrs	r0, cpsr
+	bic r0, r0, #0x1f
+	orr r0, r0, #0x17
+	msr	cpsr_cf, r0
+	adr r1, _sys_abort_stack_pointer
+	str sp, [r1]
+
+	;switch to undefined mode and save stack pointer
+	mrs	r0, cpsr
+	bic r0, r0, #0x1f
+	orr r0, r0, #0x1b
+	msr	cpsr_cf, r0
+	adr r1, _sys_undefined_stack_pointer
+	str sp, [r1]
+
+	;switch to supervisor mode and save stack pointer
+	mrs	r0, cpsr
+	bic r0, r0, #0x1f
+	orr r0, r0, #0x13
+	msr	cpsr_cf, r0
+	adr r1, _sys_supervisor_stack_pointer
+	str sp, [r1]
+
+
 	; switch to SYS mode
 	mrs	r0, cpsr
 	mvn	r1, #0x1f
@@ -121,6 +154,35 @@ wordcopy:
 	ldr	r13, _sys_irq_stack_pointer
 	mov 	r14,#0
 
+	;switch to fiq mode and restore stack pointer
+	mrs	r0, cpsr
+	bic r0, r0, #0x1f
+	orr r0, r0, #0x11
+	msr	cpsr_cf, r0
+	ldr	r13, _sys_fiq_stack_pointer
+
+	;switch to abort mode and restore stack pointer
+	mrs	r0, cpsr
+	bic r0, r0, #0x1f
+	orr r0, r0, #0x17
+	msr	cpsr_cf, r0
+	ldr	r13, _sys_abort_stack_pointer
+
+	;switch to undefined ort mode and restore stack pointer
+	mrs	r0, cpsr
+	bic r0, r0, #0x1f
+	orr r0, r0, #0x1b
+	msr	cpsr_cf, r0
+	ldr	r13, _sys_undefined_stack_pointer
+
+	;switch to supervisor mode and restore stack pointer
+	mrs	r0, cpsr
+	bic r0, r0, #0x1f
+	orr r0, r0, #0x13
+	msr	cpsr_cf, r0
+	ldr	r13, _sys_supervisor_stack_pointer
+
+
 	; switch to SYS mode
 	mrs	r0, cpsr
 	mvn	r1, #0x1f
@@ -151,4 +213,12 @@ _sys_stack_pointer:
 _sys_lr_register:
 	.word 0x00000000
 _sys_irq_stack_pointer:
+	.word 0x00000000
+_sys_fiq_stack_pointer:
+	.word 0x00000000
+_sys_abort_stack_pointer:
+	.word 0x00000000
+_sys_undefined_stack_pointer:
+	.word 0x00000000
+_sys_supervisor_stack_pointer:
 	.word 0x00000000
