@@ -242,6 +242,12 @@ static int enable_main_remain_pll()
 		return ret;
 	}
 
+	/* Restore pll used by A53 */
+	ret = pll_restore(&main_pll8);
+	if (ret) {
+		return ret;
+	}
+
 	/* config additional MAIN PLLs and PSCs for EMIF */
 	ret = pll_restore(&main_pll12);
 	if (ret) {
@@ -434,7 +440,7 @@ static s32 wait_for_reset_statz()
 			return 0;
 		}
 		delay_1us();
-	} while (i++ <RETRY_CNT_10ms);
+	} while (i++ < RETRY_CNT_10ms);
 
 	return -ETIMEDOUT;
 }
@@ -450,7 +456,7 @@ static s32 wait_for_tifs_ready()
 			return 0;
 		}
 		delay_1us();
-	} while (i++ <RETRY_CNT_10ms);
+	} while (i++ < RETRY_CNT_10ms);
 
 	return -ETIMEDOUT;
 }

@@ -4,7 +4,7 @@
  * TISCI_MSG_PREPARE_SLEEP and TISCI_MSG_ENTER_SLEEP handler for
  * Low Power Mode implementation
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,7 @@
 
 #include <lib/ioremap.h>
 #include <types/errno.h>
+#include <string.h>
 #include <tisci/lpm/tisci_lpm.h>
 #include <osal/osal_clock_user.h>
 #include <osal_hwi.h>
@@ -44,6 +45,11 @@
 #include "gtc.h"
 #include "lpm_handler.h"
 #include "padcfg.h"
+#include "device.h"
+#include "device_pm.h"
+#include "devices.h"
+#include "lpm/sec_proxy.h"
+
 
 /* TODO move the base addresses to device specific header files. */
 #define WKUP_CTRL_BASE             (0x43000000UL)
@@ -55,6 +61,9 @@
 
 /* counts of 1us delay for 10ms */
 #define TIMEOUT_10MS                    10000
+
+#define DEV_GTC AM62X_DEV_WKUP_GTC0
+#define POWER_MASTER AM62X_DEV_A53SS0_CORE_0
 
 extern void _stub_start(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
@@ -113,32 +122,64 @@ static s32 lpm_resume_restore_RM_context()
 static s32 lpm_resume_send_core_resume_message()
 {
 	/* send core resume message */
-	return SUCCESS;
+	s32 ret = 0;
+
+	struct tisci_msg_core_resume_req req = {
+		.hdr		= {
+			.type	= TISCI_MSG_CORE_RESUME,
+			.flags	= TISCI_MSG_FLAG_AOP,
+			.host	= HOST_ID_DM2TIFS
+		}
+	};
+
+	ret = sproxy_send_msg_dm2dmsc_fw(&req, sizeof(req));
+
+	if (ret) {
+		return ret;
+	}
+
+	struct tisci_msg_core_resume_resp resp;
+	memset(&resp, 0, sizeof(resp));
+	ret = sproxy_receive_msg_dm2dmsc_fw(&resp, sizeof(resp));
+
+	if (ret) {
+		return ret;
+	}
+
+	if (resp.hdr.type != TISCI_MSG_CORE_RESUME || (resp.hdr.flags & (TISCI_MSG_FLAG_ACK != TISCI_MSG_FLAG_ACK))) {
+		ret = -EINVAL;
+	}
+
+	return ret;
 }
 
 static s32 lpm_resume_release_reset_of_power_master()
 {
 	/* release reset of power master */
+	struct device *dev;
+	dev = device_lookup(DEV_GTC);
+	soc_device_enable(dev);
+
+	dev = device_lookup(POWER_MASTER);
+	soc_device_enable(dev);
 	return SUCCESS;
 }
-
 
 static s32 lpm_sleep_suspend_dm()
 {
 	/* Suspend DM OS */
-	osal_dm_disable_interrupt();  	/* Disable sciserver interrupt */
-	osal_suspend_dm();				/* Suspend DM task scheduler */
-	key = osal_hwip_disable();		/* Disable Global interrupt */
+	osal_dm_disable_interrupt();    /* Disable sciserver interrupt */
+	osal_suspend_dm();              /* Suspend DM task scheduler */
+	key = osal_hwip_disable();      /* Disable Global interrupt */
 	return SUCCESS;
 }
-
 
 static s32 lpm_resume_dm()
 {
 	/* Resume DM OS */
-	osal_dm_enable_interrupt();  	/* Enable sciserver interrupts */
-	osal_resume_dm();				/* Resume DM task scheduler */
-	osal_hwip_restore(key);		/* Enable Global interrupts */
+	osal_dm_enable_interrupt();     /* Enable sciserver interrupts */
+	osal_resume_dm();               /* Resume DM task scheduler */
+	osal_hwip_restore(key);         /* Enable Global interrupts */
 	return SUCCESS;
 }
 
