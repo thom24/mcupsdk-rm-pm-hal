@@ -49,6 +49,7 @@
 #include "device_pm.h"
 #include "devices.h"
 #include "lpm/sec_proxy.h"
+#include "clk.h"
 
 
 /* TODO move the base addresses to device specific header files. */
@@ -242,6 +243,10 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 
 		if (ret == SUCCESS) {
+			ret = clks_suspend();
+		}
+
+		if (ret == SUCCESS) {
 			ret = lpm_sleep_suspend_dm();
 		}
 
@@ -259,6 +264,10 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 		if (ret == SUCCESS) {
 			ret = lpm_resume_restore_RM_context();
+		}
+
+		if (ret == SUCCESS) {
+			ret = clks_resume();
 		}
 
 		if (ret == SUCCESS) {
