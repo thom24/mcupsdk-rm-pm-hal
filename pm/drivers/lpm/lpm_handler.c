@@ -154,10 +154,31 @@ static s32 lpm_resume_send_core_resume_message()
 	return ret;
 }
 
+static s32 lpm_suspend_power_master()
+{
+	/* release reset of power master */
+	struct device *dev;
+
+	dev = device_lookup(POWER_MASTER);
+	soc_device_ret_disable(dev);
+	soc_device_disable(dev, STRUE);
+
+	dev = device_lookup(AM62X_DEV_A53SS0);
+	soc_device_ret_disable(dev);
+	soc_device_disable(dev, STRUE);
+
+	dev = device_lookup(DEV_GTC);
+	soc_device_ret_disable(dev);
+	soc_device_disable(dev, STRUE);
+
+	return SUCCESS;
+}
+
 static s32 lpm_resume_release_reset_of_power_master()
 {
 	/* release reset of power master */
 	struct device *dev;
+
 	dev = device_lookup(DEV_GTC);
 	soc_device_enable(dev);
 
@@ -225,6 +246,8 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	/* Only DEEP_SLEEP mode supported at the moment */
 	if (mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) {
 		ret = lpm_sleep_wait_for_tifs_wfi();
+
+		lpm_suspend_power_master();
 
 		if (ret == SUCCESS) {
 			ret = lpm_sleep_disable_sec_lpsc();
