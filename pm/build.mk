@@ -34,6 +34,7 @@ obj-y := core/ soc/ lib/ drivers/
 obj-$(CONFIG_ARM) += arch/
 
 
+cppflags-$(CONFIG_LPM_DM) += -I$(srctree)/rm_pm_hal/lpm/
 cppflags-y += -I$(srctree)/rm_pm_hal/pm/
 cppflags-y += -I$(srctree)/rm_pm_hal/pm/include
 cppflags-y += -I$(ARM_CC_PATH)/include

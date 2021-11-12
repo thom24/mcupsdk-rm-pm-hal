@@ -48,7 +48,7 @@
 #include "device.h"
 #include "device_pm.h"
 #include "devices.h"
-#include "lpm/sec_proxy.h"
+#include "sec_proxy.h"
 #include "clk.h"
 
 
