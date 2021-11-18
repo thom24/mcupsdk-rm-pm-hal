@@ -30,11 +30,7 @@
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-obj-$(CONFIG_RM_IRQ) += irq/
-obj-y += ir/
-obj-y += ia/
-obj-$(CONFIG_RM_RA) += ra/
-obj-$(CONFIG_RM_UDMAP) += udmap/
-obj-$(CONFIG_RM_PROXY) += proxy/
-obj-$(CONFIG_LPM_DM) += lpm/
-obj-$(CONFIG_SEC_PROXY_DRIVER) += sec_proxy/
+cppflags-y += -I$(srctree)/rm_pm_hal/rm/drivers/sec_proxy
+cppflags-y += -I$(srctree)/rm_pm_hal/rm/drivers/sec_proxy/soc/$(TARGET_SOC)
+
+obj-$(CONFIG_SEC_PROXY_DRIVER) += sec_proxy.o
