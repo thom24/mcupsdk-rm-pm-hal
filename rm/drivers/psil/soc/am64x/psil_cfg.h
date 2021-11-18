@@ -3,9 +3,9 @@
  *
  * PSI-L SoC-specific configuration definitions
  *
- * Data version: 200505_104840
+ * Data version: 201208_205323
  *
- * Copyright (C) 2019-2020, Texas Instruments Incorporated
+ * Copyright (C) 2019-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,9 +44,9 @@
  * Number of threads used by ROM during boot
  */
 #if !defined(CONFIG_DEVICE_TYPE_HS)
-#define PSIL_ROM_USAGE_CNT (6U)
+#define PSIL_ROM_USAGE_CNT (10U)
 #else
-#define PSIL_ROM_USAGE_CNT (0U)
+#define PSIL_ROM_USAGE_CNT (4U)
 #endif
 
 

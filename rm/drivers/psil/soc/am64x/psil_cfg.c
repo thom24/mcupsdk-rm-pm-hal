@@ -3,9 +3,9 @@
  *
  * PSI-L driver instance data definition
  *
- * Data version: 200505_104840
+ * Data version: 201208_205323
  *
- * Copyright (C) 2019-2020, Texas Instruments Incorporated
+ * Copyright (C) 2019-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -284,6 +284,22 @@ const u32 psil_inst_count = ARRAY_SIZE(psil_inst);
  */
 #if !defined(CONFIG_DEVICE_TYPE_HS)
 struct psil_used_thread psil_rom_usage[PSIL_ROM_USAGE_CNT] = {
+	{
+		.thread = 0x1010U,
+		.disabled = SFALSE,
+	},
+	{
+		.thread = 0x4500U,
+		.disabled = SFALSE,
+	},
+	{
+		.thread = 0x9010U,
+		.disabled = SFALSE,
+	},
+	{
+		.thread = 0xc500U,
+		.disabled = SFALSE,
+	},
 	/*
 	 * Threads used on devices other than HS device
 	 */
@@ -314,5 +330,21 @@ struct psil_used_thread psil_rom_usage[PSIL_ROM_USAGE_CNT] = {
 };
 #else
 struct psil_used_thread psil_rom_usage[PSIL_ROM_USAGE_CNT] = {
+	{
+		.thread = 0x1010U,
+		.disabled = SFALSE,
+	},
+	{
+		.thread = 0x4500U,
+		.disabled = SFALSE,
+	},
+	{
+		.thread = 0x9010U,
+		.disabled = SFALSE,
+	},
+	{
+		.thread = 0xc500U,
+		.disabled = SFALSE,
+	},
 };
 #endif
