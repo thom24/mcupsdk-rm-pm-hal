@@ -391,7 +391,7 @@ static s32 receive_tisci_msg_sync_resume_req()
 	s32 ret = 0;
 
 	memset(&req, 0, sizeof(req));
-	ret = sproxy_receive_msg_tifs_fw(&req, sizeof(req));
+	ret = sproxy_receive_msg_rom(&req, sizeof(req));
 
 	if (ret) {
 		return ret;
