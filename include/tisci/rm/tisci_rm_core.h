@@ -3,7 +3,7 @@
  *
  * TISCI Protocol Definitions for RM core messages
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,7 @@
  *
  * Unique types which do not map to an SoC resource will not be NACK'd.  Instead
  * the tisci_msg_rm_get_resource_range_resp range_start and range_num values are
- * zeroed.  This provides a known response mechanism across varied SoCs.
+ * both zeroed.  This provides a known response mechanism across varied SoCs.
  *
  * \param hdr
  * Standard TISCI header
@@ -85,25 +85,26 @@ struct tisci_msg_rm_get_resource_range_req {
  * Response sent to host processor containing the requested resource range
  * assigned to the host who sent the range request.
  *
- * The range_start and range_num values are zero if the type and subtype in the
- * range request do not form a unique resource type for the SoC.  In this case,
- * the response will still contain an ACK.
+ * The range_start and range_num values are BOTH zero if the type and subtype
+ * in the range request do not form a unique resource type for the SoC.  In
+ * this case, the response will still contain an ACK.
  *
  * \param hdr
  * Standard TISCI header
  *
  * \param range_start
- * Start index of retrieved resource range.  Zero if the resource is not valid.
+ * Start index of retrieved resource range.
  *
  * \param range_num
  * Number of resources in the range.  Zero if the resource is not valid.
  *
  * \param range_start_sec
- * Start index of retrieved secondary resource range.  Zero if the resource
- * is not valid.
+ * Start index of retrieved secondary resource range.  Zero if a second
+ * resource range does not exist or if the resource is not valid.
  *
  * \param range_num_sec
- * Number of resources in secondary range.  Zero if the resource is not valid.
+ * Number of resources in secondary range.  Zero if a second resource range
+ * does not exist or if the resource is not valid.
  */
 struct tisci_msg_rm_get_resource_range_resp {
 	struct tisci_header	hdr;
