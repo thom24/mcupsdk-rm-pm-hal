@@ -34,8 +34,8 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* retry for 10ms */
-#define RETRY_CNT_10ms          (1000 * 10)
+/* RETRY_CNT_MS set to 50ms  */
+#define RETRY_CNT_MS          (1000 * 50)
 
 /**
  * \brief busy loop for 1us

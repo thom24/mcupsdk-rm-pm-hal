@@ -440,7 +440,7 @@ static s32 wait_for_reset_statz()
 			return 0;
 		}
 		delay_1us();
-	} while (i++ < RETRY_CNT_10ms);
+	} while (i++ < RETRY_CNT_MS);
 
 	return -ETIMEDOUT;
 }
@@ -456,7 +456,7 @@ static s32 wait_for_tifs_ready()
 			return 0;
 		}
 		delay_1us();
-	} while (i++ < RETRY_CNT_10ms);
+	} while (i++ < RETRY_CNT_MS);
 
 	return -ETIMEDOUT;
 }

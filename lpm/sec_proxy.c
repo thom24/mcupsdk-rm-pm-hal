@@ -76,7 +76,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 		return -EINVAL;
 	}
 
-	for (i = 0; i < RETRY_CNT_10ms; i++) {
+	for (i = 0; i < RETRY_CNT_MS; i++) {
 		status = readl(SPROXY_THREAD_STATUS(rt_base, thread_id));
 		if (status & SPROXY_STATUS_ERR) {
 			return -EFAIL;
@@ -86,7 +86,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 			break;
 		}
 
-		if (i < RETRY_CNT_10ms - 1) {
+		if (i < RETRY_CNT_MS - 1) {
 			delay_1us();
 		} else {
 			return -ETIMEDOUT;
