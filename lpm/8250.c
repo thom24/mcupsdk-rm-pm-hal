@@ -100,7 +100,7 @@ void serial_8250_init(const struct uart_16550_config *cfg)
 	serial_8250_readl(UART_16550_MCR);
 }
 
-int console_tx(int data)
+int lpm_console_tx(int data)
 {
 	u32 val;
 	int i = 0;
@@ -110,7 +110,7 @@ int console_tx(int data)
 	 * unflexible terminals.
 	 */
 	if (data == '\n') {
-		console_tx('\r');
+		lpm_console_tx('\r');
 	}
 
 	/*
@@ -131,7 +131,7 @@ int lpm_puts(const char *str)
 	const char *start = str;
 
 	while (*str) {
-		console_tx(*str++);
+		lpm_console_tx(*str++);
 	}
 	return str - start;
 }

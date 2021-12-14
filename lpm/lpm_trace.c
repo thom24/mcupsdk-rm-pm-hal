@@ -46,7 +46,7 @@ void lpm_trace_output(const char *str)
 
 static void lpm_trace_output_char(u8 ch)
 {
-	console_tx(ch);
+	lpm_console_tx(ch);
 }
 
 void lpm_trace_debug(u32 value)

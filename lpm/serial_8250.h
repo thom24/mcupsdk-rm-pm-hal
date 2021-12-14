@@ -130,5 +130,5 @@ extern const struct uart_16550_config soc_uart_16550_boot_config;
 extern const struct uart_16550_config soc_uart_16550_reinit_config;
 
 void serial_8250_init(const struct uart_16550_config *cfg);
-int console_tx(int data);
+int lpm_console_tx(int data);
 int lpm_puts(const char *str);
