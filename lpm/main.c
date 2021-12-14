@@ -466,6 +466,7 @@ static void enable_pll_standby()
 }
 static void goto_sysfw()
 {
+	memset(&g_params, 0, sizeof(g_params));
 }
 
 /*

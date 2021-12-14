@@ -42,9 +42,6 @@ extern void dm_stub_irq_handler(void);
 
 void stub_entry(void)
 {
-	/* Zero fill bss for ease of use */
-	memset(&_start_bss, 0, &_end_bss - &_start_bss);
-
 	dm_stub_entry();
 }
 
