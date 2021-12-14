@@ -158,18 +158,17 @@ static s32 lpm_suspend_power_master()
 {
 	/* release reset of power master */
 	struct device *dev;
+	dev = device_lookup(DEV_GTC);
+	soc_device_ret_disable(dev);
+	soc_device_disable(dev, SFALSE);
 
 	dev = device_lookup(POWER_MASTER);
 	soc_device_ret_disable(dev);
-	soc_device_disable(dev, STRUE);
+	soc_device_disable(dev, SFALSE);
 
 	dev = device_lookup(AM62X_DEV_A53SS0);
 	soc_device_ret_disable(dev);
-	soc_device_disable(dev, STRUE);
-
-	dev = device_lookup(DEV_GTC);
-	soc_device_ret_disable(dev);
-	soc_device_disable(dev, STRUE);
+	soc_device_disable(dev, SFALSE);
 
 	return SUCCESS;
 }
@@ -178,12 +177,15 @@ static s32 lpm_resume_release_reset_of_power_master()
 {
 	/* release reset of power master */
 	struct device *dev;
-
-	dev = device_lookup(DEV_GTC);
+	dev = device_lookup(AM62X_DEV_A53SS0);
 	soc_device_enable(dev);
 
 	dev = device_lookup(POWER_MASTER);
 	soc_device_enable(dev);
+
+	dev = device_lookup(DEV_GTC);
+	soc_device_enable(dev);
+
 	return SUCCESS;
 }
 
