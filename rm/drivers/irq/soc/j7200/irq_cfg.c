@@ -3,7 +3,7 @@
  *
  * Interrupt management driver instance data definition
  *
- * Data version: 200730_091422
+ * Data version: 211118_090221
  *
  * Copyright (C) 2019-2021 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED

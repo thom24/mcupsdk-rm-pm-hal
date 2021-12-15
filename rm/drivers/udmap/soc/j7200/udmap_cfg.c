@@ -3,7 +3,7 @@
  *
  * UDMAP driver instance data definition
  *
- * Data version: 200730_091422
+ * Data version: 211118_090221
  *
  * Copyright (C) 2019-2021, Texas Instruments Incorporated
  * All rights reserved.
@@ -369,7 +369,7 @@ struct udmap_instance udmap_inst[] = {
 		.gcfg_utype = RESASG_UTYPE(J7200_DEV_NAVSS0_UDMAP_0, RESASG_SUBTYPE_UDMAP_GLOBAL_CONFIG),
 		.rom_usage = NULL,
 		.n_rom_usage = 0U,
-		.dru_ch0_dst_thread_offset = 0xc800U,
+		.dru_ch0_dst_thread_offset = 0x0U,
 	},
 	{
 		.id = J7200_DEV_MCU_NAVSS0_UDMAP_0,
@@ -402,7 +402,7 @@ struct udmap_instance udmap_inst[] = {
 		.gcfg_utype = RESASG_UTYPE(J7200_DEV_MCU_NAVSS0_UDMAP_0, RESASG_SUBTYPE_UDMAP_GLOBAL_CONFIG),
 		.rom_usage = &rom_usage_MCU_NAVSS0_UDMAP_0[0U],
 		.n_rom_usage = ARRAY_SIZE(rom_usage_MCU_NAVSS0_UDMAP_0),
-		.dru_ch0_dst_thread_offset = 0xc800U,
+		.dru_ch0_dst_thread_offset = 0x0U,
 	},
 };
 
