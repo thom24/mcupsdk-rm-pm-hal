@@ -304,15 +304,15 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 
 		if (ret == SUCCESS) {
+			ret = lpm_resume_dm();
+		}
+
+		if (ret == SUCCESS) {
 			ret = lpm_resume_release_reset_of_power_master();
 		}
 
 		if (ret == SUCCESS) {
 			ret = lpm_resume_restore_main_padconf();
-		}
-
-		if (ret == SUCCESS) {
-			ret = lpm_resume_dm();
 		}
 	} else {
 		ret = -EINVAL;
