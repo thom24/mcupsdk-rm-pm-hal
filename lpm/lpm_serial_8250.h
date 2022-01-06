@@ -129,6 +129,6 @@ extern const struct uart_16550_config soc_uart_16550_boot_config;
 /** Post PLL setup UART configuration */
 extern const struct uart_16550_config soc_uart_16550_reinit_config;
 
-void serial_8250_init(const struct uart_16550_config *cfg);
+void lpm_serial_8250_init(const struct uart_16550_config *cfg);
 int lpm_console_tx(int data);
 int lpm_puts(const char *str);

@@ -47,6 +47,7 @@
 #include "lpm_io.h"
 #include "ctrlmmr_raw.h"
 #include "ddr.h"
+#include "lpm_serial_8250.h"
 #include "lpm_trace.h"
 #include "pll_16fft_raw.h"
 #include "psc_raw.h"

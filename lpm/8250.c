@@ -37,21 +37,21 @@
 #include <config.h>
 
 #include "lpm_io.h"
-#include "serial_8250.h"
+#include "lpm_serial_8250.h"
 
 static u32 uart_base_addr;
 
-static void serial_8250_writel(u32 v, u32 reg)
+static void lpm_serial_8250_writel(u32 v, u32 reg)
 {
 	writel(v, reg + uart_base_addr);
 }
 
-static u32 serial_8250_readl(u32 reg)
+static u32 lpm_serial_8250_readl(u32 reg)
 {
 	return readl(reg + uart_base_addr);
 }
 
-void serial_8250_init(const struct uart_16550_config *cfg)
+void lpm_serial_8250_init(const struct uart_16550_config *cfg)
 {
 	u32 val, clkdiv;
 
@@ -60,44 +60,44 @@ void serial_8250_init(const struct uart_16550_config *cfg)
 	clkdiv = cfg->uart_clk / (16 * cfg->baud_rate);
 
 	/* This read operation also acts as a fence */
-	val = serial_8250_readl(UART_16550_LCR);
+	val = lpm_serial_8250_readl(UART_16550_LCR);
 	val |= UART_16550_LCR_DLAB;
-	serial_8250_writel(val, UART_16550_LCR);
+	lpm_serial_8250_writel(val, UART_16550_LCR);
 
 	val = clkdiv & 0xFF;
-	serial_8250_writel(val, UART_16550_DLL);
+	lpm_serial_8250_writel(val, UART_16550_DLL);
 	val = (clkdiv >> 8) & 0xFF;
-	serial_8250_writel(val, UART_16550_DLH);
+	lpm_serial_8250_writel(val, UART_16550_DLH);
 
 	/*
 	 * This read operation also acts as a fence to make sure that
 	 * DLL DLH values have actually been "stuck"
 	 */
-	val = serial_8250_readl(UART_16550_LCR);
+	val = lpm_serial_8250_readl(UART_16550_LCR);
 	val &= (~UART_16550_LCR_DLAB);
-	serial_8250_writel(val, UART_16550_LCR);
-	serial_8250_writel(UART_16550_LCR_WORDSZ_8, UART_16550_LCR);
-	serial_8250_writel(0, UART_16550_IER);
+	lpm_serial_8250_writel(val, UART_16550_LCR);
+	lpm_serial_8250_writel(UART_16550_LCR_WORDSZ_8, UART_16550_LCR);
+	lpm_serial_8250_writel(0, UART_16550_IER);
 	/*
 	 * Force a posted read to make sure things are in-order before we
 	 * enable UART via MDR1 - we ignore result
 	 */
-	serial_8250_readl(UART_16550_IER);
+	lpm_serial_8250_readl(UART_16550_IER);
 
-	serial_8250_writel(0x0, UART_16550_MDR1);
+	lpm_serial_8250_writel(0x0, UART_16550_MDR1);
 	/*
 	 * Force a posted read to make sure things are in-order before we
 	 * enable FIFO - we ignore result
 	 */
-	serial_8250_readl(UART_16550_MDR1);
+	lpm_serial_8250_readl(UART_16550_MDR1);
 
-	serial_8250_writel(UART_16550_FCR_FIFOEN, UART_16550_FCR);
-	serial_8250_writel((UART_16550_MCR_RTS | UART_16550_MCR_DTR), UART_16550_MCR);
+	lpm_serial_8250_writel(UART_16550_FCR_FIFOEN, UART_16550_FCR);
+	lpm_serial_8250_writel((UART_16550_MCR_RTS | UART_16550_MCR_DTR), UART_16550_MCR);
 	/*
 	 * Force a posted read to make sure FIFO is enabled before we send
 	 * data - we ignore result
 	 */
-	serial_8250_readl(UART_16550_MCR);
+	lpm_serial_8250_readl(UART_16550_MCR);
 }
 
 int lpm_console_tx(int data)
@@ -118,10 +118,10 @@ int lpm_console_tx(int data)
 	* available before writing to avoid dropping chars.
 	*/
 	do {
-		val = serial_8250_readl(UART_16550_LSR);
+		val = lpm_serial_8250_readl(UART_16550_LSR);
 	} while ((i++ < 10000) && ((val & UART_16550_LSR_TX_FIFO_E) == 0));
 
-	serial_8250_writel(data, UART_16550_THR);
+	lpm_serial_8250_writel(data, UART_16550_THR);
 
 	return 0;
 }

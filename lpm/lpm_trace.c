@@ -37,7 +37,7 @@
 #include <types/short_types.h>
 
 #include "lpm_trace.h"
-#include "serial_8250.h"
+#include "lpm_serial_8250.h"
 
 void lpm_trace_output(const char *str)
 {
