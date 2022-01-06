@@ -135,3 +135,30 @@ int lpm_puts(const char *str)
 	}
 	return str - start;
 }
+
+/*
+ * XXX: This must move to autogen, hack for wakeup.
+ */
+const struct uart_16550_config soc_uart_16550_lpm_config = {
+	.base_addr	= 0x2b300000U,
+	.baud_rate	= 115200,
+	.uart_clk	= 48000000,
+};
+
+const struct uart_16550_config soc_uart_16550_lpm_bypass_config = {
+	.base_addr	= 0x2b300000U,
+	.baud_rate	= 115200,
+	.uart_clk	= 25000000,
+};
+
+void lpm_console_init(void)
+{
+	lpm_serial_8250_init(&soc_uart_16550_lpm_config);
+}
+
+void lpm_console_bypass_init(void)
+{
+	/* XXX: We must reduce hsdiv to /1 to get crystal frequency */
+	writel(0x8000, 0x4040088);
+	lpm_serial_8250_init(&soc_uart_16550_lpm_bypass_config);
+}

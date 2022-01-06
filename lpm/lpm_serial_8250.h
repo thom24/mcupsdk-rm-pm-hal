@@ -132,3 +132,6 @@ extern const struct uart_16550_config soc_uart_16550_reinit_config;
 void lpm_serial_8250_init(const struct uart_16550_config *cfg);
 int lpm_console_tx(int data);
 int lpm_puts(const char *str);
+
+void lpm_console_init(void);
+void lpm_console_bypass_init(void);

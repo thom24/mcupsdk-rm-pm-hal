@@ -487,6 +487,8 @@ void dm_stub_entry(void)
 	u32 reg;
 	u32 n_lpscs;
 
+	lpm_console_init();
+
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_START);
 
 #ifdef CONFIG_LPM_DM_STUB_STANDALONE
@@ -617,6 +619,7 @@ void dm_stub_entry(void)
 	if (g_params.mode == LPM_DEEPSLEEP) {
 		pll_save(&mcu_pll);
 		pll_bypass(&mcu_pll);
+		lpm_console_bypass_init();
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_BYPASS_MCU_PLL);
 
 		/* set MCU_MMR.MCU_PLL_CLKSEL.clkloss_switch_en to 0
@@ -675,6 +678,7 @@ void dm_stub_entry(void)
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL);
 			abort();
 		} else {
+			lpm_console_init();
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL);
 		}
 	}
