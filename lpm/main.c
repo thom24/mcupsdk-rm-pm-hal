@@ -454,6 +454,7 @@ static s32 wait_for_tifs_ready()
 	do {
 		val = readl(WKUP_CTRL_MMR_BASE + DS_MAGIC_WORD);
 		if (val == DS_MAGIC_WORD_RESUME_ROM) {
+			writel(0, WKUP_CTRL_MMR_BASE + DS_MAGIC_WORD);
 			return 0;
 		}
 		delay_1us();
