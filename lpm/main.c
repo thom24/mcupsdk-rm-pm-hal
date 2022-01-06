@@ -430,14 +430,14 @@ static void send_msg_restore_sms_pll()
 {
 }
 
-static s32 wait_for_reset_statz()
+static s32 wait_for_reset_statz(int stat)
 {
 	u32 val;
 	int i = 0;
 
 	do {
 		val = readl(WKUP_CTRL_MMR_BASE + SLEEP_STATUS);
-		if (val & SLEEP_STATUS_MAIN_RESETSTATZ) {
+		if ((val & SLEEP_STATUS_MAIN_RESETSTATZ) == stat) {
 			return 0;
 		}
 		delay_1us();
@@ -586,6 +586,10 @@ void dm_stub_entry(void)
 		 */
 		writel(DS_MAIN_OFF, WKUP_CTRL_MMR_BASE + DS_MAIN);
 
+		if (wait_for_reset_statz(0)) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_OFF);
+			abort();
+		}
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_OFF);
 	}
 
@@ -715,7 +719,7 @@ void dm_stub_entry(void)
 	wait_for_debug();
 
 	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
-		if (wait_for_reset_statz()) {
+		if (wait_for_reset_statz(SLEEP_STATUS_MAIN_RESETSTATZ)) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST);
 			abort();
 		}
