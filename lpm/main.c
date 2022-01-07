@@ -68,6 +68,14 @@ struct main_pd_lpsc {
 
 static struct tisci_msg_prepare_sleep_req g_params;
 
+/*
+ * XXX: Define a setup time of 4x default for MOSC
+ *
+ * This allows for better clock stability once R5 begins
+ * execution again.
+ */
+#define PMCTRL_MOSC_SETUP_TIME          0xFC000
+
 /* FIXME IO_ISO_TIMEOUT should be about 10us */
 #define IO_ISO_TIMEOUT  10000
 #define PLLOFFSET(idx) (0x1000 * (idx))
@@ -648,7 +656,7 @@ void dm_stub_entry(void)
 
 		/* set OSC_CG_ON_WFI bit in WKUP_CTRL.PMCTRL_MOSC */
 		reg = readl(WKUP_CTRL_MMR_BASE + PMCTRL_MOSC);
-		reg |= PMCTRL_MOSC_OSC_CG_ON_WFI;
+		reg |= PMCTRL_MOSC_OSC_CG_ON_WFI | PMCTRL_MOSC_SETUP_TIME;
 		writel(reg, WKUP_CTRL_MMR_BASE + PMCTRL_MOSC);
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_OSC_CG_WFI);
 	}
