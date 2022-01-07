@@ -1,7 +1,7 @@
 /*
  * Data version: 210712_144506
  *
- * Copyright (C) 2017-2021 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #ifndef SOC_J721S2_DEVICES_H

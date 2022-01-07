@@ -5,7 +5,7 @@
  *
  * Data version: 210712_144506
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,7 +69,6 @@
 #define RESASG_SUBTYPE_GLOBAL_EVENT_GEVT (0x000BU)
 #define RESASG_SUBTYPE_GLOBAL_EVENT_MEVT (0x000CU)
 #define RESASG_SUBTYPE_GLOBAL_EVENT_SEVT (0x000DU)
-#define RESASG_SUBTYPE_GLOBAL_EVENT_LEVT (0x000EU)
 #define RESASG_SUBTYPE_IA_BCDMA_TX_CHAN_ERROR_OES (0x000FU)
 #define RESASG_SUBTYPE_IA_BCDMA_TX_CHAN_DATA_COMPLETION_OES (0x0010U)
 #define RESASG_SUBTYPE_IA_BCDMA_TX_CHAN_RING_COMPLETION_OES (0x0011U)
@@ -83,7 +82,7 @@
 #define RESASG_SUBTYPE_IA_PKTDMA_RX_FLOW_COMPLETION_OES (0x0019U)
 #define RESASG_SUBTYPE_IA_PKTDMA_RX_FLOW_STARVATION_OES (0x001AU)
 #define RESASG_SUBTYPE_IA_PKTDMA_RX_FLOW_FIREWALL_OES (0x001BU)
-#define RESASG_SUBTYPES_IA_CNT (0x0012U)
+#define RESASG_SUBTYPES_IA_CNT (0x0011U)
 
 /**
  * IR subtypes definitions

@@ -5,7 +5,7 @@
  *
  * Data version: 210712_144506
  *
- * Copyright (C) 2021 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2021-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 
@@ -79,11 +79,6 @@ const struct irq_global_event_type irq_global_event_types[] = {
 		.start = 32768U,
 		.num = 512U,
 		.utype = RESASG_UTYPE(J721S2_DEV_NAVSS0_UDMASS_INTA_0, RESASG_SUBTYPE_GLOBAL_EVENT_MEVT),
-	},
-	{
-		.start = 32768U,
-		.num = 0U,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_GLOBAL_EVENT_LEVT),
 	},
 	{
 		.start = 34816U,
