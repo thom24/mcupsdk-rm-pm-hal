@@ -270,6 +270,11 @@ static int enable_main_remain_pll()
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_MAIN_DM,
+			       MDCTL_STATE_ENABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
 	return ret;
 }
 
