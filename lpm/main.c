@@ -211,6 +211,12 @@ static void config_wake_sources()
 	writel(val, (WKUP_CTRL_MMR_BASE + WKUP0_EN));
 }
 
+static void disable_wake_sources()
+{
+	/* Clear all bits in WKUP0_EN */
+	writel(0, (WKUP_CTRL_MMR_BASE + WKUP0_EN));
+}
+
 static int enable_main_io_isolation()
 {
 	return 0;
@@ -875,5 +881,8 @@ void dm_stub_irq_handler(void)
 	}
 
 	vim_set_intr_enable(int_num, INTR_DISABLE);
+	vim_clear_intr(int_num);
+
+	disable_wake_sources();
 	vim_irq_complete();
 }
