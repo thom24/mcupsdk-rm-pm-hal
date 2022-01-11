@@ -200,6 +200,8 @@ static void config_wake_sources()
 	u32 val = 0;
 
 	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
+		/* XXX: Clear interrupt to avoid spurious wake. */
+		vim_clear_intr(soc_wake_sources_data[i].int_num);
 		/* Enable interrupt */
 		vim_set_intr_enable(soc_wake_sources_data[i].int_num,
 				    INTR_ENABLE);
