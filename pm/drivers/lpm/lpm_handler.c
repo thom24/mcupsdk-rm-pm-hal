@@ -251,6 +251,8 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 		lpm_suspend_power_master();
 
+		devices_deinit(PM_DEVGRP_00);
+
 		if (ret == SUCCESS) {
 			ret = lpm_sleep_disable_sec_lpsc();
 		}
@@ -306,6 +308,8 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		if (ret == SUCCESS) {
 			ret = lpm_resume_dm();
 		}
+
+		devices_init();
 
 		if (ret == SUCCESS) {
 			ret = lpm_resume_release_reset_of_power_master();
