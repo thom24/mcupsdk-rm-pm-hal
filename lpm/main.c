@@ -127,7 +127,7 @@ static int mcu_lpscs[] = {
 	LPSC_MCU_COMMON
 };
 
-static void abort()
+static void lpm_abort()
 {
 	volatile int a = 0x1234;
 
@@ -547,7 +547,7 @@ void dm_stub_entry(void)
 		n_lpscs = sizeof(main_lpscs_phase1) / sizeof(struct main_pd_lpsc);
 		if (disable_main_lpsc(main_lpscs_phase1, n_lpscs)) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC);
-			abort();
+			lpm_abort();
 		}
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC);
@@ -570,7 +570,7 @@ void dm_stub_entry(void)
 
 		if (enable_main_io_isolation()) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_IO_ISO);
-			abort();
+			lpm_abort();
 		}
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_IO_ISO);
@@ -579,7 +579,7 @@ void dm_stub_entry(void)
 		n_lpscs = sizeof(main_lpscs_phase2) / sizeof(struct main_pd_lpsc);
 		if (disable_main_lpsc(main_lpscs_phase2, n_lpscs)) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
-			abort();
+			lpm_abort();
 		}
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
@@ -615,7 +615,7 @@ void dm_stub_entry(void)
 
 		if (wait_for_reset_statz(0)) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_OFF);
-			abort();
+			lpm_abort();
 		}
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_OFF);
 	}
@@ -624,7 +624,7 @@ void dm_stub_entry(void)
 		/* Disable MCU Domain LPSCs, PDs */
 		if (disable_mcu_domain()) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MCU_DOM);
-			abort();
+			lpm_abort();
 		} else {
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MCU_DOM);
 		}
@@ -709,7 +709,7 @@ void dm_stub_entry(void)
 
 		if (pll_restore(&mcu_pll)) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL);
-			abort();
+			lpm_abort();
 		} else {
 			lpm_console_init();
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL);
@@ -750,7 +750,7 @@ void dm_stub_entry(void)
 	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
 		if (wait_for_reset_statz(SLEEP_STATUS_MAIN_RESETSTATZ)) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST);
-			abort();
+			lpm_abort();
 		}
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST);
@@ -775,7 +775,7 @@ void dm_stub_entry(void)
 		 */
 		if (wait_for_tifs_ready()) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
-			abort();
+			lpm_abort();
 		}
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
@@ -786,7 +786,7 @@ void dm_stub_entry(void)
 		 */
 		if (send_tisci_msg_firmware_load()) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_FS_STUB_LD);
-			abort();
+			lpm_abort();
 		} else {
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_FS_STUB_LD);
 		}
@@ -795,7 +795,7 @@ void dm_stub_entry(void)
 		/* TISCI_MSG_CONTINUE_RESUME */
 		if (receive_tisci_msg_continue_resume_req()) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_CONT_RES);
-			abort();
+			lpm_abort();
 		} else {
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_CONT_RES);
 		}
@@ -803,7 +803,7 @@ void dm_stub_entry(void)
 		/* Disable MAIN IO Daisy Chain and IO Isolation */
 		if (disable_main_io_isolation()) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_IO_ISO);
-			abort();
+			lpm_abort();
 		} else {
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_IO_ISO);
 		}
@@ -811,7 +811,7 @@ void dm_stub_entry(void)
 		/* Configure additional MAIN PLLs and PSCs for EMIF operation */
 		if (enable_main_remain_pll()) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_PLLS);
-			abort();
+			lpm_abort();
 		} else {
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_PLLS);
 		}
@@ -848,7 +848,7 @@ void dm_stub_entry(void)
 		 */
 		if (send_tisci_msg_continue_resume_resp()) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESP_CONT_RES);
-			abort();
+			lpm_abort();
 		} else {
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESP_CONT_RES);
 		}
@@ -856,7 +856,7 @@ void dm_stub_entry(void)
 		/* Wait for TISCI_MSG_SYNC_RESUME msg */
 		if (receive_tisci_msg_sync_resume_req()) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_SYNC_RES);
-			abort();
+			lpm_abort();
 		} else {
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_SYNC_RES);
 		}
