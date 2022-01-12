@@ -35,7 +35,6 @@
  */
 
 #include <lib/bitops.h>
-#include <string.h>
 #include <tisci/lpm/tisci_lpm.h>
 #include <types/errno.h>
 #include <baseaddress.h>
@@ -48,12 +47,15 @@
 #include "ctrlmmr_raw.h"
 #include "ddr.h"
 #include "lpm_serial_8250.h"
+#include "lpm_string.h"
 #include "lpm_trace.h"
 #include "pll_16fft_raw.h"
 #include "psc_raw.h"
 #include "sec_proxy.h"
 #include "timeout.h"
 #include "vim_raw.h"
+#include "lpm_string.h"
+#include "string.h"
 
 enum lpm_mode {
 	LPM_DEEPSLEEP,
@@ -356,7 +358,7 @@ static s32 send_tisci_msg_firmware_load()
 		return ret;
 	}
 
-	memset(&resp, 0, sizeof(resp));
+	lpm_memset(&resp, 0, sizeof(resp));
 	ret = sproxy_receive_msg_rom(&resp, sizeof(resp));
 
 	if (ret) {
@@ -376,7 +378,7 @@ static s32 receive_tisci_msg_continue_resume_req()
 	struct tisci_msg_continue_resume_req req;
 	s32 ret = 0;
 
-	memset(&req, 0, sizeof(req));
+	lpm_memset(&req, 0, sizeof(req));
 	ret = sproxy_receive_msg_rom(&req, sizeof(req));
 
 	if (ret) {
@@ -415,7 +417,7 @@ static s32 receive_tisci_msg_sync_resume_req()
 	struct tisci_msg_sync_resume_req req;
 	s32 ret = 0;
 
-	memset(&req, 0, sizeof(req));
+	lpm_memset(&req, 0, sizeof(req));
 	ret = sproxy_receive_msg_rom(&req, sizeof(req));
 
 	if (ret) {
@@ -492,7 +494,7 @@ static void enable_pll_standby()
 }
 static void goto_sysfw()
 {
-	memset(&g_params, 0, sizeof(g_params));
+	lpm_memset(&g_params, 0, sizeof(g_params));
 }
 
 /*
@@ -504,7 +506,7 @@ void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p)
 	if (!p) {
 		return;
 	}
-	memcpy(&g_params, p, sizeof(g_params));
+	lpm_memcpy(&g_params, p, sizeof(g_params));
 }
 
 void dm_stub_entry(void)

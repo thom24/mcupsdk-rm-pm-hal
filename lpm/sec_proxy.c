@@ -39,6 +39,7 @@
 #include <types/errno.h>
 #include <types/sbool.h>
 #include <baseaddress.h>
+#include "lpm_string.h"
 #include "timeout.h"
 
 #define SPROXY_THREAD_OFFSET(tid) (0x1000 * (tid))
@@ -120,8 +121,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 			writel(word, start_addr);
 		} else {
 			word = readl(start_addr);
-			/* let memcpy deal with the alignment stuff */
-			memcpy(raw, &word, len % 4);
+			lpm_memcpy(raw, &word, len % 4);
 		}
 	}
 
