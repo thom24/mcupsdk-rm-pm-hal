@@ -343,15 +343,14 @@ static void disable_mcu_io_isolation()
 static s32 send_tisci_msg_firmware_load()
 {
 	s32 ret = 0;
+
 	struct tisci_msg_firmware_load_resp resp;
-	struct tisci_msg_firmware_load_req req = {
-		.hdr		= {
-			.type	= TISCI_MSG_FIRMWARE_LOAD,
-			.flags	= 8 << 24,
-		},
-		.image_addr	= CONFIG_TIFSFW_SPS_BASE,
-		.image_size	= CONFIG_TIFSFW_SPS_LEN,
-	};
+	struct tisci_msg_firmware_load_req req;
+
+	req.hdr.type = TISCI_MSG_FIRMWARE_LOAD;
+	req.hdr.flags = 8 << 24;
+	req.image_addr = CONFIG_TIFSFW_SPS_BASE;
+	req.image_size = CONFIG_TIFSFW_SPS_BASE;
 
 	ret = sproxy_send_msg_rom(&req, sizeof(req));
 	if (ret) {
@@ -395,14 +394,13 @@ static s32 receive_tisci_msg_continue_resume_req()
 static s32 send_tisci_msg_continue_resume_resp()
 {
 	s32 ret = 0;
-	struct tisci_msg_continue_resume_resp resp = {
-		.hdr		= {
-			.type	= TISCI_MSG_CONTINUE_RESUME,
-			.flags	= TISCI_MSG_FLAG_ACK,
-		},
-		.ctx_lo		= g_params.ctx_lo,
-		.ctx_hi		= g_params.ctx_hi,
-	};
+	struct tisci_msg_continue_resume_resp resp;
+
+	resp.hdr.type = TISCI_MSG_CONTINUE_RESUME;
+	resp.hdr.flags = TISCI_MSG_FLAG_ACK;
+
+	resp.ctx_lo = g_params.ctx_lo;
+	resp.ctx_hi = g_params.ctx_hi;
 
 	ret = sproxy_send_msg_rom(&resp, sizeof(resp));
 	if (ret) {
