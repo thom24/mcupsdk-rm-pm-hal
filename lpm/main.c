@@ -291,11 +291,6 @@ static int enable_main_remain_pll()
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
-	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_MAIN_DM,
-			       MDCTL_STATE_ENABLE, 0);
-	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-
 	return ret;
 }
 
@@ -328,6 +323,18 @@ static s32 disable_mcu_domain()
 
 static void enable_mcu_remain_pll()
 {
+}
+
+static s32 enable_dm_lpsc(void)
+{
+	s32 ret = SUCCESS;
+
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_MAIN_DM,
+			       MDCTL_STATE_ENABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
+	return ret;
 }
 
 static void disable_mcu_io_isolation()
@@ -752,6 +759,17 @@ void dm_stub_entry(void)
 		}
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST);
+
+		/*
+		 * Set DM LPSC to enabled as early as possible as JTAG
+		 * will not connect until this is done.
+		 */
+		if (enable_dm_lpsc()) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MAIN_DM_LPSC_EN);
+			lpm_abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MAIN_DM_LPSC_EN);
+		}
 
 		/* Modify WKUP_CLKSEL in WKUP_CTRL
 		 * to use SMS_PLL instead of MCU PLL
