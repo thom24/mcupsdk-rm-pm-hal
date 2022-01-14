@@ -676,6 +676,8 @@ void dm_stub_entry(void)
 
 	/* enter WFI */
 	__asm volatile ("\tWFI");
+	/* enable global interrupt */
+	__asm volatile ("\tCPSIE I");
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_POST_WFI);
 

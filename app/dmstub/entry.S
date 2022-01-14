@@ -132,8 +132,6 @@ wordcopy:
 
 	; initialize the stack
 	ldr sp, _stack_addr
-	; enable interrupt
-	cpsie i
 	; Space for the jump
 	nop
 	nop
