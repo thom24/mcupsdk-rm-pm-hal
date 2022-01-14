@@ -890,6 +890,13 @@ void dm_stub_irq_handler(void)
 	const struct wake_source_data *active_wake_source = NULL;
 	int i;
 
+	/*
+	 * XXX: Add an additional delay for oscillator to stablize.
+	 */
+	for (i = 0; i < 10; i++) {
+		delay_1us();
+	}
+
 	int_num = vim_get_intr_number();
 
 	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
