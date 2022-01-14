@@ -126,7 +126,9 @@ static int mcu_lpscs[] = {
 
 static void abort()
 {
-	while (1) {
+	volatile int a = 0x1234;
+
+	while (a) {
 	}
 }
 
