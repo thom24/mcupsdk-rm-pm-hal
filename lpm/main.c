@@ -103,7 +103,8 @@ static struct main_pd_lpsc main_lpscs_phase1[] = {
 	{ PD_A53_CLUSTER_0, LPSC_A53_CLUSTER_0 },
 	/* FIXME disabling LPSC_MAIN_IP causes problem on vlab, skip it for now */
 /*	{ PD_MAIN_IP,		LPSC_MAIN_IP },*/
-	{ PD_GP_CORE_CTL,   LPSC_MAIN_TEST     },
+	/* FIXME Removing this lpsc since it is not getting turned off properly in second cycle of deep sleep */
+/*	{ PD_GP_CORE_CTL,   LPSC_MAIN_TEST},*/
 	{ PD_SMS,	    LPSC_HSM	       },
 	{ PD_SMS,	    LPSC_TIFS	       },
 	{ PD_SMS,	    LPSC_SA3UL	       },
