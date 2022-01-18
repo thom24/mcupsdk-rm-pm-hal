@@ -98,7 +98,7 @@ static struct pll_raw_data main_pll16 =
 static struct pll_raw_data main_pll17 =
 { .base = MAIN_PLL_MMR_BASE + PLLOFFSET(17), };
 
-/* MAIN LPSCs to be disabled during Deepsleep phase 1 */
+/* MAIN /LPSCs to be disabled during Deepsleep phase 1 */
 /* FIXME am62x specific, move to soc specific place */
 static struct main_pd_lpsc main_lpscs_phase1[] = {
 	{ PD_A53_0,	    LPSC_A53_0	       },
@@ -135,16 +135,54 @@ static void lpm_abort()
 	}
 }
 
-static void set_ddr_reset_isolation()
+static void enter_ddr_low_power_mode()
 {
+	s32 ret;
+
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
+			       MDCTL_STATE_DISABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
+	ddr_enter_self_refesh();
+
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
+			       MDCTL_STATE_DISABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
 	ddr_enable_retention();
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
+			       MDCTL_STATE_DISABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
 	writel(DS_DDR0_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
 }
 
-static void release_ddr_reset_isolation()
+static void exit_ddr_low_power_mode()
 {
+	ddr_disable_retention();
+
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
+			       MDCTL_STATE_ENABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
+			       MDCTL_STATE_ENABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
 	writel(DS_DDR0_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
 	ddr_disable_retention();
+
+	ddr_exit_self_refresh();
+
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
+			       MDCTL_STATE_ENABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 }
 
 static void set_usb_reset_isolation()
@@ -275,21 +313,6 @@ static int enable_main_remain_pll()
 	if (ret) {
 		return ret;
 	}
-
-	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
-			       MDCTL_STATE_ENABLE, 0);
-	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-
-	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
-			       MDCTL_STATE_ENABLE, 0);
-	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-
-	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
-			       MDCTL_STATE_ENABLE, 0);
-	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
 	return ret;
 }
@@ -538,12 +561,12 @@ void dm_stub_entry(void)
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MMR_UNLOCK);
 
-	ddr_enter_self_refesh();
+	enter_ddr_low_power_mode();
 
-	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_SR_ENTER);
+	lpm_seq_trace(0x77);
 
 	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
-		set_ddr_reset_isolation();
+
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_RST_ISO);
 		set_usb_reset_isolation();
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
@@ -832,12 +855,6 @@ void dm_stub_entry(void)
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_PLLS);
 		}
 
-		/* Follow procedure to take DDR out of reset isolation
-		 * from AM62x_Reset_uArch_v0.81
-		 * Possible DDR re-training sequence, pending feedback
-		 * from Cadence
-		 */
-		release_ddr_reset_isolation();
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_DDR_RST_ISO);
 	} else {
@@ -850,7 +867,7 @@ void dm_stub_entry(void)
 		enable_pll_standby();
 	}
 
-	ddr_exit_self_refresh();
+	exit_ddr_low_power_mode();
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_SR_EXIT);
 

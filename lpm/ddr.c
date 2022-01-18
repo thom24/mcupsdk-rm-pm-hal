@@ -41,12 +41,15 @@
 #include <wkup_ctrl_mmr.h>
 #include "ddr.h"
 
+#include "lpm_trace.h"
+
 /* Cadence DDR registers */
 #define CDNS_DENALI_CTL_158     0x278
 #define CDNS_DENALI_CTL_167     0x29c
 #define CDNS_DENALI_CTL_345     0x564
 
-#define CDNS_DENALI_PHY_1333    0x54d4
+#define CDNS_DENALI_PHY_1333	0x54d4
+#define CDNS_DENALI_PHY_1368	0x5560
 
 #define CDNS_LP_CMD_SHIFT       8
 #define CDNS_LP_STATE_MASK      0xF << CDNS_LP_CMD_SHIFT
@@ -57,64 +60,12 @@
 #define CDNS_LP_CMD_SR_LONG     0x51
 #define CDNS_LP_CMD_SR_EXIT     0x2
 
-#define DDR_COUNT_TIMEOUT       10000
+#define CDNS_DENALI_PHY_1368_DFI_INIT_COMPLETE	BIT(8)
 
-static s32 cdns_ddr_read_mode(void)
-{
-	u32 lp_state = 0;
-	u32 timeout = DDR_COUNT_TIMEOUT;
-	s32 ret;
+#define DDR_COUNT_TIMEOUT	10000
 
-	while ((--timeout > 0) && (readl(DDR_CTRL_BASE + CDNS_DENALI_CTL_167) & (CDNS_LP_STATE_VALID)) == 0) {
-	}
-
-	if (timeout == 0) {
-		ret = -EFAIL;
-	}
-
-	lp_state = readl(DDR_CTRL_BASE + CDNS_DENALI_CTL_167);
-	lp_state = (lp_state & CDNS_LP_STATE_MASK) >> CDNS_LP_CMD_SHIFT;
-
-	switch (lp_state) {
-	case 0x0:
-		ret = CDNS_LP_CMD_SR_EXIT;
-		break;
-	case 0xA:
-	case 0xF:
-		ret = CDNS_LP_CMD_SR_LONG;
-		break;
-	default:
-		ret = -EFAIL;
-	}
-
-	return ret;
-}
-
-static s32 cdns_ddr_self_refresh(int mode)
-{
-	u32 lp_cmd;
-	u32 val;
-	u32 timeout = DDR_COUNT_TIMEOUT;
-	s32 read_mode;
-	s32 ret = SUCCESS;
-
-	lp_cmd = (mode == DDR_SR_ENTER) ?
-		 CDNS_LP_CMD_SR_LONG : CDNS_LP_CMD_SR_EXIT;
-
-	val = readl(DDR_CTRL_BASE + CDNS_DENALI_CTL_158);
-	val |= lp_cmd << CDNS_LP_CMD_SHIFT;
-	writel(val, DDR_CTRL_BASE + CDNS_DENALI_CTL_158);
-
-	do {
-		read_mode = cdns_ddr_read_mode();
-	} while ((--timeout > 0) && (lp_cmd != read_mode));
-
-	if (timeout == 0) {
-		ret = -EFAIL;
-	}
-
-	return ret;
-}
+#define CDNS_DENALI_PHY_1313	0x5484
+#define CDNS_DENALI_PHY_1316	0x5490
 
 void ddr_enter_self_refesh(void)
 {
@@ -122,37 +73,14 @@ void ddr_enter_self_refesh(void)
 
 	/* Enable LP For DDR */
 	val = readl(0xF308294);
-	val |= 0x3f << 8;
+	val |= 0xf << 8;
 	writel(val, 0xF308294);
 
-	/* Disable Periodic IO Calibration For DDR */
-	val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1333);
-	val &= ~(0x2);
-	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1333);
-
-	/* Ack Interrupt?? */
-	val = readl(DDR_CTRL_BASE + CDNS_DENALI_CTL_345);
-	val |= 0x10000;
-	writel(val, DDR_CTRL_BASE + CDNS_DENALI_CTL_345);
-
-	cdns_ddr_self_refresh(DDR_SR_ENTER);
 }
 
 void ddr_exit_self_refresh(void)
 {
 	u32 val;
-
-	/* Ack Interrupt?? */
-	val = readl(DDR_CTRL_BASE + CDNS_DENALI_CTL_345);
-	val |= 0x10000;
-	writel(val, DDR_CTRL_BASE + CDNS_DENALI_CTL_345);
-
-	cdns_ddr_self_refresh(DDR_SR_EXIT);
-
-	/* Re-enable Periodic IO Calibration For DDR */
-	val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1333);
-	val |= (0x2);
-	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1333);
 
 	/*
 	 * Disable LP For DDR, leaving this enabled in active increases
@@ -170,9 +98,10 @@ void ddr_enable_retention(void)
 	writel(DDR16SS_RETENTION_EN, WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 }
 
-void ddr_disable_retention(void)
+s32 ddr_disable_retention(void)
 {
-	/* TODO finish the sequence once it is consolidated */
 
 	writel(DDR16SS_RETENTION_DIS, WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
+
+	return 0;
 }

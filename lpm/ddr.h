@@ -58,5 +58,5 @@ void ddr_enable_retention(void);
 /**
  * \brief Disable DDR retention
  */
-void ddr_disable_retention(void);
+s32 ddr_disable_retention(void);
 #endif
