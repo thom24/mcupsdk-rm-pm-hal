@@ -1076,7 +1076,7 @@ static void ra_format_local_cfg_msg(
 	u32 ba_lo_reg;
 	u32 ba_hi_reg;
 	u32 size_reg;
-	u32 order_id_reg;
+	u32 order_id_reg = 0U;
 
 	loc_msg->valid_params = msg->valid_params & dev_valid_mask;
 	loc_msg->nav_id = msg->nav_id;
