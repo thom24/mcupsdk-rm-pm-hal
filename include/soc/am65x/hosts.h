@@ -35,7 +35,7 @@
  */
 
 /**
- * \file am6x/hosts.h
+ * \file am65x/hosts.h
  *
  * \brief Host IDs for AM6 device
  */

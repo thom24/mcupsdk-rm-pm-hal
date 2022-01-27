@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@
 #include <sleep.h>
 #include <types/array_size.h>
 #include <dmsc.h>
-#include <soc/am65x/devices.h>
+#include <soc/am65x_sr2/devices.h>
 #include <lib/ioremap.h>
 #include <sys-reset.h>
 #include <device_pm.h>
@@ -62,12 +62,12 @@ static s32 am6_sys_reset_handler(domgrp_t domain __attribute__((unused)))
 	u32 trace_val = TRACE_PM_ACTION_SYSRESET_ERR_VAL_SUCCESS;
 
 	/* PSC0: Disable MAIN2MCU bridge */
-	dev = device_lookup(AM6_DEV_DUMMY_IP_LPSC_MCU2MAIN);
+	dev = device_lookup(AM6_DEV_DUMMY_IP_LPSC_MCU2MAIN_VD);
 	soc_device_ret_enable(dev);
 	soc_device_disable(dev, SFALSE);
 
 	/* WKUP_PSC0: Disable MCU2MAIN bridge */
-	dev = device_lookup(AM6_DEV_DUMMY_IP_LPSC_MAIN2MCU);
+	dev = device_lookup(AM6_DEV_DUMMY_IP_LPSC_MAIN2MCU_VD);
 	soc_device_ret_enable(dev);
 	soc_device_disable(dev, SFALSE);
 

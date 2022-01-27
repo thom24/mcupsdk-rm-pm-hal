@@ -12,8 +12,8 @@
 #include <types/array_size.h>
 #include <soc/rm_mmr.h>
 #include <devices.h>
-#include <soc/am6x/resasg_types.h>
-#include <soc/am6x/soc_devgrps.h>
+#include <soc/am65x/resasg_types.h>
+#include <soc/am65x/soc_devgrps.h>
 
 #include "../../include/ra_inst.h"
 #include <ra_cfg.h>

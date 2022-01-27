@@ -32,7 +32,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include <soc/host_idx_mapping.h>
-#include <soc/am6x/hosts.h>
+#include <soc/am65x/hosts.h>
 
 const u8 soc_host_indexes[] = {
 	[HOST_ID_DMSC] = 0U,
