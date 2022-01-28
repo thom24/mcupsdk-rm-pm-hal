@@ -3,7 +3,7 @@
  *
  * UDMAP driver instance data definition
  *
- * Data version: 210712_144506
+ * Data version: 220126_142023
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -453,7 +453,7 @@ static const struct rm_mmr mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RFLOW = {
 	.base		= 0x44911000U,
 };
 
-static const struct udmap_ch_type rx_ch_types_MCU_SA3_SS0_PKTDMA_0[2] = {
+static const struct udmap_ch_type rx_ch_types_MCU_SA3_SS0_PKTDMA_0[4] = {
 	{
 		.start = 0U,
 		.end = 0U,
@@ -468,17 +468,39 @@ static const struct udmap_ch_type rx_ch_types_MCU_SA3_SS0_PKTDMA_0[2] = {
 	{
 		.start = 1U,
 		.end = 1U,
-		.flow_start = 8U,
-		.flow_end = 15U,
+		.flow_start = 0U,
+		.flow_end = 7U,
 		.flow_utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_FLOW_SAUL_RX_1_CHAN),
 		.oes_offset = 0U,
 		.err_oes_offset = 0U,
 		.type = DMSS_PKTDMA_RX_CHAN,
 		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_SAUL_RX_1_CHAN),
 	},
+	{
+		.start = 2U,
+		.end = 2U,
+		.flow_start = 8U,
+		.flow_end = 15U,
+		.flow_utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_FLOW_SAUL_RX_2_CHAN),
+		.oes_offset = 0U,
+		.err_oes_offset = 0U,
+		.type = DMSS_PKTDMA_RX_CHAN,
+		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_SAUL_RX_2_CHAN),
+	},
+	{
+		.start = 3U,
+		.end = 3U,
+		.flow_start = 8U,
+		.flow_end = 15U,
+		.flow_utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_FLOW_SAUL_RX_3_CHAN),
+		.oes_offset = 0U,
+		.err_oes_offset = 0U,
+		.type = DMSS_PKTDMA_RX_CHAN,
+		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_SAUL_RX_3_CHAN),
+	},
 };
 
-static const struct udmap_ch_type tx_ch_types_MCU_SA3_SS0_PKTDMA_0[1] = {
+static const struct udmap_ch_type tx_ch_types_MCU_SA3_SS0_PKTDMA_0[2] = {
 	{
 		.start = 0U,
 		.end = 0U,
@@ -489,6 +511,17 @@ static const struct udmap_ch_type tx_ch_types_MCU_SA3_SS0_PKTDMA_0[1] = {
 		.err_oes_offset = 0U,
 		.type = DMSS_PKTDMA_TX_CHAN,
 		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_SAUL_TX_0_CHAN),
+	},
+	{
+		.start = 1U,
+		.end = 1U,
+		.flow_start = 8U,
+		.flow_end = 15U,
+		.flow_utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_FLOW_SAUL_TX_1_CHAN),
+		.oes_offset = 0U,
+		.err_oes_offset = 0U,
+		.type = DMSS_PKTDMA_TX_CHAN,
+		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_SAUL_TX_1_CHAN),
 	},
 };
 

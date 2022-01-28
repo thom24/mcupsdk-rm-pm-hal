@@ -3,7 +3,7 @@
  *
  * Software defined Device groups (devgrps) for J721S2 device.
  *
- * Data version: 210712_144506
+ * Data version: 220126_142023
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
