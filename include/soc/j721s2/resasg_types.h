@@ -138,13 +138,14 @@
 #define RESASG_SUBTYPE_PKTDMA_FLOW_SAUL_RX_0_CHAN (0x002EU)
 #define RESASG_SUBTYPE_PKTDMA_SAUL_RX_1_CHAN (0x002FU)
 #define RESASG_SUBTYPE_PKTDMA_FLOW_SAUL_RX_1_CHAN (0x0030U)
-#define RESASG_SUBTYPES_UDMAP_CNT (0x0012U)
+#define RESASG_SUBTYPE_PKTDMA_FLOW_SAUL_TX_0_CHAN (0x0039U)
+#define RESASG_SUBTYPES_UDMAP_CNT (0x0013U)
 
 
 /**
  * Total number of unique resource types for SoC
  */
-#define RESASG_UTYPE_CNT 90U
+#define RESASG_UTYPE_CNT 91U
 
 /**
  * Total number of resource entries allowed for SoC
