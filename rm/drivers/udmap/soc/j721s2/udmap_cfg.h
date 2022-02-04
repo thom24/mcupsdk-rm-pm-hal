@@ -83,10 +83,6 @@
  */
 #define UDMAP_MCU_SA3_SS0_PKTDMA_0_RX_FLOW_MAX_INDEX (32U)
 /**
- * MCU_SA3_SS0_PKTDMA_0 total number of UDMAP transfer flows
- */
-#define UDMAP_MCU_SA3_SS0_PKTDMA_0_TX_FLOW_MAX_INDEX (16U)
-/**
  * UDMAP transmit channel OES index offset
  */
 #define UDMAP_TCHAN_OES_EVT_INDEX_OFFSET (0x0U)
