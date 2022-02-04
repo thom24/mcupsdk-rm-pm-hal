@@ -3,7 +3,7 @@
  *
  * UDMAP driver instance definition
  *
- * Copyright (C) 2018-2022, Texas Instruments Incorporated
+ * Copyright (C) 2018-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -323,7 +323,6 @@ struct udmap_instance {
 	const u16				n_rx_ch;
 	const u16				n_bc_ch;
 	const u16				n_rx_flow;
-	const u16				n_tx_flow;
 	const u16				bc_ch_offset;
 	const struct udmap_ch_type *const	tx_ch_types;
 	const struct udmap_ch_type *const	rx_ch_types;
