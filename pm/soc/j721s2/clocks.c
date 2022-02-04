@@ -4126,6 +4126,36 @@ static const struct clk_data_mux_reg clk_data_USB0_SerDes_txmclk_Mux_out0 = {
 	.reg			= 0x00100000 + 16384,
 	.bit			= 27,
 };
+static const struct clk_parent clk_VPAC_CLK_SEL_parents[] = {
+	{
+		CLK_J721S2_HSDIV1_16FFT_MAIN_25_HSDIVOUT1_CLK,
+		1,
+	},
+	{
+		CLK_J721S2_HSDIV4_16FFT_MAIN_2_HSDIVOUT1_CLK,
+		1,
+	},
+	{
+		0,
+		0,
+	},
+	{
+		0,
+		0,
+	},
+	{
+		0,
+		0,
+	},
+};
+static const struct clk_data_mux_reg clk_data_VPAC_CLK_SEL_out0 = {
+	.data_mux		= {
+		.parents	= clk_VPAC_CLK_SEL_parents,
+		.n		= ARRAY_SIZE(clk_VPAC_CLK_SEL_parents),
+	},
+	.reg			= 0x00100000 + 33008,
+	.bit			= 0,
+};
 static const struct clk_parent clk_WKUP_I2C_MCUPLL_BYPASS_parents[] = {
 	{
 		CLK_J721S2_HSDIV4_16FFT_MCU_1_HSDIVOUT3_CLK,
@@ -10174,6 +10204,12 @@ const struct clk_data soc_clock_data[] = {
 		.flags	= 0,
 		.data	= &clk_data_USART_Programmable_Clock_Divider_out9.data_div.data,
 		.type	= CLK_TYPE_DIV,
+	},
+	[CLK_J721S2_VPAC_CLK_SEL_OUT0] =						{
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_VPAC_CLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721S2_GPMC_FCLK_SEL_OUT0] =						{
 		.drv	= &clk_drv_mux_reg.drv,
