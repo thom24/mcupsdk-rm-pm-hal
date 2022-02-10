@@ -490,24 +490,6 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J721S2_DEV_SA3SS_AM62_MCU_0_PKTDMA_0_CLOCKS 3
 #define J721S2_DEV_SA3SS_AM62_MCU_0_RINGACC_0_CLOCKS 4
 #define J721S2_DEV_SA3SS_AM62_MCU_0_SA_UL_0_CLOCKS 5
-#define J721S2_DEV_SMS_WKUP_0_AESEIP38T_0_CLOCKS 342
-#define J721S2_DEV_SMS_WKUP_0_CORTEX_M4F_0_CLOCKS 343
-#define J721S2_DEV_SMS_WKUP_0_CORTEX_M4F_1_CLOCKS 345
-#define J721S2_DEV_SMS_WKUP_0_DBG_AUTH_0_CLOCKS 347
-#define J721S2_DEV_SMS_WKUP_0_FWMGR_0_CLOCKS 348
-#define J721S2_DEV_SMS_WKUP_0_HSM_SRAM_0_CLOCKS 349
-#define J721S2_DEV_SMS_WKUP_0_HSM_SRAM_1_CLOCKS 350
-#define J721S2_DEV_SMS_WKUP_0_PWRCTRL_0_CLOCKS 351
-#define J721S2_DEV_SMS_WKUP_0_RAT_0_CLOCKS 352
-#define J721S2_DEV_SMS_WKUP_0_RAT_1_CLOCKS 353
-#define J721S2_DEV_SMS_WKUP_0_RTI_0_CLOCKS 354
-#define J721S2_DEV_SMS_WKUP_0_RTI_1_CLOCKS 355
-#define J721S2_DEV_SMS_WKUP_0_SEC_MGR_0_CLOCKS 356
-#define J721S2_DEV_SMS_WKUP_0_SECCTRL_0_CLOCKS 358
-#define J721S2_DEV_SMS_WKUP_0_TIFS_SRAM_0_CLOCKS 359
-#define J721S2_DEV_SMS_WKUP_0_TIFS_SRAM_1_CLOCKS 360
-#define J721S2_DEV_SMS_WKUP_0_WDTCTRL_0_CLOCKS 361
-#define J721S2_DEV_SMS_WKUP_0_WDTCTRL_1_CLOCKS 362
 #define J721S2_DEV_SPI_MAIN_0_CLOCKS 2206
 #define J721S2_DEV_SPI_MAIN_1_CLOCKS 2209
 #define J721S2_DEV_SPI_MAIN_2_CLOCKS 2212
@@ -516,9 +498,9 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J721S2_DEV_SPI_MAIN_5_CLOCKS 2224
 #define J721S2_DEV_SPI_MAIN_6_CLOCKS 2227
 #define J721S2_DEV_SPI_MAIN_7_CLOCKS 2230
-#define J721S2_DEV_SPI_MCU_0_CLOCKS 363
-#define J721S2_DEV_SPI_MCU_1_CLOCKS 366
-#define J721S2_DEV_SPI_MCU_2_CLOCKS 371
+#define J721S2_DEV_SPI_MCU_0_CLOCKS 342
+#define J721S2_DEV_SPI_MCU_1_CLOCKS 345
+#define J721S2_DEV_SPI_MCU_2_CLOCKS 350
 #define J721S2_DEV_USART_MAIN_1_CLOCKS 2233
 #define J721S2_DEV_USART_MAIN_2_CLOCKS 2237
 #define J721S2_DEV_USART_MAIN_3_CLOCKS 2241
@@ -528,7 +510,7 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J721S2_DEV_USART_MAIN_7_CLOCKS 2257
 #define J721S2_DEV_USART_MAIN_8_CLOCKS 2261
 #define J721S2_DEV_USART_MAIN_9_CLOCKS 2265
-#define J721S2_DEV_USART_WKUP_0_CLOCKS 375
+#define J721S2_DEV_USART_WKUP_0_CLOCKS 354
 #define J721S2_DEV_USB3P0SS_16FFC_MAIN_0_CLOCKS 2269
 #define J721S2_DEV_VPAC_TOP_MAIN_0_CLOCKS 2298
 #define J721S2_DEV_VUSR_DUAL_MAIN_0_CLOCKS 2305
@@ -5132,252 +5114,6 @@ static const struct dev_data j721s2_dev_sa3ss_am62_mcu_0_sa_ul_0 __attribute__((
 	.n_clocks		= 3,
 	.pm_devgrp		= PM_DEVGRP_DMSC,
 };
-static const struct dev_data j721s2_dev_sms_wkup_0_aeseip38t_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_AESEIP38T_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_cortex_m4f_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_CORTEX_M4F_0_CLOCKS,
-	.n_clocks		= 2,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_cortex_m4f_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_CORTEX_M4F_1_CLOCKS,
-	.n_clocks		= 2,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_cortex_m4f_ss_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_cortex_m4f_ss_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_cti_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_cti_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_dbg_auth_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_DBG_AUTH_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_dmtimer_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_dmtimer_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_dmtimer_2 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_dmtimer_3 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_dwt_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_dwt_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_fbp_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_fbp_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_fwmgr_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_FWMGR_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_hsm_sram_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_HSM_SRAM_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_hsm_sram_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_HSM_SRAM_1_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_itm_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_itm_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_pwrctrl_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_PWRCTRL_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_rat_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_RAT_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_rat_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_RAT_1_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_rom_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_rti_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_RTI_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_rti_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_RTI_1_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_scs_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_scs_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_sec_mgr_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_SEC_MGR_0_CLOCKS,
-	.n_clocks		= 2,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_secctrl_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_SECCTRL_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_tifs_sram_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_TIFS_SRAM_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_tifs_sram_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_TIFS_SRAM_1_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_wdtctrl_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_WDTCTRL_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
-static const struct dev_data j721s2_dev_sms_wkup_0_wdtctrl_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.dev_clk_idx		= J721S2_DEV_SMS_WKUP_0_WDTCTRL_1_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
-};
 static const struct dev_data j721s2_dev_spi_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
 		.psc_idx	= J721S2_PSC_INST_J7AM_MAIN_PSC_WRAP_MAIN_0,
@@ -6621,60 +6357,6 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__sect
 	DEV_CLK(J721S2_DEV_RTI_CFG1_MCU_1_CLOCKS,				 J721S2_DEV_MCU_RTI1_VBUSP_CLK,
 		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
 		6),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_AESEIP38T_0_CLOCKS,			 J721S2_DEV_WKUP_SMS0_AESEIP38T_0_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_CORTEX_M4F_0_CLOCKS,			 J721S2_DEV_WKUP_TIFS0_DAP_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_CORTEX_M4F_1_CLOCKS,			 J721S2_DEV_WKUP_HSM0_DAP_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_DBG_AUTH_0_CLOCKS,			 J721S2_DEV_WKUP_SMS0_DBG_AUTH_0_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_FWMGR_0_CLOCKS,				 J721S2_DEV_WKUP_SMS0_FWMGR_0_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_HSM_SRAM_0_CLOCKS,			 J721S2_DEV_WKUP_SMS0_HSM_SRAM_0_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_HSM_SRAM_1_CLOCKS,			 J721S2_DEV_WKUP_SMS0_HSM_SRAM_1_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_PWRCTRL_0_CLOCKS,				 J721S2_DEV_WKUP_SMS0_PWRCTRL_0_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_RAT_0_CLOCKS,				 J721S2_DEV_WKUP_SMS0_RAT_0_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_RAT_1_CLOCKS,				 J721S2_DEV_WKUP_SMS0_RAT_1_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_RTI_0_CLOCKS,				 J721S2_DEV_WKUP_SMS0_RTI_0_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_RTI_1_CLOCKS,				 J721S2_DEV_WKUP_SMS0_RTI_1_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_SEC_MGR_0_CLOCKS,				 J721S2_DEV_WKUP_SMS0_SEC_MGR_0_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_SECCTRL_0_CLOCKS,				 J721S2_DEV_WKUP_SMS0_SECCTRL_0_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_TIFS_SRAM_0_CLOCKS,			 J721S2_DEV_WKUP_SMS0_TIFS_SRAM_0_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_TIFS_SRAM_1_CLOCKS,			 J721S2_DEV_WKUP_SMS0_TIFS_SRAM_1_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_WDTCTRL_0_CLOCKS,				 J721S2_DEV_WKUP_SMS0_WDTCTRL_0_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK(J721S2_DEV_SMS_WKUP_0_WDTCTRL_1_CLOCKS,				 J721S2_DEV_WKUP_SMS0_WDTCTRL_1_VBUS_CLK,
-		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		1),
 	DEV_CLK(J721S2_DEV_SPI_MCU_0_CLOCKS,					 J721S2_DEV_MCU_MCSPI0_CLKSPIREF_CLK,
 		CLK_J721S2_HSDIV4_16FFT_MCU_2_HSDIVOUT0_CLK,
 		5),
@@ -11879,41 +11561,6 @@ const struct dev_data *const soc_device_data_arr[J721S2_DEV_J7AEP_GPU_BXS464_WRA
 	[J721S2_DEV_MCU_SA3_SS0_PKTDMA_0] = &j721s2_dev_sa3ss_am62_mcu_0_pktdma_0,
 	[J721S2_DEV_MCU_SA3_SS0_RINGACC_0] = &j721s2_dev_sa3ss_am62_mcu_0_ringacc_0,
 	[J721S2_DEV_MCU_SA3_SS0_SA_UL_0] = &j721s2_dev_sa3ss_am62_mcu_0_sa_ul_0,
-	[J721S2_DEV_WKUP_SMS0_AESEIP38T_0] = &j721s2_dev_sms_wkup_0_aeseip38t_0,
-	[J721S2_DEV_WKUP_TIFS0] = &j721s2_dev_sms_wkup_0_cortex_m4f_0,
-	[J721S2_DEV_WKUP_HSM0] = &j721s2_dev_sms_wkup_0_cortex_m4f_1,
-	[J721S2_DEV_WKUP_SMS0_CORTEX_M4F_SS_0] = &j721s2_dev_sms_wkup_0_cortex_m4f_ss_0,
-	[J721S2_DEV_WKUP_SMS0_CORTEX_M4F_SS_1] = &j721s2_dev_sms_wkup_0_cortex_m4f_ss_1,
-	[J721S2_DEV_WKUP_SMS0_CTI_0] = &j721s2_dev_sms_wkup_0_cti_0,
-	[J721S2_DEV_WKUP_SMS0_CTI_1] = &j721s2_dev_sms_wkup_0_cti_1,
-	[J721S2_DEV_WKUP_SMS0_DBG_AUTH_0] = &j721s2_dev_sms_wkup_0_dbg_auth_0,
-	[J721S2_DEV_WKUP_SMS0_DMTIMER_0] = &j721s2_dev_sms_wkup_0_dmtimer_0,
-	[J721S2_DEV_WKUP_SMS0_DMTIMER_1] = &j721s2_dev_sms_wkup_0_dmtimer_1,
-	[J721S2_DEV_WKUP_SMS0_DMTIMER_2] = &j721s2_dev_sms_wkup_0_dmtimer_2,
-	[J721S2_DEV_WKUP_SMS0_DMTIMER_3] = &j721s2_dev_sms_wkup_0_dmtimer_3,
-	[J721S2_DEV_WKUP_SMS0_DWT_0] = &j721s2_dev_sms_wkup_0_dwt_0,
-	[J721S2_DEV_WKUP_SMS0_DWT_1] = &j721s2_dev_sms_wkup_0_dwt_1,
-	[J721S2_DEV_WKUP_SMS0_FBP_0] = &j721s2_dev_sms_wkup_0_fbp_0,
-	[J721S2_DEV_WKUP_SMS0_FBP_1] = &j721s2_dev_sms_wkup_0_fbp_1,
-	[J721S2_DEV_WKUP_SMS0_FWMGR_0] = &j721s2_dev_sms_wkup_0_fwmgr_0,
-	[J721S2_DEV_WKUP_SMS0_HSM_SRAM_0] = &j721s2_dev_sms_wkup_0_hsm_sram_0,
-	[J721S2_DEV_WKUP_SMS0_HSM_SRAM_1] = &j721s2_dev_sms_wkup_0_hsm_sram_1,
-	[J721S2_DEV_WKUP_SMS0_ITM_0] = &j721s2_dev_sms_wkup_0_itm_0,
-	[J721S2_DEV_WKUP_SMS0_ITM_1] = &j721s2_dev_sms_wkup_0_itm_1,
-	[J721S2_DEV_WKUP_SMS0_PWRCTRL_0] = &j721s2_dev_sms_wkup_0_pwrctrl_0,
-	[J721S2_DEV_WKUP_SMS0_RAT_0] = &j721s2_dev_sms_wkup_0_rat_0,
-	[J721S2_DEV_WKUP_SMS0_RAT_1] = &j721s2_dev_sms_wkup_0_rat_1,
-	[J721S2_DEV_WKUP_SMS0_ROM_0] = &j721s2_dev_sms_wkup_0_rom_0,
-	[J721S2_DEV_WKUP_SMS0_RTI_0] = &j721s2_dev_sms_wkup_0_rti_0,
-	[J721S2_DEV_WKUP_SMS0_RTI_1] = &j721s2_dev_sms_wkup_0_rti_1,
-	[J721S2_DEV_WKUP_SMS0_SCS_0] = &j721s2_dev_sms_wkup_0_scs_0,
-	[J721S2_DEV_WKUP_SMS0_SCS_1] = &j721s2_dev_sms_wkup_0_scs_1,
-	[J721S2_DEV_WKUP_SMS0_SEC_MGR_0] = &j721s2_dev_sms_wkup_0_sec_mgr_0,
-	[J721S2_DEV_WKUP_SMS0_SECCTRL_0] = &j721s2_dev_sms_wkup_0_secctrl_0,
-	[J721S2_DEV_WKUP_SMS0_TIFS_SRAM_0] = &j721s2_dev_sms_wkup_0_tifs_sram_0,
-	[J721S2_DEV_WKUP_SMS0_TIFS_SRAM_1] = &j721s2_dev_sms_wkup_0_tifs_sram_1,
-	[J721S2_DEV_WKUP_SMS0_WDTCTRL_0] = &j721s2_dev_sms_wkup_0_wdtctrl_0,
-	[J721S2_DEV_WKUP_SMS0_WDTCTRL_1] = &j721s2_dev_sms_wkup_0_wdtctrl_1,
 	[J721S2_DEV_MCSPI0] = &j721s2_dev_spi_main_0,
 	[J721S2_DEV_MCSPI1] = &j721s2_dev_spi_main_1,
 	[J721S2_DEV_MCSPI2] = &j721s2_dev_spi_main_2,
