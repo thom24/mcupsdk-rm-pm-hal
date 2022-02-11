@@ -4644,7 +4644,7 @@ s32 rm_udmap_flow_delegate(u32 *msg_recv)
 	struct tisci_msg_rm_udmap_flow_delegate_req *msg =
 		(struct tisci_msg_rm_udmap_flow_delegate_req *) msg_recv;
 	const struct udmap_instance *inst = NULL;
-	u8 delegate_host;
+	u8 delegate_host = HOST_ID_NONE;
 	u32 trace_action = TRACE_RM_ACTION_UDMAP_FLOW_DELEGATE;
 
 	rm_trace_sub(trace_action,
