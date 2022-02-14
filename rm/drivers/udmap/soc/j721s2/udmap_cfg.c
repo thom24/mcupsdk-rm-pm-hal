@@ -515,9 +515,9 @@ static const struct udmap_ch_type tx_ch_types_MCU_SA3_SS0_PKTDMA_0[2] = {
 	{
 		.start = 1U,
 		.end = 1U,
-		.flow_start = 8U,
-		.flow_end = 15U,
-		.flow_utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_FLOW_SAUL_TX_1_CHAN),
+		.flow_start = 0U,
+		.flow_end = 0U,
+		.flow_utype = 0U,
 		.oes_offset = 0U,
 		.err_oes_offset = 0U,
 		.type = DMSS_PKTDMA_TX_CHAN,
