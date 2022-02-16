@@ -54,6 +54,7 @@ config PSC_PD_MAX_COUNT_64
 	depends on PSC
 	default n
 	default y if SOC_J721S2
+	default y if SOC_J784S4
 	help
 	 Enable support for 64 power domains (PD). Default is 32 PDs.
 
@@ -96,6 +97,7 @@ config CLK_PLL_16FFT_FRACF_CALIBRATION
 	default n if SOC_J721E
 	default y if SOC_J7200
 	default y if SOC_J721S2
+	default y if SOC_J784S4
 	help
 	 Enable support for 16fft pllfracf calibration
 
