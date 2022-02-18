@@ -1,5 +1,5 @@
 /*
- * Data version: 220126_142023
+ * Data version: 220214_141435
  *
  * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -182,6 +182,8 @@ enum {
 	J721S2_FREQ_VALUE_K3_DSS_MAIN_0_DSS_INST0_DPI_1_OUT_CLK,
 	J721S2_FREQ_VALUE_K3_DSS_MAIN_0_DSS_INST0_DPI_2_OUT_CLK,
 	J721S2_FREQ_VALUE_K3_DSS_MAIN_0_DSS_INST0_DPI_3_OUT_CLK,
+	J721S2_FREQ_VALUE_K3_DSS_MAIN_0_DSS_INST0_PARA_1_OUT_CLK,
+	J721S2_FREQ_VALUE_K3_DSS_MAIN_0_DSS_INST0_PARA_3_OUT_CLK,
 	J721S2_FREQ_VALUE_MCASP_MAIN_0_MCASP_ACLKR_POUT,
 	J721S2_FREQ_VALUE_MCASP_MAIN_0_MCASP_ACLKX_POUT,
 	J721S2_FREQ_VALUE_MCASP_MAIN_0_MCASP_AFSR_POUT,
@@ -1899,6 +1901,48 @@ static const struct clk_data_mux_reg clk_data_DPI0_EXT_CLKSEL_out0 = {
 	},
 	.reg			= 0x00100000 + 33536,
 	.bit			= 0,
+};
+static const struct clk_parent clk_DPI1_CLKOUT_SEL_parents[] = {
+	{
+		0,
+		1,
+	},
+	{
+		0,
+		1,
+	},
+	{
+		CLK_J721S2_K3_DSS_MAIN_0_DSS_INST0_PARA_1_OUT_CLK,
+		1,
+	},
+	{
+		0,
+		1,
+	},
+	{
+		0,
+		1,
+	},
+	{
+		0,
+		1,
+	},
+	{
+		0,
+		1,
+	},
+	{
+		0,
+		1,
+	},
+	{
+		CLK_J721S2_K3_DSS_MAIN_0_DSS_INST0_PARA_3_OUT_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux clk_data_DPI1_CLKOUT_SEL_out0 = {
+	.parents	= clk_DPI1_CLKOUT_SEL_parents,
+	.n		= ARRAY_SIZE(clk_DPI1_CLKOUT_SEL_parents),
 };
 static const struct clk_parent clk_DPI_0_PCLK_SEL_parents[] = {
 	{
@@ -5313,6 +5357,14 @@ static const struct clk_data_from_dev clk_data_k3_dss_main_0_dss_inst0_dpi_3_out
 	.dev		= J721S2_DEV_DSS0,
 	.clk_idx	= J721S2_DEV_DSS0_DSS_INST0_DPI_3_OUT_CLK,
 };
+static const struct clk_data_from_dev clk_data_k3_dss_main_0_dss_inst0_para_1_out_clk = {
+	.dev		= J721S2_DEV_DSS0,
+	.clk_idx	= J721S2_DEV_DSS0_DSS_INST0_PARA_1_OUT_CLK,
+};
+static const struct clk_data_from_dev clk_data_k3_dss_main_0_dss_inst0_para_3_out_clk = {
+	.dev		= J721S2_DEV_DSS0,
+	.clk_idx	= J721S2_DEV_DSS0_DSS_INST0_PARA_3_OUT_CLK,
+};
 static const struct clk_parent clk_k3_pll_ctrl_wrap_main_0_parents[] = {
 	{
 		CLK_J721S2_MAIN_PLL_HFOSC_SEL_OUT0,
@@ -8129,6 +8181,18 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_k3_dss_main_0_dss_inst0_dpi_3_out_clk.data,
 		.freq_idx	= J721S2_FREQ_VALUE_K3_DSS_MAIN_0_DSS_INST0_DPI_3_OUT_CLK,
 	},
+	[CLK_J721S2_K3_DSS_MAIN_0_DSS_INST0_PARA_1_OUT_CLK] =				{
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_k3_dss_main_0_dss_inst0_para_1_out_clk.data,
+		.freq_idx	= J721S2_FREQ_VALUE_K3_DSS_MAIN_0_DSS_INST0_PARA_1_OUT_CLK,
+	},
+	[CLK_J721S2_K3_DSS_MAIN_0_DSS_INST0_PARA_3_OUT_CLK] =				{
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_k3_dss_main_0_dss_inst0_para_3_out_clk.data,
+		.freq_idx	= J721S2_FREQ_VALUE_K3_DSS_MAIN_0_DSS_INST0_PARA_3_OUT_CLK,
+	},
 	[CLK_J721S2_MCASP_AHCLKR_MUX_OUT0] =						{
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
@@ -9386,6 +9450,12 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_ATL_BWS_SEL_out3.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721S2_DPI1_CLKOUT_SEL_OUT0] =						{
+		.drv	= &clk_drv_mux_j7_dpi_1_clk_out.drv,
+		.flags	= 0,
+		.data	= &clk_data_DPI1_CLKOUT_SEL_out0.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721S2_EMMCSD1_LB_CLKSEL_OUT0] =						{

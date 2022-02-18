@@ -1,7 +1,7 @@
 /*
  * DMSC PM firmware
  *
- * Copyright (C) 2019-2021, Texas Instruments Incorporated
+ * Copyright (C) 2019-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,5 +40,6 @@
 extern const struct clk_drv_mux clk_drv_mux_j7_dpi_0_pclk;
 extern const struct clk_drv_mux clk_drv_mux_j7_dpi_2_pclk;
 extern const struct clk_drv_mux clk_drv_mux_reg_j7_dpi_3_pclk;
+extern const struct clk_drv_mux clk_drv_mux_j7_dpi_1_clk_out;
 
 #endif

@@ -1,7 +1,7 @@
 /*
  * DMSC firmware
  *
- * Copyright (C) 2019-2021, Texas Instruments Incorporated
+ * Copyright (C) 2019-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -341,4 +341,101 @@ static sbool clk_mux_j7_dpi_3_pclk_set_parent(struct clk *clk, u8 new_parent)
 const struct clk_drv_mux clk_drv_mux_reg_j7_dpi_3_pclk = {
 	.get_parent		= clk_mux_j7_dpi_3_pclk_get_parent,
 	.set_parent		= clk_mux_j7_dpi_3_pclk_set_parent,
+};
+
+static const struct clk_parent *clk_mux_j7_dpi_1_clk_out_get_parent(struct clk *clk)
+{
+	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data_mux *mux;
+	u32 v;
+
+	mux = container_of(clk_data->data, const struct clk_data_mux, data);
+
+	v = readl(J7_MAIN_CTRL_MMR + J7_DSS_DISPC0_CLKSEL3);
+
+	/*
+	 * Our mux is expanded to include the parent mux, input 0 is the
+	 * parent mux. We shift input 1 to input 2
+	 */
+	if ((v & 0x6UL) == 0x6UL) {
+		/* Output 1 if bits 2 and 1 are set, 0 otherwise */
+		v = 2UL;
+	} else {
+		v = readl(J7_MAIN_CTRL_MMR + J7_DSS_DISPC0_CLKSEL2);
+		if ((v & 0x1UL) == 0x1UL) {
+			v = 1UL;
+		} else {
+			v = 0UL;
+		}
+	}
+
+	return (v < mux->n && mux->parents[v].div) ? &mux->parents[v] : NULL;
+}
+
+static sbool clk_mux_j7_dpi_1_clk_out_set_parent(struct clk *clk	TRACE_ONLY,
+						 u8			new_parent)
+{
+	u32 v;
+	sbool ret = SFALSE;
+	sbool switch_parent = SFALSE;
+	s32 err;
+
+	v = readl(J7_MAIN_CTRL_MMR + J7_DSS_DISPC0_CLKSEL3);
+
+	if ((v & 0x4UL) == 0UL) {
+		if (new_parent == 2U) {
+			/* Cannot switch to 2 with out changing other clocks */
+			ret = SFALSE;
+		} else if (new_parent == 0U || new_parent == 1U) {
+			ret = STRUE;
+			switch_parent = STRUE;
+		} else {
+			ret = SFALSE;
+		}
+	} else {
+		if (new_parent == 2U) {
+			v |= 0x2U;
+			ret = STRUE;
+		} else if (new_parent == 0U || new_parent == 1U) {
+			v &= ~0x2U;
+			ret = STRUE;
+			switch_parent = STRUE;
+		} else {
+			ret = SFALSE;
+		}
+		if (ret) {
+			err = pm_writel_verified(v, J7_MAIN_CTRL_MMR + J7_DSS_DISPC0_CLKSEL3);
+			if (err != SUCCESS) {
+				ret = SFALSE;
+			}
+		}
+	}
+
+	if (switch_parent && ret) {
+		v = readl(J7_MAIN_CTRL_MMR + J7_DSS_DISPC0_CLKSEL2);
+		if (new_parent == 1U) {
+			v |= 1UL;
+		} else {
+			v &= ~1UL;
+		}
+		err = pm_writel_verified(v, J7_MAIN_CTRL_MMR + J7_DSS_DISPC0_CLKSEL2);
+		if (err != SUCCESS) {
+			ret = SFALSE;
+		}
+	}
+
+	if (ret) {
+		pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
+			 ((new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
+			  TRACE_PM_VAL_CLOCK_VAL_MASK) |
+			 ((clk_id(clk) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+			  TRACE_PM_VAL_CLOCK_ID_MASK));
+	}
+
+	return ret;
+}
+
+const struct clk_drv_mux clk_drv_mux_j7_dpi_1_clk_out = {
+	.get_parent		= clk_mux_j7_dpi_1_clk_out_get_parent,
+	.set_parent		= clk_mux_j7_dpi_1_clk_out_set_parent,
 };
