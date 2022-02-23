@@ -3,7 +3,7 @@
  *
  * Utility function for MMR Lock and Unlock
  *
- * Copyright (C) 2020, Texas Instruments Incorporated
+ * Copyright (C) 2020-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,20 @@
  */
 #ifndef MMR_LOCK_H
 #define MMR_LOCK_H
+
+/** \brief Function to unlock a Control module MMR partition.
+ *
+ *  \param base base address of the region to be unlocked
+ *  \param partition which partition to unlock
+ */
+void mmr_unlock(u32 base, u32 partition);
+
+/** \brief Function to lock a Control module MMR partition.
+ *
+ *  \param base base address of the region to be locked
+ *  \param partition which partition to lock
+ */
+void mmr_lock(u32 base, u32 partition);
 
 /** \brief Function to unlock the Control module MMRs needed for PM to
  *         function.
