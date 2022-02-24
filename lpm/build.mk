@@ -12,3 +12,4 @@ obj-y += 8250.o
 obj-y += timeout.o
 obj-y += sec_proxy.o
 obj-y += ddr.o
+obj-y += vim_raw.o
