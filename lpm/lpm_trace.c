@@ -3,7 +3,7 @@
  *
  * DM Stub Minimal Trace Debug Layer
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,6 +74,9 @@ void lpm_trace_debug(u32 value)
 	}
 
 	str[idx] = (u8) '\0';
+	/* Output "0x" at start of hex */
+	lpm_trace_output_char('0');
+	lpm_trace_output_char('x');
 
 	if (idx > 0U) {
 		/* Get length of string - NULL terminator*/
