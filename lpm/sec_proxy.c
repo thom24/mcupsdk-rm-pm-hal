@@ -37,6 +37,7 @@
 #include <lib/io.h>
 #include <lib/bitops.h>
 #include <types/errno.h>
+#include <types/sbool.h>
 #include <baseaddress.h>
 #include "timeout.h"
 
@@ -57,7 +58,7 @@
 #define SPROXY_SEND             0
 #define SPROXY_GET              1
 
-static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, void *msg, u32 len)
+static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, void *msg, u32 len, sbool is_secure)
 {
 	u32 start_addr = SPROXY_THREAD_DATA_ADDRESS(target_base, thread_id);
 	u32 end_addr = SPROXY_THREAD_DATA_ADDRESS_END(target_base, thread_id);
@@ -67,7 +68,11 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 	u32 mask;
 	u16 i;
 
-	if (start_addr + len > end_addr) {
+	if (is_secure == SFALSE && start_addr + len > end_addr) {
+		return -EINVAL;
+	}
+
+	if (is_secure == STRUE && start_addr + len + 4 > end_addr) {
 		return -EINVAL;
 	}
 
@@ -86,6 +91,18 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 		} else {
 			return -ETIMEDOUT;
 		}
+	}
+
+	/*
+	 * HACK: We will need to deal with sec hdr someday...
+	 * For now, just skip that portion
+	 */
+	if (is_secure == STRUE) {
+		if (is_rx == 0U) {
+			writel(0u, start_addr);
+		}
+
+		start_addr += 4u;
 	}
 
 	for (i = 0; i < len / 4; i++, start_addr += 4) {
@@ -120,20 +137,30 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 
 s32 sproxy_send_msg_rom(void *msg, u32 len)
 {
-	return trans_message(ROM_SEC_PROXY_TARGET_ADDRESS, ROM_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, SEC_PROXY_MSG_TX_TID, msg, len);
+	return trans_message(ROM_SEC_PROXY_TARGET_ADDRESS, ROM_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, SEC_PROXY_MSG_TX_TID, msg, len, SFALSE);
 }
 
 s32 sproxy_receive_msg_rom(void *msg, u32 len)
 {
-	return trans_message(ROM_SEC_PROXY_TARGET_ADDRESS, ROM_SEC_PROXY_RT_ADDRESS, SPROXY_GET, SEC_PROXY_MSG_RX_TID, msg, len);
+	return trans_message(ROM_SEC_PROXY_TARGET_ADDRESS, ROM_SEC_PROXY_RT_ADDRESS, SPROXY_GET, SEC_PROXY_MSG_RX_TID, msg, len, SFALSE);
 }
 
 s32 sproxy_send_msg_tifs_fw(void *msg, u32 len)
 {
-	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, SEC_PROXY_MSG_TX_TID, msg, len);
+	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, TIFS_SEC_PROXY_MSG_TX_TID, msg, len, SFALSE);
 }
 
 s32 sproxy_receive_msg_tifs_fw(void *msg, u32 len)
 {
-	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_GET, SEC_PROXY_MSG_RX_TID, msg, len);
+	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_GET, TIFS_SEC_PROXY_MSG_RX_TID, msg, len, SFALSE);
+}
+
+s32 sproxy_send_msg_dm2dmsc_fw(void *msg, u32 len)
+{
+	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, DM2DMSC_SEC_PROXY_MSG_TX_TID, msg, len, STRUE);
+}
+
+s32 sproxy_receive_msg_dm2dmsc_fw(void *msg, u32 len)
+{
+	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_GET, DM2DMSC_SEC_PROXY_MSG_RX_TID, msg, len, STRUE);
 }
