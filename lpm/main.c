@@ -17,6 +17,7 @@
 
 #include "lpm_io.h"
 #include "ctrlmmr_raw.h"
+#include "ddr.h"
 #include "pll_16fft_raw.h"
 #include "psc_raw.h"
 #include "sec_proxy.h"
@@ -90,8 +91,6 @@ static enum lpm_mode get_lpm_mode()
 	return LPM_DEEPSLEEP;
 }
 
-static void set_ddr_self_refresh() { }
-static void clear_ddr_self_refresh() {}
 static void set_ddr_reset_isolation() { }
 static void release_ddr_reset_isolation() {}
 static void set_usb_reset_isolation() { }
@@ -326,7 +325,7 @@ void dm_stub_entry(void)
 	/* unlock mcu_ctrl_mmr region 2 */
 	ctrlmmr_unlock(MCU_CTRL_MMR_BASE, 2);
 
-	set_ddr_self_refresh();
+	ddr_enter_self_refesh();
 
 	if (g_lpm_mode == LPM_DEEPSLEEP || g_lpm_mode == LPM_MCU_ONLY) {
 		set_ddr_reset_isolation();
@@ -526,10 +525,9 @@ void dm_stub_entry(void)
 		 * PSC_PLL_config_LPM_0p5_ch.xlsx
 		 */
 		enable_pll_standby();
-
-		/* Bring DDR out of self refresh */
-		clear_ddr_self_refresh();
 	}
+
+	ddr_exit_self_refresh();
 
 	if (g_lpm_mode == LPM_DEEPSLEEP || g_lpm_mode == LPM_MCU_ONLY) {
 		release_usb_reset_isolation();
