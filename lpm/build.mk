@@ -6,3 +6,4 @@ obj-y += soc/
 
 obj-y += main.o
 obj-y += psc_raw.o
+obj-y += pll_16fft_raw.o
