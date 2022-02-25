@@ -3,7 +3,7 @@
  *
  * IRQ management interrupt aggregator infrastructure
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,6 +43,7 @@
 
 #include <rm_core.h>
 #include <rm_ia.h>
+#include <rm_lpm.h>
 #include <tisci/rm/tisci_rm_irq.h>
 #include <hosts.h>
 
@@ -820,6 +821,11 @@ s32 rm_ia_vint_map(u16 id, u16 vint, u16 global_evt, u8 vint_sb_index,
 		r = ia_configure_vint(inst, evt, vint, vint_sb_index);
 	}
 
+	if (r == SUCCESS) {
+		r = lpm_sleep_save_ia_config(id, vint, global_evt, vint_sb_index,
+					     fwl_cfg_dmsc_only, validate_sec_rm_devgrp);
+	}
+
 	return r;
 }
 
@@ -888,6 +894,10 @@ s32 rm_ia_vint_unmap(u16 id, u16 vint, u16 global_evt, u8 vint_sb_index)
 			/* Cleared event was mapped to VINT 0 bit 0 */
 			inst->v0_b0_evt = IA_GENERIC_EVT_RESETVAL;
 		}
+	}
+
+	if (r == SUCCESS) {
+		r = lpm_sleep_save_ia_unconfig(id, vint, global_evt, vint_sb_index);
 	}
 
 	return r;

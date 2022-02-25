@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017-2020, Texas Instruments Incorporated
+# Copyright (c) 2021, Texas Instruments Incorporated
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -30,10 +30,8 @@
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-obj-$(CONFIG_RM_IRQ) += irq/
-obj-y += ir/
-obj-y += ia/
-obj-$(CONFIG_RM_RA) += ra/
-obj-$(CONFIG_RM_UDMAP) += udmap/
-obj-$(CONFIG_RM_PROXY) += proxy/
-obj-$(CONFIG_LPM_DM) += lpm/
+cppflags-y += -I$(srctree)/rm_pm_hal/rm/drivers/lpm/
+cppflags-y += -I$(srctree)/rm_pm_hal/rm/drivers/lpm/soc/$(TARGET_SOC)/
+
+obj-y += ia_track_config.o ir_track_config.o
+obj-y += soc/

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017-2020, Texas Instruments Incorporated
+# Copyright (c) 2021, Texas Instruments Incorporated
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -30,10 +30,4 @@
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-obj-$(CONFIG_RM_IRQ) += irq/
-obj-y += ir/
-obj-y += ia/
-obj-$(CONFIG_RM_RA) += ra/
-obj-$(CONFIG_RM_UDMAP) += udmap/
-obj-$(CONFIG_RM_PROXY) += proxy/
-obj-$(CONFIG_LPM_DM) += lpm/
+obj-y += $(TARGET_SOC)/
