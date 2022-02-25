@@ -42,14 +42,14 @@
 
 #define SPROXY_THREAD_OFFSET(tid) (0x1000 * (tid))
 
-#define SPROXY_THREAD_DATA_ADDRESS(tid)	\
-	(SEC_PROXY_TARGET_ADDRESS + SPROXY_THREAD_OFFSET(tid) +	\
-	 4 + (tid) * 4)
-#define SPROXY_THREAD_DATA_ADDRESS_END(tid) \
-	(SPROXY_THREAD_DATA_ADDRESS(tid) + 14 * 4)
+#define SPROXY_THREAD_DATA_ADDRESS(_target_base, tid)	\
+	(_target_base + SPROXY_THREAD_OFFSET(tid) +	\
+	 4)
+#define SPROXY_THREAD_DATA_ADDRESS_END(_target_base, tid) \
+	(SPROXY_THREAD_DATA_ADDRESS(_target_base, tid) + 14 * 4)
 
-#define SPROXY_THREAD_STATUS(tid) \
-	(SEC_PROXY_RT_ADDRESS + SPROXY_THREAD_OFFSET(tid))
+#define SPROXY_THREAD_STATUS(_rt_base, tid) \
+	(_rt_base + SPROXY_THREAD_OFFSET(tid))
 
 #define SPROXY_STATUS_ERR       BIT(31)
 #define SPROXY_STATUS_CNT_MASK  0xFF
@@ -57,10 +57,10 @@
 #define SPROXY_SEND             0
 #define SPROXY_GET              1
 
-static s32 trans_message(u8 is_rx, u8 thread_id, void *msg, u32 len)
+static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, void *msg, u32 len)
 {
-	u32 start_addr = SPROXY_THREAD_DATA_ADDRESS(thread_id);
-	u32 end_addr = SPROXY_THREAD_DATA_ADDRESS_END(thread_id);
+	u32 start_addr = SPROXY_THREAD_DATA_ADDRESS(target_base, thread_id);
+	u32 end_addr = SPROXY_THREAD_DATA_ADDRESS_END(target_base, thread_id);
 	u32 *raw = (u32 *) msg;
 	u32 status;
 	u32 word;
@@ -72,7 +72,7 @@ static s32 trans_message(u8 is_rx, u8 thread_id, void *msg, u32 len)
 	}
 
 	for (i = 0; i < RETRY_CNT_10ms; i++) {
-		status = readl(SPROXY_THREAD_STATUS(thread_id));
+		status = readl(SPROXY_THREAD_STATUS(rt_base, thread_id));
 		if (status & SPROXY_STATUS_ERR) {
 			return -EFAIL;
 		}
@@ -118,12 +118,22 @@ static s32 trans_message(u8 is_rx, u8 thread_id, void *msg, u32 len)
 	return 0;
 }
 
-s32 sproxy_send_msg(void *msg, u32 len)
+s32 sproxy_send_msg_rom(void *msg, u32 len)
 {
-	return trans_message(SPROXY_SEND, SEC_PROXY_MSG_TX_TID, msg, len);
+	return trans_message(ROM_SEC_PROXY_TARGET_ADDRESS, ROM_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, SEC_PROXY_MSG_TX_TID, msg, len);
 }
 
-s32 sproxy_receive_msg(void *msg, u32 len)
+s32 sproxy_receive_msg_rom(void *msg, u32 len)
 {
-	return trans_message(SPROXY_GET, SEC_PROXY_MSG_RX_TID, msg, len);
+	return trans_message(ROM_SEC_PROXY_TARGET_ADDRESS, ROM_SEC_PROXY_RT_ADDRESS, SPROXY_GET, SEC_PROXY_MSG_RX_TID, msg, len);
+}
+
+s32 sproxy_send_msg_tifs_fw(void *msg, u32 len)
+{
+	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, SEC_PROXY_MSG_TX_TID, msg, len);
+}
+
+s32 sproxy_receive_msg_tifs_fw(void *msg, u32 len)
+{
+	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_GET, SEC_PROXY_MSG_RX_TID, msg, len);
 }

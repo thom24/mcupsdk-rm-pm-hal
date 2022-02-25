@@ -285,13 +285,13 @@ static s32 send_tisci_msg_firmware_load()
 		.image_size	= CONFIG_TIFSFW_SPS_LEN,
 	};
 
-	ret = sproxy_send_msg(&req, sizeof(req));
+	ret = sproxy_send_msg_rom(&req, sizeof(req));
 	if (ret) {
 		return ret;
 	}
 
 	memset(&resp, 0, sizeof(resp));
-	ret = sproxy_receive_msg(&resp, sizeof(resp));
+	ret = sproxy_receive_msg_rom(&resp, sizeof(resp));
 
 	if (ret) {
 		return ret;
@@ -311,7 +311,7 @@ static s32 receive_tisci_msg_continue_resume()
 	s32 ret = 0;
 
 	memset(&req, 0, sizeof(req));
-	ret = sproxy_receive_msg(&req, sizeof(req));
+	ret = sproxy_receive_msg_rom(&req, sizeof(req));
 
 	if (ret) {
 		return ret;
@@ -336,7 +336,7 @@ static s32 send_tisci_msg_continue_resume()
 		.ctx_hi		= g_params.ctx_hi,
 	};
 
-	ret = sproxy_send_msg(&resp, sizeof(resp));
+	ret = sproxy_send_msg_rom(&resp, sizeof(resp));
 	if (ret) {
 		return ret;
 	}
@@ -350,7 +350,7 @@ static s32 receive_tisci_msg_sync_resume()
 	s32 ret = 0;
 
 	memset(&resp, 0, sizeof(resp));
-	ret = sproxy_receive_msg(&resp, sizeof(resp));
+	ret = sproxy_receive_msg_tifs_fw(&resp, sizeof(resp));
 
 	if (ret) {
 		return ret;
