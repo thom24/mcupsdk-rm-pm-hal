@@ -769,3 +769,28 @@ void dm_stub_entry(void)
 
 	/* TODO enter WFI */
 }
+
+void dm_stub_irq_handler(void)
+{
+	u32 int_num;
+	const struct wake_source_data *active_wake_source = NULL;
+	int i;
+
+	int_num = vim_get_intr_number();
+
+	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
+		if (soc_wake_sources_data[i].int_num == int_num) {
+			active_wake_source = &soc_wake_sources_data[i];
+			break;
+		}
+	}
+
+	if (active_wake_source != NULL) {
+		lpm_seq_trace_val(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT, active_wake_source->wkup_idx);
+	} else {
+		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT);
+	}
+
+	vim_set_intr_enable(int_num, INTR_DISABLE);
+	vim_irq_complete();
+}

@@ -38,6 +38,7 @@ extern unsigned char _start_bss;
 extern unsigned char _end_bss;
 
 extern void dm_stub_entry(void);
+extern void dm_stub_irq_handler(void);
 
 void stub_entry(void)
 {
@@ -79,6 +80,7 @@ void reserved_handler(void)
 
 void irq_handler(void)
 {
+	dm_stub_irq_handler();
 }
 
 void fiq_handler(void)
