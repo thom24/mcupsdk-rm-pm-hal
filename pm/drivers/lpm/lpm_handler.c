@@ -66,13 +66,13 @@
 #define DEV_GTC AM62X_DEV_WKUP_GTC0
 #define POWER_MASTER AM62X_DEV_A53SS0_CORE_0
 
-#define LPM_SUSPEND_POWERMASTER 	BIT(0)
-#define LPM_DEVICE_DEINIT 			BIT(1)
-#define LPM_DISABLE_LPSC			BIT(2)
-#define LPM_SAVE_MAIN_PADCONFIG 	BIT(3)
-#define LPM_SUSPEND_GTC 			BIT(4)
-#define LPM_CLOCK_SUSPEND 			BIT(5)
-#define LPM_SUSPEND_DM 				BIT(6)
+#define LPM_SUSPEND_POWERMASTER         BIT(0)
+#define LPM_DEVICE_DEINIT                       BIT(1)
+#define LPM_DISABLE_LPSC                        BIT(2)
+#define LPM_SAVE_MAIN_PADCONFIG         BIT(3)
+#define LPM_SUSPEND_GTC                         BIT(4)
+#define LPM_CLOCK_SUSPEND                       BIT(5)
+#define LPM_SUSPEND_DM                          BIT(6)
 
 extern s32 _stub_start(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
@@ -162,10 +162,29 @@ static s32 lpm_resume_send_core_resume_message()
 	return ret;
 }
 
+static s32 lpm_resume_send_enter_sleep_abort_message()
+{
+	/* send abort enter sleep message */
+	s32 ret = 0;
+
+	struct tisci_msg_abort_enter_sleep_req req = {
+		.hdr		= {
+			.type	= TISCI_MSG_ABORT_ENTER_SLEEP,
+			.flags	= 0,
+			.host	= HOST_ID_DM2TIFS
+		}
+	};
+
+	ret = sproxy_send_msg_dm2dmsc_fw(&req, sizeof(req));
+
+	return ret;
+}
+
 static s32 lpm_suspend_power_master()
 {
 	/* release reset of power master */
 	struct device *dev;
+
 	dev = device_lookup(DEV_GTC);
 	soc_device_ret_disable(dev);
 	soc_device_disable(dev, SFALSE);
@@ -185,6 +204,7 @@ static s32 lpm_resume_release_reset_of_power_master()
 {
 	/* release reset of power master */
 	struct device *dev;
+
 	dev = device_lookup(AM62X_DEV_A53SS0);
 	soc_device_enable(dev);
 
