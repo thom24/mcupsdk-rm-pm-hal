@@ -140,6 +140,8 @@ wordcopy:
 	; jump to proper reset handler
 	bl stub_entry
 
+	;save the return value to r3
+	mov r3, r0
 	; switching back to DDR
 	; disable interrupt
 	cpsid i
@@ -188,6 +190,8 @@ wordcopy:
 	orr	r2, r2, #0x1f
 	msr	cpsr_cf, r2
 
+	;restore the return value from r3
+	mov r0, r3
 	; reload the stack
 	ldr sp, _sys_stack_pointer
 	ldmia	sp!,{r4-r11}

@@ -66,7 +66,15 @@
 #define DEV_GTC AM62X_DEV_WKUP_GTC0
 #define POWER_MASTER AM62X_DEV_A53SS0_CORE_0
 
-extern void _stub_start(void);
+#define LPM_SUSPEND_POWERMASTER 	BIT(0)
+#define LPM_DEVICE_DEINIT 			BIT(1)
+#define LPM_DISABLE_LPSC			BIT(2)
+#define LPM_SAVE_MAIN_PADCONFIG 	BIT(3)
+#define LPM_SUSPEND_GTC 			BIT(4)
+#define LPM_CLOCK_SUSPEND 			BIT(5)
+#define LPM_SUSPEND_DM 				BIT(6)
+
+extern s32 _stub_start(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
 
 u32 key;
@@ -210,8 +218,7 @@ static s32 lpm_resume_dm()
 static s32 lpm_sleep_jump_to_dm_Stub()
 {
 	/* Jump to DM stub */
-	_stub_start();
-	return SUCCESS;
+	return _stub_start();
 }
 
 s32 dm_prepare_sleep_handler(u32 *msg_recv)

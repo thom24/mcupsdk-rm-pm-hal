@@ -33,16 +33,17 @@
  */
 
 #include <string.h>
+#include <types/short_types.h>
 
 extern unsigned char _start_bss;
 extern unsigned char _end_bss;
 
-extern void dm_stub_entry(void);
+extern s32 dm_stub_entry(void);
 extern void dm_stub_irq_handler(void);
 
-void stub_entry(void)
+s32 stub_entry(void)
 {
-	dm_stub_entry();
+	return dm_stub_entry();
 }
 
 void undef_handler(void)

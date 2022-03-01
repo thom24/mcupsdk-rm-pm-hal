@@ -545,7 +545,7 @@ void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p)
 	lpm_memcpy(&g_params, p, sizeof(g_params));
 }
 
-void dm_stub_entry(void)
+s32 dm_stub_entry(void)
 {
 	u32 reg;
 	u32 n_lpscs;
@@ -903,10 +903,11 @@ void dm_stub_entry(void)
 		}
 	}
 
-	/* Jump to standard firmware in DDR */
-	goto_sysfw();
+	
+	clear_prepare_sleep_data();
 
-	/* TODO enter WFI */
+	/* Return to standard firmware in DDR zero */
+	return 0;
 }
 
 void dm_stub_irq_handler(void)
