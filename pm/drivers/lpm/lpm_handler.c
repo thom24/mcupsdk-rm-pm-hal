@@ -78,6 +78,15 @@ extern s32 _stub_start(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
 
 u32 key;
+volatile u32 enter_sleep_status = 0;
+
+static void lpm_hang_abort()
+{
+	volatile int a = 0x12341234;
+
+	while (a) {
+	}
+}
 
 static s32 lpm_sleep_wait_for_tifs_wfi()
 {
@@ -272,81 +281,143 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	s32 ret = SUCCESS;
 	u8 mode = req->mode;
 
+	enter_sleep_status = 0;
+
 	/* Only DEEP_SLEEP mode supported at the moment */
-	if (mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) {
+	if (mode != TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) {
+		ret = EINVAL;
+	}
+
+	/*
+	 * wait for tifs to reach WFI in both the failed and successful case.
+	 * but update the ret value only if it was SUCCESS previously
+	 */
+	if (ret == SUCCESS) {
 		ret = lpm_sleep_wait_for_tifs_wfi();
-
-		lpm_suspend_power_master();
-
-		devices_deinit(PM_DEVGRP_00);
-
-		if (ret == SUCCESS) {
-			ret = lpm_sleep_disable_sec_lpsc();
-		}
-
-		if (ret == SUCCESS) {
-			ret = lpm_sleep_disable_misc_lpsc();
-		}
-
-		if (ret == SUCCESS) {
-			ret = lpm_sleep_save_main_padconf();
-		}
-
-		if (ret == SUCCESS) {
-			ret = lpm_sleep_suspend_gtc();
-		}
-
-		if (ret == SUCCESS) {
-			ret = clks_suspend();
-		}
-
-		if (ret == SUCCESS) {
-			ret = lpm_sleep_suspend_dm();
-		}
-
-		if (ret == SUCCESS) {
-			ret = lpm_sleep_jump_to_dm_Stub();
-		}
-
-		if (ret == SUCCESS) {
-			ret = lpm_resume_enable_lpsc();
-		}
-
-		if (ret == SUCCESS) {
-			ret = lpm_resume_disable_DM_reset_isolation();
-		}
-
-		if (ret == SUCCESS) {
-			ret = lpm_resume_restore_RM_context();
-		}
-
-		if (ret == SUCCESS) {
-			ret = clks_resume();
-		}
-
-		if (ret == SUCCESS) {
-			ret = lpm_resume_gtc();
-		}
-
-		if (ret == SUCCESS) {
-			ret = lpm_resume_send_core_resume_message();
-		}
-
-		if (ret == SUCCESS) {
-			ret = lpm_resume_dm();
-		}
-
-		devices_init();
-
-		if (ret == SUCCESS) {
-			ret = lpm_resume_release_reset_of_power_master();
-		}
-
-		if (ret == SUCCESS) {
-			ret = lpm_resume_restore_main_padconf();
-		}
 	} else {
-		ret = -EINVAL;
+		lpm_sleep_wait_for_tifs_wfi();
+	}
+
+	/*
+	 * sine, once power master reaches WFI power master is only recoverable
+	 * by reseting the  power master. Only update the ret value only if it was
+	 * SUCCESS previously
+	 */
+	if (ret == SUCCESS) {
+		ret = lpm_suspend_power_master();
+		enter_sleep_status |= LPM_SUSPEND_POWERMASTER;
+	} else {
+		lpm_suspend_power_master();
+		enter_sleep_status |= LPM_SUSPEND_POWERMASTER;
+	}
+
+	if (ret == SUCCESS) {
+		ret = devices_deinit(PM_DEVGRP_00);
+		enter_sleep_status |= LPM_DEVICE_DEINIT;
+	} else {
+		devices_deinit(PM_DEVGRP_00);
+		enter_sleep_status |= LPM_DEVICE_DEINIT;
+	}
+
+	if (ret == SUCCESS) {
+		ret = lpm_sleep_disable_sec_lpsc();
+		enter_sleep_status |= LPM_DISABLE_LPSC;
+	}
+
+	if (ret == SUCCESS) {
+		ret = lpm_sleep_disable_misc_lpsc();
+		enter_sleep_status |= LPM_DISABLE_LPSC;
+	}
+
+	if (ret == SUCCESS) {
+		ret = lpm_sleep_save_main_padconf();
+		enter_sleep_status |= LPM_SAVE_MAIN_PADCONFIG;
+	}
+
+	if (ret == SUCCESS) {
+		ret = lpm_sleep_suspend_gtc();
+		enter_sleep_status |= LPM_SUSPEND_GTC;
+	}
+
+	if (ret == SUCCESS) {
+		ret = clks_suspend();
+		enter_sleep_status |= LPM_CLOCK_SUSPEND;
+	}
+
+	if (ret == SUCCESS) {
+		ret = lpm_sleep_suspend_dm();
+		enter_sleep_status |= LPM_SUSPEND_DM;
+	}
+
+	if (ret == SUCCESS) {
+		ret = lpm_sleep_jump_to_dm_Stub();
+	}
+
+	/* if there is any failure inform TIFS using abort message */
+	if (ret != SUCCESS) {
+		if (lpm_resume_send_enter_sleep_abort_message() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if (ret == SUCCESS || ((enter_sleep_status & LPM_DISABLE_LPSC) == LPM_DISABLE_LPSC)) {
+		if (lpm_resume_enable_lpsc() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if (ret == SUCCESS) {
+		if (lpm_resume_disable_DM_reset_isolation() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if (ret == SUCCESS) {
+		if (lpm_resume_restore_RM_context() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if (ret == SUCCESS || ((enter_sleep_status & LPM_CLOCK_SUSPEND) == LPM_CLOCK_SUSPEND)) {
+		if (clks_resume() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_GTC) == LPM_SUSPEND_GTC)) {
+		if (lpm_resume_gtc() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {
+		if (lpm_resume_send_core_resume_message() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_DM) == LPM_SUSPEND_DM)) {
+		if (lpm_resume_dm() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if (ret == SUCCESS || ((enter_sleep_status & LPM_DEVICE_DEINIT) == LPM_DEVICE_DEINIT)) {
+		if (devices_init() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {
+		if (lpm_resume_release_reset_of_power_master() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if (ret == SUCCESS) {
+		if (lpm_resume_restore_main_padconf() != SUCCESS) {
+			lpm_hang_abort();
+		}
 	}
 
 	return ret;
