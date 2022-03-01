@@ -528,7 +528,7 @@ static s32 wait_for_tifs_ready()
 static void enable_pll_standby()
 {
 }
-static void goto_sysfw()
+static void clear_prepare_sleep_data()
 {
 	lpm_memset(&g_params, 0, sizeof(g_params));
 }
@@ -574,7 +574,6 @@ s32 dm_stub_entry(void)
 	lpm_seq_trace(0x77);
 
 	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
-
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_RST_ISO);
 		set_usb_reset_isolation();
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
@@ -903,7 +902,7 @@ s32 dm_stub_entry(void)
 		}
 	}
 
-	
+
 	clear_prepare_sleep_data();
 
 	/* Return to standard firmware in DDR zero */
