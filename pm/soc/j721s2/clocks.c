@@ -10015,7 +10015,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_J721S2_DPI_2_PCLK_SEL1_OUT0] =						{
 		.drv	= &clk_drv_mux_j7_dpi_2_pclk.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.data	= &clk_data_DPI_2_PCLK_SEL1_out0.data,
 		.type	= CLK_TYPE_MUX,
 	},
@@ -10331,7 +10331,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_J721S2_DPI_0_PCLK_SEL_OUT0] =						{
 		.drv	= &clk_drv_mux_j7_dpi_0_pclk.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.data	= &clk_data_DPI_0_PCLK_SEL_out0.data,
 		.type	= CLK_TYPE_MUX,
 	},
