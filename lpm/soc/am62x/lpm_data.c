@@ -39,12 +39,12 @@
 const struct wake_source_data soc_wake_sources_data[WAKEUP_SOURCE_MAX] = {
 	[WAKESOURCE_WKUP_I2C0] =			      {
 		.wkup_idx	= 0,
-		.int_num	= 190,
+		.int_num	= 143,
 		.source		= "WKUP_I2C0",
 	},
 	[WAKESOURCE_WKUP_UART0] =			      {
 		.wkup_idx	= 1,
-		.int_num	= 219,
+		.int_num	= 144,
 		.source		= "WKUP_UART0",
 	},
 	[WAKESOURCE_MCU_GPIO0] =			      {
@@ -59,12 +59,12 @@ const struct wake_source_data soc_wake_sources_data[WAKEUP_SOURCE_MAX] = {
 	},
 	[WAKESOURCE_WKUP_TIMER0] =			      {
 		.wkup_idx	= 5,
-		.int_num	= 138,
+		.int_num	= 28,
 		.source		= "WKUP_TIMER0",
 	},
 	[WAKESOURCE_WKUP_TIMER1] =			      {
 		.wkup_idx	= 6,
-		.int_num	= 139,
+		.int_num	= 29,
 		.source		= "WKUP_TIMER1",
 	},
 	[WAKESOURCE_WKUP_RTCSS0] =			      {
@@ -79,17 +79,17 @@ const struct wake_source_data soc_wake_sources_data[WAKEUP_SOURCE_MAX] = {
 	},
 	[WAKESOURCE_USB0] =				      {
 		.wkup_idx	= 9,
-		.int_num	= 228,
+		.int_num	= 61,
 		.source		= "USB0",
 	},
 	[WAKESOURCE_USB1] =				      {
 		.wkup_idx	= 10,
-		.int_num	= 238,
+		.int_num	= 62,
 		.source		= "USB1",
 	},
 	[WAKESOURCE_GLUELOGIC_IO_SWAKEUP_MAIN_IO] =	      {
 		.wkup_idx	= 16,
-		.int_num	= 253,
+		.int_num	= 252,
 		.source		= "GLUELOGIC_IO_SWAKEUP_MAIN_IO",
 	},
 	[WAKESOURCE_GLUELOGIC_IO_SWAKEUP_MCU_IO] =	      {
@@ -99,7 +99,7 @@ const struct wake_source_data soc_wake_sources_data[WAKEUP_SOURCE_MAX] = {
 	},
 	[WAKESOURCE_GLUELOGIC_IO_SWAKEUP_CAN_USART_IO] =      {
 		.wkup_idx	= 18,
-		.int_num	= 253,
+		.int_num	= 251,
 		.source		= "GLUELOGIC_IO_SWAKEUP_CAN_USART_IO",
 	},
 };
