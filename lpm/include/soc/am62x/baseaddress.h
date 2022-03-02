@@ -75,11 +75,15 @@ extern "C" {
 #define PD_DSS                          10
 #define PD_DEBUG                        11
 #define PD_MAIN_IP                      12
+#define LPSC_MAIN_DM                    1       /* PD_GP_CORE_CTL */
 #define LPSC_MAIN2DM_ISO                3       /* PD_GP_CORE_CTL */
 #define LPSC_DM2MAIN_ISO                4       /* PD_GP_CORE_CTL */
 #define LPSC_CENTRAL2DM_INFRA_ISO       5       /* PD_GP_CORE_CTL */
 #define LPSC_DM2CENTRAL_ISO             6       /* PD_GP_CORE_CTL */
 #define LPSC_CENTRAL2DM_ISO             7       /* PD_GP_CORE_CTL */
+#define LPSC_EMIF_LOCAL                 9       /* PD_GP_CORE_CTL */
+#define LPSC_EMIF_CFG_ISO               10      /* PD_GP_CORE_CTL */
+#define LPSC_EMIF_DATA_ISO              11      /* PD_GP_CORE_CTL */
 #define LPSC_MAIN_TEST                  14      /* PD_GP_CORE_CTL */
 #define LPSC_SMS_COMMON                 27      /* PD_SMS */
 #define LPSC_TIFS                       29      /* PD_SMS */
@@ -99,10 +103,10 @@ extern "C" {
 #define TIFS_SEC_PROXY_TARGET_ADDRESS   (0x4d000000U)
 #define SEC_PROXY_MSG_RX_TID            0
 #define SEC_PROXY_MSG_TX_TID            1
-#define TIFS_SEC_PROXY_MSG_RX_TID		70
-#define TIFS_SEC_PROXY_MSG_TX_TID		61
-#define DM2DMSC_SEC_PROXY_MSG_RX_TID		22
-#define DM2DMSC_SEC_PROXY_MSG_TX_TID		23
+#define TIFS_SEC_PROXY_MSG_RX_TID               70
+#define TIFS_SEC_PROXY_MSG_TX_TID               61
+#define DM2DMSC_SEC_PROXY_MSG_RX_TID            22
+#define DM2DMSC_SEC_PROXY_MSG_TX_TID            23
 
 #ifdef __cplusplus
 }
