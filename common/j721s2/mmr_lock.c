@@ -56,7 +56,7 @@
 
 static volatile s32 mmr_lock_count = 0;
 
-static void mmr_unlock(u32 base, u32 partition)
+void mmr_unlock(u32 base, u32 partition)
 {
 	/* Translate the base address */
 	u32 part_base = base + partition * CTRL_MMR0_PARTITION_SIZE;
@@ -69,7 +69,7 @@ static void mmr_unlock(u32 base, u32 partition)
 	writel(CTRLMMR_LOCK_KICK1_UNLOCK_VAL, part_base + CTRLMMR_LOCK_KICK1);
 }
 
-static void mmr_lock(u32 base, u32 partition)
+void mmr_lock(u32 base, u32 partition)
 {
 	/* Translate the base address */
 	u32 part_base = base + partition * CTRL_MMR0_PARTITION_SIZE;
