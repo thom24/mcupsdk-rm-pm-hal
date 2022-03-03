@@ -193,9 +193,17 @@ static void exit_ddr_low_power_mode()
 
 static void set_usb_reset_isolation()
 {
+	writel(DS_DDR0_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB0_RESET);
+	writel(DS_DDR0_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB1_RESET);
 }
+
 static void release_usb_reset_isolation()
 {
+	/*
+	 * Nothing is done here, as we cannot yet remove reset isolation
+	 * until a method to enable USB LPSC before removing reset
+	 * isolation can be determined.
+	 */
 }
 
 static s32 disable_main_lpsc(struct main_pd_lpsc *lpscs, u32 n_lpscs)

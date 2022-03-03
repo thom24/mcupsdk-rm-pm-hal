@@ -25,6 +25,8 @@ extern "C" {
 #define DS_MAIN                         (0x00018420U)
 #define DS_DM_RESET                     (0x00018440U)
 #define DS_DDR0_RESET                   (0x00018450U)
+#define DS_USB0_RESET                   (0x00018460U)
+#define DS_USB1_RESET                   (0x00018464U)
 
 /* WKUP0_EN */
 #define WKUP0_EN                        (0x00018180U)
