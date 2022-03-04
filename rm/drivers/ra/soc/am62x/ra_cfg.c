@@ -3,7 +3,7 @@
  *
  * Ring accelerator driver instance data definition
  *
- * Data version: 210712_165720
+ * Data version: 220228_160153
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -218,7 +218,7 @@ static const struct rm_mmr mmr_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RINGRT = {
 	.base		= 0x44940000U,
 };
 
-static const struct ra_ring_type ring_types_SA3_SS0_PKTDMA_0[3] = {
+static const struct ra_ring_type ring_types_SA3_SS0_PKTDMA_0[6] = {
 	{
 		.start = 0U,
 		.end = 7U,
@@ -229,6 +229,12 @@ static const struct ra_ring_type ring_types_SA3_SS0_PKTDMA_0[3] = {
 		.start = 8U,
 		.end = 15U,
 		.type = RA_DMSS_RING,
+		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_TX_1_CHAN),
+	},
+	{
+		.start = 16U,
+		.end = 23U,
+		.type = RA_DMSS_RING,
 		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_RX_0_CHAN),
 	},
 	{
@@ -236,6 +242,18 @@ static const struct ra_ring_type ring_types_SA3_SS0_PKTDMA_0[3] = {
 		.end = 23U,
 		.type = RA_DMSS_RING,
 		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_RX_1_CHAN),
+	},
+	{
+		.start = 24U,
+		.end = 31U,
+		.type = RA_DMSS_RING,
+		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_RX_2_CHAN),
+	},
+	{
+		.start = 24U,
+		.end = 31U,
+		.type = RA_DMSS_RING,
+		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_RX_3_CHAN),
 	},
 };
 

@@ -3,7 +3,7 @@
  *
  * Resource Assignment Subtype definitions
  *
- * Data version: 210712_165720
+ * Data version: 220228_160153
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -144,7 +144,7 @@
 /**
  * Total number of unique resource types for SoC
  */
-#define RESASG_UTYPE_CNT 82U
+#define RESASG_UTYPE_CNT 90U
 
 /**
  * Total number of resource entries allowed for SoC

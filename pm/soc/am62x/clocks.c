@@ -1,5 +1,5 @@
 /*
- * Data version: 210712_165720
+ * Data version: 220228_160153
  *
  * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -665,11 +665,11 @@ static const struct clk_data_mux_reg clk_data_MAIN_EMMCSD1_REFCLK_SEL_out0 = {
 };
 static const struct clk_parent clk_MAIN_EMMCSD2_IO_CLKLB_SEL_parents[] = {
 	{
-		CLK_AM62X_BOARD_0_MMC2_CLK_OUT,
+		CLK_AM62X_BOARD_0_MMC2_CLKLB_OUT,
 		1,
 	},
 	{
-		CLK_AM62X_BOARD_0_MMC2_CLKLB_OUT,
+		CLK_AM62X_BOARD_0_MMC2_CLK_OUT,
 		1,
 	},
 };

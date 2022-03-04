@@ -3,7 +3,7 @@
  *
  * Interrupt aggregator driver instance data definition
  *
- * Data version: 210712_165720
+ * Data version: 220228_160153
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -243,7 +243,7 @@ static const struct ia_resource_type unmapped_events_SA3_SS0_INTAGGR_0[7U] = {
 	},
 	{
 		.start = 4608U,
-		.end = 4615U,
+		.end = 4623U,
 		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_PKTDMA_TX_FLOW_COMPLETION_OES),
 	},
 	{
