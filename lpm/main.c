@@ -138,6 +138,7 @@ static void lpm_abort()
 static void enter_ddr_low_power_mode()
 {
 	s32 ret;
+	int i;
 
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
 			       MDCTL_STATE_DISABLE, 0);
@@ -145,6 +146,11 @@ static void enter_ddr_low_power_mode()
 	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
 	ddr_enter_self_refesh();
+
+	/* Add some delay */
+	for (i = 0; i < 1000; i++) {
+		delay_1us();
+	}
 
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
 			       MDCTL_STATE_DISABLE, 0);
