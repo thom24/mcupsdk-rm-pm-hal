@@ -40,7 +40,7 @@
 #define PADCFG_CTRL_BASE        (0xf0000UL)
 
 #define PADCFG_OFFSET		(0x4000U)
-#define PADCFG_SIZE		((0x42a8U - PADCFG_OFFSET) >> 2)
+#define PADCFG_SIZE		(((0x42a8U - PADCFG_OFFSET) >> 2) + 1)
 
 static u32 padcfg_data[PADCFG_SIZE];
 
@@ -49,7 +49,7 @@ s32 lpm_sleep_save_main_padconf()
 	u32 p = PADCFG_CTRL_BASE + PADCFG_OFFSET;
 	u32 i;
 
-	for (i = 0; i <= PADCFG_SIZE; i++, p+=4) {
+	for (i = 0; i < PADCFG_SIZE; i++, p+=4) {
 		padcfg_data[i] = readl(p);
 	}
 
@@ -63,7 +63,7 @@ s32 lpm_resume_restore_main_padconf()
 
 	mmr_unlock(PADCFG_CTRL_BASE, 1);
 
-	for (i = 0; i <= PADCFG_SIZE; i++, p+=4) {
+	for (i = 0; i < PADCFG_SIZE; i++, p+=4) {
 		writel(padcfg_data[i], p);
 	}
 
