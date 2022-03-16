@@ -41,14 +41,14 @@
 #define DDR_SR_EXIT             1
 
 /**
- * \brief Enter DDR self refresh mode
+ * \brief Enter DDR low power mode
  */
-void ddr_enter_self_refesh(void);
+void ddr_enter_low_power_mode(void);
 
 /**
- * \brief Exit DDR self refresh mode
+ * \brief Exit DDR low power mode
  */
-void ddr_exit_self_refresh(void);
+void ddr_exit_low_power_mode(void);
 
 /**
  * \brief Enable DDR retention

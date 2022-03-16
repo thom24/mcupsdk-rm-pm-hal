@@ -44,51 +44,49 @@
 #include "lpm_trace.h"
 
 /* Cadence DDR registers */
-#define CDNS_DENALI_CTL_158     0x278
-#define CDNS_DENALI_CTL_167     0x29c
-#define CDNS_DENALI_CTL_345     0x564
+#define CDNS_DENALI_PHY_1364					0x5550
+#define CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_MASK	0x7
+#define CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_SHIFT	0x8
 
-#define CDNS_DENALI_PHY_1333	0x54d4
-#define CDNS_DENALI_PHY_1368	0x5560
+#define CDNS_DENALI_PHY_1369			0x5564
+#define CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK	0x1
 
-#define CDNS_LP_CMD_SHIFT       8
-#define CDNS_LP_STATE_MASK      0xF << CDNS_LP_CMD_SHIFT
-#define CDNS_LP_STATE_VALID     BIT(14)
-
-
-#define CDNS_LP_CMD_SR_SHORT    0x1
-#define CDNS_LP_CMD_SR_LONG     0x51
-#define CDNS_LP_CMD_SR_EXIT     0x2
-
-#define CDNS_DENALI_PHY_1368_DFI_INIT_COMPLETE	BIT(8)
-
-#define DDR_COUNT_TIMEOUT	10000
-
-#define CDNS_DENALI_PHY_1313	0x5484
-#define CDNS_DENALI_PHY_1316	0x5490
-
-void ddr_enter_self_refesh(void)
-{
-	u32 val;
-
-	/* Enable LP For DDR */
-	val = readl(0xF308294);
-	val |= 0xf << 8;
-	writel(val, 0xF308294);
-
-}
-
-void ddr_exit_self_refresh(void)
+void ddr_enter_low_power_mode(void)
 {
 	u32 val;
 
 	/*
-	 * Disable LP For DDR, leaving this enabled in active increases
-	 * DDR access latency
+	 * - Set CDNS_DENALI_PHY_1369:PHY UPDATE MASK
+	 * - Clear 0x7 in CDNS_DENALI_PHY_1364:PHY_INIT_UPDATE_CONFIG
 	 */
-	val = readl(0xF308294);
-	val &= ~(0xf << 8);
-	writel(val, 0xF308294);
+
+	val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+	val |= CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK;
+	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+
+	val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+	val &= ~(CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_MASK <<
+		 CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_SHIFT);
+	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+}
+
+void ddr_exit_low_power_mode(void)
+{
+	u32 val;
+
+	/*
+	 * - Clear CDNS_DENALI_PHY_1369:PHY UPDATE MASK
+	 * - Set 0x7 in CDNS_DENALI_PHY_1364:PHY_INIT_UPDATE_CONFIG
+	 */
+
+	val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+	val &= ~CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK;
+	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+
+	val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+	val |= (CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_MASK <<
+		CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_SHIFT);
+	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
 }
 
 void ddr_enable_retention(void)
