@@ -145,6 +145,8 @@ static void enter_ddr_low_power_mode()
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
+	ddr_enter_low_power_mode();
+
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
 			       MDCTL_STATE_DISABLE, 0);
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
@@ -174,6 +176,8 @@ static void exit_ddr_low_power_mode()
 	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
 	writel(DS_DDR0_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
+
+	ddr_exit_low_power_mode();
 
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
 			       MDCTL_STATE_ENABLE, 0);
