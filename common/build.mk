@@ -40,3 +40,4 @@ endif
 
 obj-$(INCLUDE_THIS_FILE) += boardcfg-user.o
 obj-$(INCLUDE_THIS_FILE) += $(TARGET_SOC)/
+obj-$(CONFIG_SEC_PROXY_DRIVER) += sec_proxy/

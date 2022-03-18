@@ -30,7 +30,7 @@
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-cppflags-y += -I$(srctree)/rm_pm_hal/rm/drivers/sec_proxy
-cppflags-y += -I$(srctree)/rm_pm_hal/rm/drivers/sec_proxy/soc/$(TARGET_SOC)
+cppflags-y += -I$(srctree)/rm_pm_hal/common/sec_proxy
+cppflags-y += -I$(srctree)/rm_pm_hal/common/sec_proxy/soc/$(TARGET_SOC)
 
 obj-$(CONFIG_SEC_PROXY_DRIVER) += sec_proxy.o
