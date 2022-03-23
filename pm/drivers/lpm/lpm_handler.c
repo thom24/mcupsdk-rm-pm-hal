@@ -50,21 +50,11 @@
 #include "devices.h"
 #include "sec_proxy.h"
 #include "clk.h"
+#include "soc_ctrl_mmr.h"
 
-
-/* TODO move the base addresses to device specific header files. */
-#define WKUP_CTRL_BASE             (0x43000000UL)
-#define WKUP_CTRL_WFI_STATUS       (0x18400UL)
-#define SMS_CPU0_WFI               BIT(2)
-
-#define DS_DM_RESET_UNMASK              0xF
-#define DS_DM_RESET                     (0x00018440U)
 
 /* counts of 1us delay for 10ms */
 #define TIMEOUT_10MS                    10000
-
-#define DEV_GTC AM62X_DEV_WKUP_GTC0
-#define POWER_MASTER AM62X_DEV_A53SS0_CORE_0
 
 #define LPM_SUSPEND_POWERMASTER         BIT(0)
 #define LPM_DEVICE_DEINIT                       BIT(1)
@@ -95,7 +85,7 @@ static s32 lpm_sleep_wait_for_tifs_wfi()
 
 	do {
 		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_WFI_STATUS);
-		if ((reg & SMS_CPU0_WFI) == SMS_CPU0_WFI) {
+		if ((reg & SMS_CPU0_WFI_MASK) == SMS_CPU0_WFI_MASK) {
 			return SUCCESS;
 		}
 		osal_delay(1);
@@ -124,10 +114,10 @@ static s32 lpm_resume_enable_lpsc()
 
 static s32 lpm_resume_disable_DM_reset_isolation()
 {
-	/* Clear WKUP_CTRL DS_DM_RESET.mask to stop
+	/* Clear WKUP_CTRL_DS_DM_RESET.mask to stop
 	* isolation of DM from MAIN domain
 	*/
-	writel(DS_DM_RESET_UNMASK, WKUP_CTRL_BASE + DS_DM_RESET);
+	writel(DS_DM_RESET_UNMASK, WKUP_CTRL_BASE + WKUP_CTRL_DS_DM_RESET);
 	return SUCCESS;
 }
 

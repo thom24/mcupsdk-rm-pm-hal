@@ -1,5 +1,7 @@
 /*
- * Device Manager - LPM RTC Driver
+ * System Firmware
+ *
+ * am62x soc_ctrl_mmr.h
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -32,21 +34,35 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <lib/ioremap.h>
-#include "rtc.h"
-#include "soc_ctrl_mmr.h"
+#ifndef LPM_SOC_CTRL_MMR_H_
+#define LPM_SOC_CTRL_MMR_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#define WKUP_CTRL_BASE             (0x43000000UL)
+#define WKUP_CTRL_WFI_STATUS       (0x18400UL)
+#define SMS_CPU0_WFI_MASK               BIT(2)
+#define WKUP_CTRL_DS_DM_RESET          (0x00018440U)
+#define DS_DM_RESET_UNMASK              0xF
+
+#define DEV_GTC AM62X_DEV_WKUP_GTC0
+#define POWER_MASTER AM62X_DEV_A53SS0_CORE_0
+
+#define GTC_CFG0_BASE          (0xa80000UL)
+#define GTC_CFG1_BASE          (0xa90000UL)
+
+#define PADCFG_CTRL_BASE        (0xf0000UL)
+#define PADCFG_OFFSET           (0x4000U)
+#define PADCFG_SIZE             (((0x42a8U - PADCFG_OFFSET) >> 2) + 1)
+
+#define RTC_BASE             (0x2b1f0000UL)
 
 
-#define RTC_SUB_S_CNT        (0x04)
-#define RTC_S_CNT_LSW        (0x08)
-#define RTC_S_CNT_MSW        (0x0c)
-
-void lpm_rtc_read_time(struct rtc_time *rtc)
-{
-	if (!rtc) {
-		return;
-	}
-	rtc->sub_sec = readl(RTC_BASE + RTC_SUB_S_CNT);
-	rtc->sec_lo = readl(RTC_BASE + RTC_S_CNT_LSW);
-	rtc->sec_hi = readl(RTC_BASE + RTC_S_CNT_MSW);
+#ifdef __cplusplus
 }
+
+
+#endif
+#endif /* LPM_SOC_CTRL_MMR_H_ */

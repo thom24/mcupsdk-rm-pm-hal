@@ -37,10 +37,8 @@
 #include <lib/mmr_lock.h>
 #include <types/errno.h>
 #include "rtc.h"
+#include "soc_ctrl_mmr.h"
 
-/* TODO move the base addresses to device specific header files. */
-#define GTC_CFG0_BASE          (0xa80000UL)
-#define GTC_CFG1_BASE          (0xa90000UL)
 
 #define GTC_CFG0_PUSHEVT       (0x08)
 #define GTC_CFG1_CNTCR         (0x00)
