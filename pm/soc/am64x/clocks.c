@@ -1,5 +1,5 @@
 /*
- * Data version: 220307_084735
+ * Data version: 220401_092028
  *
  * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -603,6 +603,24 @@ static const u8 pllfracf_ssmod_16fft_mcu_0_entries[] = {
 	PLL_TABLE_LAST,
 };
 
+static const struct clk_parent clk_CLKOUT_CTRL_parents[] = {
+	{
+		CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK,
+		5,
+	},
+	{
+		CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK,
+		10,
+	},
+};
+static const struct clk_data_mux_reg clk_data_CLKOUT_CTRL_out0 = {
+	.data_mux		= {
+		.parents	= clk_CLKOUT_CTRL_parents,
+		.n		= ARRAY_SIZE(clk_CLKOUT_CTRL_parents),
+	},
+	.reg			= 0x43000000 + 32784,
+	.bit			= 4,
+};
 static const struct clk_parent clk_MAIN_ADC_clk_sel_parents[] = {
 	{
 		CLK_AM64X_GLUELOGIC_HFOSC0_CLKOUT,
@@ -3906,6 +3924,12 @@ const struct clk_data soc_clock_data[] = {
 			CLK_AM64X_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK,
 			1,
 		},
+	},
+	[CLK_AM64X_CLKOUT_CTRL_OUT0] =				  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_CLKOUT_CTRL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM64X_MAIN_CPTS_CLK_SEL_OUT0] =			  {
 		.drv	= &clk_drv_mux_reg.drv,

@@ -3,7 +3,7 @@
  *
  * Static IA IRQ Maps for AM64X device
  *
- * Data version: 220307_084735
+ * Data version: 220401_092028
  *
  * Copyright (C) 2019-2022, Texas Instruments Incorporated
  * All rights reserved.
