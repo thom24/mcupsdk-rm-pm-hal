@@ -270,6 +270,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	*/
 	s32 ret = SUCCESS;
 	u8 mode = req->mode;
+	u32 i;
 
 	enter_sleep_status = 0;
 
@@ -396,6 +397,10 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		if (devices_init() != SUCCESS) {
 			lpm_hang_abort();
 		}
+	}
+
+	for (i = 0; i < 10000; i++) {
+		osal_delay(1);
 	}
 
 	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {
