@@ -2110,7 +2110,7 @@ static const struct lpsc_module_data am62x_sam62_main_psc_wrap_main_0_psc_0_mod_
 		.depends_psc_idx	= AM62X_PSC_INST_SAM62_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM62X_PSC_LPSC_LPSC_SMS_COMMON,
 		.lpsc_dev.dev_list	= dev_list_LPSC_sa3ul,
-		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_DEVICES_LIST,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET | LPSC_DEVICES_LIST,
 	},
 	[AM62X_PSC_LPSC_LPSC_HSM_ISO] =		      {
 		.powerdomain		= AM62X_PSC_PD_GP_CORE_CTL,
