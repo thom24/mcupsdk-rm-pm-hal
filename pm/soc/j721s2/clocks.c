@@ -129,12 +129,21 @@ enum {
 	J721S2_FREQ_VALUE_BOARD_0_MCU_OSPI1_LBCLKO_OUT,
 	J721S2_FREQ_VALUE_BOARD_0_MCU_RGMII1_RXC_OUT,
 	J721S2_FREQ_VALUE_BOARD_0_MCU_RMII1_REF_CLK_OUT,
+	J721S2_FREQ_VALUE_BOARD_0_MCU_SPI0_CLK_OUT,
+	J721S2_FREQ_VALUE_BOARD_0_MCU_SPI1_CLK_OUT,
 	J721S2_FREQ_VALUE_BOARD_0_MMC1_CLKLB_OUT,
 	J721S2_FREQ_VALUE_BOARD_0_MMC1_CLK_OUT,
 	J721S2_FREQ_VALUE_BOARD_0_RGMII1_RXC_OUT,
 	J721S2_FREQ_VALUE_BOARD_0_RMII_REF_CLK_OUT,
 	J721S2_FREQ_VALUE_BOARD_0_SERDES0_REFCLK_N_OUT,
 	J721S2_FREQ_VALUE_BOARD_0_SERDES0_REFCLK_P_OUT,
+	J721S2_FREQ_VALUE_BOARD_0_SPI0_CLK_OUT,
+	J721S2_FREQ_VALUE_BOARD_0_SPI1_CLK_OUT,
+	J721S2_FREQ_VALUE_BOARD_0_SPI2_CLK_OUT,
+	J721S2_FREQ_VALUE_BOARD_0_SPI3_CLK_OUT,
+	J721S2_FREQ_VALUE_BOARD_0_SPI5_CLK_OUT,
+	J721S2_FREQ_VALUE_BOARD_0_SPI6_CLK_OUT,
+	J721S2_FREQ_VALUE_BOARD_0_SPI7_CLK_OUT,
 	J721S2_FREQ_VALUE_BOARD_0_TCK_OUT,
 	J721S2_FREQ_VALUE_BOARD_0_VOUT0_EXTPCLKIN_OUT,
 	J721S2_FREQ_VALUE_BOARD_0_WKUP_I2C0_SCL_OUT,
@@ -3244,14 +3253,50 @@ static const struct clk_data_mux_reg clk_data_MCU_R5_phase1_clksel_out0 = {
 	.reg			= 0x40F00000 + 32896,
 	.bit			= 0,
 };
+static const struct clk_parent clk_MCU_SPI0_CLK_LPBK_MUX_parents[] = {
+	{
+		CLK_J721S2_BOARD_0_MCU_SPI0_CLK_OUT,
+		1,
+	},
+	{
+		CLK_J721S2_SPI_MCU_0_IO_CLKSPIO_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_MCU_SPI0_CLK_LPBK_MUX_out0 = {
+	.data_mux		= {
+		.parents	= clk_MCU_SPI0_CLK_LPBK_MUX_parents,
+		.n		= ARRAY_SIZE(clk_MCU_SPI0_CLK_LPBK_MUX_parents),
+	},
+	.reg			= 0x43000000 + 33040,
+	.bit			= 16,
+};
+static const struct clk_parent clk_MCU_SPI1_CLK_LPBK_MUX_parents[] = {
+	{
+		CLK_J721S2_BOARD_0_MCU_SPI1_CLK_OUT,
+		1,
+	},
+	{
+		CLK_J721S2_SPI_MCU_1_IO_CLKSPIO_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_MCU_SPI1_CLK_LPBK_MUX_out0 = {
+	.data_mux		= {
+		.parents	= clk_MCU_SPI1_CLK_LPBK_MUX_parents,
+		.n		= ARRAY_SIZE(clk_MCU_SPI1_CLK_LPBK_MUX_parents),
+	},
+	.reg			= 0x43000000 + 33044,
+	.bit			= 16,
+};
 static const struct clk_parent clk_MCU_SPI1_CLK_MUX_parents[] = {
 	{
 		CLK_J721S2_SPI_MAIN_3_IO_CLKSPIO_CLK,
 		1,
 	},
 	{
-		0,
-		0,
+		CLK_J721S2_MCU_SPI1_CLK_LPBK_MUX_OUT0,
+		1,
 	},
 };
 static const struct clk_data_mux_reg clk_data_MCU_SPI1_CLK_MUX_out0 = {
@@ -3778,13 +3823,149 @@ static const struct clk_data_mux_reg clk_data_SERDES0_CORE_REFCLK_out0 = {
 	.reg			= 0x00100000 + 33792,
 	.bit			= 0,
 };
+static const struct clk_parent clk_SPI0_CLK_LPBK_MUX_parents[] = {
+	{
+		CLK_J721S2_BOARD_0_SPI0_CLK_OUT,
+		1,
+	},
+	{
+		CLK_J721S2_SPI_MAIN_0_IO_CLKSPIO_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_SPI0_CLK_LPBK_MUX_out0 = {
+	.data_mux		= {
+		.parents	= clk_SPI0_CLK_LPBK_MUX_parents,
+		.n		= ARRAY_SIZE(clk_SPI0_CLK_LPBK_MUX_parents),
+	},
+	.reg			= 0x00100000 + 33168,
+	.bit			= 16,
+};
+static const struct clk_parent clk_SPI1_CLK_LPBK_MUX_parents[] = {
+	{
+		CLK_J721S2_BOARD_0_SPI1_CLK_OUT,
+		1,
+	},
+	{
+		CLK_J721S2_SPI_MAIN_1_IO_CLKSPIO_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_SPI1_CLK_LPBK_MUX_out0 = {
+	.data_mux		= {
+		.parents	= clk_SPI1_CLK_LPBK_MUX_parents,
+		.n		= ARRAY_SIZE(clk_SPI1_CLK_LPBK_MUX_parents),
+	},
+	.reg			= 0x00100000 + 33172,
+	.bit			= 16,
+};
+static const struct clk_parent clk_SPI2_CLK_LPBK_MUX_parents[] = {
+	{
+		CLK_J721S2_BOARD_0_SPI2_CLK_OUT,
+		1,
+	},
+	{
+		CLK_J721S2_SPI_MAIN_2_IO_CLKSPIO_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_SPI2_CLK_LPBK_MUX_out0 = {
+	.data_mux		= {
+		.parents	= clk_SPI2_CLK_LPBK_MUX_parents,
+		.n		= ARRAY_SIZE(clk_SPI2_CLK_LPBK_MUX_parents),
+	},
+	.reg			= 0x00100000 + 33176,
+	.bit			= 16,
+};
+static const struct clk_parent clk_SPI3_CLK_LPBK_MUX_parents[] = {
+	{
+		CLK_J721S2_BOARD_0_SPI3_CLK_OUT,
+		1,
+	},
+	{
+		CLK_J721S2_SPI_MAIN_3_IO_CLKSPIO_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_SPI3_CLK_LPBK_MUX_out0 = {
+	.data_mux		= {
+		.parents	= clk_SPI3_CLK_LPBK_MUX_parents,
+		.n		= ARRAY_SIZE(clk_SPI3_CLK_LPBK_MUX_parents),
+	},
+	.reg			= 0x00100000 + 33180,
+	.bit			= 16,
+};
+static const struct clk_parent clk_SPI3_CLK_MUX_parents[] = {
+	{
+		CLK_J721S2_SPI_MAIN_3_IO_CLKSPIO_CLK,
+		1,
+	},
+	{
+		CLK_J721S2_SPI3_CLK_LPBK_MUX_OUT0,
+		1,
+	},
+};
 static const struct clk_data_mux_reg clk_data_SPI3_CLK_MUX_out0 = {
 	.data_mux		= {
-		.parents	= clk_MCU_SPI1_CLK_MUX_parents,
-		.n		= ARRAY_SIZE(clk_MCU_SPI1_CLK_MUX_parents),
+		.parents	= clk_SPI3_CLK_MUX_parents,
+		.n		= ARRAY_SIZE(clk_SPI3_CLK_MUX_parents),
 	},
 	.reg			= 0x40F00000 + 16480,
 	.bit			= 0,
+};
+static const struct clk_parent clk_SPI5_CLK_LPBK_MUX_parents[] = {
+	{
+		CLK_J721S2_BOARD_0_SPI5_CLK_OUT,
+		1,
+	},
+	{
+		CLK_J721S2_SPI_MAIN_5_IO_CLKSPIO_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_SPI5_CLK_LPBK_MUX_out0 = {
+	.data_mux		= {
+		.parents	= clk_SPI5_CLK_LPBK_MUX_parents,
+		.n		= ARRAY_SIZE(clk_SPI5_CLK_LPBK_MUX_parents),
+	},
+	.reg			= 0x00100000 + 33188,
+	.bit			= 16,
+};
+static const struct clk_parent clk_SPI6_CLK_LPBK_MUX_parents[] = {
+	{
+		CLK_J721S2_BOARD_0_SPI6_CLK_OUT,
+		1,
+	},
+	{
+		CLK_J721S2_SPI_MAIN_6_IO_CLKSPIO_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_SPI6_CLK_LPBK_MUX_out0 = {
+	.data_mux		= {
+		.parents	= clk_SPI6_CLK_LPBK_MUX_parents,
+		.n		= ARRAY_SIZE(clk_SPI6_CLK_LPBK_MUX_parents),
+	},
+	.reg			= 0x00100000 + 33192,
+	.bit			= 16,
+};
+static const struct clk_parent clk_SPI7_CLK_LPBK_MUX_parents[] = {
+	{
+		CLK_J721S2_BOARD_0_SPI7_CLK_OUT,
+		1,
+	},
+	{
+		CLK_J721S2_SPI_MAIN_7_IO_CLKSPIO_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_SPI7_CLK_LPBK_MUX_out0 = {
+	.data_mux		= {
+		.parents	= clk_SPI7_CLK_LPBK_MUX_parents,
+		.n		= ARRAY_SIZE(clk_SPI7_CLK_LPBK_MUX_parents),
+	},
+	.reg			= 0x00100000 + 33196,
+	.bit			= 16,
 };
 static const struct clk_parent clk_SerDes0_IP1_LN2_TXCLK_parents[] = {
 	{
@@ -4179,18 +4360,6 @@ static const struct clk_parent clk_VPAC_CLK_SEL_parents[] = {
 		CLK_J721S2_HSDIV4_16FFT_MAIN_2_HSDIVOUT1_CLK,
 		1,
 	},
-	{
-		0,
-		0,
-	},
-	{
-		0,
-		0,
-	},
-	{
-		0,
-		0,
-	},
 };
 static const struct clk_data_mux_reg clk_data_VPAC_CLK_SEL_out0 = {
 	.data_mux		= {
@@ -4556,6 +4725,14 @@ static const struct clk_data_from_dev clk_data_board_0_MCU_RMII1_REF_CLK_out = {
 	.dev		= J721S2_DEV_BOARD0,
 	.clk_idx	= J721S2_DEV_BOARD0_MCU_RMII1_REF_CLK_OUT,
 };
+static const struct clk_data_from_dev clk_data_board_0_MCU_SPI0_CLK_out = {
+	.dev		= J721S2_DEV_BOARD0,
+	.clk_idx	= J721S2_DEV_BOARD0_MCU_SPI0_CLK_OUT,
+};
+static const struct clk_data_from_dev clk_data_board_0_MCU_SPI1_CLK_out = {
+	.dev		= J721S2_DEV_BOARD0,
+	.clk_idx	= J721S2_DEV_BOARD0_MCU_SPI1_CLK_OUT,
+};
 static const struct clk_data_from_dev clk_data_board_0_MMC1_CLKLB_out = {
 	.dev		= J721S2_DEV_BOARD0,
 	.clk_idx	= J721S2_DEV_BOARD0_MMC1_CLKLB_OUT,
@@ -4579,6 +4756,34 @@ static const struct clk_data_from_dev clk_data_board_0_SERDES0_REFCLK_N_out = {
 static const struct clk_data_from_dev clk_data_board_0_SERDES0_REFCLK_P_out = {
 	.dev		= J721S2_DEV_BOARD0,
 	.clk_idx	= J721S2_DEV_BOARD0_SERDES0_REFCLK_P_OUT,
+};
+static const struct clk_data_from_dev clk_data_board_0_SPI0_CLK_out = {
+	.dev		= J721S2_DEV_BOARD0,
+	.clk_idx	= J721S2_DEV_BOARD0_SPI0_CLK_OUT,
+};
+static const struct clk_data_from_dev clk_data_board_0_SPI1_CLK_out = {
+	.dev		= J721S2_DEV_BOARD0,
+	.clk_idx	= J721S2_DEV_BOARD0_SPI1_CLK_OUT,
+};
+static const struct clk_data_from_dev clk_data_board_0_SPI2_CLK_out = {
+	.dev		= J721S2_DEV_BOARD0,
+	.clk_idx	= J721S2_DEV_BOARD0_SPI2_CLK_OUT,
+};
+static const struct clk_data_from_dev clk_data_board_0_SPI3_CLK_out = {
+	.dev		= J721S2_DEV_BOARD0,
+	.clk_idx	= J721S2_DEV_BOARD0_SPI3_CLK_OUT,
+};
+static const struct clk_data_from_dev clk_data_board_0_SPI5_CLK_out = {
+	.dev		= J721S2_DEV_BOARD0,
+	.clk_idx	= J721S2_DEV_BOARD0_SPI5_CLK_OUT,
+};
+static const struct clk_data_from_dev clk_data_board_0_SPI6_CLK_out = {
+	.dev		= J721S2_DEV_BOARD0,
+	.clk_idx	= J721S2_DEV_BOARD0_SPI6_CLK_OUT,
+};
+static const struct clk_data_from_dev clk_data_board_0_SPI7_CLK_out = {
+	.dev		= J721S2_DEV_BOARD0,
+	.clk_idx	= J721S2_DEV_BOARD0_SPI7_CLK_OUT,
 };
 static const struct clk_data_from_dev clk_data_board_0_TCK_out = {
 	.dev		= J721S2_DEV_BOARD0,
@@ -6875,12 +7080,6 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_MCU_R5_phase1_clksel_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_J721S2_MCU_SPI1_CLK_MUX_OUT0] =						 {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCU_SPI1_CLK_MUX_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
 	[CLK_J721S2_BOARD_0_HFOSC1_CLK_OUT] =						 {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -6982,6 +7181,18 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_board_0_MCU_RMII1_REF_CLK_out.data,
 		.freq_idx	= J721S2_FREQ_VALUE_BOARD_0_MCU_RMII1_REF_CLK_OUT,
+	},
+	[CLK_J721S2_BOARD_0_MCU_SPI0_CLK_OUT] =						 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_MCU_SPI0_CLK_out.data,
+		.freq_idx	= J721S2_FREQ_VALUE_BOARD_0_MCU_SPI0_CLK_OUT,
+	},
+	[CLK_J721S2_BOARD_0_MCU_SPI1_CLK_OUT] =						 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_MCU_SPI1_CLK_out.data,
+		.freq_idx	= J721S2_FREQ_VALUE_BOARD_0_MCU_SPI1_CLK_OUT,
 	},
 	[CLK_J721S2_BOARD_0_WKUP_I2C0_SCL_OUT] =					 {
 		.drv		= &clk_drv_from_device,
@@ -7205,6 +7416,24 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_MCU_ADC_clk_sel_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721S2_MCU_SPI0_CLK_LPBK_MUX_OUT0] =					 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCU_SPI0_CLK_LPBK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721S2_MCU_SPI1_CLK_LPBK_MUX_OUT0] =					 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCU_SPI1_CLK_LPBK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721S2_MCU_SPI1_CLK_MUX_OUT0] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCU_SPI1_CLK_MUX_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721S2_MCU_USART_CLKSEL_OUT0] =						 {
@@ -8006,6 +8235,48 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_board_0_SERDES0_REFCLK_P_out.data,
 		.freq_idx	= J721S2_FREQ_VALUE_BOARD_0_SERDES0_REFCLK_P_OUT,
+	},
+	[CLK_J721S2_BOARD_0_SPI0_CLK_OUT] =						 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_SPI0_CLK_out.data,
+		.freq_idx	= J721S2_FREQ_VALUE_BOARD_0_SPI0_CLK_OUT,
+	},
+	[CLK_J721S2_BOARD_0_SPI1_CLK_OUT] =						 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_SPI1_CLK_out.data,
+		.freq_idx	= J721S2_FREQ_VALUE_BOARD_0_SPI1_CLK_OUT,
+	},
+	[CLK_J721S2_BOARD_0_SPI2_CLK_OUT] =						 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_SPI2_CLK_out.data,
+		.freq_idx	= J721S2_FREQ_VALUE_BOARD_0_SPI2_CLK_OUT,
+	},
+	[CLK_J721S2_BOARD_0_SPI3_CLK_OUT] =						 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_SPI3_CLK_out.data,
+		.freq_idx	= J721S2_FREQ_VALUE_BOARD_0_SPI3_CLK_OUT,
+	},
+	[CLK_J721S2_BOARD_0_SPI5_CLK_OUT] =						 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_SPI5_CLK_out.data,
+		.freq_idx	= J721S2_FREQ_VALUE_BOARD_0_SPI5_CLK_OUT,
+	},
+	[CLK_J721S2_BOARD_0_SPI6_CLK_OUT] =						 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_SPI6_CLK_out.data,
+		.freq_idx	= J721S2_FREQ_VALUE_BOARD_0_SPI6_CLK_OUT,
+	},
+	[CLK_J721S2_BOARD_0_SPI7_CLK_OUT] =						 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_SPI7_CLK_out.data,
+		.freq_idx	= J721S2_FREQ_VALUE_BOARD_0_SPI7_CLK_OUT,
 	},
 	[CLK_J721S2_BOARD_0_TCK_OUT] =							 {
 		.drv		= &clk_drv_from_device,
@@ -9506,10 +9777,52 @@ const struct clk_data soc_clock_data[] = {
 		.data	= &clk_data_MCU_OBSCLK_OUT_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
+	[CLK_J721S2_SPI0_CLK_LPBK_MUX_OUT0] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_SPI0_CLK_LPBK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721S2_SPI1_CLK_LPBK_MUX_OUT0] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_SPI1_CLK_LPBK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721S2_SPI2_CLK_LPBK_MUX_OUT0] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_SPI2_CLK_LPBK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721S2_SPI3_CLK_LPBK_MUX_OUT0] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_SPI3_CLK_LPBK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
 	[CLK_J721S2_SPI3_CLK_MUX_OUT0] =						 {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_SPI3_CLK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721S2_SPI5_CLK_LPBK_MUX_OUT0] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_SPI5_CLK_LPBK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721S2_SPI6_CLK_LPBK_MUX_OUT0] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_SPI6_CLK_LPBK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J721S2_SPI7_CLK_LPBK_MUX_OUT0] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_SPI7_CLK_LPBK_MUX_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721S2_SERDES0_IP1_LN2_TXCLK_OUT0] =					 {

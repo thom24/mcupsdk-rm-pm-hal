@@ -488,33 +488,33 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J721S2_DEV_SA3SS_AM62_MCU_0_RINGACC_0_CLOCKS 4
 #define J721S2_DEV_SA3SS_AM62_MCU_0_SA_UL_0_CLOCKS 5
 #define J721S2_DEV_SPI_MAIN_0_CLOCKS 2187
-#define J721S2_DEV_SPI_MAIN_1_CLOCKS 2190
-#define J721S2_DEV_SPI_MAIN_2_CLOCKS 2193
-#define J721S2_DEV_SPI_MAIN_3_CLOCKS 2196
-#define J721S2_DEV_SPI_MAIN_4_CLOCKS 2201
-#define J721S2_DEV_SPI_MAIN_5_CLOCKS 2205
-#define J721S2_DEV_SPI_MAIN_6_CLOCKS 2208
-#define J721S2_DEV_SPI_MAIN_7_CLOCKS 2211
+#define J721S2_DEV_SPI_MAIN_1_CLOCKS 2193
+#define J721S2_DEV_SPI_MAIN_2_CLOCKS 2199
+#define J721S2_DEV_SPI_MAIN_3_CLOCKS 2205
+#define J721S2_DEV_SPI_MAIN_4_CLOCKS 2211
+#define J721S2_DEV_SPI_MAIN_5_CLOCKS 2215
+#define J721S2_DEV_SPI_MAIN_6_CLOCKS 2221
+#define J721S2_DEV_SPI_MAIN_7_CLOCKS 2227
 #define J721S2_DEV_SPI_MCU_0_CLOCKS 342
-#define J721S2_DEV_SPI_MCU_1_CLOCKS 345
-#define J721S2_DEV_SPI_MCU_2_CLOCKS 350
-#define J721S2_DEV_USART_MAIN_1_CLOCKS 2214
-#define J721S2_DEV_USART_MAIN_2_CLOCKS 2218
-#define J721S2_DEV_USART_MAIN_3_CLOCKS 2222
-#define J721S2_DEV_USART_MAIN_4_CLOCKS 2226
-#define J721S2_DEV_USART_MAIN_5_CLOCKS 2230
-#define J721S2_DEV_USART_MAIN_6_CLOCKS 2234
-#define J721S2_DEV_USART_MAIN_7_CLOCKS 2238
-#define J721S2_DEV_USART_MAIN_8_CLOCKS 2242
-#define J721S2_DEV_USART_MAIN_9_CLOCKS 2246
-#define J721S2_DEV_USART_WKUP_0_CLOCKS 354
-#define J721S2_DEV_USB3P0SS_16FFC_MAIN_0_CLOCKS 2250
-#define J721S2_DEV_VPAC_TOP_MAIN_0_CLOCKS 2279
-#define J721S2_DEV_VUSR_DUAL_MAIN_0_CLOCKS 2287
-#define J721S2_DEV_WIZ16B8M4CDT_MAIN_0_CLOCKS 2321
-#define J721S2_DEV_WIZ16B8M4CDT_MAIN_1_CLOCKS 2346
-#define J721S2_DEV_WIZ16B8M4CT2_MAIN_0_CLOCKS 2370
-#define J721S2_DEV_DMPAC_TOP_MAIN_0_MISC_0_CLOCKS 2501
+#define J721S2_DEV_SPI_MCU_1_CLOCKS 348
+#define J721S2_DEV_SPI_MCU_2_CLOCKS 354
+#define J721S2_DEV_USART_MAIN_1_CLOCKS 2233
+#define J721S2_DEV_USART_MAIN_2_CLOCKS 2237
+#define J721S2_DEV_USART_MAIN_3_CLOCKS 2241
+#define J721S2_DEV_USART_MAIN_4_CLOCKS 2245
+#define J721S2_DEV_USART_MAIN_5_CLOCKS 2249
+#define J721S2_DEV_USART_MAIN_6_CLOCKS 2253
+#define J721S2_DEV_USART_MAIN_7_CLOCKS 2257
+#define J721S2_DEV_USART_MAIN_8_CLOCKS 2261
+#define J721S2_DEV_USART_MAIN_9_CLOCKS 2265
+#define J721S2_DEV_USART_WKUP_0_CLOCKS 358
+#define J721S2_DEV_USB3P0SS_16FFC_MAIN_0_CLOCKS 2269
+#define J721S2_DEV_VPAC_TOP_MAIN_0_CLOCKS 2298
+#define J721S2_DEV_VUSR_DUAL_MAIN_0_CLOCKS 2306
+#define J721S2_DEV_WIZ16B8M4CDT_MAIN_0_CLOCKS 2340
+#define J721S2_DEV_WIZ16B8M4CDT_MAIN_1_CLOCKS 2365
+#define J721S2_DEV_WIZ16B8M4CT2_MAIN_0_CLOCKS 2389
+#define J721S2_DEV_DMPAC_TOP_MAIN_0_MISC_0_CLOCKS 2520
 
 static const struct dev_data j721s2_dev_adc12fc_16ffc_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -5115,7 +5115,7 @@ static const struct dev_data j721s2_dev_spi_main_0 __attribute__((__section__(".
 		.mod		= J721S2_PSC_LPSC_LPSC_MAIN_MCANSS_7,
 	},
 	.dev_clk_idx		= J721S2_DEV_SPI_MAIN_0_CLOCKS,
-	.n_clocks		= 3,
+	.n_clocks		= 6,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data j721s2_dev_spi_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
@@ -5125,7 +5125,7 @@ static const struct dev_data j721s2_dev_spi_main_1 __attribute__((__section__(".
 		.mod		= J721S2_PSC_LPSC_LPSC_MAIN_MCANSS_7,
 	},
 	.dev_clk_idx		= J721S2_DEV_SPI_MAIN_1_CLOCKS,
-	.n_clocks		= 3,
+	.n_clocks		= 6,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data j721s2_dev_spi_main_2 __attribute__((__section__(".const.devgroup.MAIN"))) = {
@@ -5135,7 +5135,7 @@ static const struct dev_data j721s2_dev_spi_main_2 __attribute__((__section__(".
 		.mod		= J721S2_PSC_LPSC_LPSC_MAIN_MCANSS_7,
 	},
 	.dev_clk_idx		= J721S2_DEV_SPI_MAIN_2_CLOCKS,
-	.n_clocks		= 3,
+	.n_clocks		= 6,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data j721s2_dev_spi_main_3 __attribute__((__section__(".const.devgroup.MAIN"))) = {
@@ -5145,7 +5145,7 @@ static const struct dev_data j721s2_dev_spi_main_3 __attribute__((__section__(".
 		.mod		= J721S2_PSC_LPSC_LPSC_MAIN_MCANSS_7,
 	},
 	.dev_clk_idx		= J721S2_DEV_SPI_MAIN_3_CLOCKS,
-	.n_clocks		= 5,
+	.n_clocks		= 6,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data j721s2_dev_spi_main_4 __attribute__((__section__(".const.devgroup.MAIN"))) = {
@@ -5165,7 +5165,7 @@ static const struct dev_data j721s2_dev_spi_main_5 __attribute__((__section__(".
 		.mod		= J721S2_PSC_LPSC_LPSC_MAIN_MCANSS_8,
 	},
 	.dev_clk_idx		= J721S2_DEV_SPI_MAIN_5_CLOCKS,
-	.n_clocks		= 3,
+	.n_clocks		= 6,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data j721s2_dev_spi_main_6 __attribute__((__section__(".const.devgroup.MAIN"))) = {
@@ -5175,7 +5175,7 @@ static const struct dev_data j721s2_dev_spi_main_6 __attribute__((__section__(".
 		.mod		= J721S2_PSC_LPSC_LPSC_MAIN_MCANSS_8,
 	},
 	.dev_clk_idx		= J721S2_DEV_SPI_MAIN_6_CLOCKS,
-	.n_clocks		= 3,
+	.n_clocks		= 6,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data j721s2_dev_spi_main_7 __attribute__((__section__(".const.devgroup.MAIN"))) = {
@@ -5185,7 +5185,7 @@ static const struct dev_data j721s2_dev_spi_main_7 __attribute__((__section__(".
 		.mod		= J721S2_PSC_LPSC_LPSC_MAIN_MCANSS_8,
 	},
 	.dev_clk_idx		= J721S2_DEV_SPI_MAIN_7_CLOCKS,
-	.n_clocks		= 3,
+	.n_clocks		= 6,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data j721s2_dev_spi_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
@@ -5195,7 +5195,7 @@ static const struct dev_data j721s2_dev_spi_mcu_0 __attribute__((__section__(".c
 		.mod		= J721S2_PSC_LPSC_LPSC_WKUP_ALWAYSON,
 	},
 	.dev_clk_idx		= J721S2_DEV_SPI_MCU_0_CLOCKS,
-	.n_clocks		= 3,
+	.n_clocks		= 6,
 	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data j721s2_dev_spi_mcu_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
@@ -5205,7 +5205,7 @@ static const struct dev_data j721s2_dev_spi_mcu_1 __attribute__((__section__(".c
 		.mod		= J721S2_PSC_LPSC_LPSC_WKUP_ALWAYSON,
 	},
 	.dev_clk_idx		= J721S2_DEV_SPI_MCU_1_CLOCKS,
-	.n_clocks		= 5,
+	.n_clocks		= 6,
 	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data j721s2_dev_spi_mcu_2 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
@@ -6362,6 +6362,18 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__sect
 	DEV_CLK(J721S2_DEV_SPI_MCU_0_CLOCKS,					 J721S2_DEV_MCU_MCSPI0_CLKSPIREF_CLK,
 		CLK_J721S2_HSDIV4_16FFT_MCU_2_HSDIVOUT0_CLK,
 		5),
+	DEV_CLK_MUX(J721S2_DEV_SPI_MCU_0_CLOCKS,				 J721S2_DEV_MCU_MCSPI0_IO_CLKSPII_CLK,
+		    CLK_J721S2_MCU_SPI0_CLK_LPBK_MUX_OUT0,
+		    1,
+		    2),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MCU_0_CLOCKS,				 J721S2_DEV_MCU_MCSPI0_IO_CLKSPII_CLK_PARENT_BOARD_0_MCU_SPI0_CLK_OUT,
+		       CLK_J721S2_BOARD_0_MCU_SPI0_CLK_OUT,
+		       1,
+		       0),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MCU_0_CLOCKS,				 J721S2_DEV_MCU_MCSPI0_IO_CLKSPII_CLK_PARENT_SPI_MCU_0_IO_CLKSPIO_CLK,
+		       CLK_J721S2_SPI_MCU_0_IO_CLKSPIO_CLK,
+		       1,
+		       1),
 	DEV_CLK(J721S2_DEV_SPI_MCU_0_CLOCKS,					 J721S2_DEV_MCU_MCSPI0_VBUSP_CLK,
 		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
 		6),
@@ -6378,6 +6390,10 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__sect
 		       CLK_J721S2_SPI_MAIN_3_IO_CLKSPIO_CLK,
 		       1,
 		       0),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MCU_1_CLOCKS,				 J721S2_DEV_MCU_MCSPI1_IO_CLKSPII_CLK_PARENT_MCU_SPI1_CLK_LPBK_MUX_OUT0,
+		       CLK_J721S2_MCU_SPI1_CLK_LPBK_MUX_OUT0,
+		       1,
+		       1),
 	DEV_CLK(J721S2_DEV_SPI_MCU_1_CLOCKS,					 J721S2_DEV_MCU_MCSPI1_VBUSP_CLK,
 		CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
 		6),
@@ -8899,6 +8915,10 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       CLK_J721S2_BOARD_0_MCU_RGMII1_RXC_OUT),
 	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_MCU_RMII1_REF_CLK_OUT,
 		       CLK_J721S2_BOARD_0_MCU_RMII1_REF_CLK_OUT),
+	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_MCU_SPI0_CLK_OUT,
+		       CLK_J721S2_BOARD_0_MCU_SPI0_CLK_OUT),
+	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_MCU_SPI1_CLK_OUT,
+		       CLK_J721S2_BOARD_0_MCU_SPI1_CLK_OUT),
 	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_MMC1_CLKLB_OUT,
 		       CLK_J721S2_BOARD_0_MMC1_CLKLB_OUT),
 	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_MMC1_CLK_OUT,
@@ -8911,6 +8931,20 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       CLK_J721S2_BOARD_0_SERDES0_REFCLK_N_OUT),
 	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_SERDES0_REFCLK_P_OUT,
 		       CLK_J721S2_BOARD_0_SERDES0_REFCLK_P_OUT),
+	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_SPI0_CLK_OUT,
+		       CLK_J721S2_BOARD_0_SPI0_CLK_OUT),
+	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_SPI1_CLK_OUT,
+		       CLK_J721S2_BOARD_0_SPI1_CLK_OUT),
+	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_SPI2_CLK_OUT,
+		       CLK_J721S2_BOARD_0_SPI2_CLK_OUT),
+	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_SPI3_CLK_OUT,
+		       CLK_J721S2_BOARD_0_SPI3_CLK_OUT),
+	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_SPI5_CLK_OUT,
+		       CLK_J721S2_BOARD_0_SPI5_CLK_OUT),
+	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_SPI6_CLK_OUT,
+		       CLK_J721S2_BOARD_0_SPI6_CLK_OUT),
+	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_SPI7_CLK_OUT,
+		       CLK_J721S2_BOARD_0_SPI7_CLK_OUT),
 	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_TCK_OUT,
 		       CLK_J721S2_BOARD_0_TCK_OUT),
 	DEV_CLK_OUTPUT(J721S2_DEV_BOARD_0_CLOCKS,						      J721S2_DEV_BOARD0_VOUT0_EXTPCLKIN_OUT,
@@ -10610,6 +10644,15 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK(J721S2_DEV_SPI_MAIN_0_CLOCKS,							      J721S2_DEV_MCSPI0_CLKSPIREF_CLK,
 		CLK_J721S2_POSTDIV3_16FFT_MAIN_0_HSDIVOUT5_CLK,
 		1),
+	DEV_CLK_MUX(J721S2_DEV_SPI_MAIN_0_CLOCKS,						      J721S2_DEV_MCSPI0_IO_CLKSPII_CLK,
+		    CLK_J721S2_SPI0_CLK_LPBK_MUX_OUT0,						      1,
+		    2),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_0_CLOCKS,						      J721S2_DEV_MCSPI0_IO_CLKSPII_CLK_PARENT_BOARD_0_SPI0_CLK_OUT,
+		       CLK_J721S2_BOARD_0_SPI0_CLK_OUT,						      1,
+		       0),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_0_CLOCKS,						      J721S2_DEV_MCSPI0_IO_CLKSPII_CLK_PARENT_SPI_MAIN_0_IO_CLKSPIO_CLK,
+		       CLK_J721S2_SPI_MAIN_0_IO_CLKSPIO_CLK,					      1,
+		       1),
 	DEV_CLK(J721S2_DEV_SPI_MAIN_0_CLOCKS,							      J721S2_DEV_MCSPI0_VBUSP_CLK,
 		CLK_J721S2_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		4),
@@ -10618,6 +10661,15 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK(J721S2_DEV_SPI_MAIN_1_CLOCKS,							      J721S2_DEV_MCSPI1_CLKSPIREF_CLK,
 		CLK_J721S2_POSTDIV3_16FFT_MAIN_0_HSDIVOUT5_CLK,
 		1),
+	DEV_CLK_MUX(J721S2_DEV_SPI_MAIN_1_CLOCKS,						      J721S2_DEV_MCSPI1_IO_CLKSPII_CLK,
+		    CLK_J721S2_SPI1_CLK_LPBK_MUX_OUT0,						      1,
+		    2),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_1_CLOCKS,						      J721S2_DEV_MCSPI1_IO_CLKSPII_CLK_PARENT_BOARD_0_SPI1_CLK_OUT,
+		       CLK_J721S2_BOARD_0_SPI1_CLK_OUT,						      1,
+		       0),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_1_CLOCKS,						      J721S2_DEV_MCSPI1_IO_CLKSPII_CLK_PARENT_SPI_MAIN_1_IO_CLKSPIO_CLK,
+		       CLK_J721S2_SPI_MAIN_1_IO_CLKSPIO_CLK,					      1,
+		       1),
 	DEV_CLK(J721S2_DEV_SPI_MAIN_1_CLOCKS,							      J721S2_DEV_MCSPI1_VBUSP_CLK,
 		CLK_J721S2_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		4),
@@ -10626,6 +10678,15 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK(J721S2_DEV_SPI_MAIN_2_CLOCKS,							      J721S2_DEV_MCSPI2_CLKSPIREF_CLK,
 		CLK_J721S2_POSTDIV3_16FFT_MAIN_0_HSDIVOUT5_CLK,
 		1),
+	DEV_CLK_MUX(J721S2_DEV_SPI_MAIN_2_CLOCKS,						      J721S2_DEV_MCSPI2_IO_CLKSPII_CLK,
+		    CLK_J721S2_SPI2_CLK_LPBK_MUX_OUT0,						      1,
+		    2),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_2_CLOCKS,						      J721S2_DEV_MCSPI2_IO_CLKSPII_CLK_PARENT_BOARD_0_SPI2_CLK_OUT,
+		       CLK_J721S2_BOARD_0_SPI2_CLK_OUT,						      1,
+		       0),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_2_CLOCKS,						      J721S2_DEV_MCSPI2_IO_CLKSPII_CLK_PARENT_SPI_MAIN_2_IO_CLKSPIO_CLK,
+		       CLK_J721S2_SPI_MAIN_2_IO_CLKSPIO_CLK,					      1,
+		       1),
 	DEV_CLK(J721S2_DEV_SPI_MAIN_2_CLOCKS,							      J721S2_DEV_MCSPI2_VBUSP_CLK,
 		CLK_J721S2_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		4),
@@ -10641,6 +10702,9 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_3_CLOCKS,						      J721S2_DEV_MCSPI3_IO_CLKSPII_CLK_PARENT_SPI_MAIN_3_IO_CLKSPIO_CLK,
 		       CLK_J721S2_SPI_MAIN_3_IO_CLKSPIO_CLK,					      1,
 		       0),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_3_CLOCKS,						      J721S2_DEV_MCSPI3_IO_CLKSPII_CLK_PARENT_SPI3_CLK_LPBK_MUX_OUT0,
+		       CLK_J721S2_SPI3_CLK_LPBK_MUX_OUT0,					      1,
+		       1),
 	DEV_CLK(J721S2_DEV_SPI_MAIN_3_CLOCKS,							      J721S2_DEV_MCSPI3_VBUSP_CLK,
 		CLK_J721S2_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		4),
@@ -10660,6 +10724,15 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK(J721S2_DEV_SPI_MAIN_5_CLOCKS,							      J721S2_DEV_MCSPI5_CLKSPIREF_CLK,
 		CLK_J721S2_POSTDIV3_16FFT_MAIN_0_HSDIVOUT5_CLK,
 		1),
+	DEV_CLK_MUX(J721S2_DEV_SPI_MAIN_5_CLOCKS,						      J721S2_DEV_MCSPI5_IO_CLKSPII_CLK,
+		    CLK_J721S2_SPI5_CLK_LPBK_MUX_OUT0,						      1,
+		    2),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_5_CLOCKS,						      J721S2_DEV_MCSPI5_IO_CLKSPII_CLK_PARENT_BOARD_0_SPI5_CLK_OUT,
+		       CLK_J721S2_BOARD_0_SPI5_CLK_OUT,						      1,
+		       0),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_5_CLOCKS,						      J721S2_DEV_MCSPI5_IO_CLKSPII_CLK_PARENT_SPI_MAIN_5_IO_CLKSPIO_CLK,
+		       CLK_J721S2_SPI_MAIN_5_IO_CLKSPIO_CLK,					      1,
+		       1),
 	DEV_CLK(J721S2_DEV_SPI_MAIN_5_CLOCKS,							      J721S2_DEV_MCSPI5_VBUSP_CLK,
 		CLK_J721S2_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		4),
@@ -10668,6 +10741,15 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK(J721S2_DEV_SPI_MAIN_6_CLOCKS,							      J721S2_DEV_MCSPI6_CLKSPIREF_CLK,
 		CLK_J721S2_POSTDIV3_16FFT_MAIN_0_HSDIVOUT5_CLK,
 		1),
+	DEV_CLK_MUX(J721S2_DEV_SPI_MAIN_6_CLOCKS,						      J721S2_DEV_MCSPI6_IO_CLKSPII_CLK,
+		    CLK_J721S2_SPI6_CLK_LPBK_MUX_OUT0,						      1,
+		    2),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_6_CLOCKS,						      J721S2_DEV_MCSPI6_IO_CLKSPII_CLK_PARENT_BOARD_0_SPI6_CLK_OUT,
+		       CLK_J721S2_BOARD_0_SPI6_CLK_OUT,						      1,
+		       0),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_6_CLOCKS,						      J721S2_DEV_MCSPI6_IO_CLKSPII_CLK_PARENT_SPI_MAIN_6_IO_CLKSPIO_CLK,
+		       CLK_J721S2_SPI_MAIN_6_IO_CLKSPIO_CLK,					      1,
+		       1),
 	DEV_CLK(J721S2_DEV_SPI_MAIN_6_CLOCKS,							      J721S2_DEV_MCSPI6_VBUSP_CLK,
 		CLK_J721S2_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		4),
@@ -10676,6 +10758,15 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK(J721S2_DEV_SPI_MAIN_7_CLOCKS,							      J721S2_DEV_MCSPI7_CLKSPIREF_CLK,
 		CLK_J721S2_POSTDIV3_16FFT_MAIN_0_HSDIVOUT5_CLK,
 		1),
+	DEV_CLK_MUX(J721S2_DEV_SPI_MAIN_7_CLOCKS,						      J721S2_DEV_MCSPI7_IO_CLKSPII_CLK,
+		    CLK_J721S2_SPI7_CLK_LPBK_MUX_OUT0,						      1,
+		    2),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_7_CLOCKS,						      J721S2_DEV_MCSPI7_IO_CLKSPII_CLK_PARENT_BOARD_0_SPI7_CLK_OUT,
+		       CLK_J721S2_BOARD_0_SPI7_CLK_OUT,						      1,
+		       0),
+	DEV_CLK_PARENT(J721S2_DEV_SPI_MAIN_7_CLOCKS,						      J721S2_DEV_MCSPI7_IO_CLKSPII_CLK_PARENT_SPI_MAIN_7_IO_CLKSPIO_CLK,
+		       CLK_J721S2_SPI_MAIN_7_IO_CLKSPIO_CLK,					      1,
+		       1),
 	DEV_CLK(J721S2_DEV_SPI_MAIN_7_CLOCKS,							      J721S2_DEV_MCSPI7_VBUSP_CLK,
 		CLK_J721S2_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		4),
@@ -11258,7 +11349,7 @@ const struct devgroup soc_devgroups[] = {
 	[PM_DEVGRP_01] =   {
 		.dev_clk_data	= MAIN_dev_clk_data,
 		.dev_clk	= MAIN_dev_clk,
-		.clk_idx	= 97U,
+		.clk_idx	= 101U,
 	},
 	[PM_DEVGRP_DMSC] = {
 		.dev_clk_data	= TIFS_INTERNAL_dev_clk_data,
