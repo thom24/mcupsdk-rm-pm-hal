@@ -1,5 +1,5 @@
 /*
- * Data version: 220228_160153
+ * Data version: 220408_170711
  *
  * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -766,8 +766,8 @@
 
 #define AM62X_DEV_PSC0_FW_0_CLK 0
 
-#define AM62X_DEV_PSC0_PSC_0_CLK 0
-#define AM62X_DEV_PSC0_PSC_0_SLOW_CLK 1
+#define AM62X_DEV_PSC0_CLK 0
+#define AM62X_DEV_PSC0_SLOW_CLK 1
 
 #define AM62X_DEV_MCU_MCU_16FF0_PLL_CTRL_MCU_CLK24_CLK 3
 
