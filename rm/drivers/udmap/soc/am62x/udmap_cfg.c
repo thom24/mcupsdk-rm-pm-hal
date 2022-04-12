@@ -296,6 +296,36 @@ static const struct udmap_ch_type tx_ch_types_DMASS0_PKTDMA_0[4] = {
 	},
 };
 
+/*
+ * Resources used by ROM which must have their OES and EOES registers reset
+ */
+static struct udmap_used_mapping rom_usage_DMASS0_PKTDMA_0[4U] = {
+	{
+		.ch = 19U,
+		.tx_ch = STRUE,
+		.err_evt = SFALSE,
+		.cleared = SFALSE,
+	},
+	{
+		.ch = 19U,
+		.tx_ch = STRUE,
+		.err_evt = STRUE,
+		.cleared = SFALSE,
+	},
+	{
+		.ch = 19U,
+		.tx_ch = SFALSE,
+		.err_evt = SFALSE,
+		.cleared = SFALSE,
+	},
+	{
+		.ch = 19U,
+		.tx_ch = SFALSE,
+		.err_evt = STRUE,
+		.cleared = SFALSE,
+	},
+};
+
 static const struct rm_mmr mmr_SA3_SS0_PKTDMA_0_PKTDMA_CFG_GCFG = {
 	.fwl_id		= RM_MMR_FWL_INVALID,
 	.fwl_ch_start	= 0U,
@@ -473,8 +503,8 @@ struct udmap_instance udmap_inst[] = {
 		.invalid_flow_oes_utype = 0U,
 		.gcfg_type = PKTDMA_GCFG,
 		.gcfg_utype = RESASG_UTYPE(AM62X_DEV_DMASS0_PKTDMA_0, RESASG_SUBTYPE_UDMAP_GLOBAL_CONFIG),
-		.rom_usage = NULL,
-		.n_rom_usage = 0U,
+		.rom_usage = &rom_usage_DMASS0_PKTDMA_0[0U],
+		.n_rom_usage = ARRAY_SIZE(rom_usage_DMASS0_PKTDMA_0),
 		.dru_ch0_dst_thread_offset = 0x0U,
 	},
 	{
