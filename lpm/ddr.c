@@ -48,8 +48,26 @@
 #define CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_MASK	0x7
 #define CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_SHIFT	0x8
 
-#define CDNS_DENALI_PHY_1369			0x5564
-#define CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK	0x1
+#define CDNS_DENALI_PHY_1369					0x5564
+#define CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK			0x1
+
+#define CDNS_DENALI_CTL_0    					0x0000
+#define CDNS_DENALI_CTL_0_DRAM_CLASS_MASK                       0x00000F00
+#define CDNS_DENALI_CTL_0_DRAM_CLASS_SHIFT                      0x00000008
+
+#define CDNS_DENALI_CTL_0_DRAM_CLASS_DDR4			0xA
+#define CDNS_DENALI_CTL_0_DRAM_CLASS_LPDDR4			0xB
+
+static u32 ddr_read_ddr_type(void)
+{
+	u32 dram_class, val;
+
+	val = readl(DDR_CTRL_BASE + CDNS_DENALI_CTL_0);
+	dram_class = (val & CDNS_DENALI_CTL_0_DRAM_CLASS_MASK) >>
+		     CDNS_DENALI_CTL_0_DRAM_CLASS_SHIFT;
+
+	return dram_class;
+}
 
 void ddr_enter_low_power_mode(void)
 {
