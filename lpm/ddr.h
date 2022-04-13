@@ -59,4 +59,9 @@ void ddr_enable_retention(void);
  * \brief Disable DDR retention
  */
 s32 ddr_disable_retention(void);
+
+/**
+ * \brief Run training after low power exit
+ */
+s32 ddr_deepsleep_exit_training(void);
 #endif
