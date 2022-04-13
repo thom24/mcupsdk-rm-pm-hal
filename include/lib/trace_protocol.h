@@ -3,7 +3,7 @@
  *
  * Debug Trace layer Protocol Definition
  *
- * Copyright (C) 2018-2021, Texas Instruments Incorporated
+ * Copyright (C) 2018-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,7 @@
  * the trace data based on the trace data version.
  */
 #define TRACE_VERSION_MAJOR                              ((u32) 0x03U)
-#define TRACE_VERSION_MINOR                              ((u32) 0x005U)
+#define TRACE_VERSION_MINOR                              ((u32) 0x006U)
 
 /* Trace Debug Channel Macros */
 /**
@@ -404,7 +404,7 @@
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_SET_MGC_WRD                     0x0020U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_ON                      0x0021U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST                   0x0022U
-#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MAIN_DM_LPSC_EN			0x0051U
+#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MAIN_DM_LPSC_EN                 0x0051U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WKUP_CLKSEL_MAIN                0x0023U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MCU_PLLS                     0x0024U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS                       0x0025U
@@ -418,6 +418,9 @@
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESP_CONT_RES                   0x002DU
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_SYNC_RES                  0x002EU
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MMR_LOCK                        0x002FU
+#define TRACE_PM_ACTION_LPM_SEQ_FS_STUB_START                           0x0030U
+#define TRACE_PM_ACTION_LPM_SEQ_FS_STUB_TISCI_CONT_RES                  0x0031U
+#define TRACE_PM_ACTION_LPM_SEQ_FS_STUB_CTX_RESTORE                     0x0032U
 
 
 
