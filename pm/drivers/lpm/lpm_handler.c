@@ -66,6 +66,7 @@
 
 extern s32 _stub_start(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
+extern void lpm_clear_all_wakeup_interrupt();
 
 u32 key;
 volatile u32 enter_sleep_status = 0;
@@ -251,8 +252,13 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 	if (mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) {
 		/* Parse and store the mode info and ctx address in the prepare sleep message*/
 		lpm_populate_prepare_sleep_data(req);
-		/* TODO: Parse and store the mode info and ctx address */
-		/* TODO: Forward TISCI_MSG_PREPARE_SLEEP to TIFS */
+
+		/*
+		 * clearing all wakeup interrupts from VIM. Even if we are cleaning interrupts
+		 * from VIM, if the wakeup interrupt is still active it will be able to wake
+		 * the soc from LPM. This will only clear any unwanted pending wakeup interrupts
+		 */
+		lpm_clear_all_wakeup_interrupt();
 	} else {
 		ret = -EINVAL;
 	}

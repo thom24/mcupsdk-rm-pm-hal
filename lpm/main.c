@@ -127,6 +127,15 @@ static int mcu_lpscs[] = {
 	LPSC_MCU_COMMON
 };
 
+void lpm_clear_all_wakeup_interrupt(void)
+{
+	int i;
+
+	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
+		vim_clear_intr(soc_wake_sources_data[i].int_num);
+	}
+}
+
 static void lpm_abort()
 {
 	volatile int a = 0x1234;
