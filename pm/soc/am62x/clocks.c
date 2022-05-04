@@ -173,6 +173,9 @@ enum {
 	PLL_ENTRY_PER0_24MHZ_960MHZ,
 	PLL_ENTRY_PER0_25MHZ_960MHZ,
 	PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT,
+	PLL_ENTRY_ARM0_24MHZ_2500MHZ_F24BIT,
+	PLL_ENTRY_ARM0_25MHZ_2500MHZ,
+	PLL_ENTRY_ARM0_26MHZ_2500MHZ_F24BIT,
 	PLL_ENTRY_DDR_24MHZ_1600MHZ_F24BIT,
 	PLL_ENTRY_DDR_25MHZ_1600MHZ,
 	PLL_ENTRY_DDR_26MHZ_1600MHZ_F24BIT,
@@ -196,6 +199,7 @@ enum {
 	FREQ_PLLFRACF_SSMOD_16FFT_MAIN_16_DEFAULT,
 	FREQ_PLLFRACF_SSMOD_16FFT_MAIN_17_DEFAULT,
 	FREQ_PLLFRACF_SSMOD_16FFT_MAIN_8_DEFAULT,
+	FREQ_PLLFRACF_SSMOD_16FFT_MCU_0_DEFAULT,
 };
 
 u32 soc_clock_values[AM62X_FREQ_VALUE_COUNT];
@@ -215,7 +219,8 @@ const struct clk_default soc_clock_freq_defaults[] = {
 	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_15_DEFAULT, 2000000000UL, 2000000000UL, 2000000000UL),
 	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_16_DEFAULT, 2380000000UL, 2380000000UL, 2380000000UL),
 	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_17_DEFAULT, 2040000000UL, 2040000000UL, 2040000000UL),
-	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_8_DEFAULT,  2400000000UL, 2400000000UL, 2400000000UL),
+	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_8_DEFAULT,  2500000000UL, 2500000000UL, 2500000000UL),
+	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MCU_0_DEFAULT,   2400000000UL, 2400000000UL, 2400000000UL),
 };
 
 const struct pll_table_entry soc_pll_table[] = {
@@ -290,6 +295,30 @@ const struct pll_table_entry soc_pll_table[] = {
 		.pllm		= 73U,
 		.pllfm		= 14196106U,
 		.clkod		= 2U,
+	},
+	[PLL_ENTRY_ARM0_24MHZ_2500MHZ_F24BIT] = {
+		.freq_min_hz	= 2500000000U,
+		.freq_max_hz	= 2500000000U,
+		.plld		= 1U,
+		.pllm		= 104U,
+		.pllfm		= 2796203U,
+		.clkod		= 1U,
+	},
+	[PLL_ENTRY_ARM0_25MHZ_2500MHZ] =	{
+		.freq_min_hz	= 2500000000U,
+		.freq_max_hz	= 2500000000U,
+		.plld		= 1U,
+		.pllm		= 100U,
+		.pllfm		= 0U,
+		.clkod		= 1U,
+	},
+	[PLL_ENTRY_ARM0_26MHZ_2500MHZ_F24BIT] = {
+		.freq_min_hz	= 2500000000U,
+		.freq_max_hz	= 2500000001U,
+		.plld		= 1U,
+		.pllm		= 96U,
+		.pllfm		= 2581111U,
+		.clkod		= 1U,
 	},
 	[PLL_ENTRY_DDR_24MHZ_1600MHZ_F24BIT] =	{
 		.freq_min_hz	= 1600000000U,
@@ -426,6 +455,12 @@ static const u8 pllfracf_ssmod_16fft_main_17_entries[] = {
 	PLL_TABLE_LAST,
 };
 static const u8 pllfracf_ssmod_16fft_main_8_entries[] = {
+	PLL_ENTRY_ARM0_24MHZ_2500MHZ_F24BIT,
+	PLL_ENTRY_ARM0_25MHZ_2500MHZ,
+	PLL_ENTRY_ARM0_26MHZ_2500MHZ_F24BIT,
+	PLL_TABLE_LAST,
+};
+static const u8 pllfracf_ssmod_16fft_mcu_0_entries[] = {
 	PLL_ENTRY_MCU_24MHZ_2400MHZ,
 	PLL_ENTRY_MCU_25MHZ_2400MHZ,
 	PLL_ENTRY_MCU_26MHZ_2400MHZ_F24BIT,
@@ -2747,8 +2782,8 @@ static const struct clk_data_pll_16fft clk_data_pllfracf_ssmod_16fft_mcu_0 = {
 		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
 		.fractional_support	= STRUE,
 		.devgrp			= DEVGRP_01,
-		.pll_entries		= pllfracf_ssmod_16fft_main_8_entries,
-		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MAIN_8_DEFAULT,
+		.pll_entries		= pllfracf_ssmod_16fft_mcu_0_entries,
+		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MCU_0_DEFAULT,
 	},
 	.idx				= 0,
 	.base				= 0x04040000,
