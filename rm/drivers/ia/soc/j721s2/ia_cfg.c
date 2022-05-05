@@ -188,74 +188,6 @@ static struct ia_used_mapping rom_usage_MCU_NAVSS0_UDMASS_INTA_0[5U] = {
 	},
 };
 
-static const struct rm_mmr mmr_MCU_SA3_SS0_INTAGGR_0_INTAGGR_CFG_IMAP = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44809000U,
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_INTAGGR_0_INTAGGR_CFG_INTR = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44810000U,
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_INTAGGR_0_INTAGGR_CFG_GCNTRTI = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44820000U,
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_INTAGGR_0_INTAGGR_CFG_UNMAP = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44840000U,
-};
-
-static u8 vint_usage_count_MCU_SA3_SS0_INTAGGR_0[8U];
-
-static const struct ia_resource_type unmapped_events_MCU_SA3_SS0_INTAGGR_0[7U] = {
-	{
-		.start = 0U,
-		.end = 1023U,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_TIMERMGR_EVT_OES),
-	},
-	{
-		.start = 4096U,
-		.end = 4097U,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_PKTDMA_TX_CHAN_ERROR_OES),
-	},
-	{
-		.start = 4608U,
-		.end = 4623U,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_PKTDMA_TX_FLOW_COMPLETION_OES),
-	},
-	{
-		.start = 5120U,
-		.end = 5123U,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_PKTDMA_RX_CHAN_ERROR_OES),
-	},
-	{
-		.start = 5632U,
-		.end = 5647U,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_PKTDMA_RX_FLOW_COMPLETION_OES),
-	},
-	{
-		.start = 6144U,
-		.end = 6159U,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_PKTDMA_RX_FLOW_STARVATION_OES),
-	},
-	{
-		.start = 6656U,
-		.end = 6671U,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_PKTDMA_RX_FLOW_FIREWALL_OES),
-	},
-};
-
 struct ia_instance ia_inst[IA_INST_COUNT] = {
 	{
 		.id = J721S2_DEV_NAVSS0_MODSS_INTA_0,
@@ -340,26 +272,5 @@ struct ia_instance ia_inst[IA_INST_COUNT] = {
 		.n_rom_usage_unmapped_events = 0U,
 		.unmapped_events = NULL,
 		.n_unmapped_events = 0U,
-	},
-	{
-		.id = J721S2_DEV_MCU_SA3_SS0_INTAGGR_0,
-		.initialized = SFALSE,
-		.devgrp = SOC_DEVGRP_J721S2_TIFS_INTERNAL,
-		.imap = &mmr_MCU_SA3_SS0_INTAGGR_0_INTAGGR_CFG_IMAP,
-		.intr = &mmr_MCU_SA3_SS0_INTAGGR_0_INTAGGR_CFG_INTR,
-		.gcntrti = &mmr_MCU_SA3_SS0_INTAGGR_0_INTAGGR_CFG_GCNTRTI,
-		.unmap = &mmr_MCU_SA3_SS0_INTAGGR_0_INTAGGR_CFG_UNMAP,
-		.sevt_offset = 0U,
-		.n_sevt = 100U,
-		.vint_utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_VINT),
-		.n_vint = 8U,
-		.vint_usage_count = &vint_usage_count_MCU_SA3_SS0_INTAGGR_0[0U],
-		.v0_b0_evt = 0U,
-		.rom_usage = NULL,
-		.n_rom_usage = 0U,
-		.rom_usage_unmapped_events = NULL,
-		.n_rom_usage_unmapped_events = 0U,
-		.unmapped_events = &unmapped_events_MCU_SA3_SS0_INTAGGR_0[0U],
-		.n_unmapped_events = ARRAY_SIZE(unmapped_events_MCU_SA3_SS0_INTAGGR_0),
 	},
 };

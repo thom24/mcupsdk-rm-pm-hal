@@ -66,17 +66,5 @@
  * DMASS0_PKTDMA_0 total number of UDMAP receive flows
  */
 #define UDMAP_DMASS0_PKTDMA_0_RX_FLOW_MAX_INDEX (67U)
-/**
- * SA3_SS0_PKTDMA_0 total number of UDMAP transmit channels
- */
-#define UDMAP_SA3_SS0_PKTDMA_0_TX_CHAN_MAX_INDEX (2U)
-/**
- * SA3_SS0_PKTDMA_0 total number of UDMAP receive channels
- */
-#define UDMAP_SA3_SS0_PKTDMA_0_RX_CHAN_MAX_INDEX (4U)
-/**
- * SA3_SS0_PKTDMA_0 total number of UDMAP receive flows
- */
-#define UDMAP_SA3_SS0_PKTDMA_0_RX_FLOW_MAX_INDEX (32U)
 
 #endif /* UDMAP_CFG_H */

@@ -147,11 +147,6 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 1, dev_idx_t_is_16bit);
 #define AM62X_DEV_EQEP_T2_MAIN_2_CLOCKS 305
 #define AM62X_DEV_ESM_AM64_MAIN_MAIN_0_CLOCKS 306
 #define AM62X_DEV_ESM_AM64_MCU_WKUP_0_CLOCKS 58
-#define AM62X_DEV_SA3SS_AM62_MAIN_0_DMSS_ECCAGGR_0_CLOCKS 1
-#define AM62X_DEV_SA3SS_AM62_MAIN_0_INTAGGR_0_CLOCKS 2
-#define AM62X_DEV_SA3SS_AM62_MAIN_0_PKTDMA_0_CLOCKS 3
-#define AM62X_DEV_SA3SS_AM62_MAIN_0_RINGACC_0_CLOCKS 4
-#define AM62X_DEV_SA3SS_AM62_MAIN_0_SA_UL_0_CLOCKS 5
 #define AM62X_DEV_FSS_UL_MAIN_0_FSAS_0_CLOCKS 307
 #define AM62X_DEV_FSS_UL_MAIN_0_OSPI_0_CLOCKS 308
 #define AM62X_DEV_GIC500SS_1_4_MAIN_0_CLOCKS 318
@@ -744,62 +739,6 @@ static const struct dev_data am62x_dev_esm_am64_mcu_wkup_0 __attribute__((__sect
 	.dev_clk_idx		= AM62X_DEV_ESM_AM64_MCU_WKUP_0_CLOCKS,
 	.n_clocks		= 1,
 	.pm_devgrp		= PM_DEVGRP_01,
-};
-static const struct dev_data am62x_dev_sa3ss_am62_main_0 __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_DMSC,
-};
-static const struct dev_data am62x_dev_sa3ss_am62_main_0_dmss_eccaggr_0 __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	.soc			= {
-		.psc_idx	= AM62X_PSC_INST_SAM62_MAIN_PSC_WRAP_MAIN_0,
-		.pd		= AM62X_PSC_PD_GP_CORE_CTL,
-		.mod		= AM62X_PSC_LPSC_LPSC_SA3UL,
-	},
-	.dev_clk_idx		= AM62X_DEV_SA3SS_AM62_MAIN_0_DMSS_ECCAGGR_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_DMSC,
-};
-static const struct dev_data am62x_dev_sa3ss_am62_main_0_intaggr_0 __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	.soc			= {
-		.psc_idx	= AM62X_PSC_INST_SAM62_MAIN_PSC_WRAP_MAIN_0,
-		.pd		= AM62X_PSC_PD_GP_CORE_CTL,
-		.mod		= AM62X_PSC_LPSC_LPSC_SA3UL,
-	},
-	.dev_clk_idx		= AM62X_DEV_SA3SS_AM62_MAIN_0_INTAGGR_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_DMSC,
-};
-static const struct dev_data am62x_dev_sa3ss_am62_main_0_pktdma_0 __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	.soc			= {
-		.psc_idx	= AM62X_PSC_INST_SAM62_MAIN_PSC_WRAP_MAIN_0,
-		.pd		= AM62X_PSC_PD_GP_CORE_CTL,
-		.mod		= AM62X_PSC_LPSC_LPSC_SA3UL,
-	},
-	.dev_clk_idx		= AM62X_DEV_SA3SS_AM62_MAIN_0_PKTDMA_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_DMSC,
-};
-static const struct dev_data am62x_dev_sa3ss_am62_main_0_ringacc_0 __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	.soc			= {
-		.psc_idx	= AM62X_PSC_INST_SAM62_MAIN_PSC_WRAP_MAIN_0,
-		.pd		= AM62X_PSC_PD_GP_CORE_CTL,
-		.mod		= AM62X_PSC_LPSC_LPSC_SA3UL,
-	},
-	.dev_clk_idx		= AM62X_DEV_SA3SS_AM62_MAIN_0_RINGACC_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_DMSC,
-};
-static const struct dev_data am62x_dev_sa3ss_am62_main_0_sa_ul_0 __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	.soc			= {
-		.psc_idx	= AM62X_PSC_INST_SAM62_MAIN_PSC_WRAP_MAIN_0,
-		.pd		= AM62X_PSC_PD_GP_CORE_CTL,
-		.mod		= AM62X_PSC_LPSC_LPSC_SA3UL,
-	},
-	.dev_clk_idx		= AM62X_DEV_SA3SS_AM62_MAIN_0_SA_UL_0_CLOCKS,
-	.n_clocks		= 3,
-	.pm_devgrp		= PM_DEVGRP_DMSC,
 };
 static const struct dev_data am62x_dev_fss_ul_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1695,14 +1634,6 @@ static const dev_idx_t dev_list_LPSC_main_alwayson[] __attribute__((__section__(
 	AM62X_DEV_WKUP_UART0,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_sa3ul[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
-	AM62X_DEV_SA3_SS0_DMSS_ECCAGGR_0,
-	AM62X_DEV_SA3_SS0_INTAGGR_0,
-	AM62X_DEV_SA3_SS0_PKTDMA_0,
-	AM62X_DEV_SA3_SS0_RINGACC_0,
-	AM62X_DEV_SA3_SS0_SA_UL_0,
-	DEV_ID_NONE,
-};
 static const dev_idx_t dev_list_LPSC_main_IP[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	AM62X_DEV_CPT2_AGGR0,
 	AM62X_DEV_DMASS0_BCDMA_0,
@@ -2109,8 +2040,13 @@ static const struct lpsc_module_data am62x_sam62_main_psc_wrap_main_0_psc_0_mod_
 		.powerdomain		= AM62X_PSC_PD_GP_CORE_CTL,
 		.depends_psc_idx	= AM62X_PSC_INST_SAM62_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM62X_PSC_LPSC_LPSC_SMS_COMMON,
-		.lpsc_dev.dev_list	= dev_list_LPSC_sa3ul,
-		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET | LPSC_DEVICES_LIST,
+		.lpsc_dev.dev_array	=	      {
+			DEV_ID_NONE,
+			0,
+			0,
+			0,
+		},
+		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
 	[AM62X_PSC_LPSC_LPSC_HSM_ISO] =		      {
 		.powerdomain		= AM62X_PSC_PD_GP_CORE_CTL,
@@ -5257,14 +5193,7 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 };
 static struct dev_clk MAIN_dev_clk[ARRAY_SIZE(MAIN_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const struct dev_clk_data TIFS_INTERNAL_dev_clk_data[] __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	DEV_CLK(AM62X_DEV_DMSS_AM62_MAIN_0_RINGACC_0_CLOCKS,	   AM62X_DEV_DMASS0_RINGACC_0_CLK,	    CLK_AM62X_SAM62_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK, 1),
-	DEV_CLK(AM62X_DEV_SA3SS_AM62_MAIN_0_DMSS_ECCAGGR_0_CLOCKS, AM62X_DEV_SA3_SS0_DMSS_ECCAGGR_0_X1_CLK, CLK_AM62X_HSDIV1_16FFT_MAIN_15_HSDIVOUT0_CLK,	    1),
-	DEV_CLK(AM62X_DEV_SA3SS_AM62_MAIN_0_INTAGGR_0_CLOCKS,	   AM62X_DEV_SA3_SS0_INTAGGR_0_X1_CLK,	    CLK_AM62X_HSDIV1_16FFT_MAIN_15_HSDIVOUT0_CLK,	    1),
-	DEV_CLK(AM62X_DEV_SA3SS_AM62_MAIN_0_PKTDMA_0_CLOCKS,	   AM62X_DEV_SA3_SS0_PKTDMA_0_X1_CLK,	    CLK_AM62X_HSDIV1_16FFT_MAIN_15_HSDIVOUT0_CLK,	    1),
-	DEV_CLK(AM62X_DEV_SA3SS_AM62_MAIN_0_RINGACC_0_CLOCKS,	   AM62X_DEV_SA3_SS0_RINGACC_0_X1_CLK,	    CLK_AM62X_HSDIV1_16FFT_MAIN_15_HSDIVOUT0_CLK,	    1),
-	DEV_CLK(AM62X_DEV_SA3SS_AM62_MAIN_0_SA_UL_0_CLOCKS,	   AM62X_DEV_SA3_SS0_SA_UL_0_PKA_IN_CLK,    CLK_AM62X_HSDIV1_16FFT_MAIN_15_HSDIVOUT1_CLK,	    1),
-	DEV_CLK(AM62X_DEV_SA3SS_AM62_MAIN_0_SA_UL_0_CLOCKS,	   AM62X_DEV_SA3_SS0_SA_UL_0_X1_CLK,	    CLK_AM62X_HSDIV1_16FFT_MAIN_15_HSDIVOUT0_CLK,	    1),
-	DEV_CLK(AM62X_DEV_SA3SS_AM62_MAIN_0_SA_UL_0_CLOCKS,	   AM62X_DEV_SA3_SS0_SA_UL_0_X2_CLK,	    CLK_AM62X_HSDIV1_16FFT_MAIN_15_HSDIVOUT0_CLK,	    1),
+	DEV_CLK(AM62X_DEV_DMSS_AM62_MAIN_0_RINGACC_0_CLOCKS, AM62X_DEV_DMASS0_RINGACC_0_CLK, CLK_AM62X_SAM62_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK, 1),
 };
 static struct dev_clk TIFS_INTERNAL_dev_clk[ARRAY_SIZE(TIFS_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.TIFS_INTERNAL")));
 
@@ -5343,12 +5272,6 @@ const struct dev_data *const soc_device_data_arr[AM62X_DEV_CLK_32K_RC_SEL_DEV_VD
 	[AM62X_DEV_EQEP2] = &am62x_dev_eqep_t2_main_2,
 	[AM62X_DEV_ESM0] = &am62x_dev_esm_am64_main_main_0,
 	[AM62X_DEV_WKUP_ESM0] = &am62x_dev_esm_am64_mcu_wkup_0,
-	[AM62X_DEV_SA3_SS0] = &am62x_dev_sa3ss_am62_main_0,
-	[AM62X_DEV_SA3_SS0_DMSS_ECCAGGR_0] = &am62x_dev_sa3ss_am62_main_0_dmss_eccaggr_0,
-	[AM62X_DEV_SA3_SS0_INTAGGR_0] = &am62x_dev_sa3ss_am62_main_0_intaggr_0,
-	[AM62X_DEV_SA3_SS0_PKTDMA_0] = &am62x_dev_sa3ss_am62_main_0_pktdma_0,
-	[AM62X_DEV_SA3_SS0_RINGACC_0] = &am62x_dev_sa3ss_am62_main_0_ringacc_0,
-	[AM62X_DEV_SA3_SS0_SA_UL_0] = &am62x_dev_sa3ss_am62_main_0_sa_ul_0,
 	[AM62X_DEV_FSS0] = &am62x_dev_fss_ul_main_0,
 	[AM62X_DEV_FSS0_FSAS_0] = &am62x_dev_fss_ul_main_0_fsas_0,
 	[AM62X_DEV_FSS0_OSPI_0] = &am62x_dev_fss_ul_main_0_ospi_0,

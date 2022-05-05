@@ -144,7 +144,7 @@
 /**
  * Total number of unique resource types for SoC
  */
-#define RESASG_UTYPE_CNT 90U
+#define RESASG_UTYPE_CNT 61U
 
 /**
  * Total number of resource entries allowed for SoC

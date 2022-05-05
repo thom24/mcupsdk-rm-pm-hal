@@ -41,6 +41,6 @@
 /**
  * Number of unique IA instances
  */
-#define IA_INST_COUNT (2U)
+#define IA_INST_COUNT (1U)
 
 #endif /* IA_CFG_H */

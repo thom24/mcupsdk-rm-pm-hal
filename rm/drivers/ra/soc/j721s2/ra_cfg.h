@@ -36,14 +36,6 @@
  */
 #define RA_MCU_NAVSS0_RINGACC0_MONITOR_MAX_INDEX (32U)
 /**
- * MCU_SA3_SS0_RINGACC_0 total number of rings
- */
-#define RA_MCU_SA3_SS0_RINGACC_0_MAX_INDEX (0U)
-/**
- * Ring accelerator ring event index.
- */
-#define RA_MCU_SA3_SS0_RINGACC_0_RING_OES_EVT_INDEX_OFFSET (0x0U)
-/**
  * Ring accelerator ring monitor event index.  Must be greater than the max of
  * all SoC RAs max ring index to avoid event indexing conflicts.
  */

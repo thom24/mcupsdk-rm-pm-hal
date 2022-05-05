@@ -174,100 +174,6 @@ static const struct ia_resource_type unmapped_events_DMASS0_INTAGGR_0[16U] = {
 	},
 };
 
-static const struct rm_mmr mmr_SA3_SS0_INTAGGR_0_INTAGGR_CFG_IMAP = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44809000U,
-};
-
-static const struct rm_mmr mmr_SA3_SS0_INTAGGR_0_INTAGGR_CFG_INTR = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44810000U,
-};
-
-static const struct rm_mmr mmr_SA3_SS0_INTAGGR_0_INTAGGR_CFG_GCNTRTI = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44820000U,
-};
-
-static const struct rm_mmr mmr_SA3_SS0_INTAGGR_0_INTAGGR_CFG_UNMAP = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44840000U,
-};
-
-static u8 vint_usage_count_SA3_SS0_INTAGGR_0[8U];
-
-static struct ia_used_mapping rom_usage_SA3_SS0_INTAGGR_0[4U] = {
-	{
-		.event = 20U,
-		.cleared = SFALSE,
-	},
-	{
-		.event = 21U,
-		.cleared = SFALSE,
-	},
-	{
-		.event = 22U,
-		.cleared = SFALSE,
-	},
-	{
-		.event = 23U,
-		.cleared = SFALSE,
-	},
-};
-
-static struct ia_used_mapping rom_usage_unmapped_events_SA3_SS0_INTAGGR_0[1U] = {
-	{
-		.event = 5651U,
-		.cleared = SFALSE,
-	},
-};
-
-static const struct ia_resource_type unmapped_events_SA3_SS0_INTAGGR_0[7U] = {
-	{
-		.start = 0U,
-		.end = 1023U,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_TIMERMGR_EVT_OES),
-	},
-	{
-		.start = 4096U,
-		.end = 4097U,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_PKTDMA_TX_CHAN_ERROR_OES),
-	},
-	{
-		.start = 4608U,
-		.end = 4623U,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_PKTDMA_TX_FLOW_COMPLETION_OES),
-	},
-	{
-		.start = 5120U,
-		.end = 5123U,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_PKTDMA_RX_CHAN_ERROR_OES),
-	},
-	{
-		.start = 5632U,
-		.end = 5647U,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_PKTDMA_RX_FLOW_COMPLETION_OES),
-	},
-	{
-		.start = 6144U,
-		.end = 6159U,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_PKTDMA_RX_FLOW_STARVATION_OES),
-	},
-	{
-		.start = 6656U,
-		.end = 6671U,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_PKTDMA_RX_FLOW_FIREWALL_OES),
-	},
-};
-
 struct ia_instance ia_inst[IA_INST_COUNT] = {
 	{
 		.id = AM62X_DEV_DMASS0_INTAGGR_0,
@@ -289,26 +195,5 @@ struct ia_instance ia_inst[IA_INST_COUNT] = {
 		.n_rom_usage_unmapped_events = ARRAY_SIZE(rom_usage_unmapped_events_DMASS0_INTAGGR_0),
 		.unmapped_events = &unmapped_events_DMASS0_INTAGGR_0[0U],
 		.n_unmapped_events = ARRAY_SIZE(unmapped_events_DMASS0_INTAGGR_0),
-	},
-	{
-		.id = AM62X_DEV_SA3_SS0_INTAGGR_0,
-		.initialized = SFALSE,
-		.devgrp = SOC_DEVGRP_AM62X_TIFS_INTERNAL,
-		.imap = &mmr_SA3_SS0_INTAGGR_0_INTAGGR_CFG_IMAP,
-		.intr = &mmr_SA3_SS0_INTAGGR_0_INTAGGR_CFG_INTR,
-		.gcntrti = &mmr_SA3_SS0_INTAGGR_0_INTAGGR_CFG_GCNTRTI,
-		.unmap = &mmr_SA3_SS0_INTAGGR_0_INTAGGR_CFG_UNMAP,
-		.sevt_offset = 0U,
-		.n_sevt = 100U,
-		.vint_utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_IA_VINT),
-		.n_vint = 8U,
-		.vint_usage_count = &vint_usage_count_SA3_SS0_INTAGGR_0[0U],
-		.v0_b0_evt = 0U,
-		.rom_usage = &rom_usage_SA3_SS0_INTAGGR_0[0U],
-		.n_rom_usage = ARRAY_SIZE(rom_usage_SA3_SS0_INTAGGR_0),
-		.rom_usage_unmapped_events = &rom_usage_unmapped_events_SA3_SS0_INTAGGR_0[0U],
-		.n_rom_usage_unmapped_events = ARRAY_SIZE(rom_usage_unmapped_events_SA3_SS0_INTAGGR_0),
-		.unmapped_events = &unmapped_events_SA3_SS0_INTAGGR_0[0U],
-		.n_unmapped_events = ARRAY_SIZE(unmapped_events_SA3_SS0_INTAGGR_0),
 	},
 };
