@@ -138,4 +138,12 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 		.event_id	= 0x000BU,
 		.vint		= 0x005BU,
 	},
+	[12] = {
+		/*
+		 * For: A53_4 response
+		 */
+		.id		= AM64X_DEV_DMASS0_INTAGGR_0,
+		.event_id	= 0x000CU,
+		.vint		= 0x0004U,
+	},
 };

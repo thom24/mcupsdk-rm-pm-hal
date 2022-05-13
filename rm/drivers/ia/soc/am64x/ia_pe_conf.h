@@ -38,7 +38,7 @@
 #ifndef AM64X_IA_PE_CONF_H
 #define AM64X_IA_PE_CONF_H
 
-/** Count of IA init list (12 entries) */
-#define IA_SOC_PE_INIT_NUM (0x0CU)
+/** Count of IA init list (13 entries) */
+#define IA_SOC_PE_INIT_NUM (0x0DU)
 
 #endif /* AM64X_IA_PE_CONF_H */
