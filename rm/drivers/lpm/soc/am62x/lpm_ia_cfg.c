@@ -41,4 +41,4 @@
 #include <lpm_ia_cfg.h>
 #include <types/short_types.h>
 
-const u16 sec_proxy_ia_global_events[NUM_SEC_PROXY_IA_GLOBAL_EVENTS] = { 8, 9, 6, 7 };
+const u16 sec_proxy_ia_global_events[NUM_SEC_PROXY_IA_GLOBAL_EVENTS] = { 8, 9, 10, 7 };
