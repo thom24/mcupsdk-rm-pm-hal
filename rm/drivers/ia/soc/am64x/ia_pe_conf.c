@@ -3,7 +3,7 @@
  *
  * Static IA IRQ maps for Processing Entities for AM64X device
  *
- * Data version: 220420_174316
+ * Data version: 220519_153621
  *
  * Copyright (C) 2019-2022, Texas Instruments Incorporated
  * All rights reserved.
