@@ -54,15 +54,6 @@ static const struct rm_mmr mmr_MAIN2MCU_LVL_INTRTR0_CFG = {
 	.base		= 0xa10000U,
 };
 
-static struct ir_used_mapping rom_usage_MAIN2MCU_LVL_INTRTR0[1U] = {
-	{
-		.inp_start = 28U,
-		.outp_start = 32U,
-		.length = 2U,
-		.cleared = SFALSE,
-	},
-};
-
 static const struct rm_mmr mmr_MAIN2MCU_PLS_INTRTR0_CFG = {
 	.fwl_id		= RM_MMR_FWL_INVALID,
 	.fwl_ch_start	= 0U,
@@ -112,15 +103,6 @@ static const struct rm_mmr mmr_MCU_NAVSS0_INTR_ROUTER_0_INTR0_CFG = {
 	.base		= 0x28540000U,
 };
 
-static struct ir_used_mapping rom_usage_MCU_NAVSS0_INTR_ROUTER_0[1U] = {
-	{
-		.inp_start = 1U,
-		.outp_start = 0U,
-		.length = 4U,
-		.cleared = SFALSE,
-	},
-};
-
 struct ir_instance ir_inst[IR_INST_COUNT] = {
 	{
 		.id = J721S2_DEV_MAIN2MCU_LVL_INTRTR0,
@@ -132,8 +114,8 @@ struct ir_instance ir_inst[IR_INST_COUNT] = {
 		.n_outp = 64U,
 		.inp0_mapping = 0U,
 		.outp_utype = RESASG_UTYPE(J721S2_DEV_MAIN2MCU_LVL_INTRTR0, RESASG_SUBTYPE_IR_OUTPUT),
-		.rom_usage = &rom_usage_MAIN2MCU_LVL_INTRTR0[0U],
-		.n_rom_usage = ARRAY_SIZE(rom_usage_MAIN2MCU_LVL_INTRTR0),
+		.rom_usage = NULL,
+		.n_rom_usage = 0U,
 	},
 	{
 		.id = J721S2_DEV_MAIN2MCU_PLS_INTRTR0,
@@ -223,7 +205,7 @@ struct ir_instance ir_inst[IR_INST_COUNT] = {
 		.n_outp = 64U,
 		.inp0_mapping = 0U,
 		.outp_utype = RESASG_UTYPE(J721S2_DEV_MCU_NAVSS0_INTR_ROUTER_0, RESASG_SUBTYPE_IR_OUTPUT),
-		.rom_usage = &rom_usage_MCU_NAVSS0_INTR_ROUTER_0[0U],
-		.n_rom_usage = ARRAY_SIZE(rom_usage_MCU_NAVSS0_INTR_ROUTER_0),
+		.rom_usage = NULL,
+		.n_rom_usage = 0U,
 	},
 };
