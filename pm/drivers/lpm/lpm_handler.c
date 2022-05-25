@@ -51,6 +51,7 @@
 #include "sec_proxy.h"
 #include "clk.h"
 #include "soc_ctrl_mmr.h"
+#include "ctrlmmr_raw.h"
 
 
 /* counts of 1us delay for 10ms */
@@ -438,5 +439,96 @@ s32 dm_lpm_wake_reason_handler(u32 *msg_recv)
 	/* TODO: Add support for time stamp */
 	resp->wake_timestamp = 0;
 
+	return ret;
+}
+
+s32 dm_set_io_isolation_handler(u32 *msg_recv)
+{
+	struct tisci_msg_set_io_isolation_req *req =
+		(struct tisci_msg_set_io_isolation_req *) msg_recv;
+	struct tisci_msg_set_io_isolation_resp *resp =
+		(struct tisci_msg_set_io_isolation_resp *) msg_recv;
+	s32 ret = EFAIL;
+	u32 reg;
+	int i = 0;
+
+	/* unlock partion 6 of wakeup ctrl mmr */
+	ctrlmmr_unlock(WKUP_CTRL_BASE, 6);
+	if (req->state == TISCI_MSG_VALUE_IO_ENABLE) {
+		/* set global isobypass */
+		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
+		reg = reg | WKUP_CTRL_PMCTRL_IO_0_ISO_BYPASS;
+		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+
+		/* set global isoin */
+		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
+		reg = reg | WKUP_CTRL_PMCTRL_IO_0_IO_ISO_CTRL;
+		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+
+		/* set global wuen */
+		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
+		reg = reg | WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN;
+		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+
+		/* set global wu clock enable */
+		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
+		reg = reg | WKUP_CTRL_PMCTRL_IO_0_WUCLK_CTRL;
+		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+
+		/* wait for wu clock state to be 1*/
+		do {
+			ret = ETIMEDOUT;
+			i = 0;
+			reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+			if ((reg & WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS) == WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS_ENABLED) {
+				ret = SUCCESS;
+				break;
+			}
+			osal_delay(1);
+		} while (i++ < TIMEOUT_10MS);
+
+		if (ret == SUCCESS) {
+			/* clear global wu clock enable */
+			reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+			reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
+			reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_WUCLK_CTRL);
+			writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+
+			do {
+				ret = ETIMEDOUT;
+				i = 0;
+				reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+				if ((reg & WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS) == WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS_DISABLED) {
+					ret = SUCCESS;
+					break;
+				}
+				osal_delay(1);
+			} while (i++ < TIMEOUT_10MS);
+		}
+	} else if (req->state == TISCI_MSG_VALUE_IO_DISABLE) {
+		/* clear global isobypass */
+		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
+		reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_ISO_BYPASS);
+		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+
+		/* clear global isoin */
+		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
+		reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_IO_ISO_CTRL);
+		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+
+		/* clear global wuen */
+		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
+		reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN);
+		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+
+		ret = SUCCESS;
+	}
 	return ret;
 }

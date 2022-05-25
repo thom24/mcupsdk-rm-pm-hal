@@ -96,6 +96,11 @@
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_CAN_IO                          0x82
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID                         0xFF
 
+/** Used by TISCI_MSG_SET_IO_ISOLATION to enable IO isolation */
+#define TISCI_MSG_VALUE_IO_ENABLE 1
+/** Used by TISCI_MSG_SET_IO_ISOLATION to disable IO isolation */
+#define TISCI_MSG_VALUE_IO_DISABLE 0
+
 /**
  * \brief Request for TISCI_MSG_PREPARE_SLEEP.
  *
@@ -320,6 +325,30 @@ struct tisci_msg_lpm_wake_reason_resp {
 	struct tisci_header	hdr;
 	u32			wake_source;
 	u64			wake_timestamp;
+} __attribute__((__packed__));
+
+/**
+ * \brief Request for TISCI_MSG_SET_IO_ISOLATION.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ * \param state The deseared state of the IO isolation.
+ *
+ * This message is used to enable/disable IO isolation for low power modes.
+ *
+ */
+struct tisci_msg_set_io_isolation_req {
+	struct tisci_header	hdr;
+	u8			state;
+} __attribute__((__packed__));
+
+/**
+ * \brief Response for TISCI_MSG_SET_IO_ISOLATION.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ *
+ */
+struct tisci_msg_set_io_isolation_resp {
+	struct tisci_header hdr;
 } __attribute__((__packed__));
 
 #endif
