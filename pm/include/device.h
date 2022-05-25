@@ -158,9 +158,9 @@ struct device {
 	u8	exclusive : 7;  /* Up to 127 (only need up to 27) */
 	u8	initialized : 1;
 } __attribute__((__packed__));
-#elif HOST_ID_CNT <= 29
+#elif HOST_ID_CNT <= 58
 struct device {
-	u64	flags;          /* 6 flags plus 29 host id flags */
+	u64	flags;          /* 6 flags plus 58 host id flags */
 	/** Host *index* of exclusive owner+1, 0 for none */
 	u8	exclusive : 7;  /* Up to 127 (only need up to 27) */
 	u8	initialized : 1;
