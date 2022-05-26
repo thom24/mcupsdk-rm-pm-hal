@@ -1,7 +1,7 @@
 /*
  * Data version: 210812_211103
  *
- * Copyright (C) 2017-2021 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #include <types/array_size.h>
@@ -487,6 +487,9 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J721E_DEV_TIMER19_CLKSEL_VD_CLOCKS 3098
 #define J721E_DEV_GLUELOGIC_ACSPCIE_LJCB_BUFFER0_CLOCKS 3115
 #define J721E_DEV_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLOCKS 3129
+#define J721E_DEV_NAVSS512L_MAIN_0_PVU_0_CLOCKS 3143
+#define J721E_DEV_NAVSS512L_MAIN_0_PVU_1_CLOCKS 3144
+#define J721E_DEV_NAVSS512L_MAIN_0_PVU_2_CLOCKS 3145
 
 static const struct dev_data j721e_dev_adc12_16ffc_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -1936,6 +1939,9 @@ static const dev_idx_t dev_list_LPSC_main_alwayson[] __attribute__((__section__(
 	J721E_DEV_NAVSS0_MODSS_INTAGGR_0,
 	J721E_DEV_NAVSS0_MODSS_INTAGGR_1,
 	J721E_DEV_NAVSS0_PROXY_0,
+	J721E_DEV_NAVSS0_PVU_0,
+	J721E_DEV_NAVSS0_PVU_1,
+	J721E_DEV_NAVSS0_PVU_2,
 	J721E_DEV_NAVSS0_RINGACC_0,
 	J721E_DEV_NAVSS0_SPINLOCK_0,
 	J721E_DEV_NAVSS0_TBU_0,
@@ -5144,6 +5150,36 @@ static const struct dev_data j721e_dev_GLUELOGIC_ACSPCIe_LJCB_BUFFER1 __attribut
 	},
 	.dev_clk_idx		= J721E_DEV_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLOCKS,
 	.n_clocks		= 14,
+	.pm_devgrp		= PM_DEVGRP_01,
+};
+static const struct dev_data j721e_dev_navss512l_main_0_pvu_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
+	.soc			= {
+		.psc_idx	= J721E_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
+		.pd		= J721E_PSC_PD_GP_CORE_CTL,
+		.mod		= J721E_PSC_LPSC_LPSC_MAIN_ALWAYSON,
+	},
+	.dev_clk_idx		= J721E_DEV_NAVSS512L_MAIN_0_PVU_0_CLOCKS,
+	.n_clocks		= 1,
+	.pm_devgrp		= PM_DEVGRP_01,
+};
+static const struct dev_data j721e_dev_navss512l_main_0_pvu_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
+	.soc			= {
+		.psc_idx	= J721E_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
+		.pd		= J721E_PSC_PD_GP_CORE_CTL,
+		.mod		= J721E_PSC_LPSC_LPSC_MAIN_ALWAYSON,
+	},
+	.dev_clk_idx		= J721E_DEV_NAVSS512L_MAIN_0_PVU_1_CLOCKS,
+	.n_clocks		= 1,
+	.pm_devgrp		= PM_DEVGRP_01,
+};
+static const struct dev_data j721e_dev_navss512l_main_0_pvu_2 __attribute__((__section__(".const.devgroup.MAIN"))) = {
+	.soc			= {
+		.psc_idx	= J721E_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
+		.pd		= J721E_PSC_PD_GP_CORE_CTL,
+		.mod		= J721E_PSC_LPSC_LPSC_MAIN_ALWAYSON,
+	},
+	.dev_clk_idx		= J721E_DEV_NAVSS512L_MAIN_0_PVU_2_CLOCKS,
+	.n_clocks		= 1,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 
@@ -14576,6 +14612,15 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       CLK_J721E_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT1_N),
 	DEV_CLK_OUTPUT(J721E_DEV_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLOCKS,			       J721E_DEV_ASCPCIE_BUFFER1_CLKOUT1_P,
 		       CLK_J721E_GLUELOGIC_ACSPCIE_LJCB_BUFFER1_CLKOUT1_P),
+	DEV_CLK(J721E_DEV_NAVSS512L_MAIN_0_PVU_0_CLOCKS,				       J721E_DEV_NAVSS0_PVU_0_CLK_CLK,
+		CLK_J721E_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
+		1),
+	DEV_CLK(J721E_DEV_NAVSS512L_MAIN_0_PVU_1_CLOCKS,				       J721E_DEV_NAVSS0_PVU_1_CLK_CLK,
+		CLK_J721E_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
+		1),
+	DEV_CLK(J721E_DEV_NAVSS512L_MAIN_0_PVU_2_CLOCKS,				       J721E_DEV_NAVSS0_PVU_2_CLK_CLK,
+		CLK_J721E_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
+		1),
 };
 static struct dev_clk MAIN_dev_clk[ARRAY_SIZE(MAIN_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const struct dev_clk_data DMSC_INTERNAL_dev_clk_data[] __attribute__((__section__(".const.devgroup.DMSC_INTERNAL"))) = {
@@ -14606,7 +14651,7 @@ const struct soc_device_data *const soc_psc_multiple_domains[] = {
 	[J721E_PSC_MULTIPLE_COMPUTE_CLUSTER_J7ES_TB_VDC_MAIN_0_PBIST_WRAP] = compute_cluster_j7es_tb_vdc_main_0_pbist_wrap_domains,
 };
 
-const struct dev_data *const soc_device_data_arr[J721E_DEV_ASCPCIE_BUFFER1 + 1] = {
+const struct dev_data *const soc_device_data_arr[J721E_DEV_NAVSS0_PVU_2 + 1] = {
 	[J721E_DEV_MCU_ADC12_16FFC0] = &j721e_dev_adc12_16ffc_mcu_0,
 	[J721E_DEV_MCU_ADC12_16FFC1] = &j721e_dev_adc12_16ffc_mcu_1,
 	[J721E_DEV_ATL0] = &j721e_dev_atl_main_0,
@@ -14938,6 +14983,9 @@ const struct dev_data *const soc_device_data_arr[J721E_DEV_ASCPCIE_BUFFER1 + 1] 
 	[J721E_DEV_TIMER19_CLKSEL_VD] = &j721e_dev_timer19_clksel_VD,
 	[J721E_DEV_ASCPCIE_BUFFER0] = &j721e_dev_GLUELOGIC_ACSPCIe_LJCB_BUFFER0,
 	[J721E_DEV_ASCPCIE_BUFFER1] = &j721e_dev_GLUELOGIC_ACSPCIe_LJCB_BUFFER1,
+	[J721E_DEV_NAVSS0_PVU_0] = &j721e_dev_navss512l_main_0_pvu_0,
+	[J721E_DEV_NAVSS0_PVU_1] = &j721e_dev_navss512l_main_0_pvu_1,
+	[J721E_DEV_NAVSS0_PVU_2] = &j721e_dev_navss512l_main_0_pvu_2,
 };
 
 struct device soc_devices[ARRAY_SIZE(soc_device_data_arr)];

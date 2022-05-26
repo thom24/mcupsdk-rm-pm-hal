@@ -1,7 +1,7 @@
 /*
  * Data version: 210812_211103
  *
- * Copyright (C) 2017-2021 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #ifndef SOC_J721E_CLOCKS_H
@@ -2248,6 +2248,12 @@
 #define J721E_DEV_NAVSS0_MODSS_INTAGGR_1_SYS_CLK 0
 
 #define J721E_DEV_NAVSS0_PROXY_0_CLK_CLK 0
+
+#define J721E_DEV_NAVSS0_PVU_0_CLK_CLK 0
+
+#define J721E_DEV_NAVSS0_PVU_1_CLK_CLK 0
+
+#define J721E_DEV_NAVSS0_PVU_2_CLK_CLK 0
 
 #define J721E_DEV_NAVSS0_RINGACC_0_SYS_CLK 0
 
