@@ -3,7 +3,7 @@
  *
  * Interrupt aggregator SoC-specific configuration definitions
  *
- * Data version: 220420_070512
+ * Data version: 220527_134115
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
