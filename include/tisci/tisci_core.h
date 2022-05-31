@@ -3,7 +3,7 @@
  *
  * TISCI Data structures for core messages
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -270,6 +270,33 @@ struct tisci_query_msmc_resp {
 	u32			msmc_start_high;
 	u32			msmc_end_low;
 	u32			msmc_end_high;
+} __attribute__((__packed__));
+
+/**
+ * \brief TISCI_MSG_GET_TRACE_CONFIG request to get the debug trace config from
+ * base board config
+ *
+ * Although this message is essentially empty and contains only a header
+ * a full data structure is created for consistency in implementation.
+ *
+ * \param hdr TISCI header
+ */
+struct tisci_get_trace_config_req {
+	struct tisci_header hdr;
+} __attribute__((__packed__));
+
+/**
+ * \brief TISCI_MSG_GET_TRACE_CONFIG request response providing the debug config
+ * from base board config
+ *
+ * \param hdr TISCI header.
+ * \param trace_dst_enables enabled destination traces
+ * \param trace_src_enables enabled source traces
+ */
+struct tisci_get_trace_config_resp {
+	struct tisci_header	hdr;
+	u16			trace_dst_enables;
+	u16			trace_src_enables;
 } __attribute__((__packed__));
 
 #endif /* MESSAGES_CORE_H */
