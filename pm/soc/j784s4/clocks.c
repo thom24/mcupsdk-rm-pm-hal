@@ -10983,7 +10983,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J784S4_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_27,
 		.data		= &clk_data_pllfracf2_ssmod_16fft_main_27.data_pll.data,
-		.flags		= 0,
+		.flags		= CLK_DATA_FLAG_NO_HW_REINIT,
 	},
 	[CLK_J784S4_PLLFRACF2_SSMOD_16FFT_MAIN_28_FOUTVCOP_CLK] =			 {
 		.parent		=							 {
@@ -10993,7 +10993,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J784S4_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_28,
 		.data		= &clk_data_pllfracf2_ssmod_16fft_main_28.data_pll.data,
-		.flags		= 0,
+		.flags		= CLK_DATA_FLAG_NO_HW_REINIT,
 	},
 	[CLK_J784S4_PLLFRACF2_SSMOD_16FFT_MAIN_3_FOUTVCOP_CLK] =			 {
 		.parent		=							 {
@@ -13089,7 +13089,7 @@ const struct clk_data soc_clock_data[] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
+		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ | CLK_DATA_FLAG_NO_HW_REINIT,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv0_16fft_main_27_hsdiv0.data_div.data,
 	},
@@ -13099,7 +13099,7 @@ const struct clk_data soc_clock_data[] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
+		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ | CLK_DATA_FLAG_NO_HW_REINIT,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv0_16fft_main_28_hsdiv0.data_div.data,
 	},
