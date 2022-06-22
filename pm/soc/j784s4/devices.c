@@ -556,11 +556,6 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J784S4_DEV_RTI_CFG1_MCU_0_CLOCKS 299
 #define J784S4_DEV_RTI_CFG1_MCU_1_CLOCKS 309
 #define J784S4_DEV_SA2_UL_MAIN_0_CLOCKS 2416
-#define J784S4_DEV_SA3SS_AM62_MCU_0_DMSS_ECCAGGR_0_CLOCKS 1
-#define J784S4_DEV_SA3SS_AM62_MCU_0_INTAGGR_0_CLOCKS 2
-#define J784S4_DEV_SA3SS_AM62_MCU_0_PKTDMA_0_CLOCKS 3
-#define J784S4_DEV_SA3SS_AM62_MCU_0_RINGACC_0_CLOCKS 4
-#define J784S4_DEV_SA3SS_AM62_MCU_0_SA_UL_0_CLOCKS 5
 #define J784S4_DEV_SPI_MAIN_0_CLOCKS 2419
 #define J784S4_DEV_SPI_MAIN_1_CLOCKS 2425
 #define J784S4_DEV_SPI_MAIN_2_CLOCKS 2431
@@ -2267,11 +2262,6 @@ static const dev_idx_t dev_list_LPSC_wkup_alwayson[] __attribute__((__section__(
 	J784S4_DEV_MCU_NAVSS0_UDMAP_0,
 	J784S4_DEV_MCU_NAVSS0_UDMASS,
 	J784S4_DEV_MCU_NAVSS0_UDMASS_INTA_0,
-	J784S4_DEV_MCU_SA3_SS0_DMSS_ECCAGGR_0,
-	J784S4_DEV_MCU_SA3_SS0_INTAGGR_0,
-	J784S4_DEV_MCU_SA3_SS0_PKTDMA_0,
-	J784S4_DEV_MCU_SA3_SS0_RINGACC_0,
-	J784S4_DEV_MCU_SA3_SS0_SA_UL_0,
 	J784S4_DEV_MCU_MCSPI0,
 	J784S4_DEV_MCU_MCSPI1,
 	J784S4_DEV_MCU_MCSPI2,
@@ -6047,62 +6037,6 @@ static const struct dev_data j784s4_dev_sa2_ul_main_0 __attribute__((__section__
 	.dev_clk_idx		= J784S4_DEV_SA2_UL_MAIN_0_CLOCKS,
 	.n_clocks		= 3,
 	.pm_devgrp		= PM_DEVGRP_01,
-};
-static const struct dev_data j784s4_dev_sa3ss_am62_mcu_0 __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
-	},
-	.pm_devgrp		= PM_DEVGRP_DMSC,
-};
-static const struct dev_data j784s4_dev_sa3ss_am62_mcu_0_dmss_eccaggr_0 __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	.soc			= {
-		.psc_idx	= J784S4_PSC_INST_J7_WKUP_PSC_WRAP_WKUP_0,
-		.pd		= J784S4_PSC_PD_PD_WKUP,
-		.mod		= J784S4_PSC_LPSC_LPSC_WKUP_ALWAYSON,
-	},
-	.dev_clk_idx		= J784S4_DEV_SA3SS_AM62_MCU_0_DMSS_ECCAGGR_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_DMSC,
-};
-static const struct dev_data j784s4_dev_sa3ss_am62_mcu_0_intaggr_0 __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	.soc			= {
-		.psc_idx	= J784S4_PSC_INST_J7_WKUP_PSC_WRAP_WKUP_0,
-		.pd		= J784S4_PSC_PD_PD_WKUP,
-		.mod		= J784S4_PSC_LPSC_LPSC_WKUP_ALWAYSON,
-	},
-	.dev_clk_idx		= J784S4_DEV_SA3SS_AM62_MCU_0_INTAGGR_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_DMSC,
-};
-static const struct dev_data j784s4_dev_sa3ss_am62_mcu_0_pktdma_0 __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	.soc			= {
-		.psc_idx	= J784S4_PSC_INST_J7_WKUP_PSC_WRAP_WKUP_0,
-		.pd		= J784S4_PSC_PD_PD_WKUP,
-		.mod		= J784S4_PSC_LPSC_LPSC_WKUP_ALWAYSON,
-	},
-	.dev_clk_idx		= J784S4_DEV_SA3SS_AM62_MCU_0_PKTDMA_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_DMSC,
-};
-static const struct dev_data j784s4_dev_sa3ss_am62_mcu_0_ringacc_0 __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	.soc			= {
-		.psc_idx	= J784S4_PSC_INST_J7_WKUP_PSC_WRAP_WKUP_0,
-		.pd		= J784S4_PSC_PD_PD_WKUP,
-		.mod		= J784S4_PSC_LPSC_LPSC_WKUP_ALWAYSON,
-	},
-	.dev_clk_idx		= J784S4_DEV_SA3SS_AM62_MCU_0_RINGACC_0_CLOCKS,
-	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_DMSC,
-};
-static const struct dev_data j784s4_dev_sa3ss_am62_mcu_0_sa_ul_0 __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	.soc			= {
-		.psc_idx	= J784S4_PSC_INST_J7_WKUP_PSC_WRAP_WKUP_0,
-		.pd		= J784S4_PSC_PD_PD_WKUP,
-		.mod		= J784S4_PSC_LPSC_LPSC_WKUP_ALWAYSON,
-	},
-	.dev_clk_idx		= J784S4_DEV_SA3SS_AM62_MCU_0_SA_UL_0_CLOCKS,
-	.n_clocks		= 3,
-	.pm_devgrp		= PM_DEVGRP_DMSC,
 };
 static const struct dev_data j784s4_dev_spi_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -13991,14 +13925,7 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 };
 static struct dev_clk MAIN_dev_clk[ARRAY_SIZE(MAIN_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const struct dev_clk_data TIFS_INTERNAL_dev_clk_data[] __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
-	DEV_CLK(J784S4_DEV_NAVSS_MCU_J7_MCU_0_RINGACC_0_CLOCKS,	   J784S4_DEV_MCU_NAVSS0_RINGACC0_SYS_CLK,	 CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
-	DEV_CLK(J784S4_DEV_SA3SS_AM62_MCU_0_DMSS_ECCAGGR_0_CLOCKS, J784S4_DEV_MCU_SA3_SS0_DMSS_ECCAGGR_0_X1_CLK, CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
-	DEV_CLK(J784S4_DEV_SA3SS_AM62_MCU_0_INTAGGR_0_CLOCKS,	   J784S4_DEV_MCU_SA3_SS0_INTAGGR_0_X1_CLK,	 CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
-	DEV_CLK(J784S4_DEV_SA3SS_AM62_MCU_0_PKTDMA_0_CLOCKS,	   J784S4_DEV_MCU_SA3_SS0_PKTDMA_0_X1_CLK,	 CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
-	DEV_CLK(J784S4_DEV_SA3SS_AM62_MCU_0_RINGACC_0_CLOCKS,	   J784S4_DEV_MCU_SA3_SS0_RINGACC_0_X1_CLK,	 CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
-	DEV_CLK(J784S4_DEV_SA3SS_AM62_MCU_0_SA_UL_0_CLOCKS,	   J784S4_DEV_MCU_SA3_SS0_SA_UL_0_PKA_IN_CLK,	 CLK_J784S4_HSDIV4_16FFT_MCU_1_HSDIVOUT0_CLK,	       1),
-	DEV_CLK(J784S4_DEV_SA3SS_AM62_MCU_0_SA_UL_0_CLOCKS,	   J784S4_DEV_MCU_SA3_SS0_SA_UL_0_X1_CLK,	 CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
-	DEV_CLK(J784S4_DEV_SA3SS_AM62_MCU_0_SA_UL_0_CLOCKS,	   J784S4_DEV_MCU_SA3_SS0_SA_UL_0_X2_CLK,	 CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
+	DEV_CLK(J784S4_DEV_NAVSS_MCU_J7_MCU_0_RINGACC_0_CLOCKS, J784S4_DEV_MCU_NAVSS0_RINGACC0_SYS_CLK, CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
 };
 static struct dev_clk TIFS_INTERNAL_dev_clk[ARRAY_SIZE(TIFS_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.TIFS_INTERNAL")));
 
@@ -14006,7 +13933,7 @@ const struct devgroup soc_devgroups[] = {
 	[PM_DEVGRP_00] =   {
 		.dev_clk_data	= MCU_WAKEUP_dev_clk_data,
 		.dev_clk	= MCU_WAKEUP_dev_clk,
-		.clk_idx	= 10U,
+		.clk_idx	= 8U,
 	},
 	[PM_DEVGRP_01] =   {
 		.dev_clk_data	= MAIN_dev_clk_data,
@@ -14385,12 +14312,6 @@ const struct dev_data *const soc_device_data_arr[J784S4_DEV_COMPUTE_CLUSTER0_DIV
 	[J784S4_DEV_MCU_RTI0] = &j784s4_dev_rti_cfg1_mcu_0,
 	[J784S4_DEV_MCU_RTI1] = &j784s4_dev_rti_cfg1_mcu_1,
 	[J784S4_DEV_SA2_UL0] = &j784s4_dev_sa2_ul_main_0,
-	[J784S4_DEV_MCU_SA3_SS0] = &j784s4_dev_sa3ss_am62_mcu_0,
-	[J784S4_DEV_MCU_SA3_SS0_DMSS_ECCAGGR_0] = &j784s4_dev_sa3ss_am62_mcu_0_dmss_eccaggr_0,
-	[J784S4_DEV_MCU_SA3_SS0_INTAGGR_0] = &j784s4_dev_sa3ss_am62_mcu_0_intaggr_0,
-	[J784S4_DEV_MCU_SA3_SS0_PKTDMA_0] = &j784s4_dev_sa3ss_am62_mcu_0_pktdma_0,
-	[J784S4_DEV_MCU_SA3_SS0_RINGACC_0] = &j784s4_dev_sa3ss_am62_mcu_0_ringacc_0,
-	[J784S4_DEV_MCU_SA3_SS0_SA_UL_0] = &j784s4_dev_sa3ss_am62_mcu_0_sa_ul_0,
 	[J784S4_DEV_MCSPI0] = &j784s4_dev_spi_main_0,
 	[J784S4_DEV_MCSPI1] = &j784s4_dev_spi_main_1,
 	[J784S4_DEV_MCSPI2] = &j784s4_dev_spi_main_2,
