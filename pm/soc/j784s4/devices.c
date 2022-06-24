@@ -556,6 +556,7 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J784S4_DEV_RTI_CFG1_MCU_0_CLOCKS 299
 #define J784S4_DEV_RTI_CFG1_MCU_1_CLOCKS 309
 #define J784S4_DEV_SA2_UL_MAIN_0_CLOCKS 2416
+#define J784S4_DEV_SMS_WKUP_0_CORTEX_M4F_1_CLOCKS 319
 #define J784S4_DEV_SPI_MAIN_0_CLOCKS 2419
 #define J784S4_DEV_SPI_MAIN_1_CLOCKS 2425
 #define J784S4_DEV_SPI_MAIN_2_CLOCKS 2431
@@ -564,9 +565,9 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J784S4_DEV_SPI_MAIN_5_CLOCKS 2447
 #define J784S4_DEV_SPI_MAIN_6_CLOCKS 2453
 #define J784S4_DEV_SPI_MAIN_7_CLOCKS 2459
-#define J784S4_DEV_SPI_MCU_0_CLOCKS 319
-#define J784S4_DEV_SPI_MCU_1_CLOCKS 325
-#define J784S4_DEV_SPI_MCU_2_CLOCKS 331
+#define J784S4_DEV_SPI_MCU_0_CLOCKS 320
+#define J784S4_DEV_SPI_MCU_1_CLOCKS 326
+#define J784S4_DEV_SPI_MCU_2_CLOCKS 332
 #define J784S4_DEV_UFSHCI2P1SS_16FFC_MAIN_0_CLOCKS 2465
 #define J784S4_DEV_USART_MAIN_1_CLOCKS 2491
 #define J784S4_DEV_USART_MAIN_2_CLOCKS 2495
@@ -577,7 +578,7 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J784S4_DEV_USART_MAIN_7_CLOCKS 2515
 #define J784S4_DEV_USART_MAIN_8_CLOCKS 2519
 #define J784S4_DEV_USART_MAIN_9_CLOCKS 2523
-#define J784S4_DEV_USART_WKUP_0_CLOCKS 335
+#define J784S4_DEV_USART_WKUP_0_CLOCKS 336
 #define J784S4_DEV_USB3P0SS_16FFC_MAIN_0_CLOCKS 2527
 #define J784S4_DEV_VPAC_TOP_MAIN_0_CLOCKS 2556
 #define J784S4_DEV_VPAC_TOP_MAIN_1_CLOCKS 2564
@@ -6040,6 +6041,14 @@ static const struct dev_data j784s4_dev_sa2_ul_main_0 __attribute__((__section__
 	.n_clocks		= 3,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
+static const struct dev_data j784s4_dev_sms_wkup_0_cortex_m4f_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+	.soc			= {
+		.psc_idx	= PSC_DEV_NONE,
+	},
+	.dev_clk_idx		= J784S4_DEV_SMS_WKUP_0_CORTEX_M4F_1_CLOCKS,
+	.n_clocks		= 1,
+	.pm_devgrp		= PM_DEVGRP_00,
+};
 static const struct dev_data j784s4_dev_spi_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
 		.psc_idx	= J784S4_PSC_INST_J7AM_MAIN_PSC_WRAP_MAIN_0,
@@ -7363,6 +7372,9 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__sect
 	DEV_CLK(J784S4_DEV_RTI_CFG1_MCU_1_CLOCKS,				 J784S4_DEV_MCU_RTI1_VBUSP_CLK,
 		CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
 		6),
+	DEV_CLK(J784S4_DEV_SMS_WKUP_0_CORTEX_M4F_1_CLOCKS,			 J784S4_DEV_WKUP_HSM0_DAP_CLK,
+		CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
+		1),
 	DEV_CLK(J784S4_DEV_SPI_MCU_0_CLOCKS,					 J784S4_DEV_MCU_MCSPI0_CLKSPIREF_CLK,
 		CLK_J784S4_HSDIV4_16FFT_MCU_2_HSDIVOUT0_CLK,
 		5),
@@ -14402,6 +14414,7 @@ const struct dev_data *const soc_device_data_arr[J784S4_DEV_GLUELOGIC_ACSPCIE1_B
 	[J784S4_DEV_MCU_RTI0] = &j784s4_dev_rti_cfg1_mcu_0,
 	[J784S4_DEV_MCU_RTI1] = &j784s4_dev_rti_cfg1_mcu_1,
 	[J784S4_DEV_SA2_UL0] = &j784s4_dev_sa2_ul_main_0,
+	[J784S4_DEV_WKUP_HSM0] = &j784s4_dev_sms_wkup_0_cortex_m4f_1,
 	[J784S4_DEV_MCSPI0] = &j784s4_dev_spi_main_0,
 	[J784S4_DEV_MCSPI1] = &j784s4_dev_spi_main_1,
 	[J784S4_DEV_MCSPI2] = &j784s4_dev_spi_main_2,
