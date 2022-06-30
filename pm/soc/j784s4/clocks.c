@@ -195,6 +195,14 @@ enum {
 	J784S4_FREQ_VALUE_FSS_MCU_0_HYPERBUS1P0_0_HPB_OUT_CLK_P,
 	J784S4_FREQ_VALUE_FSS_MCU_0_OSPI_0_OSPI_OCLK_CLK,
 	J784S4_FREQ_VALUE_FSS_MCU_0_OSPI_1_OSPI_OCLK_CLK,
+	J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE0_BUFFER_PAD0_M,
+	J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE0_BUFFER_PAD0_P,
+	J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE0_BUFFER_PAD1_M,
+	J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE0_BUFFER_PAD1_P,
+	J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE1_BUFFER_PAD0_M,
+	J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE1_BUFFER_PAD0_P,
+	J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE1_BUFFER_PAD1_M,
+	J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE1_BUFFER_PAD1_P,
 	J784S4_FREQ_VALUE_GPMC_MAIN_0_PO_GPMC_DEV_CLK,
 	J784S4_FREQ_VALUE_I3C_MCU_0_I3C_SCL_DO,
 	J784S4_FREQ_VALUE_K3_DPHY_RX_MAIN_0_PPI_D_RX_ULPS_ESC,
@@ -383,6 +391,8 @@ enum {
 	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_0_IP4_LN3_RXFCLK,
 	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_0_IP4_LN3_TXFCLK,
 	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_0_IP4_LN3_TXMCLK,
+	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_0_REF_DER_OUT_CLK,
+	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_0_REF_OUT_CLK,
 	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_1_CMN_REFCLK_M,
 	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_1_CMN_REFCLK_P,
 	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_1_IP1_LN0_REFCLK,
@@ -435,6 +445,8 @@ enum {
 	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_1_IP3_LN3_RXFCLK,
 	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_1_IP3_LN3_TXFCLK,
 	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_1_IP3_LN3_TXMCLK,
+	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_1_REF_DER_OUT_CLK,
+	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_1_REF_OUT_CLK,
 	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_2_CMN_REFCLK_M,
 	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_2_IP1_LN0_REFCLK,
 	J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_2_IP1_LN0_RXCLK,
@@ -1558,6 +1570,74 @@ static const u8 pllfracf2_ssmod_16fft_mcu_1_entries[] = {
 	PLL_TABLE_LAST,
 };
 
+static const struct clk_parent clk_ACSPCIE0_BUFCLK_MUX_out0_parents[] = {
+	{
+		CLK_J784S4_WIZ16B8M4CT3_MAIN_0_REF_DER_OUT_CLK,
+		1,
+	},
+	{
+		CLK_J784S4_HSDIV4_16FFT_MCU_2_HSDIVOUT4_CLK,
+		1,
+	},
+	{
+		CLK_J784S4_WIZ16B8M4CT3_MAIN_0_REF_OUT_CLK,
+		1,
+	},
+	{
+		CLK_J784S4_WIZ16B8M4CT3_MAIN_1_REF_DER_OUT_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_ACSPCIE0_BUFCLK_MUX_out0 = {
+	.data_mux		= {
+		.parents	= clk_ACSPCIE0_BUFCLK_MUX_out0_parents,
+		.n		= ARRAY_SIZE(clk_ACSPCIE0_BUFCLK_MUX_out0_parents),
+	},
+	.reg			= 0x00100000 + 32884,
+	.bit			= 0,
+};
+static const struct clk_data_mux_reg clk_data_ACSPCIE0_BUFCLK_MUX_out1 = {
+	.data_mux		= {
+		.parents	= clk_ACSPCIE0_BUFCLK_MUX_out0_parents,
+		.n		= ARRAY_SIZE(clk_ACSPCIE0_BUFCLK_MUX_out0_parents),
+	},
+	.reg			= 0x00100000 + 32892,
+	.bit			= 0,
+};
+static const struct clk_parent clk_ACSPCIE1_BUFCLK_MUX_out0_parents[] = {
+	{
+		CLK_J784S4_WIZ16B8M4CT3_MAIN_1_REF_DER_OUT_CLK,
+		1,
+	},
+	{
+		CLK_J784S4_HSDIV4_16FFT_MCU_2_HSDIVOUT4_CLK,
+		1,
+	},
+	{
+		CLK_J784S4_WIZ16B8M4CT3_MAIN_1_REF_OUT_CLK,
+		1,
+	},
+	{
+		0,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_ACSPCIE1_BUFCLK_MUX_out0 = {
+	.data_mux		= {
+		.parents	= clk_ACSPCIE1_BUFCLK_MUX_out0_parents,
+		.n		= ARRAY_SIZE(clk_ACSPCIE1_BUFCLK_MUX_out0_parents),
+	},
+	.reg			= 0x00100000 + 32880,
+	.bit			= 0,
+};
+static const struct clk_data_mux_reg clk_data_ACSPCIE1_BUFCLK_MUX_out1 = {
+	.data_mux		= {
+		.parents	= clk_ACSPCIE1_BUFCLK_MUX_out0_parents,
+		.n		= ARRAY_SIZE(clk_ACSPCIE1_BUFCLK_MUX_out0_parents),
+	},
+	.reg			= 0x00100000 + 32888,
+	.bit			= 0,
+};
 static const struct clk_parent clk_ATL_AWS_SEL_out0_parents[] = {
 	{
 		CLK_J784S4_MCASP_MAIN_0_MCASP_AFSX_POUT,
@@ -2889,6 +2969,38 @@ static const struct clk_data_mux_reg clk_data_EMMCSD_REFCLK_SEL_out1 = {
 	},
 	.reg			= 0x00100000 + 32948,
 	.bit			= 0,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe0_buffer_PAD0_M = {
+	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER,
+	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER_PAD0_M,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe0_buffer_PAD0_P = {
+	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER,
+	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER_PAD0_P,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe0_buffer_PAD1_M = {
+	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER,
+	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER_PAD1_M,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe0_buffer_PAD1_P = {
+	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER,
+	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER_PAD1_P,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe1_buffer_PAD0_M = {
+	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER,
+	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER_PAD0_M,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe1_buffer_PAD0_P = {
+	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER,
+	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER_PAD0_P,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe1_buffer_PAD1_M = {
+	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER,
+	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER_PAD1_M,
+};
+static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe1_buffer_PAD1_P = {
+	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER,
+	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER_PAD1_P,
 };
 static const struct clk_data_mux_reg clk_data_GTC_CLK_MUX_out0 = {
 	.data_mux		= {
@@ -8121,6 +8233,14 @@ static const struct clk_data_from_dev clk_data_wiz16b8m4ct3_main_0_ip4_ln3_txmcl
 	.dev		= J784S4_DEV_SERDES_10G0,
 	.clk_idx	= J784S4_DEV_SERDES_10G0_IP4_LN3_TXMCLK,
 };
+static const struct clk_data_from_dev clk_data_wiz16b8m4ct3_main_0_ref_der_out_clk = {
+	.dev		= J784S4_DEV_SERDES_10G0,
+	.clk_idx	= J784S4_DEV_SERDES_10G0_REF_DER_OUT_CLK,
+};
+static const struct clk_data_from_dev clk_data_wiz16b8m4ct3_main_0_ref_out_clk = {
+	.dev		= J784S4_DEV_SERDES_10G0,
+	.clk_idx	= J784S4_DEV_SERDES_10G0_REF_OUT_CLK,
+};
 static const struct clk_data_from_dev clk_data_wiz16b8m4ct3_main_1_cmn_refclk_m = {
 	.dev		= J784S4_DEV_SERDES_10G1,
 	.clk_idx	= J784S4_DEV_SERDES_10G1_CMN_REFCLK_M,
@@ -8328,6 +8448,14 @@ static const struct clk_data_from_dev clk_data_wiz16b8m4ct3_main_1_ip3_ln3_txfcl
 static const struct clk_data_from_dev clk_data_wiz16b8m4ct3_main_1_ip3_ln3_txmclk = {
 	.dev		= J784S4_DEV_SERDES_10G1,
 	.clk_idx	= J784S4_DEV_SERDES_10G1_IP3_LN3_TXMCLK,
+};
+static const struct clk_data_from_dev clk_data_wiz16b8m4ct3_main_1_ref_der_out_clk = {
+	.dev		= J784S4_DEV_SERDES_10G1,
+	.clk_idx	= J784S4_DEV_SERDES_10G1_REF_DER_OUT_CLK,
+};
+static const struct clk_data_from_dev clk_data_wiz16b8m4ct3_main_1_ref_out_clk = {
+	.dev		= J784S4_DEV_SERDES_10G1,
+	.clk_idx	= J784S4_DEV_SERDES_10G1_REF_OUT_CLK,
 };
 static const struct clk_data_from_dev clk_data_wiz16b8m4ct3_main_2_cmn_refclk_m = {
 	.dev		= J784S4_DEV_SERDES_10G2,
@@ -9427,6 +9555,54 @@ const struct clk_data soc_clock_data[] = {
 		.flags	= 0,
 		.data	= &clk_data_MCU_TIMER9_CASCADE_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J784S4_GLUELOGIC_ACSPCIE0_BUFFER_PAD0_M] =					 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe0_buffer_PAD0_M.data,
+		.freq_idx	= J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE0_BUFFER_PAD0_M,
+	},
+	[CLK_J784S4_GLUELOGIC_ACSPCIE0_BUFFER_PAD0_P] =					 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe0_buffer_PAD0_P.data,
+		.freq_idx	= J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE0_BUFFER_PAD0_P,
+	},
+	[CLK_J784S4_GLUELOGIC_ACSPCIE0_BUFFER_PAD1_M] =					 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe0_buffer_PAD1_M.data,
+		.freq_idx	= J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE0_BUFFER_PAD1_M,
+	},
+	[CLK_J784S4_GLUELOGIC_ACSPCIE0_BUFFER_PAD1_P] =					 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe0_buffer_PAD1_P.data,
+		.freq_idx	= J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE0_BUFFER_PAD1_P,
+	},
+	[CLK_J784S4_GLUELOGIC_ACSPCIE1_BUFFER_PAD0_M] =					 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe1_buffer_PAD0_M.data,
+		.freq_idx	= J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE1_BUFFER_PAD0_M,
+	},
+	[CLK_J784S4_GLUELOGIC_ACSPCIE1_BUFFER_PAD0_P] =					 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe1_buffer_PAD0_P.data,
+		.freq_idx	= J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE1_BUFFER_PAD0_P,
+	},
+	[CLK_J784S4_GLUELOGIC_ACSPCIE1_BUFFER_PAD1_M] =					 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe1_buffer_PAD1_M.data,
+		.freq_idx	= J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE1_BUFFER_PAD1_M,
+	},
+	[CLK_J784S4_GLUELOGIC_ACSPCIE1_BUFFER_PAD1_P] =					 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_GLUELOGIC_ACSPCIe1_buffer_PAD1_P.data,
+		.freq_idx	= J784S4_FREQ_VALUE_GLUELOGIC_ACSPCIE1_BUFFER_PAD1_P,
 	},
 	[CLK_J784S4_K3_DPHY_RX_MAIN_0_PPI_D_RX_ULPS_ESC] =				 {
 		.drv		= &clk_drv_from_device,
@@ -11683,6 +11859,18 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_wiz16b8m4ct3_main_0_ip4_ln3_txmclk.data,
 		.freq_idx	= J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_0_IP4_LN3_TXMCLK,
 	},
+	[CLK_J784S4_WIZ16B8M4CT3_MAIN_0_REF_DER_OUT_CLK] =				 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b8m4ct3_main_0_ref_der_out_clk.data,
+		.freq_idx	= J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_0_REF_DER_OUT_CLK,
+	},
+	[CLK_J784S4_WIZ16B8M4CT3_MAIN_0_REF_OUT_CLK] =					 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b8m4ct3_main_0_ref_out_clk.data,
+		.freq_idx	= J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_0_REF_OUT_CLK,
+	},
 	[CLK_J784S4_WIZ16B8M4CT3_MAIN_1_CMN_REFCLK_M] =					 {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -11994,6 +12182,18 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_wiz16b8m4ct3_main_1_ip3_ln3_txmclk.data,
 		.freq_idx	= J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_1_IP3_LN3_TXMCLK,
+	},
+	[CLK_J784S4_WIZ16B8M4CT3_MAIN_1_REF_DER_OUT_CLK] =				 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b8m4ct3_main_1_ref_der_out_clk.data,
+		.freq_idx	= J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_1_REF_DER_OUT_CLK,
+	},
+	[CLK_J784S4_WIZ16B8M4CT3_MAIN_1_REF_OUT_CLK] =					 {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_wiz16b8m4ct3_main_1_ref_out_clk.data,
+		.freq_idx	= J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_1_REF_OUT_CLK,
 	},
 	[CLK_J784S4_WIZ16B8M4CT3_MAIN_2_CMN_REFCLK_M] =					 {
 		.drv		= &clk_drv_from_device,
@@ -12582,6 +12782,30 @@ const struct clk_data soc_clock_data[] = {
 		.flags		= 0,
 		.data		= &clk_data_wiz16b8m4ct3_main_4_ip4_ln3_txmclk.data,
 		.freq_idx	= J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_4_IP4_LN3_TXMCLK,
+	},
+	[CLK_J784S4_ACSPCIE0_BUFCLK_MUX_OUT0] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ACSPCIE0_BUFCLK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J784S4_ACSPCIE0_BUFCLK_MUX_OUT1] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ACSPCIE0_BUFCLK_MUX_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J784S4_ACSPCIE1_BUFCLK_MUX_OUT0] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ACSPCIE1_BUFCLK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J784S4_ACSPCIE1_BUFCLK_MUX_OUT1] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ACSPCIE1_BUFCLK_MUX_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J784S4_ATL_AWS_SEL_OUT0] =							 {
 		.drv	= &clk_drv_mux_reg.drv,
