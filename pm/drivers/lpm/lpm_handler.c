@@ -65,6 +65,7 @@
 #define LPM_SUSPEND_DM                          BIT(6)
 
 extern s32 _stub_start(void);
+extern u32 lpm_get_wake_up_source(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
 extern void lpm_clear_all_wakeup_interrupt();
 
@@ -420,6 +421,22 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 			lpm_hang_abort();
 		}
 	}
+
+	return ret;
+}
+
+s32 dm_lpm_wake_reason_handler(u32 *msg_recv)
+{
+	struct tisci_msg_lpm_wake_reason_req *req =
+		(struct tisci_msg_lpm_wake_reason_req *) msg_recv;
+	struct tisci_msg_lpm_wake_reason_resp *resp =
+		(struct tisci_msg_lpm_wake_reason_resp *) msg_recv;
+	s32 ret = SUCCESS;
+
+	resp->hdr.flags = 0U;
+	resp->wake_source = lpm_get_wake_up_source();
+	/* TODO: Add support for time stamp */
+	resp->wake_timestamp = 0;
 
 	return ret;
 }

@@ -3,7 +3,7 @@
  *
  * Definition of data structures to describe wakeup source information.
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,6 +41,7 @@ struct wake_source_data {
 	u16		int_num;
 	u8		wkup_idx;
 	const char	*source;
+	u32		source_id;
 };
 
 extern const struct wake_source_data soc_wake_sources_data[WAKEUP_SOURCE_MAX];

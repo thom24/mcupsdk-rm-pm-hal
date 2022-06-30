@@ -81,6 +81,21 @@
 #define TISCI_MSG_VALUE_SLEEP_DEBUG_FLAG_30            0x0x40000000
 #define TISCI_MSG_VALUE_SLEEP_DEBUG_FLAG_31            0x0x80000000
 
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_WKUP_I2C0                       0x00
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_WKUP_UART0                      0x10
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MCU_GPIO0                       0x20
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_WKUP_ICEMELTER0                 0x30
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_WKUP_TIMER0                     0x40
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_WKUP_TIMER1                     0x41
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_WKUP_RTC0                       0x50
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_RESET                           0x60
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_USB0                            0x70
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_USB1                            0x71
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MAIN_IO                         0x80
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MCU_IO                          0x81
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_CAN_IO                          0x82
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID                         0xFF
+
 /**
  * \brief Request for TISCI_MSG_PREPARE_SLEEP.
  *
@@ -279,6 +294,32 @@ struct tisci_msg_abort_enter_sleep_req {
  */
 struct tisci_msg_abort_enter_sleep_resp {
 	struct tisci_header hdr;
+} __attribute__((__packed__));
+
+/**
+ * \brief Request for TISCI_MSG_LPM_WAKE_REASON.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ *
+ * This message is used to query the wake up source from low power mode.
+ *
+ */
+struct tisci_msg_lpm_wake_reason_req {
+	struct tisci_header hdr;
+} __attribute__((__packed__));
+
+/**
+ * \brief Response for TISCI_MSG_LPM_WAKE_REASON.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ * \param wake_source The wake up source that woke soc from LPM.
+ * \param wake_timestamp Timestamp at which soc woke.
+ *
+ */
+struct tisci_msg_lpm_wake_reason_resp {
+	struct tisci_header	hdr;
+	u32			wake_source;
+	u64			wake_timestamp;
 } __attribute__((__packed__));
 
 #endif
