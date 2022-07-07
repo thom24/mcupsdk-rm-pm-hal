@@ -165,23 +165,7 @@ static const struct rm_mmr mmr_MCU_NAVSS0_UDMASS_INTA_0_UDMASS_INTA0_GCNTRTI = {
 
 static u8 vint_usage_count_MCU_NAVSS0_UDMASS_INTA_0[256U];
 
-static struct ia_used_mapping rom_usage_MCU_NAVSS0_UDMASS_INTA_0[5U] = {
-	{
-		.event = 16404U,
-		.cleared = SFALSE,
-	},
-	{
-		.event = 16405U,
-		.cleared = SFALSE,
-	},
-	{
-		.event = 16406U,
-		.cleared = SFALSE,
-	},
-	{
-		.event = 16407U,
-		.cleared = SFALSE,
-	},
+static struct ia_used_mapping rom_usage_MCU_NAVSS0_UDMASS_INTA_0[1U] = {
 	{
 		.event = 16414U,
 		.cleared = SFALSE,

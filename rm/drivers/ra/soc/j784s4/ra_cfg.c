@@ -219,57 +219,21 @@ static const struct ra_ring_type ring_types_MCU_NAVSS0_RINGACC0[5] = {
 /*
  * Resources used by ROM which must have their OES registers reset
  */
-static struct ra_used_mapping rom_usage_MCU_NAVSS0_RINGACC0[13U] = {
+static struct ra_used_mapping rom_usage_MCU_NAVSS0_RINGACC0[4U] = {
 	{
 		.ring = 0U,
 		.cleared = SFALSE,
 	},
 	{
-		.ring = 1U,
+		.ring = 96U,
 		.cleared = SFALSE,
 	},
 	{
-		.ring = 2U,
+		.ring = 97U,
 		.cleared = SFALSE,
 	},
 	{
-		.ring = 3U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 4U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 52U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 100U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 101U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 102U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 256U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 257U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 258U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 259U,
+		.ring = 98U,
 		.cleared = SFALSE,
 	},
 };

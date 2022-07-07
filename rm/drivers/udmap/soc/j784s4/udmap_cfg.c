@@ -348,7 +348,7 @@ static struct udmap_flow_common common_flows_MCU_NAVSS0_UDMAP_0 = {
 /*
  * Resources used by ROM which must have their OES and EOES registers reset
  */
-static struct udmap_used_mapping rom_usage_MCU_NAVSS0_UDMAP_0[10U] = {
+static struct udmap_used_mapping rom_usage_MCU_NAVSS0_UDMAP_0[4U] = {
 	{
 		.ch = 0U,
 		.tx_ch = STRUE,
@@ -362,18 +362,6 @@ static struct udmap_used_mapping rom_usage_MCU_NAVSS0_UDMAP_0[10U] = {
 		.cleared = SFALSE,
 	},
 	{
-		.ch = 4U,
-		.tx_ch = STRUE,
-		.err_evt = SFALSE,
-		.cleared = SFALSE,
-	},
-	{
-		.ch = 4U,
-		.tx_ch = STRUE,
-		.err_evt = STRUE,
-		.cleared = SFALSE,
-	},
-	{
 		.ch = 0U,
 		.tx_ch = SFALSE,
 		.err_evt = SFALSE,
@@ -381,30 +369,6 @@ static struct udmap_used_mapping rom_usage_MCU_NAVSS0_UDMAP_0[10U] = {
 	},
 	{
 		.ch = 0U,
-		.tx_ch = SFALSE,
-		.err_evt = STRUE,
-		.cleared = SFALSE,
-	},
-	{
-		.ch = 4U,
-		.tx_ch = SFALSE,
-		.err_evt = SFALSE,
-		.cleared = SFALSE,
-	},
-	{
-		.ch = 4U,
-		.tx_ch = SFALSE,
-		.err_evt = STRUE,
-		.cleared = SFALSE,
-	},
-	{
-		.ch = 5U,
-		.tx_ch = SFALSE,
-		.err_evt = SFALSE,
-		.cleared = SFALSE,
-	},
-	{
-		.ch = 5U,
 		.tx_ch = SFALSE,
 		.err_evt = STRUE,
 		.cleared = SFALSE,
