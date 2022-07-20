@@ -30,15 +30,7 @@
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-INCLUDE_THIS_FILE=n
-ifeq ($(CONFIG_PM),y)
-INCLUDE_THIS_FILE=y
-endif
-ifeq ($(CONFIG_RM),y)
-INCLUDE_THIS_FILE=y
-endif
+cppflags-y += -I$(srctree)/rm_pm_hal/common/fw_caps
+cppflags-y += -I$(srctree)/rm_pm_hal/common/fw_caps/soc/$(TARGET_SOC)
 
-obj-$(INCLUDE_THIS_FILE) += boardcfg-user.o
-obj-$(INCLUDE_THIS_FILE) += $(TARGET_SOC)/
-obj-$(CONFIG_SEC_PROXY_DRIVER) += sec_proxy/
-obj-y += fw_caps/
+obj-$(CONFIG_GET_FW_CAPS) += fw_caps.o
