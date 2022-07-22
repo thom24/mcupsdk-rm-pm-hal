@@ -37,8 +37,9 @@
 #include <config.h>
 #include <types/short_types.h>
 
-#define TISCI_MSG_FLAG_FW_CAP_MAX (0x00U)
+#define TISCI_MSG_FLAG_FW_CAP_MAX (0x01U)
 const u64 soc_fw_caps[TISCI_MSG_FLAG_FW_CAP_MAX] = {
+	TISCI_MSG_FLAG_FW_CAP_GENERIC_CAP,
 };
 
 #endif /* SOC_AM65X_CAPABILITIES_H */

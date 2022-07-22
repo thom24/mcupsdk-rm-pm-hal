@@ -47,7 +47,6 @@ s32 query_fw_caps_handler(u32 *msg_recv)
 	unsigned int i;
 
 	resp->hdr.flags = 0U;
-	resp->fw_caps = TISCI_MSG_FLAG_FW_CAP_GENERIC_CAP;
 	for (i = 0; i < TISCI_MSG_FLAG_FW_CAP_MAX; i++) {
 		resp->fw_caps |= soc_fw_caps[i];
 	}
