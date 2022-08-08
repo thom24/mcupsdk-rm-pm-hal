@@ -662,7 +662,6 @@ enum {
 	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_19_DEFAULT,
 	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_2_DEFAULT,
 	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_25_DEFAULT,
-	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_3_DEFAULT,
 	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_4_DEFAULT,
 	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_5_DEFAULT,
 	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_6_DEFAULT,
@@ -689,7 +688,6 @@ const struct clk_default soc_clock_freq_defaults[] = {
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_19_DEFAULT, 1800000000UL, 1800000000UL, 1800000000UL),
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_2_DEFAULT,	1800000000UL, 1800000000UL, 1800000001UL),
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_25_DEFAULT, 2880000000UL, 2880000000UL, 2880000000UL),
-	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_3_DEFAULT,	2500000000UL, 2500000000UL, 2500000000UL),
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_4_DEFAULT,	2359296000UL, 2359296000UL, 2359296001UL),
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_5_DEFAULT,	2400000000UL, 2400000000UL, 2400000000UL),
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_6_DEFAULT,	1600000000UL, 1600000000UL, 1600000000UL),
@@ -6679,7 +6677,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_2_hsdiv4 = {
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv0 = {
 	.data_div		= {
 		.n		= 128,
-		.default_div	= 10,
+		.default_div	= 8,
 	},
 	.reg			= 0x00680000UL + (0x1000UL * 3UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
@@ -6687,7 +6685,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv0 = {
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv1 = {
 	.data_div		= {
 		.n		= 128,
-		.default_div	= 10,
+		.default_div	= 8,
 	},
 	.reg			= 0x00680000UL + (0x1000UL * 3UL) + 0x80UL + (0x4UL * 1UL),
 	.bit			= 0,
@@ -6695,7 +6693,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv1 = {
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv2 = {
 	.data_div		= {
 		.n		= 128,
-		.default_div	= 13,
+		.default_div	= 10,
 	},
 	.reg			= 0x00680000UL + (0x1000UL * 3UL) + 0x80UL + (0x4UL * 2UL),
 	.bit			= 0,
@@ -6703,7 +6701,7 @@ static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv2 = {
 static const struct clk_data_div_reg clk_data_hsdiv4_16fft_main_3_hsdiv3 = {
 	.data_div		= {
 		.n		= 128,
-		.default_div	= 10,
+		.default_div	= 8,
 	},
 	.reg			= 0x00680000UL + (0x1000UL * 3UL) + 0x80UL + (0x4UL * 3UL),
 	.bit			= 0,
@@ -7678,7 +7676,7 @@ static const struct clk_data_pll_16fft clk_data_pllfracf2_ssmod_16fft_main_3 = {
 		.fractional_support	= STRUE,
 		.devgrp			= DEVGRP_01,
 		.pll_entries		= pllfracf2_ssmod_16fft_main_3_entries,
-		.default_freq_idx	= FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_3_DEFAULT,
+		.default_freq_idx	= FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_14_DEFAULT,
 	},
 	.idx				= 3,
 	.base				= 0x00680000,
