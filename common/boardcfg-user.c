@@ -194,7 +194,7 @@ static bool boardcfg_validate_rm_resasg(const struct boardcfg_rm_resasg *resasg)
 		if ((resasg->resasg_entries_size == 0u) ||
 		    ((resasg->resasg_entries_size >=
 		      (RESASG_ENTRIES_MAX *
-		       sizeof(struct boardcfg_rm_resasg_entry))) &&
+		       sizeof(struct boardcfg_rm_resasg_entry))) ||
 		     ((resasg->resasg_entries_size %
 		       sizeof(struct boardcfg_rm_resasg_entry)) > 0u))) {
 			ret = false;
