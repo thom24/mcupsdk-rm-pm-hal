@@ -3,7 +3,7 @@
  *
  * Resource Manager APIs
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -251,6 +251,66 @@ static inline s32 rm_udmap_flow_delegate(u32 *msg_recv __attribute__((unused)))
 {
 	return -EINIT;
 }
+#endif
+
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+#ifdef CONFIG_RM_PSIL
+/**
+ * \brief psil pairing message handler
+ *
+ * \param msg_recv Received TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_psil_pair(u32 *msg_recv);
+
+/**
+ * \brief psil unpairing message handler
+ *
+ * \param msg_recv Received TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_psil_unpair(u32 *msg_recv);
+
+/**
+ * \brief psil reading message handler
+ *
+ * \param msg_recv Received TISCI message
+ *
+ * \param msg_resp Response TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_psil_read(u32 *msg_recv, u32 *msg_resp);
+
+/**
+ * \brief psil writing message handler
+ *
+ * \param msg_recv Received TISCI message
+ *
+ * \return SUCCESS if message processed successfully, else error
+ */
+s32 rm_psil_write(u32 *msg_recv);
+#else
+static inline s32 rm_psil_pair(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+static inline s32 rm_psil_unpair(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+static inline s32 rm_psil_read(u32	*msg_recv __attribute__((unused)),
+			       u32	*msg_resp __attribute__((unused)))
+{
+	return -EINIT;
+}
+static inline s32 rm_psil_write(u32 *msg_recv __attribute__((unused)))
+{
+	return -EINIT;
+}
+#endif
 #endif
 
 #endif /* RM_H */

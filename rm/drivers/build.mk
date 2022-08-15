@@ -37,3 +37,6 @@ obj-$(CONFIG_RM_RA) += ra/
 obj-$(CONFIG_RM_UDMAP) += udmap/
 obj-$(CONFIG_RM_PROXY) += proxy/
 obj-$(CONFIG_LPM_DM) += lpm/
+ifneq ($(CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS),)
+obj-$(CONFIG_RM_PSIL) += psil/
+endif

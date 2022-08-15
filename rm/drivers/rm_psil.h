@@ -1,11 +1,9 @@
 /*
- * PSI-L
+ * Non Secure PSIL
  *
- * PSI-L SoC-specific configuration definitions
+ * Non Secure PSIL management infrastructure
  *
- * Data version: 201208_205323
- *
- * Copyright (C) 2019-2021, Texas Instruments Incorporated
+ * Copyright (C) 2018-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,19 +33,11 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef PSIL_CFG_H
-#define PSIL_CFG_H
 
-#include <config.h>
+#ifndef RM_PSIL_H
+#define RM_PSIL_H
 
-/**
- * Number of threads used by ROM during boot
- */
-#if !defined(CONFIG_DEVICE_TYPE_HS)
-#define PSIL_ROM_USAGE_CNT (10U)
-#else
-#define PSIL_ROM_USAGE_CNT (4U)
-#endif
+#include <types/sbool.h>
+#include <types/short_types.h>
 
-
-#endif /* PSIL_CFG_H */
+#endif /* RM_PSIL_H */

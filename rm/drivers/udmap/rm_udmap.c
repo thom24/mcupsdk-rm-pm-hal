@@ -3,7 +3,7 @@
  *
  * UDMAP management infrastructure
  *
- * Copyright (C) 2018-2021, Texas Instruments Incorporated
+ * Copyright (C) 2018-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -669,6 +669,117 @@ static s32 udmap_check_index_range(const struct udmap_instance *inst, u8 host,
 
 	return r;
 }
+
+/**
+ * \brief Get the resource assignment type corresponding to a particular resource
+ *
+ * \param inst UDMAP instance
+ *
+ * \param index UDMAP tx or rx ch index
+ *
+ * \param utype Returns the channel utype if not NULL
+ *
+ * \param tx_ch Transmit channel if STRUE, Receive channel if SFALSE
+ *
+ * \return SUCCESS if resource type is found, else -EINVAL
+ */
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+static s32 udmap_get_type(const struct udmap_instance *inst,
+			  u16 index, u16 *utype,
+			  sbool tx_ch, u8 extended_ch_type)
+{
+	s32 r = -EINVAL;
+	u8 n_ch_type = ((tx_ch == STRUE) ? inst->n_tx_ch_type :
+			inst->n_rx_ch_type);
+	const struct udmap_ch_type *ch_types = ((tx_ch == STRUE) ?
+						inst->tx_ch_types :
+						inst->rx_ch_types);
+	u8 i;
+	u16 loc_index = index;
+
+	if ((inst->bc_ch_types != NULL) && (tx_ch == STRUE) &&
+	    (extended_ch_type == (u8) 1)) {
+		/* Use block copy channel types array */
+		ch_types = inst->bc_ch_types;
+	}
+
+	for (i = 0U; i < n_ch_type; i++) {
+		/* Search for index among all ch type index ranges */
+		if ((loc_index >= ch_types[i].start) &&
+		    (loc_index <= ch_types[i].end)) {
+			r = SUCCESS;
+			break;
+		}
+	}
+
+	if (r == SUCCESS) {
+		if (utype != NULL) {
+			*utype = ch_types[i].utype;
+		}
+	}
+
+	return r;
+}
+
+/**
+ * \brief Get the host ID corresponding to a particular DMA channel
+ *
+ * \param id Device ID
+ *
+ * \param index UDMAP tx or rx ch index
+ *
+ * \param tx_ch Transmit channel if STRUE, Receive channel if SFALSE
+ *
+ * \return The host ID value if successful, or -EINVAL
+ */
+s32 udmap_get_host(u16 id, u16 index, sbool tx_ch)
+{
+	s32 r = SUCCESS;
+	const struct udmap_instance *inst = NULL;
+	u16 utype;
+	u8 hosts[FWL_MAX_PRIVID_SLOTS];
+	u8 n_hosts = 0U;
+	u8 trace_action = (tx_ch == STRUE) ?
+			  TRACE_RM_ACTION_UDMAP_TX_CH_CFG :
+			  TRACE_RM_ACTION_UDMAP_RX_CH_CFG;
+
+	inst = udmap_get_inst(id, trace_action);
+	if (inst == NULL) {
+		r = -EINVAL;
+	}
+
+	if (r == SUCCESS) {
+		if (tx_ch) {
+			if (index >= inst->n_tx_ch) {
+				trace_action |= TRACE_RM_ACTION_FAIL;
+				r = -EINVAL;
+			}
+		} else {
+			if (index >= inst->n_rx_ch) {
+				trace_action |= TRACE_RM_ACTION_FAIL;
+				r = -EINVAL;
+			}
+		}
+	}
+
+	/* Get the resasg type */
+	if (r == SUCCESS) {
+		r = udmap_get_type(inst, index, &utype, tx_ch, 0);
+	}
+
+	/* Convert utype to host ID */
+	if (r == SUCCESS) {
+		r = rm_core_get_resasg_hosts(utype, index, &n_hosts,
+					     &hosts[0U], FWL_MAX_PRIVID_SLOTS);
+	}
+
+	if (r == SUCCESS) {
+		return hosts[0];
+	} else {
+		return -EINVAL;
+	}
+}
+#endif
 
 /**
  * \brief Validate UDMAP receive flow index against the board cfg resasg data

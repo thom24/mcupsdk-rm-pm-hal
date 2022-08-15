@@ -3,7 +3,7 @@
  *
  * UDMAP management infrastructure
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -78,5 +78,20 @@ s32 rm_udmap_init(void);
  *      -E... - Failed to deinitialize the chosen device group
  */
 s32 rm_udmap_deinit(devgrp_t devgrp);
+
+/**
+ * \brief Get the host ID corresponding to a particular DMA channel
+ *
+ * \param id Device ID
+ *
+ * \param index UDMAP tx or rx ch index
+ *
+ * \param tx_ch Transmit channel if STRUE, Receive channel if SFALSE
+ *
+ * \return The host ID value if successful, or -EINVAL
+ */
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+s32 udmap_get_host(u16 id, u16 index, sbool tx_ch);
+#endif
 
 #endif /* RM_UDMAP_H */

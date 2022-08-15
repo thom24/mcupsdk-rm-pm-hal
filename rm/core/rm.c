@@ -3,7 +3,7 @@
  *
  * Resource Manager core infrastructure
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,6 +54,11 @@
 #endif
 #ifdef CONFIG_RM_PROXY
 #include <rm_proxy.h>
+#endif
+#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
+#ifdef CONFIG_RM_PSIL
+#include <rm_psil.h>
+#endif
 #endif
 
 s32 rm_init(void)
