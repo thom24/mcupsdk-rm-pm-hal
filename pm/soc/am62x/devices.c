@@ -1,5 +1,5 @@
 /*
- * Data version: 220527_134115
+ * Data version: 220811_185331
  *
  * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -2545,7 +2545,7 @@ static const struct dev_data am62x_dev_mcu_obsclk_mux_sel_dev_VD __attribute__((
 		.psc_idx	= PSC_DEV_NONE,
 	},
 	.dev_clk_idx		= AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD_CLOCKS,
-	.n_clocks		= 8,
+	.n_clocks		= 10,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 
@@ -3044,7 +3044,7 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__sect
 	DEV_CLK_MUX(AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD_CLOCKS,		      AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD_CLK,
 		    CLK_AM62X_MCU_OBSCLK_MUX_SEL_OUT0,
 		    1,
-		    8),
+		    10),
 	DEV_CLK_PARENT(AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD_CLOCKS,	      AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD_CLK_PARENT_GLUELOGIC_RCOSC_CLKOUT,
 		       CLK_AM62X_GLUELOGIC_RCOSC_CLKOUT,
 		       1,
@@ -3069,6 +3069,13 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__sect
 	DEV_CLK_PARENT(AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD_CLOCKS,	      AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD_CLK_PARENT_HSDIV0_16FFT_MCU_32KHZ_GEN_0_HSDIVOUT0_CLK8,
 		       CLK_AM62X_HSDIV0_16FFT_MCU_32KHZ_GEN_0_HSDIVOUT0_CLK,  8,
 		       7),
+	DEV_CLK_PARENT(AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD_CLOCKS,	      AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD_CLK_PARENT_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
+		       CLK_AM62X_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK, 1,
+		       8),
+	DEV_CLK_PARENT(AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD_CLOCKS,	      AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD_CLK_PARENT_CLK_32K_RC_SEL_OUT0,
+		       CLK_AM62X_CLK_32K_RC_SEL_OUT0,
+		       1,
+		       9),
 };
 static struct dev_clk MCU_WAKEUP_dev_clk[ARRAY_SIZE(MCU_WAKEUP_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
 static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(".const.devgroup.MAIN"))) = {

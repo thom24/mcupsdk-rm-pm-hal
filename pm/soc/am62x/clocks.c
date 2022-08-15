@@ -1,5 +1,5 @@
 /*
- * Data version: 220527_134115
+ * Data version: 220811_185331
  *
  * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -1616,6 +1616,38 @@ static const struct clk_parent clk_MCU_OBSCLK_MUX_SEL_parents[] = {
 	{
 		CLK_AM62X_HSDIV0_16FFT_MCU_32KHZ_GEN_0_HSDIVOUT0_CLK,
 		8,
+	},
+	{
+		CLK_AM62X_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
+		1,
+	},
+	{
+		CLK_AM62X_CLK_32K_RC_SEL_OUT0,
+		1,
+	},
+	{
+		0,
+		0,
+	},
+	{
+		0,
+		0,
+	},
+	{
+		0,
+		0,
+	},
+	{
+		0,
+		0,
+	},
+	{
+		0,
+		0,
+	},
+	{
+		0,
+		0,
 	},
 };
 static const struct clk_data_mux_reg clk_data_MCU_OBSCLK_MUX_SEL_out0 = {
