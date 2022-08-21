@@ -14030,6 +14030,9 @@ static const struct dev_clk_data TIFS_INTERNAL_dev_clk_data[] __attribute__((__s
 	DEV_CLK(J784S4_DEV_NAVSS_MCU_J7_MCU_0_RINGACC_0_CLOCKS, J784S4_DEV_MCU_NAVSS0_RINGACC0_SYS_CLK, CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
 };
 static struct dev_clk TIFS_INTERNAL_dev_clk[ARRAY_SIZE(TIFS_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.TIFS_INTERNAL")));
+static const struct dev_clk_data HSM_INTERNAL_dev_clk_data[] __attribute__((__section__(".const.devgroup.HSM_INTERNAL"))) = {
+};
+static struct dev_clk HSM_INTERNAL_dev_clk[ARRAY_SIZE(HSM_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.HSM_INTERNAL")));
 
 const struct devgroup soc_devgroups[] = {
 	[PM_DEVGRP_00] =   {
@@ -14047,7 +14050,13 @@ const struct devgroup soc_devgroups[] = {
 		.dev_clk	= TIFS_INTERNAL_dev_clk,
 		.clk_idx	= 1U,
 	},
+	[PM_DEVGRP_HSM] =  {
+		.dev_clk_data	= HSM_INTERNAL_dev_clk_data,
+		.dev_clk	= HSM_INTERNAL_dev_clk,
+		.clk_idx	= 841U,
+	},
 };
+
 const size_t soc_devgroup_count = ARRAY_SIZE(soc_devgroups);
 
 const struct soc_device_data *const soc_psc_multiple_domains[] = {

@@ -3,7 +3,7 @@
  *
  * Software defined Device groups (devgrps) for J784S4 device.
  *
- * Data version: 220615_194547
+ * Data version: 220721_142300
  *
  * Copyright (C) 2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -58,6 +58,11 @@
  * Set of peripherals to initialize for TIFS internal usage
  */
 #define SOC_DEVGRP_J784S4_TIFS_INTERNAL DEVGRP_DMSC
+
+/**
+ * Set of peripherals to initialize for TIFS HSM internal usage
+ */
+#define SOC_DEVGRP_J784S4_HSM_INTERNAL DEVGRP_HSM
 
 
 #endif /* SOC_J784S4_DEVGRPS_H */
