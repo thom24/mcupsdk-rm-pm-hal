@@ -5,7 +5,7 @@
  *
  * Data version: 211118_090221
  *
- * Copyright (C) 2019-2021, Texas Instruments Incorporated
+ * Copyright (C) 2019-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@
 #define HOST_ID_MAIN_0_R5_1 (36U)
 /** MAIN_0_R5_2(Non Secure): Cortex R5_0 context 2 on Main island */
 #define HOST_ID_MAIN_0_R5_2 (37U)
-/** MAIN_0_R5_3(Secure): Cortex R5_0 context 3 on MCU island */
+/** MAIN_0_R5_3(Secure): Cortex R5_0 context 3 on Main island */
 #define HOST_ID_MAIN_0_R5_3 (38U)
 /** DM2DMSC(Secure): DM to DMSC communication */
 #define HOST_ID_DM2DMSC (250U)
