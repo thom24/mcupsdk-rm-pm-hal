@@ -88,10 +88,21 @@ s32 rm_udmap_deinit(devgrp_t devgrp);
  *
  * \param tx_ch Transmit channel if STRUE, Receive channel if SFALSE
  *
+ * \param n_hosts Pointer to a variable which is populated with the number
+ *                of hosts assigned to the resource in the RM board
+ *                configuration
+ *
+ * \param host_array Pointer to a array variable which is populated with the
+ *                   hosts assigned to the resource in the RM board
+ *                   configuration
+ *
+ * \param host_array_max Maximum number of elements in the array pointed to by
+ *                       host_array
+ *
  * \return The host ID value if successful, or -EINVAL
  */
 #ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
-s32 udmap_get_host(u16 id, u16 index, sbool tx_ch);
+s32 udmap_get_host(u16 id, u16 index, sbool tx_ch, u8 *n_hosts, u8 *hosts_array, u8 host_array_max);
 #endif
 
 #endif /* RM_UDMAP_H */
