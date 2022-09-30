@@ -431,7 +431,7 @@ s32 boardcfg_pm_receive_and_validate(u8		host __attribute__((unused)),
 	s32 ret = SUCCESS;
 	devgrp_t devgrp = boardcfg_pm_devgrp;
 
-	if ((devgrp & (DEVGRP_04 | DEVGRP_05 | DEVGRP_06)) != 0U) {
+	if ((devgrp & (DEVGRP_04 | DEVGRP_05 | DEVGRP_HSM)) != 0U) {
 		ret = -EINVAL;
 	} else if (devgrp == DEVGRP_ALL) {
 		devgrp = DEVGRP_DMSC_ALL;

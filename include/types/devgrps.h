@@ -3,7 +3,7 @@
  *
  * Deinfitions for various sysfw devgrps
  *
- * Copyright (C) 2019-2020, Texas Instruments Incorporated
+ * Copyright (C) 2019-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,10 +66,11 @@ typedef u8 devgrp_t;
 #define DEVGRP_04               ((0x01U) << 4U)
 /** SoC defined SYSFW devgrp 05 */
 #define DEVGRP_05               ((0x01U) << 5U)
-/** SoC defined SYSFW devgrp 06 */
-#define DEVGRP_06               ((0x01U) << 6U)
 
 /** SYSFW internal usage ONLY */
+
+/** Module belonging solely to HSM operations */
+#define DEVGRP_HSM              ((0x01U) << 6U)
 
 /** Module belonging solely to DMSC operations */
 #define DEVGRP_DMSC             ((0x01U) << 7U)
@@ -101,7 +102,8 @@ static inline s32 is_devgrp(devgrp_t module_devgrp, devgrp_t requested_devgrp)
 	if (requested_devgrp == DEVGRP_DMSC_ALL) {
 		ret = SUCCESS;
 	}
-	if ((requested_devgrp == DEVGRP_ALL) && (module_devgrp != DEVGRP_DMSC)) {
+	if ((requested_devgrp == DEVGRP_ALL) && (module_devgrp != DEVGRP_DMSC) &&
+	    (module_devgrp != DEVGRP_HSM)) {
 		ret = SUCCESS;
 	}
 	if ((requested_devgrp & module_devgrp) != 0U) {
