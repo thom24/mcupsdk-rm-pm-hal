@@ -173,7 +173,7 @@ sbool clk_notify_sibling_freq(struct clk *clkpp, struct clk *parent,
 		}
 
 		clkp = clk_lookup(i);
-		if (!clkp || ((clkp->flags && CLK_FLAG_INITIALIZED) == 0)) {
+		if (!clkp || ((clkp->flags & CLK_FLAG_INITIALIZED) == 0)) {
 			continue;
 		}
 
