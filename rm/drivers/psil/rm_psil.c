@@ -100,7 +100,7 @@ static s32 rm_psil_verify_host(u32 *msg_recv, sbool source_thread, sbool pairing
 	 * the resource in the boardcfg
 	 */
 	if (r == SUCCESS) {
-		r = udmap_get_host((u16) dev_id, (u16) index, STRUE, &n_hosts, &hosts[0], host_array_max);
+		r = udmap_get_host((u16) dev_id, (u16) index, source_thread, &n_hosts, &hosts[0], host_array_max);
 	}
 
 	/*
