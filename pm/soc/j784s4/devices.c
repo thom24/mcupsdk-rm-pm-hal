@@ -3452,7 +3452,7 @@ static const struct lpsc_module_data j784s4_j7am_main_psc_wrap_main_0_mod_data[J
 			DEV_ID_NONE,
 			0,
 		},
-		.flags			= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
 	[J784S4_PSC_LPSC_LPSC_MMC8B_0] =	     {
 		.powerdomain		= J784S4_PSC_PD_GP_CORE_CTL,
