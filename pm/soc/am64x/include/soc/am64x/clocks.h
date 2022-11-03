@@ -1,5 +1,5 @@
 /*
- * Data version: 220809_192501
+ * Data version: 221102_180519
  *
  * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -625,7 +625,7 @@
 #define AM64X_DEV_PRU_ICSSG1_PR1_RGMII1_TXC_O 23
 
 #define AM64X_DEV_LED0_LED_CLK 0
-#define AM64X_DEV_LED0_VBUSP_CLK 1
+#define AM64X_DEV_LED0_VBUS_CLK 1
 
 #define AM64X_DEV_CPTS0_CPTS_RFT_CLK 0
 #define AM64X_DEV_CPTS0_CPTS_RFT_CLK_PARENT_POSTDIV4_16FF_MAIN_2_HSDIVOUT5_CLK 1

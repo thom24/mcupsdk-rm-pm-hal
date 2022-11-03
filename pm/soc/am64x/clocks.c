@@ -1,5 +1,5 @@
 /*
- * Data version: 220809_192501
+ * Data version: 221102_180519
  *
  * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -3147,6 +3147,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_drv_div_pll_16fft_postdiv.drv,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_pllfracf_ssmod_16fft_main_0_postdiv.data,
+		.flags	= 0,
 	},
 	[CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK] =	  {
 		.parent		=				  {
@@ -3166,6 +3167,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_drv_div_pll_16fft_postdiv.drv,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_pllfracf_ssmod_16fft_main_1_postdiv.data,
+		.flags	= 0,
 	},
 	[CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_12_FOUTVCOP_CLK] =	  {
 		.parent		=				  {
@@ -3205,6 +3207,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv	= &clk_drv_div_pll_16fft_postdiv.drv,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_pllfracf_ssmod_16fft_main_2_postdiv.data,
+		.flags	= 0,
 	},
 	[CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK] =	  {
 		.parent		=				  {

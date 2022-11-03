@@ -1,5 +1,5 @@
 /*
- * Data version: 220809_192501
+ * Data version: 221102_180519
  *
  * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -4488,7 +4488,7 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK(AM64X_DEV_J7_LED_MAIN_0_CLOCKS,				     AM64X_DEV_LED0_LED_CLK,
 		CLK_AM64X_BOARD_0_LED_CLK_OUT,
 		1),
-	DEV_CLK(AM64X_DEV_J7_LED_MAIN_0_CLOCKS,				     AM64X_DEV_LED0_VBUSP_CLK,
+	DEV_CLK(AM64X_DEV_J7_LED_MAIN_0_CLOCKS,				     AM64X_DEV_LED0_VBUS_CLK,
 		CLK_AM64X_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		2),
 	DEV_CLK_MUX(AM64X_DEV_K3_CPTS_MAIN_0_CLOCKS,			     AM64X_DEV_CPTS0_CPTS_RFT_CLK,
