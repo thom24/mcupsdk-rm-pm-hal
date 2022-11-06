@@ -1,5 +1,5 @@
 /*
- * Data version: 220811_185331
+ * Data version: 221107_151433
  *
  * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -141,15 +141,15 @@ enum {
 	AM62X_FREQ_VALUE_MSHSI2C_MAIN_3_PORSCL,
 	AM62X_FREQ_VALUE_MSHSI2C_MCU_0_PORSCL,
 	AM62X_FREQ_VALUE_MSHSI2C_WKUP_0_PORSCL,
-	AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_0,
-	AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_1,
-	AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_12,
-	AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_15,
-	AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_16,
-	AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_17,
-	AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_2,
-	AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_8,
-	AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MCU_0,
+	AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_0,
+	AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_1,
+	AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_12,
+	AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_15,
+	AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_16,
+	AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_17,
+	AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_2,
+	AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_8,
+	AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MCU_0,
 	AM62X_FREQ_VALUE_SAM62_A53_512KB_WRAP_MAIN_0_ARM_COREPACK_0_A53_DIVH_CLK4_OBSCLK_OUT_CLK,
 	AM62X_FREQ_VALUE_SPI_MAIN_0_IO_CLKSPIO_CLK,
 	AM62X_FREQ_VALUE_SPI_MAIN_1_IO_CLKSPIO_CLK,
@@ -163,8 +163,8 @@ enum {
 	AM62X_FREQ_RANGE_ANY,
 	AM62X_FREQ_RANGE_GLUELOGIC_RCOSC_CLKOUT,
 	AM62X_FREQ_RANGE_GLUELOGIC_RCOSC_CLK_1P0V_97P65K,
-	AM62X_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,
-	AM62X_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
+	AM62X_FREQ_RANGE_VCO_PLLFRACF2_SSMOD_16FFT_MAIN_0,
+	AM62X_FREQ_RANGE_VCO_IN_PLLFRACF2_SSMOD_16FFT_MAIN_0,
 	AM62X_FREQ_RANGE_ID_MAX,
 };
 
@@ -197,35 +197,35 @@ enum {
 
 enum {
 	NO_DEFAULT_FREQ,
-	FREQ_PLLFRACF_SSMOD_16FFT_MAIN_0_DEFAULT,
-	FREQ_PLLFRACF_SSMOD_16FFT_MAIN_1_DEFAULT,
-	FREQ_PLLFRACF_SSMOD_16FFT_MAIN_12_DEFAULT,
-	FREQ_PLLFRACF_SSMOD_16FFT_MAIN_15_DEFAULT,
-	FREQ_PLLFRACF_SSMOD_16FFT_MAIN_16_DEFAULT,
-	FREQ_PLLFRACF_SSMOD_16FFT_MAIN_17_DEFAULT,
-	FREQ_PLLFRACF_SSMOD_16FFT_MAIN_8_DEFAULT,
-	FREQ_PLLFRACF_SSMOD_16FFT_MCU_0_DEFAULT,
+	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_0_DEFAULT,
+	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_1_DEFAULT,
+	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_12_DEFAULT,
+	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_15_DEFAULT,
+	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_16_DEFAULT,
+	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_17_DEFAULT,
+	FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_8_DEFAULT,
+	FREQ_PLLFRACF2_SSMOD_16FFT_MCU_0_DEFAULT,
 };
 
 u32 soc_clock_values[AM62X_FREQ_VALUE_COUNT];
 
 const struct clk_range soc_clock_ranges[AM62X_FREQ_RANGE_ID_MAX] = {
-	CLK_RANGE(AM62X_FREQ_RANGE_ANY,				       0,	  ULONG_MAX),
-	CLK_RANGE(AM62X_FREQ_RANGE_GLUELOGIC_RCOSC_CLKOUT,	       12500000,  12500000),
-	CLK_RANGE(AM62X_FREQ_RANGE_GLUELOGIC_RCOSC_CLK_1P0V_97P65K,    97656,	  97656),
-	CLK_RANGE(AM62X_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0, 5000000,	  1200000000),
-	CLK_RANGE(AM62X_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,    800000000, 3200000000),
+	CLK_RANGE(AM62X_FREQ_RANGE_ANY,					0,	   ULONG_MAX),
+	CLK_RANGE(AM62X_FREQ_RANGE_GLUELOGIC_RCOSC_CLKOUT,		12500000,  12500000),
+	CLK_RANGE(AM62X_FREQ_RANGE_GLUELOGIC_RCOSC_CLK_1P0V_97P65K,	97656,	   97656),
+	CLK_RANGE(AM62X_FREQ_RANGE_VCO_IN_PLLFRACF2_SSMOD_16FFT_MAIN_0, 5000000,   1200000000),
+	CLK_RANGE(AM62X_FREQ_RANGE_VCO_PLLFRACF2_SSMOD_16FFT_MAIN_0,	800000000, 3200000000),
 };
 
 const struct clk_default soc_clock_freq_defaults[] = {
-	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_0_DEFAULT,  1000000000UL, 1000000000UL, 1000000000UL),
-	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_1_DEFAULT,  960000000UL,  960000000UL,  960000000UL),
-	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_12_DEFAULT, 1600000000UL, 1600000000UL, 1600000000UL),
-	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_15_DEFAULT, 2000000000UL, 2000000000UL, 2000000000UL),
-	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_16_DEFAULT, 2380000000UL, 2380000000UL, 2380000000UL),
-	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_17_DEFAULT, 2040000000UL, 2040000000UL, 2040000000UL),
-	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_8_DEFAULT,  2500000000UL, 2500000000UL, 2500000000UL),
-	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MCU_0_DEFAULT,   2400000000UL, 2400000000UL, 2400000000UL),
+	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_0_DEFAULT,	1000000000UL, 1000000000UL, 1000000000UL),
+	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_1_DEFAULT,	960000000UL,  960000000UL,  960000000UL),
+	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_12_DEFAULT, 1600000000UL, 1600000000UL, 1600000000UL),
+	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_15_DEFAULT, 2000000000UL, 2000000000UL, 2000000000UL),
+	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_16_DEFAULT, 2380000000UL, 2380000000UL, 2380000000UL),
+	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_17_DEFAULT, 2040000000UL, 2040000000UL, 2040000000UL),
+	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_8_DEFAULT,	2500000000UL, 2500000000UL, 2500000000UL),
+	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MCU_0_DEFAULT,	2400000000UL, 2400000000UL, 2400000000UL),
 };
 
 const struct pll_table_entry soc_pll_table[] = {
@@ -423,49 +423,49 @@ const struct pll_table_entry soc_pll_table[] = {
 	},
 };
 
-static const u8 pllfracf_ssmod_16fft_main_0_entries[] = {
+static const u8 pllfracf2_ssmod_16fft_main_0_entries[] = {
 	PLL_ENTRY_MAIN_24MHZ_1000MHZ_F24BIT,
 	PLL_ENTRY_MAIN_25MHZ_1000MHZ,
 	PLL_ENTRY_MAIN_26MHZ_1000MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_main_1_entries[] = {
+static const u8 pllfracf2_ssmod_16fft_main_1_entries[] = {
 	PLL_ENTRY_PER0_24MHZ_960MHZ,
 	PLL_ENTRY_PER0_25MHZ_960MHZ,
 	PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_main_12_entries[] = {
+static const u8 pllfracf2_ssmod_16fft_main_12_entries[] = {
 	PLL_ENTRY_DDR_24MHZ_1600MHZ_F24BIT,
 	PLL_ENTRY_DDR_25MHZ_1600MHZ,
 	PLL_ENTRY_DDR_26MHZ_1600MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_main_15_entries[] = {
+static const u8 pllfracf2_ssmod_16fft_main_15_entries[] = {
 	PLL_ENTRY_SMS_24MHZ_2000MHZ_F24BIT,
 	PLL_ENTRY_SMS_25MHZ_2000MHZ,
 	PLL_ENTRY_SMS_26MHZ_2000MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_main_16_entries[] = {
+static const u8 pllfracf2_ssmod_16fft_main_16_entries[] = {
 	PLL_ENTRY_DSS0_24MHZ_2380MHZ_F24BIT,
 	PLL_ENTRY_DSS0_25MHZ_2380MHZ_F24BIT,
 	PLL_ENTRY_DSS0_26MHZ_2380MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_main_17_entries[] = {
+static const u8 pllfracf2_ssmod_16fft_main_17_entries[] = {
 	PLL_ENTRY_DSS1_24MHZ_2040MHZ,
 	PLL_ENTRY_DSS1_25MHZ_2040MHZ_F24BIT,
 	PLL_ENTRY_DSS1_26MHZ_2040MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_main_8_entries[] = {
+static const u8 pllfracf2_ssmod_16fft_main_8_entries[] = {
 	PLL_ENTRY_ARM0_24MHZ_2500MHZ_F24BIT,
 	PLL_ENTRY_ARM0_25MHZ_2500MHZ,
 	PLL_ENTRY_ARM0_26MHZ_2500MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_mcu_0_entries[] = {
+static const u8 pllfracf2_ssmod_16fft_mcu_0_entries[] = {
 	PLL_ENTRY_MCU_24MHZ_2400MHZ,
 	PLL_ENTRY_MCU_25MHZ_2400MHZ,
 	PLL_ENTRY_MCU_26MHZ_2400MHZ_F24BIT,
@@ -2818,119 +2818,119 @@ static const struct clk_data_div_reg_go clk_data_osbclk0_div_out0 = {
 	.bit		= 8,
 	.go		= 16,
 };
-static const struct clk_data_pll_16fft clk_data_pllfracf_ssmod_16fft_main_0 = {
+static const struct clk_data_pll_16fft clk_data_pllfracf2_ssmod_16fft_main_0 = {
 	.data_pll			= {
-		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,
-		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
+		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF2_SSMOD_16FFT_MAIN_0,
+		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF2_SSMOD_16FFT_MAIN_0,
 		.fractional_support	= STRUE,
 		.devgrp			= DEVGRP_00,
-		.pll_entries		= pllfracf_ssmod_16fft_main_0_entries,
-		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MAIN_0_DEFAULT,
+		.pll_entries		= pllfracf2_ssmod_16fft_main_0_entries,
+		.default_freq_idx	= FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_0_DEFAULT,
 	},
 	.idx				= 0,
 	.base				= 0x00680000,
 };
-static const struct clk_data_div clk_data_pllfracf_ssmod_16fft_main_0_postdiv = {
+static const struct clk_data_div clk_data_pllfracf2_ssmod_16fft_main_0_postdiv = {
 	.n	= 49,
 };
-static const struct clk_data_pll_16fft clk_data_pllfracf_ssmod_16fft_main_1 = {
+static const struct clk_data_pll_16fft clk_data_pllfracf2_ssmod_16fft_main_1 = {
 	.data_pll			= {
-		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,
-		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
+		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF2_SSMOD_16FFT_MAIN_0,
+		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF2_SSMOD_16FFT_MAIN_0,
 		.fractional_support	= STRUE,
 		.devgrp			= DEVGRP_00,
-		.pll_entries		= pllfracf_ssmod_16fft_main_1_entries,
-		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MAIN_1_DEFAULT,
+		.pll_entries		= pllfracf2_ssmod_16fft_main_1_entries,
+		.default_freq_idx	= FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_1_DEFAULT,
 	},
 	.idx				= 1,
 	.base				= 0x00680000,
 };
-static const struct clk_data_div clk_data_pllfracf_ssmod_16fft_main_1_postdiv = {
+static const struct clk_data_div clk_data_pllfracf2_ssmod_16fft_main_1_postdiv = {
 	.n	= 49,
 };
-static const struct clk_data_pll_16fft clk_data_pllfracf_ssmod_16fft_main_12 = {
+static const struct clk_data_pll_16fft clk_data_pllfracf2_ssmod_16fft_main_12 = {
 	.data_pll			= {
-		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,
-		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
+		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF2_SSMOD_16FFT_MAIN_0,
+		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF2_SSMOD_16FFT_MAIN_0,
 		.fractional_support	= STRUE,
 		.devgrp			= DEVGRP_00,
-		.pll_entries		= pllfracf_ssmod_16fft_main_12_entries,
-		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MAIN_12_DEFAULT,
+		.pll_entries		= pllfracf2_ssmod_16fft_main_12_entries,
+		.default_freq_idx	= FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_12_DEFAULT,
 	},
 	.idx				= 12,
 	.base				= 0x00680000,
 };
-static const struct clk_data_pll_16fft clk_data_pllfracf_ssmod_16fft_main_15 = {
+static const struct clk_data_pll_16fft clk_data_pllfracf2_ssmod_16fft_main_15 = {
 	.data_pll			= {
-		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,
-		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
+		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF2_SSMOD_16FFT_MAIN_0,
+		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF2_SSMOD_16FFT_MAIN_0,
 		.fractional_support	= STRUE,
 		.devgrp			= DEVGRP_00,
-		.pll_entries		= pllfracf_ssmod_16fft_main_15_entries,
-		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MAIN_15_DEFAULT,
+		.pll_entries		= pllfracf2_ssmod_16fft_main_15_entries,
+		.default_freq_idx	= FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_15_DEFAULT,
 	},
 	.idx				= 15,
 	.base				= 0x00680000,
 };
-static const struct clk_data_pll_16fft clk_data_pllfracf_ssmod_16fft_main_16 = {
+static const struct clk_data_pll_16fft clk_data_pllfracf2_ssmod_16fft_main_16 = {
 	.data_pll			= {
-		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,
-		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
+		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF2_SSMOD_16FFT_MAIN_0,
+		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF2_SSMOD_16FFT_MAIN_0,
 		.fractional_support	= STRUE,
 		.devgrp			= DEVGRP_00,
-		.pll_entries		= pllfracf_ssmod_16fft_main_16_entries,
-		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MAIN_16_DEFAULT,
+		.pll_entries		= pllfracf2_ssmod_16fft_main_16_entries,
+		.default_freq_idx	= FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_16_DEFAULT,
 	},
 	.idx				= 16,
 	.base				= 0x00680000,
 };
-static const struct clk_data_pll_16fft clk_data_pllfracf_ssmod_16fft_main_17 = {
+static const struct clk_data_pll_16fft clk_data_pllfracf2_ssmod_16fft_main_17 = {
 	.data_pll			= {
-		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,
-		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
+		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF2_SSMOD_16FFT_MAIN_0,
+		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF2_SSMOD_16FFT_MAIN_0,
 		.fractional_support	= STRUE,
 		.devgrp			= DEVGRP_00,
-		.pll_entries		= pllfracf_ssmod_16fft_main_17_entries,
-		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MAIN_17_DEFAULT,
+		.pll_entries		= pllfracf2_ssmod_16fft_main_17_entries,
+		.default_freq_idx	= FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_17_DEFAULT,
 	},
 	.idx				= 17,
 	.base				= 0x00680000,
 };
-static const struct clk_data_pll_16fft clk_data_pllfracf_ssmod_16fft_main_2 = {
+static const struct clk_data_pll_16fft clk_data_pllfracf2_ssmod_16fft_main_2 = {
 	.data_pll			= {
-		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,
-		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
+		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF2_SSMOD_16FFT_MAIN_0,
+		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF2_SSMOD_16FFT_MAIN_0,
 		.fractional_support	= STRUE,
 		.devgrp			= DEVGRP_00,
-		.pll_entries		= pllfracf_ssmod_16fft_main_0_entries,
-		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MAIN_0_DEFAULT,
+		.pll_entries		= pllfracf2_ssmod_16fft_main_0_entries,
+		.default_freq_idx	= FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_0_DEFAULT,
 	},
 	.idx				= 2,
 	.base				= 0x00680000,
 };
-static const struct clk_data_div clk_data_pllfracf_ssmod_16fft_main_2_postdiv = {
+static const struct clk_data_div clk_data_pllfracf2_ssmod_16fft_main_2_postdiv = {
 	.n	= 49,
 };
-static const struct clk_data_pll_16fft clk_data_pllfracf_ssmod_16fft_main_8 = {
+static const struct clk_data_pll_16fft clk_data_pllfracf2_ssmod_16fft_main_8 = {
 	.data_pll			= {
-		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,
-		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
+		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF2_SSMOD_16FFT_MAIN_0,
+		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF2_SSMOD_16FFT_MAIN_0,
 		.fractional_support	= STRUE,
 		.devgrp			= DEVGRP_00,
-		.pll_entries		= pllfracf_ssmod_16fft_main_8_entries,
-		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MAIN_8_DEFAULT,
+		.pll_entries		= pllfracf2_ssmod_16fft_main_8_entries,
+		.default_freq_idx	= FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_8_DEFAULT,
 	},
 	.idx				= 8,
 	.base				= 0x00680000,
 };
-static const struct clk_data_pll_16fft clk_data_pllfracf_ssmod_16fft_mcu_0 = {
+static const struct clk_data_pll_16fft clk_data_pllfracf2_ssmod_16fft_mcu_0 = {
 	.data_pll			= {
-		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,
-		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
+		.vco_range_idx		= AM62X_FREQ_RANGE_VCO_PLLFRACF2_SSMOD_16FFT_MAIN_0,
+		.vco_in_range_idx	= AM62X_FREQ_RANGE_VCO_IN_PLLFRACF2_SSMOD_16FFT_MAIN_0,
 		.fractional_support	= STRUE,
 		.devgrp			= DEVGRP_01,
-		.pll_entries		= pllfracf_ssmod_16fft_mcu_0_entries,
-		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MCU_0_DEFAULT,
+		.pll_entries		= pllfracf2_ssmod_16fft_mcu_0_entries,
+		.default_freq_idx	= FREQ_PLLFRACF2_SSMOD_16FFT_MCU_0_DEFAULT,
 	},
 	.idx				= 0,
 	.base				= 0x04040000,
@@ -3761,126 +3761,129 @@ const struct clk_data soc_clock_data[] = {
 		.data		= &clk_data_mshsi2c_mcu_0_porscl.data,
 		.freq_idx	= AM62X_FREQ_VALUE_MSHSI2C_MCU_0_PORSCL,
 	},
-	[CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK] =				      {
+	[CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK] =				      {
 		.parent		=							      {
 			CLK_AM62X_GLUELOGIC_HFOSC0_CLKOUT,
 			1,
 		},
 		.drv		= &clk_drv_pll_16fft,
-		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_0,
-		.data		= &clk_data_pllfracf_ssmod_16fft_main_0.data_pll.data,
+		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_0,
+		.data		= &clk_data_pllfracf2_ssmod_16fft_main_0.data_pll.data,
 		.flags		= 0,
 	},
-	[CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK] =			      {
+	[CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK] =			      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_postdiv.drv,
 		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_pllfracf_ssmod_16fft_main_0_postdiv.data,
+		.data	= &clk_data_pllfracf2_ssmod_16fft_main_0_postdiv.data,
+		.flags	= 0,
 	},
-	[CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK] =				      {
+	[CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK] =				      {
 		.parent		=							      {
 			CLK_AM62X_GLUELOGIC_HFOSC0_CLKOUT,
 			1,
 		},
 		.drv		= &clk_drv_pll_16fft,
-		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_1,
-		.data		= &clk_data_pllfracf_ssmod_16fft_main_1.data_pll.data,
+		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_1,
+		.data		= &clk_data_pllfracf2_ssmod_16fft_main_1.data_pll.data,
 		.flags		= 0,
 	},
-	[CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK] =			      {
+	[CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK] =			      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_postdiv.drv,
 		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_pllfracf_ssmod_16fft_main_1_postdiv.data,
+		.data	= &clk_data_pllfracf2_ssmod_16fft_main_1_postdiv.data,
+		.flags	= 0,
 	},
-	[CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_12_FOUTVCOP_CLK] =				      {
+	[CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_12_FOUTVCOP_CLK] =			      {
 		.parent		=							      {
 			CLK_AM62X_GLUELOGIC_HFOSC0_CLKOUT,
 			1,
 		},
 		.drv		= &clk_drv_pll_16fft,
-		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_12,
-		.data		= &clk_data_pllfracf_ssmod_16fft_main_12.data_pll.data,
+		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_12,
+		.data		= &clk_data_pllfracf2_ssmod_16fft_main_12.data_pll.data,
 		.flags		= CLK_DATA_FLAG_NO_HW_REINIT,
 	},
-	[CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_15_FOUTVCOP_CLK] =				      {
+	[CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_15_FOUTVCOP_CLK] =			      {
 		.parent		=							      {
 			CLK_AM62X_GLUELOGIC_HFOSC0_CLKOUT,
 			1,
 		},
 		.drv		= &clk_drv_pll_16fft,
-		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_15,
-		.data		= &clk_data_pllfracf_ssmod_16fft_main_15.data_pll.data,
+		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_15,
+		.data		= &clk_data_pllfracf2_ssmod_16fft_main_15.data_pll.data,
 		.flags		= 0,
 	},
-	[CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_16_FOUTVCOP_CLK] =				      {
+	[CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_16_FOUTVCOP_CLK] =			      {
 		.parent		=							      {
 			CLK_AM62X_GLUELOGIC_HFOSC0_CLKOUT,
 			1,
 		},
 		.drv		= &clk_drv_pll_16fft,
-		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_16,
-		.data		= &clk_data_pllfracf_ssmod_16fft_main_16.data_pll.data,
+		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_16,
+		.data		= &clk_data_pllfracf2_ssmod_16fft_main_16.data_pll.data,
 		.flags		= 0,
 	},
-	[CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_17_FOUTVCOP_CLK] =				      {
+	[CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_17_FOUTVCOP_CLK] =			      {
 		.parent		=							      {
 			CLK_AM62X_GLUELOGIC_HFOSC0_CLKOUT,
 			1,
 		},
 		.drv		= &clk_drv_pll_16fft,
-		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_17,
-		.data		= &clk_data_pllfracf_ssmod_16fft_main_17.data_pll.data,
+		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_17,
+		.data		= &clk_data_pllfracf2_ssmod_16fft_main_17.data_pll.data,
 		.flags		= 0,
 	},
-	[CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK] =				      {
+	[CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK] =				      {
 		.parent		=							      {
 			CLK_AM62X_GLUELOGIC_HFOSC0_CLKOUT,
 			1,
 		},
 		.drv		= &clk_drv_pll_16fft,
-		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_2,
-		.data		= &clk_data_pllfracf_ssmod_16fft_main_2.data_pll.data,
+		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_2,
+		.data		= &clk_data_pllfracf2_ssmod_16fft_main_2.data_pll.data,
 		.flags		= 0,
 	},
-	[CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK] =			      {
+	[CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK] =			      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_postdiv.drv,
 		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_pllfracf_ssmod_16fft_main_2_postdiv.data,
+		.data	= &clk_data_pllfracf2_ssmod_16fft_main_2_postdiv.data,
+		.flags	= 0,
 	},
-	[CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK] =				      {
+	[CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK] =				      {
 		.parent		=							      {
 			CLK_AM62X_GLUELOGIC_HFOSC0_CLKOUT,
 			1,
 		},
 		.drv		= &clk_drv_pll_16fft,
-		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_8,
-		.data		= &clk_data_pllfracf_ssmod_16fft_main_8.data_pll.data,
+		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_8,
+		.data		= &clk_data_pllfracf2_ssmod_16fft_main_8.data_pll.data,
 		.flags		= 0,
 	},
-	[CLK_AM62X_PLLFRACF_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK] =				      {
+	[CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK] =				      {
 		.parent		=							      {
 			CLK_AM62X_GLUELOGIC_HFOSC0_CLKOUT,
 			1,
 		},
 		.drv		= &clk_drv_pll_16fft,
-		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MCU_0,
-		.data		= &clk_data_pllfracf_ssmod_16fft_mcu_0.data_pll.data,
+		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MCU_0,
+		.data		= &clk_data_pllfracf2_ssmod_16fft_mcu_0.data_pll.data,
 		.flags		= 0,
 	},
 	[CLK_AM62X_POSTDIV1_16FFT_MAIN_1_HSDIVOUT5_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
@@ -3890,7 +3893,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_POSTDIV1_16FFT_MAIN_1_HSDIVOUT6_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
@@ -3900,7 +3903,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_POSTDIV4_16FF_MAIN_0_HSDIVOUT5_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
@@ -3910,7 +3913,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_POSTDIV4_16FF_MAIN_0_HSDIVOUT6_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
@@ -3920,7 +3923,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_POSTDIV4_16FF_MAIN_0_HSDIVOUT7_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
@@ -3930,7 +3933,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_POSTDIV4_16FF_MAIN_0_HSDIVOUT8_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
@@ -3940,7 +3943,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_POSTDIV4_16FF_MAIN_0_HSDIVOUT9_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
@@ -3950,7 +3953,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_POSTDIV4_16FF_MAIN_2_HSDIVOUT5_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
@@ -3960,7 +3963,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_POSTDIV4_16FF_MAIN_2_HSDIVOUT6_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
@@ -3970,7 +3973,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_POSTDIV4_16FF_MAIN_2_HSDIVOUT7_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
@@ -3980,7 +3983,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_POSTDIV4_16FF_MAIN_2_HSDIVOUT8_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
@@ -3990,7 +3993,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_POSTDIV4_16FF_MAIN_2_HSDIVOUT9_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
@@ -4166,7 +4169,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV0_16FFT_MAIN_12_HSDIVOUT0_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_12_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_12_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4176,7 +4179,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV0_16FFT_MAIN_16_HSDIVOUT0_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_16_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_16_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4186,7 +4189,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV0_16FFT_MAIN_17_HSDIVOUT0_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_17_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_17_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4196,7 +4199,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4206,7 +4209,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV1_16FFT_MAIN_15_HSDIVOUT0_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_15_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_15_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4216,7 +4219,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV1_16FFT_MAIN_15_HSDIVOUT1_CLK] =				      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_15_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_15_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4226,7 +4229,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4236,7 +4239,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_0_HSDIVOUT1_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4246,7 +4249,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_0_HSDIVOUT2_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4256,7 +4259,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_0_HSDIVOUT3_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4266,7 +4269,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_0_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4276,7 +4279,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4286,7 +4289,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_1_HSDIVOUT1_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4296,7 +4299,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_1_HSDIVOUT2_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4306,7 +4309,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_1_HSDIVOUT3_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4316,7 +4319,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_1_HSDIVOUT4_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_1_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4326,7 +4329,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_2_HSDIVOUT0_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4336,7 +4339,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_2_HSDIVOUT1_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4346,7 +4349,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_2_HSDIVOUT2_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4356,7 +4359,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_2_HSDIVOUT3_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4366,7 +4369,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MAIN_2_HSDIVOUT4_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MAIN_2_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4376,7 +4379,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MCU_0_HSDIVOUT0_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4386,7 +4389,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MCU_0_HSDIVOUT4_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4866,7 +4869,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MCU_0_HSDIVOUT1_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4876,7 +4879,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MCU_0_HSDIVOUT2_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
@@ -4886,7 +4889,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_AM62X_HSDIV4_16FFT_MCU_0_HSDIVOUT3_CLK] =					      {
 		.parent =								      {
-			CLK_AM62X_PLLFRACF_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
+			CLK_AM62X_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,

@@ -3,7 +3,7 @@
  *
  * Host IDs for AM62X device
  *
- * Data version: 220811_185331
+ * Data version: 221107_151433
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
