@@ -62,12 +62,14 @@ void mmr_unlock(u32 base, u32 partition)
 	/* Translate the base address */
 	u32 part_base = base + (partition * CTRL_MMR0_PARTITION_SIZE);
 
-	/*
-	 * Unlock the requested partition if locked using two-step sequence.
-	 * This register does not read back the value written.
-	 */
-	writel(CTRLMMR_LOCK_KICK0_UNLOCK_VAL, part_base + CTRLMMR_LOCK_KICK0);
-	writel(CTRLMMR_LOCK_KICK1_UNLOCK_VAL, part_base + CTRLMMR_LOCK_KICK1);
+	if ((readl(part_base + CTRLMMR_LOCK_KICK0) & CTRLMMR_LOCK_KICK0_UNLOCKED_MASK) != CTRLMMR_LOCK_KICK0_UNLOCKED_MASK) {
+		/*
+		 * Unlock the requested partition if locked using two-step sequence.
+		 * This register does not read back the value written.
+		 */
+		writel(CTRLMMR_LOCK_KICK0_UNLOCK_VAL, part_base + CTRLMMR_LOCK_KICK0);
+		writel(CTRLMMR_LOCK_KICK1_UNLOCK_VAL, part_base + CTRLMMR_LOCK_KICK1);
+	}
 }
 
 void mmr_unlock_all()
