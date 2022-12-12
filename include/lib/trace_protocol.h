@@ -55,7 +55,7 @@
  * the trace data based on the trace data version.
  */
 #define TRACE_VERSION_MAJOR                              ((u32) 0x03U)
-#define TRACE_VERSION_MINOR                              ((u32) 0x006U)
+#define TRACE_VERSION_MINOR                              ((u32) 0x007U)
 
 /* Trace Debug Channel Macros */
 /**
@@ -154,6 +154,7 @@
 #define TRACE_RM_ACTION_PSIL_READ                        0x26U
 #define TRACE_RM_ACTION_PSIL_WRITE                       0x27U
 #define TRACE_RM_ACTION_PSIL_UNPAIR                      0x28U
+#define TRACE_RM_ACTION_PSIL_HOST_ID_CHECK               0x29U
 
 #define TRACE_RM_ACTION_IRQ_INIT                         0x2BU
 #define TRACE_RM_ACTION_IRQ_SET                          0x2CU
@@ -256,6 +257,8 @@
 #define TRACE_RM_SUB_ACTION_PSIL_THREAD_CFG_REG_ADDR     0x10U
 #define TRACE_RM_SUB_ACTION_PSIL_THREAD_CFG_REG_VAL_HI   0x11U
 #define TRACE_RM_SUB_ACTION_PSIL_THREAD_CFG_REG_VAL_LO   0x12U
+#define TRACE_RM_SUB_ACTION_PSIL_HOST_ID_BCFG            0x13U
+#define TRACE_RM_SUB_ACTION_PSIL_MSG_HOST_ID             0x14U
 
 #define TRACE_RM_SUB_ACTION_IRQ_IA_ID                    0x0AU
 #define TRACE_RM_SUB_ACTION_IRQ_GLOBAL_EVENT             0x0BU
