@@ -1,5 +1,5 @@
 /*
- * Data version: 220802_153654
+ * Data version: 221215_112230
  *
  * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -1696,7 +1696,7 @@ static const struct lpsc_module_data am62ax_sam62a_main_psc_wrap_main_0_psc_0_mo
 	[AM62AX_PSC_LPSC_LPSC_MAIN_DM] =	       {
 		.powerdomain		= AM62AX_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	       {
-			AM62AX_DEV_R5FSS0_CORE0,
+			AM62AX_DEV_WKUP_R5FSS0_CORE0,
 			AM62AX_DEV_WKUP_RTI0,
 			DEV_ID_NONE,
 			0,
@@ -4383,18 +4383,18 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       AM62AX_DEV_WKUP_RTCSS0_VCLK_CLK_PARENT_HSDIV4_16FFT_MCU_0_HSDIVOUT0_CLK,
 		       CLK_AM62AX_HSDIV4_16FFT_MCU_0_HSDIVOUT0_CLK,									      8,
 		       1),
-	DEV_CLK_MUX(AM62AX_DEV_PULSAR_UL_WKUP_0_R5_0_CLOCKS,										      AM62AX_DEV_R5FSS0_CORE0_CPU_CLK,
+	DEV_CLK_MUX(AM62AX_DEV_PULSAR_UL_WKUP_0_R5_0_CLOCKS,										      AM62AX_DEV_WKUP_R5FSS0_CORE0_CPU_CLK,
 		    CLK_AM62AX_WKUP_CLKSEL_R5FSS_OUT0,											      1,
 		    2),
 	DEV_CLK_PARENT(AM62AX_DEV_PULSAR_UL_WKUP_0_R5_0_CLOCKS,
-		       AM62AX_DEV_R5FSS0_CORE0_CPU_CLK_PARENT_HSDIV2_16FFT_MAIN_15_HSDIVOUT2_CLK,
+		       AM62AX_DEV_WKUP_R5FSS0_CORE0_CPU_CLK_PARENT_HSDIV2_16FFT_MAIN_15_HSDIVOUT2_CLK,
 		       CLK_AM62AX_HSDIV2_16FFT_MAIN_15_HSDIVOUT2_CLK,									      1,
 		       0),
 	DEV_CLK_PARENT(AM62AX_DEV_PULSAR_UL_WKUP_0_R5_0_CLOCKS,
-		       AM62AX_DEV_R5FSS0_CORE0_CPU_CLK_PARENT_HSDIV4_16FFT_MCU_0_HSDIVOUT0_CLK,
+		       AM62AX_DEV_WKUP_R5FSS0_CORE0_CPU_CLK_PARENT_HSDIV4_16FFT_MCU_0_HSDIVOUT0_CLK,
 		       CLK_AM62AX_HSDIV4_16FFT_MCU_0_HSDIVOUT0_CLK,									      1,
 		       1),
-	DEV_CLK(AM62AX_DEV_PULSAR_UL_WKUP_0_R5_0_CLOCKS,										      AM62AX_DEV_R5FSS0_CORE0_INTERFACE_CLK,
+	DEV_CLK(AM62AX_DEV_PULSAR_UL_WKUP_0_R5_0_CLOCKS,										      AM62AX_DEV_WKUP_R5FSS0_CORE0_INTERFACE_CLK,
 		CLK_AM62AX_WKUP_CLKSEL_R5FSS_OUT0,
 		1),
 	DEV_CLK_MUX(AM62AX_DEV_RTI_CFG1_MAIN_A53_0_CLOCKS,										      AM62AX_DEV_RTI0_RTI_CLK,
@@ -5801,9 +5801,9 @@ const struct dev_data *const soc_device_data_arr[AM62AX_DEV_OBSCLK0_MUX_SEL_DEV_
 	[AM62AX_DEV_WKUP_UART0] = &am62ax_dev_usart_wkup_0,
 	[AM62AX_DEV_MCRC64_0] = &am62ax_dev_mcrc64_main_0,
 	[AM62AX_DEV_WKUP_RTCSS0] = &am62ax_dev_rtcss_wkup_0,
-	[AM62AX_DEV_R5FSS0_SS0] = &am62ax_dev_pulsar_ul_wkup_0_cortex_r5_ss_0,
-	[AM62AX_DEV_R5FSS0] = &am62ax_dev_pulsar_ul_wkup_0,
-	[AM62AX_DEV_R5FSS0_CORE0] = &am62ax_dev_pulsar_ul_wkup_0_R5_0,
+	[AM62AX_DEV_WKUP_R5FSS0_SS0] = &am62ax_dev_pulsar_ul_wkup_0_cortex_r5_ss_0,
+	[AM62AX_DEV_WKUP_R5FSS0] = &am62ax_dev_pulsar_ul_wkup_0,
+	[AM62AX_DEV_WKUP_R5FSS0_CORE0] = &am62ax_dev_pulsar_ul_wkup_0_R5_0,
 	[AM62AX_DEV_RTI0] = &am62ax_dev_rti_cfg1_main_a53_0,
 	[AM62AX_DEV_RTI1] = &am62ax_dev_rti_cfg1_main_a53_1,
 	[AM62AX_DEV_RTI2] = &am62ax_dev_rti_cfg1_main_a53_2,
