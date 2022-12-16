@@ -53,6 +53,8 @@
  *
  * Any System Firmware trace parser utilities should be able to comprehend
  * the trace data based on the trace data version.
+ *
+ * NOTE: If updating the trace version, also update docs/public/4_trace/trace.rst
  */
 #define TRACE_VERSION_MAJOR                              ((u32) 0x03U)
 #define TRACE_VERSION_MINOR                              ((u32) 0x007U)
