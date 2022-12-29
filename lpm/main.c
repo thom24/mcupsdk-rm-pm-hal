@@ -299,7 +299,17 @@ static int disable_main_io_isolation()
 
 static void config_clk_muxes()
 {
-	/* config gpio/wdt/32k clk muxes */
+	writel(MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL_CLK_32K, (MCU_CTRL_MMR_BASE + MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL));
+}
+
+static void enable_gpio_wake_up()
+{
+	writel(MCU_CTRL_MMR_CFG0_MCU_GPIO_WKUP_CTRL_ENABLE, (MCU_CTRL_MMR_BASE + MCU_CTRL_MMR_CFG0_MCU_GPIO_WKUP_CTRL));
+}
+
+static void disable_gpio_wake_up()
+{
+	writel(MCU_CTRL_MMR_CFG0_MCU_GPIO_WKUP_CTRL_DISABLE, (MCU_CTRL_MMR_BASE + MCU_CTRL_MMR_CFG0_MCU_GPIO_WKUP_CTRL));
 }
 
 static void disable_main_remain_pll()
@@ -656,6 +666,9 @@ s32 dm_stub_entry(void)
 		/* Configure GPIO/WDT/32k Clock muxes */
 		config_clk_muxes();
 
+		/* Enable GPIO wake up */
+		enable_gpio_wake_up();
+
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CONF_CLK_MUXES);
 
 		/* Disable remaining MAIN HSDIVs and PLLs */
@@ -900,6 +913,9 @@ s32 dm_stub_entry(void)
 		 */
 		enable_pll_standby();
 	}
+
+	/* Disable GPIO wake up */
+	disable_gpio_wake_up();
 
 	exit_ddr_low_power_mode();
 
