@@ -47,6 +47,7 @@ extern "C" {
 #define WKUP_CTRL_DS_DM_RESET          (0x00018440U)
 #define DS_DM_RESET_UNMASK              0xF
 #define WKUP_CTRL_PMCTRL_IO_0           (0x18084)
+#define WKUP_CTRL_PMCTRL_IO_1           (0x18088)
 #define WKUP_CTRL_PMCTRL_IO_0_ISOCLK_OVRD BIT(0)
 #define WKUP_CTRL_PMCTRL_IO_0_ISOOVR_EXTEND BIT(4)
 #define WKUP_CTRL_PMCTRL_IO_0_ISO_BYPASS BIT(6)
