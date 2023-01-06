@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2022, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -458,6 +458,16 @@ s32 devices_init_rw(void);
  * \return SUCCESS on success, <0 otherwise.
  */
 s32 devices_deinit(u8 pm_devgrp);
+
+/**
+ * \brief Clear all initialization flags
+ *
+ * During low power mode suspend all initialization flags of devices are
+ * cleared and during resume the devices are reinitilized.
+ *
+ * \return SUCCESS on success, <0 otherwise.
+ */
+s32 devices_deinit_flags();
 
 /**
  * \brief Drop device power up references.

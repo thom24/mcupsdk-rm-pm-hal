@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -132,6 +132,14 @@ extern void soc_device_enable(struct device *dev);
  * True if the device is being disabled due to a domain reset.
  */
 extern void soc_device_disable(struct device *dev, sbool domain_reset);
+
+/**
+ * \brief Clear a device initialization flags
+ *
+ * \param device The device to modify.
+ * 
+ */
+extern void soc_device_clear_flags(struct device *dev);
 
 /**
  * \brief Enable retention on a device (SoC specific impl.)

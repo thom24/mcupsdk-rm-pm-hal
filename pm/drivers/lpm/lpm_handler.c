@@ -4,7 +4,7 @@
  * TISCI_MSG_PREPARE_SLEEP and TISCI_MSG_ENTER_SLEEP handler for
  * Low Power Mode implementation
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -311,10 +311,10 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	}
 
 	if (ret == SUCCESS) {
-		ret = devices_deinit(PM_DEVGRP_00);
+		ret = devices_deinit_flags();
 		enter_sleep_status |= LPM_DEVICE_DEINIT;
 	} else {
-		devices_deinit(PM_DEVGRP_00);
+		devices_deinit_flags();
 		enter_sleep_status |= LPM_DEVICE_DEINIT;
 	}
 
