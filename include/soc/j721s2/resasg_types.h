@@ -134,6 +134,6 @@
 /**
  * Total number of resource entries allowed for SoC
  */
-#define RESASG_ENTRIES_MAX (RESASG_UTYPE_CNT * 10U)
+#define RESASG_ENTRIES_MAX (442U)
 
 #endif /* RESASG_TYPES_H */
