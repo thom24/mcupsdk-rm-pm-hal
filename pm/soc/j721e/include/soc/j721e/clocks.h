@@ -1,7 +1,7 @@
 /*
  * Data version: 210812_211103
  *
- * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2023 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #ifndef SOC_J721E_CLOCKS_H
