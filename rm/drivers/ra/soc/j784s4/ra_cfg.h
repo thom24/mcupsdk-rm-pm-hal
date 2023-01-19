@@ -3,7 +3,7 @@
  *
  * Ring accelerator SoC-specific configuration definitions
  *
- * Data version: 220721_142300
+ * Data version: 230112_095811
  *
  * Copyright (C) 2022-2023 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED

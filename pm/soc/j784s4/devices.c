@@ -1,5 +1,5 @@
 /*
- * Data version: 220721_142300
+ * Data version: 230112_095811
  *
  * Copyright (C) 2017-2023 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -2630,7 +2630,7 @@ static const struct lpsc_module_data j784s4_j7am_bolt_psc_wrap_main_0_mod_data[J
 		.powerdomain		= J784S4_PSC_PD_PD_ANA0,
 		.lpsc_dev.dev_array	=	{
 			J784S4_DEV_COMPUTE_CLUSTER0_C71SS0,
-			DEV_ID_NONE,
+			J784S4_DEV_COMPUTE_CLUSTER0_DRU4,
 		},
 		.flags			= LPSC_MODULE_EXISTS,
 	},
@@ -2658,7 +2658,7 @@ static const struct lpsc_module_data j784s4_j7am_bolt_psc_wrap_main_0_mod_data[J
 		.powerdomain		= J784S4_PSC_PD_PD_ANA1,
 		.lpsc_dev.dev_array	=	{
 			J784S4_DEV_COMPUTE_CLUSTER0_C71SS1,
-			DEV_ID_NONE,
+			J784S4_DEV_COMPUTE_CLUSTER0_DRU5,
 		},
 		.flags			= LPSC_MODULE_EXISTS,
 	},
@@ -2686,7 +2686,7 @@ static const struct lpsc_module_data j784s4_j7am_bolt_psc_wrap_main_0_mod_data[J
 		.powerdomain		= J784S4_PSC_PD_PD_ANA2,
 		.lpsc_dev.dev_array	=	{
 			J784S4_DEV_COMPUTE_CLUSTER0_C71SS2,
-			DEV_ID_NONE,
+			J784S4_DEV_COMPUTE_CLUSTER0_DRU6,
 		},
 		.flags			= LPSC_MODULE_EXISTS,
 	},
@@ -2714,7 +2714,7 @@ static const struct lpsc_module_data j784s4_j7am_bolt_psc_wrap_main_0_mod_data[J
 		.powerdomain		= J784S4_PSC_PD_PD_ANA3,
 		.lpsc_dev.dev_array	=	{
 			J784S4_DEV_COMPUTE_CLUSTER0_C71SS3,
-			DEV_ID_NONE,
+			J784S4_DEV_COMPUTE_CLUSTER0_DRU7,
 		},
 		.flags			= LPSC_MODULE_EXISTS,
 	},
@@ -3441,10 +3441,10 @@ static const struct lpsc_module_data j784s4_j7am_main_psc_wrap_main_0_mod_data[J
 	[J784S4_PSC_LPSC_LPSC_MMC4B_1] =	     {
 		.powerdomain		= J784S4_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	     {
+			J784S4_DEV_COMPUTE_CLUSTER0_DRU0,
 			DEV_ID_NONE,
-			0,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J784S4_PSC_LPSC_LPSC_MMC8B_0] =	     {
 		.powerdomain		= J784S4_PSC_PD_GP_CORE_CTL,
@@ -3710,7 +3710,7 @@ static const struct lpsc_module_data j784s4_j7am_main_psc_wrap_main_0_mod_data[J
 		.depends_psc_idx	= J784S4_PSC_INST_J7AM_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J784S4_PSC_LPSC_LPSC_TX_DPHY_0,
 		.lpsc_dev.dev_array	=	     {
-			J784S4_DEV_CSI_TX_IF_V2_0,
+			J784S4_DEV_CSI_TX_IF0,
 			DEV_ID_NONE,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
@@ -4255,7 +4255,7 @@ static const struct lpsc_module_data j784s4_j7am_main_psc_wrap_main_0_mod_data[J
 		.depends_psc_idx	= J784S4_PSC_INST_J7AM_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= J784S4_PSC_LPSC_LPSC_TX_DPHY_1,
 		.lpsc_dev.dev_array	=	     {
-			J784S4_DEV_CSI_TX_IF_V2_1,
+			J784S4_DEV_CSI_TX_IF1,
 			J784S4_DEV_DSS_DSI1,
 		},
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
@@ -6365,7 +6365,7 @@ static const struct dev_data j784s4_dev_compute_cluster_j7ahp_main_0_dru0 __attr
 	.soc			= {
 		.psc_idx	= J784S4_PSC_INST_J7AM_MAIN_PSC_WRAP_MAIN_0,
 		.pd		= J784S4_PSC_PD_GP_CORE_CTL,
-		.mod		= J784S4_PSC_LPSC_LPSC_MAIN_ALWAYSON,
+		.mod		= J784S4_PSC_LPSC_LPSC_MMC4B_1,
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
 };
@@ -8296,28 +8296,28 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK(J784S4_DEV_CSI_RX_IF_MAIN_2_CLOCKS,						      J784S4_DEV_CSI_RX_IF2_VP_CLK_CLK,
 		CLK_J784S4_HSDIV1_16FFT_MAIN_25_HSDIVOUT1_CLK,
 		1),
-	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_0_CLOCKS,						      J784S4_DEV_CSI_TX_IF_V2_0_DPHY_TXBYTECLKHS_CL_CLK,
+	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_0_CLOCKS,						      J784S4_DEV_CSI_TX_IF0_DPHY_TXBYTECLKHS_CL_CLK,
 		CLK_J784S4_WIZ16B8M4CDT_MAIN_0_IP2_PPI_TXBYTECLKHS_CL_CLK,
 		1),
-	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_0_CLOCKS,						      J784S4_DEV_CSI_TX_IF_V2_0_ESC_CLK_CLK,
+	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_0_CLOCKS,						      J784S4_DEV_CSI_TX_IF0_ESC_CLK_CLK,
 		CLK_J784S4_POSTDIV3_16FFT_MAIN_1_HSDIVOUT8_CLK,
 		1),
-	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_0_CLOCKS,						      J784S4_DEV_CSI_TX_IF_V2_0_MAIN_CLK_CLK,
+	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_0_CLOCKS,						      J784S4_DEV_CSI_TX_IF0_MAIN_CLK_CLK,
 		CLK_J784S4_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		1),
-	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_0_CLOCKS,						      J784S4_DEV_CSI_TX_IF_V2_0_VBUS_CLK_CLK,
+	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_0_CLOCKS,						      J784S4_DEV_CSI_TX_IF0_VBUS_CLK_CLK,
 		CLK_J784S4_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		2),
-	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_1_CLOCKS,						      J784S4_DEV_CSI_TX_IF_V2_1_DPHY_TXBYTECLKHS_CL_CLK,
+	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_1_CLOCKS,						      J784S4_DEV_CSI_TX_IF1_DPHY_TXBYTECLKHS_CL_CLK,
 		CLK_J784S4_WIZ16B8M4CDT_MAIN_1_IP2_PPI_TXBYTECLKHS_CL_CLK,
 		1),
-	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_1_CLOCKS,						      J784S4_DEV_CSI_TX_IF_V2_1_ESC_CLK_CLK,
+	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_1_CLOCKS,						      J784S4_DEV_CSI_TX_IF1_ESC_CLK_CLK,
 		CLK_J784S4_POSTDIV3_16FFT_MAIN_1_HSDIVOUT8_CLK,
 		1),
-	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_1_CLOCKS,						      J784S4_DEV_CSI_TX_IF_V2_1_MAIN_CLK_CLK,
+	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_1_CLOCKS,						      J784S4_DEV_CSI_TX_IF1_MAIN_CLK_CLK,
 		CLK_J784S4_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		1),
-	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_1_CLOCKS,						      J784S4_DEV_CSI_TX_IF_V2_1_VBUS_CLK_CLK,
+	DEV_CLK(J784S4_DEV_CSI_TX_IF_V2_MAIN_1_CLOCKS,						      J784S4_DEV_CSI_TX_IF1_VBUS_CLK_CLK,
 		CLK_J784S4_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		2),
 	DEV_CLK(J784S4_DEV_CXSTM500SS_MAIN_0_CLOCKS,						      J784S4_DEV_STM0_ATB_CLK,
@@ -14119,8 +14119,8 @@ const struct dev_data *const soc_device_data_arr[J784S4_DEV_GLUELOGIC_ACSPCIE1_B
 	[J784S4_DEV_CSI_RX_IF0] = &j784s4_dev_csi_rx_if_main_0,
 	[J784S4_DEV_CSI_RX_IF1] = &j784s4_dev_csi_rx_if_main_1,
 	[J784S4_DEV_CSI_RX_IF2] = &j784s4_dev_csi_rx_if_main_2,
-	[J784S4_DEV_CSI_TX_IF_V2_0] = &j784s4_dev_csi_tx_if_v2_main_0,
-	[J784S4_DEV_CSI_TX_IF_V2_1] = &j784s4_dev_csi_tx_if_v2_main_1,
+	[J784S4_DEV_CSI_TX_IF0] = &j784s4_dev_csi_tx_if_v2_main_0,
+	[J784S4_DEV_CSI_TX_IF1] = &j784s4_dev_csi_tx_if_v2_main_1,
 	[J784S4_DEV_STM0] = &j784s4_dev_cxstm500ss_main_0,
 	[J784S4_DEV_DCC0] = &j784s4_dev_dcc2_main_0,
 	[J784S4_DEV_DCC1] = &j784s4_dev_dcc2_main_1,

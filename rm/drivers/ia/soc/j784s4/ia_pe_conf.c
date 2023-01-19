@@ -3,7 +3,7 @@
  *
  * Static IA IRQ maps for Processing Entities for J784S4 device
  *
- * Data version: 220721_142300
+ * Data version: 230112_095811
  *
  * Copyright (C) 2022-2023, Texas Instruments Incorporated
  * All rights reserved.
