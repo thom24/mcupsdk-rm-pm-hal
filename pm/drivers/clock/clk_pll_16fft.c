@@ -1,7 +1,7 @@
 /*
  * DMSC firmware
  *
- * Copyright (C) 2018-2021, Texas Instruments Incorporated
+ * Copyright (C) 2018-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -560,6 +560,9 @@ static u32 clk_pll_16fft_get_freq_internal(struct clk *clk, u32 clkod)
 
 			/* Fold back into return/remainder */
 			frem += (fret & (u64) mask) * clkod_plld;
+
+			/* Round the fractional component. Above mid point is rounded up*/
+			fret += 1 << (PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS - 1U);
 
 			ret64 += fret >> PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS;
 			rem += frem >> PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS;
