@@ -455,15 +455,18 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 	/* unlock partion 6 of wakeup ctrl mmr */
 	ctrlmmr_unlock(WKUP_CTRL_BASE, 6);
 	if (req->state == TISCI_MSG_VALUE_IO_ENABLE) {
-		/* set global isobypass */
+		writel(WKUP_CTRL_DEEPSLEEP_CTRL_ENABLE_IO, (WKUP_CTRL_BASE + WKUP_CTRL_DEEPSLEEP_CTRL));
+		writel(WKUP_CTRL_PMCTRL_IO_GLB_ENABLE_IO, (WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_GLB));
+
+		/* set global wuen */
 		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
 		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
-		reg = reg | WKUP_CTRL_PMCTRL_IO_0_ISO_BYPASS;
+		reg = reg | WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN;
 		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
 
 		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
 		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
-		reg = reg | WKUP_CTRL_PMCTRL_IO_0_ISO_BYPASS;
+		reg = reg | WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN;
 		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
 
 		/* set global isoin */
@@ -477,73 +480,37 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 		reg = reg | WKUP_CTRL_PMCTRL_IO_0_IO_ISO_CTRL;
 		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
 
-		/* set global wuen */
-		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
-		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
-		reg = reg | WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN;
-		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
-
-		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
-		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
-		reg = reg | WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN;
-		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
-
-		/* set global wu clock enable */
-		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
-		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
-		reg = reg | WKUP_CTRL_PMCTRL_IO_0_WUCLK_CTRL;
-		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
-
-		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
-		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
-		reg = reg | WKUP_CTRL_PMCTRL_IO_0_WUCLK_CTRL;
-		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
-
 		/* wait for wu clock state to be 1*/
 		i = 0;
 		do {
 			ret = ETIMEDOUT;
 			reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
-			if ((reg & WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS) == WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS) {
+			if ((reg & WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS) == WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS) {
 				ret = SUCCESS;
 				break;
 			}
 			osal_delay(1);
 		} while (i++ < TIMEOUT_10MS);
-
-		if (ret == SUCCESS) {
-			/* clear global wu clock enable */
-			reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
-			reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
-			reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_WUCLK_CTRL);
-			writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
-
+		i = 0;
+		do {
+			ret = ETIMEDOUT;
 			reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
-			reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
-			reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_WUCLK_CTRL);
-			writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
-
-			i = 0;
-			do {
-				ret = ETIMEDOUT;
-				reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
-				if (!((reg & WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS) == WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS)) {
-					ret = SUCCESS;
-					break;
-				}
-				osal_delay(1);
-			} while (i++ < TIMEOUT_10MS);
-		}
+			if ((reg & WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS) == WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS) {
+				ret = SUCCESS;
+				break;
+			}
+			osal_delay(1);
+		} while (i++ < TIMEOUT_10MS);
 	} else if (req->state == TISCI_MSG_VALUE_IO_DISABLE) {
-		/* clear global isobypass */
+		/* clear global wuen */
 		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
 		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
-		reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_ISO_BYPASS);
+		reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN);
 		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
 
 		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
 		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
-		reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_ISO_BYPASS);
+		reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN);
 		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
 
 		/* clear global isoin */
@@ -557,16 +524,8 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 		reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_IO_ISO_CTRL);
 		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
 
-		/* clear global wuen */
-		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
-		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
-		reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN);
-		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
-
-		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
-		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
-		reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN);
-		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
+		writel(WKUP_CTRL_DEEPSLEEP_CTRL_DISABLE_IO, (WKUP_CTRL_BASE + WKUP_CTRL_DEEPSLEEP_CTRL));
+		writel(WKUP_CTRL_PMCTRL_IO_GLB_DISABLE_IO, (WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_GLB));
 
 		ret = SUCCESS;
 	}
