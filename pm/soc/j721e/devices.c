@@ -634,7 +634,7 @@ static const struct dev_data j721e_dev_compute_cluster_j7es_tb_vdc_main_0_p4_c71
 	.n_clocks		= 2,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
-static const struct soc_device_data compute_cluster_j7es_tb_vdc_main_0_pbist_wrap_domains[] = {
+static const struct soc_device_data compute_cluster_j7es_tb_vdc_main_0_pbist_wrap_domains[3] = {
 	{
 		.psc_idx = J721E_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.pd = J721E_PSC_PD_GP_CORE_CTL,
@@ -1867,7 +1867,7 @@ static const struct psc_pd_data j721e_j7_main_psc_wrap_main_0_pd_data[J721E_PSC_
 	},
 };
 static struct psc_pd j721e_j7_main_psc_wrap_main_0_powerdomains[ARRAY_SIZE(j721e_j7_main_psc_wrap_main_0_pd_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
-static const dev_idx_t dev_list_LPSC_main_alwayson[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_alwayson[94] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J721E_DEV_COMPUTE_CLUSTER0_CORE_CORE,
 	J721E_DEV_CPT2_AGGR0,
 	J721E_DEV_CPT2_AGGR1,
@@ -1963,13 +1963,13 @@ static const dev_idx_t dev_list_LPSC_main_alwayson[] __attribute__((__section__(
 	J721E_DEV_TIMER19_CLKSEL_VD,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_main_pbist[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_pbist[4] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J721E_DEV_PBIST5,
 	J721E_DEV_PBIST6,
 	J721E_DEV_PBIST7,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_PER_audio[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_PER_audio[14] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J721E_DEV_AASRC0,
 	J721E_DEV_MCASP0,
 	J721E_DEV_MCASP1,
@@ -1985,7 +1985,7 @@ static const dev_idx_t dev_list_LPSC_PER_audio[] __attribute__((__section__(".co
 	J721E_DEV_MCASP9,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_PER_motor[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_PER_motor[13] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J721E_DEV_ECAP0,
 	J721E_DEV_ECAP1,
 	J721E_DEV_ECAP2,
@@ -2000,7 +2000,7 @@ static const dev_idx_t dev_list_LPSC_PER_motor[] __attribute__((__section__(".co
 	J721E_DEV_EQEP2,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_PER_miscio[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_PER_miscio[26] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J721E_DEV_I2C0,
 	J721E_DEV_I2C1,
 	J721E_DEV_I2C2,
@@ -3025,7 +3025,7 @@ static const struct psc_pd_data j721e_j7_wkup_psc_wrap_wkup_0_pd_data[J721E_PSC_
 	},
 };
 static struct psc_pd j721e_j7_wkup_psc_wrap_wkup_0_powerdomains[ARRAY_SIZE(j721e_j7_wkup_psc_wrap_wkup_0_pd_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
-static const dev_idx_t dev_list_LPSC_wkup_alwayson[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const dev_idx_t dev_list_LPSC_wkup_alwayson[45] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	J721E_DEV_MCU_CPSW0,
 	J721E_DEV_MCU_CPT2_AGGR0,
 	J721E_DEV_MCU_DCC0,
@@ -3072,7 +3072,7 @@ static const dev_idx_t dev_list_LPSC_wkup_alwayson[] __attribute__((__section__(
 	J721E_DEV_MCU_TIMER9_CLKSEL_VD,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_wkup_gpio[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const dev_idx_t dev_list_LPSC_wkup_gpio[5] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	J721E_DEV_WKUP_GPIO0,
 	J721E_DEV_WKUP_GPIO1,
 	J721E_DEV_WKUP_I2C0,
@@ -5192,7 +5192,7 @@ static const struct dev_data j721e_dev_main_pll8_sel_extwave_VD __attribute__((_
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 
-static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[328] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	DEV_CLK_MUX(J721E_DEV_ADC12_16FFC_MCU_0_CLOCKS,			     J721E_DEV_MCU_ADC12_16FFC0_ADC_CLK,
 		    CLK_J721E_MCU_ADC_CLK_SEL_OUT0,
 		    1,
@@ -6204,7 +6204,7 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__sect
 		       7),
 };
 static struct dev_clk MCU_WAKEUP_dev_clk[ARRAY_SIZE(MCU_WAKEUP_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
-static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct dev_clk_data MAIN_dev_clk_data[3149] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	DEV_CLK_MUX(J721E_DEV_ATL_MAIN_0_CLOCKS,					       J721E_DEV_ATL0_ATL_CLK,
 		    CLK_J721E_ATL_PCLKMUX_OUT0,						       1,
 		    8),
@@ -14625,12 +14625,12 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1),
 };
 static struct dev_clk MAIN_dev_clk[ARRAY_SIZE(MAIN_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
-static const struct dev_clk_data DMSC_INTERNAL_dev_clk_data[] __attribute__((__section__(".const.devgroup.DMSC_INTERNAL"))) = {
+static const struct dev_clk_data DMSC_INTERNAL_dev_clk_data[1] __attribute__((__section__(".const.devgroup.DMSC_INTERNAL"))) = {
 	DEV_CLK(J721E_DEV_NAVSS_MCU_J7_MCU_0_RINGACC_0_CLOCKS, J721E_DEV_MCU_NAVSS0_RINGACC0_SYS_CLK, CLK_J721E_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
 };
 static struct dev_clk DMSC_INTERNAL_dev_clk[ARRAY_SIZE(DMSC_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.DMSC_INTERNAL")));
 
-const struct devgroup soc_devgroups[] = {
+const struct devgroup soc_devgroups[J721E_PM_DEVGRP_RANGE_ID_MAX] = {
 	[PM_DEVGRP_00] =   {
 		.dev_clk_data	= MCU_WAKEUP_dev_clk_data,
 		.dev_clk	= MCU_WAKEUP_dev_clk,
@@ -14649,11 +14649,11 @@ const struct devgroup soc_devgroups[] = {
 };
 const size_t soc_devgroup_count = ARRAY_SIZE(soc_devgroups);
 
-const struct soc_device_data *const soc_psc_multiple_domains[] = {
+const struct soc_device_data *const soc_psc_multiple_domains[1] = {
 	[J721E_PSC_MULTIPLE_COMPUTE_CLUSTER_J7ES_TB_VDC_MAIN_0_PBIST_WRAP] = compute_cluster_j7es_tb_vdc_main_0_pbist_wrap_domains,
 };
 
-const struct dev_data *const soc_device_data_arr[J721E_DEV_MAIN_PLL8_SEL_EXTWAVE_VD + 1] = {
+const struct dev_data *const soc_device_data_arr[J721E_DEV_MAIN_PLL8_SEL_EXTWAVE_VD + 1U] = {
 	[J721E_DEV_MCU_ADC12_16FFC0] = &j721e_dev_adc12_16ffc_mcu_0,
 	[J721E_DEV_MCU_ADC12_16FFC1] = &j721e_dev_adc12_16ffc_mcu_1,
 	[J721E_DEV_ATL0] = &j721e_dev_atl_main_0,

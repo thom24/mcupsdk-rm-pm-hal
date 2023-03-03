@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2021, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,6 +45,7 @@
 #include <pm_types.h>
 #include <config.h>
 #include <lib/bitops.h>
+#include <clock_limits.h>
 
 #define FREQ_GHZ(freq)  ((u32) ((double) freq * 1000000000.0))
 #define FREQ_MHZ(freq)  ((u32) ((double) freq * 1000000.0))
@@ -210,19 +211,19 @@ struct clk_data_reg {
 };
 
 /** The table of dynamic clock data */
-extern struct clk soc_clocks[];
+extern struct clk soc_clocks[SOC_CLOCKS_RANGE_ID_MAX];
 
 /** The table of const clock data */
-extern const struct clk_data soc_clock_data[];
+extern const struct clk_data soc_clock_data[SOC_CLOCK_DATA_RANGE_ID_MAX];
 
 /** The table of shared const clock ranges */
-extern const struct clk_range soc_clock_ranges[];
+extern const struct clk_range soc_clock_ranges[SOC_CLOCK_RANGES_ID_MAX];
 
 /** The table of default frequencies */
-extern const struct clk_default soc_clock_freq_defaults[];
+extern const struct clk_default soc_clock_freq_defaults[SOC_CLOCK_FREQ_DEFAULTS_RANGE_ID_MAX];
 
 /** The table of dynamic stored clock frequencies (for freq_idx) */
-extern u32 soc_clock_values[];
+extern u32 soc_clock_values[SOC_CLOCK_VALUES_RANGE_ID_MAX];
 
 /** The total number of SoC clocks */
 extern const size_t soc_clock_count;
@@ -363,8 +364,14 @@ s32 clks_suspend(void);
  */
 s32 clks_resume(void);
 #else
-static inline s32 clks_suspend(void) { return SUCCESS; }
-static inline s32 clks_resume(void) { return SUCCESS; }
+static inline s32 clks_suspend(void)
+{
+	return SUCCESS;
+}
+static inline s32 clks_resume(void)
+{
+	return SUCCESS;
+}
 #endif
 
 #ifdef CONFIG_CLOCK

@@ -1,9 +1,7 @@
 /*
- * Interrupt Management
+ * Data version: 230126_160511
  *
- * Data version: 230209_212853
- *
- * Copyright (C) 2019-2023, Texas Instruments Incorporated
+ * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,27 +31,22 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef IRQ_CFG_H
-#define IRQ_CFG_H
-
-/**
- * Maximum depth, or number of nodes minus one, between the IRQ source and
- * destination subsystems.  The routing algorithm does not push a node for the
- * final destination host processor so only the peripheral and intermediate
- * routing subsystems need to be accounted for in the maximum route depth
- * calculation.
- */
-#define IRQ_MAX_ROUTE_DEPTH (3U)
-
-/**
- * Extern for IRQ event source devices array
- */
-extern const u16 evt_rt_srcs[2];
-
-/**
- * Extern for number of IRQ event source devices
- */
-extern const u32 evt_rt_srcs_count;
+#ifndef SOC_AM62AX_CLOCK_LIMITS_H
+#define SOC_AM62AX_CLOCK_LIMITS_H
 
 
-#endif /* IRQ_CFG_H */
+#define SOC_CLOCK_VALUES_RANGE_ID_MAX 114
+
+#define SOC_PLL_TABLE_RANGE_ID_MAX 30
+
+#define SOC_CLOCK_FREQ_DEFAULTS_RANGE_ID_MAX 10
+
+#define SOC_CLOCK_DATA_RANGE_ID_MAX 260
+
+#define SOC_CLOCK_RANGES_ID_MAX 5
+
+#define SOC_CLOCKS_RANGE_ID_MAX 260
+
+#define HOST_RANGE_ID_MAX 254
+
+#endif /* SOC_AM62AX_CLOCK_LIMITS_H */

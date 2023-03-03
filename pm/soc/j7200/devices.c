@@ -535,7 +535,7 @@ static const struct dev_data j7200_dev_compute_cluster_j7vcl_tb_vdc_main_0_gic50
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
 };
-static const struct soc_device_data compute_cluster_j7vcl_tb_vdc_main_0_pbist_wrap_domains[] = {
+static const struct soc_device_data compute_cluster_j7vcl_tb_vdc_main_0_pbist_wrap_domains[3] = {
 	{
 		.psc_idx = J7200_PSC_INST_J7_MAIN_PSC_WRAP_MAIN_0,
 		.pd = J7200_PSC_PD_GP_CORE_CTL,
@@ -1563,7 +1563,7 @@ static const struct psc_pd_data j7200_j7_main_psc_wrap_main_0_pd_data[J7200_PSC_
 	},
 };
 static struct psc_pd j7200_j7_main_psc_wrap_main_0_powerdomains[ARRAY_SIZE(j7200_j7_main_psc_wrap_main_0_pd_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
-static const dev_idx_t dev_list_LPSC_main_alwayson[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_alwayson[57] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J7200_DEV_COMPUTE_CLUSTER0_CORE_CORE,
 	J7200_DEV_COMPUTE_CLUSTER0_EN_MSMC_DOMAIN,
 	J7200_DEV_CPT2_AGGR2,
@@ -1622,13 +1622,13 @@ static const dev_idx_t dev_list_LPSC_main_alwayson[] __attribute__((__section__(
 	J7200_DEV_TIMER19_CLKSEL_VD,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_PER_audio[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_PER_audio[4] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J7200_DEV_MCASP0,
 	J7200_DEV_MCASP1,
 	J7200_DEV_MCASP2,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_PER_motor[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_PER_motor[13] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J7200_DEV_ECAP0,
 	J7200_DEV_ECAP1,
 	J7200_DEV_ECAP2,
@@ -1643,7 +1643,7 @@ static const dev_idx_t dev_list_LPSC_PER_motor[] __attribute__((__section__(".co
 	J7200_DEV_EQEP2,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_PER_VPFE[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_PER_VPFE[10] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J7200_DEV_GPIO2,
 	J7200_DEV_GPIO4,
 	J7200_DEV_GPIO6,
@@ -1655,7 +1655,7 @@ static const dev_idx_t dev_list_LPSC_PER_VPFE[] __attribute__((__section__(".con
 	J7200_DEV_CMPEVENT_INTRTR0,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_PER_spare0[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_PER_spare0[13] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J7200_DEV_TIMER10,
 	J7200_DEV_TIMER11,
 	J7200_DEV_TIMER12,
@@ -1670,21 +1670,21 @@ static const dev_idx_t dev_list_LPSC_PER_spare0[] __attribute__((__section__(".c
 	J7200_DEV_TIMER9,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_eDP_1[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_eDP_1[5] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J7200_DEV_MCSPI0,
 	J7200_DEV_MCSPI1,
 	J7200_DEV_MCSPI2,
 	J7200_DEV_MCSPI3,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_CSIRX_0[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_CSIRX_0[5] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J7200_DEV_MCSPI4,
 	J7200_DEV_MCSPI5,
 	J7200_DEV_MCSPI6,
 	J7200_DEV_MCSPI7,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_CSITX_0[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_CSITX_0[7] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J7200_DEV_UART4,
 	J7200_DEV_UART5,
 	J7200_DEV_UART6,
@@ -1693,13 +1693,13 @@ static const dev_idx_t dev_list_LPSC_CSITX_0[] __attribute__((__section__(".cons
 	J7200_DEV_UART9,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_TX_DPHY_0[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_TX_DPHY_0[4] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J7200_DEV_I2C1,
 	J7200_DEV_I2C2,
 	J7200_DEV_I2C3,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_CSIRX_PHY_0[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_CSIRX_PHY_0[4] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J7200_DEV_I2C4,
 	J7200_DEV_I2C5,
 	J7200_DEV_I2C6,
@@ -2641,7 +2641,7 @@ static const struct psc_pd_data j7200_j7_wkup_psc_wrap_wkup_0_pd_data[J7200_PSC_
 	},
 };
 static struct psc_pd j7200_j7_wkup_psc_wrap_wkup_0_powerdomains[ARRAY_SIZE(j7200_j7_wkup_psc_wrap_wkup_0_pd_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
-static const dev_idx_t dev_list_LPSC_wkup_alwayson[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const dev_idx_t dev_list_LPSC_wkup_alwayson[45] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	J7200_DEV_MCU_CPSW0,
 	J7200_DEV_MCU_CPT2_AGGR0,
 	J7200_DEV_MCU_DCC0,
@@ -2688,7 +2688,7 @@ static const dev_idx_t dev_list_LPSC_wkup_alwayson[] __attribute__((__section__(
 	J7200_DEV_MCU_TIMER9_CLKSEL_VD,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_wkup_gpio[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const dev_idx_t dev_list_LPSC_wkup_gpio[5] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	J7200_DEV_WKUP_GPIO0,
 	J7200_DEV_WKUP_GPIO1,
 	J7200_DEV_WKUP_I2C0,
@@ -4310,7 +4310,7 @@ static const struct dev_data j7200_dev_main_pll8_sel_extwave_VD __attribute__((_
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 
-static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[356] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	DEV_CLK_MUX(J7200_DEV_ADC12_CORE_MCU_0_CLOCKS,			       J7200_DEV_MCU_ADC0_ADC_CLK,
 		    CLK_J7200_MCU_ADC_CLK_SEL_OUT0,
 		    1,
@@ -5343,7 +5343,7 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__sect
 		       7),
 };
 static struct dev_clk MCU_WAKEUP_dev_clk[ARRAY_SIZE(MCU_WAKEUP_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
-static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct dev_clk_data MAIN_dev_clk_data[1792] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	DEV_CLK_MUX(J7200_DEV_ATL_MAIN_0_CLOCKS,					J7200_DEV_ATL0_ATL_CLK,
 		    CLK_J7200_ATL_PCLKMUX_OUT0,						1,
 		    8),
@@ -9169,12 +9169,12 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1),
 };
 static struct dev_clk MAIN_dev_clk[ARRAY_SIZE(MAIN_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
-static const struct dev_clk_data DMSC_INTERNAL_dev_clk_data[] __attribute__((__section__(".const.devgroup.DMSC_INTERNAL"))) = {
+static const struct dev_clk_data DMSC_INTERNAL_dev_clk_data[1] __attribute__((__section__(".const.devgroup.DMSC_INTERNAL"))) = {
 	DEV_CLK(J7200_DEV_NAVSS_MCU_J7_MCU_0_RINGACC_0_CLOCKS, J7200_DEV_MCU_NAVSS0_RINGACC0_SYS_CLK, CLK_J7200_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
 };
 static struct dev_clk DMSC_INTERNAL_dev_clk[ARRAY_SIZE(DMSC_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.DMSC_INTERNAL")));
 
-const struct devgroup soc_devgroups[] = {
+const struct devgroup soc_devgroups[J7200_PM_DEVGRP_RANGE_ID_MAX] = {
 	[PM_DEVGRP_00] =   {
 		.dev_clk_data	= MCU_WAKEUP_dev_clk_data,
 		.dev_clk	= MCU_WAKEUP_dev_clk,
@@ -9193,11 +9193,11 @@ const struct devgroup soc_devgroups[] = {
 };
 const size_t soc_devgroup_count = ARRAY_SIZE(soc_devgroups);
 
-const struct soc_device_data *const soc_psc_multiple_domains[] = {
+const struct soc_device_data *const soc_psc_multiple_domains[1] = {
 	[J7200_PSC_MULTIPLE_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_PBIST_WRAP] = compute_cluster_j7vcl_tb_vdc_main_0_pbist_wrap_domains,
 };
 
-const struct dev_data *const soc_device_data_arr[J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD + 1] = {
+const struct dev_data *const soc_device_data_arr[J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD + 1U] = {
 	[J7200_DEV_MCU_ADC0] = &j7200_dev_adc12_core_mcu_0,
 	[J7200_DEV_MCU_ADC1] = &j7200_dev_adc12_core_mcu_1,
 	[J7200_DEV_ATL0] = &j7200_dev_atl_main_0,

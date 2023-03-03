@@ -319,7 +319,7 @@ const struct clk_range soc_clock_ranges[J7200_FREQ_RANGE_ID_MAX] = {
 	CLK_RANGE(J7200_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,		 800000000, 3200000000),
 };
 
-const struct clk_default soc_clock_freq_defaults[] = {
+const struct clk_default soc_clock_freq_defaults[8] = {
 	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_0_DEFAULT,  1000000000UL, 1000000000UL, 1000000000UL),
 	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_1_DEFAULT,  960000000UL,  960000000UL,  960000000UL),
 	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_12_DEFAULT, 3200000000UL, 3200000000UL, 3200000000UL),
@@ -329,7 +329,7 @@ const struct clk_default soc_clock_freq_defaults[] = {
 	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MCU_1_DEFAULT,   2400000000UL, 2400000000UL, 2400000001UL),
 };
 
-const struct pll_table_entry soc_pll_table[] = {
+const struct pll_table_entry soc_pll_table[47] = {
 	[PLL_ENTRY_MAIN_19_2MHZ_1000MHZ_F24BIT] =      {
 		.freq_min_hz	= 1000000000U,
 		.freq_max_hz	= 1000000000U,
@@ -716,7 +716,7 @@ const struct pll_table_entry soc_pll_table[] = {
 	},
 };
 
-static const u8 pllfracf_ssmod_16fft_main_0_entries[] = {
+static const u8 pllfracf_ssmod_16fft_main_0_entries[7] = {
 	PLL_ENTRY_MAIN_19_2MHZ_1000MHZ_F24BIT,
 	PLL_ENTRY_MAIN_20MHZ_1000MHZ,
 	PLL_ENTRY_MAIN_24MHZ_1000MHZ_F24BIT,
@@ -725,7 +725,7 @@ static const u8 pllfracf_ssmod_16fft_main_0_entries[] = {
 	PLL_ENTRY_MAIN_27MHZ_1000MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_main_1_entries[] = {
+static const u8 pllfracf_ssmod_16fft_main_1_entries[7] = {
 	PLL_ENTRY_PER0_19_2MHZ_960MHZ,
 	PLL_ENTRY_PER0_20MHZ_960MHZ,
 	PLL_ENTRY_PER0_24MHZ_960MHZ,
@@ -734,7 +734,7 @@ static const u8 pllfracf_ssmod_16fft_main_1_entries[] = {
 	PLL_ENTRY_PER0_27MHZ_960MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_main_12_entries[] = {
+static const u8 pllfracf_ssmod_16fft_main_12_entries[7] = {
 	PLL_ENTRY_DDR_19_2MHZ_3200MHZ_F24BIT,
 	PLL_ENTRY_DDR_20MHZ_3200MHZ,
 	PLL_ENTRY_DDR_24MHZ_3200MHZ_F24BIT,
@@ -743,7 +743,7 @@ static const u8 pllfracf_ssmod_16fft_main_12_entries[] = {
 	PLL_ENTRY_DDR_27MHZ_3200MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_main_14_entries[] = {
+static const u8 pllfracf_ssmod_16fft_main_14_entries[7] = {
 	PLL_ENTRY_CPSW_19_2MHZ_2000MHZ_F24BIT,
 	PLL_ENTRY_CPSW_20MHZ_2000MHZ,
 	PLL_ENTRY_CPSW_24MHZ_2000MHZ_F24BIT,
@@ -752,7 +752,7 @@ static const u8 pllfracf_ssmod_16fft_main_14_entries[] = {
 	PLL_ENTRY_CPSW_27MHZ_2000MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_main_2_entries[] = {
+static const u8 pllfracf_ssmod_16fft_main_2_entries[7] = {
 	PLL_ENTRY_PER1_19_2MHZ_900MHZ_F24BIT,
 	PLL_ENTRY_PER1_20MHZ_900MHZ,
 	PLL_ENTRY_PER1_24MHZ_900MHZ,
@@ -761,7 +761,7 @@ static const u8 pllfracf_ssmod_16fft_main_2_entries[] = {
 	PLL_ENTRY_PER1_27MHZ_900MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_main_3_entries[] = {
+static const u8 pllfracf_ssmod_16fft_main_3_entries[13] = {
 	PLL_ENTRY_CPSW_19_2MHZ_2000MHZ_F24BIT,
 	PLL_ENTRY_CPSW_20MHZ_2000MHZ,
 	PLL_ENTRY_CPSW_24MHZ_2000MHZ_F24BIT,
@@ -776,7 +776,7 @@ static const u8 pllfracf_ssmod_16fft_main_3_entries[] = {
 	PLL_ENTRY_CPSW_27MHZ_2500MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_main_4_entries[] = {
+static const u8 pllfracf_ssmod_16fft_main_4_entries[7] = {
 	PLL_ENTRY_AUDIO_19_2MHZ_2359_296MHZ_F24BIT,
 	PLL_ENTRY_AUDIO_20MHZ_2359_296MHZ_F24BIT,
 	PLL_ENTRY_AUDIO_24MHZ_2359_296MHZ_F24BIT,
@@ -785,7 +785,7 @@ static const u8 pllfracf_ssmod_16fft_main_4_entries[] = {
 	PLL_ENTRY_AUDIO_27MHZ_2359_296MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_mcu_0_entries[] = {
+static const u8 pllfracf_ssmod_16fft_mcu_0_entries[7] = {
 	PLL_ENTRY_CPSW_19_2MHZ_2000MHZ_F24BIT,
 	PLL_ENTRY_CPSW_20MHZ_2000MHZ,
 	PLL_ENTRY_CPSW_20MHZ_2000MHZ,
@@ -794,7 +794,7 @@ static const u8 pllfracf_ssmod_16fft_mcu_0_entries[] = {
 	PLL_ENTRY_CPSW_27MHZ_2000MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
-static const u8 pllfracf_ssmod_16fft_mcu_1_entries[] = {
+static const u8 pllfracf_ssmod_16fft_mcu_1_entries[7] = {
 	PLL_ENTRY_MCU_PER_19_2MHZ_2400MHZ,
 	PLL_ENTRY_MCU_PER_20MHZ_2400MHZ,
 	PLL_ENTRY_MCU_PER_24MHZ_2400MHZ,
@@ -804,7 +804,7 @@ static const u8 pllfracf_ssmod_16fft_mcu_1_entries[] = {
 	PLL_TABLE_LAST,
 };
 
-static const struct clk_parent clk_ATL_PCLKMUX_parents[] = {
+static const struct clk_parent clk_ATL_PCLKMUX_parents[16] = {
 	{
 		CLK_J7200_HSDIV2_16FFT_MAIN_4_HSDIVOUT1_CLK,
 		1,
@@ -878,7 +878,7 @@ static const struct clk_data_mux_reg clk_data_ATL_PCLKMUX_out0 = {
 	.reg			= 0x00100000 + 33472,
 	.bit			= 0,
 };
-static const struct clk_parent clk_AUDIO_REFCLKO_MUX_out0_parents[] = {
+static const struct clk_parent clk_AUDIO_REFCLKO_MUX_out0_parents[32] = {
 	{
 		CLK_J7200_MCASP_MAIN_0_MCASP_AHCLKR_POUT,
 		1,
@@ -1024,7 +1024,7 @@ static const struct clk_data_mux_reg clk_data_AUDIO_REFCLKO_MUX_out1 = {
 	.reg			= 0x00100000 + 33508,
 	.bit			= 0,
 };
-static const struct clk_parent clk_CLKOUT_MUX_parents[] = {
+static const struct clk_parent clk_CLKOUT_MUX_parents[2] = {
 	{
 		CLK_J7200_HSDIV4_16FFT_MAIN_3_HSDIVOUT0_CLK,
 		5,
@@ -1042,7 +1042,7 @@ static const struct clk_data_mux_reg clk_data_CLKOUT_MUX_out0 = {
 	.reg			= 0x00100000 + 32784,
 	.bit			= 0,
 };
-static const struct clk_parent clk_CPSW2G_CPTS_RCLK_MUX_parents[] = {
+static const struct clk_parent clk_CPSW2G_CPTS_RCLK_MUX_parents[16] = {
 	{
 		CLK_J7200_HSDIV4_16FFT_MAIN_3_HSDIVOUT1_CLK,
 		1,
@@ -1116,7 +1116,7 @@ static const struct clk_data_mux_reg clk_data_CPSW2G_CPTS_RCLK_MUX_out0 = {
 	.reg			= 0x40F00000 + 32848,
 	.bit			= 8,
 };
-static const struct clk_parent clk_CPSW5X_CPTS_RFT_MUX_parents[] = {
+static const struct clk_parent clk_CPSW5X_CPTS_RFT_MUX_parents[16] = {
 	{
 		CLK_J7200_HSDIV4_16FFT_MAIN_3_HSDIVOUT1_CLK,
 		1,
@@ -1190,7 +1190,7 @@ static const struct clk_data_mux_reg clk_data_CPSW5X_CPTS_RFT_MUX_out0 = {
 	.reg			= 0x00100000 + 32912,
 	.bit			= 0,
 };
-static const struct clk_parent clk_EMMCSD_REFCLK_SEL_out0_parents[] = {
+static const struct clk_parent clk_EMMCSD_REFCLK_SEL_out0_parents[4] = {
 	{
 		CLK_J7200_HSDIV4_16FFT_MAIN_0_HSDIVOUT2_CLK,
 		1,
@@ -1232,7 +1232,7 @@ static const struct clk_data_mux_reg clk_data_GTC_CLK_MUX_out0 = {
 	.reg			= 0x00100000 + 32816,
 	.bit			= 0,
 };
-static const struct clk_parent clk_MAIN_PLL4_XREF_SEL_parents[] = {
+static const struct clk_parent clk_MAIN_PLL4_XREF_SEL_parents[2] = {
 	{
 		CLK_J7200_MAIN_PLL_HFOSC_SEL_OUT4,
 		1,
@@ -1250,7 +1250,7 @@ static const struct clk_data_mux_reg clk_data_MAIN_PLL4_XREF_SEL_out0 = {
 	.reg			= 0x43000000 + 32912,
 	.bit			= 4,
 };
-static const struct clk_parent clk_MAIN_PLL_HFOSC_SEL_out0_parents[] = {
+static const struct clk_parent clk_MAIN_PLL_HFOSC_SEL_out0_parents[2] = {
 	{
 		CLK_J7200_GLUELOGIC_HFOSC0_CLKOUT,
 		1,
@@ -1332,7 +1332,7 @@ static const struct clk_data_mux_reg clk_data_MAIN_PLL_HFOSC_SEL_out8 = {
 	.reg			= 0x43000000 + 32928,
 	.bit			= 0,
 };
-static const struct clk_parent clk_MAIN_TIMER_CLKSEL_out0_parents[] = {
+static const struct clk_parent clk_MAIN_TIMER_CLKSEL_out0_parents[16] = {
 	{
 		CLK_J7200_GLUELOGIC_HFOSC0_CLKOUT,
 		1,
@@ -1558,7 +1558,7 @@ static const struct clk_data_mux_reg clk_data_MAIN_TIMER_CLKSEL_out9 = {
 	.reg			= 0x00100000 + 33060,
 	.bit			= 0,
 };
-static const struct clk_parent clk_MAIN_WWDT_CLKSEL_out0_parents[] = {
+static const struct clk_parent clk_MAIN_WWDT_CLKSEL_out0_parents[8] = {
 	{
 		CLK_J7200_GLUELOGIC_HFOSC0_CLKOUT,
 		1,
@@ -1624,7 +1624,7 @@ static const struct clk_data_mux_reg clk_data_MAIN_WWDT_CLKSEL_out7 = {
 	.reg			= 0x00100000 + 33780,
 	.bit			= 0,
 };
-static const struct clk_parent clk_MCAN_CLK_MUX_out0_parents[] = {
+static const struct clk_parent clk_MCAN_CLK_MUX_out0_parents[4] = {
 	{
 		CLK_J7200_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK,
 		1,
@@ -1786,7 +1786,7 @@ static const struct clk_data_mux_reg clk_data_MCAN_CLK_MUX_out9 = {
 	.reg			= 0x00100000 + 33956,
 	.bit			= 0,
 };
-static const struct clk_parent clk_MCU_ADC_clk_sel_out0_parents[] = {
+static const struct clk_parent clk_MCU_ADC_clk_sel_out0_parents[4] = {
 	{
 		CLK_J7200_GLUELOGIC_HFOSC0_CLKOUT,
 		1,
@@ -1820,7 +1820,7 @@ static const struct clk_data_mux_reg clk_data_MCU_ADC_clk_sel_out1 = {
 	.reg			= 0x40F00000 + 32836,
 	.bit			= 0,
 };
-static const struct clk_parent clk_MCU_CLKOUT_MUX_parents[] = {
+static const struct clk_parent clk_MCU_CLKOUT_MUX_parents[2] = {
 	{
 		CLK_J7200_HSDIV4_16FFT_MCU_2_HSDIVOUT0_CLK,
 		5,
@@ -1838,7 +1838,7 @@ static const struct clk_data_mux_reg clk_data_MCU_CLKOUT_MUX_out0 = {
 	.reg			= 0x40F00000 + 32784,
 	.bit			= 0,
 };
-static const struct clk_parent clk_MCU_R5_core0_clksel_parents[] = {
+static const struct clk_parent clk_MCU_R5_core0_clksel_parents[2] = {
 	{
 		CLK_J7200_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
 		1,
@@ -1864,7 +1864,7 @@ static const struct clk_data_mux_reg clk_data_MCU_R5_core1_clksel_out0 = {
 	.reg			= 0x40F00000 + 32896,
 	.bit			= 0,
 };
-static const struct clk_parent clk_MCU_R5_phase0_clksel_parents[] = {
+static const struct clk_parent clk_MCU_R5_phase0_clksel_parents[2] = {
 	{
 		CLK_J7200_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
 		3,
@@ -1890,7 +1890,7 @@ static const struct clk_data_mux_reg clk_data_MCU_R5_phase1_clksel_out0 = {
 	.reg			= 0x40F00000 + 32896,
 	.bit			= 0,
 };
-static const struct clk_parent clk_MCU_SPI1_CLK_MUX_parents[] = {
+static const struct clk_parent clk_MCU_SPI1_CLK_MUX_parents[2] = {
 	{
 		CLK_J7200_SPI_MAIN_3_IO_CLKSPIO_CLK,
 		1,
@@ -1908,7 +1908,7 @@ static const struct clk_data_mux_reg clk_data_MCU_SPI1_CLK_MUX_out0 = {
 	.reg			= 0x40F00000 + 16480,
 	.bit			= 0,
 };
-static const struct clk_parent clk_MCU_TIMER1_CASCADE_parents[] = {
+static const struct clk_parent clk_MCU_TIMER1_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MCU_TIMER_CLKSEL_OUT1,
 		1,
@@ -1926,7 +1926,7 @@ static const struct clk_data_mux_reg clk_data_MCU_TIMER1_CASCADE_out0 = {
 	.reg			= 0x40F00000 + 16900,
 	.bit			= 8,
 };
-static const struct clk_parent clk_MCU_TIMER3_CASCADE_parents[] = {
+static const struct clk_parent clk_MCU_TIMER3_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MCU_TIMER_CLKSEL_OUT3,
 		1,
@@ -1944,7 +1944,7 @@ static const struct clk_data_mux_reg clk_data_MCU_TIMER3_CASCADE_out0 = {
 	.reg			= 0x40F00000 + 16908,
 	.bit			= 8,
 };
-static const struct clk_parent clk_MCU_TIMER5_CASCADE_parents[] = {
+static const struct clk_parent clk_MCU_TIMER5_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MCU_TIMER_CLKSEL_OUT5,
 		1,
@@ -1962,7 +1962,7 @@ static const struct clk_data_mux_reg clk_data_MCU_TIMER5_CASCADE_out0 = {
 	.reg			= 0x40F00000 + 16916,
 	.bit			= 8,
 };
-static const struct clk_parent clk_MCU_TIMER7_CASCADE_parents[] = {
+static const struct clk_parent clk_MCU_TIMER7_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MCU_TIMER_CLKSEL_OUT7,
 		1,
@@ -1980,7 +1980,7 @@ static const struct clk_data_mux_reg clk_data_MCU_TIMER7_CASCADE_out0 = {
 	.reg			= 0x40F00000 + 16924,
 	.bit			= 8,
 };
-static const struct clk_parent clk_MCU_TIMER9_CASCADE_parents[] = {
+static const struct clk_parent clk_MCU_TIMER9_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MCU_TIMER_CLKSEL_OUT9,
 		1,
@@ -1998,7 +1998,7 @@ static const struct clk_data_mux_reg clk_data_MCU_TIMER9_CASCADE_out0 = {
 	.reg			= 0x40F00000 + 16932,
 	.bit			= 8,
 };
-static const struct clk_parent clk_MCU_TIMER_CLKSEL_out0_parents[] = {
+static const struct clk_parent clk_MCU_TIMER_CLKSEL_out0_parents[8] = {
 	{
 		CLK_J7200_GLUELOGIC_HFOSC0_CLKOUT,
 		1,
@@ -2112,7 +2112,7 @@ static const struct clk_data_mux_reg clk_data_MCU_TIMER_CLKSEL_out9 = {
 	.reg			= 0x40F00000 + 33060,
 	.bit			= 0,
 };
-static const struct clk_parent clk_McASP_AHCLKR_MUX_out0_parents[] = {
+static const struct clk_parent clk_McASP_AHCLKR_MUX_out0_parents[16] = {
 	{
 		CLK_J7200_BOARD_0_HFOSC1_CLK_OUT,
 		1,
@@ -2226,7 +2226,7 @@ static const struct clk_data_mux_reg clk_data_McASP_AHCLKX_MUX_out2 = {
 	.reg			= 0x00100000 + 33352,
 	.bit			= 8,
 };
-static const struct clk_parent clk_McASP_AUXCLK_SEL_out0_parents[] = {
+static const struct clk_parent clk_McASP_AUXCLK_SEL_out0_parents[8] = {
 	{
 		CLK_J7200_HSDIV2_16FFT_MAIN_4_HSDIVOUT0_CLK,
 		1,
@@ -2292,7 +2292,7 @@ static const struct clk_data_mux_reg clk_data_NAVSS_CPTS_RCLK_MUX_out0 = {
 	.reg			= 0x00100000 + 32920,
 	.bit			= 0,
 };
-static const struct clk_parent clk_OBSCLK0_MUX_parents[] = {
+static const struct clk_parent clk_OBSCLK0_MUX_parents[32] = {
 	{
 		CLK_J7200_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK,
 		1,
@@ -2430,7 +2430,7 @@ static const struct clk_data_mux_reg clk_data_OBSCLK0_MUX_out0 = {
 	.reg			= 0x00100000 + 32768,
 	.bit			= 0,
 };
-static const struct clk_parent clk_OBSCLK1_MUX_parents[] = {
+static const struct clk_parent clk_OBSCLK1_MUX_parents[4] = {
 	{
 		0,
 		4,
@@ -2464,7 +2464,7 @@ static const struct clk_data_mux_reg clk_data_PCIE1_CPTS_RCLK_MUX_out0 = {
 	.reg			= 0x00100000 + 32900,
 	.bit			= 0,
 };
-static const struct clk_parent clk_SERDES0_CORE_REFCLK_parents[] = {
+static const struct clk_parent clk_SERDES0_CORE_REFCLK_parents[4] = {
 	{
 		CLK_J7200_GLUELOGIC_HFOSC0_CLKOUT,
 		1,
@@ -2498,7 +2498,7 @@ static const struct clk_data_mux_reg clk_data_SPI3_CLK_MUX_out0 = {
 	.reg			= 0x40F00000 + 16480,
 	.bit			= 0,
 };
-static const struct clk_parent clk_TIMER11_CASCADE_parents[] = {
+static const struct clk_parent clk_TIMER11_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MAIN_TIMER_CLKSEL_OUT11,
 		1,
@@ -2516,7 +2516,7 @@ static const struct clk_data_mux_reg clk_data_TIMER11_CASCADE_out0 = {
 	.reg			= 0x00100000 + 16940,
 	.bit			= 8,
 };
-static const struct clk_parent clk_TIMER13_CASCADE_parents[] = {
+static const struct clk_parent clk_TIMER13_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MAIN_TIMER_CLKSEL_OUT13,
 		1,
@@ -2534,7 +2534,7 @@ static const struct clk_data_mux_reg clk_data_TIMER13_CASCADE_out0 = {
 	.reg			= 0x00100000 + 16948,
 	.bit			= 8,
 };
-static const struct clk_parent clk_TIMER15_CASCADE_parents[] = {
+static const struct clk_parent clk_TIMER15_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MAIN_TIMER_CLKSEL_OUT15,
 		1,
@@ -2552,7 +2552,7 @@ static const struct clk_data_mux_reg clk_data_TIMER15_CASCADE_out0 = {
 	.reg			= 0x00100000 + 16956,
 	.bit			= 8,
 };
-static const struct clk_parent clk_TIMER17_CASCADE_parents[] = {
+static const struct clk_parent clk_TIMER17_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MAIN_TIMER_CLKSEL_OUT17,
 		1,
@@ -2570,7 +2570,7 @@ static const struct clk_data_mux_reg clk_data_TIMER17_CASCADE_out0 = {
 	.reg			= 0x00100000 + 16964,
 	.bit			= 8,
 };
-static const struct clk_parent clk_TIMER19_CASCADE_parents[] = {
+static const struct clk_parent clk_TIMER19_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MAIN_TIMER_CLKSEL_OUT19,
 		1,
@@ -2588,7 +2588,7 @@ static const struct clk_data_mux_reg clk_data_TIMER19_CASCADE_out0 = {
 	.reg			= 0x00100000 + 16972,
 	.bit			= 8,
 };
-static const struct clk_parent clk_TIMER1_CASCADE_parents[] = {
+static const struct clk_parent clk_TIMER1_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MAIN_TIMER_CLKSEL_OUT1,
 		1,
@@ -2606,7 +2606,7 @@ static const struct clk_data_mux_reg clk_data_TIMER1_CASCADE_out0 = {
 	.reg			= 0x00100000 + 16900,
 	.bit			= 8,
 };
-static const struct clk_parent clk_TIMER3_CASCADE_parents[] = {
+static const struct clk_parent clk_TIMER3_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MAIN_TIMER_CLKSEL_OUT3,
 		1,
@@ -2624,7 +2624,7 @@ static const struct clk_data_mux_reg clk_data_TIMER3_CASCADE_out0 = {
 	.reg			= 0x00100000 + 16908,
 	.bit			= 8,
 };
-static const struct clk_parent clk_TIMER5_CASCADE_parents[] = {
+static const struct clk_parent clk_TIMER5_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MAIN_TIMER_CLKSEL_OUT5,
 		1,
@@ -2642,7 +2642,7 @@ static const struct clk_data_mux_reg clk_data_TIMER5_CASCADE_out0 = {
 	.reg			= 0x00100000 + 16916,
 	.bit			= 8,
 };
-static const struct clk_parent clk_TIMER7_CASCADE_parents[] = {
+static const struct clk_parent clk_TIMER7_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MAIN_TIMER_CLKSEL_OUT7,
 		1,
@@ -2660,7 +2660,7 @@ static const struct clk_data_mux_reg clk_data_TIMER7_CASCADE_out0 = {
 	.reg			= 0x00100000 + 16924,
 	.bit			= 8,
 };
-static const struct clk_parent clk_TIMER9_CASCADE_parents[] = {
+static const struct clk_parent clk_TIMER9_CASCADE_parents[2] = {
 	{
 		CLK_J7200_MAIN_TIMER_CLKSEL_OUT9,
 		1,
@@ -2756,7 +2756,7 @@ static const struct clk_data_mux_reg clk_data_USB0_REFCLK_SEL_out0 = {
 	.reg			= 0x00100000 + 32992,
 	.bit			= 0,
 };
-static const struct clk_parent clk_USB0_SerDes_refclk_Mux_parents[] = {
+static const struct clk_parent clk_USB0_SerDes_refclk_Mux_parents[2] = {
 	{
 		CLK_J7200_WIZ16B8M4CT2_MAIN_1_IP3_LN1_REFCLK,
 		1,
@@ -2774,7 +2774,7 @@ static const struct clk_data_mux_reg clk_data_USB0_SerDes_refclk_Mux_out0 = {
 	.reg			= 0x00100000 + 16384,
 	.bit			= 27,
 };
-static const struct clk_parent clk_USB0_SerDes_rxclk_Mux_parents[] = {
+static const struct clk_parent clk_USB0_SerDes_rxclk_Mux_parents[2] = {
 	{
 		CLK_J7200_WIZ16B8M4CT2_MAIN_1_IP3_LN1_RXCLK,
 		1,
@@ -2792,7 +2792,7 @@ static const struct clk_data_mux_reg clk_data_USB0_SerDes_rxclk_Mux_out0 = {
 	.reg			= 0x00100000 + 16384,
 	.bit			= 27,
 };
-static const struct clk_parent clk_USB0_SerDes_rxfclk_Mux_parents[] = {
+static const struct clk_parent clk_USB0_SerDes_rxfclk_Mux_parents[2] = {
 	{
 		CLK_J7200_WIZ16B8M4CT2_MAIN_1_IP3_LN1_RXFCLK,
 		1,
@@ -2810,7 +2810,7 @@ static const struct clk_data_mux_reg clk_data_USB0_SerDes_rxfclk_Mux_out0 = {
 	.reg			= 0x00100000 + 16384,
 	.bit			= 27,
 };
-static const struct clk_parent clk_USB0_SerDes_txfclk_Mux_parents[] = {
+static const struct clk_parent clk_USB0_SerDes_txfclk_Mux_parents[2] = {
 	{
 		CLK_J7200_WIZ16B8M4CT2_MAIN_1_IP3_LN1_TXFCLK,
 		1,
@@ -2828,7 +2828,7 @@ static const struct clk_data_mux_reg clk_data_USB0_SerDes_txfclk_Mux_out0 = {
 	.reg			= 0x00100000 + 16384,
 	.bit			= 27,
 };
-static const struct clk_parent clk_USB0_SerDes_txmclk_Mux_parents[] = {
+static const struct clk_parent clk_USB0_SerDes_txmclk_Mux_parents[2] = {
 	{
 		CLK_J7200_WIZ16B8M4CT2_MAIN_1_IP3_LN1_TXMCLK,
 		1,
@@ -3142,7 +3142,7 @@ static const struct clk_data_from_dev clk_data_fss_mcu_0_ospi_0_ospi_oclk_clk = 
 	.dev		= J7200_DEV_MCU_FSS0_OSPI_0,
 	.clk_idx	= J7200_DEV_MCU_FSS0_OSPI_0_OSPI_OCLK_CLK,
 };
-static const struct clk_parent clk_gpmc_fclk_sel_parents[] = {
+static const struct clk_parent clk_gpmc_fclk_sel_parents[4] = {
 	{
 		CLK_J7200_HSDIV4_16FFT_MAIN_0_HSDIVOUT3_CLK,
 		1,
@@ -3499,7 +3499,7 @@ static const struct clk_data_from_dev clk_data_j7vcl_cpsw_tx_rgmii_wrap_main_0_i
 	.dev		= J7200_DEV_CPSW_TX_RGMII0,
 	.clk_idx	= J7200_DEV_CPSW_TX_RGMII0_IO__RGMII4_TXC__A,
 };
-static const struct clk_parent clk_k3_pll_ctrl_wrap_main_0_parents[] = {
+static const struct clk_parent clk_k3_pll_ctrl_wrap_main_0_parents[2] = {
 	{
 		CLK_J7200_MAIN_PLL_HFOSC_SEL_OUT0,
 		1,
@@ -3530,7 +3530,7 @@ static const struct clk_data_div_reg clk_data_k3_pll_ctrl_wrap_main_0_chip_div24
 	.reg		= 0x00410000 + 0x11c,
 	.bit		= 0,
 };
-static const struct clk_parent clk_k3_pll_ctrl_wrap_wkup_0_parents[] = {
+static const struct clk_parent clk_k3_pll_ctrl_wrap_wkup_0_parents[2] = {
 	{
 		CLK_J7200_WKUP_FREF_CLKSEL_OUT0,
 		1,
@@ -3561,7 +3561,7 @@ static const struct clk_data_div_reg clk_data_k3_pll_ctrl_wrap_wkup_0_chip_div24
 	.reg		= 0x42010000 + 0x11c,
 	.bit		= 0,
 };
-static const struct clk_parent clk_main_pll8_sel_extwave_parents[] = {
+static const struct clk_parent clk_main_pll8_sel_extwave_parents[2] = {
 	{
 		CLK_J7200_PLLFRACF_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK,
 		1,
@@ -3627,7 +3627,7 @@ static const struct clk_data_from_dev clk_data_mcasp_main_2_mcasp_ahclkx_pout = 
 	.dev		= J7200_DEV_MCASP2,
 	.clk_idx	= J7200_DEV_MCASP2_MCASP_AHCLKX_POUT,
 };
-static const struct clk_parent clk_mcu_OSPI0_iclk_sel_parents[] = {
+static const struct clk_parent clk_mcu_OSPI0_iclk_sel_parents[2] = {
 	{
 		CLK_J7200_BOARD_0_MCU_OSPI0_DQS_OUT,
 		1,
@@ -3645,7 +3645,7 @@ static const struct clk_data_mux_reg clk_data_mcu_OSPI0_iclk_sel_out0 = {
 	.reg			= 0x40F00000 + 32816,
 	.bit			= 4,
 };
-static const struct clk_parent clk_mcu_OSPI_ref_clk_sel_out0_parents[] = {
+static const struct clk_parent clk_mcu_OSPI_ref_clk_sel_out0_parents[2] = {
 	{
 		CLK_J7200_HSDIV4_16FFT_MCU_1_HSDIVOUT4_CLK,
 		1,
@@ -3663,7 +3663,7 @@ static const struct clk_data_mux_reg clk_data_mcu_OSPI_ref_clk_sel_out0 = {
 	.reg			= 0x40F00000 + 32816,
 	.bit			= 0,
 };
-static const struct clk_parent clk_mcu_WWD_clksel_out0_parents[] = {
+static const struct clk_parent clk_mcu_WWD_clksel_out0_parents[8] = {
 	{
 		CLK_J7200_GLUELOGIC_HFOSC0_CLKOUT,
 		1,
@@ -3713,7 +3713,7 @@ static const struct clk_data_mux_reg clk_data_mcu_WWD_clksel_out1 = {
 	.reg			= 0x40F00000 + 33156,
 	.bit			= 0,
 };
-static const struct clk_parent clk_mcu_mcan_clk_sel_out0_parents[] = {
+static const struct clk_parent clk_mcu_mcan_clk_sel_out0_parents[4] = {
 	{
 		CLK_J7200_HSDIV4_16FFT_MCU_2_HSDIVOUT3_CLK,
 		1,
@@ -3754,7 +3754,7 @@ static const struct clk_data_div_reg clk_data_mcu_obsclk_div_out0 = {
 	.reg		= 0x43000000 + 32768,
 	.bit		= 8,
 };
-static const struct clk_parent clk_mcu_obsclk_outmux_parents[] = {
+static const struct clk_parent clk_mcu_obsclk_outmux_parents[2] = {
 	{
 		CLK_J7200_MCU_OBSCLK_DIV_OUT0,
 		1,
@@ -3772,7 +3772,7 @@ static const struct clk_data_mux_reg clk_data_mcu_obsclk_outmux_out0 = {
 	.reg			= 0x43000000 + 32768,
 	.bit			= 24,
 };
-static const struct clk_parent clk_mcuusart_clk_sel_parents[] = {
+static const struct clk_parent clk_mcuusart_clk_sel_parents[2] = {
 	{
 		CLK_J7200_HSDIV4_16FFT_MCU_1_HSDIVOUT3_CLK,
 		1,
@@ -4318,7 +4318,7 @@ static const struct clk_data_from_dev clk_data_wiz16b8m4ct2_main_1_ip3_ln3_txmcl
 	.dev		= J7200_DEV_SERDES_10G1,
 	.clk_idx	= J7200_DEV_SERDES_10G1_IP3_LN3_TXMCLK,
 };
-static const struct clk_parent clk_wkup_FREF_clksel_parents[] = {
+static const struct clk_parent clk_wkup_FREF_clksel_parents[2] = {
 	{
 		CLK_J7200_GLUELOGIC_HFOSC0_CLKOUT,
 		1,
@@ -4336,7 +4336,7 @@ static const struct clk_data_mux_reg clk_data_wkup_FREF_clksel_out0 = {
 	.reg			= 0x43000000 + 32848,
 	.bit			= 8,
 };
-static const struct clk_parent clk_wkup_gpio0_clksel_parents[] = {
+static const struct clk_parent clk_wkup_gpio0_clksel_parents[4] = {
 	{
 		CLK_J7200_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
 		6,
@@ -4362,7 +4362,7 @@ static const struct clk_data_mux_reg clk_data_wkup_gpio0_clksel_out0 = {
 	.reg			= 0x43000000 + 32880,
 	.bit			= 0,
 };
-static const struct clk_parent clk_wkup_i2c0_mcupll_bypass_clksel_parents[] = {
+static const struct clk_parent clk_wkup_i2c0_mcupll_bypass_clksel_parents[2] = {
 	{
 		CLK_J7200_HSDIV4_16FFT_MCU_1_HSDIVOUT3_CLK,
 		1,
@@ -4380,7 +4380,7 @@ static const struct clk_data_mux_reg clk_data_wkup_i2c0_mcupll_bypass_clksel_out
 	.reg			= 0x43000000 + 32864,
 	.bit			= 0,
 };
-static const struct clk_parent clk_wkup_obsclk_mux_parents[] = {
+static const struct clk_parent clk_wkup_obsclk_mux_parents[16] = {
 	{
 		CLK_J7200_J7VC_WAKEUP_16FF_WKUP_0_WKUP_RCOSC_12P5M_CLK,
 		1,
@@ -4454,7 +4454,7 @@ static const struct clk_data_mux_reg clk_data_wkup_obsclk_mux_out0 = {
 	.reg			= 0x43000000 + 32768,
 	.bit			= 0,
 };
-static const struct clk_parent clk_wkup_usart_mcupll_bypass_clksel_parents[] = {
+static const struct clk_parent clk_wkup_usart_mcupll_bypass_clksel_parents[2] = {
 	{
 		CLK_J7200_WKUPUSART_CLK_SEL_OUT0,
 		1,
@@ -4481,7 +4481,7 @@ static const struct clk_data_mux_reg clk_data_wkupusart_clk_sel_out0 = {
 	.bit			= 0,
 };
 
-const struct clk_data soc_clock_data[] = {
+const struct clk_data soc_clock_data[385] = {
 	[CLK_J7200_GLUELOGIC_HFOSC0_CLKOUT] =				{
 		.drv	= &clk_drv_soc_hfosc0,
 		.flags	= 0,

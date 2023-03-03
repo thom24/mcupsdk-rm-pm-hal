@@ -34,7 +34,7 @@
 #include <soc/host_idx_mapping.h>
 #include <soc/j721s2/hosts.h>
 
-const u8 soc_host_indexes[] = {
+const u8 soc_host_indexes[254] = {
 	[HOST_ID_TIFS] = 0U,
 	[HOST_ID_MCU_0_R5_0] = 1U,
 	[HOST_ID_MCU_0_R5_1] = 2U,

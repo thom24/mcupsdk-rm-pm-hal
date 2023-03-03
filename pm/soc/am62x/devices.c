@@ -1190,7 +1190,7 @@ static const struct psc_pd_data am62x_sam62_mcu_psc_wrap_wkup_0_pd_data[AM62X_PS
 	},
 };
 static struct psc_pd am62x_sam62_mcu_psc_wrap_wkup_0_powerdomains[ARRAY_SIZE(am62x_sam62_mcu_psc_wrap_wkup_0_pd_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
-static const dev_idx_t dev_list_LPSC_MCU_common[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const dev_idx_t dev_list_LPSC_MCU_common[10] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	AM62X_DEV_MCU_TIMER0,
 	AM62X_DEV_MCU_TIMER1,
 	AM62X_DEV_MCU_TIMER2,
@@ -1612,7 +1612,7 @@ static const struct psc_pd_data am62x_sam62_main_psc_wrap_main_0_psc_0_pd_data[A
 	},
 };
 static struct psc_pd am62x_sam62_main_psc_wrap_main_0_psc_0_powerdomains[ARRAY_SIZE(am62x_sam62_main_psc_wrap_main_0_psc_0_pd_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
-static const dev_idx_t dev_list_LPSC_main_alwayson[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_alwayson[22] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	AM62X_DEV_CMP_EVENT_INTROUTER0,
 	AM62X_DEV_MAIN_GPIOMUX_INTROUTER0,
 	AM62X_DEV_TIMESYNC_EVENT_ROUTER0,
@@ -1636,7 +1636,7 @@ static const dev_idx_t dev_list_LPSC_main_alwayson[] __attribute__((__section__(
 	AM62X_DEV_WKUP_UART0,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_main_IP[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_IP[40] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	AM62X_DEV_CPT2_AGGR0,
 	AM62X_DEV_DMASS0_BCDMA_0,
 	AM62X_DEV_DMASS0_CBASS_0,
@@ -2549,7 +2549,7 @@ static const struct dev_data am62x_dev_mcu_obsclk_mux_sel_dev_VD __attribute__((
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 
-static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[168] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	DEV_CLK(AM62X_DEV_AM62_MCU_GPIOMUX_INTROUTER_WKUP_0_CLOCKS,	      AM62X_DEV_WKUP_MCU_GPIOMUX_INTROUTER0_INTR_CLK,
 		CLK_AM62X_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
 		4),
@@ -3102,7 +3102,7 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__sect
 		       9),
 };
 static struct dev_clk MCU_WAKEUP_dev_clk[ARRAY_SIZE(MCU_WAKEUP_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
-static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct dev_clk_data MAIN_dev_clk_data[837] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	DEV_CLK(AM62X_DEV_AM62_CMP_EVENT_INTROUTER_MAIN_0_CLOCKS,								   AM62X_DEV_CMP_EVENT_INTROUTER0_INTR_CLK,
 		CLK_AM62X_SAM62_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		4),
@@ -5296,15 +5296,15 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		1),
 };
 static struct dev_clk MAIN_dev_clk[ARRAY_SIZE(MAIN_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
-static const struct dev_clk_data TIFS_INTERNAL_dev_clk_data[] __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
+static const struct dev_clk_data TIFS_INTERNAL_dev_clk_data[1] __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
 	DEV_CLK(AM62X_DEV_DMSS_AM62_MAIN_0_RINGACC_0_CLOCKS, AM62X_DEV_DMASS0_RINGACC_0_CLK, CLK_AM62X_SAM62_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK, 1),
 };
 static struct dev_clk TIFS_INTERNAL_dev_clk[ARRAY_SIZE(TIFS_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.TIFS_INTERNAL")));
-static const struct dev_clk_data HSM_INTERNAL_dev_clk_data[] __attribute__((__section__(".const.devgroup.HSM_INTERNAL"))) = {
+static const struct dev_clk_data HSM_INTERNAL_dev_clk_data[0] __attribute__((__section__(".const.devgroup.HSM_INTERNAL"))) = {
 };
 static struct dev_clk HSM_INTERNAL_dev_clk[ARRAY_SIZE(HSM_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.HSM_INTERNAL")));
 
-const struct devgroup soc_devgroups[] = {
+const struct devgroup soc_devgroups[AM62X_PM_DEVGRP_RANGE_ID_MAX] = {
 	[PM_DEVGRP_01] =   {
 		.dev_clk_data	= MCU_WAKEUP_dev_clk_data,
 		.dev_clk	= MCU_WAKEUP_dev_clk,
@@ -5328,10 +5328,10 @@ const struct devgroup soc_devgroups[] = {
 };
 const size_t soc_devgroup_count = ARRAY_SIZE(soc_devgroups);
 
-const struct soc_device_data *const soc_psc_multiple_domains[] = {
+const struct soc_device_data *const soc_psc_multiple_domains[0] = {
 };
 
-const struct dev_data *const soc_device_data_arr[AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD + 1] = {
+const struct dev_data *const soc_device_data_arr[AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD + 1U] = {
 	[AM62X_DEV_CMP_EVENT_INTROUTER0] = &am62x_dev_am62_cmp_event_introuter_main_0,
 	[AM62X_DEV_DBGSUSPENDROUTER0] = &am62x_dev_am62_dbgsuspendrouter_main_0,
 	[AM62X_DEV_MAIN_GPIOMUX_INTROUTER0] = &am62x_dev_am62_main_gpiomux_introuter_main_0,

@@ -1,7 +1,7 @@
 /*
  * Data version: 190425_000000
  *
- * Copyright (C) 2019-2021, Texas Instruments Incorporated
+ * Copyright (C) 2019-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,7 @@
 #include <soc/host_idx_mapping.h>
 #include <soc/am65x/hosts.h>
 
-const u8 soc_host_indexes[] = {
+const u8 soc_host_indexes[53] = {
 	[HOST_ID_DMSC] = 0U,
 	[HOST_ID_R5_0] = 1U,
 	[HOST_ID_R5_1] = 2U,

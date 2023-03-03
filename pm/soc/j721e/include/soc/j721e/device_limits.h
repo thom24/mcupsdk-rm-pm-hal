@@ -1,9 +1,7 @@
 /*
- * Interrupt Management
+ * Data version: 210812_211103
  *
- * Data version: 230209_212853
- *
- * Copyright (C) 2019-2023, Texas Instruments Incorporated
+ * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,27 +31,16 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef IRQ_CFG_H
-#define IRQ_CFG_H
-
-/**
- * Maximum depth, or number of nodes minus one, between the IRQ source and
- * destination subsystems.  The routing algorithm does not push a node for the
- * final destination host processor so only the peripheral and intermediate
- * routing subsystems need to be accounted for in the maximum route depth
- * calculation.
- */
-#define IRQ_MAX_ROUTE_DEPTH (3U)
-
-/**
- * Extern for IRQ event source devices array
- */
-extern const u16 evt_rt_srcs[2];
-
-/**
- * Extern for number of IRQ event source devices
- */
-extern const u32 evt_rt_srcs_count;
+#ifndef SOC_J721E_DEVICE_LIMITS_H
+#define SOC_J721E_DEVICE_LIMITS_H
 
 
-#endif /* IRQ_CFG_H */
+#define PM_DEVGRP_RANGE_ID_MAX J721E_PM_DEVGRP_RANGE_ID_MAX
+#define SOC_DEVICES_DATA_ARR_RANGE_ID_MAX 343
+
+#define SOC_DEVICES_RANGE_ID_MAX 343
+
+#define SOC_MULTIPLE_DOMAINS_RANGE_ID_MAX 1
+
+
+#endif /* SOC_J721E_DEVICE_LIMITS_H */
