@@ -85,6 +85,10 @@ extern "C" {
 
 #define RTC_BASE             (0x2b1f0000UL)
 
+#define MAIN_CTRL_BASE             (0x100000UL)
+#define MCU_CTRL_BASE              (0x04500000UL)
+#define MAX_MMR_DATA                       (20U)
+
 
 #ifdef __cplusplus
 }

@@ -52,6 +52,7 @@
 #include "clk.h"
 #include "soc_ctrl_mmr.h"
 #include "ctrlmmr_raw.h"
+#include "ctrl_mmr.h"
 
 
 /* counts of 1us delay for 10ms */
@@ -64,6 +65,7 @@
 #define LPM_SUSPEND_GTC                         BIT(4)
 #define LPM_CLOCK_SUSPEND                       BIT(5)
 #define LPM_SUSPEND_DM                          BIT(6)
+#define LPM_SAVE_MMR_LOCK                       BIT(7)
 
 extern s32 _stub_start(void);
 extern u32 lpm_get_wake_up_source(void);
@@ -334,6 +336,11 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	}
 
 	if (ret == SUCCESS) {
+		ret = lpm_save_mmr_lock();
+		enter_sleep_status |= LPM_SAVE_MMR_LOCK;
+	}
+
+	if (ret == SUCCESS) {
 		ret = lpm_sleep_suspend_gtc();
 		enter_sleep_status |= LPM_SUSPEND_GTC;
 	}
@@ -385,6 +392,12 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_GTC) == LPM_SUSPEND_GTC)) {
 		if (lpm_resume_gtc() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if (ret == SUCCESS || ((enter_sleep_status & LPM_SAVE_MMR_LOCK) == LPM_SAVE_MMR_LOCK)) {
+		if (lpm_restore_mmr_lock() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
