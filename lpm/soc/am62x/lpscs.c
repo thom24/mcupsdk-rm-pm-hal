@@ -1,9 +1,9 @@
 /*
  * System Firmware
  *
- * am62x soc baseaddress.h
+ * am62x soc lpscs.c
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,39 +34,34 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef BASEADDRESS_H_
-#define BASEADDRESS_H_
+#include <lpscs.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+/* MAIN LPSCs to be disabled during Deepsleep phase 1 */
+const struct pd_lpsc main_lpscs_phase1[] = {
+	{ PD_A53_0, 		LPSC_A53_0          },
+	{ PD_A53_CLUSTER_0, LPSC_A53_CLUSTER_0  },
+	/* FIXME Removing this lpsc since it is not getting turned off properly in second cycle of deep sleep */
+/*	{ PD_GP_CORE_CTL,   LPSC_MAIN_TEST},*/
+	{ PD_GP_CORE_CTL,	LPSC_HSM	        },
+	{ PD_GP_CORE_CTL,	LPSC_TIFS	        },
+	/* Removing LPSC_SA3UL as this timeouts on GP: known issue SYSFW-5031 */
+/*	{ PD_GP_CORE_CTL,	LPSC_SA3UL	        },*/
+	{ PD_GP_CORE_CTL,	LPSC_SMS_COMMON     },
+};
 
-#define PLLMMR1_CFG_BASE                (0x00680000U)
-#define MAIN_PLL_MMR_BASE               PLLMMR1_CFG_BASE
-#define PLLMMR0_CFG_BASE                (0x04040000U)
-#define MCU_PLL_MMR_BASE                PLLMMR0_CFG_BASE
-#define MMR1_CFG_BASE                   (0x04500000U)
-#define MCU_CTRL_MMR_BASE               MMR1_CFG_BASE
-#define MMR0_CFG_BASE                   (0x43000000U)
-#define WKUP_CTRL_MMR_BASE              MMR0_CFG_BASE
+u32 num_main_lpscs_phase1 = sizeof(main_lpscs_phase1) / sizeof(struct pd_lpsc);
 
-#define MAIN_PSC_BASE                   (0x00400000U)
-#define MCU_PSC_BASE                    (0x04000000U)  
+/* MAIN LPSCs to be disabled during Deepsleep phase 2 */
+const struct pd_lpsc main_lpscs_phase2[] = {
+	{ PD_GP_CORE_CTL,		LPSC_DEBUGSS    },
+};
 
-#define DDR_CTRL_BASE                   (0x0f308000U)
-#define VIM_BASE                        (0x2fff0000U)
-#define ROM_SEC_PROXY_RT_ADDRESS        (0x44880000U)
-#define ROM_SEC_PROXY_TARGET_ADDRESS    (0x43600000U)
-#define TIFS_SEC_PROXY_RT_ADDRESS       (0x4a600000U)
-#define TIFS_SEC_PROXY_TARGET_ADDRESS   (0x4d000000U)
-#define SEC_PROXY_MSG_RX_TID             0
-#define SEC_PROXY_MSG_TX_TID             1
-#define TIFS_SEC_PROXY_MSG_RX_TID        69
-#define TIFS_SEC_PROXY_MSG_TX_TID        61
-#define DM2DMSC_SEC_PROXY_MSG_RX_TID     22
-#define DM2DMSC_SEC_PROXY_MSG_TX_TID     23
+u32 num_main_lpscs_phase2 = sizeof(main_lpscs_phase2) / sizeof(struct pd_lpsc);
 
-#ifdef __cplusplus
-}
-#endif
-#endif /* BASEADDRESS_H_ */
+/* MCU LPSCs to be disabled during Deepsleep */
+const struct pd_lpsc mcu_lpscs[] = {
+	{ PD_GP_CORE_CTL_MCU,	LPSC_MCU_TEST   },
+	{ PD_MCU_M4F,			LPSC_MCU_COMMON	},
+};
+
+u32 num_mcu_lpscs = sizeof(mcu_lpscs) / sizeof(struct pd_lpsc);

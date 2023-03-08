@@ -38,6 +38,7 @@
 #include <tisci/lpm/tisci_lpm.h>
 #include <types/errno.h>
 #include <baseaddress.h>
+#include <lpscs.h>
 #include <mcu_ctrl_mmr.h>
 #include <wkup_ctrl_mmr.h>
 #include <wake_data.h>
@@ -61,11 +62,6 @@ enum lpm_mode {
 	LPM_DEEPSLEEP,
 	LPM_MCU_ONLY,
 	LPM_STANDBY,
-};
-
-struct main_pd_lpsc {
-	u8	pd;
-	u8	lpsc;
 };
 
 /* variable to store the last wakeup interrupt */
@@ -99,35 +95,6 @@ static struct pll_raw_data main_pll16 =
 { .base = MAIN_PLL_MMR_BASE + PLLOFFSET(16), };
 static struct pll_raw_data main_pll17 =
 { .base = MAIN_PLL_MMR_BASE + PLLOFFSET(17), };
-
-/* MAIN /LPSCs to be disabled during Deepsleep phase 1 */
-/* FIXME am62x specific, move to soc specific place */
-static struct main_pd_lpsc main_lpscs_phase1[] = {
-	{ PD_A53_0,	    LPSC_A53_0	       },
-	{ PD_A53_CLUSTER_0, LPSC_A53_CLUSTER_0 },
-	/* FIXME disabling LPSC_MAIN_IP causes problem on vlab, skip it for now */
-/*	{ PD_MAIN_IP,		LPSC_MAIN_IP },*/
-	/* FIXME Removing this lpsc since it is not getting turned off properly in second cycle of deep sleep */
-/*	{ PD_GP_CORE_CTL,   LPSC_MAIN_TEST},*/
-	{ PD_SMS,	    LPSC_HSM	       },
-	{ PD_SMS,	    LPSC_TIFS	       },
-	{ PD_SMS,	    LPSC_SA3UL	       },
-	{ PD_SMS,	    LPSC_SMS_COMMON    }
-};
-
-/* MAIN LPSCs to be disabled during Deepsleep phase 2 */
-/* FIXME am62x specific, move to soc specific place */
-static struct main_pd_lpsc main_lpscs_phase2[] = {
-	/* FIXME this times out, so skip it for now */
-/*	{ PD_DEBUG,		LPSC_DEBUGSS },*/
-};
-
-/* MCU LPSCs to be disabled during Deepsleep */
-/* FIXME am62x specific, move to soc specific place */
-static int mcu_lpscs[] = {
-	LPSC_MCU_TEST,
-	LPSC_MCU_COMMON
-};
 
 void lpm_clear_all_wakeup_interrupt(void)
 {
@@ -213,7 +180,7 @@ static void release_usb_reset_isolation()
 	 */
 }
 
-static s32 disable_main_lpsc(struct main_pd_lpsc *lpscs, u32 n_lpscs)
+static s32 disable_main_lpsc(const struct pd_lpsc *lpscs, u32 n_lpscs)
 {
 	u32 i;
 	int ret;
@@ -250,7 +217,6 @@ static void bypass_main_pll()
 	pll_disable(&main_pll16, 0xFFFF);
 	pll_disable(&main_pll17, 0xFFFF);
 }
-
 
 static void wait_for_debug(void)
 {
@@ -367,8 +333,8 @@ static s32 disable_mcu_domain()
 	u32 i;
 	s32 ret;
 
-	for (i = 0; i < sizeof(mcu_lpscs) / sizeof(int); i++) {
-		psc_raw_lpsc_set_state(MCU_PSC_BASE, mcu_lpscs[i],
+	for (i = 0; i < num_mcu_lpscs; i++) {
+		psc_raw_lpsc_set_state(MCU_PSC_BASE, mcu_lpscs[i].lpsc,
 				       MDCTL_STATE_DISABLE, 0);
 	}
 
@@ -425,7 +391,7 @@ static s32 send_tisci_msg_firmware_load()
 	req.hdr.type = TISCI_MSG_FIRMWARE_LOAD;
 	req.hdr.flags = 8 << 24;
 	req.image_addr = CONFIG_TIFSFW_SPS_BASE;
-	req.image_size = CONFIG_TIFSFW_SPS_BASE;
+	req.image_size = CONFIG_TIFSFW_SPS_LEN;
 
 	ret = sproxy_send_msg_rom(&req, sizeof(req));
 	if (ret) {
@@ -585,7 +551,6 @@ void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p)
 s32 dm_stub_entry(void)
 {
 	u32 reg;
-	u32 n_lpscs;
 
 	lpm_console_init();
 
@@ -616,8 +581,7 @@ s32 dm_stub_entry(void)
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
 
 		/* Disable all LPSCs in MAIN except Debug, Always ON */
-		n_lpscs = sizeof(main_lpscs_phase1) / sizeof(struct main_pd_lpsc);
-		if (disable_main_lpsc(main_lpscs_phase1, n_lpscs)) {
+		if (disable_main_lpsc(main_lpscs_phase1, num_main_lpscs_phase1)) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC);
 			lpm_abort();
 		}
@@ -648,8 +612,7 @@ s32 dm_stub_entry(void)
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_IO_ISO);
 
 		/* Disable remaining MAIN LPSCs for debug */
-		n_lpscs = sizeof(main_lpscs_phase2) / sizeof(struct main_pd_lpsc);
-		if (disable_main_lpsc(main_lpscs_phase2, n_lpscs)) {
+		if (disable_main_lpsc(main_lpscs_phase2, num_main_lpscs_phase2)) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
 			lpm_abort();
 		}
