@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2021, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -79,6 +79,7 @@ extern const struct clk_drv_div clk_drv_div_fixed;
 sbool clk_div_notify_freq(struct clk *clkp, u32 parent_freq_hz, sbool query);
 u32 clk_div_set_freq(struct clk *clkp, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed);
 u32 clk_div_get_freq(struct clk *clkp);
+u32 clk_div_set_freq_static_parent(struct clk *clkp, u32 target_hz, u32 min_hz, u32 max_hz, sbool query, sbool *changed);
 
 u32 clk_div_reg_go_get_div(struct clk *clkp);
 sbool clk_div_reg_go_set_div(struct clk *clkp, u32 d);
