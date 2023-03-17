@@ -655,7 +655,7 @@ const struct clk_default soc_clock_freq_defaults[14] = {
 	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_12_DEFAULT, 1866000000UL, 1866000000UL, 1866000000UL),
 };
 
-const struct pll_table_entry soc_pll_table[89] = {
+const struct pll_table_entry soc_pll_table[90] = {
 	[PLL_ENTRY_MAIN_19_2MHZ_1000MHZ_F24BIT] =	{
 		.freq_min_hz	= 1000000000U,
 		.freq_max_hz	= 1000000000U,
