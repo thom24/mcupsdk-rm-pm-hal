@@ -896,7 +896,9 @@ static const struct dev_data am62ax_dev_mailbox4_main_0 __attribute__((__section
 };
 static const struct dev_data am62ax_dev_main2mcu_VD __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
+		.psc_idx	= AM62AX_PSC_INST_SAM62A_MCU_PSC_WRAP_WKUP_0,
+		.pd		= AM62AX_PSC_PD_GP_CORE_CTL_MCU,
+		.mod		= AM62AX_PSC_LPSC_LPSC_MAIN2MCU_ISO,
 	},
 	.pm_devgrp		= PM_DEVGRP_00,
 };
@@ -1208,8 +1210,8 @@ static const struct lpsc_module_data am62ax_sam62a_mcu_psc_wrap_wkup_0_mod_data[
 		.depends_psc_idx	= AM62AX_PSC_INST_SAM62A_MCU_PSC_WRAP_WKUP_0,
 		.depends		= AM62AX_PSC_LPSC_LPSC_MCU_COMMON,
 		.lpsc_dev.dev_array	=     {
+			AM62AX_DEV_MAIN2MCU_VD,
 			DEV_ID_NONE,
-			0,
 			0,
 			0,
 		},
