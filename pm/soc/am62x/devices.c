@@ -894,7 +894,9 @@ static const struct dev_data am62x_dev_mailbox1_main_0 __attribute__((__section_
 };
 static const struct dev_data am62x_dev_main2mcu_VD __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
+		.psc_idx	= AM62X_PSC_INST_SAM62_MCU_PSC_WRAP_WKUP_0,
+		.pd		= AM62X_PSC_PD_GP_CORE_CTL_MCU,
+		.mod		= AM62X_PSC_LPSC_LPSC_MAIN2MCU_ISO,
 	},
 	.pm_devgrp		= PM_DEVGRP_00,
 };
@@ -920,7 +922,9 @@ static const struct dev_data am62x_dev_mcrc64_mcu_0 __attribute__((__section__("
 };
 static const struct dev_data am62x_dev_mcu2main_VD __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
-		.psc_idx	= PSC_DEV_NONE,
+		.psc_idx	= AM62X_PSC_INST_SAM62_MCU_PSC_WRAP_WKUP_0,
+		.pd		= AM62X_PSC_PD_GP_CORE_CTL_MCU,
+		.mod		= AM62X_PSC_LPSC_LPSC_MCU2MAIN_ISO,
 	},
 	.pm_devgrp		= PM_DEVGRP_00,
 };
@@ -1181,8 +1185,7 @@ static const struct dev_data am62x_dev_sam62_main_psc_wrap_main_0 __attribute__(
 static struct psc_data am62x_sam62_mcu_psc_wrap_wkup_0_data __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
 static const struct psc_pd_data am62x_sam62_mcu_psc_wrap_wkup_0_pd_data[AM62X_PSC_PD_PD_M4F + 1] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	[AM62X_PSC_PD_GP_CORE_CTL_MCU] = {
-		.depends	= AM62X_PSC_PD_PD_M4F,
-		.flags		= PSC_PD_EXISTS | PSC_PD_DEPENDS,
+		.flags	= PSC_PD_EXISTS,
 	},
 	[AM62X_PSC_PD_PD_M4F] =		 {
 		.depends	= AM62X_PSC_PD_GP_CORE_CTL_MCU,
@@ -1218,8 +1221,8 @@ static const struct lpsc_module_data am62x_sam62_mcu_psc_wrap_wkup_0_mod_data[AM
 		.depends_psc_idx	= AM62X_PSC_INST_SAM62_MCU_PSC_WRAP_WKUP_0,
 		.depends		= AM62X_PSC_LPSC_LPSC_MCU_COMMON,
 		.lpsc_dev.dev_array	=    {
+			AM62X_DEV_MAIN2MCU_VD,
 			DEV_ID_NONE,
-			0,
 			0,
 			0,
 		},
@@ -1230,8 +1233,8 @@ static const struct lpsc_module_data am62x_sam62_mcu_psc_wrap_wkup_0_mod_data[AM
 		.depends_psc_idx	= AM62X_PSC_INST_SAM62_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM62X_PSC_LPSC_LPSC_MAIN_DM,
 		.lpsc_dev.dev_array	=    {
+			AM62X_DEV_MCU2MAIN_VD,
 			DEV_ID_NONE,
-			0,
 			0,
 			0,
 		},
