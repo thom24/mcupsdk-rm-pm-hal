@@ -37,8 +37,8 @@
 #include <lib/bitops.h>
 #include <tisci/lpm/tisci_lpm.h>
 #include <types/errno.h>
-#include <baseaddress.h>
 #include <lpscs.h>
+#include <pll.h>
 #include <mcu_ctrl_mmr.h>
 #include <wkup_ctrl_mmr.h>
 #include <wake_data.h>
@@ -50,7 +50,6 @@
 #include "lpm_serial_8250.h"
 #include "lpm_string.h"
 #include "lpm_trace.h"
-#include "pll_16fft_raw.h"
 #include "psc_raw.h"
 #include "sec_proxy.h"
 #include "timeout.h"
@@ -78,23 +77,6 @@ static struct tisci_msg_prepare_sleep_req g_params;
 
 /* FIXME IO_ISO_TIMEOUT should be about 10us */
 #define IO_ISO_TIMEOUT  10000
-#define PLLOFFSET(idx) (0x1000 * (idx))
-
-static struct pll_raw_data mcu_pll = { .base = MCU_PLL_MMR_BASE, };
-static struct pll_raw_data main_pll0 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(0), };
-static struct pll_raw_data main_pll1 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(1), };
-static struct pll_raw_data main_pll2 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(2), };
-static struct pll_raw_data main_pll8 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(8), };
-static struct pll_raw_data main_pll12 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(12), };
-static struct pll_raw_data main_pll16 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(16), };
-static struct pll_raw_data main_pll17 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(17), };
 
 void lpm_clear_all_wakeup_interrupt(void)
 {
@@ -202,20 +184,13 @@ static void bypass_main_pll()
 	/* disable all HSDIV in MAIN_PLLCTRL, bypass all MAIN PLL
 	 * except clock for Debug, PLL0, PLL15
 	 */
-	pll_save(&main_pll0);
-	pll_save(&main_pll1);
-	pll_save(&main_pll2);
-	pll_save(&main_pll8);
-	pll_save(&main_pll12);
-	pll_save(&main_pll16);
-	pll_save(&main_pll17);
+	for (u32 i = 0; i < num_main_plls_save_rstr; i++){
+		pll_save((struct pll_raw_data *)main_plls_save_rstr[i]);
+	}
 
-	pll_disable(&main_pll1, 0xFFFF);
-	pll_disable(&main_pll2, 0xFFFF);
-	pll_disable(&main_pll8, 0xFFFF);
-	pll_disable(&main_pll12, 0xFFFF);
-	pll_disable(&main_pll16, 0xFFFF);
-	pll_disable(&main_pll17, 0xFFFF);
+	for (u32 i = 0; i < num_main_plls_dis; i++){
+		pll_disable((struct pll_raw_data *)main_plls_dis[i], 0xFFFF);
+	}
 }
 
 static void wait_for_debug(void)
@@ -288,41 +263,11 @@ static int enable_main_remain_pll()
 {
 	s32 ret = 0;
 
-	ret = pll_restore(&main_pll0);
-	if (ret) {
-		return ret;
-	}
-
-	ret = pll_restore(&main_pll1);
-	if (ret) {
-		return ret;
-	}
-
-	ret = pll_restore(&main_pll2);
-	if (ret) {
-		return ret;
-	}
-
-	/* Restore pll used by A53 */
-	ret = pll_restore(&main_pll8);
-	if (ret) {
-		return ret;
-	}
-
-	/* config additional MAIN PLLs and PSCs for EMIF */
-	ret = pll_restore(&main_pll12);
-	if (ret) {
-		return ret;
-	}
-
-	ret = pll_restore(&main_pll16);
-	if (ret) {
-		return ret;
-	}
-
-	ret = pll_restore(&main_pll17);
-	if (ret) {
-		return ret;
+	for (u32 i = 0; i < num_main_plls_save_rstr; i++){
+		pll_restore((struct pll_raw_data *)main_plls_save_rstr[i]);
+		if (ret) {
+			return ret;
+		}
 	}
 
 	return ret;
