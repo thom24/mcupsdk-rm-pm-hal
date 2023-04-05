@@ -5752,7 +5752,7 @@ const struct clk_data soc_clock_data[385] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= J7200_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_7,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_7.data_pll.data,
-		.flags		= 0,
+		.flags		= CLK_DATA_FLAG_NO_HW_REINIT,
 	},
 	[CLK_J7200_PLLFRACF_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK] =		{
 		.parent		=					{
@@ -6278,7 +6278,7 @@ const struct clk_data soc_clock_data[385] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
+		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ | CLK_DATA_FLAG_NO_HW_REINIT,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv0_16fft_main_7_hsdiv0.data_div.data,
 	},
