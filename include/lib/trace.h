@@ -51,6 +51,7 @@
 #define TRACE_LEVEL_INFO                                 2U
 #define TRACE_LEVEL_DEBUG                                3U
 
+#ifdef CONFIG_TRACE
 /**
  * \brief Set the level of messages to be output.
  *
@@ -81,7 +82,6 @@ void trace_print_arg(u8 trace_level, const u8 *fmt, u32 arg);
  *
  * \param ch Character to output.
  */
-#ifdef CONFIG_TRACE
 s32 trace_print_output_char(u8 ch);
 
 /**
@@ -97,7 +97,19 @@ s32 trace_print_output_char_core(u8 ch);
  * \param dst_enables Value from boardcfg_dbg_cfg data structure.
  */
 void trace_reconfigure(u16 src_enables, u16 dst_enables);
+
+/**
+ * \brief Outputs a u32 trace debug value to configured trace destinations.
+ *
+ * \param channel Output channel to use.
+ * \param val Trace debug value to output.
+ */
+void trace_debug(u8 channel, u32 val);
 #else
+static inline void trace_print(u8 trace_level __attribute__((unused)), const u8 *fmt __attribute__((unused)))
+{
+}
+
 static inline s32 trace_print_output_char(u8 ch __attribute__((unused)))
 {
 	return 0;
@@ -111,15 +123,11 @@ static inline s32 trace_print_output_char_core(u8 ch __attribute__((unused)))
 static inline void trace_reconfigure(u16 src_enables __attribute__((unused)), u16 dst_enables __attribute__((unused)))
 {
 }
-#endif
 
-/**
- * \brief Outputs a u32 trace debug value to configured trace destinations.
- *
- * \param channel Output channel to use.
- * \param val Trace debug value to output.
- */
-void trace_debug(u8 channel, u32 val);
+static inline void trace_debug(u8 channel __attribute__((unused)), u32 val __attribute__((unused)))
+{
+}
+#endif
 
 /**
  * \brief Outputs a u32 trace debug value to configured trace destinations.
@@ -226,27 +234,27 @@ s32 trace_init(void);
 							   | (((u32) sub_action) << TRACE_DEBUG_SUB_ACTION_SHIFT)	\
 							   | (val)))
 #else
-#define TRACE_err(fmt)
-#define TRACE_warn(fmt)
-#define TRACE_info(fmt)
-#define TRACE_debug(fmt)
-#define TRACE_err_arg(fmt, arg)
-#define TRACE_warn_arg(fmt, arg)
-#define TRACE_info_arg(fmt, arg)
-#define TRACE_debug_arg(fmt, arg)
+#define TRACE_err(fmt) trace_print(TRACE_LEVEL_ERR, fmt)
+#define TRACE_warn(fmt) trace_print(TRACE_LEVEL_WARN, fmt)
+#define TRACE_info(fmt) trace_print(TRACE_LEVEL_INFO, fmt)
+#define TRACE_debug(fmt) trace_print(TRACE_LEVEL_DEBUG, fmt)
+#define TRACE_err_arg(fmt, arg) trace_print_arg(TRACE_LEVEL_ERR, fmt, arg)
+#define TRACE_warn_arg(fmt, arg) trace_print_arg(TRACE_LEVEL_WARN, fmt, arg)
+#define TRACE_info_arg(fmt, arg) trace_print_arg(TRACE_LEVEL_INFO, fmt, arg)
+#define TRACE_debug_arg(fmt, arg) trace_print_arg(TRACE_LEVEL_DEBUG, fmt, arg)
 
-#define bp_trace(action, val)
-#define bp_trace_core(action, val)
-#define sec_trace(action, val)
-#define rm_trace(action, val)
-#define pm_trace(action, val)
+#define bp_trace(action, val) trace_debug(action, val)
+#define bp_trace_core(action, val) trace_debug(action, val)
+#define sec_trace(action, val) trace_debug(action, val)
+#define rm_trace(action, val) trace_debug(action, val)
+#define pm_trace(action, val) trace_debug(action, val)
 
-#define bp_trace_sub(action, sub_action, val)
-#define bp_trace_core_sub(action, sub_action, val)
-#define sec_trace_sub(action, sub_action, val)
-#define rm_trace_sub(action, sub_action, val)
-#define rm_trace_core_sub(action, sub_action, val)
-#define pm_trace_sub(action, sub_action, val)
+#define bp_trace_sub(action, sub_action, val) trace_debug(action+sub_action, val)
+#define bp_trace_core_sub(action, sub_action, val) trace_debug(action+sub_action, val)
+#define sec_trace_sub(action, sub_action, val) trace_debug(action+sub_action, val)
+#define rm_trace_sub(action, sub_action, val) trace_debug(action+sub_action, val)
+#define rm_trace_core_sub(action, sub_action, val) trace_debug(action+sub_action, val)
+#define pm_trace_sub(action, sub_action, val) trace_debug(action+sub_action, val)
 #endif
 
 #endif

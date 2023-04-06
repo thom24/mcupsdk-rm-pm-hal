@@ -966,9 +966,7 @@ static void lpsc_module_clk_put(struct device *dev, struct lpsc_module *mod, sbo
 static void lpsc_module_get_internal(struct device *dev,
 				     struct lpsc_module *module, sbool use, sbool ret)
 {
-#ifdef CONFIG_TRACE
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
-#endif
 	sbool modify = SFALSE;
 
 	if (use) {
@@ -1004,9 +1002,7 @@ static void lpsc_module_get_internal(struct device *dev,
 static void lpsc_module_put_internal(struct device *dev,
 				     struct lpsc_module *module, sbool use, sbool ret)
 {
-#ifdef CONFIG_TRACE
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
-#endif
 	sbool modify = SFALSE;
 
 	if (use) {

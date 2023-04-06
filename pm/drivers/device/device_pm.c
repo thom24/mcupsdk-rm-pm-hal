@@ -120,8 +120,6 @@ void device_disable(struct device *dev, sbool domain_reset)
  */
 void device_clear_flags(struct device *dev)
 {
-	const struct dev_data *data = get_dev_data(dev);
-
 	device_notify(dev);
 
 	soc_device_clear_flags(dev);
