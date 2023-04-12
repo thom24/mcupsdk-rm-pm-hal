@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,7 +69,7 @@ u32 ioremap_internal(u32 a)
 	}
 	ret = rat_get_free_map_addr_range_user(&lowAddr, &highAddr);
 	if (ret == SUCCESS) {
-		if ((a >= soc_phys_low_u32(lowAddr)) && (a < soc_phys_low_u32(highAddr))) {
+		if ((a >= lowAddr) && (a < highAddr)) {
 			addr += CONFIG_ADDR_REMAP_OFFSET;
 		}
 	}
