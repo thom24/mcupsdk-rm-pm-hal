@@ -69,7 +69,7 @@ extern "C" {
 #define LPSC_USB_0                       23
 #define LPSC_USB_1                       24
 #define LPSC_CSI_RX_0                    25
-#define LPSC_EMMC_4B_0                   26
+#define LPSC_DPHY_0                      26
 #define LPSC_SMS_COMMON                  27
 #define LPSC_FSS_OSPI                    28       
 #define LPSC_TIFS                        29       

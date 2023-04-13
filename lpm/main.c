@@ -80,7 +80,7 @@ static struct tisci_msg_prepare_sleep_req g_params;
 
 void lpm_clear_all_wakeup_interrupt(void)
 {
-	int i;
+	u32 i;
 
 	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
 		vim_clear_intr(soc_wake_sources_data[i].int_num);
@@ -98,7 +98,6 @@ static void lpm_abort()
 static void enter_ddr_low_power_mode()
 {
 	s32 ret;
-	int i;
 
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
 			       MDCTL_STATE_DISABLE, 0);
@@ -118,7 +117,7 @@ static void enter_ddr_low_power_mode()
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
-	writel(DS_DDR0_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
+	writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
 }
 
 static void exit_ddr_low_power_mode()
@@ -135,7 +134,7 @@ static void exit_ddr_low_power_mode()
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
-	writel(DS_DDR0_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
+	writel(DS_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
 
 	ddr_exit_low_power_mode();
 
@@ -149,8 +148,8 @@ static void exit_ddr_low_power_mode()
 
 static void set_usb_reset_isolation()
 {
-	writel(DS_DDR0_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB0_RESET);
-	writel(DS_DDR0_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB1_RESET);
+	writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB0_RESET);
+	writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB1_RESET);
 }
 
 static void release_usb_reset_isolation()
@@ -165,31 +164,35 @@ static void release_usb_reset_isolation()
 static s32 disable_main_lpsc(const struct pd_lpsc *lpscs, u32 n_lpscs)
 {
 	u32 i;
-	int ret;
+	s32 ret;
 
 	for (i = 0; i < n_lpscs; i++) {
 		psc_raw_lpsc_set_state(MAIN_PSC_BASE, lpscs[i].lpsc,
 				       MDCTL_STATE_DISABLE, 0);
 		psc_raw_pd_initiate(MAIN_PSC_BASE, lpscs[i].pd);
-		ret = psc_raw_pd_wait(MAIN_PSC_BASE, lpscs[i].pd);
+		
+        ret = psc_raw_pd_wait(MAIN_PSC_BASE, lpscs[i].pd);
 		if (ret) {
 			return ret;
 		}
 	}
+
 	return 0;
 }
 
 static void bypass_main_pll()
 {
+	u32 i;
+
 	/* disable all HSDIV in MAIN_PLLCTRL, bypass all MAIN PLL
 	 * except clock for Debug, PLL0, PLL15
 	 */
-	for (u32 i = 0; i < num_main_plls_save_rstr; i++){
-		pll_save((struct pll_raw_data *)main_plls_save_rstr[i]);
+	for (i = 0; i < num_main_plls_save_rstr; i++) {
+        pll_save(main_plls_save_rstr[i]);
 	}
 
-	for (u32 i = 0; i < num_main_plls_dis; i++){
-		pll_disable((struct pll_raw_data *)main_plls_dis[i], 0xFFFF);
+	for (i = 0; i < num_main_plls_dis; i++) {
+        pll_disable(main_plls_dis[i], 0xFFFF);
 	}
 }
 
@@ -218,7 +221,7 @@ static void config_wake_sources()
 
 static void disable_wake_sources()
 {
-	int i;
+	u32 i;
 
 	/* disable all wake up interrupts */
 	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
@@ -261,10 +264,12 @@ static void disable_main_remain_pll()
 
 static int enable_main_remain_pll()
 {
+	u32 i;
 	s32 ret = 0;
 
-	for (u32 i = 0; i < num_main_plls_save_rstr; i++){
-		pll_restore((struct pll_raw_data *)main_plls_save_rstr[i]);
+	for (i = 0; i < num_main_plls_save_rstr; i++) {
+		
+        ret = pll_restore(main_plls_save_rstr[i]);
 		if (ret) {
 			return ret;
 		}
@@ -286,17 +291,39 @@ static s32 disable_mcu_domain()
 	psc_raw_pd_set_state(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU,
 			     PDCTL_STATE_OFF, 0);
 	psc_raw_pd_initiate(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
-	ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
+	
+    ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
 	if (ret) {
 		return ret;
 	}
 
 	psc_raw_pd_set_state(MCU_PSC_BASE, PD_MCU_M4F, PDCTL_STATE_OFF, 0);
 	psc_raw_pd_initiate(MCU_PSC_BASE, PD_MCU_M4F);
-	ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_MCU_M4F);
+	
+    ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_MCU_M4F);
 	if (ret) {
 		return ret;
 	}
+
+	return 0;
+}
+
+static s32 enable_mcu_lpsc()
+{
+	u32 i;
+	s32 ret;
+
+	for (i = 0; i < num_mcu_lpscs; i++) {
+		psc_raw_lpsc_set_state(MCU_PSC_BASE, mcu_lpscs[i].lpsc,
+				       MDCTL_STATE_ENABLE, 0);
+		psc_raw_pd_initiate(MCU_PSC_BASE, mcu_lpscs[i].pd);
+		
+        ret = psc_raw_pd_wait(MCU_PSC_BASE, mcu_lpscs[i].pd);
+		if (ret) {
+			return ret;
+		}
+	}
+
 	return 0;
 }
 
@@ -306,7 +333,7 @@ static void enable_mcu_remain_pll()
 
 static s32 enable_dm_lpsc(void)
 {
-	s32 ret = SUCCESS;
+	s32 ret = 0;
 
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_MAIN_DM,
 			       MDCTL_STATE_ENABLE, 0);
@@ -344,8 +371,8 @@ static s32 send_tisci_msg_firmware_load()
 	}
 
 	lpm_memset(&resp, 0, sizeof(resp));
-	ret = sproxy_receive_msg_rom(&resp, sizeof(resp));
-
+	
+    ret = sproxy_receive_msg_rom(&resp, sizeof(resp));
 	if (ret) {
 		return ret;
 	}
@@ -364,8 +391,8 @@ static s32 receive_tisci_msg_continue_resume_req()
 	s32 ret = 0;
 
 	lpm_memset(&req, 0, sizeof(req));
-	ret = sproxy_receive_msg_rom(&req, sizeof(req));
-
+	
+    ret = sproxy_receive_msg_rom(&req, sizeof(req));
 	if (ret) {
 		return ret;
 	}
@@ -402,8 +429,8 @@ static s32 receive_tisci_msg_sync_resume_req()
 	s32 ret = 0;
 
 	lpm_memset(&req, 0, sizeof(req));
-	ret = sproxy_receive_msg_rom(&req, sizeof(req));
-
+	
+    ret = sproxy_receive_msg_rom(&req, sizeof(req));
 	if (ret) {
 		return ret;
 	}
@@ -587,7 +614,7 @@ s32 dm_stub_entry(void)
 		/* Set WKUP_CTRL DS_DM_RESET.mask to isolate DM
 		 * from MAIN domain reset
 		 */
-		writel(DS_DM_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DM_RESET);
+		writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DM_RESET);
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_DS_RST_MASK);
 
@@ -724,8 +751,6 @@ s32 dm_stub_entry(void)
 		writel(DS_MAIN_ON, WKUP_CTRL_MMR_BASE + DS_MAIN);
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_ON);
-
-		/* FIXME unmask WKUP_CTRL.DS_DM_REST? it is set in suspend */
 	}
 
 	wait_for_debug();
@@ -760,6 +785,7 @@ s32 dm_stub_entry(void)
 		 * pre-DeepSleep state
 		 */
 		enable_mcu_remain_pll();
+		enable_mcu_lpsc();
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MCU_PLLS);
 
@@ -810,7 +836,6 @@ s32 dm_stub_entry(void)
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_PLLS);
 		}
 
-
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_DDR_RST_ISO);
 	} else {
 		/* Send TISCI message to restore SMS PLL */
@@ -852,7 +877,6 @@ s32 dm_stub_entry(void)
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_SYNC_RES);
 		}
 	}
-
 
 	clear_prepare_sleep_data();
 

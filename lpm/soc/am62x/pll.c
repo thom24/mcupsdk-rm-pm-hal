@@ -37,7 +37,7 @@
 #include <pll.h>
 
 /* MCU PLL to be saved and restored */
-struct pll_raw_data mcu_pll = 
+struct pll_raw_data mcu_pll =
 { .base = MCU_PLL_MMR_BASE, };
 
 /* Main PLL to be saved and restored */
@@ -63,11 +63,11 @@ struct pll_raw_data main_pll17 =
 { .base = MAIN_PLL_MMR_BASE + PLLOFFSET(17), };
 
 /* Base addresses of main PLL structures to be saved and restored */
-u32 main_plls_save_rstr[] = {(u32)(&main_pll0), (u32)(&main_pll1), (u32)(&main_pll2), (u32)(&main_pll8), (u32)(&main_pll12), (u32)(&main_pll16), (u32)(&main_pll17)};
+struct pll_raw_data *main_plls_save_rstr[] = { &main_pll0, &main_pll1, &main_pll2, &main_pll8, &main_pll12, &main_pll16, &main_pll17 };
 
-u8 num_main_plls_save_rstr = (sizeof(main_plls_save_rstr))/ (sizeof(u32));
+u8 num_main_plls_save_rstr = sizeof(main_plls_save_rstr) / sizeof(struct pll_raw_data *);
 
 /* Base addresses of main PLL structures to be disabled */
-u32 main_plls_dis[] = {(u32)(&main_pll1), (u32)(&main_pll2), (u32)(&main_pll8), (u32)(&main_pll12), (u32)(&main_pll16), (u32)(&main_pll17)};
+struct pll_raw_data *main_plls_dis[] = { &main_pll1, &main_pll2, &main_pll8, &main_pll12, &main_pll16, &main_pll17 };
 
-u8 num_main_plls_dis = (sizeof(main_plls_dis))/ (sizeof(u32));
+u8 num_main_plls_dis = sizeof(main_plls_dis) / sizeof(struct pll_raw_data *);
