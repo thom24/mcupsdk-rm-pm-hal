@@ -43,7 +43,7 @@ extern "C" {
 
 #include <types/short_types.h>
 #include <baseaddress.h>
-#include <lpm/pll_16fft_raw.h>
+#include <pll_16fft_raw.h>
 
 #define PLLOFFSET(idx) (0x1000 * (idx))
 
