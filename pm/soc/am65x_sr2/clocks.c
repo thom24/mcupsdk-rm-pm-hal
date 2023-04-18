@@ -2712,12 +2712,13 @@ static const struct clk_data_div_reg clk_data_dss_bus_out0 = {
 	.reg		= 0x00100000 + 32944,
 	.bit		= 8,
 };
-static const struct clk_data_div_reg clk_data_dss_bus_out1 = {
+static const struct clk_data_div_reg_go clk_data_dss_bus_out1 = {
 	.data_div	= {
 		.n	= 32,
 	},
 	.reg		= 0x00100000 + 32960,
 	.bit		= 8,
+	.go		= 16,
 };
 static const struct clk_parent clk_dss_dpi1_parents[4] = {
 	{
@@ -4815,7 +4816,7 @@ const struct clk_data soc_clock_data[254] = {
 			CLK_AM6_ADPLLLJM_WRAP_MAIN_4_BUS_CLKOUT_CLK,
 			1,
 		},
-		.drv	= &clk_drv_div_reg.drv,
+		.drv	= &clk_drv_div_reg_go.drv,
 		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ | CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.data	= &clk_data_dss_bus_out1.data_div.data,
 		.type	= CLK_TYPE_DIV,
