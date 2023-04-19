@@ -3,7 +3,7 @@
  *
  * Interrupt management resource assignment definition
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,7 @@
 #include <types/short_types.h>
 #include <soc/rm_mmr.h>
 #include <rm_irq.h>
-
+#include <irq_cfg.h>
 
 /**
  * \brief
@@ -63,11 +63,6 @@ struct irq_global_event_type {
 /**
  * Extern for IRQ subsystem global event types array
  */
-extern const struct irq_global_event_type irq_global_event_types[];
-
-/**
- * Extern for number of IRQ subsystem global event types
- */
-extern const u16 irq_global_event_types_count;
+extern const struct irq_global_event_type irq_global_event_types[IRQ_GLOBAL_EVENT_TYPES_ID_MAX];
 
 #endif /* IRQ_RESASG_H */

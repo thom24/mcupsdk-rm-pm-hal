@@ -3,7 +3,7 @@
  *
  * Resource Manager IRQ infrastructure
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -258,7 +258,7 @@ static s32 irq_validate_global_event(u8 host, u16 global_evt, u8 trace_action)
 	u16 start, end;
 	u16 utype;
 
-	for (i = 0u; i < irq_global_event_types_count; i++) {
+	for (i = 0u; i < IRQ_GLOBAL_EVENT_TYPES_ID_MAX; i++) {
 		start = irq_global_event_types[i].start;
 		end = irq_global_event_types[i].start +
 		      irq_global_event_types[i].num;
@@ -823,7 +823,7 @@ sbool rm_irq_is_managed_resasg_utype(u16 utype)
 	}
 
 	if (r == SFALSE) {
-		for (i = 0u; i < irq_global_event_types_count; i++) {
+		for (i = 0u; i < IRQ_GLOBAL_EVENT_TYPES_ID_MAX; i++) {
 			if (utype == irq_global_event_types[i].utype) {
 				r = STRUE;
 				break;

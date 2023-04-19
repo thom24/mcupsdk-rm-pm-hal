@@ -44,6 +44,10 @@
  * calculation.
  */
 #define IRQ_MAX_ROUTE_DEPTH (3U)
+/**
+ * IRQ global event types count
+ */
+#define IRQ_GLOBAL_EVENT_TYPES_ID_MAX (11)
 
 /**
  * Extern for IRQ event source devices array
