@@ -42,25 +42,25 @@ struct pll_raw_data mcu_pll =
 
 /* Main PLL to be saved and restored */
 struct pll_raw_data main_pll0 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(0), };
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(0U), };
 
 struct pll_raw_data main_pll1 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(1), };
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(1U), };
 
 struct pll_raw_data main_pll2 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(2), };
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(2U), };
 
 struct pll_raw_data main_pll8 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(8), };
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(8U), };
 
 struct pll_raw_data main_pll12 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(12), };
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(12U), };
 
 struct pll_raw_data main_pll16 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(16), };
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(16U), };
 
 struct pll_raw_data main_pll17 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(17), };
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(17U), };
 
 /* Base addresses of main PLL structures to be saved and restored */
 struct pll_raw_data *main_plls_save_rstr[] = { &main_pll0, &main_pll1, &main_pll2, &main_pll8, &main_pll12, &main_pll16, &main_pll17 };

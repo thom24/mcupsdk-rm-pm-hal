@@ -3,7 +3,7 @@
  *
  * timeout functions
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,7 @@
  */
 
 /* RETRY_CNT_MS set to 50ms  */
-#define RETRY_CNT_MS          (1000 * 50)
+#define RETRY_CNT_MS          (1000U * 50U)
 
 /**
  * \brief busy loop for 1us

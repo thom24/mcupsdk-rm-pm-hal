@@ -3,7 +3,7 @@
  *
  * VIM Raw driver for direct interrupt manipulation
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,8 +36,8 @@
 
 #include <types/short_types.h>
 
-#define INTR_ENABLE           0U
-#define INTR_DISABLE          1U
+#define INTR_ENABLE           0
+#define INTR_DISABLE          1
 
 /**
  * \brief Enable/disable an interrupt

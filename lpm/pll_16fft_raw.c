@@ -3,7 +3,7 @@
  *
  * PLL Raw driver for direct PLL manipulation
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -146,7 +146,7 @@ s32 pll_restore(struct pll_raw_data *pll)
 	for (i = 0U; i < 16U; i++) {
 		/* Program HSDIV output if present */
 		if (((1UL << (i + 16UL)) & cfg) != 0UL) {
-			pll_writel(pll->hsdiv[i], pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + i * 0x4);
+			pll_writel(pll->hsdiv[i], pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + i * 0x4U);
 		}
 	}
 
@@ -160,7 +160,7 @@ s32 pll_restore(struct pll_raw_data *pll)
 		ctrl |= PLL_16FFT_CTRL_PLL_EN;
 	}
 
-	if ((ctrl & PLL_16FFT_CTRL_BYPASS_EN) != 0) {
+	if ((ctrl & PLL_16FFT_CTRL_BYPASS_EN) != 0U) {
 		/*
 		 * The PLL_CTRL BYPASS_EN should be cleared to make sure the clocks are running
 		 * at the locked PLL frequency.
@@ -195,7 +195,7 @@ void pll_save(struct pll_raw_data *pll)
 	for (i = 0U; i < 16U; i++) {
 		/* Read HSDIV output if present */
 		if (((1UL << (i + 16UL)) & cfg) != 0UL) {
-			pll->hsdiv[i] = pll_readl(pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + i * 0x4);
+			pll->hsdiv[i] = pll_readl(pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + i * 0x4U);
 		}
 	}
 }
@@ -211,9 +211,9 @@ void pll_disable(struct pll_raw_data *pll, u16 hsdivs_to_disable)
 		/* Disable HSDIV output if present */
 		hsdiv_bit = (1UL << (i + 16UL)) & hsdivs_to_disable;
 		if ((hsdiv_bit & cfg) != 0UL) {
-			ctrl = pll_readl(pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + i * 0x4);
+			ctrl = pll_readl(pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + i * 0x4U);
 			ctrl &= ~(PLL_16FFT_HSDIV_CTRL_HSDIV_MASK);
-			pll_writel(ctrl, pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + i * 0x4);
+			pll_writel(ctrl, pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + i * 0x4U);
 		}
 	}
 

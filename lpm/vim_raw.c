@@ -3,7 +3,7 @@
  *
  * VIM Raw driver for direct interrupt manipulation
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,19 +40,19 @@
 #include "lpm_io.h"
 #include "vim_raw.h"
 
-#define NUM_INTR_PER_GRP        32
+#define NUM_INTR_PER_GRP        32U
 #define VGRP(i)                 (i / NUM_INTR_PER_GRP)
 #define VINTR(i)                (i & (NUM_INTR_PER_GRP - 1U))
 
-#define VIM_IRQ_VECTOR_ADDRESS  0x18
-#define VIM_ACTIVE_IRQ          0x20
-#define VIM_GRP_STS_CLEAR(i)    (0x400U + VGRP(i) * 0x20 + 0x04U)
-#define VIM_GRP_EN_SET(i)       (0x400U + VGRP(i) * 0x20 + 0x08U)
-#define VIM_GRP_EN_CLEAR(i)     (0x400U + VGRP(i) * 0x20 + 0x0cU)
+#define VIM_IRQ_VECTOR_ADDRESS  0x18U
+#define VIM_ACTIVE_IRQ          0x20U
+#define VIM_GRP_STS_CLEAR(i)    (0x400U + VGRP(i) * 0x20U + 0x04U)
+#define VIM_GRP_EN_SET(i)       (0x400U + VGRP(i) * 0x20U + 0x08U)
+#define VIM_GRP_EN_CLEAR(i)     (0x400U + VGRP(i) * 0x20U + 0x0cU)
 
 /* VIM_ACTIVE_IRQ register */
-#define VIM_ACTIVE_IRQ_VALID	BIT(31)
-#define VIM_ACTIVE_IRQ_NUM_MASK 0x3FF
+#define VIM_ACTIVE_IRQ_VALID    BIT(31)
+#define VIM_ACTIVE_IRQ_NUM_MASK 0x3FFU
 
 void vim_set_intr_enable(u32 intr, int enable)
 {

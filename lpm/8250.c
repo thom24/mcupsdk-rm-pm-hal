@@ -3,7 +3,7 @@
  *
  * Minimal driver for UART access
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,16 +57,16 @@ void lpm_serial_8250_init(const struct uart_16550_config *cfg)
 
 	uart_base_addr = cfg->base_addr;
 
-	clkdiv = cfg->uart_clk / (16 * cfg->baud_rate);
+	clkdiv = cfg->uart_clk / (16U * cfg->baud_rate);
 
 	/* This read operation also acts as a fence */
 	val = lpm_serial_8250_readl(UART_16550_LCR);
 	val |= UART_16550_LCR_DLAB;
 	lpm_serial_8250_writel(val, UART_16550_LCR);
 
-	val = clkdiv & 0xFF;
+	val = clkdiv & 0xFFU;
 	lpm_serial_8250_writel(val, UART_16550_DLL);
-	val = (clkdiv >> 8) & 0xFF;
+	val = (clkdiv >> 8U) & 0xFFU;
 	lpm_serial_8250_writel(val, UART_16550_DLH);
 
 	/*
@@ -100,16 +100,16 @@ void lpm_serial_8250_init(const struct uart_16550_config *cfg)
 	lpm_serial_8250_readl(UART_16550_MCR);
 }
 
-int lpm_console_tx(int data)
+int lpm_console_tx(u8 data)
 {
 	u32 val;
-	int i = 0;
+	u32 i = 0U;
 
 	/*
 	 * Add a carriage return before newline to support
 	 * unflexible terminals.
 	 */
-	if (data == '\n') {
+	if (data == (u8) '\n') {
 		lpm_console_tx('\r');
 	}
 
@@ -119,7 +119,7 @@ int lpm_console_tx(int data)
 	*/
 	do {
 		val = lpm_serial_8250_readl(UART_16550_LSR);
-	} while ((i++ < 10000) && ((val & UART_16550_LSR_TX_FIFO_E) == 0));
+	} while ((i++ < 10000U) && ((val & UART_16550_LSR_TX_FIFO_E) == 0U));
 
 	lpm_serial_8250_writel(data, UART_16550_THR);
 

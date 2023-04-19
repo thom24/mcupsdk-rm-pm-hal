@@ -43,24 +43,24 @@
 #include "timeout.h"
 #include "sec_proxy.h"
 
-#define SPROXY_THREAD_OFFSET(tid) (0x1000 * (tid))
+#define SPROXY_THREAD_OFFSET(tid) (0x1000U * (tid))
 
 #define SPROXY_THREAD_DATA_ADDRESS(_target_base, tid)	\
 	(_target_base + SPROXY_THREAD_OFFSET(tid) +	\
-	 4)
+	 4U)
 #define SPROXY_THREAD_DATA_ADDRESS_END(_target_base, tid) \
-	(SPROXY_THREAD_DATA_ADDRESS(_target_base, tid) + 14 * 4)
+	(SPROXY_THREAD_DATA_ADDRESS(_target_base, tid) + 14U * 4U)
 
 #define SPROXY_THREAD_STATUS(_rt_base, tid) \
 	(_rt_base + SPROXY_THREAD_OFFSET(tid))
 
 #define SPROXY_STATUS_ERR       BIT(31)
-#define SPROXY_STATUS_CNT_MASK  0xFF
+#define SPROXY_STATUS_CNT_MASK  0xFFU
 
 #define SPROXY_SEND             0
 #define SPROXY_GET              1
 
-static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, void *msg, u32 len, sbool is_secure)
+static s32 trans_message(u32 target_base, u32 rt_base, sbool is_rx, u8 thread_id, void *msg, u32 len, sbool is_secure)
 {
 	u32 start_addr = SPROXY_THREAD_DATA_ADDRESS(target_base, thread_id);
 	u32 end_addr = SPROXY_THREAD_DATA_ADDRESS_END(target_base, thread_id);
@@ -74,7 +74,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 		return -EINVAL;
 	}
 
-	if (is_secure == STRUE && start_addr + len + 4 > end_addr) {
+	if (is_secure == STRUE && start_addr + len + 4U > end_addr) {
 		return -EINVAL;
 	}
 
@@ -88,7 +88,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 			break;
 		}
 
-		if (i < RETRY_CNT_MS - 1) {
+		if (i < RETRY_CNT_MS - 1U) {
 			delay_1us();
 		} else {
 			return -ETIMEDOUT;
@@ -100,14 +100,14 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 	 * For now, just skip that portion
 	 */
 	if (is_secure == STRUE) {
-		if (is_rx == 0U) {
+		if (is_rx == SFALSE) {
 			writel(0u, start_addr);
 		}
 
 		start_addr += 4u;
 	}
 
-	for (i = 0; i < len / 4; i++, start_addr += 4) {
+	for (i = 0; i < len / 4U; i++, start_addr += 4U) {
 		if (is_rx) {
 			*raw++ = readl(start_addr);
 		} else {
@@ -115,14 +115,14 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 		}
 	}
 
-	if (len % 4) {
+	if (len % 4U) {
 		if (!is_rx) {
-			mask = ~0UL >> ((4 - (len % 4)) * 8);
+			mask = ~0UL >> ((4U - (len % 4U)) * 8U);
 			word = (*raw) & mask;
 			writel(word, start_addr);
 		} else {
 			word = readl(start_addr);
-			lpm_memcpy(raw, &word, len % 4);
+			lpm_memcpy(raw, &word, len % 4U);
 		}
 	}
 

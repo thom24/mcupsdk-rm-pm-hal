@@ -45,7 +45,7 @@ extern "C" {
 #include <baseaddress.h>
 #include <pll_16fft_raw.h>
 
-#define PLLOFFSET(idx) (0x1000 * (idx))
+#define PLLOFFSET(idx) (0x1000U * (idx))
 
 extern struct pll_raw_data mcu_pll;
 extern struct pll_raw_data main_pll0;
@@ -56,8 +56,8 @@ extern struct pll_raw_data main_pll12;
 extern struct pll_raw_data main_pll16;
 extern struct pll_raw_data main_pll17;
 
-extern struct pll_raw_data *main_plls_save_rstr[]; 
-extern u8 num_main_plls_save_rstr; 
+extern struct pll_raw_data *main_plls_save_rstr[];
+extern u8 num_main_plls_save_rstr;
 extern struct pll_raw_data *main_plls_dis[];
 extern u8 num_main_plls_dis;
 

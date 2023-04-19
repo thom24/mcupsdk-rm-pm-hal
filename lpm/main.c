@@ -63,11 +63,9 @@ extern u32 lpm_get_wake_up_source(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
 extern void lpm_clear_all_wakeup_interrupt(void);
 
-enum lpm_mode {
-	LPM_DEEPSLEEP,
-	LPM_MCU_ONLY,
-	LPM_STANDBY,
-};
+#define LPM_DEEPSLEEP 0U
+#define LPM_MCU_ONLY  1U
+#define LPM_STANDBY   2U
 
 /* variable to store the last wakeup interrupt */
 u32 wake_up_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID;
@@ -79,7 +77,7 @@ static struct tisci_msg_prepare_sleep_req g_params;
  * This allows for better clock stability once R5 begins
  * execution again.
  */
-#define PMCTRL_MOSC_SETUP_TIME          0xFC000
+#define PMCTRL_MOSC_SETUP_TIME          0xFC000U
 
 /* FIXME IO_ISO_TIMEOUT should be about 10us */
 #define IO_ISO_TIMEOUT  10000
@@ -210,7 +208,7 @@ static void wait_for_debug(void)
 
 static void config_wake_sources()
 {
-	u32 i;
+	int i;
 	u32 val = 0;
 
 	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
@@ -472,10 +470,10 @@ static void send_msg_restore_sms_pll()
 {
 }
 
-static s32 wait_for_reset_statz(int stat)
+static s32 wait_for_reset_statz(u32 stat)
 {
 	u32 val;
-	int i = 0;
+	u32 i = 0U;
 
 	do {
 		val = readl(WKUP_CTRL_MMR_BASE + SLEEP_STATUS);
@@ -491,7 +489,7 @@ static s32 wait_for_reset_statz(int stat)
 static s32 wait_for_tifs_ready()
 {
 	u32 val;
-	int i = 0;
+	u32 i = 0U;
 
 	do {
 		val = readl(WKUP_CTRL_MMR_BASE + DS_MAGIC_WORD);

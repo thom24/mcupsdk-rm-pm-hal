@@ -3,7 +3,7 @@
  *
  * Secure Proxy driver for Message Transfer
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,8 +52,8 @@
 #define SPROXY_THREAD_STATUS(_rt_base, tid) \
 	(_rt_base + SPROXY_THREAD_OFFSET(tid))
 
-#define SPROXY_STATUS_ERR       BIT(31)
-#define SPROXY_STATUS_CNT_MASK  0xFF
+#define SPROXY_STATUS_ERR       BIT(31U)
+#define SPROXY_STATUS_CNT_MASK  0xFFU
 
 #define SPROXY_SEND             0
 #define SPROXY_GET              1
