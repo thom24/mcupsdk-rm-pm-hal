@@ -241,9 +241,9 @@ static int disable_main_io_isolation()
 	return 0;
 }
 
-static void config_clk_muxes()
+static void config_gpio_clk_mux(u8 clk_src)
 {
-	writel(MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL_CLK_32K, (MCU_CTRL_MMR_BASE + MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL));
+	writel(clk_src, (MCU_CTRL_MMR_BASE + MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL));
 }
 
 static void enable_gpio_wake_up()
@@ -598,8 +598,8 @@ s32 dm_stub_entry(void)
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WKUP_CLKSEL_MCU);
 
-		/* Configure GPIO/WDT/32k Clock muxes */
-		config_clk_muxes();
+		/* Configure GPIO Clock mux in suspend path */
+		config_gpio_clk_mux(MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL_CLK_32K);
 
 		/* Enable GPIO wake up */
 		enable_gpio_wake_up();
@@ -724,6 +724,9 @@ s32 dm_stub_entry(void)
 			lpm_console_init();
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL);
 		}
+
+		/* Config GPIO Clk mux in resume path */
+		config_gpio_clk_mux(MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL_MCU_SYSCLK0);
 	}
 
 	/* Use WKUP_CTRL.WKUP_WWD0_CTRL to ungate clock to RTI */
