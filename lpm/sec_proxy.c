@@ -69,71 +69,78 @@ static s32 trans_message(u32 target_base, u32 rt_base, sbool is_rx, u8 thread_id
 	u32 word;
 	u32 mask;
 	u16 i;
+	s32 ret = SUCCESS;
 
-	if (is_secure == SFALSE && start_addr + len > end_addr) {
-		return -EINVAL;
+	if ((is_secure == SFALSE) && ((start_addr + len) > end_addr)) {
+		ret = -EINVAL;
 	}
 
-	if (is_secure == STRUE && start_addr + len + 4U > end_addr) {
-		return -EINVAL;
+	if ((ret == SUCCESS) && is_secure == STRUE && start_addr + len + 4U > end_addr) {
+		ret = -EINVAL;
 	}
 
-	for (i = 0; i < RETRY_CNT_MS; i++) {
-		status = readl(SPROXY_THREAD_STATUS(rt_base, thread_id));
-		if (status & SPROXY_STATUS_ERR) {
-			return -EFAIL;
-		}
+	if (ret == SUCCESS) {
+		for (i = 0; i < RETRY_CNT_MS; i++) {
+			status = readl(SPROXY_THREAD_STATUS(rt_base, thread_id));
+			if ((status & SPROXY_STATUS_ERR) != 0U) {
+				ret = -EFAIL;
+			}
 
-		if (status & SPROXY_STATUS_CNT_MASK) {
-			break;
-		}
+			if ((status & SPROXY_STATUS_CNT_MASK) != 0U) {
+				break;
+			}
 
-		if (i < RETRY_CNT_MS - 1U) {
-			delay_1us();
-		} else {
-			return -ETIMEDOUT;
+			if (i < (RETRY_CNT_MS - 1U)) {
+				delay_1us();
+			} else {
+				ret = -ETIMEDOUT;
+			}
 		}
 	}
 
-	/*
-	 * HACK: We will need to deal with sec hdr someday...
-	 * For now, just skip that portion
-	 */
-	if (is_secure == STRUE) {
-		if (is_rx == SFALSE) {
-			writel(0u, start_addr);
+	if (ret == SUCCESS) {
+		/*
+		* HACK: We will need to deal with sec hdr someday...
+		* For now, just skip that portion
+		*/
+		if (is_secure == STRUE) {
+			if (is_rx == SFALSE) {
+				writel(0u, start_addr);
+			}
+
+			start_addr += 4u;
 		}
 
-		start_addr += 4u;
-	}
+		for (i = 0; i < (len / 4U); i++) {
+			if (is_rx) {
+				*raw = readl(start_addr);
+				raw = raw + 1;
+			} else {
+				writel(*raw, start_addr);
+				raw = raw + 1;
+			}
+			start_addr += 4u;
+		}
 
-	for (i = 0; i < len / 4U; i++, start_addr += 4U) {
+		if ((len % 4U) != 0U) {
+			if (!is_rx) {
+				mask = ~0UL >> ((4U - (len % 4U)) * 8U);
+				word = (*raw) & mask;
+				writel(word, start_addr);
+			} else {
+				word = readl(start_addr);
+				lpm_memcpy(raw, &word, len % 4U);
+			}
+		}
+
+		/* flush out the transfer */
 		if (is_rx) {
-			*raw++ = readl(start_addr);
+			(void) readl(end_addr);
 		} else {
-			writel(*raw++, start_addr);
+			writel(0x0, end_addr);
 		}
 	}
-
-	if (len % 4U) {
-		if (!is_rx) {
-			mask = ~0UL >> ((4U - (len % 4U)) * 8U);
-			word = (*raw) & mask;
-			writel(word, start_addr);
-		} else {
-			word = readl(start_addr);
-			lpm_memcpy(raw, &word, len % 4U);
-		}
-	}
-
-	/* flush out the transfer */
-	if (is_rx) {
-		(void) readl(end_addr);
-	} else {
-		writel(0x0, end_addr);
-	}
-
-	return 0;
+	return ret;
 }
 
 s32 sproxy_send_msg_rom(void *msg, u32 len)

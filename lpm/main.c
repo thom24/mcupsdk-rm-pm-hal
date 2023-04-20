@@ -176,8 +176,8 @@ static s32 disable_main_lpsc(const struct pd_lpsc *lpscs, u32 n_lpscs)
 		psc_raw_pd_initiate(MAIN_PSC_BASE, lpscs[i].pd);
 
 		ret = psc_raw_pd_wait(MAIN_PSC_BASE, lpscs[i].pd);
-		if (ret) {
-			return ret;
+		if (ret != 0) {
+			break;
 		}
 	}
 
@@ -273,8 +273,8 @@ static int enable_main_remain_pll()
 
 	for (i = 0; i < num_main_plls_save_rstr; i++) {
 		ret = pll_restore(main_plls_save_rstr[i]);
-		if (ret) {
-			return ret;
+		if (ret != 0) {
+			break;
 		}
 	}
 
@@ -296,38 +296,32 @@ static s32 disable_mcu_domain()
 	psc_raw_pd_initiate(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
 
 	ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
-	if (ret) {
-		return ret;
+	if (ret == 0) {
+		psc_raw_pd_set_state(MCU_PSC_BASE, PD_MCU_M4F, PDCTL_STATE_OFF, 0);
+		psc_raw_pd_initiate(MCU_PSC_BASE, PD_MCU_M4F);
+
+		ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_MCU_M4F);
 	}
 
-	psc_raw_pd_set_state(MCU_PSC_BASE, PD_MCU_M4F, PDCTL_STATE_OFF, 0);
-	psc_raw_pd_initiate(MCU_PSC_BASE, PD_MCU_M4F);
-
-	ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_MCU_M4F);
-	if (ret) {
-		return ret;
-	}
-
-	return 0;
+	return ret;
 }
 
 static s32 enable_mcu_lpsc()
 {
 	u32 i;
-	s32 ret;
+	s32 ret = 0;
 
 	for (i = 0; i < num_mcu_lpscs; i++) {
-		psc_raw_lpsc_set_state(MCU_PSC_BASE, mcu_lpscs[i].lpsc,
-				       MDCTL_STATE_ENABLE, 0);
-		psc_raw_pd_initiate(MCU_PSC_BASE, mcu_lpscs[i].pd);
+		if (ret == 0) {
+			psc_raw_lpsc_set_state(MCU_PSC_BASE, mcu_lpscs[i].lpsc,
+					       MDCTL_STATE_ENABLE, 0);
+			psc_raw_pd_initiate(MCU_PSC_BASE, mcu_lpscs[i].pd);
 
-		ret = psc_raw_pd_wait(MCU_PSC_BASE, mcu_lpscs[i].pd);
-		if (ret) {
-			return ret;
+			ret = psc_raw_pd_wait(MCU_PSC_BASE, mcu_lpscs[i].pd);
 		}
 	}
 
-	return 0;
+	return ret;
 }
 
 static void enable_mcu_remain_pll()
@@ -364,25 +358,21 @@ static s32 send_tisci_msg_firmware_load()
 	struct tisci_msg_firmware_load_req req;
 
 	req.hdr.type = TISCI_MSG_FIRMWARE_LOAD;
-	req.hdr.flags = 8 << 24;
+	req.hdr.flags = (8 << 24);
 	req.image_addr = CONFIG_TIFSFW_SPS_BASE;
 	req.image_size = CONFIG_TIFSFW_SPS_LEN;
 
 	ret = sproxy_send_msg_rom(&req, sizeof(req));
-	if (ret) {
-		return ret;
-	}
+	if (ret == 0) {
+		lpm_memset(&resp, 0, sizeof(resp));
 
-	lpm_memset(&resp, 0, sizeof(resp));
-
-	ret = sproxy_receive_msg_rom(&resp, sizeof(resp));
-	if (ret) {
-		return ret;
-	}
-
-	if (resp.hdr.type != MSG_FIRMWARE_LOAD_RESULT ||
-	    resp.hdr.flags != MSG_FLAG_CERT_AUTH_PASS) {
-		ret = -EINVAL;
+		ret = sproxy_receive_msg_rom(&resp, sizeof(resp));
+		if (ret == 0) {
+			if (resp.hdr.type != MSG_FIRMWARE_LOAD_RESULT ||
+			    resp.hdr.flags != MSG_FLAG_CERT_AUTH_PASS) {
+				ret = -EINVAL;
+			}
+		}
 	}
 
 	return ret;
@@ -395,13 +385,10 @@ static s32 receive_tisci_msg_continue_resume_req()
 
 	lpm_memset(&req, 0, sizeof(req));
 
-	ret = sproxy_receive_msg_rom(&req, sizeof(req));
-	if (ret) {
-		return ret;
-	}
-
-	if (req.hdr.type != TISCI_MSG_CONTINUE_RESUME) {
-		ret = -EINVAL;
+	if (ret == 0) {
+		if (req.hdr.type != TISCI_MSG_CONTINUE_RESUME) {
+			ret = -EINVAL;
+		}
 	}
 
 	return ret;
@@ -419,9 +406,6 @@ static s32 send_tisci_msg_continue_resume_resp()
 	resp.ctx_hi = g_params.ctx_hi;
 
 	ret = sproxy_send_msg_rom(&resp, sizeof(resp));
-	if (ret) {
-		return ret;
-	}
 
 	return ret;
 }
@@ -434,12 +418,10 @@ static s32 receive_tisci_msg_sync_resume_req()
 	lpm_memset(&req, 0, sizeof(req));
 
 	ret = sproxy_receive_msg_rom(&req, sizeof(req));
-	if (ret) {
-		return ret;
-	}
-
-	if (req.hdr.type != TISCI_MSG_SYNC_RESUME) {
-		ret = -EINVAL;
+	if (ret == 0) {
+		if (req.hdr.type != TISCI_MSG_SYNC_RESUME) {
+			ret = -EINVAL;
+		}
 	}
 
 	return ret;
@@ -474,33 +456,37 @@ static s32 wait_for_reset_statz(u32 stat)
 {
 	u32 val;
 	u32 i = 0U;
+	s32 ret = -ETIMEDOUT;
 
 	do {
 		val = readl(WKUP_CTRL_MMR_BASE + SLEEP_STATUS);
 		if ((val & SLEEP_STATUS_MAIN_RESETSTATZ) == stat) {
-			return 0;
+			ret = 0;
+			break;
 		}
 		delay_1us();
 	} while (i++ < RETRY_CNT_MS);
 
-	return -ETIMEDOUT;
+	return ret;
 }
 
 static s32 wait_for_tifs_ready()
 {
 	u32 val;
 	u32 i = 0U;
+	s32 ret = -ETIMEDOUT;
 
 	do {
 		val = readl(WKUP_CTRL_MMR_BASE + DS_MAGIC_WORD);
 		if (val == DS_MAGIC_WORD_RESUME_ROM) {
 			writel(0, WKUP_CTRL_MMR_BASE + DS_MAGIC_WORD);
-			return 0;
+			ret = 0;
+			break;
 		}
 		delay_1us();
 	} while (i++ < RETRY_CNT_MS);
 
-	return -ETIMEDOUT;
+	return ret;
 }
 
 static void enable_pll_standby()
@@ -517,10 +503,11 @@ static void clear_prepare_sleep_data()
  */
 void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p)
 {
-	if (!p) {
-		return;
+	if (p != NULL) {
+		lpm_memcpy(&g_params, p, sizeof(g_params));
+	} else {
+		/* do nothing*/
 	}
-	lpm_memcpy(&g_params, p, sizeof(g_params));
 }
 
 s32 dm_stub_entry(void)
