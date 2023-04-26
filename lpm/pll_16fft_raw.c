@@ -121,7 +121,7 @@ s32 pll_restore(struct pll_raw_data *pll)
 	ctrl |= PLL_16FFT_CTRL_BYP_ON_LOCKLOSS;
 
 	/* Prefer glitchless bypass */
-	if (ctrl & PLL_16FFT_CTRL_INTL_BYP_EN) {
+	if ((ctrl & PLL_16FFT_CTRL_INTL_BYP_EN) == PLL_16FFT_CTRL_INTL_BYP_EN) {
 		ctrl |= PLL_16FFT_CTRL_BYPASS_EN;
 		ctrl &= ~PLL_16FFT_CTRL_INTL_BYP_EN;
 	}

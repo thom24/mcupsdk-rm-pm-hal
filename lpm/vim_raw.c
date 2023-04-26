@@ -78,7 +78,7 @@ s32 vim_get_intr_number()
 	readl(VIM_BASE + VIM_IRQ_VECTOR_ADDRESS);
 	val = readl(VIM_BASE + VIM_ACTIVE_IRQ);
 
-	if (val & VIM_ACTIVE_IRQ_VALID) {
+	if ((val & VIM_ACTIVE_IRQ_VALID) == VIM_ACTIVE_IRQ_VALID) {
 		ret = val & VIM_ACTIVE_IRQ_NUM_MASK;
 	}
 

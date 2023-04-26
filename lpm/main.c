@@ -95,7 +95,7 @@ static void lpm_abort()
 {
 	volatile int a = 0x1234;
 
-	while (a) {
+	while (a != 0) {
 	}
 }
 
@@ -202,7 +202,7 @@ static void bypass_main_pll()
 
 static void wait_for_debug(void)
 {
-	while (g_params.debug_flags) {
+	while (g_params.debug_flags != 0U) {
 	}
 }
 
@@ -543,7 +543,7 @@ s32 dm_stub_entry(void)
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
 
 		/* Disable all LPSCs in MAIN except Debug, Always ON */
-		if (disable_main_lpsc(main_lpscs_phase1, num_main_lpscs_phase1)) {
+		if (disable_main_lpsc(main_lpscs_phase1, num_main_lpscs_phase1) != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC);
 			lpm_abort();
 		}
@@ -566,7 +566,7 @@ s32 dm_stub_entry(void)
 		config_wake_sources();
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CONFIG_WAKE_SRC);
 
-		if (enable_main_io_isolation()) {
+		if (enable_main_io_isolation() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_IO_ISO);
 			lpm_abort();
 		}
@@ -574,7 +574,7 @@ s32 dm_stub_entry(void)
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_IO_ISO);
 
 		/* Disable remaining MAIN LPSCs for debug */
-		if (disable_main_lpsc(main_lpscs_phase2, num_main_lpscs_phase2)) {
+		if (disable_main_lpsc(main_lpscs_phase2, num_main_lpscs_phase2) != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
 			lpm_abort();
 		}
@@ -613,7 +613,7 @@ s32 dm_stub_entry(void)
 		 */
 		writel(DS_MAIN_OFF, WKUP_CTRL_MMR_BASE + DS_MAIN);
 
-		if (wait_for_reset_statz(0)) {
+		if (wait_for_reset_statz(0) != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_OFF);
 			lpm_abort();
 		}
@@ -622,7 +622,7 @@ s32 dm_stub_entry(void)
 
 	if (g_params.mode == LPM_DEEPSLEEP) {
 		/* Disable MCU Domain LPSCs, PDs */
-		if (disable_mcu_domain()) {
+		if (disable_mcu_domain() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MCU_DOM);
 			lpm_abort();
 		} else {
@@ -707,7 +707,7 @@ s32 dm_stub_entry(void)
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_SET_CLKLOSS_EN);
 
-		if (pll_restore(&mcu_pll)) {
+		if (pll_restore(&mcu_pll) != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL);
 			lpm_abort();
 		} else {
@@ -749,7 +749,7 @@ s32 dm_stub_entry(void)
 	wait_for_debug();
 
 	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
-		if (wait_for_reset_statz(SLEEP_STATUS_MAIN_RESETSTATZ)) {
+		if (wait_for_reset_statz(SLEEP_STATUS_MAIN_RESETSTATZ) != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST);
 			lpm_abort();
 		}
@@ -760,7 +760,7 @@ s32 dm_stub_entry(void)
 		 * Set DM LPSC to enabled as early as possible as JTAG
 		 * will not connect until this is done.
 		 */
-		if (enable_dm_lpsc()) {
+		if (enable_dm_lpsc() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MAIN_DM_LPSC_EN);
 			lpm_abort();
 		} else {
@@ -786,7 +786,7 @@ s32 dm_stub_entry(void)
 		 * TIFS ROM has completed and execution can continue.
 		 * Clear WKUP DS_MAGIC_WORD
 		 */
-		if (wait_for_tifs_ready()) {
+		if (wait_for_tifs_ready() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
 			lpm_abort();
 		}
@@ -797,7 +797,7 @@ s32 dm_stub_entry(void)
 		 * and boot address to load FS stub from SPS Memory
 		 * TISCI_MSG_FIRMWARE_LOAD
 		 */
-		if (send_tisci_msg_firmware_load()) {
+		if (send_tisci_msg_firmware_load() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_FS_STUB_LD);
 			lpm_abort();
 		} else {
@@ -806,7 +806,7 @@ s32 dm_stub_entry(void)
 
 		/* Wait for TISCI Message to indicate DDR restore can resume */
 		/* TISCI_MSG_CONTINUE_RESUME */
-		if (receive_tisci_msg_continue_resume_req()) {
+		if (receive_tisci_msg_continue_resume_req() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_CONT_RES);
 			lpm_abort();
 		} else {
@@ -814,7 +814,7 @@ s32 dm_stub_entry(void)
 		}
 
 		/* Disable MAIN IO Daisy Chain and IO Isolation */
-		if (disable_main_io_isolation()) {
+		if (disable_main_io_isolation() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_IO_ISO);
 			lpm_abort();
 		} else {
@@ -822,7 +822,7 @@ s32 dm_stub_entry(void)
 		}
 
 		/* Configure additional MAIN PLLs and PSCs for EMIF operation */
-		if (enable_main_remain_pll()) {
+		if (enable_main_remain_pll() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_PLLS);
 			lpm_abort();
 		} else {
@@ -855,7 +855,7 @@ s32 dm_stub_entry(void)
 		/* Send TISCI Message to TIFS to indicate DDR is active and
 		 * resume can proceed, include address of TIFS context
 		 */
-		if (send_tisci_msg_continue_resume_resp()) {
+		if (send_tisci_msg_continue_resume_resp() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESP_CONT_RES);
 			lpm_abort();
 		} else {
@@ -863,7 +863,7 @@ s32 dm_stub_entry(void)
 		}
 
 		/* Wait for TISCI_MSG_SYNC_RESUME msg */
-		if (receive_tisci_msg_sync_resume_req()) {
+		if (receive_tisci_msg_sync_resume_req() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_SYNC_RES);
 			lpm_abort();
 		} else {

@@ -36,23 +36,26 @@
 
 #include "lpm_string.h"
 
-void *lpm_memset(void *s, int c, size_t n)__attribute__((no_builtin("memset")))
+void *lpm_memset(void *s, int c, size_t n) __attribute__((no_builtin("memset")))
 {
-        char *cs = s;
-        while (n--)
-                *cs++ = c;
-        return s;
+	char *cs = s;
+
+	while (n != 0U) {
+		n--;
+	}
+	*cs++ = c;
+	return s;
 }
 
-void *lpm_memcpy(void *_d, const void *_s, size_t n)__attribute__((no_builtin("memcpy")))
+void *lpm_memcpy(void *_d, const void *_s, size_t n) __attribute__((no_builtin("memcpy")))
 {
-       unsigned char *d = _d;
-       const unsigned char *s = _s;
+	unsigned char *d = _d;
+	const unsigned char *s = _s;
 
-       while (n--){
-               *d++ = *s++;
+	while (n != 0U) {
+		n--;
+		*d++ = *s++;
+	}
 
-       }
-
-       return _d;
+	return _d;
 }

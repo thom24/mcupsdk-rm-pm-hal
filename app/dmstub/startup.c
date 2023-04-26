@@ -34,6 +34,7 @@
 
 #include <string.h>
 #include <types/short_types.h>
+#include <stdbool.h>
 
 extern unsigned char _start_bss;
 extern unsigned char _end_bss;
@@ -56,31 +57,31 @@ s32 stub_entry(void)
 
 void undef_handler(void)
 {
-	while (1) {
+	while (true) {
 	}
 }
 
 void swi_handler(void)
 {
-	while (1) {
+	while (true) {
 	}
 }
 
 void prefetch_abt_handler(void)
 {
-	while (1) {
+	while (true) {
 	}
 }
 
 void data_abt_handler(void)
 {
-	while (1) {
+	while (true) {
 	}
 }
 
 void reserved_handler(void)
 {
-	while (1) {
+	while (true) {
 	}
 }
 
@@ -91,6 +92,6 @@ void irq_handler(void)
 
 void fiq_handler(void)
 {
-	while (1) {
+	while (true) {
 	}
 }

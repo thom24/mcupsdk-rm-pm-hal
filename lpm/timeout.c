@@ -41,7 +41,8 @@ void delay_1us(void)
 	/* FIXME will -O2 comptimize out the code? */
 	unsigned long x = 400 / 2;
 
-	while (x--) {
+	while (x != 0U) {
+		x--;
 		asm ("");
 	}
 }

@@ -126,12 +126,13 @@ int lpm_console_tx(u8 data)
 	return 0;
 }
 
-int lpm_puts(const char *str)
+int lpm_puts(char const *str)
 {
-	const char *start = str;
+	char const *start = str;
 
-	while (*str) {
-		lpm_console_tx(*str++);
+	while (*start != (char) 0) {
+		lpm_console_tx(*start);
+		start = start + 1;
 	}
 	return str - start;
 }

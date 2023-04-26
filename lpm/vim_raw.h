@@ -35,6 +35,7 @@
  */
 
 #include <types/short_types.h>
+#include <types/sbool.h>
 
 #define INTR_ENABLE           0
 #define INTR_DISABLE          1
