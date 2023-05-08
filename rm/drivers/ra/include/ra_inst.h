@@ -3,7 +3,7 @@
  *
  * Ring accelerator driver instance definition
  *
- * Copyright (C) 2018-2022, Texas Instruments Incorporated
+ * Copyright (C) 2018-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -176,8 +176,10 @@ struct ra_instance {
 	const struct rm_mmr *const		rt;
 	const struct rm_mmr *const		mon;
 	const struct rm_mmr *const		fifos;
-	const u16				n_ring;
-	const u16				ring_oes_offset;
+	const u16				n_gp_rings_pre_sp_rings;
+	const u16				n_gp_rings_post_sp_rings;
+	const u16				gp_ring_oes_offset_pre_sp;
+	const u16				gp_ring_oes_offset_post_sp;
 	const struct ra_ring_type *const	ring_types;
 	const u8				n_ring_type;
 	const struct ra_ring_type *const	ring_mon_types;

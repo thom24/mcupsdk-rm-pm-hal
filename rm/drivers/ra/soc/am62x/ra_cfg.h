@@ -39,13 +39,21 @@
 #define RA_CFG_H
 
 /**
- * DMASS0_RINGACC_0 total number of rings
+ * DMASS0_RINGACC_0 total number of rings before secure proxy rings
  */
-#define RA_DMASS0_RINGACC_0_MAX_INDEX (0U)
+#define RA_DMASS0_RINGACC_0_MAX_INDEX_PRE_SP (0U)
 /**
- * Ring accelerator ring event index.
+ * DMASS0_RINGACC_0 total number of rings after secure proxy rings
  */
-#define RA_DMASS0_RINGACC_0_RING_OES_EVT_INDEX_OFFSET (0x0U)
+#define RA_DMASS0_RINGACC_0_MAX_INDEX_POST_SP (0U)
+/**
+ * Ring accelerator ring event index for rings before secure proxy rings.
+ */
+#define RA_DMASS0_RINGACC_0_RING_OES_EVT_INDEX_OFFSET_PRE_SP (0x0U)
+/**
+ * Ring accelerator ring event index for rings after secure proxy rings.
+ */
+#define RA_DMASS0_RINGACC_0_RING_OES_EVT_INDEX_OFFSET_POST_SP (0x0U)
 /**
  * Ring accelerator global control error event index.  Must be greater than
  * the max of all SoC RAs max ring index to avoid event indexing conflicts.

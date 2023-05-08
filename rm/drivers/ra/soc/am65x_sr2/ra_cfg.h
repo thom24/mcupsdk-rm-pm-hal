@@ -12,25 +12,41 @@
 #define RA_CFG_H
 
 /**
- * NAVSS0_RINGACC0 total number of rings
+ * NAVSS0_RINGACC0 total number of rings before secure proxy rings
  */
-#define RA_NAVSS0_RINGACC0_MAX_INDEX (768U)
+#define RA_NAVSS0_RINGACC0_MAX_INDEX_PRE_SP (768U)
 /**
- * Ring accelerator ring event index.
+ * NAVSS0_RINGACC0 total number of rings after secure proxy rings
  */
-#define RA_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET (0x0U)
+#define RA_NAVSS0_RINGACC0_MAX_INDEX_POST_SP (0U)
+/**
+ * Ring accelerator ring event index for rings before secure proxy rings.
+ */
+#define RA_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET_PRE_SP (0x0U)
+/**
+ * Ring accelerator ring event index for rings after secure proxy rings.
+ */
+#define RA_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET_POST_SP (0x0U)
 /**
  * NAVSS0_RINGACC0 total number of ring monitors
  */
 #define RA_NAVSS0_RINGACC0_MONITOR_MAX_INDEX (32U)
 /**
- * MCU_NAVSS0_RINGACC0 total number of rings
+ * MCU_NAVSS0_RINGACC0 total number of rings before secure proxy rings
  */
-#define RA_MCU_NAVSS0_RINGACC0_MAX_INDEX (256U)
+#define RA_MCU_NAVSS0_RINGACC0_MAX_INDEX_PRE_SP (256U)
 /**
- * Ring accelerator ring event index.
+ * MCU_NAVSS0_RINGACC0 total number of rings after secure proxy rings
  */
-#define RA_MCU_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET (0x0U)
+#define RA_MCU_NAVSS0_RINGACC0_MAX_INDEX_POST_SP (0U)
+/**
+ * Ring accelerator ring event index for rings before secure proxy rings.
+ */
+#define RA_MCU_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET_PRE_SP (0x0U)
+/**
+ * Ring accelerator ring event index for rings after secure proxy rings.
+ */
+#define RA_MCU_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET_POST_SP (0x0U)
 /**
  * MCU_NAVSS0_RINGACC0 total number of ring monitors
  */

@@ -13,12 +13,20 @@
 /**
  * AM6 Main Navigator Subsystem total number of rings and max ring index
  */
-#define AM6_MAIN_NAVSS_RING_MAX_INDEX   (768u)
+#define RA_NAVSS0_RINGACC0_MAX_INDEX_PRE_SP   (768u)
+/**
+ * NAVSS0_RINGACC0 total number of rings
+ */
+#define RA_NAVSS0_RINGACC0_MAX_INDEX_POST_SP (0U)
 
 /**
  * Ring accelerator ring event index.
  */
-#define RA_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET (0x0U)
+#define RA_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET_PRE_SP (0x0U)
+/**
+ * Ring accelerator ring event index.
+ */
+#define RA_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET_POST_SP (0x0U)
 /**
  * AM6 Main Navigator Subsystem total number of ring monitors
  */
@@ -27,12 +35,19 @@
 /**
  * AM6 MCU Navigator Subsystem total number of rings and max ring index
  */
-#define AM6_MCU_NAVSS_RING_MAX_INDEX    (256u)
-
+#define RA_MCU_NAVSS0_RINGACC0_MAX_INDEX_PRE_SP    (256u)
+/**
+ * MCU_NAVSS0_RINGACC0 total number of rings
+ */
+#define RA_MCU_NAVSS0_RINGACC0_MAX_INDEX_POST_SP (0U)
 /**
  * Ring accelerator ring event index.
  */
-#define RA_MCU_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET (0x0U)
+#define RA_MCU_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET_PRE_SP (0x0U)
+/**
+ * Ring accelerator ring event index.
+ */
+#define RA_MCU_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET_POST_SP (0x0U)
 /**
  * AM6 MCU Navigator Subsystem total number of ring monitors
  */

@@ -3,7 +3,7 @@
  *
  * Ring Accelerator management infrastructure
  *
- * Copyright (C) 2018-2022, Texas Instruments Incorporated
+ * Copyright (C) 2018-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -785,9 +785,22 @@ static s32 ra_get_ring_evt(u8 host, u16 id, u16 oes_index, u16 *evt)
 				host,
 				inst->err_evt_utype,
 				0u);
-		} else if ((oes_index >= inst->ring_oes_offset) &&
-			   (oes_index < (inst->ring_oes_offset +
-					 inst->n_ring))) {
+		} else if ((oes_index >= inst->gp_ring_oes_offset_pre_sp) &&
+			   (oes_index < (inst->gp_ring_oes_offset_pre_sp +
+					 inst->n_gp_rings_pre_sp_rings))) {
+			r = ra_check_index_range(inst, host, oes_index, NULL,
+						 trace_action, NULL);
+			if (r == SUCCESS) {
+				r = ra_clear_rom_oes(inst, oes_index);
+				if (r != SUCCESS) {
+					trace_action |= TRACE_RM_ACTION_FAIL;
+					r = -EINVAL;
+				}
+			}
+		} else if (((inst->n_gp_rings_post_sp_rings != 0) &&
+			    ((oes_index >= inst->gp_ring_oes_offset_post_sp) &&
+			     (oes_index < (inst->gp_ring_oes_offset_post_sp +
+					   inst->n_gp_rings_post_sp_rings))))) {
 			r = ra_check_index_range(inst, host, oes_index, NULL,
 						 trace_action, NULL);
 			if (r == SUCCESS) {
@@ -863,9 +876,22 @@ static s32 ra_set_ring_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 				host,
 				inst->err_evt_utype,
 				0u);
-		} else if ((oes_index >= inst->ring_oes_offset) &&
-			   (oes_index < (inst->ring_oes_offset +
-					 inst->n_ring))) {
+		} else if ((oes_index >= inst->gp_ring_oes_offset_pre_sp) &&
+			   (oes_index < (inst->gp_ring_oes_offset_pre_sp +
+					 inst->n_gp_rings_pre_sp_rings))) {
+			r = ra_check_index_range(inst, host, oes_index, NULL,
+						 trace_action, NULL);
+			if (r == SUCCESS) {
+				r = ra_clear_rom_oes(inst, oes_index);
+				if (r != SUCCESS) {
+					trace_action |= TRACE_RM_ACTION_FAIL;
+					r = -EINVAL;
+				}
+			}
+		} else if (((inst->n_gp_rings_post_sp_rings != 0) &&
+			    ((oes_index >= inst->gp_ring_oes_offset_post_sp) &&
+			     (oes_index < (inst->gp_ring_oes_offset_post_sp +
+					   inst->n_gp_rings_post_sp_rings))))) {
 			r = ra_check_index_range(inst, host, oes_index, NULL,
 						 trace_action, NULL);
 			if (r == SUCCESS) {
