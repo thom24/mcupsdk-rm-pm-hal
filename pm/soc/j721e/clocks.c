@@ -2616,36 +2616,36 @@ static const struct clk_data_mux_reg clk_data_EMMCSD_REFCLK_SEL_out2 = {
 	.bit			= 0,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER0_CLKOUT0_N = {
-	.dev		= J721E_DEV_ASCPCIE_BUFFER0,
-	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER0_CLKOUT0_N,
+	.dev		= J721E_DEV_ACSPCIE_BUFFER0,
+	.clk_idx	= J721E_DEV_ACSPCIE_BUFFER0_CLKOUT0_N,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER0_CLKOUT0_P = {
-	.dev		= J721E_DEV_ASCPCIE_BUFFER0,
-	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER0_CLKOUT0_P,
+	.dev		= J721E_DEV_ACSPCIE_BUFFER0,
+	.clk_idx	= J721E_DEV_ACSPCIE_BUFFER0_CLKOUT0_P,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER0_CLKOUT1_N = {
-	.dev		= J721E_DEV_ASCPCIE_BUFFER0,
-	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER0_CLKOUT1_N,
+	.dev		= J721E_DEV_ACSPCIE_BUFFER0,
+	.clk_idx	= J721E_DEV_ACSPCIE_BUFFER0_CLKOUT1_N,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER0_CLKOUT1_P = {
-	.dev		= J721E_DEV_ASCPCIE_BUFFER0,
-	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER0_CLKOUT1_P,
+	.dev		= J721E_DEV_ACSPCIE_BUFFER0,
+	.clk_idx	= J721E_DEV_ACSPCIE_BUFFER0_CLKOUT1_P,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER1_CLKOUT0_N = {
-	.dev		= J721E_DEV_ASCPCIE_BUFFER1,
-	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER1_CLKOUT0_N,
+	.dev		= J721E_DEV_ACSPCIE_BUFFER1,
+	.clk_idx	= J721E_DEV_ACSPCIE_BUFFER1_CLKOUT0_N,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER1_CLKOUT0_P = {
-	.dev		= J721E_DEV_ASCPCIE_BUFFER1,
-	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER1_CLKOUT0_P,
+	.dev		= J721E_DEV_ACSPCIE_BUFFER1,
+	.clk_idx	= J721E_DEV_ACSPCIE_BUFFER1_CLKOUT0_P,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER1_CLKOUT1_N = {
-	.dev		= J721E_DEV_ASCPCIE_BUFFER1,
-	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER1_CLKOUT1_N,
+	.dev		= J721E_DEV_ACSPCIE_BUFFER1,
+	.clk_idx	= J721E_DEV_ACSPCIE_BUFFER1_CLKOUT1_N,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe_LJCB_BUFFER1_CLKOUT1_P = {
-	.dev		= J721E_DEV_ASCPCIE_BUFFER1,
-	.clk_idx	= J721E_DEV_ASCPCIE_BUFFER1_CLKOUT1_P,
+	.dev		= J721E_DEV_ACSPCIE_BUFFER1,
+	.clk_idx	= J721E_DEV_ACSPCIE_BUFFER1_CLKOUT1_P,
 };
 static const struct clk_data_mux_reg clk_data_GTC_CLK_MUX_out0 = {
 	.data_mux		= {
