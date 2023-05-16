@@ -146,7 +146,7 @@ s32 pll_restore(struct pll_raw_data *pll)
 	for (i = 0U; i < 16U; i++) {
 		/* Program HSDIV output if present */
 		if (((1UL << (i + 16UL)) & cfg) != 0UL) {
-			pll_writel(pll->hsdiv[i], pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + i * 0x4U);
+			pll_writel(pll->hsdiv[i], pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + (i * 0x4U));
 		}
 	}
 
@@ -195,7 +195,7 @@ void pll_save(struct pll_raw_data *pll)
 	for (i = 0U; i < 16U; i++) {
 		/* Read HSDIV output if present */
 		if (((1UL << (i + 16UL)) & cfg) != 0UL) {
-			pll->hsdiv[i] = pll_readl(pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + i * 0x4U);
+			pll->hsdiv[i] = pll_readl(pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + (i * 0x4U));
 		}
 	}
 }
@@ -211,9 +211,9 @@ void pll_disable(struct pll_raw_data *pll, u16 hsdivs_to_disable)
 		/* Disable HSDIV output if present */
 		hsdiv_bit = (1UL << (i + 16UL)) & hsdivs_to_disable;
 		if ((hsdiv_bit & cfg) != 0UL) {
-			ctrl = pll_readl(pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + i * 0x4U);
+			ctrl = pll_readl(pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + (i * 0x4U));
 			ctrl &= ~(PLL_16FFT_HSDIV_CTRL_HSDIV_MASK);
-			pll_writel(ctrl, pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + i * 0x4U);
+			pll_writel(ctrl, pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + (i * 0x4U));
 		}
 	}
 

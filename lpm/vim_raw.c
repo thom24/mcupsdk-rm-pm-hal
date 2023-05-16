@@ -46,9 +46,9 @@
 
 #define VIM_IRQ_VECTOR_ADDRESS  0x18U
 #define VIM_ACTIVE_IRQ          0x20U
-#define VIM_GRP_STS_CLEAR(i)    (0x400U + VGRP(i) * 0x20U + 0x04U)
-#define VIM_GRP_EN_SET(i)       (0x400U + VGRP(i) * 0x20U + 0x08U)
-#define VIM_GRP_EN_CLEAR(i)     (0x400U + VGRP(i) * 0x20U + 0x0cU)
+#define VIM_GRP_STS_CLEAR(i)    (0x400U + (VGRP(i) * 0x20U) + 0x04U)
+#define VIM_GRP_EN_SET(i)       (0x400U + (VGRP(i) * 0x20U) + 0x08U)
+#define VIM_GRP_EN_CLEAR(i)     (0x400U + (VGRP(i) * 0x20U) + 0x0cU)
 
 /* VIM_ACTIVE_IRQ register */
 #define VIM_ACTIVE_IRQ_VALID    BIT(31)

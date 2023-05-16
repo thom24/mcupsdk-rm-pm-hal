@@ -38,6 +38,8 @@
 #include <lib/io.h>
 #include <types/errno.h>
 #include <types/short_types.h>
+#include <types/sbool.h>
+#include <stdbool.h>
 #include <baseaddress.h>
 #include <wkup_ctrl_mmr.h>
 #include "ddr.h"
@@ -145,7 +147,8 @@ s32 ddr_deepsleep_exit_training(void)
 	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1333);
 
 	/* Poll on phy_cal_result_obs_0 bit 23 = 1 */
-	while ((timeout > 0U) && (readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1336) & (CDNS_DENALI_PHY_1336_PHY_CAL_RESULT_OBS_0)) == 0U) {
+	while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1336) &
+				    (CDNS_DENALI_PHY_1336_PHY_CAL_RESULT_OBS_0)) == CDNS_DENALI_PHY_1336_PHY_CAL_RESULT_OBS_0)) == SFALSE) {
 		--timeout;
 	}
 	if (timeout == 0U) {
@@ -169,9 +172,10 @@ s32 ddr_deepsleep_exit_training(void)
 
 	/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
 	timeout = DDR_RETRAIN_TIMEOUT;
-	while ((timeout > 0U) && (readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) & (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == 0U) {
+	while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
+				    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
+		--timeout;
 	}
-	--timeout;
 	if (timeout == 0U) {
 		lpm_seq_trace_fail(0x93);
 		ret = -EFAIL;
@@ -194,7 +198,8 @@ s32 ddr_deepsleep_exit_training(void)
 
 		/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
 		timeout = DDR_RETRAIN_TIMEOUT;
-		while ((timeout > 0U) && (readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) & (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == 0U) {
+		while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
+					    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
 			--timeout;
 		}
 		if (timeout == 0U) {

@@ -49,7 +49,7 @@
 	(_target_base + SPROXY_THREAD_OFFSET(tid) +	\
 	 4U)
 #define SPROXY_THREAD_DATA_ADDRESS_END(_target_base, tid) \
-	(SPROXY_THREAD_DATA_ADDRESS(_target_base, tid) + 14U * 4U)
+	(SPROXY_THREAD_DATA_ADDRESS(_target_base, tid) + (14U * 4U))
 
 #define SPROXY_THREAD_STATUS(_rt_base, tid) \
 	(_rt_base + SPROXY_THREAD_OFFSET(tid))
@@ -75,7 +75,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, sbool is_rx, u8 thread_id
 		ret = -EINVAL;
 	}
 
-	if ((ret == SUCCESS) && is_secure == STRUE && start_addr + len + 4U > end_addr) {
+	if ((ret == SUCCESS) && (is_secure == STRUE) && ((start_addr + len + 4U) > end_addr)) {
 		ret = -EINVAL;
 	}
 
