@@ -70,7 +70,7 @@ void vim_clear_intr(u32 intr)
 	writel((u32) 1U << VINTR(intr), VIM_BASE + VIM_GRP_STS_CLEAR(intr));
 }
 
-s32 vim_get_intr_number()
+s32 vim_get_intr_number(void)
 {
 	u32 val;
 	s32 ret = -EINVAL;
@@ -85,7 +85,7 @@ s32 vim_get_intr_number()
 	return ret;
 }
 
-void vim_irq_complete()
+void vim_irq_complete(void)
 {
 	writel(0, VIM_BASE + VIM_IRQ_VECTOR_ADDRESS);
 }

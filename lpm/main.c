@@ -100,7 +100,7 @@ void lpm_clear_all_wakeup_interrupt(void)
 	}
 }
 
-static void lpm_abort()
+static void lpm_abort(void)
 {
 	volatile int a = 0x1234;
 
@@ -108,7 +108,7 @@ static void lpm_abort()
 	}
 }
 
-static void enter_ddr_low_power_mode()
+static void enter_ddr_low_power_mode(void)
 {
 	s32 ret;
 
@@ -133,7 +133,7 @@ static void enter_ddr_low_power_mode()
 	writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
 }
 
-static void exit_ddr_low_power_mode()
+static void exit_ddr_low_power_mode(void)
 {
 	ddr_disable_retention();
 
@@ -159,13 +159,13 @@ static void exit_ddr_low_power_mode()
 	ddr_deepsleep_exit_training();
 }
 
-static void set_usb_reset_isolation()
+static void set_usb_reset_isolation(void)
 {
 	writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB0_RESET);
 	writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB1_RESET);
 }
 
-static void release_usb_reset_isolation()
+static void release_usb_reset_isolation(void)
 {
 	/*
 	 * Nothing is done here, as we cannot yet remove reset isolation
@@ -193,7 +193,7 @@ static s32 disable_main_lpsc(const struct pd_lpsc *lpscs, u32 n_lpscs)
 	return 0;
 }
 
-static void bypass_main_pll()
+static void bypass_main_pll(void)
 {
 	u32 i;
 
@@ -215,7 +215,7 @@ static void wait_for_debug(void)
 	}
 }
 
-static void config_wake_sources()
+static void config_wake_sources(void)
 {
 	int i;
 	u32 val = 0;
@@ -232,7 +232,7 @@ static void config_wake_sources()
 	writel(val, (WKUP_CTRL_MMR_BASE + WKUP0_EN));
 }
 
-static void disable_wake_sources()
+static void disable_wake_sources(void)
 {
 	u32 i;
 
@@ -244,12 +244,12 @@ static void disable_wake_sources()
 	writel(0, (WKUP_CTRL_MMR_BASE + WKUP0_EN));
 }
 
-static int enable_main_io_isolation()
+static int enable_main_io_isolation(void)
 {
 	return 0;
 }
 
-static int disable_main_io_isolation()
+static int disable_main_io_isolation(void)
 {
 	return 0;
 }
@@ -259,23 +259,23 @@ static void config_gpio_clk_mux(u8 clk_src)
 	writel(clk_src, (MCU_CTRL_MMR_BASE + MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL));
 }
 
-static void enable_gpio_wake_up()
+static void enable_gpio_wake_up(void)
 {
 	writel(MCU_CTRL_MMR_CFG0_MCU_GPIO_WKUP_CTRL_ENABLE, (MCU_CTRL_MMR_BASE + MCU_CTRL_MMR_CFG0_MCU_GPIO_WKUP_CTRL));
 }
 
-static void disable_gpio_wake_up()
+static void disable_gpio_wake_up(void)
 {
 	writel(MCU_CTRL_MMR_CFG0_MCU_GPIO_WKUP_CTRL_DISABLE, (MCU_CTRL_MMR_BASE + MCU_CTRL_MMR_CFG0_MCU_GPIO_WKUP_CTRL));
 }
 
-static void disable_main_remain_pll()
+static void disable_main_remain_pll(void)
 {
 	/* disable remaining HSDIV & PLL in MAIN */
 	return;
 }
 
-static int enable_main_remain_pll()
+static int enable_main_remain_pll(void)
 {
 	u32 i;
 	s32 ret = 0;
@@ -290,7 +290,7 @@ static int enable_main_remain_pll()
 	return ret;
 }
 
-static s32 disable_mcu_domain()
+static s32 disable_mcu_domain(void)
 {
 	u32 i;
 	s32 ret;
@@ -315,7 +315,7 @@ static s32 disable_mcu_domain()
 	return ret;
 }
 
-static s32 enable_mcu_lpsc()
+static s32 enable_mcu_lpsc(void)
 {
 	u32 i;
 	s32 ret = 0;
@@ -333,7 +333,7 @@ static s32 enable_mcu_lpsc()
 	return ret;
 }
 
-static void enable_mcu_remain_pll()
+static void enable_mcu_remain_pll(void)
 {
 }
 
@@ -349,7 +349,7 @@ static s32 enable_dm_lpsc(void)
 	return ret;
 }
 
-static void disable_mcu_io_isolation()
+static void disable_mcu_io_isolation(void)
 {
 	/* disable WKUP IO Daisy Chain & IO isolation */
 }
@@ -359,7 +359,7 @@ static void disable_mcu_io_isolation()
  */
 
 #ifndef CONFIG_LPM_DM_STUB_NO_FS_STUB
-static s32 send_tisci_msg_firmware_load()
+static s32 send_tisci_msg_firmware_load(void)
 {
 	s32 ret = 0;
 
@@ -387,7 +387,7 @@ static s32 send_tisci_msg_firmware_load()
 	return ret;
 }
 
-static s32 receive_tisci_msg_continue_resume_req()
+static s32 receive_tisci_msg_continue_resume_req(void)
 {
 	struct tisci_msg_continue_resume_req req;
 	s32 ret = 0;
@@ -403,7 +403,7 @@ static s32 receive_tisci_msg_continue_resume_req()
 	return ret;
 }
 
-static s32 send_tisci_msg_continue_resume_resp()
+static s32 send_tisci_msg_continue_resume_resp(void)
 {
 	s32 ret = 0;
 	struct tisci_msg_continue_resume_resp resp;
@@ -419,7 +419,7 @@ static s32 send_tisci_msg_continue_resume_resp()
 	return ret;
 }
 
-static s32 receive_tisci_msg_sync_resume_req()
+static s32 receive_tisci_msg_sync_resume_req(void)
 {
 	struct tisci_msg_sync_resume_req req;
 	s32 ret = 0;
@@ -436,28 +436,28 @@ static s32 receive_tisci_msg_sync_resume_req()
 	return ret;
 }
 #else
-static s32 send_tisci_msg_firmware_load()
+static s32 send_tisci_msg_firmware_load(void)
 {
 	return 0;
 }
-static s32 receive_tisci_msg_continue_resume_req()
+static s32 receive_tisci_msg_continue_resume_req(void)
 {
 	return 0;
 }
-static s32 send_tisci_msg_continue_resume_resp()
+static s32 send_tisci_msg_continue_resume_resp(void)
 {
 	return 0;
 }
-static s32 receive_tisci_msg_sync_resume_req()
+static s32 receive_tisci_msg_sync_resume_req(void)
 {
 	return 0;
 }
 #endif
 
-static void send_msg_bypass_sms_pll()
+static void send_msg_bypass_sms_pll(void)
 {
 }
-static void send_msg_restore_sms_pll()
+static void send_msg_restore_sms_pll(void)
 {
 }
 
@@ -479,7 +479,7 @@ static s32 wait_for_reset_statz(u32 stat)
 	return ret;
 }
 
-static s32 wait_for_tifs_ready()
+static s32 wait_for_tifs_ready(void)
 {
 	u32 val;
 	u32 i = 0U;
@@ -498,10 +498,10 @@ static s32 wait_for_tifs_ready()
 	return ret;
 }
 
-static void enable_pll_standby()
+static void enable_pll_standby(void)
 {
 }
-static void clear_prepare_sleep_data()
+static void clear_prepare_sleep_data(void)
 {
 	lpm_memset(&g_params, 0, sizeof(g_params));
 }

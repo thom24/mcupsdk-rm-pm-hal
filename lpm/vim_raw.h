@@ -59,10 +59,10 @@ void vim_clear_intr(u32 intr);
  * \return s32 value for the number of the active interrupt,
  *         or -EINVAL when no active interrupt
  */
-s32 vim_get_intr_number();
+s32 vim_get_intr_number(void);
 
 /**
  * \brief Complete an interrupt service
  *        shall be called at the end of isr
  */
-void vim_irq_complete();
+void vim_irq_complete(void);
