@@ -47,6 +47,27 @@ extern "C" {
 
 #define PLLOFFSET(idx) (0x1000U * (idx))
 
+enum save_restore_main_pll {
+	SAVE_RESTORE_MAIN_PLL0,
+	SAVE_RESTORE_MAIN_PLL1,
+	SAVE_RESTORE_MAIN_PLL2,
+	SAVE_RESTORE_MAIN_PLL8,
+	SAVE_RESTORE_MAIN_PLL12,
+	SAVE_RESTORE_MAIN_PLL16,
+	SAVE_RESTORE_MAIN_PLL17,
+	SAVE_RESTORE_MAIN_PLL_MAX,
+};
+
+enum main_pll_disable {
+	MAIN_PLL1_DISABLE,
+	MAIN_PLL2_DISABLE,
+	MAIN_PLL8_DISABLE,
+	MAIN_PLL12_DISABLE,
+	MAIN_PLL16_DISABLE,
+	MAIN_PLL17_DISABLE,
+	MAIN_PLL_DISABLE_MAX,
+};
+
 extern struct pll_raw_data mcu_pll;
 extern struct pll_raw_data main_pll0;
 extern struct pll_raw_data main_pll1;
@@ -57,9 +78,10 @@ extern struct pll_raw_data main_pll16;
 extern struct pll_raw_data main_pll17;
 
 extern u8 num_main_plls_save_rstr;
-extern struct pll_raw_data *main_plls_save_rstr[];
+extern struct pll_raw_data *main_plls_save_rstr[SAVE_RESTORE_MAIN_PLL_MAX];
 extern u8 num_main_plls_dis;
-extern struct pll_raw_data *main_plls_dis[];
+extern struct pll_raw_data *main_plls_dis[MAIN_PLL_DISABLE_MAX];
+
 
 #ifdef __cplusplus
 }
