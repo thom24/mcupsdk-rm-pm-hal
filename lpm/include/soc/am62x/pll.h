@@ -56,10 +56,10 @@ extern struct pll_raw_data main_pll12;
 extern struct pll_raw_data main_pll16;
 extern struct pll_raw_data main_pll17;
 
-extern struct pll_raw_data *main_plls_save_rstr[];
 extern u8 num_main_plls_save_rstr;
-extern struct pll_raw_data *main_plls_dis[];
+extern struct pll_raw_data *main_plls_save_rstr[];
 extern u8 num_main_plls_dis;
+extern struct pll_raw_data *main_plls_dis[];
 
 #ifdef __cplusplus
 }

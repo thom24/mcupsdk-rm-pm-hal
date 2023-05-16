@@ -70,4 +70,4 @@ u8 num_main_plls_save_rstr = sizeof(main_plls_save_rstr) / sizeof(struct pll_raw
 /* Base addresses of main PLL structures to be disabled */
 struct pll_raw_data *main_plls_dis[] = { &main_pll1, &main_pll2, &main_pll8, &main_pll12, &main_pll16, &main_pll17 };
 
-u8 num_main_plls_dis = sizeof(main_plls_dis) / sizeof(struct pll_raw_data *);
+u8 num_main_plls_dis = sizeof(main_plls_dis) / sizeof(u32);
