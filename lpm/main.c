@@ -67,6 +67,15 @@ extern void lpm_clear_all_wakeup_interrupt(void);
 #define LPM_MCU_ONLY  1U
 #define LPM_STANDBY   2U
 
+static void enter_WFI(void)
+{
+	__asm volatile ("\tWFI");
+}
+static void enable_intr(void)
+{
+	__asm volatile ("\tCPSIE I");
+}
+
 /* variable to store the last wakeup interrupt */
 u32 wake_up_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID;
 static struct tisci_msg_prepare_sleep_req g_params;
@@ -677,9 +686,9 @@ s32 dm_stub_entry(void)
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_PRE_WFI);
 
 	/* enter WFI */
-	__asm volatile ("\tWFI");
+	enter_WFI();
 	/* enable global interrupt */
-	__asm volatile ("\tCPSIE I");
+	enable_intr();
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_POST_WFI);
 

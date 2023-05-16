@@ -35,6 +35,11 @@
  */
 #include "timeout.h"
 
+static void asm_func(void)
+{
+	asm ("");
+}
+
 void delay_1us(void)
 {
 	/* This while-loop takes 2 instructions. Assume R5 runs @400MHz */
@@ -43,6 +48,6 @@ void delay_1us(void)
 
 	while (x != 0U) {
 		x--;
-		asm ("");
+		asm_func();
 	}
 }
