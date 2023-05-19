@@ -152,7 +152,7 @@ void psc_raw_pd_initiate(u32 psc_base, u8 pd)
 	psc_raw_write(BIT(pd), psc_base + PSC_PTCMD);
 }
 
-void psc_raw_pd_set_state(u32 psc_base, u8 pd, u8 state, sbool force)
+void psc_raw_pd_set_state(u32 psc_base, u8 pd, u32 state, sbool force)
 {
 	u32 pdctl = psc_raw_read(psc_base + PSC_PDCTL(pd));
 
@@ -168,7 +168,7 @@ void psc_raw_pd_set_state(u32 psc_base, u8 pd, u8 state, sbool force)
 	psc_raw_write(pdctl, psc_base + PSC_PDCTL(pd));
 }
 
-void psc_raw_lpsc_set_state(u32 psc_base, u8 lpsc, u8 state, sbool force)
+void psc_raw_lpsc_set_state(u32 psc_base, u8 lpsc, u32 state, sbool force)
 {
 	u32 mdctl = psc_raw_read(psc_base + PSC_MDCTL(lpsc));
 

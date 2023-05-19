@@ -70,7 +70,7 @@ void psc_raw_pd_initiate(u32 base, u8 pd);
  * \param state PDCTL_STATE to set
  * \param force Boolean indicating whether to set FORCE bit
  */
-void psc_raw_pd_set_state(u32 psc_base, u8 pd, u8 state, sbool force);
+void psc_raw_pd_set_state(u32 psc_base, u8 pd, u32 state, sbool force);
 
 /**
  * \brief Set next state for an MDCTL
@@ -79,4 +79,4 @@ void psc_raw_pd_set_state(u32 psc_base, u8 pd, u8 state, sbool force);
  * \param state MDCTL_STATE to set
  * \param force Boolean indicating whether to set FORCE bit
  */
-void psc_raw_lpsc_set_state(u32 psc_base, u8 lpsc, u8 state, sbool force);
+void psc_raw_lpsc_set_state(u32 psc_base, u8 lpsc, u32 state, sbool force);
