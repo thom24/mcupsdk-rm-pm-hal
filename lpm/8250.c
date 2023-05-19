@@ -106,14 +106,6 @@ int lpm_console_tx(u8 data)
 	u32 i = 0U;
 
 	/*
-	 * Add a carriage return before newline to support
-	 * unflexible terminals.
-	 */
-	if (data == (u8) '\n') {
-		lpm_console_tx('\r');
-	}
-
-	/*
 	* Poll the Line Status Register to ensure FIFO space is
 	* available before writing to avoid dropping chars.
 	*/

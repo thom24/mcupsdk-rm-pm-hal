@@ -92,6 +92,12 @@ void lpm_trace_debug(u32 value)
 		for (i = 0U; i <= idx; i++) {
 			lpm_trace_output_char(str[idx - i]);
 		}
+
+		/*
+		     * Add a carriage return before newline to support
+		     * unflexible terminals.
+		     */
+		lpm_trace_output_char('\r');
 		lpm_trace_output_char('\n');
 	}
 }
