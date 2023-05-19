@@ -55,14 +55,17 @@ void lpm_trace_debug(u32 value)
 	u32 val;
 	u32 i;
 	u8 str[9];
+	u32 v = 0;
 
-	if (value == 0U) {
+	v = value;
+
+	if (v == 0U) {
 		str[0] = (u8) '0';
 		idx += 2U;
 	}
 
-	while (value > 0U) {
-		val = value % 16U;
+	while (v > 0U) {
+		val = v % 16U;
 		if (val < 10U) {
 			str[idx] = (u8) (val + (u8) '0');
 		} else {
@@ -70,7 +73,7 @@ void lpm_trace_debug(u32 value)
 		}
 
 		idx++;
-		value /= 16U;
+		v /= 16U;
 	}
 
 	str[idx] = (u8) '\0';
