@@ -56,7 +56,7 @@
 
 void vim_set_intr_enable(u32 intr, int enable)
 {
-	u32 mask = 1U << VINTR(intr);
+	u32 mask = ((u32) 1U << VINTR(intr));
 
 	if (enable == INTR_ENABLE) {
 		writel(mask, VIM_BASE + VIM_GRP_EN_SET(intr));
@@ -67,7 +67,7 @@ void vim_set_intr_enable(u32 intr, int enable)
 
 void vim_clear_intr(u32 intr)
 {
-	writel(1U << VINTR(intr), VIM_BASE + VIM_GRP_STS_CLEAR(intr));
+	writel((u32) 1U << VINTR(intr), VIM_BASE + VIM_GRP_STS_CLEAR(intr));
 }
 
 s32 vim_get_intr_number()
