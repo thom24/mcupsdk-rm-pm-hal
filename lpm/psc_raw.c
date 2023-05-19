@@ -136,7 +136,8 @@ s32 psc_raw_pd_wait(u32 psc_base, u8 pd)
 	s32 ret = SUCCESS;
 	s32 i = PSC_TRANSITION_TIMEOUT;
 
-	while (((psc_raw_read(psc_base + PSC_PTSTAT) & BIT(pd)) != 0U) && (--i != 0)) {
+	while (((psc_raw_read(psc_base + PSC_PTSTAT) & BIT(pd)) != 0U) && (i != 0)) {
+		--i;
 	}
 
 	if (!i) {

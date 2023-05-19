@@ -3,7 +3,7 @@
  *
  * DM Stub LPM memset and memcpy for relocation in stub
  *
- * Copyright (C) 2022, Texas Instruments Incorporated
+ * Copyright (C) 2022-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,8 +38,9 @@
 #define __LPM_LPM_STRING_H__
 
 #include <types.h>
+#include <types/short_types.h>
 
-void *lpm_memset(void *s, int c, size_t n);
-void *lpm_memcpy(void *_d, const void *_s, size_t n);
+void *lpm_memset(void *s, u8 c, size_t n);
+void *lpm_memcpy(void *_d, void const *_s, size_t n);
 
 #endif /* __LPM_LPM_STRING_H__ */
