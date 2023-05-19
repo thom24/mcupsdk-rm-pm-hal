@@ -3,7 +3,7 @@
  *
  * DM Stub Minimal Trace Debug Layer
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,8 @@
 #include <types/short_types.h>
 
 #include <lib/trace_protocol.h>
+
+extern void lpm_trace_output(const char *str);
 
 void lpm_trace_debug(u32 value);
 

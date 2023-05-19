@@ -3,7 +3,7 @@
  *
  * Secure Proxy driver for Message Transfer
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,6 +41,7 @@
 #include <baseaddress.h>
 #include "lpm_string.h"
 #include "timeout.h"
+#include "sec_proxy.h"
 
 #define SPROXY_THREAD_OFFSET(tid) (0x1000 * (tid))
 

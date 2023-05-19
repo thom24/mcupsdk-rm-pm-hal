@@ -57,6 +57,12 @@
 #include "lpm_string.h"
 #include "string.h"
 
+extern s32 __attribute__((noinline)) dm_stub_entry(void);
+extern void dm_stub_irq_handler(void);
+extern u32 lpm_get_wake_up_source(void);
+extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
+extern void lpm_clear_all_wakeup_interrupt(void);
+
 enum lpm_mode {
 	LPM_DEEPSLEEP,
 	LPM_MCU_ONLY,
@@ -170,8 +176,8 @@ static s32 disable_main_lpsc(const struct pd_lpsc *lpscs, u32 n_lpscs)
 		psc_raw_lpsc_set_state(MAIN_PSC_BASE, lpscs[i].lpsc,
 				       MDCTL_STATE_DISABLE, 0);
 		psc_raw_pd_initiate(MAIN_PSC_BASE, lpscs[i].pd);
-		
-        ret = psc_raw_pd_wait(MAIN_PSC_BASE, lpscs[i].pd);
+
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, lpscs[i].pd);
 		if (ret) {
 			return ret;
 		}
@@ -188,11 +194,11 @@ static void bypass_main_pll()
 	 * except clock for Debug, PLL0, PLL15
 	 */
 	for (i = 0; i < num_main_plls_save_rstr; i++) {
-        pll_save(main_plls_save_rstr[i]);
+		pll_save(main_plls_save_rstr[i]);
 	}
 
 	for (i = 0; i < num_main_plls_dis; i++) {
-        pll_disable(main_plls_dis[i], 0xFFFF);
+		pll_disable(main_plls_dis[i], 0xFFFF);
 	}
 }
 
@@ -268,8 +274,7 @@ static int enable_main_remain_pll()
 	s32 ret = 0;
 
 	for (i = 0; i < num_main_plls_save_rstr; i++) {
-		
-        ret = pll_restore(main_plls_save_rstr[i]);
+		ret = pll_restore(main_plls_save_rstr[i]);
 		if (ret) {
 			return ret;
 		}
@@ -291,16 +296,16 @@ static s32 disable_mcu_domain()
 	psc_raw_pd_set_state(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU,
 			     PDCTL_STATE_OFF, 0);
 	psc_raw_pd_initiate(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
-	
-    ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
+
+	ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
 	if (ret) {
 		return ret;
 	}
 
 	psc_raw_pd_set_state(MCU_PSC_BASE, PD_MCU_M4F, PDCTL_STATE_OFF, 0);
 	psc_raw_pd_initiate(MCU_PSC_BASE, PD_MCU_M4F);
-	
-    ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_MCU_M4F);
+
+	ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_MCU_M4F);
 	if (ret) {
 		return ret;
 	}
@@ -317,8 +322,8 @@ static s32 enable_mcu_lpsc()
 		psc_raw_lpsc_set_state(MCU_PSC_BASE, mcu_lpscs[i].lpsc,
 				       MDCTL_STATE_ENABLE, 0);
 		psc_raw_pd_initiate(MCU_PSC_BASE, mcu_lpscs[i].pd);
-		
-        ret = psc_raw_pd_wait(MCU_PSC_BASE, mcu_lpscs[i].pd);
+
+		ret = psc_raw_pd_wait(MCU_PSC_BASE, mcu_lpscs[i].pd);
 		if (ret) {
 			return ret;
 		}
@@ -371,8 +376,8 @@ static s32 send_tisci_msg_firmware_load()
 	}
 
 	lpm_memset(&resp, 0, sizeof(resp));
-	
-    ret = sproxy_receive_msg_rom(&resp, sizeof(resp));
+
+	ret = sproxy_receive_msg_rom(&resp, sizeof(resp));
 	if (ret) {
 		return ret;
 	}
@@ -391,8 +396,8 @@ static s32 receive_tisci_msg_continue_resume_req()
 	s32 ret = 0;
 
 	lpm_memset(&req, 0, sizeof(req));
-	
-    ret = sproxy_receive_msg_rom(&req, sizeof(req));
+
+	ret = sproxy_receive_msg_rom(&req, sizeof(req));
 	if (ret) {
 		return ret;
 	}
@@ -429,8 +434,8 @@ static s32 receive_tisci_msg_sync_resume_req()
 	s32 ret = 0;
 
 	lpm_memset(&req, 0, sizeof(req));
-	
-    ret = sproxy_receive_msg_rom(&req, sizeof(req));
+
+	ret = sproxy_receive_msg_rom(&req, sizeof(req));
 	if (ret) {
 		return ret;
 	}

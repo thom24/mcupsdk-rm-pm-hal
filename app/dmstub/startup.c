@@ -1,7 +1,7 @@
 /*
  * DM stub firmware
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,14 @@ extern unsigned char _end_bss;
 
 extern s32 dm_stub_entry(void);
 extern void dm_stub_irq_handler(void);
+extern void data_abt_handler(void);
+extern void fiq_handler(void);
+extern void irq_handler(void);
+extern void prefetch_abt_handler(void);
+extern void reserved_handler(void);
+extern s32 stub_entry(void);
+extern void swi_handler(void);
+extern void undef_handler(void);
 
 s32 stub_entry(void)
 {
