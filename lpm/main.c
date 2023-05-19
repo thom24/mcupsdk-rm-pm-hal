@@ -358,7 +358,7 @@ static s32 send_tisci_msg_firmware_load()
 	struct tisci_msg_firmware_load_req req;
 
 	req.hdr.type = TISCI_MSG_FIRMWARE_LOAD;
-	req.hdr.flags = (8 << 24);
+	req.hdr.flags = (8U << 24U);
 	req.image_addr = CONFIG_TIFSFW_SPS_BASE;
 	req.image_size = CONFIG_TIFSFW_SPS_LEN;
 
