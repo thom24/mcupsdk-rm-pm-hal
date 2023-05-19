@@ -140,7 +140,7 @@ s32 psc_raw_pd_wait(u32 psc_base, u8 pd)
 		--i;
 	}
 
-	if (!i) {
+	if (i == 0) {
 		ret = -ETIMEDOUT;
 	}
 
