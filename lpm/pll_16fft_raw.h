@@ -42,7 +42,7 @@ struct pll_raw_data {
 	u32	freq_ctrl0;
 	u32	freq_ctrl1;
 	u32	div_ctrl;
-	u16	hsdiv[16];
+	u32	hsdiv[16];
 };
 
 /**
