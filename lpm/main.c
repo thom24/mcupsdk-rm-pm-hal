@@ -110,19 +110,15 @@ static void lpm_abort(void)
 
 static void enter_ddr_low_power_mode(void)
 {
-	s32 ret;
-
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
 			       MDCTL_STATE_DISABLE, 0);
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
 	ddr_enter_low_power_mode();
 
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
 			       MDCTL_STATE_DISABLE, 0);
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
 	ddr_enable_retention();
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
