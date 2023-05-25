@@ -94,6 +94,7 @@
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MAIN_IO                         0x80
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MCU_IO                          0x81
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_CAN_IO                          0x82
+#define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MCU_IPC                         0x90
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID                         0xFF
 
 /** Used by TISCI_MSG_SET_IO_ISOLATION to enable IO isolation */

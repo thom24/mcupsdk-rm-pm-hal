@@ -226,6 +226,11 @@ static void config_wake_sources(void)
 	}
 	/* Write all bits to enable at once */
 	writel(val, (WKUP_CTRL_MMR_BASE + WKUP0_EN));
+
+	if (g_params.mode == LPM_MCU_ONLY) {
+		/* Enable MCU_IPC interrupt */
+		vim_set_intr_enable(MCU_IPC_INTERRUPT_NUMBER, INTR_ENABLE);
+	}
 }
 
 static void disable_wake_sources(void)
@@ -238,6 +243,11 @@ static void disable_wake_sources(void)
 	}
 	/* Clear all bits in WKUP0_EN */
 	writel(0, (WKUP_CTRL_MMR_BASE + WKUP0_EN));
+
+	if (g_params.mode == LPM_MCU_ONLY) {
+		/* Disable MCU_IPC interrupt */
+		vim_set_intr_enable(MCU_IPC_INTERRUPT_NUMBER, INTR_DISABLE);
+	}
 }
 
 static int enable_main_io_isolation(void)
@@ -533,7 +543,8 @@ s32 dm_stub_entry(void)
 	ctrlmmr_unlock(WKUP_CTRL_MMR_BASE, 2);
 	ctrlmmr_unlock(WKUP_CTRL_MMR_BASE, 6);
 
-	/* unlock mcu_ctrl_mmr region 2 */
+	/* unlock mcu_ctrl_mmr region 0,2 */
+	ctrlmmr_unlock(MCU_CTRL_MMR_BASE, 0);
 	ctrlmmr_unlock(MCU_CTRL_MMR_BASE, 2);
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MMR_UNLOCK);
@@ -885,7 +896,6 @@ s32 dm_stub_entry(void)
 void dm_stub_irq_handler(void)
 {
 	u32 int_num;
-	const struct wake_source_data *active_wake_source = NULL;
 	int i;
 
 	wake_up_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID;
@@ -901,14 +911,22 @@ void dm_stub_irq_handler(void)
 
 	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
 		if (soc_wake_sources_data[i].int_num == int_num) {
-			active_wake_source = &soc_wake_sources_data[i];
 			wake_up_source = soc_wake_sources_data[i].source_id;
 			break;
 		}
 	}
 
-	if (active_wake_source != NULL) {
-		lpm_seq_trace_val(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT, active_wake_source->wkup_idx);
+	if (g_params.mode == LPM_MCU_ONLY) {
+		/* Check whether the interrupt source is MCU IPC */
+		if (int_num == MCU_IPC_INTERRUPT_NUMBER) {
+			wake_up_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MCU_IPC;
+			/* Clear the ipc set and ipc src bits */
+			writel(MCU_CTRL_MMR_IPC_CLR0_CLEAR, MCU_CTRL_MMR_BASE + MCU_CTRL_MMR_IPC_CLR0);
+		}
+	}
+
+	if (wake_up_source != TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID) {
+		lpm_seq_trace_val(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT, wake_up_source);
 	} else {
 		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT);
 	}

@@ -57,6 +57,10 @@ extern "C" {
 #define MCU_CTRL_MMR_CFG0_MCU_GPIO_WKUP_CTRL_ENABLE     1
 #define MCU_CTRL_MMR_CFG0_MCU_GPIO_WKUP_CTRL_DISABLE    0
 
+#define MCU_IPC_INTERRUPT_NUMBER                        0
+#define MCU_CTRL_MMR_IPC_CLR0                           (0x180U)
+#define MCU_CTRL_MMR_IPC_CLR0_CLEAR                     (0x11U)
+
 #ifdef __cplusplus
 }
 #endif
