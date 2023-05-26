@@ -52,7 +52,7 @@ static sbool devices_rw;
 
 void pm_devgroup_set_enabled(devgrp_t groups)
 {
-	pm_devgroups_enabled |= groups;
+	pm_devgroups_enabled |= (u32)groups;
 }
 
 sbool pm_devgroup_is_enabled(devgrp_t groups)
