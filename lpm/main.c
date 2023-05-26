@@ -113,12 +113,14 @@ static void enter_ddr_low_power_mode(void)
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
 			       MDCTL_STATE_DISABLE, 0);
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
 	ddr_enter_low_power_mode();
 
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
 			       MDCTL_STATE_DISABLE, 0);
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
 	ddr_enable_retention();
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
@@ -400,6 +402,7 @@ static s32 receive_tisci_msg_continue_resume_req(void)
 
 	lpm_memset(&req, 0, sizeof(req));
 
+	ret = sproxy_receive_msg_rom(&req, sizeof(req));
 	if (ret == 0) {
 		if (req.hdr.type != TISCI_MSG_CONTINUE_RESUME) {
 			ret = -EINVAL;
