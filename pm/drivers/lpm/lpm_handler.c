@@ -441,8 +441,6 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 s32 dm_lpm_wake_reason_handler(u32 *msg_recv)
 {
-	struct tisci_msg_lpm_wake_reason_req *req =
-		(struct tisci_msg_lpm_wake_reason_req *) msg_recv;
 	struct tisci_msg_lpm_wake_reason_resp *resp =
 		(struct tisci_msg_lpm_wake_reason_resp *) msg_recv;
 	s32 ret = SUCCESS;
@@ -459,8 +457,6 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 {
 	struct tisci_msg_set_io_isolation_req *req =
 		(struct tisci_msg_set_io_isolation_req *) msg_recv;
-	struct tisci_msg_set_io_isolation_resp *resp =
-		(struct tisci_msg_set_io_isolation_resp *) msg_recv;
 	s32 ret = EFAIL;
 	u32 reg;
 	int i = 0;
