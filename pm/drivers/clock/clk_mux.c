@@ -40,7 +40,7 @@
 #include <lib/ioremap.h>
 #include <lib/trace.h>
 
-static u8 clk_mux_get_parent_value(struct clk *clkp)
+static u32 clk_mux_get_parent_value(struct clk *clkp)
 {
 	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_mux *mux;

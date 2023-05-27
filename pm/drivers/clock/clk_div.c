@@ -648,7 +648,7 @@ static u32 clk_div_fixed_get_div(struct clk *clkp)
 
 	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
-	return data_div->n;
+	return (u32)data_div->n;
 }
 
 const struct clk_drv_div clk_drv_div_fixed = {
