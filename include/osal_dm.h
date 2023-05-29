@@ -70,4 +70,18 @@ void osal_suspend_dm(void);
  */
 u32 osal_resume_dm(void);
 
+/**
+ * \brief Start OS tick timer
+ *
+ * \return None
+ */
+void OS_StartTickTimer(void);
+
+/**
+ * \brief Stops OS tick timer
+ *
+ * \return None
+ */
+void OS_StopTickTimer(void);
+
 #endif /* OSAL_DM_H */
