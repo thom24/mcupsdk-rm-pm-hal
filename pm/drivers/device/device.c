@@ -158,7 +158,7 @@ s32 devices_init(void)
 			if (soc_device_data_arr[idx]->pm_devgrp == PM_DEVGRP_DMSC) {
 				devgrp = DEVGRP_DMSC;
 			} else {
-				devgrp = BIT(soc_device_data_arr[idx]->pm_devgrp - 1U);
+				devgrp = (devgrp_t)BIT(soc_device_data_arr[idx]->pm_devgrp - 1U);
 			}
 
 			if (!pm_devgroup_is_enabled(devgrp)) {

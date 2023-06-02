@@ -92,7 +92,7 @@ s32 lpm_resume_gtc()
 	rtc2 = (u64) (((u64) gtc.resume.sec_hi << 32) + gtc.resume.sec_lo);
 	delta = (rtc2 - rtc1) * gtc.fid0;
 	delta += (u64) (((u64) gtc.cnt_hi << 32) + gtc.cnt_lo);
-	gtc.cnt_hi = delta >> 32;
+	gtc.cnt_hi = (u32) (delta >> 32);
 	gtc.cnt_lo = (u32) delta;
 
 	writel(gtc.cnt_lo, GTC_CFG1_BASE + GTC_CFG1_CNT_LO);

@@ -563,7 +563,7 @@ static s32 ia_get_oes_evt(u8 host, u16 id, u16 oes_index, u16 *evt)
 		evt_reg = readl(evt_addr);
 		rm_core_unmap_region();
 
-		*evt = rm_fext(evt_reg, IA_UENTRY_MAP_UMAPIDX_SHIFT,
+		*evt = (u16)rm_fext(evt_reg, IA_UENTRY_MAP_UMAPIDX_SHIFT,
 			       IA_UENTRY_MAP_UMAPIDX_MASK);
 		rm_trace_sub(trace_action,
 			     TRACE_RM_SUB_ACTION_EVENT,
