@@ -91,6 +91,9 @@ static struct tisci_msg_prepare_sleep_req g_params;
 /* FIXME IO_ISO_TIMEOUT should be about 10us */
 #define IO_ISO_TIMEOUT  10000
 
+/* Timeout for legacy peripherals clock stop transition */
+#define CLKSTOP_TRANSITION_TIMEOUT  10000
+
 void lpm_clear_all_wakeup_interrupt(void)
 {
 	u32 i;
@@ -155,6 +158,31 @@ static void exit_ddr_low_power_mode(void)
 	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
 	ddr_deepsleep_exit_training();
+}
+
+static void clock_gate_legacy_peripherals(sbool enable)
+{
+	u32 timeout = CLKSTOP_TRANSITION_TIMEOUT;
+
+	if (enable) {
+		writel(WKUP_EN_CLKSTOP_ALL, WKUP_CTRL_MMR_BASE + DM_CLKSTOP_EN);
+		writel(WKUP_EN_GRP_CLKSTOP_REQ, WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_REQ);
+		while ((--timeout > 0) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_EN_GRP_CLKSTOP_ACK)) {
+		}
+		if (timeout == 0) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_CLK_GATE);
+			lpm_abort();
+		}
+	} else {
+		writel(WKUP_DIS_GRP_CLKSTOP_REQ, WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_REQ);
+		while ((--timeout > 0) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_DIS_GRP_CLKSTOP_ACK)) {
+		}
+		if (timeout == 0) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_CLK_GATE);
+			lpm_abort();
+		}
+		writel(0, WKUP_CTRL_MMR_BASE + DM_CLKSTOP_EN);
+	}
 }
 
 static void set_usb_reset_isolation(void)
@@ -704,11 +732,23 @@ s32 dm_stub_entry(void)
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_PRE_WFI);
 
+	/* Enable clock gating of legacy peripherals */
+	clock_gate_legacy_peripherals(STRUE);
+
 	/* enter WFI */
 	enter_WFI();
 	/* enable global interrupt */
 	enable_intr();
 
+	/* Disable clock gating of legacy peripherals */
+	clock_gate_legacy_peripherals(SFALSE);
+
+	if (wake_up_source != TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID) {
+		lpm_seq_trace_val(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT, wake_up_source);
+	} else {
+		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT);
+	}
+	
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_POST_WFI);
 
 	/* start resume */
@@ -935,12 +975,6 @@ void dm_stub_irq_handler(void)
 			/* Clear the ipc set and ipc src bits */
 			writel(MCU_CTRL_MMR_IPC_CLR0_CLEAR, MCU_CTRL_MMR_BASE + MCU_CTRL_MMR_IPC_CLR0);
 		}
-	}
-
-	if (wake_up_source != TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID) {
-		lpm_seq_trace_val(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT, wake_up_source);
-	} else {
-		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT);
 	}
 
 	vim_set_intr_enable(int_num, INTR_DISABLE);

@@ -54,6 +54,10 @@ extern "C" {
 #define DS_DDR0_RESET                   (0x00018450U)
 #define DS_USB0_RESET                   (0x00018460U)
 #define DS_USB1_RESET                   (0x00018464U)
+#define DM_CLKSTOP_EN                   (0x00018480U)
+#define DM_CLKSTOP_ACK                  (0x00018490U)
+#define DM_GRP_CLKSTOP_REQ              (0x000184A0U)
+#define DM_GRP_CLKSTOP_ACK              (0x000184A4U)
 
 /* WKUP0_EN */
 #define WKUP0_EN                        (0x00018180U)
@@ -72,6 +76,18 @@ extern "C" {
 #define WKUP0_EN_MAIN_IO_DAISY_CHAIN    BIT(16)
 #define WKUP0_EN_MCU_IO_DAISY_CHAIN     BIT(17)
 #define WKUP0_EN_CANUART_IO_DAISY_CHAIN BIT(18)
+
+/* WKUP_EN_CLKSTOP */
+#define WKUP_EN_CLKSTOP_ALL             (0x00030009U)
+
+#define WKUP_EN_CLKSTOP_WKUP_I2C0       BIT(0)
+#define WKUP_EN_CLKSTOP_WKUP_USART0     BIT(3)
+#define WKUP_EN_CLKSTOP_WKUP_DMTIMER0   BIT(16)
+#define WKUP_EN_CLKSTOP_WKUP_DMTIMER1   BIT(17)
+#define WKUP_EN_GRP_CLKSTOP_REQ         BIT(0)
+#define WKUP_DIS_GRP_CLKSTOP_REQ        0
+#define WKUP_EN_GRP_CLKSTOP_ACK         BIT(0)
+#define WKUP_DIS_GRP_CLKSTOP_ACK        0
 
 /* WKUP_CLKSEL */
 #define WKUP_CLKSEL_MAIN                0
