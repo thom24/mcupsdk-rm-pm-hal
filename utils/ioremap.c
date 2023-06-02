@@ -42,7 +42,8 @@
 u32 ioremap_internal(u32 a)
 {
 	u32 addr = a;
-	u64 lowAddr, highAddr;
+	u64 lowAddr = 0U;
+	u64 highAddr = 0U;
 	s32 ret;
 
 	/*
