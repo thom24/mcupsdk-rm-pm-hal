@@ -66,9 +66,10 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 	 * The downshift here is just because the macro that defines the type
 	 * starts at bit 6.
 	 */
-	static const u8 sizes[RESOURCE_MAX3(RESOURCE_CLK >> 6U,
-					    RESOURCE_MEM >> 6U,
-					    RESOURCE_RST >> 6U) + 1] = {
+	static const u8 sizes[RESOURCE_MAX3((RESOURCE_CLK >> 6U),
+					    (RESOURCE_MEM >> 6U),
+					    (RESOURCE_RST >> 6U)) + 1] = {
+		[RESOURCE_IRQ >> 6U] = 0,
 		[RESOURCE_CLK >> 6U] = (u8) sizeof(struct resource_clk),
 		[RESOURCE_MEM >> 6U] = (u8) sizeof(struct resource_mem),
 		[RESOURCE_RST >> 6U] = (u8) sizeof(struct resource_rst),
