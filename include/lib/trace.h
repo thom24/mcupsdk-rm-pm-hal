@@ -44,7 +44,7 @@
 #include <lib/trace_protocol.h>
 
 #define TRACE_PRINT_MAX_LENGTH                           255
-#define TRACE_NUM_BUFFER_CONVERSION_SIZE                 ((sizeof(u32) * 8) + 1)
+#define TRACE_NUM_BUFFER_CONVERSION_SIZE                 ((sizeof(u32) * 8U) + 1U)
 
 #define TRACE_LEVEL_ERR                                  0U
 #define TRACE_LEVEL_WARN                                 1U
