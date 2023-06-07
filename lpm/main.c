@@ -188,7 +188,7 @@ static s32 disable_main_lpsc(const struct pd_lpsc *lpscs, u32 n_lpscs)
 		}
 	}
 
-	return 0;
+	return ret;
 }
 
 static void bypass_main_pll(void)
