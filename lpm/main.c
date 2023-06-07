@@ -306,13 +306,22 @@ static s32 disable_mcu_domain(void)
 	for (i = 0; i < num_mcu_lpscs; i++) {
 		psc_raw_lpsc_set_state(MCU_PSC_BASE, mcu_lpscs[i].lpsc,
 				       MDCTL_STATE_DISABLE, 0);
+		psc_raw_pd_initiate(MCU_PSC_BASE, mcu_lpscs[i].pd);
+
+		ret = psc_raw_pd_wait(MCU_PSC_BASE, mcu_lpscs[i].pd);
+		if (ret != 0) {
+			break;
+		}
 	}
 
-	psc_raw_pd_set_state(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU,
+	if (ret == 0) {
+		psc_raw_pd_set_state(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU,
 			     PDCTL_STATE_OFF, 0);
-	psc_raw_pd_initiate(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
+		psc_raw_pd_initiate(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
 
-	ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
+		ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
+	}
+
 	if (ret == 0) {
 		psc_raw_pd_set_state(MCU_PSC_BASE, PD_MCU_M4F, PDCTL_STATE_OFF, 0);
 		psc_raw_pd_initiate(MCU_PSC_BASE, PD_MCU_M4F);
