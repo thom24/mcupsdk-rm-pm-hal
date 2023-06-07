@@ -87,75 +87,78 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 	u32 word;
 	u32 mask;
 	u16 i;
+	s32 ret = SUCCESS;
 
 	if ((is_secure == SFALSE) && ((start_addr + len) > end_addr)) {
-		return -EINVAL;
+		ret = -EINVAL;
 	}
 
-	if ((is_secure == STRUE) && ((start_addr + len + 4) > end_addr)) {
-		return -EINVAL;
+	if ((ret == SUCCESS) && (is_secure == STRUE) && ((start_addr + len + 4) > end_addr)) {
+		ret = -EINVAL;
 	}
 
-	for (i = 0; i < RETRY_CNT_10ms; i++) {
-		status = readl(SPROXY_THREAD_STATUS(rt_base, thread_id));
-		if (status & SPROXY_STATUS_ERR) {
-			return -EFAIL;
-		}
-
-		if (status & SPROXY_STATUS_CNT_MASK) {
-			break;
-		}
-
-		if (i < (RETRY_CNT_10ms - 1)) {
-			delay();
-		} else {
-			return -ETIMEDOUT;
+	if (ret == SUCCESS) {
+		for (i = 0; i < RETRY_CNT_10ms; i++) {
+			status = readl(SPROXY_THREAD_STATUS(rt_base, thread_id));
+			if (status & SPROXY_STATUS_ERR) {
+				ret = -EFAIL;
+			}
+			if (status & SPROXY_STATUS_CNT_MASK) {
+				break;
+			}
+			if (i < (RETRY_CNT_10ms - 1)) {
+				delay();
+			} else {
+				ret = -ETIMEDOUT;
+			}
 		}
 	}
 
-	/*
-	 * HACK: We will need to deal with sec hdr someday...
-	 * For now, just skip that portion
-	 */
-	if (is_secure == STRUE) {
-		if (is_rx == 0U) {
-			writel(0u, start_addr);
+	if (ret == SUCCESS) {
+		/*
+		* HACK: We will need to deal with sec hdr someday...
+		* For now, just skip that portion
+		*/
+		if (is_secure == STRUE) {
+			if (is_rx == 0U) {
+				writel(0U, start_addr);
+			}
+			start_addr += 4U;
 		}
-		start_addr += 4U;
-	}
 
-	for (i = 0; i < (len / 4); i++) {
+		for (i = 0; i < (len / 4); i++) {
+			if (is_rx) {
+				*raw = readl(start_addr);
+				raw += 1U;
+			} else {
+				writel(*raw, start_addr);
+				raw += 1U;
+			}
+			start_addr += 4U;
+		}
+
+		if (len % 4) {
+			if (!is_rx) {
+				mask = ~0UL >> ((4 - (len % 4)) * 8);
+				word = (*raw) & mask;
+				writel(word, start_addr);
+			} else {
+				word = readl(start_addr);
+				/* let memcpy deal with the alignment stuff */
+				memcpy(raw, &word, len % 4);
+			}
+		}
+
+		/* flush out the transfer */
 		if (is_rx) {
-			*raw = readl(start_addr);
-			raw = raw + 1;
+			(void) readl(end_addr);
 		} else {
-			writel(*raw, start_addr);
-			raw = raw + 1;
-		}
-		start_addr += 4U;
-	}
-
-	if (len % 4) {
-		if (!is_rx) {
-			mask = ~0UL >> ((4 - (len % 4)) * 8);
-			word = (*raw) & mask;
-			writel(word, start_addr);
-		} else {
-			word = readl(start_addr);
-			/* let memcpy deal with the alignment stuff */
-			memcpy(raw, &word, len % 4);
+			writel(0x0, end_addr);
 		}
 	}
-
-	/* flush out the transfer */
-	if (is_rx) {
-		(void) readl(end_addr);
-	} else {
-		writel(0x0, end_addr);
-	}
-
-	return 0;
+	return ret;
 }
+
 s32 sproxy_send_msg_r5_to_tifs_fw(void *msg, size_t len)
 {
 	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, R5_TO_TIFS_SEC_PROXY_MSG_TX_TID, msg, len, STRUE);
