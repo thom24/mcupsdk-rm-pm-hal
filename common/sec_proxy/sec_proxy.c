@@ -73,7 +73,7 @@ static void delay(void)
 	/* FIXME will -O2 comptimize out the code? */
 	unsigned long x = 400 / 5;
 
-	while (x--) {
+	while (x-- != 0U) {
 		asm_func();
 	}
 }
@@ -100,10 +100,10 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 	if (ret == SUCCESS) {
 		for (i = 0; i < RETRY_CNT_10ms; i++) {
 			status = readl(SPROXY_THREAD_STATUS(rt_base, thread_id));
-			if (status & SPROXY_STATUS_ERR) {
+			if ((status & SPROXY_STATUS_ERR) != 0U) {
 				ret = -EFAIL;
 			}
-			if (status & SPROXY_STATUS_CNT_MASK) {
+			if ((status & SPROXY_STATUS_CNT_MASK) != 0U) {
 				break;
 			}
 			if (i < (RETRY_CNT_10ms - 1)) {
@@ -127,7 +127,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 		}
 
 		for (i = 0; i < (len / 4); i++) {
-			if (is_rx) {
+			if (is_rx != 0U) {
 				*raw = readl(start_addr);
 				raw += 1U;
 			} else {
@@ -137,7 +137,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 			start_addr += 4U;
 		}
 
-		if (len % 4) {
+		if ((len % 4) != 0U) {
 			if (!is_rx) {
 				mask = ~0UL >> ((4 - (len % 4)) * 8);
 				word = (*raw) & mask;
@@ -150,7 +150,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 		}
 
 		/* flush out the transfer */
-		if (is_rx) {
+		if (is_rx != 0U) {
 			(void) readl(end_addr);
 		} else {
 			writel(0x0, end_addr);
