@@ -42,13 +42,13 @@
 #include <string.h>
 #include "sec_proxy.h"
 
-#define SPROXY_THREAD_OFFSET(tid) (0x1000 * (tid))
+#define SPROXY_THREAD_OFFSET(tid) (0x1000U * (tid))
 
 #define SPROXY_THREAD_DATA_ADDRESS(_target_base, tid)	\
 	(_target_base + SPROXY_THREAD_OFFSET(tid) +	\
-	 4)
+	 4U)
 #define SPROXY_THREAD_DATA_ADDRESS_END(_target_base, tid) \
-	(SPROXY_THREAD_DATA_ADDRESS(_target_base, tid) + 14 * 4)
+	(SPROXY_THREAD_DATA_ADDRESS(_target_base, tid) + (14U * 4U))
 
 #define SPROXY_THREAD_STATUS(_rt_base, tid) \
 	(_rt_base + SPROXY_THREAD_OFFSET(tid))
@@ -60,7 +60,7 @@
 #define SPROXY_GET              1
 
 /* retry for 10ms */
-#define RETRY_CNT_10ms          (1000 * 10)
+#define RETRY_CNT_10ms          (1000U * 10U)
 
 static void asm_func(void)
 {
@@ -93,7 +93,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 		ret = -EINVAL;
 	}
 
-	if ((ret == SUCCESS) && (is_secure == STRUE) && ((start_addr + len + 4) > end_addr)) {
+	if ((ret == SUCCESS) && (is_secure == STRUE) && ((start_addr + len + 4U) > end_addr)) {
 		ret = -EINVAL;
 	}
 
@@ -106,7 +106,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 			if ((status & SPROXY_STATUS_CNT_MASK) != 0U) {
 				break;
 			}
-			if (i < (RETRY_CNT_10ms - 1)) {
+			if (i < (RETRY_CNT_10ms - 1U)) {
 				delay();
 			} else {
 				ret = -ETIMEDOUT;
@@ -126,7 +126,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 			start_addr += 4U;
 		}
 
-		for (i = 0; i < (len / 4); i++) {
+		for (i = 0; i < (len / 4U); i++) {
 			if (is_rx != 0U) {
 				*raw = readl(start_addr);
 				raw += 1U;
@@ -137,15 +137,15 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 			start_addr += 4U;
 		}
 
-		if ((len % 4) != 0U) {
+		if ((len % 4U) != 0U) {
 			if (!is_rx) {
-				mask = ~0UL >> ((4 - (len % 4)) * 8);
+				mask = ~0UL >> ((4U - (len % 4U)) * 8U);
 				word = (*raw) & mask;
 				writel(word, start_addr);
 			} else {
 				word = readl(start_addr);
 				/* let memcpy deal with the alignment stuff */
-				memcpy(raw, &word, len % 4);
+				memcpy(raw, &word, len % 4U);
 			}
 		}
 
