@@ -48,6 +48,6 @@ void lpm_rtc_read_time(struct rtc_time *rtc)
 		rtc->sec_lo = readl(RTC_BASE + RTC_S_CNT_LSW);
 		rtc->sec_hi = readl(RTC_BASE + RTC_S_CNT_MSW);
 	} else {
-		/* do nothing*/
+		/* do nothing */
 	}
 }

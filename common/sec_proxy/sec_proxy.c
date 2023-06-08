@@ -78,7 +78,7 @@ static void delay(void)
 	}
 }
 
-static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, void *msg, size_t len, sbool is_secure)
+static s32 trans_message(u32 target_base, u32 rt_base, sbool is_rx, u8 thread_id, void *msg, size_t len, sbool is_secure)
 {
 	u32 start_addr = SPROXY_THREAD_DATA_ADDRESS(target_base, thread_id);
 	u32 end_addr = SPROXY_THREAD_DATA_ADDRESS_END(target_base, thread_id);
@@ -120,14 +120,14 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 		* For now, just skip that portion
 		*/
 		if (is_secure == STRUE) {
-			if (is_rx == 0U) {
+			if (is_rx == SFALSE) {
 				writel(0U, start_addr);
 			}
 			start_addr += 4U;
 		}
 
 		for (i = 0; i < (len / 4U); i++) {
-			if (is_rx != 0U) {
+			if (is_rx == STRUE) {
 				*raw = readl(start_addr);
 				raw += 1U;
 			} else {
@@ -138,7 +138,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 		}
 
 		if ((len % 4U) != 0U) {
-			if (!is_rx) {
+			if (is_rx == SFALSE) {
 				mask = ~0UL >> ((4U - (len % 4U)) * 8U);
 				word = (*raw) & mask;
 				writel(word, start_addr);
@@ -150,7 +150,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 		}
 
 		/* flush out the transfer */
-		if (is_rx != 0U) {
+		if (is_rx == STRUE) {
 			(void) readl(end_addr);
 		} else {
 			writel(0x0, end_addr);

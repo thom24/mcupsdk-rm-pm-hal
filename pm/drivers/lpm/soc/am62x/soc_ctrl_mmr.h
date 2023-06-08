@@ -66,22 +66,22 @@ extern "C" {
 
 #define WKUP_CTRL_DEEPSLEEP_CTRL                (0x18160U)
 #define WKUP_CTRL_DEEPSLEEP_CTRL_ENABLE_IO      (0x101U)
-#define WKUP_CTRL_DEEPSLEEP_CTRL_DISABLE_IO 0
+#define WKUP_CTRL_DEEPSLEEP_CTRL_DISABLE_IO      0
 #define WKUP_CTRL_PMCTRL_IO_GLB                 (0x1809CU)
-#define WKUP_CTRL_PMCTRL_IO_GLB_ENABLE_IO 1
-#define WKUP_CTRL_PMCTRL_IO_GLB_DISABLE_IO 0
+#define WKUP_CTRL_PMCTRL_IO_GLB_ENABLE_IO        1
+#define WKUP_CTRL_PMCTRL_IO_GLB_DISABLE_IO       0
 
 
 #define DEV_GTC AM62X_DEV_WKUP_GTC0
 #define POWER_MASTER AM62X_DEV_A53SS0_CORE_0
 #define POWER_MASTER_CLUSTER AM62X_DEV_A53SS0
 
-#define GTC_CFG0_BASE          (0xa80000UL)
-#define GTC_CFG1_BASE          (0xa90000UL)
+#define GTC_CFG0_BASE          (0xA80000UL)
+#define GTC_CFG1_BASE          (0xA90000UL)
 
 #define PADCFG_CTRL_BASE        (0xf0000UL)
 #define PADCFG_OFFSET           (0x4000U)
-#define PADCFG_SIZE             (((0x42a8U - PADCFG_OFFSET) >> 2) + 1U)
+#define PADCFG_SIZE             (((0x42A8U - PADCFG_OFFSET) >> 2) + 1U)
 
 #define RTC_BASE             (0x2b1f0000UL)
 
