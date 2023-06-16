@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2022, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -161,6 +161,7 @@ sbool clk_notify_sibling_freq(struct clk *clkpp, struct clk *parent,
 	clk_idx_t i;
 	clk_idx_t pid = clk_id(parent);
 	clk_idx_t id = clkp ? clk_id(clkp) : CLK_ID_NONE;
+	sbool status = STRUE;
 
 
 	/* We must unfortunately walk clock list to find children */
@@ -173,7 +174,7 @@ sbool clk_notify_sibling_freq(struct clk *clkpp, struct clk *parent,
 		}
 
 		clkp = clk_lookup(i);
-		if (!clkp || ((clkp->flags & CLK_FLAG_INITIALIZED) == 0)) {
+		if (!clkp || ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U)) {
 			continue;
 		}
 
@@ -183,11 +184,12 @@ sbool clk_notify_sibling_freq(struct clk *clkpp, struct clk *parent,
 		}
 
 		if (!clk_notify_freq(clkp, parent_freq / p->div, query)) {
-			return SFALSE;
+			status = SFALSE;
+			break;
 		}
 	}
 
-	return STRUE;
+	return status;
 }
 
 sbool clk_notify_children_freq(struct clk *parent, u32 parent_freq,
@@ -210,59 +212,54 @@ u32 clk_generic_set_freq_parent(struct clk *clkp, struct clk *parent,
 	u32 ret;
 
 	/* Make sure target fits within out clock frequency type */
-	if ((ULONG_MAX / d) < min_hz) {
+	if (((u32) ULONG_MAX / d) < min_hz) {
 		ret = 0;
-		goto out;
+	} else {
+		new_min = min_hz * d;
+		new_target = target_hz * d;
+		new_max = max_hz * d;
+
+		if (new_min < min_hz) {
+			ret = 0;
+		} else {
+			/* Cap overflow in target and max */
+			if (new_target < new_min) {
+				new_target = (u32) ULONG_MAX;
+			}
+
+			if (new_max < new_target) {
+				new_max = (u32) ULONG_MAX;
+			}
+
+			new_parent_freq = clk_set_freq(parent, new_target, new_min, new_max,
+						       STRUE, changed);
+
+			if (0U == new_parent_freq) {
+				ret = 0;
+			} else {
+				/* Check that any siblings can handle the new freq */
+				if (*changed && !(clk_notify_sibling_freq(clkp, parent, new_parent_freq,
+									  STRUE))) {
+					ret = 0;
+				} else {
+					if (query) {
+						ret = new_parent_freq / d;
+					} else {
+						/* Actually perform the frequency change */
+						clk_set_freq(parent, new_target, new_min, new_max, SFALSE, changed);
+
+						/* Notify new rate to siblings */
+						if (*changed) {
+							clk_notify_sibling_freq(clkp, parent, new_parent_freq, SFALSE);
+						}
+
+						ret = new_parent_freq / d;
+					}
+				}
+			}
+		}
 	}
 
-	new_min = min_hz * d;
-	new_target = target_hz * d;
-	new_max = max_hz * d;
-
-	if (new_min < min_hz) {
-		ret = 0;
-		goto out;
-	}
-
-	/* Cap overflow in target and max */
-	if (new_target < new_min) {
-		new_target = ULONG_MAX;
-	}
-
-	if (new_max < new_target) {
-		new_max = ULONG_MAX;
-	}
-
-	new_parent_freq = clk_set_freq(parent, new_target, new_min, new_max,
-				       STRUE, changed);
-
-	if (!new_parent_freq) {
-		ret = 0;
-		goto out;
-	}
-
-	/* Check that any siblings can handle the new freq */
-	if (*changed && !(clk_notify_sibling_freq(clkp, parent, new_parent_freq,
-						  STRUE))) {
-		ret = 0;
-		goto out;
-	}
-
-	if (query) {
-		ret = new_parent_freq / d;
-		goto out;
-	}
-
-	/* Actually perform the frequency change */
-	clk_set_freq(parent, new_target, new_min, new_max, SFALSE, changed);
-
-	/* Notify new rate to siblings */
-	if (*changed) {
-		clk_notify_sibling_freq(clkp, parent, new_parent_freq, SFALSE);
-	}
-
-	ret = new_parent_freq / d;
-out:
 	return ret;
 }
 
@@ -281,7 +278,7 @@ static u32 clk_generic_set_freq(struct clk *clkp,
 	if (p && (clk_data_p->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ)) {
 		struct clk *parent;
 		parent = clk_lookup((clk_idx_t) p->clk);
-		if (parent) {
+		if (parent != NULL) {
 			ret = clk_generic_set_freq_parent(clkp, parent,
 							  target_hz,
 							  min_hz, max_hz,
@@ -379,10 +376,10 @@ u32 clk_get_state(struct clk *clkp)
 	} else {
 		const struct clk_parent *p;
 		p = clk_get_parent(clkp);
-		if (p) {
+		if (p != NULL) {
 			struct clk *clkp_parent;
 			clkp_parent = clk_lookup((clk_idx_t) p->clk);
-			if (clkp_parent) {
+			if (clkp_parent != NULL) {
 				ret = clk_get_state(clkp_parent);
 			}
 		}
@@ -412,16 +409,16 @@ sbool clk_get(struct clk *clkp)
 {
 	sbool ret = STRUE;
 
-	if (!clkp->ref_count) {
+	if (0U == clkp->ref_count) {
 		const struct clk_parent *p;
 		struct clk *clkp_parent = NULL;
 
 		p = clk_get_parent(clkp);
-		if (p) {
+		if (p != NULL) {
 			clkp_parent = clk_lookup((clk_idx_t) p->clk);
 		}
 
-		if (clkp_parent) {
+		if (clkp_parent != NULL) {
 			ret = clk_get(clkp_parent);
 		}
 
@@ -453,10 +450,10 @@ void clk_put(struct clk *clkp)
 		p = clk_get_parent(clkp);
 		clk_set_state(clkp, SFALSE);
 		pm_trace(TRACE_PM_ACTION_CLOCK_DISABLE, clk_id(clkp));
-		if (p) {
+		if (p != NULL) {
 			struct clk *clkp_parent;
 			clkp_parent = clk_lookup((clk_idx_t) p->clk);
-			if (clkp_parent) {
+			if (clkp_parent != NULL) {
 				clk_put(clkp_parent);
 			}
 		}
@@ -469,10 +466,10 @@ void clk_ssc_allow(struct clk *clkp)
 	if (--clkp->ssc_block_count == 0U) {
 		const struct clk_parent *p;
 		p = clk_get_parent(clkp);
-		if (p) {
+		if (p != NULL) {
 			struct clk *clkp_parent;
 			clkp_parent = clk_lookup((clk_idx_t) p->clk);
-			if (clkp_parent) {
+			if (clkp_parent != NULL) {
 				clk_ssc_allow(clkp_parent);
 			}
 		}
@@ -481,13 +478,13 @@ void clk_ssc_allow(struct clk *clkp)
 
 void clk_ssc_block(struct clk *clkp)
 {
-	if (!clkp->ssc_block_count++) {
+	if (0U == clkp->ssc_block_count++) {
 		const struct clk_parent *p;
 		p = clk_get_parent(clkp);
-		if (p) {
+		if (p != NULL) {
 			struct clk *clkp_parent;
 			clkp_parent = clk_lookup((clk_idx_t) p->clk);
-			if (clkp_parent) {
+			if (clkp_parent != NULL) {
 				clk_ssc_block(clkp_parent);
 			}
 		}
@@ -511,7 +508,7 @@ static s32 clk_register_clock(struct clk *clkp, const struct clk_data *clk_data_
 	const struct clk_parent *p;
 
 	p = clk_get_parent(clkp);
-	if (p) {
+	if (p != NULL) {
 		clkp_parent = clk_lookup((clk_idx_t) p->clk);
 	}
 	if ((clkp_parent != NULL) && ((clkp_parent->flags & CLK_FLAG_INITIALIZED) == 0U)) {
@@ -548,9 +545,9 @@ void clk_drop_pwr_up_en(void)
 	clk_idx_t i;
 
 	for (i = 0U; i < soc_clock_count; i++) {
-		if (soc_clocks[i].flags & CLK_FLAG_PWR_UP_EN) {
+		if ((soc_clocks[i].flags & CLK_FLAG_PWR_UP_EN) != 0U) {
 			clk_put(soc_clocks + i);
-			soc_clocks[i].flags &= ~CLK_FLAG_PWR_UP_EN;
+			soc_clocks[i].flags &= (u8) ~CLK_FLAG_PWR_UP_EN;
 		}
 	}
 }
@@ -560,12 +557,12 @@ s32 clk_deinit_pm_devgrp(u8 pm_devgrp)
 	s32 ret = SUCCESS;
 	u32 i;
 	u32 clk_id_start;
-	u32 clk_id_end;
+	u32 clk_id_end = 0U;
 
 	clk_id_start = soc_devgroups[pm_devgrp].clk_idx;
 
 	if (pm_devgrp >= soc_devgroup_count) {
-		return -EINVAL;
+		ret = -EINVAL;
 	} else if (pm_devgrp == (soc_devgroup_count - 1U)) {
 		/* Last devgrp's last clock id is the same as last of all clock ids */
 		clk_id_end = soc_clock_count;
@@ -580,27 +577,28 @@ s32 clk_deinit_pm_devgrp(u8 pm_devgrp)
 	 * a matching put call and the flag cleared. Clocks can be in this
 	 * state if initialization for the given domain is in the deferred state.
 	 */
-	for (i = clk_id_start; i < clk_id_end; i++) {
-		struct clk *clkp = soc_clocks + i;
+	if ( ret == SUCCESS)
+	{
+		for (i = clk_id_start; i < clk_id_end; i++) {
+			struct clk *clkp = soc_clocks + i;
 
-		/* Clear the power up flag */
-		if ((clkp->flags & CLK_FLAG_PWR_UP_EN) != 0U) {
-			clk_put(clkp);
-			soc_clocks[i].flags &= ~CLK_FLAG_PWR_UP_EN;
+			/* Clear the power up flag */
+			if ((clkp->flags & CLK_FLAG_PWR_UP_EN) != 0U) {
+				clk_put(clkp);
+				soc_clocks[i].flags &= (u8) ~CLK_FLAG_PWR_UP_EN;
+			}
 		}
-	}
+		/*
+		* Second pass clear the initialized flag and check that the ref_count
+		* is zero as expected.
+		*/
+		for (i = clk_id_start; i < clk_id_end; i++) {
+			struct clk *clkp = soc_clocks + i;
 
-	/*
-	 * Second pass clear the initialized flag and check that the ref_count
-	 * is zero as expected.
-	 */
-	for (i = clk_id_start; i < clk_id_end; i++) {
-		struct clk *clkp = soc_clocks + i;
-
-		/* Clear the initialized flag */
-		clkp->flags &= ~CLK_FLAG_INITIALIZED;
-	}
-
+			/* Clear the initialized flag */
+			clkp->flags &= (u8) ~CLK_FLAG_INITIALIZED;
+		}
+  }
 	return ret;
 }
 

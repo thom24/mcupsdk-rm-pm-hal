@@ -42,15 +42,17 @@
 
 u32 clk_get_div(struct clk *clkp)
 {
+	u32 ret = 0U;
 	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_drv_div *divp;
 
 	if (clk_datap->type != CLK_TYPE_DIV) {
-		return 1;
+		ret = 1U;
+	} else {
+		divp = container_of(clk_datap->drv, const struct clk_drv_div, drv);
+		ret = divp->get_div(clkp);
 	}
-
-	divp = container_of(clk_datap->drv, const struct clk_drv_div, drv);
-	return divp->get_div(clkp);
+	return ret;
 }
 
 sbool clk_div_notify_freq(struct clk *clkp, u32 parent_freq_hz,
@@ -116,10 +118,11 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 	u32 updated_min_hz = min_hz;
 	u32 updated_max_hz = max_hz;
 	sbool best_changed = SFALSE;
-	u32 min_delta = UINT_MAX;
+	u32 min_delta = (u32) UINT_MAX;
 	u32 i;
 	u32 ret;
 	struct clk *parent = NULL;
+	sbool flag_break = SFALSE;
 
 	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
@@ -145,7 +148,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 		divider = i * p->div;
 
 		/* Make sure target fits within out clock frequency type */
-		if ((ULONG_MAX / divider) < min_hz) {
+		if (((u32) ULONG_MAX / divider) < min_hz) {
 			continue;
 		}
 
@@ -155,27 +158,35 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 
 		/* If an overflow occurs in min, we are outside the range */
 		if (new_min < updated_min_hz) {
-			break;
+			flag_break = STRUE;
 		}
 
-		/* Cap overflow in target */
-		if (new_target < target_hz) {
-			if (best_div != 0UL) {
-				/*
-				 * Already found a working combination, don't
-				 * bother with target overflows.
-				 */
-				break;
+		if (flag_break == SFALSE)
+		{
+			/* Cap overflow in target */
+			if (new_target < target_hz) {
+				if (best_div != 0U) {
+					/*
+					 * Already found a working combination, don't
+					 * bother with target overflows.
+					 */
+					flag_break = STRUE;
+				} else {
+					new_target = ULONG_MAX;
+					new_target_overflow = STRUE;
+				}
+			} else {
+				new_target_overflow = SFALSE;
 			}
-			new_target = ULONG_MAX;
-			new_target_overflow = STRUE;
-		} else {
-			new_target_overflow = SFALSE;
+		}
+		if (flag_break == STRUE)
+		{
+			break;
 		}
 
 		/* Cap overflow in max */
 		if (new_max < updated_max_hz) {
-			new_max = ULONG_MAX;
+			new_max = (u32) ULONG_MAX;
 		}
 		if (parent != NULL) {
 			new_parent_freq = clk_set_freq(parent, new_target, new_min,
@@ -184,7 +195,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 			new_parent_freq = 0U;
 		}
 
-		if (!new_parent_freq) {
+		if (0U == new_parent_freq) {
 			continue;
 		}
 
@@ -269,7 +280,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 		*changed = best_changed || (old_div != best_div);
 	}
 
-	if (best_div) {
+	if (best_div != 0U) {
 		ret = best_parent_freq / (best_div * p->div);
 	} else {
 		ret = 0U;
@@ -317,7 +328,7 @@ u32 clk_div_set_freq_static_parent(
 
 	div1 = div0 + 1U;
 
-	if (drv_div->valid_div) {
+	if (drv_div->valid_div != 0U) {
 		for (; (div0 > 0UL) && !drv_div->valid_div(clkp, div0); div0--) {
 			/* Step through loop until valid div is found */
 		}
@@ -380,7 +391,7 @@ u32 clk_div_set_freq(struct clk *clkp, u32 target_hz,
 
 	if (!p || !clk_lookup((clk_idx_t) p->clk)) {
 		/* Cannot function without parent */
-	} else if (clk_datap->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) {
+	} else if ((clk_datap->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) != 0U) {
 		ret = clk_div_set_freq_dyn_parent(clkp, target_hz, min_hz,
 						  max_hz, query, changed);
 	} else {
@@ -411,7 +422,7 @@ s32 clk_div_init(struct clk *clkp)
 	drv_div = container_of(clk_datap->drv, const struct clk_drv_div, drv);
 
 	if ((clk_datap->flags & CLK_DATA_FLAG_NO_HW_REINIT) != 0U) {
-		if (drv_div->get_div) {
+		if (drv_div->get_div != 0U) {
 			if (drv_div->get_div(clkp) != 1U) {
 				skip_hw_init = STRUE;
 			}
@@ -446,15 +457,15 @@ u32 clk_div_reg_get_div(struct clk *clkp)
 	 * assignments.
 	 */
 	if (data_reg->reg == 0U) {
-		v = 1;
+		v = 1U;
 	} else {
 		u32 n = data_div->n;
-		if (!data_reg->start_at_1) {
+		if (0U == data_reg->start_at_1) {
 			n -= 1U;
 		}
 		v = readl(data_reg->reg) >> data_reg->bit;
-		v &= (1U << (u32) ilog32(n)) - 1U;
-		if (!data_reg->start_at_1) {
+		v &= ((1U << ilog32(n)) - 1U);
+		if (0U == data_reg->start_at_1) {
 			v += 1U;
 		}
 	}
@@ -471,6 +482,7 @@ sbool clk_div_reg_set_div(struct clk *clkp, u32 d)
 	sbool ret = SFALSE;
 	u32 n;
 	s32 err;
+	u32 d_val_p = d;
 
 	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
@@ -479,17 +491,17 @@ sbool clk_div_reg_set_div(struct clk *clkp, u32 d)
 	drv_div = container_of(clk_datap->drv, const struct clk_drv_div, drv);
 
 	n = data_div->n;
-	if ((d <= n) && (!drv_div->valid_div || drv_div->valid_div(clkp, d))) {
+	if ((d_val_p <= n) && (!drv_div->valid_div || drv_div->valid_div(clkp, d_val_p))) {
 		u32 v;
 
-		if (!data_reg->start_at_1) {
-			d -= 1U;
+		if (0U == data_reg->start_at_1) {
+			d_val_p -= 1U;
 			n -= 1U;
 		}
 
 		v = readl(data_reg->reg);
-		v &= (u32) ~(((1UL << (u32) ilog32(n)) - 1UL) << data_reg->bit);
-		v |= d << data_reg->bit;
+		v &= (u32) ~(((1U << (u32) ilog32(n)) - 1U) << data_reg->bit);
+		v |= d_val_p << data_reg->bit;
 		err = pm_writel_verified(v, (u32) data_reg->reg);
 		if (err == SUCCESS) {
 			ret = STRUE;
@@ -575,11 +587,11 @@ u32 clk_div_reg_go_get_div(struct clk *clkp)
 		v = 1;
 	} else {
 		u32 n = data_div->n;
-		if (!data_reg->start_at_1) {
+		if (0U == data_reg->start_at_1) {
 			n -= 1U;
 		}
 		v = readl(data_reg->reg) >> data_reg->bit;
-		v &= (1U << ilog32(n)) - 1U;
+		v &= ((1U << ilog32(n)) - 1U);
 		v += 1U;
 	}
 
@@ -595,6 +607,7 @@ sbool clk_div_reg_go_set_div(struct clk *clkp, u32 d)
 	sbool ret = SFALSE;
 	u32 n;
 	s32 err;
+	u32 d_val_p = d;
 
 	data_div = container_of(clk_datap->data, const struct clk_data_div,
 				data);
@@ -603,18 +616,18 @@ sbool clk_div_reg_go_set_div(struct clk *clkp, u32 d)
 	drv_div = container_of(clk_datap->drv, const struct clk_drv_div, drv);
 
 	n = data_div->n;
-	if ((d <= n) && (!drv_div->valid_div || drv_div->valid_div(clkp, d))) {
+	if ((d_val_p <= n) && (!drv_div->valid_div || drv_div->valid_div(clkp, d_val_p))) {
 		u32 v;
 
-		if (!data_reg->start_at_1) {
-			d -= 1U;
+		if (0U == data_reg->start_at_1) {
+			d_val_p -= 1U;
 			n -= 1U;
 		}
 
 		v = readl(data_reg->reg);
-		v &= (u32) ~(((1UL << (u32) ilog32(n)) - 1U) << data_reg->bit);
+		v &= (u32) ~(((1U << ilog32(n)) - 1U) << data_reg->bit);
 		v &= (u32) ~BIT(data_reg->go);
-		v |= d << data_reg->bit;
+		v |= d_val_p << data_reg->bit;
 		err = pm_writel_verified(v, data_reg->reg);
 		if (err == SUCCESS) {
 			ret = STRUE;

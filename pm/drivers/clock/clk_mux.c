@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2021, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,7 @@ static u32 clk_mux_get_parent_value(struct clk *clkp)
 	} else {
 		v = readl(reg->reg);
 		v >>= reg->bit;
-		v &= (1U << (u32) ilog32(mux->n - 1U)) - 1U;
+		v &= ((1U << ilog32(mux->n - 1U)) - 1U);
 	}
 
 	return v;
@@ -98,7 +98,7 @@ static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 	} else {
 		s32 err;
 		v = readl(reg->reg);
-		v &= ~(((1U << (u32) ilog32(mux->n - 1U)) - 1U) << reg->bit);
+		v &= ~(((1U << ilog32(mux->n - 1U)) - 1U) << reg->bit);
 		v |= new_parent << reg->bit;
 		err = pm_writel_verified(v, reg->reg);
 		if (err != SUCCESS) {
@@ -158,8 +158,8 @@ const struct clk_drv_mux clk_drv_mux_reg = {
 	.set_parent		= clk_mux_set_parent,
 	.get_parent		= clk_mux_get_parent,
 #ifdef CONFIG_LPM_CLK
-	.drv = {
-		.suspend_save = clk_mux_suspend_save,
+	.drv			= {
+		.suspend_save	= clk_mux_suspend_save,
 		.resume_restore = clk_mux_resume_restore,
 	},
 #endif
@@ -168,14 +168,18 @@ const struct clk_drv_mux clk_drv_mux_reg = {
 const struct clk_parent *clk_get_parent(struct clk *clkp)
 {
 	const struct clk_data *clk_datap = clk_get_data(clkp);
+	const struct clk_parent *ret = NULL;
 
 	if (clk_datap->type == CLK_TYPE_MUX) {
 		const struct clk_drv_mux *mux;
 		mux = container_of(clk_datap->drv, const struct clk_drv_mux,
 				   drv);
-		return mux->get_parent(clkp);
+		ret = mux->get_parent(clkp);
+	} else {
+		ret = ((sbool) (clk_datap->parent.div) ? &clk_datap->parent : NULL);
 	}
-	return clk_datap->parent.div ? &clk_datap->parent : NULL;
+
+	return ret;
 }
 
 /* FIXME: freq change ok/notify? new freq in range? */
@@ -200,9 +204,11 @@ sbool clk_set_parent(struct clk *clkp, u16 new_parent)
 		if (new_parent >= mux_data->n) {
 			ret = SFALSE;
 			done = STRUE;
-		} else if (!mux_data->parents[new_parent].div) {
+		} else if (0U == mux_data->parents[new_parent].div) {
 			ret = SFALSE;
 			done = STRUE;
+		} else {
+			/* Do Nothing */
 		}
 	}
 
@@ -237,6 +243,8 @@ sbool clk_set_parent(struct clk *clkp, u16 new_parent)
 		} else if (!clk_get(parent)) {
 			ret = SFALSE;
 			done = STRUE;
+		} else {
+			/* Do Nothing */
 		}
 	}
 
@@ -254,7 +262,7 @@ sbool clk_set_parent(struct clk *clkp, u16 new_parent)
 		if (op && (clkp->ref_count != 0U)) {
 			struct clk *op_parent;
 			op_parent = clk_lookup((clk_idx_t) op->clk);
-			if (op_parent) {
+			if (op_parent != NULL) {
 				clk_put(op_parent);
 			}
 		}

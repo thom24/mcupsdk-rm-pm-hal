@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2020, Texas Instruments Incorporated
+ * Copyright (C) 2020-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,6 +42,7 @@
 #include <types/errno.h>
 #include <osal/osal_core.h>
 #include <tisci/tisci_protocol.h>
+#include <pm.h>
 
 #include <tisci/pm/tisci_pm_clock.h>
 #include <limits.h>
@@ -369,18 +370,18 @@ s32 set_freq_handler(u32 *msg_recv)
 
 	ret = device_prepare_exclusive(req->hdr.host, id, NULL, &dev);
 	if (ret == SUCCESS) {
-		if ((min_freq_hz > ULONG_MAX) || (min_freq_hz > target_freq_hz) ||
+		if ((min_freq_hz > (u64) ULONG_MAX) || (min_freq_hz > target_freq_hz) ||
 		    (target_freq_hz > max_freq_hz)) {
 			ret = -EINVAL;
 		}
 	}
 
 	if (ret == SUCCESS) {
-		if (max_freq_hz > ULONG_MAX) {
+		if (max_freq_hz > (u64) ULONG_MAX) {
 			max_freq_hz = ULONG_MAX;
 		}
 
-		if (target_freq_hz > ULONG_MAX) {
+		if (target_freq_hz > (u64) ULONG_MAX) {
 			target_freq_hz = ULONG_MAX;
 		}
 
@@ -427,18 +428,18 @@ s32 query_freq_handler(u32 *msg_recv)
 
 	ret = device_prepare_exclusive(req->hdr.host, id, NULL, &dev);
 	if (ret == SUCCESS) {
-		if ((min_freq_hz > ULONG_MAX) || (min_freq_hz > target_freq_hz) ||
+		if ((min_freq_hz > (u64) ULONG_MAX) || (min_freq_hz > target_freq_hz) ||
 		    (target_freq_hz > max_freq_hz)) {
 			ret = -EINVAL;
 		}
 	}
 
 	if (ret == SUCCESS) {
-		if (max_freq_hz > ULONG_MAX) {
+		if (max_freq_hz > (u64) ULONG_MAX) {
 			max_freq_hz = ULONG_MAX;
 		}
 
-		if (target_freq_hz > ULONG_MAX) {
+		if (target_freq_hz > (u64) ULONG_MAX) {
 			target_freq_hz = ULONG_MAX;
 		}
 

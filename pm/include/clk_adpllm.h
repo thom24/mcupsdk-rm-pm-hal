@@ -44,7 +44,7 @@ struct clk_data_pll_adpllm {
 	u32			base;
 	sbool			hsdiv;
 	sbool			ljm;
-	u8			idx;
+	u32			idx;
 };
 
 extern const struct clk_drv clk_drv_adpllm;

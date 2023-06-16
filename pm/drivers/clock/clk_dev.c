@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,7 +73,7 @@ static u32 clk_from_device_get_state(struct clk *clkp)
 
 	dev = device_lookup(from_device->dev);
 
-	if (!dev || !dev->initialized) {
+	if ((0U == dev) || (0U == dev->initialized)) {
 		ret = CLK_HW_STATE_DISABLED;
 	} else {
 		u32 state;
@@ -89,7 +89,7 @@ static u32 clk_from_device_get_state(struct clk *clkp)
 			dev_clkp = get_dev_clk(dev, from_device->clk_idx);
 			if (!dev_clkp) {
 				ret = CLK_HW_STATE_DISABLED;
-			} else if (dev_clkp->flags & DEV_CLK_FLAG_DISABLE) {
+			} else if ((dev_clkp->flags & DEV_CLK_FLAG_DISABLE) != 0U) {
 				ret = CLK_HW_STATE_DISABLED;
 			} else {
 				ret = CLK_HW_STATE_ENABLED;
