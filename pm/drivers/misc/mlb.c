@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2014-2020, Texas Instruments Incorporated
+ * Copyright (C) 2014-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,11 +38,11 @@
 #include <resource.h>
 #include <device.h>
 
-void mlb_suspend(struct device *dev)
+static void mlb_suspend(struct device *dev)
 {
 	const struct resource_mem *mem = device_resource_mem(dev, 0);
 
-	if (mem) {
+	if (mem != NULL) {
 		u32 v;
 
 		/* Allow clock stop and power-off */
