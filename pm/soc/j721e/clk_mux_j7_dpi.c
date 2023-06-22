@@ -1,7 +1,7 @@
 /*
  * DMSC firmware
  *
- * Copyright (C) 2019-2020, Texas Instruments Incorporated
+ * Copyright (C) 2019-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,24 +68,24 @@
 #endif
 
 
-static const struct clk_parent *clk_mux_j7_dpi_0_pclk_get_parent(struct clk *clk)
+static const struct clk_parent *clk_mux_j7_dpi_0_pclk_get_parent(struct clk *clock_ptr)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_mux *mux;
 	u32 v;
 
-	mux = container_of(clk_data->data, const struct clk_data_mux, data);
+	mux = container_of(clock_data->data, const struct clk_data_mux, data);
 
 	v = readl(J7_MAIN_CTRL_MMR + J7_DSS_DISPC0_CLKSEL3);
 
 	/* Output 1 if bits 2 and 0 are set, 0 otherwise */
-	v = (v & 0x5UL) == 0x5UL;
+	v = (u32) ((v & 0x5U) == 0x5U);
 
-	return (v < mux->n && mux->parents[v].div) ? &mux->parents[v] : NULL;
+	return ((v < mux->n) && (sbool) mux->parents[v].div) ? &mux->parents[v] : NULL;
 }
 
-static sbool clk_mux_j7_dpi_0_pclk_set_parent(struct clk *clk	TRACE_ONLY,
-					      u8		new_parent)
+static sbool clk_mux_j7_dpi_0_pclk_set_parent(struct clk *clock_ptr	TRACE_ONLY,
+					      u8			new_parent)
 {
 	u32 v;
 	sbool ret;
@@ -125,7 +125,7 @@ static sbool clk_mux_j7_dpi_0_pclk_set_parent(struct clk *clk	TRACE_ONLY,
 		pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
 			 ((new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-			 ((clk_id(clk) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+			 ((clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_ID_MASK));
 	}
 
@@ -137,13 +137,13 @@ const struct clk_drv_mux clk_drv_mux_j7_dpi_0_pclk = {
 	.set_parent		= clk_mux_j7_dpi_0_pclk_set_parent,
 };
 
-static const struct clk_parent *clk_mux_j7_dpi_2_pclk_get_parent(struct clk *clk)
+static const struct clk_parent *clk_mux_j7_dpi_2_pclk_get_parent(struct clk *clock_ptr)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_mux *mux;
 	u32 v;
 
-	mux = container_of(clk_data->data, const struct clk_data_mux, data);
+	mux = container_of(clock_data->data, const struct clk_data_mux, data);
 
 	v = readl(J7_MAIN_CTRL_MMR + J7_DSS_DISPC0_CLKSEL3);
 
@@ -153,21 +153,21 @@ static const struct clk_parent *clk_mux_j7_dpi_2_pclk_get_parent(struct clk *clk
 	 */
 	if ((v & 0x6UL) == 0x6UL) {
 		/* Output 1 if bits 2 and 1 are set, 0 otherwise */
-		v = 2UL;
+		v = 2U;
 	} else {
 		v = readl(J7_MAIN_CTRL_MMR + J7_DSS_DISPC0_CLKSEL2);
 		if ((v & 0x1UL) == 0x1UL) {
-			v = 1UL;
+			v = 1U;
 		} else {
-			v = 0UL;
+			v = 0U;
 		}
 	}
 
-	return (v < mux->n && mux->parents[v].div) ? &mux->parents[v] : NULL;
+	return ((v < mux->n) && (sbool) mux->parents[v].div) ? &mux->parents[v] : NULL;
 }
 
-static sbool clk_mux_j7_dpi_2_pclk_set_parent(struct clk *clk	TRACE_ONLY,
-					      u8		new_parent)
+static sbool clk_mux_j7_dpi_2_pclk_set_parent(struct clk *clock_ptr	TRACE_ONLY,
+					      u8			new_parent)
 {
 	u32 v;
 	sbool ret = SFALSE;
@@ -180,7 +180,7 @@ static sbool clk_mux_j7_dpi_2_pclk_set_parent(struct clk *clk	TRACE_ONLY,
 		if (new_parent == 2U) {
 			/* Cannot switch to 2 with out changing other clocks */
 			ret = SFALSE;
-		} else if (new_parent == 0U || new_parent == 1U) {
+		} else if ((new_parent == 0U) || (new_parent == 1U)) {
 			ret = STRUE;
 			switch_parent = STRUE;
 		} else {
@@ -190,7 +190,7 @@ static sbool clk_mux_j7_dpi_2_pclk_set_parent(struct clk *clk	TRACE_ONLY,
 		if (new_parent == 2U) {
 			v |= 0x2U;
 			ret = STRUE;
-		} else if (new_parent == 0U || new_parent == 1U) {
+		} else if ((new_parent == 0U) || (new_parent == 1U)) {
 			v &= ~0x2U;
 			ret = STRUE;
 			switch_parent = STRUE;
@@ -208,9 +208,9 @@ static sbool clk_mux_j7_dpi_2_pclk_set_parent(struct clk *clk	TRACE_ONLY,
 	if (switch_parent && ret) {
 		v = readl(J7_MAIN_CTRL_MMR + J7_DSS_DISPC0_CLKSEL2);
 		if (new_parent == 1U) {
-			v |= 1UL;
+			v |= 1U;
 		} else {
-			v &= ~1UL;
+			v &= ~1U;
 		}
 		err = pm_writel_verified(v, J7_MAIN_CTRL_MMR + J7_DSS_DISPC0_CLKSEL2);
 		if (err != SUCCESS) {
@@ -222,7 +222,7 @@ static sbool clk_mux_j7_dpi_2_pclk_set_parent(struct clk *clk	TRACE_ONLY,
 		pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
 			 ((new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-			 ((clk_id(clk) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+			 ((clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_ID_MASK));
 	}
 
@@ -234,31 +234,31 @@ const struct clk_drv_mux clk_drv_mux_j7_dpi_2_pclk = {
 	.set_parent		= clk_mux_j7_dpi_2_pclk_set_parent,
 };
 
-static const struct clk_parent *clk_mux_j7_dpi_3_pclk_get_parent(struct clk *clk)
+static const struct clk_parent *clk_mux_j7_dpi_3_pclk_get_parent(struct clk *clock_ptr)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
 	u32 v;
 
-	mux = container_of(clk_data->data, const struct clk_data_mux, data);
+	mux = container_of(clock_data->data, const struct clk_data_mux, data);
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
 
 	v = readl(reg->reg);
 	v >>= reg->bit;
-	v &= (1 << ilog32(mux->n - 1)) - 1;
+	v &= ((1U << ilog32(mux->n - 1U)) - 1U);
 
 	/* Output 4 if bits 2 is set, low bits otherwise */
 	if (v > 4UL) {
-		v = 4UL;
+		v = 4U;
 	}
 
-	return (v < mux->n && mux->parents[v].div) ? &mux->parents[v] : NULL;
+	return ((v < mux->n) && (sbool) mux->parents[v].div) ? &mux->parents[v] : NULL;
 }
 
-static sbool clk_mux_j7_dpi_3_pclk_set_parent(struct clk *clk, u8 new_parent)
+static sbool clk_mux_j7_dpi_3_pclk_set_parent(struct clk *clock_ptr, u8 new_parent)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
 	u32 v;
@@ -268,10 +268,10 @@ static sbool clk_mux_j7_dpi_3_pclk_set_parent(struct clk *clk, u8 new_parent)
 	u32 mask;
 	s32 err;
 
-	mux = container_of(clk_data->data, const struct clk_data_mux, data);
+	mux = container_of(clock_data->data, const struct clk_data_mux, data);
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
 
-	mask = ((1U << ilog32(mux->n - 1U)) - 1U) << reg->bit;
+	mask = (u32) ((u32) ((1U << ilog32(mux->n - 1U)) - 1U) << reg->bit);
 	v = readl(reg->reg);
 	curr_parent = (v & mask) >> reg->bit;
 
@@ -331,7 +331,7 @@ static sbool clk_mux_j7_dpi_3_pclk_set_parent(struct clk *clk, u8 new_parent)
 		pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
 			 ((new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-			 ((clk_id(clk) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+			 ((clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_ID_MASK));
 	}
 

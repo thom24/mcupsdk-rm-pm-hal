@@ -1,7 +1,7 @@
 /*
  * DMSC firmware MMR lock and unlock
  *
- * Copyright (C) 2017-2022, Texas Instruments Incorporated
+ * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,11 +74,11 @@ void mmr_lock(u32 base, u32 partition)
 	writel(CTRLMMR_LOCK_KICK1_LOCK_VAL, part_base + CTRLMMR_LOCK_KICK1);
 }
 
-void mmr_lock_all()
+void mmr_lock_all(void)
 {
 	u32 key = osal_hwip_disable();
 
-	mmr_lock_count--;
+	mmr_lock_count = mmr_lock_count - 1;
 	if (mmr_lock_count == 0) {
 		/* lock CLKSEL MMR partitions */
 		mmr_lock(WKUP_CTRL_BASE, 2);
@@ -90,7 +90,7 @@ void mmr_lock_all()
 	osal_hwip_restore(key);
 }
 
-void mmr_unlock_all()
+void mmr_unlock_all(void)
 {
 	u32 key = osal_hwip_disable();
 
@@ -102,6 +102,6 @@ void mmr_unlock_all()
 		/* Unlock WKUP_MCU_WARM_RST_CTRL MMR partitions*/
 		mmr_unlock(WKUP_CTRL_BASE, 6);
 	}
-	mmr_lock_count++;
+	mmr_lock_count = mmr_lock_count + 1;
 	osal_hwip_restore(key);
 }

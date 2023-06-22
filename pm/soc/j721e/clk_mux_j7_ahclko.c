@@ -1,7 +1,7 @@
 /*
  * DMSC firmware
  *
- * Copyright (C) 2019-2020, Texas Instruments Incorporated
+ * Copyright (C) 2019-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,12 +40,12 @@
 #include <compiler.h>
 #include <lib/trace.h>
 
-#define J7ES_AUDIO_REFCLKN_CTRL_MUX_MASK        0x1FUL
+#define J7ES_AUDIO_REFCLKN_CTRL_MUX_MASK        0x1FU
 #define J7ES_AUDIO_REFCLKN_CTRL_DIR_BIT         BIT(15)
 
-static const struct clk_parent *clk_mux_j7_ahclko_get_parent(struct clk *clk)
+static const struct clk_parent *clk_mux_j7_ahclko_get_parent(struct clk *clock_ptr)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
 	u32 v;
@@ -54,7 +54,7 @@ static const struct clk_parent *clk_mux_j7_ahclko_get_parent(struct clk *clk)
 	u32 parent;
 	const struct clk_parent *ret;
 
-	mux = container_of(clk_data->data, const struct clk_data_mux, data);
+	mux = container_of(clock_data->data, const struct clk_data_mux, data);
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
 
 	v = readl(reg->reg);
@@ -64,10 +64,10 @@ static const struct clk_parent *clk_mux_j7_ahclko_get_parent(struct clk *clk)
 	if (pin_output) {
 		parent = mux_select;
 	} else {
-		parent = 32UL;
+		parent = 32U;
 	}
 
-	if (parent < mux->n && mux->parents[parent].div != 0UL) {
+	if ((parent < mux->n) && (mux->parents[parent].div != 0UL)) {
 		ret = mux->parents + parent;
 	} else {
 		ret = NULL;
@@ -76,9 +76,9 @@ static const struct clk_parent *clk_mux_j7_ahclko_get_parent(struct clk *clk)
 	return ret;
 }
 
-static sbool clk_mux_j7_ahclko_set_parent(struct clk *clk, u8 new_parent)
+static sbool clk_mux_j7_ahclko_set_parent(struct clk *clock_ptr, u8 new_parent)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
 	u32 v;
@@ -88,7 +88,7 @@ static sbool clk_mux_j7_ahclko_set_parent(struct clk *clk, u8 new_parent)
 	sbool pin_output;
 	s32 err;
 
-	mux = container_of(clk_data->data, const struct clk_data_mux, data);
+	mux = container_of(clock_data->data, const struct clk_data_mux, data);
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
 
 	v = readl(reg->reg);
@@ -98,11 +98,11 @@ static sbool clk_mux_j7_ahclko_set_parent(struct clk *clk, u8 new_parent)
 	v &= ~J7ES_AUDIO_REFCLKN_CTRL_MUX_MASK;
 
 	if (new_parent == 32U) {
-		change = pin_output == STRUE || 31UL != mux_select;
+		change = (pin_output == STRUE) || (31UL != mux_select);
 		v &= ~J7ES_AUDIO_REFCLKN_CTRL_DIR_BIT;
-		v |= 31UL;
+		v |= 31U;
 	} else if (new_parent < 32U) {
-		change = pin_output == SFALSE || new_parent != mux_select;
+		change = (pin_output == SFALSE) || (new_parent != mux_select);
 		v |= J7ES_AUDIO_REFCLKN_CTRL_DIR_BIT;
 		v |= new_parent;
 	} else {
@@ -117,7 +117,7 @@ static sbool clk_mux_j7_ahclko_set_parent(struct clk *clk, u8 new_parent)
 		pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
 			 ((new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-			 ((clk_id(clk) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+			 ((clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_ID_MASK));
 	}
 

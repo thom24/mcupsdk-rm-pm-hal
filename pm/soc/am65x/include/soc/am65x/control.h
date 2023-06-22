@@ -39,3 +39,4 @@
 /* Klockwork MISRA rules requires include guard even for empty include files */
 
 #endif /* PM_AM65X_CONTROL_H */
+
