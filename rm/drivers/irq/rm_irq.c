@@ -43,6 +43,7 @@
 
 #include <osal/osal_core.h>
 #include <tisci/rm/tisci_rm_irq.h>
+#include <rm.h>
 
 #include <rm_core.h>
 #include <rm_irq.h>
@@ -257,6 +258,7 @@ static s32 irq_validate_global_event(u8 host, u16 global_evt, u8 trace_action)
 	u8 i;
 	u16 start, end;
 	u16 utype;
+	u8 trace_action_val_p = trace_action;
 
 	for (i = 0u; i < IRQ_GLOBAL_EVENT_TYPES_ID_MAX; i++) {
 		start = irq_global_event_types[i].start;
@@ -272,10 +274,10 @@ static s32 irq_validate_global_event(u8 host, u16 global_evt, u8 trace_action)
 	}
 
 	if (r != SUCCESS) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_IRQ_GLOBAL_EVENT,
 		     global_evt);
 

@@ -3,7 +3,7 @@
  *
  * UDMAP management infrastructure
  *
- * Copyright (C) 2018-2022, Texas Instruments Incorporated
+ * Copyright (C) 2018-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,6 +46,7 @@
 
 #include <osal/osal_core.h>
 #include <tisci/rm/tisci_rm_udmap.h>
+#include <rm.h>
 
 #include <rm_core.h>
 #include <rm_udmap.h>
@@ -574,6 +575,7 @@ static const struct udmap_instance *udmap_get_inst(u16 id, u8 trace_action)
 {
 	const struct udmap_instance *inst = NULL;
 	u8 i;
+	u8 trace_action_val_p = trace_action;
 
 	for (i = 0U; i < udmap_inst_count; i++) {
 		if (udmap_inst[i].id == id) {
@@ -592,10 +594,10 @@ static const struct udmap_instance *udmap_get_inst(u16 id, u8 trace_action)
 	}
 
 	if (inst == NULL) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_DEVICE_ID,
 		     id);
 
@@ -633,6 +635,7 @@ static s32 udmap_check_index_range(const struct udmap_instance *inst, u8 host,
 						inst->rx_ch_types);
 	u8 i;
 	u16 loc_index = index;
+	u8 trace_action_val_p = trace_action;
 
 	if ((inst->bc_ch_types != NULL) && (tx_ch == STRUE) &&
 	    (extended_ch_type == (u8) 1)) {
@@ -653,7 +656,7 @@ static s32 udmap_check_index_range(const struct udmap_instance *inst, u8 host,
 	}
 
 	if (r != SUCCESS) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	} else {
 		if (utype != NULL) {
 			*utype = ch_types[i].utype;
@@ -663,7 +666,7 @@ static s32 udmap_check_index_range(const struct udmap_instance *inst, u8 host,
 		}
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_INDEX,
 		     index);
 
@@ -817,6 +820,7 @@ static s32 udmap_check_flow_index(const struct udmap_instance *inst, u8 host,
 	 * allowed.
 	 */
 	u8 chan_type = UDMAP_RX_CHAN;
+	u8 trace_action_val_p = trace_action;
 
 	/* Rx ch and flow index must be valid in the UDMAP instance */
 	if (index < inst->n_rx_flow) {
@@ -870,19 +874,21 @@ static s32 udmap_check_flow_index(const struct udmap_instance *inst, u8 host,
 					host,
 					inst->common_flow->utype,
 					index);
+			} else {
+				/* Do Nothing */
 			}
 		}
 	}
 
 	if (r != SUCCESS) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	} else {
 		if (assoc_chan_type != NULL) {
 			*assoc_chan_type = chan_type;
 		}
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_INDEX,
 		     index);
 
@@ -901,16 +907,17 @@ static s32 udmap_check_flow_index(const struct udmap_instance *inst, u8 host,
 static s32 udmap_validate_ch_pause_on_err(u8 ch_pause_on_err, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if ((ch_pause_on_err !=
 	     TISCI_MSG_VALUE_RM_UDMAP_CH_PAUSE_ON_ERROR_DISABLED) &&
 	    (ch_pause_on_err !=
 	     TISCI_MSG_VALUE_RM_UDMAP_CH_PAUSE_ON_ERROR_ENABLED)) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_CH_PAUSE_ON_ERR,
 		     ch_pause_on_err);
 
@@ -929,16 +936,17 @@ static s32 udmap_validate_ch_pause_on_err(u8 ch_pause_on_err, u8 trace_action)
 static s32 udmap_validate_tx_filt_einfo(u8 tx_filt_einfo, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if ((tx_filt_einfo !=
 	     TISCI_MSG_VALUE_RM_UDMAP_TX_CH_FILT_EINFO_DISABLED) &&
 	    (tx_filt_einfo !=
 	     TISCI_MSG_VALUE_RM_UDMAP_TX_CH_FILT_EINFO_ENABLED)) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_TX_CH_FILT_EINFO,
 		     tx_filt_einfo);
 
@@ -957,16 +965,17 @@ static s32 udmap_validate_tx_filt_einfo(u8 tx_filt_einfo, u8 trace_action)
 static s32 udmap_validate_tx_filt_pswords(u8 tx_filt_pswords, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if ((tx_filt_pswords !=
 	     TISCI_MSG_VALUE_RM_UDMAP_TX_CH_FILT_PSWORDS_DISABLED) &&
 	    (tx_filt_pswords !=
 	     TISCI_MSG_VALUE_RM_UDMAP_TX_CH_FILT_PSWORDS_ENABLED)) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_TX_CH_FILT_PSWORDS,
 		     tx_filt_pswords);
 
@@ -985,6 +994,7 @@ static s32 udmap_validate_tx_filt_pswords(u8 tx_filt_pswords, u8 trace_action)
 static s32 udmap_validate_atype(u8 atype, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	switch (atype) {
 	case TISCI_MSG_VALUE_RM_UDMAP_CH_ATYPE_PHYS:
@@ -997,12 +1007,12 @@ static s32 udmap_validate_atype(u8 atype, u8 trace_action)
 	case TISCI_MSG_VALUE_RM_UDMAP_CH_ATYPE_NON_COHERENT:
 		break;
 	default:
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 		break;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_CH_ATYPE,
 		     atype);
 
@@ -1023,6 +1033,7 @@ static s32 udmap_validate_atype(u8 atype, u8 trace_action)
 static s32 udmap_validate_chan_type(u8 chan_type, sbool tx_ch, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	switch (chan_type) {
 	case TISCI_MSG_VALUE_RM_UDMAP_CH_TYPE_PACKET:
@@ -1052,10 +1063,10 @@ static s32 udmap_validate_chan_type(u8 chan_type, sbool tx_ch, u8 trace_action)
 	}
 
 	if (r != SUCCESS) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_CH_TYPE,
 		     chan_type);
 
@@ -1074,16 +1085,17 @@ static s32 udmap_validate_chan_type(u8 chan_type, sbool tx_ch, u8 trace_action)
 static s32 udmap_validate_tx_supr_tdpkt(u8 tx_supr_tdpkt, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if ((tx_supr_tdpkt !=
 	     TISCI_MSG_VALUE_RM_UDMAP_TX_CH_SUPPRESS_TD_DISABLED) &&
 	    (tx_supr_tdpkt !=
 	     TISCI_MSG_VALUE_RM_UDMAP_TX_CH_SUPPRESS_TD_ENABLED)) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_TX_CH_SUPR_TDPKT,
 		     tx_supr_tdpkt);
 
@@ -1102,13 +1114,14 @@ static s32 udmap_validate_tx_supr_tdpkt(u8 tx_supr_tdpkt, u8 trace_action)
 static s32 udmap_validate_ch_fetch_size(u16 fetch_size, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if (fetch_size > TISCI_MSG_VALUE_RM_UDMAP_CH_FETCH_SIZE_MAX) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_CH_FETCH_SIZE,
 		     fetch_size);
 
@@ -1130,6 +1143,7 @@ static s32 udmap_validate_tx_credit_count(u8 chan_type, u8 tx_credit_count,
 					  u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if ((chan_type != UDMAP_TX_ECHAN) && (tx_credit_count != 0U)) {
 		r = -EINVAL;
@@ -1141,10 +1155,10 @@ static s32 udmap_validate_tx_credit_count(u8 chan_type, u8 tx_credit_count,
 	}
 
 	if (r != SUCCESS) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_TX_CH_CREDIT_COUNT,
 		     tx_credit_count);
 
@@ -1166,13 +1180,14 @@ static s32 udmap_validate_fdepth(u8 chan_type, u16 fdepth,
 				 u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if ((chan_type == UDMAP_TX_ECHAN) && (fdepth != 0U)) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_TX_CH_FDEPTH,
 		     fdepth);
 
@@ -1191,13 +1206,14 @@ static s32 udmap_validate_fdepth(u8 chan_type, u16 fdepth,
 static s32 udmap_validate_priority(u8 priority, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if (priority > TISCI_MSG_VALUE_RM_UDMAP_CH_PRIORITY_MAX) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_CH_PRIORITY,
 		     priority);
 
@@ -1216,13 +1232,14 @@ static s32 udmap_validate_priority(u8 priority, u8 trace_action)
 static s32 udmap_validate_qos(u8 qos, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if (qos > TISCI_MSG_VALUE_RM_UDMAP_CH_QOS_MAX) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_CH_QOS,
 		     qos);
 
@@ -1241,13 +1258,14 @@ static s32 udmap_validate_qos(u8 qos, u8 trace_action)
 static s32 udmap_validate_orderid(u8 orderid, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if (orderid > TISCI_MSG_VALUE_RM_UDMAP_CH_ORDER_ID_MAX) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_CH_ORDERID,
 		     orderid);
 
@@ -1266,6 +1284,7 @@ static s32 udmap_validate_orderid(u8 orderid, u8 trace_action)
 static s32 udmap_validate_sched_priority(u8 sched_priority, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	switch (sched_priority) {
 	case TISCI_MSG_VALUE_RM_UDMAP_CH_SCHED_PRIOR_HIGH:
@@ -1281,12 +1300,12 @@ static s32 udmap_validate_sched_priority(u8 sched_priority, u8 trace_action)
 	case TISCI_MSG_VALUE_RM_UDMAP_CH_SCHED_PRIOR_LOW:
 		break;
 	default:
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 		break;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_CH_SCHED_PRIORITY,
 		     sched_priority);
 
@@ -1315,6 +1334,7 @@ static s32 udmap_validate_rx_flowid_range(const struct udmap_instance *inst,
 	s32 r;
 	u16 range_max = 0u;
 	u16 i;
+	u8 trace_action_val_p = trace_action;
 
 	if (flowid_cnt == TISCI_MSG_VALUE_RM_UDMAP_RX_CH_FLOW_CNT_NONE) {
 		/* Not an error if cnt is zero, which disables flow range */
@@ -1334,7 +1354,7 @@ static s32 udmap_validate_rx_flowid_range(const struct udmap_instance *inst,
 				 */
 				r = udmap_check_index_range(inst, host, i,
 							    NULL, NULL, SFALSE,
-							    trace_action, 0);
+							    trace_action_val_p, 0);
 			} else {
 				r = rm_core_resasg_validate_resource(
 					host,
@@ -1349,13 +1369,13 @@ static s32 udmap_validate_rx_flowid_range(const struct udmap_instance *inst,
 	}
 
 	if (r != SUCCESS) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_RX_CH_FLOWID_START,
 		     flowid_start);
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_RX_CH_FLOWID_COUNT,
 		     flowid_cnt);
 
@@ -1374,16 +1394,17 @@ static s32 udmap_validate_rx_flowid_range(const struct udmap_instance *inst,
 static s32 udmap_validate_rx_ignore_short(u8 rx_ignore_short, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if ((rx_ignore_short !=
 	     TISCI_MSG_VALUE_RM_UDMAP_RX_CH_PACKET_EXCEPTION) &&
 	    (rx_ignore_short !=
 	     TISCI_MSG_VALUE_RM_UDMAP_RX_CH_PACKET_IGNORED)) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_RX_CH_IGNORE_SHORT,
 		     rx_ignore_short);
 
@@ -1402,16 +1423,17 @@ static s32 udmap_validate_rx_ignore_short(u8 rx_ignore_short, u8 trace_action)
 static s32 udmap_validate_rx_ignore_long(u8 rx_ignore_long, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if ((rx_ignore_long !=
 	     TISCI_MSG_VALUE_RM_UDMAP_RX_CH_PACKET_EXCEPTION) &&
 	    (rx_ignore_long !=
 	     TISCI_MSG_VALUE_RM_UDMAP_RX_CH_PACKET_IGNORED)) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_RX_CH_IGNORE_LONG,
 		     rx_ignore_long);
 
@@ -1431,16 +1453,17 @@ static s32 udmap_validate_flow_einfo_present(u8 rx_einfo_present,
 					     u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if ((rx_einfo_present !=
 	     TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_EINFO_NOT_PRESENT) &&
 	    (rx_einfo_present !=
 	     TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_EINFO_PRESENT)) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_FLOW_RX_EINFO_PRESENT,
 		     rx_einfo_present);
 
@@ -1460,16 +1483,17 @@ static s32 udmap_validate_flow_psinfo_present(u8	rx_psinfo_present,
 					      u8	trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if ((rx_psinfo_present !=
 	     TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_PSINFO_NOT_PRESENT) &&
 	    (rx_psinfo_present !=
 	     TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_PSINFO_PRESENT)) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_FLOW_RX_PSINFO_PRESENT,
 		     rx_psinfo_present);
 
@@ -1489,16 +1513,17 @@ static s32 udmap_validate_flow_error_handling(u8	rx_error_handling,
 					      u8	trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if ((rx_error_handling !=
 	     TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_ERR_DROP) &&
 	    (rx_error_handling !=
 	     TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_ERR_RETRY)) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_FLOW_RX_ERROR_HANDLING,
 		     rx_error_handling);
 
@@ -1518,6 +1543,7 @@ static s32 udmap_validate_flow_error_handling(u8	rx_error_handling,
 static s32 udmap_validate_flow_desc_type(u8 desc_type, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	switch (desc_type) {
 	case TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_DESC_HOST:
@@ -1529,12 +1555,12 @@ static s32 udmap_validate_flow_desc_type(u8 desc_type, u8 trace_action)
 	case TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_DESC_MONO:
 		break;
 	default:
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 		break;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_FLOW_DESC_TYPE,
 		     desc_type);
 
@@ -1554,13 +1580,14 @@ static s32 udmap_validate_flow_desc_type(u8 desc_type, u8 trace_action)
 static s32 udmap_validate_flow_sop_offset(u16 rx_sop_offset, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if (rx_sop_offset > TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_SOP_MAX) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_FLOW_RX_SOP_OFFSET,
 		     rx_sop_offset);
 
@@ -1580,16 +1607,17 @@ static s32 udmap_validate_flow_sop_offset(u16 rx_sop_offset, u8 trace_action)
 static s32 udmap_validate_flow_ps_location(u8 rx_ps_location, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if ((rx_ps_location !=
 	     TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_PS_END_PD) &&
 	    (rx_ps_location !=
 	     TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_PS_BEGIN_DB)) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_FLOW_RX_PS_LOCATION,
 		     rx_ps_location);
 
@@ -1608,6 +1636,7 @@ static s32 udmap_validate_flow_ps_location(u8 rx_ps_location, u8 trace_action)
 static s32 udmap_validate_flow_src_tag_sel(u8 src_tag_sel, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	switch (src_tag_sel) {
 	case TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_SRC_SELECT_NONE:
@@ -1624,12 +1653,12 @@ static s32 udmap_validate_flow_src_tag_sel(u8 src_tag_sel, u8 trace_action)
 	case TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_SRC_SELECT_SRC_TAG:
 		break;
 	default:
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 		break;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_FLOW_SRC_TAG_SEL,
 		     src_tag_sel);
 
@@ -1648,6 +1677,7 @@ static s32 udmap_validate_flow_src_tag_sel(u8 src_tag_sel, u8 trace_action)
 static s32 udmap_validate_flow_dest_tag_sel(u8 dest_tag_sel, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	switch (dest_tag_sel) {
 	case TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_DEST_SELECT_NONE:
@@ -1666,12 +1696,12 @@ static s32 udmap_validate_flow_dest_tag_sel(u8 dest_tag_sel, u8 trace_action)
 	case TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_DEST_SELECT_DEST_TAG_HI:
 		break;
 	default:
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 		break;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_FLOW_DEST_TAG_SEL,
 		     dest_tag_sel);
 
@@ -1691,13 +1721,14 @@ static s32 udmap_validate_flow_size_thresh_en(u8	rx_size_thresh_en,
 					      u8	trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if (rx_size_thresh_en > TISCI_MSG_VALUE_RM_UDMAP_RX_FLOW_SIZE_THRESH_MAX) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_FLOW_RX_SIZE_THRESH_EN,
 		     rx_size_thresh_en);
 
@@ -1721,6 +1752,7 @@ static s32 udmap_validate_burst_size(u8 chan_type, u8 burst_size,
 				     u8 trace_action)
 {
 	s32 r = -EINVAL;
+	u8 trace_action_val_p = trace_action;
 
 	switch (burst_size) {
 	case UDMAP_TCHAN_TCFG_BURST_SIZE_RESERVED:
@@ -1766,10 +1798,10 @@ static s32 udmap_validate_burst_size(u8 chan_type, u8 burst_size,
 	}
 
 	if (r != SUCCESS) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_CH_BURST_SIZE,
 		     burst_size);
 
@@ -1790,6 +1822,7 @@ static s32 udmap_validate_burst_size(u8 chan_type, u8 burst_size,
 static s32 udmap_validate_tdtype(u8 tdtype, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	switch (tdtype) {
 	case TISCI_MSG_VALUE_RM_UDMAP_TX_CH_TDTYPE_IMMEDIATE:
@@ -1797,12 +1830,12 @@ static s32 udmap_validate_tdtype(u8 tdtype, u8 trace_action)
 	case TISCI_MSG_VALUE_RM_UDMAP_TX_CH_TDTYPE_WAIT:
 		break;
 	default:
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 		break;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_TX_CH_TDTYPE,
 		     tdtype);
 
@@ -1813,6 +1846,7 @@ static s32 udmap_validate_tdtype(u8 tdtype, u8 trace_action)
 static s32 udmap_validate_extended_ch_type(u8 extended_ch_type, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	switch (extended_ch_type) {
 	case 0:
@@ -1820,12 +1854,12 @@ static s32 udmap_validate_extended_ch_type(u8 extended_ch_type, u8 trace_action)
 	case 1:
 		break;
 	default:
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 		break;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_UDMA_TX_CH_EXTENDED_CH_TYPE,
 		     extended_ch_type);
 
@@ -2391,8 +2425,8 @@ static s32 udmap_tx_ch_cfg(
 	sbool write;
 	s32 r = SUCCESS;
 	u8 extended_ch_type =
-		((msg->valid_params & TISCI_MSG_VALUE_RM_UDMAP_EXTENDED_CH_TYPE_VALID) == 0) ?
-		0 : msg->extended_ch_type;
+		((msg->valid_params & TISCI_MSG_VALUE_RM_UDMAP_EXTENDED_CH_TYPE_VALID) == 0U) ?
+		0U : msg->extended_ch_type;
 
 	if ((inst->bc_ch_types != NULL) &&
 	    (extended_ch_type == (u8) 1)) {
@@ -2629,8 +2663,8 @@ static void udmap_format_local_tx_ch_cfg_msg(
 	u32 tst_sched_reg;
 	u32 dev_mask;
 	u8 extended_ch_type =
-		((msg->valid_params & TISCI_MSG_VALUE_RM_UDMAP_EXTENDED_CH_TYPE_VALID) == 0) ?
-		0 : msg->extended_ch_type;
+		((msg->valid_params & TISCI_MSG_VALUE_RM_UDMAP_EXTENDED_CH_TYPE_VALID) == 0U) ?
+		0U : msg->extended_ch_type;
 
 	dev_mask = local_rm_udmap_ch_valid_masks[chan_type].chan_mask;
 
@@ -4046,9 +4080,9 @@ static void udmap_format_local_flow_size_thresh_cfg_msg(
 	    STRUE) {
 		loc_msg->rx_size_thresh2 = msg->rx_size_thresh2;
 	} else {
-		loc_msg->rx_size_thresh2 = rm_fext(rfg_reg,
-						   UDMAP_RFLOW_RFG_RX_SIZE_THRESH2_SHIFT,
-						   UDMAP_RFLOW_RFG_RX_SIZE_THRESH2_MASK);
+		loc_msg->rx_size_thresh2 = (u16) rm_fext(rfg_reg,
+							 UDMAP_RFLOW_RFG_RX_SIZE_THRESH2_SHIFT,
+							 UDMAP_RFLOW_RFG_RX_SIZE_THRESH2_MASK);
 	}
 	if (rm_core_param_is_valid(loc_msg->valid_params,
 				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_FDQ0_SZ1_QNUM_VALID) ==
@@ -4141,8 +4175,8 @@ s32 rm_udmap_tx_ch_cfg(u32 *msg_recv)
 	u8 trace_action = TRACE_RM_ACTION_UDMAP_TX_CH_CFG;
 	u8 chan_type;
 	u8 extended_ch_type =
-		((msg->valid_params & TISCI_MSG_VALUE_RM_UDMAP_EXTENDED_CH_TYPE_VALID) == 0) ?
-		0 : msg->extended_ch_type;
+		((msg->valid_params & TISCI_MSG_VALUE_RM_UDMAP_EXTENDED_CH_TYPE_VALID) == 0U) ?
+		0U : msg->extended_ch_type;
 
 #ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
 	u8 hosts[FWL_MAX_PRIVID_SLOTS];

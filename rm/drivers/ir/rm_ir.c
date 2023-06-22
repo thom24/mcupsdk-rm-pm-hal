@@ -3,7 +3,7 @@
  *
  * IRQ management interrupt router infrastructure
  *
- * Copyright (C) 2017-2022, Texas Instruments Incorporated
+ * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -80,7 +80,10 @@
  */
 static u32 ir_int_control_reg(u16 outp)
 {
-	return (outp * IR_INT_CONTROL_REG_STEP) + IR_INT_CONTROL_REG_OFFSET;
+	u32 ret;
+
+	ret = ((u32) outp * IR_INT_CONTROL_REG_STEP) + IR_INT_CONTROL_REG_OFFSET;
+	return ret;
 }
 
 /**
@@ -579,7 +582,7 @@ s32 rm_ir_init(void)
 	s32 r = SUCCESS;
 	u16 i;
 
-#if IR_SOC_PE_INIT_NUM
+#if (IR_SOC_PE_INIT_NUM)
 	u16 j;
 #endif
 
@@ -589,7 +592,7 @@ s32 rm_ir_init(void)
 		    (ir_inst[i].initialized == SFALSE)) {
 			ir_inst[i].inp0_mapping = IR_MAPPING_FREE;
 
-#if IR_SOC_PE_INIT_NUM
+#if (IR_SOC_PE_INIT_NUM)
 			for (j = 0U;
 			     (j < IR_SOC_PE_INIT_NUM) && (r == SUCCESS);
 			     j++) {

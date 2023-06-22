@@ -46,6 +46,7 @@
 
 #include <osal/osal_core.h>
 #include <tisci/rm/tisci_rm_ra.h>
+#include <rm.h>
 
 #include <rm_core.h>
 #include <rm_ra.h>
@@ -161,6 +162,7 @@ static const struct ra_instance *ra_get_inst(u16 id, u8 trace_action)
 {
 	const struct ra_instance *inst = NULL;
 	u32 i;
+	u8 trace_action_val_p = trace_action;
 
 	for (i = 0U; i < ra_inst_count; i++) {
 		if (ra_inst[i].id == id) {
@@ -179,10 +181,10 @@ static const struct ra_instance *ra_get_inst(u16 id, u8 trace_action)
 	}
 
 	if (inst == NULL) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_DEVICE_ID,
 		     id);
 
@@ -208,6 +210,7 @@ static const struct ra_instance *ra_get_inst_from_root_id_ring_type(u16 root_id,
 {
 	const struct ra_instance *inst = NULL;
 	u8 i;
+	u8 trace_action_val_p = trace_action;
 
 	for (i = 0; i < ra_inst_count; i++) {
 		/* A properly matched RA in NAVSS must also have matching ring_type */
@@ -228,10 +231,10 @@ static const struct ra_instance *ra_get_inst_from_root_id_ring_type(u16 root_id,
 	}
 
 	if (inst == NULL) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_SS_DEVICE_ID,
 		     root_id);
 
@@ -256,6 +259,7 @@ static s32 ra_check_monitor_index_range(const struct ra_instance *inst, u8 host,
 {
 	s32 r = -EINVAL;
 	u8 i;
+	u8 trace_action_val_p = trace_action;
 
 	for (i = 0U; i < inst->n_ring_mon_type; i++) {
 		if ((index >= inst->ring_mon_types[i].start) &&
@@ -269,10 +273,10 @@ static s32 ra_check_monitor_index_range(const struct ra_instance *inst, u8 host,
 	}
 
 	if (r != SUCCESS) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_INDEX,
 		     index);
 
@@ -302,6 +306,7 @@ static s32 ra_check_index_range(const struct ra_instance *inst, u8 host,
 {
 	s32 r = -EINVAL;
 	u8 i;
+	u8 trace_action_val_p = trace_action;
 
 	for (i = 0U; i < inst->n_ring_type; i++) {
 		if ((index >= inst->ring_types[i].start) &&
@@ -315,7 +320,7 @@ static s32 ra_check_index_range(const struct ra_instance *inst, u8 host,
 	}
 
 	if (r != SUCCESS) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	} else {
 		if (utype != NULL) {
 			*utype = inst->ring_types[i].utype;
@@ -325,7 +330,7 @@ static s32 ra_check_index_range(const struct ra_instance *inst, u8 host,
 		}
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_INDEX,
 		     index);
 
@@ -350,14 +355,15 @@ static s32 ra_check_virtid(const struct ra_instance *inst, u8 host, u16 virtid,
 			   u8 trace_action)
 {
 	s32 r;
+	u8 trace_action_val_p = trace_action;
 
 	r = rm_core_resasg_validate_resource(host, inst->virtid_utype,
 					     virtid);
 	if (r != SUCCESS) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_RING_VIRTID,
 		     virtid);
 
@@ -377,6 +383,7 @@ static s32 ra_check_virtid(const struct ra_instance *inst, u8 host, u16 virtid,
 static s32 ra_validate_mode(u8 mode, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	switch (mode) {
 	case TISCI_MSG_VALUE_RM_RING_MODE_RING:
@@ -389,12 +396,12 @@ static s32 ra_validate_mode(u8 mode, u8 trace_action)
 	case TISCI_MSG_VALUE_RM_RING_MODE_QM:
 		break;
 	default:
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 		break;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_RING_MODE,
 		     mode);
 
@@ -420,13 +427,15 @@ static s32 ra_get_size_bytes(u8 size, u8 mode, u32 *size_bytes, u8 trace_action,
 			     u8 ring_type)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
+	u8 size_val = size;
 
 	if (ring_type == RA_DMSS_RING) {
 		/* DMSS rings are always 8 bytes */
-		size = TISCI_MSG_VALUE_RM_RING_SIZE_8B;
+		size_val = TISCI_MSG_VALUE_RM_RING_SIZE_8B;
 	}
 
-	switch (size) {
+	switch (size_val) {
 	case TISCI_MSG_VALUE_RM_RING_SIZE_4B:
 		/* Also catches size reset */
 		*size_bytes = 4u;
@@ -463,12 +472,12 @@ static s32 ra_get_size_bytes(u8 size, u8 mode, u32 *size_bytes, u8 trace_action,
 	}
 
 	if (r != SUCCESS) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_RING_SIZE,
-		     size);
+		     size_val);
 
 	return r;
 }
@@ -491,8 +500,9 @@ static s32 ra_validate_base_addr(u32 addr_lo, u32 size_bytes, u8 mode,
 {
 	s32 r = SUCCESS;
 	u32 loc_size_bytes;
+	u8 trace_action_val_p = trace_action;
 
-	if (addr_lo != 0) {
+	if (addr_lo != 0U) {
 		/*
 		 * The base address must be aligned to the element size
 		 * of the ring for ring and message modes.  For
@@ -508,15 +518,15 @@ static s32 ra_validate_base_addr(u32 addr_lo, u32 size_bytes, u8 mode,
 
 		loc_size_bytes -= 1u;
 		if ((addr_lo & loc_size_bytes) != 0u) {
-			trace_action |= TRACE_RM_ACTION_FAIL;
+			trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 			r = -EINVAL;
 		}
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_RING_BA_LO_HI,
 		     ((addr_lo >> 16U) & TRACE_DEBUG_SUB_ACTION_VAL_MASK));
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_RING_BA_LO_LO,
 		     (addr_lo & TRACE_DEBUG_SUB_ACTION_VAL_MASK));
 
@@ -537,6 +547,7 @@ static s32 ra_validate_base_addr(u32 addr_lo, u32 size_bytes, u8 mode,
 static s32 ra_validate_count(u32 count, u8 mode, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if (count > RA_CFG_RING_SIZE_ELCNT_MAX) {
 		r = -EINVAL;
@@ -556,13 +567,13 @@ static s32 ra_validate_count(u32 count, u8 mode, u8 trace_action)
 	}
 
 	if (r != SUCCESS) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_RING_COUNT_HI,
 		     ((count >> 16U) & TRACE_DEBUG_SUB_ACTION_VAL_MASK));
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_RING_COUNT_LO,
 		     (count & TRACE_DEBUG_SUB_ACTION_VAL_MASK));
 
@@ -581,13 +592,14 @@ static s32 ra_validate_count(u32 count, u8 mode, u8 trace_action)
 static s32 ra_validate_order_id(u8 order_id, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	if (order_id > RA_CFG_RING_ORDERID_ORDERID_MAX) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_RING_ORDERID,
 		     order_id);
 
@@ -606,6 +618,7 @@ static s32 ra_validate_order_id(u8 order_id, u8 trace_action)
 static s32 ra_validate_monitor_source(u8 source, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	switch (source) {
 	case TISCI_MSG_VALUE_RM_MON_SRC_ELEM_CNT:
@@ -615,12 +628,12 @@ static s32 ra_validate_monitor_source(u8 source, u8 trace_action)
 	case TISCI_MSG_VALUE_RM_MON_SRC_ACCUM_Q_SIZE:
 		break;
 	default:
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 		break;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_RING_MONITOR_SOURCE,
 		     source);
 
@@ -639,6 +652,7 @@ static s32 ra_validate_monitor_source(u8 source, u8 trace_action)
 static s32 ra_validate_monitor_mode(u8 mode, u8 trace_action)
 {
 	s32 r = SUCCESS;
+	u8 trace_action_val_p = trace_action;
 
 	switch (mode) {
 	case TISCI_MSG_VALUE_RM_MON_MODE_DISABLED:
@@ -652,12 +666,12 @@ static s32 ra_validate_monitor_mode(u8 mode, u8 trace_action)
 	case TISCI_MSG_VALUE_RM_MON_MODE_STARVATION:
 		break;
 	default:
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val_p |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 		break;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val_p,
 		     TRACE_RM_SUB_ACTION_RING_MONITOR_MODE,
 		     mode);
 
