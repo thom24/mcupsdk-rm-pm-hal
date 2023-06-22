@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,7 @@ u64 pm_div64(u64 *remainder64, u32 b32)
 	} else {
 		if (b32 == 0U) {
 			/* Generate exception */
-			result64 = (u64) (1U / b32);
+			result64 = 1ULL / (u64) b32;
 		} else {
 			a64 = *remainder64;
 
@@ -68,8 +68,8 @@ u64 pm_div64(u64 *remainder64, u32 b32)
 
 			/* 32 bit division possible */
 			if (ah32 == 0U) {
-				a64 = (u64) (al32 % b32);
-				result64 += (u64) (al32 / b32);
+				a64 = (u64) al32 % (u64) b32;
+				result64 += (u64) al32 / (u64) b32;
 			} else {
 				/* Time for long division */
 				b64 = ((u64) b32) << 32U;
