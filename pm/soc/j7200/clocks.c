@@ -3968,7 +3968,7 @@ static const struct clk_data_pll_16fft clk_data_pllfracf_ssmod_16fft_main_7 = {
 		.vco_in_range_idx	= J7200_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
 		.fractional_support	= STRUE,
 		.devgrp			= DEVGRP_01,
-		.pll_entries		= pllfracf_ssmod_16fft_main_0_entries,
+		.pll_entries		= pllfracf_ssmod_16fft_main_14_entries,
 		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MAIN_14_DEFAULT,
 	},
 	.idx				= 7,
