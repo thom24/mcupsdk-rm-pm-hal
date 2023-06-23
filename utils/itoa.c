@@ -3,7 +3,7 @@
  *
  * Utility itoa function for number to string conversion
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,28 +35,30 @@
  */
 
 #include <types/short_types.h>
+#include <lib/itoa.h>
 
 u8 *lib_itoa(u32 value, u8 *str, u32 base)
 {
 	u32 idx = 0;
 	u32 val;
 	u32 i;
+	u32 val_p = value;
 
-	if (value == 0U) {
+	if (val_p == 0U) {
 		str[0] = (u8) '0';
 		idx++;
 	}
 
-	while (value > 0U) {
-		val = value % base;
-		if (val < 10) {
-			str[idx] = (u8) (val + '0');
+	while (val_p > 0U) {
+		val = val_p % base;
+		if (val < 10U) {
+			str[idx] = (u8) (val + (u32) '0');
 		} else {
-			str[idx] = (u8) ((val - 10U) + 'A');
+			str[idx] = (u8) ((val - 10U) + (u32) 'A');
 		}
 
 		idx++;
-		value /= base;
+		val_p /= base;
 	}
 
 	str[idx] = (u8) '\0';

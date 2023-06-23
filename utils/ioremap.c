@@ -66,12 +66,12 @@ u32 ioremap_internal(u32 a)
 	 */
 	if (((a >= 0x100000U) && (a < 0x44000000U)) ||
 	    ((a >= 0x46000000U) && (a < 0x60000000U))) {
-		addr += CONFIG_ADDR_REMAP_OFFSET;
+		addr += (u32) CONFIG_ADDR_REMAP_OFFSET;
 	}
 	ret = rat_get_free_map_addr_range_user(&lowAddr, &highAddr);
 	if (ret == SUCCESS) {
 		if ((a >= lowAddr) && (a < highAddr)) {
-			addr += CONFIG_ADDR_REMAP_OFFSET;
+			addr += (u32) CONFIG_ADDR_REMAP_OFFSET;
 		}
 	}
 	return addr;
