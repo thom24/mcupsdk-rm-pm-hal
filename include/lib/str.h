@@ -42,11 +42,15 @@
  */
 static inline sbool strends(const char *str, const char *postfix)
 {
+	sbool ret = STRUE;
+
 	if (strlen(str) < strlen(postfix)) {
-		return SFALSE;
+		ret = SFALSE;
+	} else {
+		ret = streq(str + strlen(str) - strlen(postfix), postfix);
 	}
 
-	return streq(str + strlen(str) - strlen(postfix), postfix);
+	return ret;
 }
 
 /**

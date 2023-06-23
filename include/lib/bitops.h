@@ -93,7 +93,7 @@ static inline u32 get_mask(u32 end, u32 start);
  */
 static inline u32 get_mask(u32 end, u32 start)
 {
-	return ((1U << (end - start + 1U)) - 1U) << start;
+	return (u32) ((1U << (end - start + 1U)) - 1U) << start;
 }
 
 /**

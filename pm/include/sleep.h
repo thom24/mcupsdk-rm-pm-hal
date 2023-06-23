@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2014-2020, Texas Instruments Incorporated
+ * Copyright (C) 2014-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,8 +44,8 @@
 struct sleep_mode {
 	char	*name;
 	sbool	wake_sources;
-	int	(*enter)(void);
-	int	(*exit)(void);
+	s32	(*enter)(void);
+	s32	(*exit)(void);
 };
 
 void sleep_mode_update(u8 sleepmode, sbool allow);
