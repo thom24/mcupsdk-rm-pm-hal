@@ -136,8 +136,8 @@ extern void soc_device_disable(struct device *dev, sbool domain_reset);
 /**
  * \brief Clear a device initialization flags
  *
- * \param device The device to modify.
- * 
+ * \param dev The device to modify.
+ *
  */
 extern void soc_device_clear_flags(struct device *dev);
 
@@ -175,6 +175,18 @@ extern s32 soc_device_init(struct device *dev);
  * holding during init.
  */
 extern void soc_device_init_complete(void);
+
+/**
+ * \brief Disables a device.
+ *
+ * Performs the steps necessary to disable a device.
+ *
+ * \param device
+ * The device to modify.
+ * \param domain_reset
+ * True if the device is being disabled due to a domain reset.
+ */
+extern void device_disable(struct device *dev, sbool domain_reset);
 
 /**
  * \brief Set the reset isolation flag for a device.
@@ -329,6 +341,14 @@ static inline u32 device_get_state(struct device *dev)
  */
 void device_set_retention(struct device *dev, sbool retention);
 
+/**
+ * \brief Clear a device initialization flags
+ *
+ * \param dev The device to modify.
+ *
+ */
+void device_clear_flags(struct device *dev);
+
 #else
 
 static inline void device_suspend(struct device *dev)
@@ -353,6 +373,10 @@ static s32 soc_device_init(struct device *dev)
 }
 
 static inline void soc_device_init_complete(void)
+{
+}
+
+static inline void device_clear_flags(struct device *dev)
 {
 }
 #endif

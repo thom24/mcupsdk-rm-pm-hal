@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2019-2020, Texas Instruments Incorporated
+ * Copyright (C) 2019-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,14 +61,14 @@ struct device;
  * If this parameter is non-NULL and the host index lookup succeeds, the
  * pointer is filled with the host index value.
  *
- * \param device
+ * \param device_ptr
  * If this parameter is non-NULL and the device ID lookup succeeds, the
  * pointer is filled with the device pointer.
  *
  * \return
  * SUCCESS if all checks succeeded, less than zero otherwise.
  */
-s32 device_prepare_exclusive(u8 host_id, u32 id, u8 *host_idx, struct device **device);
+s32 device_prepare_exclusive(u8 host_id, u32 id, u8 *host_idx, struct device **device_ptr);
 
 /**
  * \brief Prepare to operate on device with exclusive check
@@ -90,13 +90,13 @@ s32 device_prepare_exclusive(u8 host_id, u32 id, u8 *host_idx, struct device **d
  * If this parameter is non-NULL and the host index lookup succeeds, the
  * pointer is filled with the host index value.
  *
- * \param device
+ * \param device_ptr
  * If this parameter is non-NULL and the device ID lookup succeeds, the
  * pointer is filled with the device pointer.
  *
  * \return
  * SUCCESS if all checks succeeded, less than zero otherwise.
  */
-s32 device_prepare_nonexclusive(u8 host_id, u32 id, u8 *host_idx, struct device **device);
+s32 device_prepare_nonexclusive(u8 host_id, u32 id, u8 *host_idx, struct device **device_ptr);
 
 #endif

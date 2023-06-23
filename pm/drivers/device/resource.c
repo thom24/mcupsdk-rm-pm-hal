@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,7 @@
 #include <limits.h>
 
 #define RESOURCE_MAX2(a, b) ((a) > (b) ? (a) : (b))
-#define RESOURCE_MAX3(A, B, C) RESOURCE_MAX2(A, RESOURCE_MAX2(B, C))
+#define RESOURCE_MAX3(A, B, C) RESOURCE_MAX2(A, (RESOURCE_MAX2(B, C)))
 
 /**
  * \brief Lookup a resource table entry.
@@ -68,7 +68,7 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 	 */
 	static const u8 sizes[RESOURCE_MAX3((RESOURCE_CLK >> 6U),
 					    (RESOURCE_MEM >> 6U),
-					    (RESOURCE_RST >> 6U)) + 1] = {
+					    (RESOURCE_RST >> 6U)) + 1U] = {
 		[RESOURCE_IRQ >> 6U] = 0,
 		[RESOURCE_CLK >> 6U] = (u8) sizeof(struct resource_clk),
 		[RESOURCE_MEM >> 6U] = (u8) sizeof(struct resource_mem),
@@ -79,14 +79,14 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 	const u8 *r;
 	u8 hdr;
 
-	BUILD_ASSERT((sizeof(struct resource_clk) <= (size_t) UCHAR_MAX) &&
-		     (sizeof(struct resource_mem) <= (size_t) UCHAR_MAX) &&
-		     (sizeof(struct resource_rst) <= (size_t) UCHAR_MAX));
+	BUILD_ASSERT((((sizeof(struct resource_clk)) <= ((size_t) UCHAR_MAX)) &&
+		      ((sizeof(struct resource_mem)) <= ((size_t) UCHAR_MAX))) &&
+		     ((sizeof(struct resource_rst)) <= ((size_t) UCHAR_MAX)));
 	/*
 	 * If the device does not have drv_data, it does not have resources.
 	 * Return NULL
 	 */
-	r = (ddata->flags & DEVD_FLAG_DRV_DATA) ? to_drv_data(ddata)->r : NULL;
+	r = ((u32) (ddata->flags) & DEVD_FLAG_DRV_DATA) ? to_drv_data(ddata)->r : NULL;
 
 	while (r != NULL) {
 		hdr = r[0];
@@ -101,7 +101,7 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 			} else {
 				r = NULL;
 			}
-		} else if ((hdr & RESOURCE_LAST) != 0) {
+		} else if ((hdr & RESOURCE_LAST) != 0U) {
 			/* We've reached the end of the table, stop walking */
 			r = NULL;
 		} else {

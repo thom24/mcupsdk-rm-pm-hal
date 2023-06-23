@@ -59,7 +59,7 @@ void device_suspend(struct device *dev)
 {
 	const struct dev_data *data = get_dev_data(dev);
 
-	if (data->flags & DEVD_FLAG_DRV_DATA) {
+	if ((data->flags & DEVD_FLAG_DRV_DATA) != 0U) {
 		const struct drv *drvp = to_drv_data(data)->drv;
 		if (drvp && drvp->suspend) {
 			drvp->suspend(dev);
@@ -78,9 +78,9 @@ void device_suspend(struct device *dev)
 static void device_enable(struct device *dev)
 {
 	const struct dev_data *data = get_dev_data(dev);
-	u32 i;
+	u16 i;
 
-	for (i = 0UL; i < data->n_clocks; i++) {
+	for (i = 0U; i < data->n_clocks; i++) {
 		/* FIXME: Error handling */
 		device_clk_enable(dev, i);
 	}
@@ -107,17 +107,11 @@ void device_disable(struct device *dev, sbool domain_reset)
 	device_notify(dev);
 
 	soc_device_disable(dev, domain_reset);
-	for (i = (s32) data->n_clocks - 1L; i >= 0L; i--) {
-		device_clk_disable(dev, i);
+	for (i = (s32) data->n_clocks - 1; i >= 0; i--) {
+		device_clk_disable(dev, (u16) i);
 	}
 }
 
-/**
- * \brief Clear device init flags
- *
- * \param device The device to modify.
- *
- */
 void device_clear_flags(struct device *dev)
 {
 	device_notify(dev);
@@ -125,17 +119,17 @@ void device_clear_flags(struct device *dev)
 	soc_device_clear_flags(dev);
 }
 
-void device_set_state(struct device *device, u8 host_idx, sbool enable)
+void device_set_state(struct device *device_ptr, u8 host_idx, sbool enable)
 {
 	sbool was_enabled;
 	sbool is_enabled;
 
-	was_enabled = (device->flags & DEV_FLAG_ENABLED_MASK) != 0UL;
+	was_enabled = (device_ptr->flags & DEV_FLAG_ENABLED_MASK) != 0UL;
 
 	if (enable) {
-		device->flags |= DEV_FLAG_ENABLED(host_idx);
+		device_ptr->flags |= DEV_FLAG_ENABLED(host_idx);
 	} else {
-		device->flags &= ~DEV_FLAG_ENABLED(host_idx);
+		device_ptr->flags &= ~DEV_FLAG_ENABLED(host_idx);
 	}
 
 	/*
@@ -143,33 +137,34 @@ void device_set_state(struct device *device, u8 host_idx, sbool enable)
 	 * on enabled flag.
 	 */
 	if (host_idx != DEV_POWER_ON_ENABLED_HOST_IDX) {
-		device->flags &= ~DEV_FLAG_POWER_ON_ENABLED;
+		device_ptr->flags &= ~DEV_FLAG_POWER_ON_ENABLED;
 	}
 
-	is_enabled = (device->flags & DEV_FLAG_ENABLED_MASK) != 0UL;
+	is_enabled = (device_ptr->flags & DEV_FLAG_ENABLED_MASK) != 0UL;
 
 	if (was_enabled != is_enabled) {
 		if (is_enabled) {
-			device_enable(device);
+			device_enable(device_ptr);
 		} else {
-			device_disable(device, SFALSE);
+			device_disable(device_ptr, SFALSE);
 		}
 	}
 }
 
-void device_set_retention(struct device *device, sbool retention)
+void device_set_retention(struct device *device_ptr, sbool retention)
 {
-	sbool is_retention = !!(device->flags & DEV_FLAG_RETENTION);
+	sbool is_retention = (sbool) !!(device_ptr->flags & DEV_FLAG_RETENTION);
 
 	if (retention == is_retention) {
-		return;
-	}
-
-	if (retention) {
-		device->flags |= DEV_FLAG_RETENTION;
-		soc_device_ret_enable(device);
+		/* Do nothing  - return */
 	} else {
-		device->flags &= ~DEV_FLAG_RETENTION;
-		soc_device_ret_disable(device);
+		if (retention) {
+			device_ptr->flags |= DEV_FLAG_RETENTION;
+			soc_device_ret_enable(device_ptr);
+		} else {
+			device_ptr->flags &= ~DEV_FLAG_RETENTION;
+			soc_device_ret_disable(device_ptr);
+		}
 	}
+	return;
 }

@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,13 +47,13 @@
 struct dev_clk *get_dev_clk(struct device *dev, dev_clk_idx_t idx)
 {
 	const struct dev_data *data = get_dev_data(dev);
-	const struct devgroup *devgroup = dev_data_lookup_devgroup(data);
+	const struct devgroup *devgrp = dev_data_lookup_devgroup(data);
 	struct dev_clk *ret = NULL;
 
-	if ((idx < data->n_clocks) && (devgroup != NULL)) {
+	if ((idx < data->n_clocks) && (devgrp != NULL)) {
 		u32 offset = data->dev_clk_idx;
-		if (clk_id_valid(devgroup->dev_clk_data[offset + idx].clk)) {
-			ret = devgroup->dev_clk + offset + idx;
+		if (clk_id_valid(devgrp->dev_clk_data[offset + idx].clk)) {
+			ret = devgrp->dev_clk + offset + idx;
 		}
 	}
 
@@ -63,12 +63,12 @@ struct dev_clk *get_dev_clk(struct device *dev, dev_clk_idx_t idx)
 const struct dev_clk_data *get_dev_clk_data(struct device *dev, dev_clk_idx_t idx)
 {
 	const struct dev_data *data = get_dev_data(dev);
-	const struct devgroup *devgroup = dev_data_lookup_devgroup(data);
+	const struct devgroup *devgrp = dev_data_lookup_devgroup(data);
 	const struct dev_clk_data *ret = NULL;
 
-	if ((idx < data->n_clocks) && (devgroup != NULL)) {
+	if ((idx < data->n_clocks) && (devgrp != NULL)) {
 		u32 offset = data->dev_clk_idx;
-		ret = devgroup->dev_clk_data + offset + idx;
+		ret = devgrp->dev_clk_data + offset + idx;
 	}
 
 	return ret;
@@ -84,20 +84,20 @@ struct clk *dev_get_clk(struct device *dev, dev_clk_idx_t idx)
 sbool device_clk_set_gated(struct device *dev, dev_clk_idx_t clk_idx, sbool gated)
 {
 	const struct dev_data *data = get_dev_data(dev);
-	const struct devgroup *devgroup = dev_data_lookup_devgroup(data);
+	const struct devgroup *devgrp = dev_data_lookup_devgroup(data);
 	struct dev_clk *dev_clkp = get_dev_clk(dev, clk_idx);
 	struct clk *clkp = NULL;
 	sbool is_enabled = SFALSE;
 	sbool ret = STRUE;
 
-	if ((dev_clkp == NULL) || (devgroup == NULL)) {
+	if ((dev_clkp == NULL) || (devgrp == NULL)) {
 		ret = SFALSE;
 	} else {
 		sbool is_gated;
-		is_gated = !!(dev_clkp->flags & DEV_CLK_FLAG_DISABLE);
+		is_gated = !!(sbool) ((u32) (dev_clkp->flags) & DEV_CLK_FLAG_DISABLE);
 		if (is_gated != gated) {
 			is_enabled = (dev->flags & DEV_FLAG_ENABLED_MASK) != 0UL;
-			clkp = clk_lookup((clk_idx_t) devgroup->dev_clk_data[data->dev_clk_idx + clk_idx].clk);
+			clkp = clk_lookup((clk_idx_t) devgrp->dev_clk_data[data->dev_clk_idx + clk_idx].clk);
 			if (!clkp) {
 				/* Clock lookup failed */
 				ret = SFALSE;
@@ -113,30 +113,32 @@ sbool device_clk_set_gated(struct device *dev, dev_clk_idx_t clk_idx, sbool gate
 		if (is_enabled) {
 			clk_put(clkp);
 
-			if (!(dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
+			if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
 				clk_ssc_allow(clkp);
 			}
 
-			if (!(dev_clkp->flags &
-			      DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
+			if (0U == (dev_clkp->flags &
+				   DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
 				clk_freq_change_allow(clkp);
 			}
 		}
-	} else if (clkp) {
+	} else if (clkp != NULL) {
 		dev_clkp->flags &= (u8) ~DEV_CLK_FLAG_DISABLE;
 		if (is_enabled) {
-			if (!(dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
+			if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
 				clk_ssc_block(clkp);
 			}
 
-			if (!(dev_clkp->flags &
-			      DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
+			if (0U == (dev_clkp->flags &
+				   DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
 				clk_freq_change_block(clkp);
 			}
 
 			/* FIXME: Error handling */
 			clk_get(clkp);
 		}
+	} else {
+		/* Do Nothing */
 	}
 
 	return ret;
@@ -145,12 +147,12 @@ sbool device_clk_set_gated(struct device *dev, dev_clk_idx_t clk_idx, sbool gate
 sbool device_clk_get_hw_ready(struct device *dev, dev_clk_idx_t clk_idx)
 {
 	const struct dev_data *data = get_dev_data(dev);
-	const struct devgroup *devgroup = dev_data_lookup_devgroup(data);
+	const struct devgroup *devgroup_ptr = dev_data_lookup_devgroup(data);
 	struct clk *clkp;
 	sbool ret = STRUE;
 
 
-	if (devgroup == NULL) {
+	if (devgroup_ptr == NULL) {
 		ret = SFALSE;
 	}
 
@@ -162,7 +164,7 @@ sbool device_clk_get_hw_ready(struct device *dev, dev_clk_idx_t clk_idx)
 	}
 
 	if (ret) {
-		switch (devgroup->dev_clk_data[data->dev_clk_idx + clk_idx].type) {
+		switch (devgroup_ptr->dev_clk_data[data->dev_clk_idx + clk_idx].type) {
 		case DEV_CLK_TABLE_TYPE_INPUT:
 			ret = STRUE;
 			break;
@@ -198,32 +200,32 @@ void device_clk_set_ssc(struct device *dev, dev_clk_idx_t clk_idx, sbool allow)
 	sbool is_allowed;
 
 	if (!dev_clkp) {
-		return;
-	}
-
-	is_allowed = !!(dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC);
-	if (is_allowed == allow) {
-		return;
-	}
-
-	dev_clkp->flags ^= DEV_CLK_FLAG_ALLOW_SSC;
-
-	if ((dev->flags & DEV_FLAG_ENABLED_MASK) == 0UL) {
-		return;
-	}
-
-	if (dev_clkp->flags & DEV_CLK_FLAG_DISABLE) {
-		return;
-	}
-
-	clkp = dev_get_clk(dev, clk_idx);
-
-	if (!clkp) {
-		/* fail */
-	} else if (allow) {
-		clk_ssc_allow(clkp);
+		/* Nothing to do */
 	} else {
-		clk_ssc_block(clkp);
+		is_allowed = (sbool) !!(dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC);
+		if (is_allowed == allow) {
+			/* Nothing to do */
+		} else {
+			dev_clkp->flags ^= DEV_CLK_FLAG_ALLOW_SSC;
+
+			if ((dev->flags & DEV_FLAG_ENABLED_MASK) == 0UL) {
+				/* Nothing to do */
+			} else {
+				if ((dev_clkp->flags & DEV_CLK_FLAG_DISABLE) != 0U) {
+					/* Nothing to do */
+				} else {
+					clkp = dev_get_clk(dev, clk_idx);
+
+					if (!clkp) {
+						/* fail */
+					} else if (allow) {
+						clk_ssc_allow(clkp);
+					} else {
+						clk_ssc_block(clkp);
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -248,32 +250,32 @@ void device_clk_set_freq_change(struct device *dev, dev_clk_idx_t clk_idx, sbool
 	sbool is_allowed;
 
 	if (!dev_clkp) {
-		return;
-	}
-
-	is_allowed = !!(dev_clkp->flags & DEV_CLK_FLAG_ALLOW_FREQ_CHANGE);
-	if (is_allowed == allow) {
-		return;
-	}
-
-	dev_clkp->flags ^= DEV_CLK_FLAG_ALLOW_FREQ_CHANGE;
-
-	if ((dev->flags & DEV_FLAG_ENABLED_MASK) == 0UL) {
-		return;
-	}
-
-	if (dev_clkp->flags & DEV_CLK_FLAG_DISABLE) {
-		return;
-	}
-
-	clkp = dev_get_clk(dev, clk_idx);
-
-	if (!clkp) {
-		/* fail */
-	} else if (allow) {
-		clk_freq_change_allow(clkp);
+		/* Nothing to do */
 	} else {
-		clk_freq_change_block(clkp);
+		is_allowed = (sbool) !!(dev_clkp->flags & DEV_CLK_FLAG_ALLOW_FREQ_CHANGE);
+		if (is_allowed == allow) {
+			/* Nothing to do */
+		} else {
+			dev_clkp->flags ^= DEV_CLK_FLAG_ALLOW_FREQ_CHANGE;
+
+			if ((dev->flags & DEV_FLAG_ENABLED_MASK) == 0UL) {
+				/* Nothing to do*/
+			} else {
+				if ((dev_clkp->flags & DEV_CLK_FLAG_DISABLE) != 0U) {
+					/* Nothing to do */
+				} else {
+					clkp = dev_get_clk(dev, clk_idx);
+
+					if (!clkp) {
+						/* fail */
+					} else if (allow) {
+						clk_freq_change_allow(clkp);
+					} else {
+						clk_freq_change_block(clkp);
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -290,17 +292,17 @@ void device_clk_set_input_term(struct device *dev, dev_clk_idx_t clk_idx, sbool 
 	sbool is_term;
 
 	if (!dev_clkp) {
-		return;
+		/* Do nothing  - return */
+	} else {
+		is_term = (sbool) !!(dev_clkp->flags & DEV_CLK_FLAG_INPUT_TERM);
+		if (is_term == enable) {
+			/* Do nothing  - return */
+		} else {
+			dev_clkp->flags ^= DEV_CLK_FLAG_INPUT_TERM;
+		}
 	}
-
-	is_term = !!(dev_clkp->flags & DEV_CLK_FLAG_INPUT_TERM);
-	if (is_term == enable) {
-		return;
-	}
-
-	dev_clkp->flags ^= DEV_CLK_FLAG_INPUT_TERM;
-
 	/* FIXME: Implement */
+	return;
 }
 
 sbool device_clk_get_input_term(struct device *dev, dev_clk_idx_t clk_idx)
@@ -313,18 +315,18 @@ sbool device_clk_get_input_term(struct device *dev, dev_clk_idx_t clk_idx)
 sbool device_clk_set_parent(struct device *dev, dev_clk_idx_t clk_idx, dev_clk_idx_t parent_idx)
 {
 	struct clk *clkp;
-	const struct dev_clk_data *clk_data;
+	const struct dev_clk_data *clock_data;
 	const struct dev_clk_data *parent_data = NULL;
 	sbool ret = STRUE;
 
 	clkp = dev_get_clk(dev, clk_idx);
-	clk_data = get_dev_clk_data(dev, clk_idx);
-	if ((clkp == NULL) || (clk_data == NULL)) {
+	clock_data = get_dev_clk_data(dev, clk_idx);
+	if ((clkp == NULL) || (clock_data == NULL)) {
 		ret = SFALSE;
 	}
 
 
-	if (ret && (clk_data->type != DEV_CLK_TABLE_TYPE_MUX)) {
+	if (ret && (clock_data->type != DEV_CLK_TABLE_TYPE_MUX)) {
 		ret = SFALSE;
 	}
 
@@ -340,14 +342,14 @@ sbool device_clk_set_parent(struct device *dev, dev_clk_idx_t clk_idx, dev_clk_i
 	}
 
 	/* Make sure it's within this clock muxes parents */
-	if (ret && ((parent_idx - clk_idx) > clk_data->idx)) {
+	if (ret && ((parent_idx - clk_idx) > clock_data->idx)) {
 		ret = SFALSE;
 	}
 
 	while (ret && clkp && ((clk_get_data(clkp)->type != CLK_TYPE_MUX))) {
 		const struct clk_parent *p;
 		p = clk_get_parent(clkp);
-		if (p) {
+		if (p != NULL) {
 			clkp = clk_lookup((clk_idx_t) p->clk);
 		} else {
 			clkp = NULL;
@@ -369,27 +371,27 @@ sbool device_clk_set_parent(struct device *dev, dev_clk_idx_t clk_idx, dev_clk_i
 dev_clk_idx_t device_clk_get_parent(struct device *dev, dev_clk_idx_t clk_idx)
 {
 	const struct dev_data *data = get_dev_data(dev);
-	const struct devgroup *devgroup = dev_data_lookup_devgroup(data);
+	const struct devgroup *devgroup_ptr = dev_data_lookup_devgroup(data);
 	const struct clk_parent *p = NULL;
 	struct clk *clkp;
-	const struct dev_clk_data *clk_data;
+	const struct dev_clk_data *clock_data;
 	sbool fail = SFALSE;
 	dev_clk_idx_t ret = DEV_CLK_ID_NONE;
 	dev_clk_idx_t i;
 
 	clkp = dev_get_clk(dev, clk_idx);
-	clk_data = get_dev_clk_data(dev, clk_idx);
-	if ((clkp == NULL) || (clk_data == NULL) || (devgroup == NULL)) {
+	clock_data = get_dev_clk_data(dev, clk_idx);
+	if ((clkp == NULL) || (clock_data == NULL) || (devgroup_ptr == NULL)) {
 		fail = STRUE;
 	}
 
-	if (!fail && (clk_data->type != DEV_CLK_TABLE_TYPE_MUX)) {
+	if (!fail && (clock_data->type != DEV_CLK_TABLE_TYPE_MUX)) {
 		fail = STRUE;
 	}
 
 	while (!fail && (clkp != NULL) && (clk_get_data(clkp)->type != CLK_TYPE_MUX)) {
 		p = clk_get_parent(clkp);
-		if (p) {
+		if (p != NULL) {
 			clkp = clk_lookup((clk_idx_t) p->clk);
 		} else {
 			clkp = NULL;
@@ -406,8 +408,8 @@ dev_clk_idx_t device_clk_get_parent(struct device *dev, dev_clk_idx_t clk_idx)
 	if (!fail) {
 		u32 offset = data->dev_clk_idx;
 		fail = STRUE;
-		for (i = 0U; (i < clk_data->idx) && fail; i++) {
-			if (devgroup->dev_clk_data[offset + i + clk_idx + 1U].clk == p->clk) {
+		for (i = 0U; (i < clock_data->idx) && fail; i++) {
+			if (devgroup_ptr->dev_clk_data[offset + i + clk_idx + 1U].clk == p->clk) {
 				ret = i + clk_idx + 1U;
 				fail = SFALSE;
 			}
@@ -420,21 +422,21 @@ dev_clk_idx_t device_clk_get_parent(struct device *dev, dev_clk_idx_t clk_idx)
 dev_clk_idx_t device_clk_get_num_parents(struct device *dev, dev_clk_idx_t clk_idx)
 {
 	struct clk *clkp;
-	const struct dev_clk_data *clk_data;
+	const struct dev_clk_data *clock_data;
 	dev_clk_idx_t ret;
 
 	clkp = dev_get_clk(dev, clk_idx);
-	clk_data = get_dev_clk_data(dev, clk_idx);
-	if ((clkp == NULL) || (clk_data == NULL)) {
+	clock_data = get_dev_clk_data(dev, clk_idx);
+	if ((clkp == NULL) || (clock_data == NULL)) {
 		ret = DEV_CLK_ID_NONE;
-	} else if (clk_data->type != DEV_CLK_TABLE_TYPE_MUX) {
-		if (clk_get_parent(clkp)) {
+	} else if (clock_data->type != DEV_CLK_TABLE_TYPE_MUX) {
+		if (clk_get_parent(clkp) != NULL) {
 			ret = 1U;
 		} else {
 			ret = 0U;
 		}
 	} else {
-		ret = (dev_clk_idx_t) clk_data->idx;
+		ret = (dev_clk_idx_t) clock_data->idx;
 	}
 
 	return ret;
@@ -473,34 +475,35 @@ dev_clk_idx_t device_clk_get_num_parents(struct device *dev, dev_clk_idx_t clk_i
  * The actual frequency possible (query=STRUE) or set (query=SFALSE). Returns
  * 0 if a frequency could not be found within the limits.
  */
-static u32 __device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
-				 u32 min_freq_hz, u32 target_freq_hz,
-				 u32 max_freq_hz, sbool query)
+static u32 dev_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
+			    u32 min_freq_hz, u32 target_freq_hz,
+			    u32 max_freq_hz, sbool query)
 {
 	const struct dev_data *data = get_dev_data(dev);
-	const struct devgroup *devgroup = dev_data_lookup_devgroup(data);
-	const struct dev_clk_data *clk_data;
+	const struct devgroup *devgroup_ptr = dev_data_lookup_devgroup(data);
+	const struct dev_clk_data *clock_data;
 	struct clk *parent = NULL;
 	struct clk *unblock1 = NULL;
 	struct clk *unblock2 = NULL;
-	u32 div = 1U;
+	u32 div_var = 1U;
 	sbool done = SFALSE;
 	u32 ret_freq = 0U;
+	dev_clk_idx_t clk_idx_val = clk_idx;
 
-	if (devgroup == NULL) {
+	if (devgroup_ptr == NULL) {
 		done = STRUE;
 	}
 
 	if (!done) {
-		clk_data = get_dev_clk_data(dev, clk_idx);
-		if (clk_data == NULL) {
+		clock_data = get_dev_clk_data(dev, clk_idx_val);
+		if (clock_data == NULL) {
 			/* Invalid clock idx */
 			done = STRUE;
 		}
 	}
 
 	if (!done) {
-		parent = dev_get_clk(dev, clk_idx);
+		parent = dev_get_clk(dev, clk_idx_val);
 		if (parent == NULL) {
 			/* Parent not present */
 			done = STRUE;
@@ -509,34 +512,34 @@ static u32 __device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 
 	if (!done) {
 		/* Assign div based on selected clock */
-		div = clk_data->div;
+		div_var = clock_data->div;
 
 		/*
 		 * We drop the block count on up to two clocks. The clock
 		 * id we are directly controlling is the first one.
 		 */
-		if (!device_clk_get_freq_change(dev, clk_idx)) {
-			if ((dev->flags & DEV_FLAG_ENABLED_MASK) != 0UL &&
-			    !device_clk_get_sw_gated(dev, clk_idx)) {
+		if (!device_clk_get_freq_change(dev, clk_idx_val)) {
+			if (((dev->flags & DEV_FLAG_ENABLED_MASK) != 0UL) &&
+			    !device_clk_get_sw_gated(dev, clk_idx_val)) {
 				unblock1 = parent;
 			}
 		}
 
 		if ((clk_get_data(parent)->type == CLK_TYPE_MUX) &&
-		    (clk_data->type == DEV_CLK_TABLE_TYPE_MUX)) {
+		    (clock_data->type == DEV_CLK_TABLE_TYPE_MUX)) {
 			const struct dev_clk_data *parent_clk_data;
 			/* Send to parent */
-			clk_idx = device_clk_get_parent(dev, clk_idx);
-			parent = dev_get_clk(dev, clk_idx);
-			parent_clk_data = get_dev_clk_data(dev, clk_idx);
-			if (parent_clk_data) {
+			clk_idx_val = device_clk_get_parent(dev, clk_idx_val);
+			parent = dev_get_clk(dev, clk_idx_val);
+			parent_clk_data = get_dev_clk_data(dev, clk_idx_val);
+			if (parent_clk_data != NULL) {
 				/* We are sending to parent, so use that div instead */
-				div = parent_clk_data->div;
+				div_var = parent_clk_data->div;
 			}
 			if (parent == NULL) {
 				/* Mux parent clock not present */
 				done = STRUE;
-			} else if (!device_clk_get_freq_change(dev, clk_idx)) {
+			} else if (!device_clk_get_freq_change(dev, clk_idx_val)) {
 				/*
 				 * If we are changing a clock with a device
 				 * clock mux parent, unblock that clock as
@@ -545,11 +548,13 @@ static u32 __device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 				 * the TI-SCI API).
 				 */
 				if (((dev->flags & DEV_FLAG_ENABLED_MASK) != 0UL) &&
-				    !device_clk_get_sw_gated(dev, clk_idx)) {
+				    !device_clk_get_sw_gated(dev, clk_idx_val)) {
 					unblock2 = parent;
 				}
+			} else {
+				/* Do Nothing */
 			}
-		} else if (clk_data->type == DEV_CLK_TABLE_TYPE_PARENT) {
+		} else if (clock_data->type == DEV_CLK_TABLE_TYPE_PARENT) {
 			/*
 			 * If we are changing a mux parent, also unblock the
 			 * child clock it connects to. First we need to walk
@@ -557,8 +562,8 @@ static u32 __device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 			 */
 			s32 i;
 			u32 offset = data->dev_clk_idx;
-			for (i = (s32) clk_idx - 1; i >= 0L; i--) {
-				if (devgroup->dev_clk_data[(s32) offset + i].type == DEV_CLK_TABLE_TYPE_MUX) {
+			for (i = (s32) clk_idx_val - 1; i >= 0L; i--) {
+				if (devgroup_ptr->dev_clk_data[(s32) offset + i].type == DEV_CLK_TABLE_TYPE_MUX) {
 					break;
 				}
 			}
@@ -566,25 +571,27 @@ static u32 __device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 			 * Make sure the mux has currently selected the target
 			 * clock.
 			 */
-			if ((i >= 0) && (clk_idx == device_clk_get_parent(dev, (u16) i))) {
+			if ((i >= 0) && (clk_idx_val == device_clk_get_parent(dev, (u16) i))) {
 				if (device_clk_get_freq_change(dev, (u16) i)) {
 					if (((dev->flags & DEV_FLAG_ENABLED_MASK) != 0UL) &&
-					    !device_clk_get_sw_gated(dev, clk_idx)) {
+					    !device_clk_get_sw_gated(dev, clk_idx_val)) {
 						unblock2 = dev_get_clk(dev, (u16) i);
 					}
 				}
 			}
+		} else {
+			/* Do Nothing */
 		}
 	}
 
 	if (!done) {
-		if (clk_data->type == DEV_CLK_TABLE_TYPE_OUTPUT) {
+		if (clock_data->type == DEV_CLK_TABLE_TYPE_OUTPUT) {
 			/* div is only for input clocks */
-			div = 1U;
+			div_var = 1U;
 		}
 
-		if (!clk_data->modify_parent_freq) {
-			ret_freq = clk_get_freq(parent) / div;
+		if (0U == clock_data->modify_parent_freq) {
+			ret_freq = clk_get_freq(parent) / div_var;
 			if ((ret_freq < min_freq_hz) || (ret_freq > max_freq_hz)) {
 				ret_freq = 0U;
 			}
@@ -604,7 +611,7 @@ static u32 __device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 		}
 		/* Try to modify the frequency */
 
-		if (clk_data->type == DEV_CLK_TABLE_TYPE_OUTPUT) {
+		if (clock_data->type == DEV_CLK_TABLE_TYPE_OUTPUT) {
 			/*
 			 * This is the only place device output clocks can have their
 			 * frequency changed, from their own device.
@@ -617,7 +624,7 @@ static u32 __device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 							       min_freq_hz,
 							       max_freq_hz,
 							       query, &changed,
-							       div);
+							       div_var);
 		}
 
 		/* Put the block refs back */
@@ -635,32 +642,32 @@ static u32 __device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 sbool device_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx, u32 min_freq_hz,
 			  u32 target_freq_hz, u32 max_freq_hz)
 {
-	return __device_clk_set_freq(dev, clk_idx, min_freq_hz,
-				     target_freq_hz, max_freq_hz, SFALSE) != 0UL;
+	return dev_clk_set_freq(dev, clk_idx, min_freq_hz,
+				target_freq_hz, max_freq_hz, SFALSE) != 0UL;
 }
 
 u32 device_clk_query_freq(struct device *dev, dev_clk_idx_t clk_idx,
 			  u32 min_freq_hz, u32 target_freq_hz,
 			  u32 max_freq_hz)
 {
-	return __device_clk_set_freq(dev, clk_idx, min_freq_hz,
-				     target_freq_hz, max_freq_hz, STRUE);
+	return dev_clk_set_freq(dev, clk_idx, min_freq_hz,
+				target_freq_hz, max_freq_hz, STRUE);
 }
 
 u32 device_clk_get_freq(struct device *dev, dev_clk_idx_t clk_idx)
 {
 	struct clk *clkp;
-	const struct dev_clk_data *clk_data;
+	const struct dev_clk_data *clock_data;
 	u32 freq_hz;
 
 	clkp = dev_get_clk(dev, clk_idx);
-	clk_data = get_dev_clk_data(dev, clk_idx);
-	if ((clkp == NULL) || (clk_data == NULL)) {
+	clock_data = get_dev_clk_data(dev, clk_idx);
+	if ((clkp == NULL) || (clock_data == NULL)) {
 		freq_hz = 0U;
 	} else {
 		freq_hz = clk_get_freq(clkp);
-		if (clk_data->type != DEV_CLK_TABLE_TYPE_OUTPUT) {
-			freq_hz /= clk_data->div;
+		if (clock_data->type != DEV_CLK_TABLE_TYPE_OUTPUT) {
+			freq_hz /= clock_data->div;
 		}
 	}
 
@@ -673,16 +680,16 @@ void device_clk_enable(struct device *dev, dev_clk_idx_t clk_idx)
 	struct clk *clkp = NULL;
 
 	dev_clkp = get_dev_clk(dev, clk_idx);
-	if (dev_clkp && !(dev_clkp->flags & DEV_CLK_FLAG_DISABLE)) {
+	if ((dev_clkp != NULL) && (0U == (dev_clkp->flags & DEV_CLK_FLAG_DISABLE))) {
 		clkp = dev_get_clk(dev, clk_idx);
 	}
 
-	if (clkp) {
-		if (!(dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
+	if (clkp != NULL) {
+		if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
 			clk_ssc_block(clkp);
 		}
 
-		if (!(dev_clkp->flags & DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
+		if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
 			clk_freq_change_block(clkp);
 		}
 
@@ -696,18 +703,18 @@ void device_clk_disable(struct device *dev, dev_clk_idx_t clk_idx)
 	struct clk *clkp = NULL;
 
 	dev_clkp = get_dev_clk(dev, clk_idx);
-	if (dev_clkp && !(dev_clkp->flags & DEV_CLK_FLAG_DISABLE)) {
+	if ((dev_clkp != NULL) && (0U == (dev_clkp->flags & DEV_CLK_FLAG_DISABLE))) {
 		clkp = dev_get_clk(dev, clk_idx);
 	}
 
-	if (clkp) {
+	if (clkp != NULL) {
 		clk_put(clkp);
 
-		if (!(dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
+		if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
 			clk_ssc_allow(clkp);
 		}
 
-		if (!(dev_clkp->flags & DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
+		if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
 			clk_freq_change_allow(clkp);
 		}
 	}
@@ -735,7 +742,7 @@ void device_clk_init(struct device *dev, dev_clk_idx_t clk_idx)
 		clkp = clk_lookup((clk_idx_t) dev_clk_datap->clk);
 	}
 	if (clkp != NULL) {
-		const struct clk_data *clk_data = clk_get_data(clkp);
+		const struct clk_data *clock_data = clk_get_data(clkp);
 
 		/* It's in another devgroup, don't attempt to bring it up */
 		if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
@@ -746,7 +753,7 @@ void device_clk_init(struct device *dev, dev_clk_idx_t clk_idx)
 		 * For clocks with this flag set, default all dev_clk's to
 		 * allow. Otherwise default all dev_clk's to block.
 		 */
-		if ((clk_data != NULL) && ((clk_data->flags & CLK_DATA_FLAG_ALLOW_FREQ_CHANGE) != 0UL)) {
+		if ((clock_data != NULL) && ((clock_data->flags & CLK_DATA_FLAG_ALLOW_FREQ_CHANGE) != 0UL)) {
 			dev_clkp->flags |= DEV_CLK_FLAG_ALLOW_FREQ_CHANGE;
 		}
 	}

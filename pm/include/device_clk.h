@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -132,7 +132,7 @@ struct dev_clk {
 #define DEV_CLK(base, id, parent, _div) [(base) + (id)] = \
 { .clk				= (parent), .div = (_div), .type = \
 	  DEV_CLK_TABLE_TYPE_INPUT, \
-	.modify_parent_freq	= STRUE }
+	.modify_parent_freq	= (u16) 1U }
 /* F variant does not allow parent freq to be modified */
 #define DEV_CLKF(base, id, parent, _div) [(base) + (id)] = \
 { .clk				= (parent), .div = (_div), .type = \
@@ -158,7 +158,7 @@ struct dev_clk {
 	  _div < 256), \
 	.idx			= (_idx), \
 	.modify_parent_freq	= \
-		STRUE }
+		1U }
 /* F variant does not allow parent freq to be modified */
 #define DEV_CLK_PARENTF(base, id, parent, _div, idx) [(base) + (id)] =	\
 { .clk				= \

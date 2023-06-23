@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2020, Texas Instruments Incorporated
+ * Copyright (C) 2020-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,6 +43,7 @@
 #include <lib/mmr_lock.h>
 #include <device_prepare.h>
 #include <soc/host_idx_mapping.h>
+#include <pm.h>
 
 s32 set_device_handler(u32 *msg_recv)
 {

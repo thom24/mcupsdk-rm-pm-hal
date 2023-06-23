@@ -52,7 +52,7 @@ static sbool devices_rw;
 
 void pm_devgroup_set_enabled(devgrp_t groups)
 {
-	pm_devgroups_enabled |= (u32)groups;
+	pm_devgroups_enabled |= (u32) groups;
 }
 
 sbool pm_devgroup_is_enabled(devgrp_t groups)
@@ -158,7 +158,7 @@ s32 devices_init(void)
 			if (soc_device_data_arr[idx]->pm_devgrp == PM_DEVGRP_DMSC) {
 				devgrp = DEVGRP_DMSC;
 			} else {
-				devgrp = (devgrp_t)BIT(soc_device_data_arr[idx]->pm_devgrp - 1U);
+				devgrp = (devgrp_t) BIT(soc_device_data_arr[idx]->pm_devgrp - 1U);
 			}
 
 			if (!pm_devgroup_is_enabled(devgrp)) {
@@ -172,7 +172,7 @@ s32 devices_init(void)
 				done = SFALSE;
 			} else {
 				progress = STRUE;
-				dev->initialized = (u32) STRUE;
+				dev->initialized = 1U;
 				if (ret < 0) {
 					pm_trace(TRACE_PM_ACTION_FAIL | TRACE_PM_ACTION_DEV_INIT,
 						 ((((u32) (-ret)) & TRACE_PM_VAL_DEV_INIT_ERR_MASK) << TRACE_PM_VAL_DEV_INIT_ERR_SHIFT) |
@@ -274,7 +274,7 @@ s32 devices_deinit(u8 pm_devgrp)
 }
 
 extern void device_clear_flags(struct device *dev);
-s32 devices_deinit_flags()
+s32 devices_deinit_flags(void)
 {
 	s32 ret = SUCCESS;
 	u32 i;
