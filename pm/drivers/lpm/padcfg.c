@@ -1,7 +1,7 @@
 /*
  * Device Manager - Manage PADCFG Ctrl MMR during Suspend/Resume
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,8 +45,9 @@ s32 lpm_sleep_save_main_padconf()
 	u32 p = PADCFG_CTRL_BASE + PADCFG_OFFSET;
 	u32 i;
 
-	for (i = 0; i < PADCFG_SIZE; i++, p += 4) {
+	for (i = 0; i < PADCFG_SIZE; i++) {
 		padcfg_data[i] = readl(p);
+		p += 4U;
 	}
 
 	return SUCCESS;
@@ -59,8 +60,9 @@ s32 lpm_resume_restore_main_padconf()
 
 	mmr_unlock(PADCFG_CTRL_BASE, 1);
 
-	for (i = 0; i < PADCFG_SIZE; i++, p += 4) {
+	for (i = 0; i < PADCFG_SIZE; i++) {
 		writel(padcfg_data[i], p);
+		p += 4U;
 	}
 
 	return SUCCESS;
