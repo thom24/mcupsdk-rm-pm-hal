@@ -56,12 +56,12 @@
 
 
 /* counts of 1us delay for 10ms */
-#define TIMEOUT_10MS                    10000
+#define TIMEOUT_10MS                    10000U
 
-#define LPM_SUSPEND_POWERMASTER         BIT(0)
+#define LPM_SUSPEND_POWERMASTER                 BIT(0)
 #define LPM_DEVICE_DEINIT                       BIT(1)
 #define LPM_DISABLE_LPSC                        BIT(2)
-#define LPM_SAVE_MAIN_PADCONFIG         BIT(3)
+#define LPM_SAVE_MAIN_PADCONFIG                 BIT(3)
 #define LPM_SUSPEND_GTC                         BIT(4)
 #define LPM_CLOCK_SUSPEND                       BIT(5)
 #define LPM_SUSPEND_DM                          BIT(6)
@@ -77,7 +77,7 @@ volatile u32 enter_sleep_status = 0;
 
 static void lpm_hang_abort(void)
 {
-	volatile int a = 0x12341234;
+	volatile u32 a = 0x12341234;
 
 	while (a != 0U) {
 	}
@@ -86,7 +86,7 @@ static void lpm_hang_abort(void)
 static s32 lpm_sleep_wait_for_tifs_wfi(void)
 {
 	u32 reg;
-	int i = 0;
+	u32 i = 0;
 	s32 ret = -ETIMEDOUT;
 
 	do {
@@ -154,7 +154,7 @@ static s32 lpm_resume_send_core_resume_message(void)
 		memset(&resp, 0, sizeof(resp));
 
 		ret = sproxy_receive_msg_dm2dmsc_fw(&resp, sizeof(resp));
-		if (ret == 0U) {
+		if (ret == 0) {
 			if ((resp.hdr.type != TISCI_MSG_CORE_RESUME) || (resp.hdr.flags & (TISCI_MSG_FLAG_ACK != TISCI_MSG_FLAG_ACK))) {
 				ret = -EINVAL;
 			}
@@ -299,7 +299,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	}
 
 	/*
-	 * sine, once power master reaches WFI power master is only recoverable
+	 * since, once power master reaches WFI power master is only recoverable
 	 * by reseting the  power master. Only update the ret value only if it was
 	 * SUCCESS previously
 	 */
@@ -420,7 +420,8 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
-	for (i = 0; i < 10000; i++) {
+
+	for (i = 0; i < TIMEOUT_10MS; i++) {
 		osal_delay(1);
 	}
 
@@ -459,7 +460,7 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 		(struct tisci_msg_set_io_isolation_req *) msg_recv;
 	s32 ret = EFAIL;
 	u32 reg;
-	int i = 0;
+	u32 i = 0;
 
 	/* unlock partion 6 of wakeup ctrl mmr */
 	ctrlmmr_unlock(WKUP_CTRL_BASE, 6);

@@ -37,9 +37,9 @@
 #include "soc_ctrl_mmr.h"
 
 
-#define RTC_SUB_S_CNT        (0x04)
-#define RTC_S_CNT_LSW        (0x08)
-#define RTC_S_CNT_MSW        (0x0c)
+#define RTC_SUB_S_CNT        (0x04U)
+#define RTC_S_CNT_LSW        (0x08U)
+#define RTC_S_CNT_MSW        (0x0cU)
 
 void lpm_rtc_read_time(struct rtc_time *rtc)
 {
