@@ -57,7 +57,7 @@ static sbool is_mmr_locked(u32 base, u32 partition)
 	return (readl(part_base + CTRLMMR_LOCK_KICK0) & CTRLMMR_LOCK_KICK0_UNLOCKED_MASK) != CTRLMMR_LOCK_KICK0_UNLOCKED_MASK;
 }
 
-s32 lpm_save_mmr_lock()
+s32 lpm_save_mmr_lock(void)
 {
 	for (int i = 0; i < MAX_MMR_DATA; i++) {
 		if (ctrl_mmr_data[i].base != 0) {
@@ -67,7 +67,7 @@ s32 lpm_save_mmr_lock()
 	return SUCCESS;
 }
 
-s32 lpm_restore_mmr_lock()
+s32 lpm_restore_mmr_lock(void)
 {
 	for (int i = 0; i < MAX_MMR_DATA; i++) {
 		if (ctrl_mmr_data[i].base != 0 && ctrl_mmr_data[i].is_locked == SFALSE) {

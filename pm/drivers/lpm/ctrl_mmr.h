@@ -57,13 +57,13 @@ extern struct ctrl_mmr ctrl_mmr_data[MAX_MMR_DATA];
  *
  *  \return ret      SUCCESS
  */
-s32 lpm_save_mmr_lock();
+s32 lpm_save_mmr_lock(void);
 
 /**
  *  \brief  Restore ctrl mmr lock status
  *
  *  \return ret      SUCCESS
  */
-s32 lpm_restore_mmr_lock();
+s32 lpm_restore_mmr_lock(void);
 
 #endif /* __CTRL_MMR_H__ */

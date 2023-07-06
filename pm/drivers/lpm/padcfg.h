@@ -1,7 +1,7 @@
 /*
  * Device Manager - Manage PADCFG Ctrl MMR during Suspend/Resume
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,13 +42,13 @@
  *
  *  \return ret      SUCCESS
  */
-s32 lpm_sleep_save_main_padconf();
+s32 lpm_sleep_save_main_padconf(void);
 
 /**
  *  \brief  Restore MAIN padcfg Ctrl MMR during resume
  *
  *  \return ret      SUCCESS
  */
-s32 lpm_resume_restore_main_padconf();
+s32 lpm_resume_restore_main_padconf(void);
 
 #endif /* __LPM_PADCFG_H__ */

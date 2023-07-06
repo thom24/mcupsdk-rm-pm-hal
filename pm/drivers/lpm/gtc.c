@@ -1,7 +1,7 @@
 /*
  * Device Manager - LPM GTC Driver
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,7 @@ static struct gtc_cfg_data {
 	u32		fid0;
 } gtc;
 
-s32 lpm_sleep_suspend_gtc()
+s32 lpm_sleep_suspend_gtc(void)
 {
 	u32 reg;
 
@@ -79,7 +79,7 @@ s32 lpm_sleep_suspend_gtc()
 	return SUCCESS;
 }
 
-s32 lpm_resume_gtc()
+s32 lpm_resume_gtc(void)
 {
 	u64 rtc1, rtc2, delta;
 

@@ -1,7 +1,7 @@
 /*
  * Device Manager - LPM RTC Driver
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,6 +46,6 @@ struct rtc_time {
 /**
  *  \brief  Read RTC counter
  */
-void lpm_rtc_read_time(struct rtc_time *);
+void lpm_rtc_read_time(struct rtc_time *rtc);
 
 #endif /* __LPM_RTC_H__ */

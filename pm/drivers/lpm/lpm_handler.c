@@ -70,12 +70,12 @@
 extern s32 _stub_start(void);
 extern u32 lpm_get_wake_up_source(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
-extern void lpm_clear_all_wakeup_interrupt();
+extern void lpm_clear_all_wakeup_interrupt(void);
 
 u32 key;
 volatile u32 enter_sleep_status = 0;
 
-static void lpm_hang_abort()
+static void lpm_hang_abort(void)
 {
 	volatile int a = 0x12341234;
 
@@ -83,7 +83,7 @@ static void lpm_hang_abort()
 	}
 }
 
-static s32 lpm_sleep_wait_for_tifs_wfi()
+static s32 lpm_sleep_wait_for_tifs_wfi(void)
 {
 	u32 reg;
 	int i = 0;
@@ -99,25 +99,25 @@ static s32 lpm_sleep_wait_for_tifs_wfi()
 	return -ETIMEDOUT;
 }
 
-static s32 lpm_sleep_disable_sec_lpsc()
+static s32 lpm_sleep_disable_sec_lpsc(void)
 {
 	/* Disable security LPSCs */
 	return SUCCESS;
 }
 
-static s32 lpm_sleep_disable_misc_lpsc()
+static s32 lpm_sleep_disable_misc_lpsc(void)
 {
 	/* Disable non-crtitical  LPSCs */
 	return SUCCESS;
 }
 
-static s32 lpm_resume_enable_lpsc()
+static s32 lpm_resume_enable_lpsc(void)
 {
 	/* enable LPSCs as needed for cores to resume */
 	return SUCCESS;
 }
 
-static s32 lpm_resume_disable_DM_reset_isolation()
+static s32 lpm_resume_disable_DM_reset_isolation(void)
 {
 	/* Clear WKUP_CTRL_DS_DM_RESET.mask to stop
 	* isolation of DM from MAIN domain
@@ -126,13 +126,13 @@ static s32 lpm_resume_disable_DM_reset_isolation()
 	return SUCCESS;
 }
 
-static s32 lpm_resume_restore_RM_context()
+static s32 lpm_resume_restore_RM_context(void)
 {
 	/* restore IA and IR configurations */
 	return SUCCESS;
 }
 
-static s32 lpm_resume_send_core_resume_message()
+static s32 lpm_resume_send_core_resume_message(void)
 {
 	/* send core resume message */
 	s32 ret = 0;
@@ -166,7 +166,7 @@ static s32 lpm_resume_send_core_resume_message()
 	return ret;
 }
 
-static s32 lpm_resume_send_enter_sleep_abort_message()
+static s32 lpm_resume_send_enter_sleep_abort_message(void)
 {
 	/* send abort enter sleep message */
 	s32 ret = 0;
@@ -184,7 +184,7 @@ static s32 lpm_resume_send_enter_sleep_abort_message()
 	return ret;
 }
 
-static s32 lpm_suspend_power_master()
+static s32 lpm_suspend_power_master(void)
 {
 	/* release reset of power master */
 	struct device *dev;
@@ -204,7 +204,7 @@ static s32 lpm_suspend_power_master()
 	return SUCCESS;
 }
 
-static s32 lpm_resume_release_reset_of_power_master()
+static s32 lpm_resume_release_reset_of_power_master(void)
 {
 	/* release reset of power master */
 	struct device *dev;
@@ -221,7 +221,7 @@ static s32 lpm_resume_release_reset_of_power_master()
 	return SUCCESS;
 }
 
-static s32 lpm_sleep_suspend_dm()
+static s32 lpm_sleep_suspend_dm(void)
 {
 	/* Suspend DM OS */
 	osal_dm_disable_interrupt();    /* Disable sciserver interrupt */
@@ -230,7 +230,7 @@ static s32 lpm_sleep_suspend_dm()
 	return SUCCESS;
 }
 
-static s32 lpm_resume_dm()
+static s32 lpm_resume_dm(void)
 {
 	/* Resume DM OS */
 	osal_dm_enable_interrupt();     /* Enable sciserver interrupts */
@@ -239,7 +239,7 @@ static s32 lpm_resume_dm()
 	return SUCCESS;
 }
 
-static s32 lpm_sleep_jump_to_dm_Stub()
+static s32 lpm_sleep_jump_to_dm_Stub(void)
 {
 	/* Jump to DM stub */
 	return _stub_start();

@@ -40,7 +40,7 @@
 
 static u32 padcfg_data[PADCFG_SIZE];
 
-s32 lpm_sleep_save_main_padconf()
+s32 lpm_sleep_save_main_padconf(void)
 {
 	u32 p = PADCFG_CTRL_BASE + PADCFG_OFFSET;
 	u32 i;
@@ -53,7 +53,7 @@ s32 lpm_sleep_save_main_padconf()
 	return SUCCESS;
 }
 
-s32 lpm_resume_restore_main_padconf()
+s32 lpm_resume_restore_main_padconf(void)
 {
 	u32 p = PADCFG_CTRL_BASE + PADCFG_OFFSET;
 	u32 i;
