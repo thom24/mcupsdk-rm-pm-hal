@@ -79,7 +79,7 @@ static void lpm_hang_abort(void)
 {
 	volatile int a = 0x12341234;
 
-	while (a) {
+	while (a != 0U) {
 	}
 }
 
@@ -147,7 +147,7 @@ static s32 lpm_resume_send_core_resume_message(void)
 
 	ret = sproxy_send_msg_dm2dmsc_fw(&req, sizeof(req));
 
-	if (ret) {
+	if (ret != 0U) {
 		return ret;
 	}
 
@@ -155,7 +155,7 @@ static s32 lpm_resume_send_core_resume_message(void)
 	memset(&resp, 0, sizeof(resp));
 	ret = sproxy_receive_msg_dm2dmsc_fw(&resp, sizeof(resp));
 
-	if (ret) {
+	if (ret != 0U) {
 		return ret;
 	}
 
