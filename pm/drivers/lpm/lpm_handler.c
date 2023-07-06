@@ -155,7 +155,7 @@ static s32 lpm_resume_send_core_resume_message(void)
 
 		ret = sproxy_receive_msg_dm2dmsc_fw(&resp, sizeof(resp));
 		if (ret == 0) {
-			if ((resp.hdr.type != TISCI_MSG_CORE_RESUME) || (resp.hdr.flags & (TISCI_MSG_FLAG_ACK != TISCI_MSG_FLAG_ACK))) {
+			if ((resp.hdr.type != TISCI_MSG_CORE_RESUME) || ((resp.hdr.flags & TISCI_MSG_FLAG_ACK) != TISCI_MSG_FLAG_ACK)) {
 				ret = -EINVAL;
 			}
 		}
@@ -419,7 +419,6 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 			lpm_hang_abort();
 		}
 	}
-
 
 	for (i = 0; i < TIMEOUT_10MS; i++) {
 		osal_delay(1);
