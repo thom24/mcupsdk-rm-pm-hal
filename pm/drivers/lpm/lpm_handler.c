@@ -87,16 +87,18 @@ static s32 lpm_sleep_wait_for_tifs_wfi(void)
 {
 	u32 reg;
 	int i = 0;
+	s32 ret = -ETIMEDOUT;
 
 	do {
 		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_WFI_STATUS);
 		if ((reg & SMS_CPU0_WFI_MASK) == SMS_CPU0_WFI_MASK) {
-			return SUCCESS;
+			ret = SUCCESS;
+			break;
 		}
 		osal_delay(1);
 	} while (i++ < TIMEOUT_10MS);
 
-	return -ETIMEDOUT;
+	return ret;
 }
 
 static s32 lpm_sleep_disable_sec_lpsc(void)
@@ -147,20 +149,16 @@ static s32 lpm_resume_send_core_resume_message(void)
 
 	ret = sproxy_send_msg_dm2dmsc_fw(&req, sizeof(req));
 
-	if (ret != 0U) {
-		return ret;
-	}
+	if (ret == 0) {
+		struct tisci_msg_core_resume_resp resp;
+		memset(&resp, 0, sizeof(resp));
 
-	struct tisci_msg_core_resume_resp resp;
-	memset(&resp, 0, sizeof(resp));
-	ret = sproxy_receive_msg_dm2dmsc_fw(&resp, sizeof(resp));
-
-	if (ret != 0U) {
-		return ret;
-	}
-
-	if ((resp.hdr.type != TISCI_MSG_CORE_RESUME) || (resp.hdr.flags & (TISCI_MSG_FLAG_ACK != TISCI_MSG_FLAG_ACK))) {
-		ret = -EINVAL;
+		ret = sproxy_receive_msg_dm2dmsc_fw(&resp, sizeof(resp));
+		if (ret == 0U) {
+			if ((resp.hdr.type != TISCI_MSG_CORE_RESUME) || (resp.hdr.flags & (TISCI_MSG_FLAG_ACK != TISCI_MSG_FLAG_ACK))) {
+				ret = -EINVAL;
+			}
+		}
 	}
 
 	return ret;
