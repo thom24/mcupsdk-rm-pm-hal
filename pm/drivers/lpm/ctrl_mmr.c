@@ -70,7 +70,7 @@ s32 lpm_save_mmr_lock(void)
 s32 lpm_restore_mmr_lock(void)
 {
 	for (int i = 0; i < MAX_MMR_DATA; i++) {
-		if (ctrl_mmr_data[i].base != 0 && ctrl_mmr_data[i].is_locked == SFALSE) {
+		if ((ctrl_mmr_data[i].base != 0) && (ctrl_mmr_data[i].is_locked == SFALSE)) {
 			mmr_unlock(ctrl_mmr_data[i].base, ctrl_mmr_data[i].partition);
 		}
 	}

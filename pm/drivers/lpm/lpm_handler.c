@@ -159,7 +159,7 @@ static s32 lpm_resume_send_core_resume_message(void)
 		return ret;
 	}
 
-	if (resp.hdr.type != TISCI_MSG_CORE_RESUME || (resp.hdr.flags & (TISCI_MSG_FLAG_ACK != TISCI_MSG_FLAG_ACK))) {
+	if ((resp.hdr.type != TISCI_MSG_CORE_RESUME) || (resp.hdr.flags & (TISCI_MSG_FLAG_ACK != TISCI_MSG_FLAG_ACK))) {
 		ret = -EINVAL;
 	}
 
@@ -253,7 +253,7 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 	u8 mode = req->mode;
 
 	/* Only DEEP_SLEEP mode supported at the moment */
-	if (mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP || mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY) {
+	if ((mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
 		/* Parse and store the mode info and ctx address in the prepare sleep message*/
 		lpm_populate_prepare_sleep_data(req);
 
@@ -286,7 +286,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	enter_sleep_status = 0;
 
 	/* Only DEEP_SLEEP mode supported at the moment */
-	if (mode != TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP && mode != TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY) {
+	if ((mode != TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) && (mode != TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
 		ret = EINVAL;
 	}
 
