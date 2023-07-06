@@ -36,7 +36,7 @@
 #include <lib/mmr_lock.h>
 #include <types/errno.h>
 #include "soc_ctrl_mmr.h"
-
+#include "padcfg.h"
 
 static u32 padcfg_data[PADCFG_SIZE];
 

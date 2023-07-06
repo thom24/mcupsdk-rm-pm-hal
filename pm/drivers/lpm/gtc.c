@@ -38,7 +38,7 @@
 #include <types/errno.h>
 #include "rtc.h"
 #include "soc_ctrl_mmr.h"
-
+#include "gtc.h"
 
 #define GTC_CFG0_PUSHEVT       (0x08)
 #define GTC_CFG1_CNTCR         (0x00)
