@@ -537,6 +537,8 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 		writel(WKUP_CTRL_PMCTRL_IO_GLB_DISABLE_IO, (WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_GLB));
 
 		ret = SUCCESS;
+	} else {
+		/* Do Nothing */
 	}
 	return ret;
 }
