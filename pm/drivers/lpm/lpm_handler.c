@@ -281,6 +281,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	s32 ret = SUCCESS;
 	u8 mode = req->mode;
 	u32 i;
+	u32 temp_sleep_status = 0;
 
 	enter_sleep_status = 0;
 
@@ -366,7 +367,8 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_DISABLE_LPSC) == LPM_DISABLE_LPSC)) {
+	temp_sleep_status = enter_sleep_status;
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_DISABLE_LPSC) == LPM_DISABLE_LPSC)) {
 		if (lpm_resume_enable_lpsc() != SUCCESS) {
 			lpm_hang_abort();
 		}
@@ -384,37 +386,37 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_CLOCK_SUSPEND) == LPM_CLOCK_SUSPEND)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_CLOCK_SUSPEND) == LPM_CLOCK_SUSPEND)) {
 		if (clks_resume() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_GTC) == LPM_SUSPEND_GTC)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_GTC) == LPM_SUSPEND_GTC)) {
 		if (lpm_resume_gtc() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_SAVE_MMR_LOCK) == LPM_SAVE_MMR_LOCK)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SAVE_MMR_LOCK) == LPM_SAVE_MMR_LOCK)) {
 		if (lpm_restore_mmr_lock() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {
 		if (lpm_resume_send_core_resume_message() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_DM) == LPM_SUSPEND_DM)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_DM) == LPM_SUSPEND_DM)) {
 		if (lpm_resume_dm() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_DEVICE_DEINIT) == LPM_DEVICE_DEINIT)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_DEVICE_DEINIT) == LPM_DEVICE_DEINIT)) {
 		if (devices_init() != SUCCESS) {
 			lpm_hang_abort();
 		}
@@ -424,7 +426,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		osal_delay(1);
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {
 		if (lpm_resume_release_reset_of_power_master() != SUCCESS) {
 			lpm_hang_abort();
 		}
