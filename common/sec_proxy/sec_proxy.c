@@ -115,16 +115,16 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 		if (is_rx == 0U) {
 			writel(0u, start_addr);
 		}
-
-		start_addr += 4u;
+		start_addr += 4U;
 	}
 
-	for (i = 0; i < len / 4; i++, start_addr += 4) {
+	for (i = 0; i < len / 4; i++) {
 		if (is_rx) {
 			*raw++ = readl(start_addr);
 		} else {
 			writel(*raw++, start_addr);
 		}
+		start_addr += 4U;
 	}
 
 	if (len % 4) {
