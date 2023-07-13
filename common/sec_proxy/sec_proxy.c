@@ -82,11 +82,11 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 	u32 mask;
 	u16 i;
 
-	if (is_secure == SFALSE && start_addr + len > end_addr) {
+	if ((is_secure == SFALSE) && ((start_addr + len) > end_addr)) {
 		return -EINVAL;
 	}
 
-	if (is_secure == STRUE && start_addr + len + 4 > end_addr) {
+	if ((is_secure == STRUE) && ((start_addr + len + 4) > end_addr)) {
 		return -EINVAL;
 	}
 
@@ -100,7 +100,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 			break;
 		}
 
-		if (i < RETRY_CNT_10ms - 1) {
+		if (i < (RETRY_CNT_10ms - 1)) {
 			delay();
 		} else {
 			return -ETIMEDOUT;
@@ -118,7 +118,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 		start_addr += 4U;
 	}
 
-	for (i = 0; i < len / 4; i++) {
+	for (i = 0; i < (len / 4); i++) {
 		if (is_rx) {
 			*raw = readl(start_addr);
 			raw = raw + 1;
