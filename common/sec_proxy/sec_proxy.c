@@ -120,9 +120,11 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 
 	for (i = 0; i < len / 4; i++) {
 		if (is_rx) {
-			*raw++ = readl(start_addr);
+			*raw = readl(start_addr);
+			raw = raw + 1;
 		} else {
-			writel(*raw++, start_addr);
+			writel(*raw, start_addr);
+			raw = raw + 1;
 		}
 		start_addr += 4U;
 	}
