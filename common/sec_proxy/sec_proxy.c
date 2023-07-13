@@ -62,6 +62,11 @@
 /* retry for 10ms */
 #define RETRY_CNT_10ms          (1000 * 10)
 
+static void asm_func(void)
+{
+	asm ("");
+}
+
 static void delay(void)
 {
 	/* This while-loop takes 5 instructions. Assume R5 runs @400MHz */
@@ -69,7 +74,7 @@ static void delay(void)
 	unsigned long x = 400 / 5;
 
 	while (x--) {
-		asm ("");
+		asm_func();
 	}
 }
 
