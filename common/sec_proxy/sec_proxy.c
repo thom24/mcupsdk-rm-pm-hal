@@ -40,6 +40,7 @@
 #include <types/sbool.h>
 #include <baseaddress.h>
 #include <string.h>
+#include "sec_proxy.h"
 
 #define SPROXY_THREAD_OFFSET(tid) (0x1000 * (tid))
 
