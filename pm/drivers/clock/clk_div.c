@@ -161,8 +161,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 			flag_break = STRUE;
 		}
 
-		if (flag_break == SFALSE)
-		{
+		if (flag_break == SFALSE) {
 			/* Cap overflow in target */
 			if (new_target < target_hz) {
 				if (best_div != 0U) {
@@ -179,8 +178,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 				new_target_overflow = SFALSE;
 			}
 		}
-		if (flag_break == STRUE)
-		{
+		if (flag_break == STRUE) {
 			break;
 		}
 
@@ -464,7 +462,7 @@ u32 clk_div_reg_get_div(struct clk *clkp)
 			n -= 1U;
 		}
 		v = readl(data_reg->reg) >> data_reg->bit;
-		v &= ((1U << ilog32(n)) - 1U);
+		v &= (u32) ((1U << ilog32(n)) - 1U);
 		if (0U == data_reg->start_at_1) {
 			v += 1U;
 		}
@@ -591,7 +589,7 @@ u32 clk_div_reg_go_get_div(struct clk *clkp)
 			n -= 1U;
 		}
 		v = readl(data_reg->reg) >> data_reg->bit;
-		v &= ((1U << ilog32(n)) - 1U);
+		v &= (u32) ((1U << ilog32(n)) - 1U);
 		v += 1U;
 	}
 

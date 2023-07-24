@@ -301,7 +301,7 @@ static sbool clk_pll_deskew_program_freq(struct clk				*clock_ptr,
 
 	/* Find the log2 for clkod setting */
 	div_ctrl &= ~PLL_DESKEW_DIV_CTRL_POST_DIV_MASK;
-	for (i = 0UL; (((2UL << i) & clkod_val_p) == 0UL); i++) {
+	for (i = 0UL; (((u64) (2UL << i) & clkod_val_p) == 0UL); i++) {
 		/* No loop action needed */
 	}
 	div_ctrl |= i << PLL_DESKEW_DIV_CTRL_POST_DIV_SHIFT;

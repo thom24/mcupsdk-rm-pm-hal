@@ -208,7 +208,7 @@ static void clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll)
 	u32 stat;
 
 	cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
-	stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+	stat = readl(pll->base + (u32) PLL_16FFT_CAL_STAT(pll->idx));
 
 	/* Read generated calibration value */
 	calout = stat & PLL_16FFT_CAL_STAT_CAL_OUT_MASK;
@@ -240,7 +240,7 @@ static void clk_pll_16fft_disable_cal(const struct clk_data_pll_16fft *pll)
 	/* Note this register does not readback the written value. */
 	writel(cal, (u32) pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
 	do {
-		stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+		stat = readl(pll->base + (u32) PLL_16FFT_CAL_STAT(pll->idx));
 	} while ((stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U);
 	return;
 }
@@ -331,7 +331,7 @@ static sbool clk_pll_16fft_check_cal_lock(const struct clk_data_pll_16fft *pll)
 {
 	u32 stat;
 
-	stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+	stat = readl(pll->base + (u32) PLL_16FFT_CAL_STAT(pll->idx));
 	return (stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U;
 }
 #endif
@@ -569,7 +569,7 @@ static u32 clk_pll_16fft_get_freq_internal(struct clk *clock_ptr, u32 clkod)
 			ret64 += fret >> PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS;
 			rem += frem >> PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS;
 
-			ret64 += ((u32) rem) / clkod_plld;
+			ret64 += (u64) (((u32) rem) / clkod_plld);
 			rem = ((u64) rem) % clkod_plld;
 		}
 
@@ -625,7 +625,7 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 		u32 stat;
 
 		cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
-		stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+		stat = readl(pll->base + (u32) PLL_16FFT_CAL_STAT(pll->idx));
 
 		/* Check if calibration is already enabled and locked */
 		if (((cal & PLL_16FFT_CAL_CTRL_CAL_EN) != 0U) &&
@@ -1060,7 +1060,7 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 			u32 stat;
 
 			cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
-			stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+			stat = readl(pll->base + (u32) PLL_16FFT_CAL_STAT(pll->idx));
 
 			/* Check if calibration is already enabled and locked */
 			if (((cal & PLL_16FFT_CAL_CTRL_CAL_EN) != 0U) &&

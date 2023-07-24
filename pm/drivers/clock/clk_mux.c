@@ -59,7 +59,7 @@ static u32 clk_mux_get_parent_value(struct clk *clkp)
 	} else {
 		v = readl(reg->reg);
 		v >>= reg->bit;
-		v &= ((1U << ilog32(mux->n - 1U)) - 1U);
+		v &= (u32) ((1U << ilog32(mux->n - 1U)) - 1U);
 	}
 
 	return v;
@@ -99,7 +99,7 @@ static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 		s32 err;
 		v = readl(reg->reg);
 		v &= ~(((1U << ilog32(mux->n - 1U)) - 1U) << reg->bit);
-		v |= new_parent << reg->bit;
+		v |= (u32) (new_parent << reg->bit);
 		err = pm_writel_verified(v, reg->reg);
 		if (err != SUCCESS) {
 			ret = SFALSE;

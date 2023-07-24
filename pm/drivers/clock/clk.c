@@ -316,7 +316,7 @@ static void clk_set_freq_trace(struct clk *clkp __attribute__((unused)), u32 fre
 	pm_trace(trace_act,
 		 (val << TRACE_PM_VAL_CLOCK_VAL_SHIFT) |
 		 (exp_val << TRACE_PM_VAL_CLOCK_EXP_SHIFT) |
-		 ((clk_id(clkp) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+		 ((u32) (clk_id(clkp) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 		  TRACE_PM_VAL_CLOCK_ID_MASK));
 }
 
@@ -577,8 +577,7 @@ s32 clk_deinit_pm_devgrp(u8 pm_devgrp)
 	 * a matching put call and the flag cleared. Clocks can be in this
 	 * state if initialization for the given domain is in the deferred state.
 	 */
-	if ( ret == SUCCESS)
-	{
+	if (ret == SUCCESS) {
 		for (i = clk_id_start; i < clk_id_end; i++) {
 			struct clk *clkp = soc_clocks + i;
 
@@ -598,7 +597,7 @@ s32 clk_deinit_pm_devgrp(u8 pm_devgrp)
 			/* Clear the initialized flag */
 			clkp->flags &= (u8) ~CLK_FLAG_INITIALIZED;
 		}
-  }
+	}
 	return ret;
 }
 

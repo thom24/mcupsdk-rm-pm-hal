@@ -1012,8 +1012,8 @@ static u32 clk_adpllm_get_freq_internal(struct clk *clkp,
 	/* Calculate non-fractional part */
 	clkod_plld = clkod * plld;
 	parent_freq_hz = clk_get_parent_freq(clkp);
-	ret = ((u64) (parent_freq_hz / clkod_plld) * (pllm * mul_p));
-	rem = ((u64) (parent_freq_hz % clkod_plld) * (pllm * mul_p));
+	ret = ((u64) (parent_freq_hz / clkod_plld) * (u64) (pllm * mul_p));
+	rem = ((u64) (parent_freq_hz % clkod_plld) * (u64) (pllm * mul_p));
 	if (rem > (u64) ULONG_MAX) {
 		/*
 		 * Remainder should always fit within 32 bits. We add this
@@ -1026,7 +1026,7 @@ static u32 clk_adpllm_get_freq_internal(struct clk *clkp,
 		 */
 		ret += pm_div64(&rem, clkod_plld);
 	} else {
-		ret += ((u32) rem) / clkod_plld;
+		ret += (u64) (((u32) rem) / clkod_plld);
 		rem = (rem % (u64) clkod_plld);
 	}
 
@@ -1060,7 +1060,7 @@ static u32 clk_adpllm_get_freq_internal(struct clk *clkp,
 			 */
 			fret += pm_div64(&frem, clkod_plld);
 		} else {
-			fret += ((u32) frem) / clkod_plld;
+			fret += (u64) (((u32) frem) / clkod_plld);
 			frem = (u64) (((u64) frem) % clkod_plld);
 		}
 
@@ -1075,7 +1075,7 @@ static u32 clk_adpllm_get_freq_internal(struct clk *clkp,
 			 */
 			fret += pm_div64(&frem, clkod_plld);
 		} else {
-			fret += ((u32) frem) / clkod_plld;
+			fret += (u64) (((u32) frem) / clkod_plld);
 			frem = (u64) (((u32) frem) % clkod_plld);
 		}
 
@@ -1085,7 +1085,7 @@ static u32 clk_adpllm_get_freq_internal(struct clk *clkp,
 		ret += fret >> ADPLLM_FREQ_CTRL1_M_FRAC_MULT_BITS;
 		rem += frem >> ADPLLM_FREQ_CTRL1_M_FRAC_MULT_BITS;
 
-		ret += ((u32) rem) / clkod_plld;
+		ret += (u64) (((u32) rem) / clkod_plld);
 		rem = (u64) (((u32) rem) % clkod_plld);
 	}
 
@@ -1140,7 +1140,7 @@ static void clk_adpllm_program_freq(struct adpllm_program_data *data)
 		/* Program the Sigma-Delta Divider */
 
 		/* sdd = ceil(parent_freq_hz * pllm / (plld * FREQ_MHZ(250))) */
-		sdd = (u32) ((dco + (FREQ_MHZ(250) * data->plld) - 1ULL) / FREQ_MHZ(250));
+		sdd = (u32) ((dco + (u64) (FREQ_MHZ(250) * data->plld) - 1ULL) / (u64) FREQ_MHZ(250));
 		/*
 		 * 250MHz * plld doesn't fit in 32 bits, do two divisions by
 		 * a u32 rather than one by a u64.
@@ -1781,8 +1781,8 @@ const struct clk_drv_div clk_drv_div_hsdiv = {
 };
 
 static sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clkp,
-				    u32		parent_freq_hz __attribute__((unused)),
-				    sbool	query)
+					   u32		parent_freq_hz __attribute__((unused)),
+					   sbool	query)
 {
 	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_div *data_div;

@@ -127,7 +127,7 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 			actual64 += pm_div64(&rem64, clkod_plld);
 			rem = (u32) rem64;
 		} else {
-			actual64 += ((u32) rem64) / clkod_plld;
+			actual64 += (u64) (((u32) rem64) / clkod_plld);
 			rem = ((u32) rem64) % clkod_plld;
 		}
 
@@ -154,7 +154,7 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 			if (frem > (u64) ULONG_MAX) {
 				fret += pm_div64(&frem, clkod_plld);
 			} else if (frem >= clkod_plld) {
-				fret += ((u32) frem) / clkod_plld;
+				fret += (u64) (((u32) frem) / clkod_plld);
 				frem = frem % (u64) clkod_plld;
 			} else {
 				/* Do Nothing */
@@ -165,18 +165,18 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 			if (frem > (u64) ULONG_MAX) {
 				fret += pm_div64(&frem, clkod_plld);
 			} else if (frem >= clkod_plld) {
-				fret += ((u32) frem) / clkod_plld;
+				fret += (u64) (((u32) frem) / clkod_plld);
 				frem = (u64) (((u32) frem) % clkod_plld);
 			} else {
 				/* Do Nothing */
 			}
 
-			frem += ((u32) (fret & pllfm_mask)) * clkod_plld;
+			frem += (u64) (((u32) (fret & pllfm_mask)) * clkod_plld);
 
 			actual64 += fret >> pllfm_bits;
 			rem += (u32) (frem >> pllfm_bits);
 
-			actual64 += ((u32) rem) / clkod_plld;
+			actual64 += (u64) (((u32) rem) / clkod_plld);
 			rem += ((u32) rem) % clkod_plld;
 		}
 
@@ -273,7 +273,7 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 			result64 += pm_div64(&rem64, rem_div);
 			rem = (u32) rem64;
 		} else {
-			result64 += ((u32) rem64) / rem_div;
+			result64 += (u64) (((u32) rem64) / rem_div);
 			rem = ((u32) rem64) % rem_div;
 		}
 
@@ -292,8 +292,8 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 			if (frem > (u64) ULONG_MAX) {
 				fret += pm_div64(&frem, rem_div);
 			} else {
-				fret += ((u32) frem) / rem_div;
-				frem = ((u32) frem) % rem_div;
+				fret += (u64) (((u32) frem) / rem_div);
+				frem =  (u64) (((u32) frem) % rem_div);
 			}
 
 			/* Fold in multiplier */
@@ -302,7 +302,7 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 			if (frem > (u64) ULONG_MAX) {
 				fret += pm_div64(&frem, rem_div);
 			} else {
-				fret += ((u32) frem) / rem_div;
+				fret += (u64) (((u32) frem) / rem_div);
 				frem = (u64) (((u32) frem) % rem_div);
 			}
 
@@ -313,7 +313,7 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 			result64 += fret >> bits;
 			rem += (u32) (frem >> bits);
 
-			result64 += rem / rem_div;
+			result64 += (u64) rem / rem_div;
 			rem = rem % rem_div;
 		}
 
@@ -545,7 +545,7 @@ static inline void pll_consider_fractional(struct pll_consider_data *data,
 		} else {
 			u32 extra = ((u32) test_vco_rem) / test_pllm;
 			test_vco += extra;
-			test_vco_rem -= extra * test_pllm;
+			test_vco_rem -= (u64) (extra * test_pllm);
 		}
 		if (test_vco > data->vco_max) {
 			highest_pllfm--;
@@ -566,7 +566,7 @@ static inline void pll_consider_fractional(struct pll_consider_data *data,
 	 *
 	 * pllm_rem * pllfm range = pllfm * input
 	 */
-	rem_target = ((u64) pllm_rem) * (1UL << data->data->pllfm_bits);
+	rem_target = (u64) (((u64) pllm_rem) * (1UL << data->data->pllfm_bits));
 
 	/* Start at the lowest and walk it up to the highest */
 	pllfm_input = ((u64) lowest_pllfm) * data->input;
@@ -1054,7 +1054,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 		 */
 		ideal_pllm = ideal_pllm_step * (lowest_plld - 1U);
 		ideal_pllm_rem = ideal_pllm_step_rem;
-		ideal_pllm_rem *= lowest_plld - 1UL;
+		ideal_pllm_rem *= (u64) (lowest_plld - 1UL);
 
 		/* Handle the carry */
 		while (ideal_pllm_rem > (u64) ULONG_MAX) {
@@ -1154,7 +1154,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 					 * Adjust the remainder according to our
 					 * position within the stride.
 					 */
-					frem += (ideal_pllm - low_pllm) * consider_data->input;
+					frem += (u64) ((ideal_pllm - low_pllm) * consider_data->input);
 					frem /= stride;
 				}
 				estimate_pllfm = (u32) ((frem * input_inverse64) >> 32U);
