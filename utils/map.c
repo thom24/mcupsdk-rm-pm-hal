@@ -228,7 +228,7 @@ const struct map *strmap_prefix(const struct map *map_ptr, const char *prefix)
 
 			direction = (c >> n->u.n->bit_num) & 1U;
 			n = &n->u.n->child[direction];
-			if (c) {
+			if (c != 0U) {
 				top = n;
 			}
 		}
