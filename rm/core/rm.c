@@ -3,7 +3,7 @@
  *
  * Resource Manager core infrastructure
  *
- * Copyright (C) 2017-2022, Texas Instruments Incorporated
+ * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -89,8 +89,8 @@ s32 rm_init(void)
 #endif
 
 	if (r != SUCCESS) {
-		rm_trace_sub(TRACE_RM_ACTION_RM_INIT |
-			     TRACE_RM_ACTION_FAIL, 0U, 0U);
+		rm_trace_sub((TRACE_RM_ACTION_RM_INIT |
+			      TRACE_RM_ACTION_FAIL), 0U, 0U);
 	}
 
 	return r;

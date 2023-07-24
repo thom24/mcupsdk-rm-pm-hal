@@ -846,8 +846,8 @@ s32 rm_irq_init(void)
 	}
 
 	if (r != SUCCESS) {
-		rm_trace_sub(TRACE_RM_ACTION_IRQ_INIT |
-			     TRACE_RM_ACTION_FAIL, 0U, 0U);
+		rm_trace_sub((TRACE_RM_ACTION_IRQ_INIT |
+			      TRACE_RM_ACTION_FAIL), 0U, 0U);
 	}
 
 	return r;

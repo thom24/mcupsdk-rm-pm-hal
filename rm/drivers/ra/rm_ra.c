@@ -1522,7 +1522,7 @@ s32 rm_ra_init(void)
 	}
 
 	if (r != SUCCESS) {
-		rm_trace_sub(TRACE_RM_ACTION_RA_INIT | TRACE_RM_ACTION_FAIL,
+		rm_trace_sub((TRACE_RM_ACTION_RA_INIT | TRACE_RM_ACTION_FAIL),
 			     0U, 0U);
 	}
 

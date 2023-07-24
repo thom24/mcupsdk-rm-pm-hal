@@ -459,8 +459,8 @@ s32 rm_core_init(void)
 	r = core_resasg_create_index();
 
 	if (r != SUCCESS) {
-		rm_trace_sub(TRACE_RM_ACTION_RM_CORE_INIT |
-			     TRACE_RM_ACTION_FAIL, 0U, 0U);
+		rm_trace_sub((TRACE_RM_ACTION_RM_CORE_INIT |
+			      TRACE_RM_ACTION_FAIL), 0U, 0U);
 	}
 
 	return r;
