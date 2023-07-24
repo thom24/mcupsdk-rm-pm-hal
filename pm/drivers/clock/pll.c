@@ -1120,7 +1120,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 			 * just below and above our target.
 			 */
 			pll_find_pllm(clkp, data, ideal_pllm,
-				      (u32) (ideal_pllm_rem != 0UL),
+				      (ideal_pllm_rem != 0UL) ? 1U : 0U,
 				      &low_pllm, &high_pllm);
 
 			/*

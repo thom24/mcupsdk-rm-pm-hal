@@ -88,8 +88,7 @@ struct map *map_add(struct map *map_ptr, const void *member, const u8 *bytes,
 		mapp_ptr_p = &newn->child[0];
 		mapp_ptr_p->u.s = member;
 		mapp_ptr_p->v = newn;
-	}
-	else {
+	} else {
 		/* Find closest existing member. */
 		n = closest(mapp_ptr_p, bytes, len);
 
@@ -130,8 +129,7 @@ struct map *map_add(struct map *map_ptr, const void *member, const u8 *bytes,
 						flag_break = STRUE;
 					}
 				}
-				if (flag_break == STRUE)
-				{
+				if (flag_break == STRUE) {
 					break;
 				}
 
@@ -142,7 +140,7 @@ struct map *map_add(struct map *map_ptr, const void *member, const u8 *bytes,
 				n = &n->u.n->child[direction];
 			}
 
-			newn->child[(s8)!new_dir] = *n;
+			newn->child[(new_dir == 0U) ? 0 : 1] = *n;
 			n->u.n = newn;
 			n->v = NULL;
 		}
@@ -155,11 +153,12 @@ static sbool str_iterate(struct map n,
 			 const void *data)
 {
 	sbool ret;
+
 	if (n.v != NULL) {
 		ret = handle((const char *) n.u.s, n.v, (void *) data);
-	}	else {
+	} else {
 		ret = str_iterate(n.u.n->child[0], handle, data)
-		       && str_iterate(n.u.n->child[1], handle, data);
+		      && str_iterate(n.u.n->child[1], handle, data);
 	}
 	return ret;
 }
@@ -168,7 +167,6 @@ void strmap_iterate_(const struct map *map_ptr,
 		     sbool (*handle)(const char *const_ptr, struct map_node *node_ptr, void *v_ptr),
 		     const void *data)
 {
-
 	/* Empty map? */
 	if (!map_ptr) {
 		/* Do nothing - return */
@@ -183,11 +181,12 @@ static sbool u32_iterate(struct map n,
 			 const void *data)
 {
 	sbool ret;
+
 	if (n.v != NULL) {
 		ret = handle((u32) n.u.s, n.v, (void *) data);
 	} else {
 		ret = u32_iterate(n.u.n->child[0], handle, data)
-		       && u32_iterate(n.u.n->child[1], handle, data);
+		      && u32_iterate(n.u.n->child[1], handle, data);
 	}
 	return ret;
 }
@@ -199,7 +198,7 @@ void u32map_iterate_(const struct map *map_ptr,
 	/* Empty map? */
 	if (!map_ptr) {
 		/* Do nothing - return */
-	}	else {
+	} else {
 		u32_iterate(*map_ptr, handle, data);
 	}
 	return;
@@ -236,7 +235,7 @@ const struct map *strmap_prefix(const struct map *map_ptr, const char *prefix)
 
 		if (!strstarts((const char *) n->u.s, prefix)) {
 			strmap_prefix_ret = NULL;
-		}	else {
+		} else {
 			strmap_prefix_ret = top;
 		}
 	}
