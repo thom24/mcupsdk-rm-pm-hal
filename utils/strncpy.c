@@ -47,11 +47,14 @@ char *lib_strncpy(char *a, const char *b, size_t n)
 			n_val_p = 0U;
 			break;
 		}
-		*_a++ = *_b++;
+		*_a = *_b;
+		_a++;
+		_b++;
 	}
 
 	while ((n_val_p--) != 0U) {
-		*_a++ = '\0';
+		*_a = '\0';
+		_a++;
 	}
 	return a;
 }

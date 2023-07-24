@@ -149,7 +149,8 @@ static s32 core_resasg_create_index(void)
 			}
 
 			/* Store number of unique indexes found for the resasg list */
-			resasg_indexer.valid_cnt = (u8)++ j;
+			++j;
+			resasg_indexer.valid_cnt = (u8) (j);
 
 			if (resasg_indexer.valid_cnt > resasg_indexer.max_cnt) {
 				r = -ECONFUSED;
@@ -442,7 +443,8 @@ s32 rm_core_get_resasg_hosts(u16	utype,
 					r = -EINVAL;
 					break;
 				}
-				host_array[(*n_hosts)++] = entry->host_id;
+				host_array[(*n_hosts)] = entry->host_id;
+				(*n_hosts) = (*n_hosts) + 1;
 			}
 		}
 	}
