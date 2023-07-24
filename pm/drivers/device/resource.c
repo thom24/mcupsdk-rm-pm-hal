@@ -86,7 +86,7 @@ static const void *resource_get(struct device *dev, u8 type, u8 idx)
 	 * If the device does not have drv_data, it does not have resources.
 	 * Return NULL
 	 */
-	r = ((u32) (ddata->flags) & DEVD_FLAG_DRV_DATA) ? to_drv_data(ddata)->r : NULL;
+	r = (((u32) (ddata->flags) & DEVD_FLAG_DRV_DATA) == DEVD_FLAG_DRV_DATA) ? to_drv_data(ddata)->r : NULL;
 
 	while (r != NULL) {
 		hdr = r[0];
