@@ -101,9 +101,9 @@ s32 pm_init(void)
 	} while (!done && progress);
 
 	if (!progress) {
-		pm_trace(TRACE_PM_ACTION_FAIL | TRACE_PM_ACTION_INIT, TRACE_PM_VAL_INIT_DEFER);
+		pm_trace(TRACE_PM_ACTION_FAIL | TRACE_PM_ACTION_INIT, (u32) TRACE_PM_VAL_INIT_DEFER);
 	} else if (errors) {
-		pm_trace(TRACE_PM_ACTION_FAIL | TRACE_PM_ACTION_INIT, TRACE_PM_VAL_INIT_ERROR);
+		pm_trace(TRACE_PM_ACTION_FAIL | TRACE_PM_ACTION_INIT, (u32) TRACE_PM_VAL_INIT_ERROR);
 	} else {
 		pm_trace(TRACE_PM_ACTION_INIT, 0x0U);
 	}

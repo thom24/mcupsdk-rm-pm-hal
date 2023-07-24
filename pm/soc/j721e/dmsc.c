@@ -165,7 +165,7 @@ static s32 j721e_sys_reset_handler(domgrp_t domain)
 	}
 
 	pm_trace(trace_action,
-		 ((domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
+		 (((u16) domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
 		  TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
 
 	return ret;

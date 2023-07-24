@@ -105,7 +105,7 @@ static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 			ret = SFALSE;
 		} else {
 			pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
-				 ((new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
+				 (((u16) new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 				  TRACE_PM_VAL_CLOCK_VAL_MASK) |
 				 ((clk_id(clkp) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 				  TRACE_PM_VAL_CLOCK_ID_MASK));
