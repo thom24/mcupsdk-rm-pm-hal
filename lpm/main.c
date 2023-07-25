@@ -167,7 +167,8 @@ static void clock_gate_legacy_peripherals(sbool enable)
 	if (enable) {
 		writel(WKUP_EN_CLKSTOP_ALL, WKUP_CTRL_MMR_BASE + DM_CLKSTOP_EN);
 		writel(WKUP_EN_GRP_CLKSTOP_REQ, WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_REQ);
-		while ((--timeout > 0U) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_EN_GRP_CLKSTOP_ACK)) {
+		while ((timeout > 0U) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_EN_GRP_CLKSTOP_ACK)) {
+            --timeout;
 		}
 		if (timeout == 0U) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_CLK_GATE);
@@ -175,8 +176,9 @@ static void clock_gate_legacy_peripherals(sbool enable)
 		}
 	} else {
 		writel(WKUP_DIS_GRP_CLKSTOP_REQ, WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_REQ);
-		while ((--timeout > 0U) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_DIS_GRP_CLKSTOP_ACK)) {
-		}
+		while ((timeout > 0U) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_DIS_GRP_CLKSTOP_ACK)) {
+		    --timeout;
+        }
 		if (timeout == 0U) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_CLK_GATE);
 			lpm_abort();
