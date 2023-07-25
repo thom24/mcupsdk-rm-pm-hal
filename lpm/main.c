@@ -205,7 +205,7 @@ static void release_usb_reset_isolation(void)
 static s32 disable_main_lpsc(const struct pd_lpsc *lpscs, u32 n_lpscs)
 {
 	u32 i;
-	s32 ret;
+	s32 ret = 0;
 
 	for (i = 0; i < n_lpscs; i++) {
 		psc_raw_lpsc_set_state(MAIN_PSC_BASE, lpscs[i].lpsc,
@@ -331,7 +331,7 @@ static int enable_main_remain_pll(void)
 static s32 disable_mcu_domain(void)
 {
 	u32 i;
-	s32 ret;
+	s32 ret = 0;
 
 	for (i = 0; i < num_mcu_lpscs; i++) {
 		psc_raw_lpsc_set_state(MCU_PSC_BASE, mcu_lpscs[i].lpsc,
