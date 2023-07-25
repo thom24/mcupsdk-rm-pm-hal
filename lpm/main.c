@@ -98,7 +98,7 @@ void lpm_clear_all_wakeup_interrupt(void)
 {
 	u32 i;
 
-	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
+	for (i = 0; i < (u32)WAKEUP_SOURCE_MAX; i++) {
 		vim_clear_intr(soc_wake_sources_data[i].int_num);
 	}
 }
@@ -167,17 +167,17 @@ static void clock_gate_legacy_peripherals(sbool enable)
 	if (enable) {
 		writel(WKUP_EN_CLKSTOP_ALL, WKUP_CTRL_MMR_BASE + DM_CLKSTOP_EN);
 		writel(WKUP_EN_GRP_CLKSTOP_REQ, WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_REQ);
-		while ((--timeout > 0) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_EN_GRP_CLKSTOP_ACK)) {
+		while ((--timeout > 0U) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_EN_GRP_CLKSTOP_ACK)) {
 		}
-		if (timeout == 0) {
+		if (timeout == 0U) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_CLK_GATE);
 			lpm_abort();
 		}
 	} else {
 		writel(WKUP_DIS_GRP_CLKSTOP_REQ, WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_REQ);
-		while ((--timeout > 0) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_DIS_GRP_CLKSTOP_ACK)) {
+		while ((--timeout > 0U) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_DIS_GRP_CLKSTOP_ACK)) {
 		}
-		if (timeout == 0) {
+		if (timeout == 0U) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_CLK_GATE);
 			lpm_abort();
 		}
@@ -268,7 +268,7 @@ static void disable_wake_sources(void)
 	u32 i;
 
 	/* disable all wake up interrupts */
-	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
+	for (i = 0; i < (u32)WAKEUP_SOURCE_MAX; i++) {
 		vim_set_intr_enable(soc_wake_sources_data[i].int_num, INTR_DISABLE);
 	}
 	/* Clear all bits in WKUP0_EN */
@@ -748,7 +748,7 @@ s32 dm_stub_entry(void)
 	} else {
 		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT);
 	}
-	
+
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_POST_WFI);
 
 	/* start resume */
