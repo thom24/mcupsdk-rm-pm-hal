@@ -424,8 +424,8 @@ static s32 send_tisci_msg_firmware_load(void)
 
 		ret = sproxy_receive_msg_rom(&resp, sizeof(resp));
 		if (ret == 0) {
-			if (resp.hdr.type != MSG_FIRMWARE_LOAD_RESULT ||
-			    resp.hdr.flags != MSG_FLAG_CERT_AUTH_PASS) {
+			if ((resp.hdr.type != MSG_FIRMWARE_LOAD_RESULT) ||
+			    (resp.hdr.flags != MSG_FLAG_CERT_AUTH_PASS)) {
 				ret = -EINVAL;
 			}
 		}
@@ -595,7 +595,7 @@ s32 dm_stub_entry(void)
 
 	lpm_seq_trace(0x77);
 
-	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
+	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_RST_ISO);
 		set_usb_reset_isolation();
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
@@ -617,7 +617,7 @@ s32 dm_stub_entry(void)
 
 	wait_for_debug();
 
-	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
+	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		/* Configure selected wake sources
 		 * with writes to WKUP0_EN IN WKUP_CTRL
 		 */
@@ -688,7 +688,7 @@ s32 dm_stub_entry(void)
 		}
 	}
 
-	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
+	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		/* Set WKUP_CTRL.RST_CTRL.main_reset_iso_done_z to 1 to
 		 * mask main reset in case of RESET_REQz wakeup
 		 */
@@ -794,7 +794,7 @@ s32 dm_stub_entry(void)
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_UNMSK_WWD0_CTRL);
 
-	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
+	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		/* Disable WKUP IO Daisy Chain and IO Isolation */
 		disable_mcu_io_isolation();
 
@@ -818,7 +818,7 @@ s32 dm_stub_entry(void)
 
 	wait_for_debug();
 
-	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
+	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		if (wait_for_reset_statz(SLEEP_STATUS_MAIN_RESETSTATZ) != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST);
 			lpm_abort();
@@ -917,7 +917,7 @@ s32 dm_stub_entry(void)
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_SR_EXIT);
 
-	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
+	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		release_usb_reset_isolation();
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_DDR_RST_ISO);
