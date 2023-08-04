@@ -1,5 +1,5 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * Minimal driver for UART access
  *
@@ -35,72 +35,69 @@
  */
 
 #include <config.h>
+#include <uart_config.h>
 
 #include "lpm_io.h"
-#include "lpm_serial_8250.h"
 
-static u32 uart_base_addr;
+#define lpm_serial_8250_readl   readl
+#define lpm_serial_8250_writel  writel
 
-static void lpm_serial_8250_writel(u32 v, u32 reg)
-{
-	writel(v, reg + uart_base_addr);
-}
-
-static u32 lpm_serial_8250_readl(u32 reg)
-{
-	return readl(reg + uart_base_addr);
-}
-
-void lpm_serial_8250_init(const struct uart_16550_config *cfg)
+/**
+ * \brief Configure UART for asynchronous transfer
+ * \param uart_clk UART Clock frequency
+ */
+static void lpm_serial_8250_init(const u32 uart_clk)
 {
 	u32 val, clkdiv;
 
-	uart_base_addr = cfg->base_addr;
-
-	clkdiv = cfg->uart_clk / (16U * cfg->baud_rate);
+	clkdiv = uart_clk / (16U * UART_BAUD_RATE);
 
 	/* This read operation also acts as a fence */
-	val = lpm_serial_8250_readl(UART_16550_LCR);
+	val = lpm_serial_8250_readl(UART_BASE_ADDRESS + UART_16550_LCR);
 	val |= UART_16550_LCR_DLAB;
-	lpm_serial_8250_writel(val, UART_16550_LCR);
+	lpm_serial_8250_writel(val, (UART_BASE_ADDRESS + UART_16550_LCR));
 
 	val = clkdiv & 0xFFU;
-	lpm_serial_8250_writel(val, UART_16550_DLL);
+	lpm_serial_8250_writel(val, (UART_BASE_ADDRESS + UART_16550_DLL));
 	val = (clkdiv >> 8U) & 0xFFU;
-	lpm_serial_8250_writel(val, UART_16550_DLH);
+	lpm_serial_8250_writel(val, (UART_BASE_ADDRESS + UART_16550_DLH));
 
 	/*
 	 * This read operation also acts as a fence to make sure that
 	 * DLL DLH values have actually been "stuck"
 	 */
-	val = lpm_serial_8250_readl(UART_16550_LCR);
+	val = lpm_serial_8250_readl(UART_BASE_ADDRESS + UART_16550_LCR);
 	val &= (~UART_16550_LCR_DLAB);
-	lpm_serial_8250_writel(val, UART_16550_LCR);
-	lpm_serial_8250_writel(UART_16550_LCR_WORDSZ_8, UART_16550_LCR);
-	lpm_serial_8250_writel(0, UART_16550_IER);
+	lpm_serial_8250_writel(val, (UART_BASE_ADDRESS + UART_16550_LCR));
+	lpm_serial_8250_writel(UART_16550_LCR_WORDSZ_8, (UART_BASE_ADDRESS + UART_16550_LCR));
+	lpm_serial_8250_writel(0, (UART_BASE_ADDRESS + UART_16550_IER));
 	/*
 	 * Force a posted read to make sure things are in-order before we
 	 * enable UART via MDR1 - we ignore result
 	 */
-	lpm_serial_8250_readl(UART_16550_IER);
+	lpm_serial_8250_readl(UART_BASE_ADDRESS + UART_16550_IER);
 
-	lpm_serial_8250_writel(0x0, UART_16550_MDR1);
+	lpm_serial_8250_writel(0x0, (UART_BASE_ADDRESS + UART_16550_MDR1));
 	/*
 	 * Force a posted read to make sure things are in-order before we
 	 * enable FIFO - we ignore result
 	 */
-	lpm_serial_8250_readl(UART_16550_MDR1);
+	lpm_serial_8250_readl(UART_BASE_ADDRESS + UART_16550_MDR1);
 
-	lpm_serial_8250_writel(UART_16550_FCR_FIFOEN, UART_16550_FCR);
-	lpm_serial_8250_writel((UART_16550_MCR_RTS | UART_16550_MCR_DTR), UART_16550_MCR);
+	lpm_serial_8250_writel(UART_16550_FCR_FIFOEN, (UART_BASE_ADDRESS + UART_16550_FCR));
+	lpm_serial_8250_writel((UART_16550_MCR_RTS | UART_16550_MCR_DTR), (UART_BASE_ADDRESS + UART_16550_MCR));
 	/*
 	 * Force a posted read to make sure FIFO is enabled before we send
 	 * data - we ignore result
 	 */
-	lpm_serial_8250_readl(UART_16550_MCR);
+	lpm_serial_8250_readl(UART_BASE_ADDRESS + UART_16550_MCR);
 }
 
-int lpm_console_tx(u8 data)
+/**
+ * \brief Put a u8 character into the UART register
+ * \param data character to write
+ */
+static int lpm_console_tx(u8 data)
 {
 	u32 val;
 	u32 i = 0U;
@@ -110,10 +107,10 @@ int lpm_console_tx(u8 data)
 	* available before writing to avoid dropping chars.
 	*/
 	do {
-		val = lpm_serial_8250_readl(UART_16550_LSR);
+		val = lpm_serial_8250_readl(UART_BASE_ADDRESS + UART_16550_LSR);
 	} while ((i++ < 10000U) && ((val & UART_16550_LSR_TX_FIFO_E) == 0U));
 
-	lpm_serial_8250_writel(data, UART_16550_THR);
+	lpm_serial_8250_writel(data, (UART_BASE_ADDRESS + UART_16550_THR));
 
 	return 0;
 }
@@ -129,29 +126,37 @@ int lpm_puts(char const *str)
 	return str - start;
 }
 
-/*
- * XXX: This must move to autogen, hack for wakeup.
- */
-const struct uart_16550_config soc_uart_16550_lpm_config = {
-	.base_addr	= 0x2b300000U,
-	.baud_rate	= 115200,
-	.uart_clk	= 48000000,
-};
-
-const struct uart_16550_config soc_uart_16550_lpm_bypass_config = {
-	.base_addr	= 0x2b300000U,
-	.baud_rate	= 115200,
-	.uart_clk	= 25000000,
-};
-
 void lpm_console_init(void)
 {
-	lpm_serial_8250_init(&soc_uart_16550_lpm_config);
+    lpm_serial_8250_init(UART_CLK_FREQ);
 }
 
 void lpm_console_bypass_init(void)
 {
 	/* XXX: We must reduce hsdiv to /1 to get crystal frequency */
 	writel(0x8000, 0x4040088);
-	lpm_serial_8250_init(&soc_uart_16550_lpm_bypass_config);
+    lpm_serial_8250_init(UART_CLK_FREQ_BYPASS_STATE);
+}
+
+void lpm_trace_debug_uart(u8 *str, u8 len)
+{
+	u32 i;
+
+	/* Output "0x" at start of hex */
+	lpm_console_tx('0');
+	lpm_console_tx('x');
+
+	/*
+	 * Output string backwards as we converted from low
+	 * digit to high
+	 */
+	for (i = 0U; i <= len; i++) {
+		lpm_console_tx(str[len - i]);
+	}
+
+	/* Add a carriage return to support unflexible terminals. */
+	lpm_console_tx('\r');
+
+    /* Move the cursor to new line. */
+	lpm_console_tx('\n');
 }

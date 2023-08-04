@@ -1,5 +1,5 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * Minimal driver for UART access
  *
@@ -116,22 +116,37 @@
 #define UART_16550_MCR_RTS              (1U << 0U)              /* Request to Send */
 #define UART_16550_MCR_DTR              (1U << 1U)              /* Data Terminal Ready */
 
-struct uart_16550_config {
-	u32	base_addr;
-	u32	baud_rate;
-	u32	uart_clk;
-};
-
-/* SoC Specific Configs */
-/* Boot time UART configuration */
-extern const struct uart_16550_config soc_uart_16550_boot_config;
-
-/** Post PLL setup UART configuration */
-extern const struct uart_16550_config soc_uart_16550_reinit_config;
-
-void lpm_serial_8250_init(const struct uart_16550_config *cfg);
-int lpm_console_tx(u8 data);
+#ifdef CONFIG_LPM_DM_TRACE_UART
 int lpm_puts(const char *str);
-
+/**
+ * \brief Configure UART to print at clock frequency
+ */
 void lpm_console_init(void);
+/**
+ * \brief Configure UART to print at clock bypass frequency
+ */
 void lpm_console_bypass_init(void);
+/**
+ * \brief Print the input buffer at UART console with "0x" prepended to indicate hexadecimal representation
+ * \param str Pointer to location where input debug buffer is placed
+ * \param len Length of buffer to print
+ */
+void lpm_trace_debug_uart(u8 *str, u8 len);
+#else
+static inline int lpm_puts(const char *str __attribute__((unused)))
+{
+	return 0;
+}
+static inline void lpm_console_init(void)
+{
+	return;
+}
+static inline void lpm_console_bypass_init(void)
+{
+	return;
+}
+static inline void lpm_trace_debug_uart(u8 *str __attribute__((unused)), u8 len __attribute__((unused)))
+{
+	return;
+}
+#endif

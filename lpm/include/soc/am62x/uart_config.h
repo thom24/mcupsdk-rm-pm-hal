@@ -1,9 +1,9 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
- * am62x soc baseaddress.h
+ * am62x uart config.h
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,40 +34,23 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef BASEADDRESS_H_
-#define BASEADDRESS_H_
+#ifndef UART_CONFIG_H_
+#define UART_CONFIG_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#define PLLMMR1_CFG_BASE                (0x00680000U)
-#define MAIN_PLL_MMR_BASE               PLLMMR1_CFG_BASE
-#define PLLMMR0_CFG_BASE                (0x04040000U)
-#define MCU_PLL_MMR_BASE                PLLMMR0_CFG_BASE
-#define MMR1_CFG_BASE                   (0x04500000U)
-#define MCU_CTRL_MMR_BASE               MMR1_CFG_BASE
-#define MMR0_CFG_BASE                   (0x43000000U)
-#define WKUP_CTRL_MMR_BASE              MMR0_CFG_BASE
+#include <baseaddress.h>
+#include <lpm_serial_8250.h>
 
-#define MAIN_PSC_BASE                   (0x00400000U)
-#define MCU_PSC_BASE                    (0x04000000U)
+#define UART_BASE_ADDRESS           WKUP_UART0_BASE
 
-#define WKUP_UART0_BASE                 (0x2b300000U)
-#define DDR_CTRL_BASE                   (0x0f308000U)
-#define VIM_BASE                        (0x2fff0000U)
-#define ROM_SEC_PROXY_RT_ADDRESS        (0x44880000U)
-#define ROM_SEC_PROXY_TARGET_ADDRESS    (0x43600000U)
-#define TIFS_SEC_PROXY_RT_ADDRESS       (0x4a600000U)
-#define TIFS_SEC_PROXY_TARGET_ADDRESS   (0x4d000000U)
-#define SEC_PROXY_MSG_RX_TID             0
-#define SEC_PROXY_MSG_TX_TID             1
-#define TIFS_SEC_PROXY_MSG_RX_TID        69
-#define TIFS_SEC_PROXY_MSG_TX_TID        61
-#define DM2DMSC_SEC_PROXY_MSG_RX_TID     22
-#define DM2DMSC_SEC_PROXY_MSG_TX_TID     23
+#define UART_BAUD_RATE              115200U
+#define UART_CLK_FREQ               48000000U
+#define UART_CLK_FREQ_BYPASS_STATE  25000000U
 
 #ifdef __cplusplus
 }
 #endif
-#endif /* BASEADDRESS_H_ */
+#endif /* UART_CONFIG_H_ */

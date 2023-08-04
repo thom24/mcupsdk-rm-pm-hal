@@ -35,69 +35,109 @@
  */
 
 #include <types/short_types.h>
+#include <tisci/lpm/tisci_lpm.h>
 
 #include "lpm_trace.h"
 #include "lpm_serial_8250.h"
+#include "lpm_trace_buffer.h"
 
-void lpm_trace_output(const char *str)
+/* ========================================================================== */
+/*                         Structures and Enums                               */
+/* ========================================================================== */
+
+/**
+ * \brief Local trace configuration during runtime
+ *
+ * \param level Global trace output level.
+ * \param error Stores any error flags from public trace API.
+ */
+struct trace_local_cfg {
+	u8	level;
+	int	error;
+	u16	src_enables;
+	u16	dst_enables;
+};
+
+/* ========================================================================== */
+/*                            Global Variables                                */
+/* ========================================================================== */
+
+/** By default, enable all of trace. */
+static volatile struct trace_local_cfg stub_cfg = {
+	.src_enables	= (TISCI_BRDCFG_TRACE_SRC_PM | TISCI_BRDCFG_TRACE_SRC_RM |
+			   TISCI_BRDCFG_TRACE_SRC_SEC | TISCI_BRDCFG_TRACE_SRC_BASE),
+	.dst_enables	= (TISCI_BRDCFG_TRACE_DST_UART0 | TISCI_BRDCFG_TRACE_DST_ITM |
+			   TISCI_BRDCFG_TRACE_DST_MEM),
+};
+
+/**
+ * \brief Convert integer value to hexadecimal string and store output from least significant
+ *        nibble to most significant nibble
+ * \param value Input integer value to convert
+ * \param str   Pointer to location where output hexadecimal string is stored
+ */
+static u8 lpm_trace_int_to_hex(u32 value, u8 *str)
 {
-	lpm_puts(str);
+	u32 val_rem;
+    u8 idx = 0U;
+
+	if (value == 0U) {
+		str[idx] = (u8) '0';
+		idx++;
+	} else {
+		while (value > 0U) {
+			val_rem = value % TRACE_HEXADECIMAL_BASE;
+			if (val_rem < 10U) {
+				str[idx] = (u8) (val_rem + (u8) '0');
+			} else {
+				str[idx] = (u8) ((val_rem - 10U) + (u8) 'A');
+			}
+			value /= TRACE_HEXADECIMAL_BASE;
+			idx++;
+		}
+	}
+
+	str[idx] = (u8) '\0';
+
+	if (idx > 1U) {
+		/* Get length of string - NULL terminator */
+		idx--;
+	}
+
+    return idx;
 }
 
-static void lpm_trace_output_char(u8 ch)
+void lpm_trace_init(sbool bypass)
 {
-	lpm_console_tx(ch);
+	if (((stub_cfg.dst_enables & TISCI_BRDCFG_TRACE_DST_UART0) != 0U) && ((stub_cfg.src_enables & TISCI_BRDCFG_TRACE_SRC_PM) != 0U)) {
+		if (bypass == SFALSE) {
+			lpm_console_init();
+		} else {
+			lpm_console_bypass_init();
+		}
+	}
 }
 
 void lpm_trace_debug(u32 value)
 {
-	u32 idx = 0;
-	u32 val;
-	u32 i;
 	u8 str[9];
-	u32 v = 0;
+	u8 len;
 
-	v = value;
+	if (((stub_cfg.src_enables & TISCI_BRDCFG_TRACE_SRC_PM) != 0U) && (stub_cfg.dst_enables != 0U)) {
+		len = lpm_trace_int_to_hex(value, str);
 
-	if (v == 0U) {
-		str[0] = (u8) '0';
-		idx += 2U;
-	}
-
-	while (v > 0U) {
-		val = v % 16U;
-		if (val < 10U) {
-			str[idx] = (u8) (val + (u8) '0');
-		} else {
-			str[idx] = (u8) ((val - 10U) + (u8) 'A');
+		if ((stub_cfg.dst_enables & TISCI_BRDCFG_TRACE_DST_MEM) != 0U) {
+			lpm_trace_debug_buffer(str, len);
 		}
 
-		idx++;
-		v /= 16U;
-	}
-
-	str[idx] = (u8) '\0';
-	/* Output "0x" at start of hex */
-	lpm_trace_output_char('0');
-	lpm_trace_output_char('x');
-
-	if (idx > 0U) {
-		/* Get length of string - NULL terminator*/
-		idx--;
-
-		/*
-		 * Output string backwards as we converted from low
-		 * digit to high
-		 */
-		for (i = 0U; i <= idx; i++) {
-			lpm_trace_output_char(str[idx - i]);
+		if ((stub_cfg.dst_enables & TISCI_BRDCFG_TRACE_DST_UART0) != 0U) {
+			lpm_trace_debug_uart(str, len);
 		}
-
-		/*
-		     * Add a carriage return before newline to support
-		     * unflexible terminals.
-		     */
-		lpm_trace_output_char('\r');
-		lpm_trace_output_char('\n');
 	}
+}
+
+void lpm_trace_reconfigure(u16 src_enables, u16 dst_enables)
+{
+	stub_cfg.src_enables = src_enables;
+	stub_cfg.dst_enables = dst_enables;
 }

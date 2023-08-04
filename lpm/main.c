@@ -346,7 +346,7 @@ static s32 disable_mcu_domain(void)
 
 	if (ret == 0) {
 		psc_raw_pd_set_state(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU,
-			     PDCTL_STATE_OFF, 0);
+				     PDCTL_STATE_OFF, 0);
 		psc_raw_pd_initiate(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
 
 		ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
@@ -571,7 +571,7 @@ s32 dm_stub_entry(void)
 {
 	u32 reg;
 
-	lpm_console_init();
+	lpm_trace_init(SFALSE);
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_START);
 
@@ -708,7 +708,7 @@ s32 dm_stub_entry(void)
 	if (g_params.mode == LPM_DEEPSLEEP) {
 		pll_save(&mcu_pll);
 		pll_bypass(&mcu_pll);
-		lpm_console_bypass_init();
+		lpm_trace_init(STRUE);
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_BYPASS_MCU_PLL);
 
 		/* set MCU_MMR.MCU_PLL_CLKSEL.clkloss_switch_en to 0
@@ -781,7 +781,7 @@ s32 dm_stub_entry(void)
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL);
 			lpm_abort();
 		} else {
-			lpm_console_init();
+			lpm_trace_init(SFALSE);
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL);
 		}
 
@@ -920,7 +920,7 @@ s32 dm_stub_entry(void)
 	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		release_usb_reset_isolation();
 
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_DDR_RST_ISO);
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_USB_RST_ISO);
 
 		/* Send TISCI Message to TIFS to indicate DDR is active and
 		 * resume can proceed, include address of TIFS context
