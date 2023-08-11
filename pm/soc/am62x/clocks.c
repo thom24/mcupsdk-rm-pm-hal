@@ -176,7 +176,7 @@ enum {
 	PLL_ENTRY_MAIN_25MHZ_1000MHZ,
 	PLL_ENTRY_MAIN_26MHZ_1000MHZ_F24BIT,
 	PLL_ENTRY_PER0_24MHZ_960MHZ,
-	PLL_ENTRY_PER0_25MHZ_960MHZ,
+	PLL_ENTRY_PER0_25MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_ARM0_24MHZ_2500MHZ_F24BIT,
 	PLL_ENTRY_ARM0_25MHZ_2500MHZ,
@@ -285,12 +285,12 @@ const struct pll_table_entry soc_pll_table[24] = {
 		.pllfm		= 0U,
 		.clkod		= 2U,
 	},
-	[PLL_ENTRY_PER0_25MHZ_960MHZ] =		{
+	[PLL_ENTRY_PER0_25MHZ_960MHZ_F24BIT] =	{
 		.freq_min_hz	= 960000000U,
 		.freq_max_hz	= 960000000U,
-		.plld		= 5U,
-		.pllm		= 384U,
-		.pllfm		= 0U,
+		.plld		= 1U,
+		.pllm		= 76U,
+		.pllfm		= 13421773U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT] =	{
@@ -431,7 +431,7 @@ static const u8 pllfracf2_ssmod_16fft_main_0_entries[4] = {
 };
 static const u8 pllfracf2_ssmod_16fft_main_1_entries[4] = {
 	PLL_ENTRY_PER0_24MHZ_960MHZ,
-	PLL_ENTRY_PER0_25MHZ_960MHZ,
+	PLL_ENTRY_PER0_25MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
