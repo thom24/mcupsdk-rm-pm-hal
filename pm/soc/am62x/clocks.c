@@ -383,10 +383,10 @@ const struct pll_table_entry soc_pll_table[24] = {
 	},
 	[PLL_ENTRY_DSS0_25MHZ_2380MHZ_F24BIT] = {
 		.freq_min_hz	= 2380000000U,
-		.freq_max_hz	= 2380000000U,
-		.plld		= 2U,
-		.pllm		= 190U,
-		.pllfm		= 6710887U,
+		.freq_max_hz	= 2380000001U,
+		.plld		= 1U,
+		.pllm		= 95U,
+		.pllfm		= 3355444U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_DSS0_26MHZ_2380MHZ_F24BIT] = {
