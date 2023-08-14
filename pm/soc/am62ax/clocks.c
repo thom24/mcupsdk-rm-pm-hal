@@ -202,9 +202,6 @@ enum {
 	PLL_ENTRY_SMS_24MHZ_2400MHZ,
 	PLL_ENTRY_SMS_25MHZ_2400MHZ,
 	PLL_ENTRY_SMS_26MHZ_2400MHZ_F24BIT,
-	PLL_ENTRY_DSS0_24MHZ_2380MHZ_F24BIT,
-	PLL_ENTRY_DSS0_25MHZ_2380MHZ_F24BIT,
-	PLL_ENTRY_DSS0_26MHZ_2380MHZ_F24BIT,
 	PLL_ENTRY_DSS1_24MHZ_2040MHZ,
 	PLL_ENTRY_DSS1_25MHZ_2040MHZ_F24BIT,
 	PLL_ENTRY_DSS1_26MHZ_2040MHZ_F24BIT,
@@ -245,7 +242,7 @@ const struct clk_default soc_clock_freq_defaults[10] = {
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MCU_0_DEFAULT,	1200000000UL, 1200000000UL, 1200000000UL),
 };
 
-const struct pll_table_entry soc_pll_table[30] = {
+const struct pll_table_entry soc_pll_table[27] = {
 	[PLL_ENTRY_MCU_24MHZ_1200MHZ] =		 {
 		.freq_min_hz	= 1200000000U,
 		.freq_max_hz	= 1200000000U,
@@ -436,30 +433,6 @@ const struct pll_table_entry soc_pll_table[30] = {
 		.plld		= 1U,
 		.pllm		= 92U,
 		.pllfm		= 5162221U,
-		.clkod		= 1U,
-	},
-	[PLL_ENTRY_DSS0_24MHZ_2380MHZ_F24BIT] =	 {
-		.freq_min_hz	= 2380000000U,
-		.freq_max_hz	= 2380000000U,
-		.plld		= 1U,
-		.pllm		= 99U,
-		.pllfm		= 2796203U,
-		.clkod		= 1U,
-	},
-	[PLL_ENTRY_DSS0_25MHZ_2380MHZ_F24BIT] =	 {
-		.freq_min_hz	= 2380000000U,
-		.freq_max_hz	= 2380000000U,
-		.plld		= 2U,
-		.pllm		= 190U,
-		.pllfm		= 6710887U,
-		.clkod		= 1U,
-	},
-	[PLL_ENTRY_DSS0_26MHZ_2380MHZ_F24BIT] =	 {
-		.freq_min_hz	= 2380000000U,
-		.freq_max_hz	= 2380000000U,
-		.plld		= 1U,
-		.pllm		= 91U,
-		.pllfm		= 9033886U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_DSS1_24MHZ_2040MHZ] =	 {
