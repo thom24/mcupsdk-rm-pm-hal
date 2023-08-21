@@ -228,8 +228,8 @@ void psc_pd_wait(struct device *dev, struct psc_pd *pd)
 		if (i == 0) {
 			/* Directly convert to psc to get psc_idx */
 			pm_trace(TRACE_PM_ACTION_PSC_TRANSITION_TIMEOUT | TRACE_PM_ACTION_FAIL,
-				 ((u32) ((to_psc_drv_data(get_drv_data(dev)))->psc_idx) << TRACE_PM_VAL_PSC_SHIFT) |
-				 ((u16) psc_pd_idx(dev, pd) << TRACE_PM_VAL_PD_SHIFT) | TRACE_PM_VAL_PD_POS1);
+				 (u32) (((u32) ((to_psc_drv_data(get_drv_data(dev)))->psc_idx) << TRACE_PM_VAL_PSC_SHIFT) |
+				 ((u16) psc_pd_idx(dev, pd) << TRACE_PM_VAL_PD_SHIFT) | TRACE_PM_VAL_PD_POS1));
 		}
 	}
 }
@@ -598,7 +598,7 @@ static void lpsc_module_sync_state(struct device	*dev,
 	old_state = module->sw_state;
 	module->sw_state = state;
 	old_msrt_ret = module->sw_mrst_ret;
-	module->sw_mrst_ret = (u8) (new_mrst_ret);
+	module->sw_mrst_ret =  new_mrst_ret;
 
 	/* Previous setting of retention, enable, and reset */
 	old_ret = old_state != MDSTAT_STATE_SWRSTDISABLE;
@@ -641,8 +641,8 @@ static void lpsc_module_sync_state(struct device	*dev,
 		}
 		if (!depends_dev) {
 			pm_trace(TRACE_PM_ACTION_PSC_INVALID_DEP_DATA | TRACE_PM_ACTION_FAIL,
-				 ((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
-				 ((u16) data->depends_psc_idx << TRACE_PM_VAL_PD_SHIFT) | TRACE_PM_VAL_PD_POS1);
+				 (u32) (((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
+				 ((u16) data->depends_psc_idx << TRACE_PM_VAL_PD_SHIFT) | TRACE_PM_VAL_PD_POS1));
 		} else {
 			/*
 			 * Moving from a clock stop state to a clock enabled
@@ -716,8 +716,8 @@ static void lpsc_module_sync_state(struct device	*dev,
 		}
 		if (!depends_dev) {
 			pm_trace(TRACE_PM_ACTION_PSC_INVALID_DEP_DATA | TRACE_PM_ACTION_FAIL,
-				 ((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
-				 ((u16) data->depends_psc_idx << TRACE_PM_VAL_PD_SHIFT) | TRACE_PM_VAL_PD_POS2);
+				 (u32) (((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
+				 ((u16) data->depends_psc_idx << TRACE_PM_VAL_PD_SHIFT) | TRACE_PM_VAL_PD_POS2));
 		} else if (domain_reset && (depends_dev == dev)) {
 			/* Ignore self dependencies during domain reset */
 		} else {
@@ -919,8 +919,8 @@ void lpsc_module_wait(struct device *dev, struct lpsc_module *module)
 		}
 		if (0 == i) {
 			pm_trace(TRACE_PM_ACTION_PSC_RST_DONE_TIMEOUT | TRACE_PM_ACTION_FAIL,
-				 (((u32) psc->psc_idx) << TRACE_PM_VAL_PSC_SHIFT) |
-				 (idx << TRACE_PM_VAL_PD_SHIFT) | TRACE_PM_VAL_PD_POS1);
+				 (u32) ((((u32) psc->psc_idx) << TRACE_PM_VAL_PSC_SHIFT) |
+				 (idx << TRACE_PM_VAL_PD_SHIFT) | TRACE_PM_VAL_PD_POS1));
 		}
 	}
 }
@@ -1001,9 +1001,9 @@ static void lpsc_module_get_internal(struct device *dev,
 
 	if (ret) {
 		pm_trace(TRACE_PM_ACTION_RETENTION_GET,
-			 ((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
+			 (u32) (((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
 			 ((u16) lpsc_module_idx(dev, module) << TRACE_PM_VAL_LPSC_SHIFT) |
-			 (module->ret_count & TRACE_PM_VAL_MAX_PSC_DATA));
+			 (module->ret_count & TRACE_PM_VAL_MAX_PSC_DATA)));
 		module->ret_count++;
 		if (module->ret_count == 1U) {
 			lpsc_module_clk_get(dev, module);
@@ -1025,9 +1025,9 @@ static void lpsc_module_put_internal(struct device *dev,
 
 	if (use) {
 		pm_trace(TRACE_PM_ACTION_MODULE_PUT,
-			 ((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
+			 (u32) (((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
 			 ((u16) lpsc_module_idx(dev, module) << TRACE_PM_VAL_LPSC_SHIFT) |
-			 (module->use_count & TRACE_PM_VAL_MAX_PSC_DATA));
+			 (module->use_count & TRACE_PM_VAL_MAX_PSC_DATA)));
 		module->use_count--;
 		if (module->use_count == 0U) {
 			modify = STRUE;
@@ -1036,9 +1036,9 @@ static void lpsc_module_put_internal(struct device *dev,
 
 	if (ret) {
 		pm_trace(TRACE_PM_ACTION_RETENTION_PUT,
-			 ((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
+			 (u32) (((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
 			 ((u16) lpsc_module_idx(dev, module) << TRACE_PM_VAL_LPSC_SHIFT) |
-			 (module->ret_count & TRACE_PM_VAL_MAX_PSC_DATA));
+			 (module->ret_count & TRACE_PM_VAL_MAX_PSC_DATA)));
 		module->ret_count--;
 		if (module->ret_count == 0U) {
 			modify = STRUE;
@@ -1084,8 +1084,8 @@ static void psc_pd_drop_pwr_up_ref(struct device *dev)
 
 	for (idx = 0U; idx < psc->pd_count; idx++) {
 		struct psc_pd *pd = psc_idx2pd(psc, idx);
-		if ((pd->pwr_up_enabled) != 0u) {
-			pd->pwr_up_enabled = 0U;
+		if ((pd->pwr_up_enabled) != SFALSE) {
+			pd->pwr_up_enabled = SFALSE;
 			psc_pd_put(dev, pd);
 		}
 	}
@@ -1159,8 +1159,8 @@ static s32 psc_initialize_pds(struct device *dev)
 		}
 
 		pm_trace(TRACE_PM_ACTION_PD_INIT,
-			 ((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
-			 ((u16) idx << TRACE_PM_VAL_PD_SHIFT));
+			 (u32) (((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
+			 ((u16) idx << TRACE_PM_VAL_PD_SHIFT)));
 		psc_pd_wait(dev, pd);
 		state = (u8) (psc_read(dev, PSC_PDSTAT((u32) idx)) & PDSTAT_STATE_MASK);
 
@@ -1168,14 +1168,14 @@ static s32 psc_initialize_pds(struct device *dev)
 		 * Mark a PD as power up in use so we don't power everything
 		 * off before PMMC startup is complete
 		 */
-		pd->pwr_up_enabled = (u8) ((state == PDCTL_STATE_ON) ||
+		pd->pwr_up_enabled =  ((state == PDCTL_STATE_ON) ||
 					   ((psc->pd_data[idx].flags & PSC_PD_ALWAYSON) != 0U));
 	}
 
 	/* Second pass, sync use count and impossible hardware states */
 	for (idx = 0U; idx < psc->pd_count; idx++) {
 		struct psc_pd *pd = psc_idx2pd(psc, idx);
-		if (pd->pwr_up_enabled != 0U) {
+		if (pd->pwr_up_enabled != SFALSE) {
 			psc_pd_get(dev, pd);
 		}
 	}
@@ -1209,7 +1209,7 @@ static void psc_uninitialize_pds(struct device *dev)
 		}
 
 		pd->use_count = 0U;
-		pd->pwr_up_enabled = 0U;
+		pd->pwr_up_enabled = SFALSE;
 	}
 
 	psc->data->pds_enabled = 0U;
@@ -1274,8 +1274,8 @@ static s32 psc_initialize_modules(struct device *dev)
 		}
 		if (i == 0) {
 			pm_trace(TRACE_PM_ACTION_PSC_TRANSITION_TIMEOUT | TRACE_PM_ACTION_FAIL,
-				 (((u32) psc->psc_idx) << TRACE_PM_VAL_PSC_SHIFT) |
-				 ((u16) idx << TRACE_PM_VAL_PD_SHIFT) | TRACE_PM_VAL_PD_POS3);
+				 (u32) ((((u32) psc->psc_idx) << TRACE_PM_VAL_PSC_SHIFT) |
+				 ((u16) idx << TRACE_PM_VAL_PD_SHIFT) | TRACE_PM_VAL_PD_POS3));
 		}
 
 		v = psc_read(dev, PSC_MDSTAT((u32) idx));
@@ -1283,7 +1283,7 @@ static s32 psc_initialize_modules(struct device *dev)
 
 		/* Ref count as if we are moving out of off state */
 		mod->sw_state = MDSTAT_STATE_SWRSTDISABLE;
-		mod->sw_mrst_ret = 0U;
+		mod->sw_mrst_ret = SFALSE;
 
 		if ((v == MDSTAT_STATE_ENABLE) || (v == MDSTAT_STATE_SYNCRST)) {
 			mod->pwr_up_enabled = 1U;
@@ -1369,7 +1369,7 @@ static void psc_uninitialize_modules(struct device *dev)
 
 		lpsc_module_sync_state(dev, mod, STRUE);
 		mod->sw_state = MDSTAT_STATE_SWRSTDISABLE;
-		mod->sw_mrst_ret = 0U;
+		mod->sw_mrst_ret = SFALSE;
 	}
 
 	for (i = 0U; i < ARRAY_SIZE(psc->data->mods_enabled); i++) {

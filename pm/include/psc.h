@@ -84,7 +84,7 @@ struct psc_pd_data {
 
 struct psc_pd {
 	u8	use_count : 7;
-	u8	pwr_up_enabled : 1;
+	sbool	pwr_up_enabled ;
 };
 
 /** Module is present, information in record is valid */
@@ -165,7 +165,7 @@ struct lpsc_module {
 	 * case sw_state indicates SWRSTDISABLE but this module holds
 	 * a reference count to it's powerdomain.
 	 */
-	u8	sw_mrst_ret : 1;
+	sbool	sw_mrst_ret ;
 	u8	pwr_up_enabled : 1;
 	u8	pwr_up_ret : 1;
 	/** True if host has requested a module reset */

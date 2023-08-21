@@ -292,8 +292,8 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 			if (frem > (u64) ULONG_MAX) {
 				fret += pm_div64(&frem, rem_div);
 			} else {
-				fret += (u64) (((u32) frem) / rem_div);
-				frem =  (u64) (((u32) frem) % rem_div);
+				fret += ((u32) frem) / rem_div;
+				frem = (u64) (((u32) frem) % rem_div);
 			}
 
 			/* Fold in multiplier */

@@ -314,7 +314,7 @@ static void soc_device_disable_internal_flags_iterate(struct device *psc_dev, st
 		module->sw_state = 0U;
 		module->loss_count = 0U;
 		module->mrst_active = 0U;
-		module->sw_mrst_ret = 0U;
+		module->sw_mrst_ret = SFALSE;
 		for (idx = 0U; idx < ARRAY_SIZE(psc->data->mods_enabled); idx++) {
 			psc->data->mods_enabled[idx] = 0U;
 		}
@@ -322,7 +322,7 @@ static void soc_device_disable_internal_flags_iterate(struct device *psc_dev, st
 	for (idx = 0U; idx < psc->pd_count; idx++) {
 		struct psc_pd *pd = psc->powerdomains + idx;
 		pd->use_count = 0U;
-		pd->pwr_up_enabled = 0U;
+		pd->pwr_up_enabled = SFALSE;
 	}
 	for (idx = 0; idx < psc->module_count; idx++) {
 		struct lpsc_module *temp = psc->modules + idx;
@@ -331,7 +331,7 @@ static void soc_device_disable_internal_flags_iterate(struct device *psc_dev, st
 		temp->pwr_up_enabled = 0U;
 		temp->pwr_up_ret = 0U;
 		temp->sw_state = 0U;
-		temp->sw_mrst_ret = 0U;
+		temp->sw_mrst_ret = SFALSE;
 		temp->loss_count = 0U;
 		temp->mrst_active = 0U;
 	}
