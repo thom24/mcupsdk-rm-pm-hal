@@ -811,7 +811,7 @@ static s32 ra_get_ring_evt(u8 host, u16 id, u16 oes_index, u16 *evt)
 					r = -EINVAL;
 				}
 			}
-		} else if (((inst->n_gp_rings_post_sp_rings != 0) &&
+		} else if (((inst->n_gp_rings_post_sp_rings != 0U) &&
 			    ((oes_index >= inst->gp_ring_oes_offset_post_sp) &&
 			     (oes_index < (inst->gp_ring_oes_offset_post_sp +
 					   inst->n_gp_rings_post_sp_rings))))) {
@@ -902,7 +902,7 @@ static s32 ra_set_ring_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 					r = -EINVAL;
 				}
 			}
-		} else if (((inst->n_gp_rings_post_sp_rings != 0) &&
+		} else if (((inst->n_gp_rings_post_sp_rings != 0U) &&
 			    ((oes_index >= inst->gp_ring_oes_offset_post_sp) &&
 			     (oes_index < (inst->gp_ring_oes_offset_post_sp +
 					   inst->n_gp_rings_post_sp_rings))))) {
