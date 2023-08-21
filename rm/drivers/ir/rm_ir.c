@@ -582,7 +582,7 @@ s32 rm_ir_init(void)
 	s32 r = SUCCESS;
 	u16 i;
 
-#if (IR_SOC_PE_INIT_NUM)
+#if (IR_SOC_PE_INIT_NUM > 0U)
 	u16 j;
 #endif
 
@@ -592,7 +592,7 @@ s32 rm_ir_init(void)
 		    (ir_inst[i].initialized == SFALSE)) {
 			ir_inst[i].inp0_mapping = IR_MAPPING_FREE;
 
-#if (IR_SOC_PE_INIT_NUM)
+#if (IR_SOC_PE_INIT_NUM > 0U)
 			for (j = 0U;
 			     (j < IR_SOC_PE_INIT_NUM) && (r == SUCCESS);
 			     j++) {
