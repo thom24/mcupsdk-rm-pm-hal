@@ -140,7 +140,7 @@ struct map *map_add(struct map *map_ptr, const void *member, const u8 *bytes,
 				n = &n->u.n->child[direction];
 			}
 
-			newn->child[(new_dir == 0U) ? 0 : 1] = *n;
+			newn->child[(new_dir == 0U) ? 1 : 0] = *n;
 			n->u.n = newn;
 			n->v = NULL;
 		}
