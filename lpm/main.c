@@ -895,9 +895,9 @@ s32 dm_stub_entry(void)
 		if (wait_for_tifs_ready() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
 			lpm_abort();
-		}
-
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
+		} else {
+            lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
+        }
 
 		/* Send TISCI ROM Boot image message containing location
 		 * and boot address to load FS stub from SPS Memory
