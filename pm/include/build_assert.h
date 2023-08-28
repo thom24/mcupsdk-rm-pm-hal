@@ -35,7 +35,7 @@
  *		  + BUILD_ASSERT_OR_ZERO(offsetof(struct foo, string) == 0))
  */
 #define BUILD_ASSERT_OR_ZERO(cond) \
-	(sizeof(char [1 - (2 * (int) !(cond))]) - 1U)
+	(int) (sizeof(char [1 - (2 * (!(cond) ? 1 : 0))]) - 1U)
 
 /**
  * BUILD_ASSERT_GLOBAL - assert a build-time dependency, as a global.

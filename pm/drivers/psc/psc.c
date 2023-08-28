@@ -822,7 +822,7 @@ void lpsc_module_set_local_reset(struct device *dev,
 			pm_trace(TRACE_PM_ACTION_SET_LOCAL_RESET,
 				 ((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
 				 (idx << TRACE_PM_VAL_PD_SHIFT) |
-				 (u32) enable);
+				 (u32) ((enable == STRUE) ? 1U : 0U));
 
 			if (enable) {
 				mdctl &= ~MDCTL_LRST;

@@ -176,7 +176,7 @@ const struct clk_parent *clk_get_parent(struct clk *clkp)
 				   drv);
 		ret = mux->get_parent(clkp);
 	} else {
-		ret = ((sbool) (clk_datap->parent.div) ? &clk_datap->parent : NULL);
+		ret = ((clk_datap->parent.div > 0U) ? &clk_datap->parent : NULL);
 	}
 
 	return ret;

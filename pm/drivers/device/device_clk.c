@@ -94,7 +94,7 @@ sbool device_clk_set_gated(struct device *dev, dev_clk_idx_t clk_idx, sbool gate
 		ret = SFALSE;
 	} else {
 		sbool is_gated;
-		is_gated = !!(sbool) ((u32) (dev_clkp->flags) & DEV_CLK_FLAG_DISABLE);
+		is_gated = (((u32) (dev_clkp->flags) & DEV_CLK_FLAG_DISABLE) > 0U ? STRUE : SFALSE);
 		if (is_gated != gated) {
 			is_enabled = (dev->flags & DEV_FLAG_ENABLED_MASK) != 0UL;
 			clkp = clk_lookup((clk_idx_t) devgrp->dev_clk_data[data->dev_clk_idx + clk_idx].clk);
