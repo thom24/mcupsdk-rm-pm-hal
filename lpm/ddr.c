@@ -65,6 +65,16 @@
 #define CDNS_DENALI_PI_24                                       0x2060U
 #define CDNS_DENALI_PI_24_WRLVL_CS                              0x00000100U
 
+#define CDNS_DENALI_PI_25                                       0x2064U
+#define CDNS_DENALI_PI_25_WRLVL_AUTO_REQ                        0x00010000U
+
+#define CDNS_DENALI_PI_43                                       0x20ACU
+#define CDNS_DENALI_PI_43_RDLVL_AUTO_REQ                        0x00000100U
+#define CDNS_DENALI_PI_43_RDLVL_GATE_AUTO_REQ                   0x01000000U
+
+#define CDNS_DENALI_PI_55                                       0x20DCU
+#define CDNS_DENALI_PI_55_CALVL_AUTO_REQ                        0x00000100U
+
 #define CDNS_DENALI_PI_33                                       0x2084U
 #define CDNS_DENALI_PI_33_RDLVL_GATE_REQ                        0x01000000U
 #define CDNS_DENALI_PI_33_RDLVL_REQ                             0x00010000U
@@ -84,6 +94,17 @@
 
 #define CDNS_DENALI_CTL_0_DRAM_CLASS_DDR4                       0xAU
 #define CDNS_DENALI_CTL_0_DRAM_CLASS_LPDDR4                     0xBU
+
+#define CDNS_DENALI_CTL_158                                     0x278U
+#define CDNS_DENALI_CTL_158_LP_CMD_MASK                         0xFF00U
+#define CDNS_DENALI_CTL_158_LP_CMD_SUSPEND                      0x5100U
+#define CDNS_DENALI_CTL_158_LP_CMD_RESUME                       0x0200U
+
+#define CDNS_DENALI_CTL_336                                     0x540U
+#define CDNS_DENALI_CTL_336_NO_TIMEOUT_ERROR                    0x0U
+
+#define CDNS_DENALI_PHY_1306                                    0x5468U
+#define CDNS_DENALI_PHY_1306_PHY_SET_DFI_INPUT_0                0x1U
 
 /**
  * \brief Return type of DRAM class from DDR registers
@@ -105,6 +126,46 @@ s32 ddr_enter_low_power_mode(void)
 	s32 ret = SUCCESS;
 
 	switch (ddr_read_ddr_type()) {
+	case CDNS_DENALI_CTL_0_DRAM_CLASS_LPDDR4:
+		/*
+		 * Enable auto training for WRLVL, RDLVL, CALVL
+		 * Assumption: RDLVL_GATE, CALVL auto trainings enabled by bootloader
+		 */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_25);
+		val |= CDNS_DENALI_PI_25_WRLVL_AUTO_REQ;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_25);
+
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_43);
+		val |= CDNS_DENALI_PI_43_RDLVL_AUTO_REQ;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_43);
+
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_55);
+		val |= CDNS_DENALI_PI_55_CALVL_AUTO_REQ;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_55);
+
+		/* Maintain reset signal throughout deep sleep */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1306);
+		val |= CDNS_DENALI_PHY_1306_PHY_SET_DFI_INPUT_0;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1306);
+
+		/* Set CDNS_DENALI_PHY_1369:PHY UPDATE MASK */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+		val |= CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+
+		/* Clear 0x7 in CDNS_DENALI_PHY_1364:PHY_INIT_UPDATE_CONFIG */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+		val &= ~(CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_MASK <<
+			 CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_SHIFT);
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+
+		/* Enter Self refresh with ctrl clk gating in deep sleep */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_CTL_158);
+		val &= ~CDNS_DENALI_CTL_158_LP_CMD_MASK;
+		val |= CDNS_DENALI_CTL_158_LP_CMD_SUSPEND;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_CTL_158);
+
+		break;
 	case CDNS_DENALI_CTL_0_DRAM_CLASS_DDR4:
 
 		/* Set CDNS_DENALI_PHY_1369:PHY UPDATE MASK */
@@ -133,6 +194,36 @@ s32 ddr_exit_low_power_mode(void)
 	s32 ret = SUCCESS;
 
 	switch (ddr_read_ddr_type()) {
+	case CDNS_DENALI_CTL_0_DRAM_CLASS_LPDDR4:
+
+		/* Exit self refresh */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_CTL_158);
+		val &= ~CDNS_DENALI_CTL_158_LP_CMD_MASK;
+		val |= CDNS_DENALI_CTL_158_LP_CMD_RESUME;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_CTL_158);
+
+		/* Clear CDNS_DENALI_PHY_1369:PHY UPDATE MASK */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+		val &= ~CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+
+		/* Set 0x7 in CDNS_DENALI_PHY_1364:PHY_INIT_UPDATE_CONFIG */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+		val |= (CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_MASK <<
+			CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_SHIFT);
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+
+		/* Ensure no timeout errors during self refresh entry or exit */
+		if (readl(DDR_CTRL_BASE + CDNS_DENALI_CTL_336) != CDNS_DENALI_CTL_336_NO_TIMEOUT_ERROR) {
+			ret = -EFAIL;
+		}
+
+		/* Remove reset signal and return to pre deep sleep state */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1306);
+		val &= ~CDNS_DENALI_PHY_1306_PHY_SET_DFI_INPUT_0;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1306);
+
+		break;
 	case CDNS_DENALI_CTL_0_DRAM_CLASS_DDR4:
 
 		/* Clear CDNS_DENALI_PHY_1369:PHY UPDATE MASK */
@@ -160,6 +251,10 @@ s32 ddr_deepsleep_exit_training(void)
 	s32 ret = SUCCESS;
 
 	switch (ddr_read_ddr_type()) {
+	case CDNS_DENALI_CTL_0_DRAM_CLASS_LPDDR4:
+		ret = SUCCESS;
+
+		break;
 	case CDNS_DENALI_CTL_0_DRAM_CLASS_DDR4:
 	{
 		u32 timeout = DDR_RETRAIN_TIMEOUT;
