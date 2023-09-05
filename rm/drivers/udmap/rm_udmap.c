@@ -4677,7 +4677,7 @@ s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv __attribute__((unused)))
 #ifdef CONFIG_UDMAP_UDMA
 	const struct udmap_instance *inst = NULL;
 	struct tisci_msg_rm_udmap_flow_size_thresh_cfg_req loc_msg;
-	u32 trace_action = TRACE_RM_ACTION_UDMAP_FLOW_SZ_CFG;
+	u8 trace_action = TRACE_RM_ACTION_UDMAP_FLOW_SZ_CFG;
 	u8 assoc_chan_type;
 
 	rm_trace_sub(trace_action,
@@ -4687,7 +4687,7 @@ s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv __attribute__((unused)))
 		     TRACE_RM_SUB_ACTION_VALID_PARAM_LO,
 		     (msg->valid_params & TRACE_DEBUG_SUB_ACTION_VAL_MASK));
 
-	inst = udmap_get_inst(msg->nav_id, (u8) trace_action);
+	inst = udmap_get_inst(msg->nav_id, trace_action);
 	if (inst == NULL) {
 		r = -EINVAL;
 	}
@@ -4696,7 +4696,7 @@ s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv __attribute__((unused)))
 		r = udmap_check_flow_index(inst, msg->hdr.host,
 					   msg->flow_index, STRUE,
 					   &assoc_chan_type,
-					   (u8) trace_action);
+					   trace_action);
 	}
 
 	if (r == SUCCESS) {
@@ -4777,7 +4777,7 @@ s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv __attribute__((unused)))
 	}
 	if (r == SUCCESS) {
 		r = udmap_validate_flow_size_thresh_en(msg->rx_size_thresh_en,
-						       (u8) trace_action);
+						        trace_action);
 	}
 
 	if (r == SUCCESS) {
@@ -4795,7 +4795,7 @@ s32 rm_udmap_flow_delegate(u32 *msg_recv)
 		(struct tisci_msg_rm_udmap_flow_delegate_req *) msg_recv;
 	const struct udmap_instance *inst = NULL;
 	u8 delegate_host = HOST_ID_NONE;
-	u32 trace_action = TRACE_RM_ACTION_UDMAP_FLOW_DELEGATE;
+	u8 trace_action = TRACE_RM_ACTION_UDMAP_FLOW_DELEGATE;
 
 	rm_trace_sub(trace_action,
 		     TRACE_RM_SUB_ACTION_VALID_PARAM_HI,
@@ -4804,7 +4804,7 @@ s32 rm_udmap_flow_delegate(u32 *msg_recv)
 		     TRACE_RM_SUB_ACTION_VALID_PARAM_LO,
 		     (msg->valid_params & TRACE_DEBUG_SUB_ACTION_VAL_MASK));
 
-	inst = udmap_get_inst(msg->dev_id, (u8) trace_action);
+	inst = udmap_get_inst(msg->dev_id, trace_action);
 	if (inst == NULL) {
 		r = -EINVAL;
 	}
@@ -4823,7 +4823,7 @@ s32 rm_udmap_flow_delegate(u32 *msg_recv)
 		r = udmap_check_flow_index(inst, msg->hdr.host,
 					   msg->flow_index, SFALSE,
 					   NULL,
-					   (u8) trace_action);
+					   trace_action);
 	}
 
 	if ((r == SUCCESS) &&

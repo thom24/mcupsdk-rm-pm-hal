@@ -65,6 +65,6 @@ extern const struct clk_drv_mux clk_drv_mux_reg_ro;
 extern const struct clk_drv_mux clk_drv_mux_reg;
 
 const struct clk_parent *clk_get_parent(struct clk *clkp);
-sbool clk_set_parent(struct clk *clkp, u16 new_parent);
+sbool clk_set_parent(struct clk *clkp, u8 new_parent);
 
 #endif

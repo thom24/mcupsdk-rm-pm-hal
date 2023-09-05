@@ -519,7 +519,7 @@ static s32 soc_device_verify_mapping(const struct psc_drv_data *psc,
 	}
 
 	if (ret != 0L) {
-		pm_trace(TRACE_PM_ACTION_INVALID_PSC_DATA | TRACE_PM_ACTION_FAIL, 0UL);
+		pm_trace(TRACE_PM_ACTION_INVALID_PSC_DATA | TRACE_PM_ACTION_FAIL, 0U);
 	}
 
 	return ret;
