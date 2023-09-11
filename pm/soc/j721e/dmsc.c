@@ -86,11 +86,11 @@ static s32 wait_reset_done_with_timeout(domgrp_t domain)
 		reg = readl(WKUP_CTRL_BASE + CTRLMMR_WKUP_RST_STAT);
 		reg &= mask;
 
-		if (reg != 0U) {
+		if (reg == 0U) {
 			osal_delay(RESET_DELAY_PER_ITERATION_US);
 		}
 		timeout--;
-	} while ((timeout != 0U) && (reg != 0U));
+	} while ((timeout != 0U) && (reg == 0U));
 
 	if (timeout == 0U) {
 		ret = -ETIMEDOUT;
