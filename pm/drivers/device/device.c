@@ -143,9 +143,10 @@ s32 devices_init(void)
 		progress = SFALSE;
 		dev = soc_devices;
 
-		for (idx = 0U; idx < soc_device_count; idx++, dev++) {
+		for (idx = 0U; idx < soc_device_count; idx++) {
 			devgrp_t devgrp;
-
+			dev = &soc_devices[idx];
+		
 			if (dev->initialized != 0U) {
 				continue;
 			}

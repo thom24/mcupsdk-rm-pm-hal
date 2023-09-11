@@ -379,7 +379,7 @@ s32 rm_core_get_resource_range(u32	*msg_recv,
 
 			resp->range_start = start;
 			resp->range_num = num;
-			resp->range_start_sec = start_sec,
+			resp->range_start_sec = start_sec;
 			resp->range_num_sec = num_sec;
 		} else {
 			/*
