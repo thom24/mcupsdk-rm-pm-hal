@@ -1391,11 +1391,26 @@ static u32 clk_pll_16fft_hsdiv_set_freq(struct clk *clock_ptr,
 			pll_clk = clk_lookup((clk_idx_t) p->clk);
 		}
 
-		if (pll_clk) {
-			ret = clk_pll_16fft_internal_set_freq(pll_clk, clk,
-							      &pll_16fft_hsdiv_data,
-							      target_hz, min_hz, max_hz,
-							      query, changed);
+		if (pll_clk != NULL) {
+			/*
+			 * Before changing the VCO frequency of PLL.
+			 * Check that new target freq can be obtained with current parent
+			 * frequency by changing the divider.
+			 *
+			 * Here both min and max freq is given same as target freq.
+			 * Reason :
+			 * If min and max frequency is given it might set to frequency other than target
+			 * frequency even if target frequency can be obtained by changing the PLL vco frequency.
+			 */
+			ret = clk_div_set_freq_static_parent(clock_ptr, target_hz, target_hz,
+							     target_hz, query, changed);
+
+			if (ret == 0U) {
+				ret = clk_pll_16fft_internal_set_freq(pll_clk, clock_ptr,
+								      &pll_16fft_hsdiv_data,
+								      target_hz, min_hz, max_hz,
+								      query, changed);
+			}
 		}
 	} else {
 		/* Just program the output divider. */
