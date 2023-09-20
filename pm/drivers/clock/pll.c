@@ -292,7 +292,7 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 			if (frem > (u64) ULONG_MAX) {
 				fret += pm_div64(&frem, rem_div);
 			} else {
-				fret += ((u32) frem) / rem_div;
+				fret += (u64) ((u32) frem) / rem_div;
 				frem = (u64) (((u32) frem) % rem_div);
 			}
 
@@ -566,7 +566,7 @@ static inline void pll_consider_fractional(struct pll_consider_data *data,
 	 *
 	 * pllm_rem * pllfm range = pllfm * input
 	 */
-	rem_target = (u64) (((u64) pllm_rem) * (1UL << data->data->pllfm_bits));
+	rem_target = (u64)(((u64) pllm_rem) * (u64)(1UL << data->data->pllfm_bits));
 
 	/* Start at the lowest and walk it up to the highest */
 	pllfm_input = ((u64) lowest_pllfm) * data->input;

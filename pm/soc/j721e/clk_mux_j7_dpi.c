@@ -123,9 +123,9 @@ static sbool clk_mux_j7_dpi_0_pclk_set_parent(struct clk *clock_ptr	TRACE_ONLY,
 
 	if (ret) {
 		pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
-			 ((new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
+			 (((u32)new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-			 ((clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+			 (((u32)clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_ID_MASK));
 	}
 
@@ -220,9 +220,9 @@ static sbool clk_mux_j7_dpi_2_pclk_set_parent(struct clk *clock_ptr	TRACE_ONLY,
 
 	if (ret) {
 		pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
-			 ((new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
+			 (((u32)new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-			 ((clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+			 (((u32)clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_ID_MASK));
 	}
 
@@ -246,7 +246,7 @@ static const struct clk_parent *clk_mux_j7_dpi_3_pclk_get_parent(struct clk *clo
 
 	v = readl(reg->reg);
 	v >>= reg->bit;
-	v &= ((1U << ilog32(mux->n - 1U)) - 1U);
+	v &= (u32)((1U << ilog32(mux->n - 1U)) - 1U);
 
 	/* Output 4 if bits 2 is set, low bits otherwise */
 	if (v > 4UL) {
@@ -323,15 +323,15 @@ static sbool clk_mux_j7_dpi_3_pclk_set_parent(struct clk *clock_ptr, u8 new_pare
 
 	if (ret && change) {
 		v &= ~mask;
-		v |= new_parent << reg->bit;
+		v |= (u32)new_parent << reg->bit;
 		err = pm_writel_verified(v, reg->reg);
 		if (err != SUCCESS) {
 			ret = SFALSE;
 		}
 		pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
-			 ((new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
+			 (((u32)new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-			 ((clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+			 (((u32)clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_ID_MASK));
 	}
 
