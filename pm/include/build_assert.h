@@ -20,7 +20,7 @@
  *	}
  */
 #define BUILD_ASSERT(cond) \
-	do { (void) sizeof(char [1 - (2 * !(cond))]); } while (0)
+	do { (void) sizeof(char [1 - (2 * ((!(cond)) ? 1 : 0))]); } while (0)
 
 /**
  * BUILD_ASSERT_OR_ZERO - assert a build-time dependency, as an expression.
@@ -35,7 +35,7 @@
  *		  + BUILD_ASSERT_OR_ZERO(offsetof(struct foo, string) == 0))
  */
 #define BUILD_ASSERT_OR_ZERO(cond) \
-	(int) (sizeof(char [1 - (2 * (!(cond) ? 1 : 0))]) - 1U)
+	(int)(sizeof(char [1 - (2 * ((!(cond)) ? 1 : 0))]) - 1U)
 
 /**
  * BUILD_ASSERT_GLOBAL - assert a build-time dependency, as a global.
@@ -52,5 +52,5 @@
  */
 #define BUILD_ASSERT_GLOBAL(cond, name)	\
 	static const char name __attribute__((unused, section(".discard.asserts"))) \
-		= sizeof(char [1 - (2 * !(cond))]);
+		= sizeof(char [1 - (2 * ((!(cond)) ? 1 : 0))]);
 #endif /* BUILD_ASSERT_H */
