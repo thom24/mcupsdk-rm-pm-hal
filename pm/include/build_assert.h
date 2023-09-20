@@ -52,5 +52,5 @@
  */
 #define BUILD_ASSERT_GLOBAL(cond, name)	\
 	static const char name __attribute__((unused, section(".discard.asserts"))) \
-		= sizeof(char [1 - (2 * ((!(cond)) ? 1 : 0))]);
+		= (char) sizeof(char [1 - (2 * ((!(cond)) ? 1 : 0))]);
 #endif /* BUILD_ASSERT_H */

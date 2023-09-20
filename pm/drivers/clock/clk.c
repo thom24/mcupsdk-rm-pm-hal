@@ -313,7 +313,7 @@ static void clk_set_freq_trace(struct clk *clkp __attribute__((unused)), u32 fre
 		exp_val += 1U;
 	}
 
-	pm_trace(trace_act,
+	pm_trace( (u8)trace_act,
 		 (val << TRACE_PM_VAL_CLOCK_VAL_SHIFT) |
 		 (exp_val << TRACE_PM_VAL_CLOCK_EXP_SHIFT) |
 		 ((u32) (clk_id(clkp) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &

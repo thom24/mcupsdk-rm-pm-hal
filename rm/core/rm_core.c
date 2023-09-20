@@ -444,7 +444,7 @@ s32 rm_core_get_resasg_hosts(u16	utype,
 					break;
 				}
 				host_array[(*n_hosts)] = entry->host_id;
-				(*n_hosts) = (*n_hosts) + 1;
+				(*n_hosts) = (*n_hosts) + 1U;
 			}
 		}
 	}

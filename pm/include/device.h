@@ -67,7 +67,11 @@
 /* Device flags */
 #define DEV_FLAG_RETENTION              BIT(4)
 #define DEV_FLAG_ENABLED_BIT            5UL
+#if HOST_ID_CNT <= 26
+#define DEV_FLAG_ENABLED(host_idx)      (1UL << ((DEV_FLAG_ENABLED_BIT) + (host_idx)))
+#else
 #define DEV_FLAG_ENABLED(host_idx)      (1ULL << ((DEV_FLAG_ENABLED_BIT) + (host_idx)))
+#endif
 #define DEV_FLAG_POWER_ON_ENABLED       DEV_FLAG_ENABLED(DEV_POWER_ON_ENABLED_HOST_IDX)
 
 /* Note, can support HOST_ID_CNT up to 26 */
