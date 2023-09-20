@@ -20,7 +20,7 @@
  *	}
  */
 #define BUILD_ASSERT(cond) \
-	do { (void) sizeof(char [1 - (2 * ((!(cond)) ? 1 : 0))]); } while (0)
+	do { (void) sizeof(char [1 - (2 * ((!(cond)) ? 1 : 0))]); } while (SFALSE)
 
 /**
  * BUILD_ASSERT_OR_ZERO - assert a build-time dependency, as an expression.
