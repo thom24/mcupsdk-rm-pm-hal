@@ -773,7 +773,7 @@ void lpsc_module_set_reset_iso(struct device *dev, struct lpsc_module *module,
 		/* Nothing to do */
 	} else {
 		mdctl = psc_read(dev, PSC_MDCTL(idx));
-		is_enabled = (sbool) !!(mdctl & MDCTL_RESET_ISO);
+		is_enabled = (((mdctl & MDCTL_RESET_ISO)== MDCTL_RESET_ISO) ? STRUE : SFALSE);
 
 		if (enable != is_enabled) {
 			if (enable) {
@@ -797,7 +797,7 @@ sbool lpsc_module_get_reset_iso(struct device *dev, struct lpsc_module *module)
 	if (0U == (data->flags & LPSC_HAS_RESET_ISO)) {
 		ret = SFALSE;
 	} else {
-		ret = (sbool) !!(psc_read(dev, PSC_MDCTL(idx)) & MDCTL_RESET_ISO);
+		ret = ((psc_read(dev, PSC_MDCTL(idx)) & MDCTL_RESET_ISO) == MDCTL_RESET_ISO) ? STRUE : SFALSE;
 	}
 	return ret;
 }
@@ -816,7 +816,7 @@ void lpsc_module_set_local_reset(struct device *dev,
 		/* Nothing to do */
 	} else {
 		mdctl = psc_read(dev, (u32) PSC_MDCTL(idx));
-		is_enabled = (sbool) !(mdctl & MDCTL_LRST);
+		is_enabled =  !(((mdctl & MDCTL_LRST)== MDCTL_LRST) ? STRUE :SFALSE);
 
 		if (enable != is_enabled) {
 			pm_trace(TRACE_PM_ACTION_SET_LOCAL_RESET,
@@ -873,7 +873,7 @@ sbool lpsc_module_get_local_reset(struct device *dev, struct lpsc_module *module
 	if (0U == (data->flags & LPSC_HAS_LOCAL_RESET)) {
 		ret = SFALSE;
 	} else {
-		ret = (sbool) !(psc_read(dev, (u32) PSC_MDCTL(idx)) & MDCTL_LRST);
+		ret = !(((psc_read(dev, (u32) PSC_MDCTL(idx)) & MDCTL_LRST) == MDCTL_LRST) ? STRUE :SFALSE);
 	}
 	return ret;
 }

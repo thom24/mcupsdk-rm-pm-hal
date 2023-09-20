@@ -153,7 +153,7 @@ void device_set_state(struct device *device_ptr, u8 host_idx, sbool enable)
 
 void device_set_retention(struct device *device_ptr, sbool retention)
 {
-	sbool is_retention = (sbool) !!(device_ptr->flags & DEV_FLAG_RETENTION);
+	sbool is_retention = ((device_ptr->flags & DEV_FLAG_RETENTION) > 0U) ? STRUE : SFALSE;
 
 	if (retention == is_retention) {
 		/* Do nothing  - return */

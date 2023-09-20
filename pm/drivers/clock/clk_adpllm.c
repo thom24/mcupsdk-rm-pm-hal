@@ -731,7 +731,7 @@ static sbool adpllm_clkod_valid(struct clk *clkp UNUSED, u32 clkod)
 	/* Only even numbers are allowed. */
 	sbool ret;
 
-	ret = !(clkod & 1U);
+	ret = (((clkod & 1U) > 0U) ? SFALSE : STRUE) ;
 	return ret;
 }
 
