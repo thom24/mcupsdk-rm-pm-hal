@@ -1134,13 +1134,13 @@ static void clk_adpllm_program_freq(struct adpllm_program_data *data)
 	if (data->pll->ljm) {
 		/* Select which DCO to use for PLLJM */
 		u64 dco = (u64) data->parent_freq_hz * data->pllm;
-		u64 cutoff = (u64) (FREQ_MHZ(1375) * data->plld);
+		u64 cutoff = (u64) (FREQ_MHZ(1375.0) * data->plld);
 		u32 sdd;
 
 		/* Program the Sigma-Delta Divider */
 
 		/* sdd = ceil(parent_freq_hz * pllm / (plld * FREQ_MHZ(250))) */
-		sdd = (u32) ((dco + (u64) (FREQ_MHZ(250) * data->plld) - 1ULL) / (u64) FREQ_MHZ(250));
+		sdd = (u32) ((dco + (u64) (FREQ_MHZ(250.0) * data->plld) - 1ULL) / (u64) FREQ_MHZ(250.0));
 		/*
 		 * 250MHz * plld doesn't fit in 32 bits, do two divisions by
 		 * a u32 rather than one by a u64.

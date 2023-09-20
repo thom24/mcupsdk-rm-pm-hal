@@ -178,7 +178,7 @@ pd_idx_t psc_pd_idx(struct device *dev, struct psc_pd *pd)
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
 
-	return (pd_idx_t) (pd - psc->powerdomains);
+	return (pd_idx_t) ( (s8) (pd - psc->powerdomains));
 }
 
 static inline struct psc_pd *psc_idx2pd(const struct psc_drv_data	*psc,
@@ -199,7 +199,7 @@ lpsc_idx_t lpsc_module_idx(struct device *dev, struct lpsc_module *module)
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(dev));
 
-	return (lpsc_idx_t) (module - psc->modules);
+	return (lpsc_idx_t) ( (s8) (module - psc->modules));
 }
 
 static inline struct lpsc_module *psc_idx2mod(const struct psc_drv_data *psc,

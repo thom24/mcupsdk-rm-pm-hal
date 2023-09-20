@@ -276,7 +276,7 @@ static inline struct clk *clk_lookup(clk_idx_t id)
  */
 static inline clk_idx_t clk_id(struct clk *clkp)
 {
-	return (clk_idx_t) (clkp - soc_clocks);
+	return (clk_idx_t) ((s16) (clkp - soc_clocks));
 }
 
 /**
