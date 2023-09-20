@@ -306,15 +306,15 @@ static void soc_device_disable_internal_flags_iterate(struct device *psc_dev, st
 	u32 idx;
 	struct lpsc_module *module_p = module;
 
-	if (module != NULL) {
-		module->use_count = 0U;
-		module->ret_count = 0U;
-		module->pwr_up_enabled = 0U;
-		module->pwr_up_ret = 0U;
-		module->sw_state = 0U;
-		module->loss_count = 0U;
-		module->mrst_active = 0U;
-		module->sw_mrst_ret = SFALSE;
+	if (module_p != NULL) {
+		module_p->use_count = 0U;
+		module_p->ret_count = 0U;
+		module_p->pwr_up_enabled = 0U;
+		module_p->pwr_up_ret = 0U;
+		module_p->sw_state = 0U;
+		module_p->loss_count = 0U;
+		module_p->mrst_active = 0U;
+		module_p->sw_mrst_ret = SFALSE;
 		for (idx = 0U; idx < ARRAY_SIZE(psc->data->mods_enabled); idx++) {
 			psc->data->mods_enabled[idx] = 0U;
 		}
@@ -337,17 +337,19 @@ static void soc_device_disable_internal_flags_iterate(struct device *psc_dev, st
 	}
 
 	psc->data->pds_enabled = 0U;
-	idx = lpsc_module_idx(psc_dev, module);
+	idx = lpsc_module_idx(psc_dev, module_p);
 	const struct lpsc_module_data *data = psc->mod_data + idx;
 
 	if ((data->flags & LPSC_DEPENDS) != 0UL) {
 		const struct psc_drv_data *depends_psc = psc;
 		struct device *depends_dev = psc_dev;
 
+    if ((depends_dev != NULL)   || (depends_psc != NULL)){
 		depends_dev = psc_lookup((psc_idx_t) data->depends_psc_idx);
 		depends_psc = to_psc_drv_data(get_drv_data(depends_dev));
+	  }
 
-		if (depends_dev && module) {
+		if (depends_dev && module_p) {
 			module_p = depends_psc->modules + (lpsc_idx_t) data->depends;
 			soc_device_disable_internal_flags_iterate(depends_dev, module_p);
 		}

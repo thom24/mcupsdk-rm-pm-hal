@@ -393,13 +393,19 @@ sbool clk_set_state(struct clk *clkp, sbool enable)
 	const struct clk_data *clk_data_p = clk_get_data(clkp);
 	sbool ret;
 
-	if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
-		/* defer action */
+	if(clk_data_p != NULL)
+ 	{
+			if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
+				/* defer action */
+				ret = STRUE;
+			} else if (clk_data_p->drv->set_state == NULL) {
+				ret = STRUE;
+			} else {
+				ret = clk_data_p->drv->set_state(clkp, enable);
+			}
+ 	}
+	else {
 		ret = STRUE;
-	} else if (clk_data_p->drv->set_state == NULL) {
-		ret = STRUE;
-	} else {
-		ret = clk_data_p->drv->set_state(clkp, enable);
 	}
 
 	return ret;
