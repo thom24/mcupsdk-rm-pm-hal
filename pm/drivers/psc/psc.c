@@ -850,7 +850,7 @@ void lpsc_module_set_module_reset(struct device *dev,
 		pm_trace(TRACE_PM_ACTION_SET_MODULE_RESET,
 			 ((u32) psc->psc_idx << TRACE_PM_VAL_PSC_SHIFT) |
 			 (idx << TRACE_PM_VAL_PD_SHIFT) |
-			 (u32) enable);
+			  (u32) ((enable == STRUE) ? 1U : 0U));
 
 		if (enable) {
 			module->mrst_active = 1U;
@@ -1321,8 +1321,8 @@ static s32 psc_initialize_modules_finish(struct device *dev)
 	/* Second pass, sync ref counts */
 	for (idx = 0U; idx < psc->module_count; idx++) {
 		struct lpsc_module *mod = psc_idx2mod(psc, idx);
-		lpsc_module_get_internal(dev, mod, (sbool) mod->pwr_up_enabled,
-					 (sbool) mod->pwr_up_ret);
+		lpsc_module_get_internal(dev, mod, ((mod->pwr_up_enabled != 0U) ? STRUE : SFALSE),
+					  ((mod->pwr_up_ret == 1U) ? STRUE : SFALSE));
 	}
 
 	psc_pd_drop_pwr_up_ref(dev);

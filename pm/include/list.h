@@ -531,7 +531,7 @@ static inline struct list_node *list_node_from_off_(void *ptr, size_t off)
 
 #define list_off_var_(var, member)			\
 	(container_off_var(var, member) +		\
-	 (size_t) check_type(var->member, struct list_node))
+	 (size_t) (check_type(var->member, struct list_node) ? 1U : 0U))
 
 #define list_typeof(var) typeof(var)
 
