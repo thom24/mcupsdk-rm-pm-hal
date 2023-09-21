@@ -3,7 +3,7 @@
  *
  * UDMAP driver instance definition
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,6 +41,7 @@
 #include <types/devgrps.h>
 #include <soc/rm_mmr.h>
 #include <rm_irq.h>
+#include <udmap_cfg.h>
 
 /**
  * UDMAP global configuration region
@@ -344,7 +345,7 @@ struct udmap_instance {
 /**
  * Extern for UDMAP subsystem instances array
  */
-extern struct udmap_instance udmap_inst[];
+extern struct udmap_instance udmap_inst[UDMAP_INST_RANGE];
 
 /**
  * Extern for number of UDMAP subsystem instances
