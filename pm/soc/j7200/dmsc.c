@@ -66,7 +66,7 @@ static const struct sleep_mode j7200_sleep_modes[] = {
 	},
 };
 
-static u8 j7200_sleep_block[ARRAY_SIZE(j7200_sleep_modes)];
+static u8 j7200_sleep_block[1];
 
 static s32 wait_reset_done_with_timeout(domgrp_t domain)
 {

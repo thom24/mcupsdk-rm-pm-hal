@@ -66,7 +66,7 @@ static const struct sleep_mode j721e_sleep_modes[] = {
 	},
 };
 
-static u8 j721e_sleep_block[ARRAY_SIZE(j721e_sleep_modes)];
+static u8 j721e_sleep_block[1];
 
 static s32 wait_reset_done_with_timeout(domgrp_t domain)
 {
