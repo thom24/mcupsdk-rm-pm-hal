@@ -39,7 +39,7 @@
 #include <stddef.h>
 #include <limits.h>
 
-#define RESOURCE_MAX2(a, b) ((a) > (b) ? (a) : (b))
+#define RESOURCE_MAX2(a, b) (((a) > (b)) ? (a) : (b))
 #define RESOURCE_MAX3(A, B, C) RESOURCE_MAX2(A, (RESOURCE_MAX2(B, C)))
 
 /**

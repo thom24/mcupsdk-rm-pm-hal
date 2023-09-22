@@ -314,7 +314,7 @@ static sbool clk_pll_deskew_program_freq(struct clk				*clock_ptr,
 	}
 
 	if (ret) {
-		ret = ((pm_writel_verified((u32) div_ctrl, pll->base + (u32) PLL_DESKEW_DIV_CTRL(pll->idx))) > 0 ? STRUE : SFALSE);
+		ret = (((pm_writel_verified((u32) div_ctrl, pll->base + (u32) PLL_DESKEW_DIV_CTRL(pll->idx))) > 0) ? STRUE : SFALSE);
 		if (err != SUCCESS) {
 			ret = SFALSE;
 		}

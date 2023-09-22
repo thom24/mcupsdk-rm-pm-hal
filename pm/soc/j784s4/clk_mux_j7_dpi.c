@@ -239,14 +239,15 @@ static const struct clk_parent *clk_mux_j7_dpi_3_pclk_get_parent(struct clk *clo
 	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
-	u32 v;
+	u32 v , temp;
 
 	mux = container_of(clock_data->data, const struct clk_data_mux, data);
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
 
 	v = readl(reg->reg);
 	v >>= reg->bit;
-	v &= ((u32) (1U << ilog32(mux->n - 1U)) - 1U);
+	temp = mux->n - 1U;
+	v &= ((u32) (1U << ilog32(temp)) - 1U);
 
 	/* Output 4 if bits 2 is set, low bits otherwise */
 	if (v > 4UL) {
@@ -261,7 +262,7 @@ static sbool clk_mux_j7_dpi_3_pclk_set_parent(struct clk *clock_ptr, u8 new_pare
 	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
-	u32 v;
+	u32 v , temp;
 	u32 curr_parent;
 	sbool ret;
 	sbool change = STRUE;
@@ -271,7 +272,8 @@ static sbool clk_mux_j7_dpi_3_pclk_set_parent(struct clk *clock_ptr, u8 new_pare
 	mux = container_of(clock_data->data, const struct clk_data_mux, data);
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
 
-	mask = (u32) (((u32) (1U << ilog32(mux->n - 1U)) - 1U) << reg->bit);
+	temp = mux->n - 1U;
+	mask = (u32) (((u32) (1U << ilog32(temp)) - 1U) << reg->bit);
 	v = readl(reg->reg);
 	curr_parent = (v & mask) >> reg->bit;
 

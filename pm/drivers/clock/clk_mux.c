@@ -46,6 +46,7 @@ static u32 clk_mux_get_parent_value(struct clk *clkp)
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
 	u32 v;
+	u32 temp;
 
 	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
@@ -59,7 +60,8 @@ static u32 clk_mux_get_parent_value(struct clk *clkp)
 	} else {
 		v = readl(reg->reg);
 		v >>= reg->bit;
-		v &= (u32) ((1U << ilog32(mux->n - 1U)) - 1U);
+		temp = mux->n - 1U;
+		v &= (u32) ((1U << ilog32(temp)) - 1U);
 	}
 
 	return v;
@@ -84,7 +86,7 @@ static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
-	u32 v;
+	u32 v, temp;
 	sbool ret = STRUE;
 
 	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
@@ -98,7 +100,8 @@ static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 	} else {
 		s32 err;
 		v = readl(reg->reg);
-		v &= ~(((1U << ilog32(mux->n - 1U)) - 1U) << reg->bit);
+		temp = mux->n - 1U;
+		v &= ~(((1U << ilog32(temp)) - 1U) << reg->bit);
 		v |= (u32) (new_parent << reg->bit);
 		err = pm_writel_verified(v, reg->reg);
 		if (err != SUCCESS) {
