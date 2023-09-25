@@ -1,5 +1,5 @@
 /*
- * Data version: 230724_185448
+ * Data version: 230922_165936
  *
  * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -35,17 +35,17 @@
 #define SOC_AM62PX_CLOCK_LIMITS_H
 
 
-#define SOC_CLOCK_VALUES_RANGE_ID_MAX 119
+#define SOC_CLOCK_VALUES_RANGE_ID_MAX 114
 
 #define SOC_PLL_TABLE_RANGE_ID_MAX 30
 
 #define SOC_CLOCK_FREQ_DEFAULTS_RANGE_ID_MAX 10
 
-#define SOC_CLOCK_DATA_RANGE_ID_MAX 280
+#define SOC_CLOCK_DATA_RANGE_ID_MAX 274
 
 #define SOC_CLOCK_RANGES_ID_MAX 5
 
-#define SOC_CLOCKS_RANGE_ID_MAX 280
+#define SOC_CLOCKS_RANGE_ID_MAX 274
 
 #define HOST_RANGE_ID_MAX 254
 

@@ -1,5 +1,5 @@
 /*
- * Data version: 230724_185448
+ * Data version: 230922_165936
  *
  * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -53,8 +53,9 @@
 enum {
 	AM62PX_FREQ_VALUE_BOARD_0_AUDIO_EXT_REFCLK0_OUT,
 	AM62PX_FREQ_VALUE_BOARD_0_AUDIO_EXT_REFCLK1_OUT,
-	AM62PX_FREQ_VALUE_BOARD_0_AUDIO_EXT_REFCLK2_OUT,
 	AM62PX_FREQ_VALUE_BOARD_0_CP_GEMAC_CPTS0_RFT_CLK_OUT,
+	AM62PX_FREQ_VALUE_BOARD_0_CSI0_RXCLKN_OUT,
+	AM62PX_FREQ_VALUE_BOARD_0_CSI0_RXCLKP_OUT,
 	AM62PX_FREQ_VALUE_BOARD_0_EXT_REFCLK1_OUT,
 	AM62PX_FREQ_VALUE_BOARD_0_GPMC0_CLKLB_OUT,
 	AM62PX_FREQ_VALUE_BOARD_0_I2C0_SCL_OUT,
@@ -73,10 +74,6 @@ enum {
 	AM62PX_FREQ_VALUE_BOARD_0_MCASP2_ACLKX_OUT,
 	AM62PX_FREQ_VALUE_BOARD_0_MCASP2_AFSR_OUT,
 	AM62PX_FREQ_VALUE_BOARD_0_MCASP2_AFSX_OUT,
-	AM62PX_FREQ_VALUE_BOARD_0_MCASP3_ACLKR_OUT,
-	AM62PX_FREQ_VALUE_BOARD_0_MCASP3_ACLKX_OUT,
-	AM62PX_FREQ_VALUE_BOARD_0_MCASP4_ACLKR_OUT,
-	AM62PX_FREQ_VALUE_BOARD_0_MCASP4_ACLKX_OUT,
 	AM62PX_FREQ_VALUE_BOARD_0_MCU_EXT_REFCLK0_OUT,
 	AM62PX_FREQ_VALUE_BOARD_0_MCU_I2C0_SCL_OUT,
 	AM62PX_FREQ_VALUE_BOARD_0_MCU_SPI0_CLK_OUT,
@@ -118,8 +115,6 @@ enum {
 	AM62PX_FREQ_VALUE_EMMCSD4SS_MAIN_1_EMMCSDSS_IO_CLK_O,
 	AM62PX_FREQ_VALUE_FSS_UL_MAIN_0_OSPI_0_OSPI_OCLK_CLK,
 	AM62PX_FREQ_VALUE_GPMC_MAIN_0_PO_GPMC_DEV_CLK,
-	AM62PX_FREQ_VALUE_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_M,
-	AM62PX_FREQ_VALUE_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_P,
 	AM62PX_FREQ_VALUE_K3_DPHY_RX_MAIN_0_PPI_RX_BYTE_CLK,
 	AM62PX_FREQ_VALUE_K3_DSS_UL_MAIN_0_DPI_1_OUT_CLK,
 	AM62PX_FREQ_VALUE_K3_DSS_UL_MAIN_1_DPI_0_OUT_CLK,
@@ -633,14 +628,6 @@ static const struct clk_data_mux_reg clk_data_AUDIO_REFCLKn_out1 = {
 	.reg			= 0x00100000 + 33508,
 	.bit			= 0,
 };
-static const struct clk_data_mux_reg clk_data_AUDIO_REFCLKn_out2 = {
-	.data_mux		= {
-		.parents	= clk_AUDIO_REFCLKn_out0_parents,
-		.n		= ARRAY_SIZE(clk_AUDIO_REFCLKn_out0_parents),
-	},
-	.reg			= 0x00100000 + 33512,
-	.bit			= 0,
-};
 static const struct clk_parent clk_CLKOUT0_CTRL_parents[2] = {
 	{
 		CLK_AM62PX_HSDIV4_16FFT_MAIN_2_HSDIVOUT1_CLK,
@@ -728,14 +715,6 @@ static const struct clk_data_mux_reg clk_data_DPI0_SEL_OUT_SEL_out0 = {
 	},
 	.reg			= 0x00100000 + 16680,
 	.bit			= 0,
-};
-static const struct clk_data_from_dev clk_data_K3_DPHY_RX_main_0_io_rx_cl_l_m = {
-	.dev		= AM62PX_DEV_DPHY_RX0,
-	.clk_idx	= AM62PX_DEV_DPHY_RX0_IO_RX_CL_L_M,
-};
-static const struct clk_data_from_dev clk_data_K3_DPHY_RX_main_0_io_rx_cl_l_p = {
-	.dev		= AM62PX_DEV_DPHY_RX0,
-	.clk_idx	= AM62PX_DEV_DPHY_RX0_IO_RX_CL_L_P,
 };
 static const struct clk_data_from_dev clk_data_K3_DPHY_RX_main_0_ppi_rx_byte_clk = {
 	.dev		= AM62PX_DEV_DPHY_RX0,
@@ -2453,13 +2432,17 @@ static const struct clk_data_from_dev clk_data_board_0_AUDIO_EXT_REFCLK1_out = {
 	.dev		= AM62PX_DEV_BOARD0,
 	.clk_idx	= AM62PX_DEV_BOARD0_AUDIO_EXT_REFCLK1_OUT,
 };
-static const struct clk_data_from_dev clk_data_board_0_AUDIO_EXT_REFCLK2_out = {
-	.dev		= AM62PX_DEV_BOARD0,
-	.clk_idx	= AM62PX_DEV_BOARD0_AUDIO_EXT_REFCLK2_OUT,
-};
 static const struct clk_data_from_dev clk_data_board_0_CP_GEMAC_CPTS0_RFT_CLK_out = {
 	.dev		= AM62PX_DEV_BOARD0,
 	.clk_idx	= AM62PX_DEV_BOARD0_CP_GEMAC_CPTS0_RFT_CLK_OUT,
+};
+static const struct clk_data_from_dev clk_data_board_0_CSI0_RXCLKN_out = {
+	.dev		= AM62PX_DEV_BOARD0,
+	.clk_idx	= AM62PX_DEV_BOARD0_CSI0_RXCLKN_OUT,
+};
+static const struct clk_data_from_dev clk_data_board_0_CSI0_RXCLKP_out = {
+	.dev		= AM62PX_DEV_BOARD0,
+	.clk_idx	= AM62PX_DEV_BOARD0_CSI0_RXCLKP_OUT,
 };
 static const struct clk_data_from_dev clk_data_board_0_EXT_REFCLK1_out = {
 	.dev		= AM62PX_DEV_BOARD0,
@@ -2532,22 +2515,6 @@ static const struct clk_data_from_dev clk_data_board_0_MCASP2_AFSR_out = {
 static const struct clk_data_from_dev clk_data_board_0_MCASP2_AFSX_out = {
 	.dev		= AM62PX_DEV_BOARD0,
 	.clk_idx	= AM62PX_DEV_BOARD0_MCASP2_AFSX_OUT,
-};
-static const struct clk_data_from_dev clk_data_board_0_MCASP3_ACLKR_out = {
-	.dev		= AM62PX_DEV_BOARD0,
-	.clk_idx	= AM62PX_DEV_BOARD0_MCASP3_ACLKR_OUT,
-};
-static const struct clk_data_from_dev clk_data_board_0_MCASP3_ACLKX_out = {
-	.dev		= AM62PX_DEV_BOARD0,
-	.clk_idx	= AM62PX_DEV_BOARD0_MCASP3_ACLKX_OUT,
-};
-static const struct clk_data_from_dev clk_data_board_0_MCASP4_ACLKR_out = {
-	.dev		= AM62PX_DEV_BOARD0,
-	.clk_idx	= AM62PX_DEV_BOARD0_MCASP4_ACLKR_OUT,
-};
-static const struct clk_data_from_dev clk_data_board_0_MCASP4_ACLKX_out = {
-	.dev		= AM62PX_DEV_BOARD0,
-	.clk_idx	= AM62PX_DEV_BOARD0_MCASP4_ACLKX_OUT,
 };
 static const struct clk_data_from_dev clk_data_board_0_MCU_EXT_REFCLK0_out = {
 	.dev		= AM62PX_DEV_BOARD0,
@@ -3465,7 +3432,7 @@ static const struct clk_data_from_dev clk_data_wiz16b8m4cdt3_main_0_ip1_ppi_TxBy
 	.clk_idx	= AM62PX_DEV_DPHY_TX0_IP1_PPI_TXBYTECLKHS_CL_CLK,
 };
 
-const struct clk_data soc_clock_data[280] = {
+const struct clk_data soc_clock_data[274] = {
 	[CLK_AM62PX_GLUELOGIC_HFOSC0_CLKOUT] =							{
 		.drv	= &clk_drv_soc_hfosc0,
 		.flags	= 0,
@@ -3483,18 +3450,6 @@ const struct clk_data soc_clock_data[280] = {
 		.drv		= &clk_drv_fixed,
 		.flags		= 0,
 		.range_idx	= AM62PX_FREQ_RANGE_GLUELOGIC_RCOSC_CLK_1P0V_97P65K,
-	},
-	[CLK_AM62PX_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_M] =						{
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_K3_DPHY_RX_main_0_io_rx_cl_l_m.data,
-		.freq_idx	= AM62PX_FREQ_VALUE_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_M,
-	},
-	[CLK_AM62PX_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_P] =						{
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_K3_DPHY_RX_main_0_io_rx_cl_l_p.data,
-		.freq_idx	= AM62PX_FREQ_VALUE_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_P,
 	},
 	[CLK_AM62PX_K3_DPHY_RX_MAIN_0_PPI_RX_BYTE_CLK] =					{
 		.drv		= &clk_drv_from_device,
@@ -3514,17 +3469,23 @@ const struct clk_data soc_clock_data[280] = {
 		.data		= &clk_data_board_0_AUDIO_EXT_REFCLK1_out.data,
 		.freq_idx	= AM62PX_FREQ_VALUE_BOARD_0_AUDIO_EXT_REFCLK1_OUT,
 	},
-	[CLK_AM62PX_BOARD_0_AUDIO_EXT_REFCLK2_OUT] =						{
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_board_0_AUDIO_EXT_REFCLK2_out.data,
-		.freq_idx	= AM62PX_FREQ_VALUE_BOARD_0_AUDIO_EXT_REFCLK2_OUT,
-	},
 	[CLK_AM62PX_BOARD_0_CP_GEMAC_CPTS0_RFT_CLK_OUT] =					{
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
 		.data		= &clk_data_board_0_CP_GEMAC_CPTS0_RFT_CLK_out.data,
 		.freq_idx	= AM62PX_FREQ_VALUE_BOARD_0_CP_GEMAC_CPTS0_RFT_CLK_OUT,
+	},
+	[CLK_AM62PX_BOARD_0_CSI0_RXCLKN_OUT] =							{
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_CSI0_RXCLKN_out.data,
+		.freq_idx	= AM62PX_FREQ_VALUE_BOARD_0_CSI0_RXCLKN_OUT,
+	},
+	[CLK_AM62PX_BOARD_0_CSI0_RXCLKP_OUT] =							{
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_CSI0_RXCLKP_out.data,
+		.freq_idx	= AM62PX_FREQ_VALUE_BOARD_0_CSI0_RXCLKP_OUT,
 	},
 	[CLK_AM62PX_BOARD_0_EXT_REFCLK1_OUT] =							{
 		.drv		= &clk_drv_from_device,
@@ -3633,30 +3594,6 @@ const struct clk_data soc_clock_data[280] = {
 		.flags		= 0,
 		.data		= &clk_data_board_0_MCASP2_AFSX_out.data,
 		.freq_idx	= AM62PX_FREQ_VALUE_BOARD_0_MCASP2_AFSX_OUT,
-	},
-	[CLK_AM62PX_BOARD_0_MCASP3_ACLKR_OUT] =							{
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_board_0_MCASP3_ACLKR_out.data,
-		.freq_idx	= AM62PX_FREQ_VALUE_BOARD_0_MCASP3_ACLKR_OUT,
-	},
-	[CLK_AM62PX_BOARD_0_MCASP3_ACLKX_OUT] =							{
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_board_0_MCASP3_ACLKX_out.data,
-		.freq_idx	= AM62PX_FREQ_VALUE_BOARD_0_MCASP3_ACLKX_OUT,
-	},
-	[CLK_AM62PX_BOARD_0_MCASP4_ACLKR_OUT] =							{
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_board_0_MCASP4_ACLKR_out.data,
-		.freq_idx	= AM62PX_FREQ_VALUE_BOARD_0_MCASP4_ACLKR_OUT,
-	},
-	[CLK_AM62PX_BOARD_0_MCASP4_ACLKX_OUT] =							{
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_board_0_MCASP4_ACLKX_out.data,
-		.freq_idx	= AM62PX_FREQ_VALUE_BOARD_0_MCASP4_ACLKX_OUT,
 	},
 	[CLK_AM62PX_BOARD_0_MCU_EXT_REFCLK0_OUT] =						{
 		.drv		= &clk_drv_from_device,
@@ -4418,12 +4355,6 @@ const struct clk_data soc_clock_data[280] = {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_AUDIO_REFCLKn_out1.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM62PX_AUDIO_REFCLKN_OUT2] =							{
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_AUDIO_REFCLKn_out2.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM62PX_CLK_32K_RC_SEL_OUT0] =							{
