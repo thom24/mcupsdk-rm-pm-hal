@@ -37,9 +37,6 @@
 #ifndef __LPM_DDR_H__
 #define __LPM_DDR_H__
 
-#define DDR_SR_ENTER            0
-#define DDR_SR_EXIT             1
-
 /**
  * \brief Enter DDR low power mode
  */
@@ -51,7 +48,12 @@ s32 ddr_enter_low_power_mode(void);
 s32 ddr_exit_low_power_mode(void);
 
 /**
- * \brief Run training after low power exit
+ * \brief Run software triggerred trainings after self refresh exit
+ *        DDR4 trainings: 1. Read gate level training
+ *                        2. Read level training
+ *                        3. Write level training
+ *
+ * \note Current implementation handles single rank training.
  */
 s32 ddr_deepsleep_exit_training(void);
 

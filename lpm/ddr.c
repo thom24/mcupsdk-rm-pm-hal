@@ -43,8 +43,6 @@
 #include <wkup_ctrl_mmr.h>
 #include "ddr.h"
 
-#include "lpm_trace.h"
-
 #define DDR_RETRAIN_TIMEOUT 10000000U
 
 /* Cadence DDR registers */
@@ -61,15 +59,18 @@
 #define CDNS_DENALI_PHY_1369                                    0x5564U
 #define CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK                    0x1U
 
+#define CDNS_DENALI_PI_23                                       0x205CU
+#define CDNS_DENALI_PI_23_WRLVL_REQ                             0x01000000U
+
+#define CDNS_DENALI_PI_24                                       0x2060U
+#define CDNS_DENALI_PI_24_WRLVL_CS                              0x00000100U
+
 #define CDNS_DENALI_PI_33                                       0x2084U
 #define CDNS_DENALI_PI_33_RDLVL_GATE_REQ                        0x01000000U
+#define CDNS_DENALI_PI_33_RDLVL_REQ                             0x00010000U
 
 #define CDNS_DENALI_PI_34                                       0x2088U
 #define CDNS_DENALI_PI_34_RDLVL_CS                              0x00000100U
-
-#define CDNS_DENALI_PI_67                                       0x210CU
-#define CDNS_DENALI_PI_67_WDQLVL_CS                             0x01000000U
-#define CDNS_DENALI_PI_67_WDQLVL_REQ                            0x00000100U
 
 #define CDNS_DENALI_PI_83                                       0x214CU
 #define CDNS_DENALI_PI_83_LVL_DONE_BIT                          0x2000U
@@ -154,7 +155,6 @@ s32 ddr_exit_low_power_mode(void)
 	return ret;
 }
 
-/* This only handles single rank, must dynamically detect dual rank */
 s32 ddr_deepsleep_exit_training(void)
 {
 	s32 ret = SUCCESS;
@@ -176,49 +176,23 @@ s32 ddr_deepsleep_exit_training(void)
 			--timeout;
 		}
 		if (timeout == 0U) {
-			lpm_seq_trace_fail(0x92);
-			ret = -EFAIL;
-		}
-
-		/* Soft trigger read gate training */
-		/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
-		writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
-
-		/* Program PI_RDLVL_CS=0 */
-		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_34);
-		val &= ~CDNS_DENALI_PI_34_RDLVL_CS;
-		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_34);
-
-		/* Program PI_RDLVL_GATE_REQ=1 */
-		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_33);
-		val |= CDNS_DENALI_PI_33_RDLVL_GATE_REQ;
-		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_33);
-
-		/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
-		timeout = DDR_RETRAIN_TIMEOUT;
-		while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
-					    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
-			--timeout;
-		}
-		if (timeout == 0U) {
-			lpm_seq_trace_fail(0x93);
 			ret = -EFAIL;
 		}
 
 		/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
 		writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
 
-		/* LPDDR4 Only: Soft trigger write DQ training */
-		if (ddr_read_ddr_type() == CDNS_DENALI_CTL_0_DRAM_CLASS_LPDDR4) {
-			/* Program PI_WDQLVL_CS=0 */
-			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_67);
-			val &= ~CDNS_DENALI_PI_67_WDQLVL_CS;
-			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_67);
+		/* Software trigger read gate level training */
+		if (ret == 0) {
+			/* Program PI_RDLVL_CS=0 */
+			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_34);
+			val &= ~CDNS_DENALI_PI_34_RDLVL_CS;
+			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_34);
 
-			/* Program PI_WDQLVL_REQ=1 */
-			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_67);
-			val |= CDNS_DENALI_PI_67_WDQLVL_REQ;
-			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_67);
+			/* Program PI_RDLVL_GATE_REQ=1 */
+			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_33);
+			val |= CDNS_DENALI_PI_33_RDLVL_GATE_REQ;
+			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_33);
 
 			/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
 			timeout = DDR_RETRAIN_TIMEOUT;
@@ -227,7 +201,58 @@ s32 ddr_deepsleep_exit_training(void)
 				--timeout;
 			}
 			if (timeout == 0U) {
-				lpm_seq_trace_fail(0x94);
+				ret = -EFAIL;
+			}
+
+			/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
+			writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
+		}
+
+		/* Software trigger read level training */
+		if (ret == 0) {
+			/* Program PI_RDLVL_CS=0 */
+			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_34);
+			val &= ~CDNS_DENALI_PI_34_RDLVL_CS;
+			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_34);
+
+			/* Program PI_RDLVL_REQ=1 */
+			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_33);
+			val |= CDNS_DENALI_PI_33_RDLVL_REQ;
+			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_33);
+
+			/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
+			timeout = DDR_RETRAIN_TIMEOUT;
+			while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
+						    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
+				--timeout;
+			}
+			if (timeout == 0U) {
+				ret = -EFAIL;
+			}
+
+			/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
+			writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
+		}
+
+		/* Software trigger write level training */
+		if (ret == 0) {
+			/* Program PI_WRLVL_CS=0 */
+			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_24);
+			val &= ~CDNS_DENALI_PI_24_WRLVL_CS;
+			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_24);
+
+			/* Program PI_WRLVL_REQ=1 */
+			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_23);
+			val |= CDNS_DENALI_PI_23_WRLVL_REQ;
+			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_23);
+
+			/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
+			timeout = DDR_RETRAIN_TIMEOUT;
+			while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
+						    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
+				--timeout;
+			}
+			if (timeout == 0U) {
 				ret = -EFAIL;
 			}
 
