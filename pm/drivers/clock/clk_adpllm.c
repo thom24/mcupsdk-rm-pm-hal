@@ -574,7 +574,7 @@ static sbool adpllm_dcc_pllm_valid(struct clk *clkp UNUSED, u32 pllm, sbool is_f
 	/* Fractional multiplier M.f is not supported for M < 20 and M > 2045 */
 	if (is_frac) {
 		if (m4x) {
-			if ((pllm < (20UL * 4UL)) || (pllm > (2045UL * 4UL))) {
+			if (pllm > (2045UL * 4UL)) {
 				ret = SFALSE;
 			}
 		} else {
@@ -669,7 +669,7 @@ static sbool adpllm_pllm_valid(struct clk *clkp UNUSED, u32 pllm, sbool is_frac)
 	/* Fractional multiplier M.f is not supported for M < 20 and M > 2045 */
 	if (is_frac) {
 		if (m4x) {
-			if ((pllm < (20UL * 8UL)) || (pllm > (2045UL * 8UL))) {
+			if (pllm > (2045UL * 8UL)) {
 				ret = SFALSE;
 			}
 		} else {
