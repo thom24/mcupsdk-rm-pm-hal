@@ -824,10 +824,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 	if (highest_plld > data->plld_max) {
 		highest_plld = data->plld_max;
 	}
-	if (0U == lowest_plld) {
-		lowest_plld++;
-	}
-
+	
 	/*
 	 * Find allowable clkod range. clkod is the PLL output divider. Valid
 	 * clkod values are constrained by the PLL limitations on clkod and
