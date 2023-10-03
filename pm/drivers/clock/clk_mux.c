@@ -77,7 +77,7 @@ static const struct clk_parent *clk_mux_get_parent(struct clk *clkp)
 
 	v = clk_mux_get_parent_value(clkp);
 
-	return ((v < mux->n) && (mux->parents[v].div != 0U)) ?
+	return ((v < mux->n) && (mux->parents[v].cdiv != 0U)) ?
 	       &mux->parents[v] : NULL;
 }
 
@@ -179,7 +179,7 @@ const struct clk_parent *clk_get_parent(struct clk *clkp)
 				   drv);
 		ret = mux->get_parent(clkp);
 	} else {
-		ret = ((clk_datap->parent.div > 0U) ? &clk_datap->parent : NULL);
+		ret = ((clk_datap->parent.cdiv > 0U) ? &clk_datap->parent : NULL);
 	}
 
 	return ret;
@@ -207,7 +207,7 @@ sbool clk_set_parent(struct clk *clkp, u8 new_parent)
 		if (new_parent >= mux_data->n) {
 			ret = SFALSE;
 			done = STRUE;
-		} else if (0U == mux_data->parents[new_parent].div) {
+		} else if (0U == mux_data->parents[new_parent].cdiv) {
 			ret = SFALSE;
 			done = STRUE;
 		} else {
@@ -227,7 +227,7 @@ sbool clk_set_parent(struct clk *clkp, u8 new_parent)
 	if (!done) {
 		op = mux_drv->get_parent(clkp);
 		if (op && (op->clk == mux_data->parents[new_parent].clk)
-		    && (op->div == mux_data->parents[new_parent].div)) {
+		    && (op->cdiv == mux_data->parents[new_parent].cdiv)) {
 			ret = STRUE;
 			done = STRUE;
 		}

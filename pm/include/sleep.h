@@ -44,8 +44,8 @@
 struct sleep_mode {
 	char	*name;
 	sbool	wake_sources;
-	s32	(*enter)(void);
-	s32	(*exit)(void);
+	s32	(*enterfp)(void);
+	s32	(*exitfp)(void);
 };
 
 void sleep_mode_update(u8 sleepmode, sbool allow);

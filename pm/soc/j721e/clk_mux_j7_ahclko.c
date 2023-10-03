@@ -67,7 +67,7 @@ static const struct clk_parent *clk_mux_j7_ahclko_get_parent(struct clk *clock_p
 		parent = 32U;
 	}
 
-	if ((parent < mux->n) && (mux->parents[parent].div != 0UL)) {
+	if ((parent < mux->n) && (mux->parents[parent].cdiv != 0UL)) {
 		ret = mux->parents + parent;
 	} else {
 		ret = NULL;

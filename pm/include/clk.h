@@ -107,7 +107,7 @@ struct clk {
 /* Only allows div up to 63, and clk_ids up to 1023 */
 struct clk_parent {
 	u16	clk : 10;
-	u16	div : 6;
+	u16	cdiv : 6;
 };
 
 struct clk_drv_data {

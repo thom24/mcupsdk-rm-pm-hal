@@ -108,12 +108,12 @@ u32 clk_get_parent_freq(struct clk *clkp)
 		p = clk_get_parent(clkp);
 	}
 
-	if (p && p->div) {
+	if (p && p->cdiv) {
 		parent_clk = clk_lookup((clk_idx_t) p->clk);
 	}
 
 	if (parent_clk != NULL) {
-		ret = clk_get_freq(parent_clk) / p->div;
+		ret = clk_get_freq(parent_clk) / p->cdiv;
 	}
 
 	return ret;
@@ -183,7 +183,7 @@ sbool clk_notify_sibling_freq(struct clk *clkpp, struct clk *parent,
 			continue;
 		}
 
-		if (!clk_notify_freq(clkp, parent_freq / p->div, query)) {
+		if (!clk_notify_freq(clkp, parent_freq / p->cdiv, query)) {
 			status = SFALSE;
 			break;
 		}
@@ -283,7 +283,7 @@ static u32 clk_generic_set_freq(struct clk *clkp,
 							  target_hz,
 							  min_hz, max_hz,
 							  query, changed,
-							  p->div);
+							  p->cdiv);
 		}
 	} else {
 		u32 freq = clk_get_freq(clkp);

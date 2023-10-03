@@ -512,7 +512,7 @@ static u32 dev_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 
 	if (!done) {
 		/* Assign div based on selected clock */
-		div_var = clock_data->div;
+		div_var = clock_data->cdiv;
 
 		/*
 		 * We drop the block count on up to two clocks. The clock
@@ -534,7 +534,7 @@ static u32 dev_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 			parent_clk_data = get_dev_clk_data(dev, clk_idx_val);
 			if (parent_clk_data != NULL) {
 				/* We are sending to parent, so use that div instead */
-				div_var = parent_clk_data->div;
+				div_var = parent_clk_data->cdiv;
 			}
 			if (parent == NULL) {
 				/* Mux parent clock not present */
@@ -667,7 +667,7 @@ u32 device_clk_get_freq(struct device *dev, dev_clk_idx_t clk_idx)
 	} else {
 		freq_hz = clk_get_freq(clkp);
 		if (clock_data->type != DEV_CLK_TABLE_TYPE_OUTPUT) {
-			freq_hz /= clock_data->div;
+			freq_hz /= clock_data->cdiv;
 		}
 	}
 

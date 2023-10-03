@@ -1902,7 +1902,7 @@ static const struct clk_parent *clk_adpllm_get_div_parent(struct clk *clkp)
 	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 
 	/* div (clkout/hsdiv) is parent 0 */
-	if (mux->parents[0].div != 0U) {
+	if (mux->parents[0].cdiv !=0U) {
 		p = &mux->parents[0];
 	}
 
@@ -1919,7 +1919,7 @@ static const struct clk_parent *clk_adpllm_get_bypass_parent(struct clk *clkp)
 	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 
 	/* Bypass clock is parent 1 */
-	if (mux->parents[1].div != 0U) {
+	if (mux->parents[1].cdiv !=0U) {
 		p = &mux->parents[1];
 	}
 
@@ -1981,7 +1981,7 @@ static u32 clk_adpllm_bypass_get_freq(struct clk *clkp)
 			 * If we are disabled, ignore bypass state and return
 			 * frequency we will run at once enabled.
 			 */
-			ret = clk_get_freq(div_clk) / p->div;
+			ret = clk_get_freq(div_clk) / p->cdiv;
 		} else {
 			/*
 			 * If we are enabled and in bypass, return the bypass
@@ -1993,7 +1993,7 @@ static u32 clk_adpllm_bypass_get_freq(struct clk *clkp)
 				bypass_clk = clk_lookup((clk_idx_t) p->clk);
 			}
 			if (bypass_clk != NULL) {
-				ret = clk_get_freq(bypass_clk) / p->div;
+				ret = clk_get_freq(bypass_clk) / p->cdiv;
 			}
 		}
 	}

@@ -79,7 +79,7 @@ static const struct clk_parent *clk_pllctrl_mux_get_parent(struct clk *clkp)
 	}
 
 	/* If div is 0, parent clock is not connected */
-	if ((parent != NULL) && (parent->div == 0U)) {
+	if ((parent != NULL) && (parent->cdiv == 0U)) {
 		parent = NULL;
 	}
 

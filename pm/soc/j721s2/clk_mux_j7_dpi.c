@@ -81,7 +81,7 @@ static const struct clk_parent *clk_mux_j7_dpi_0_pclk_get_parent(struct clk *clo
 	/* Output 1 if bits 2 and 0 are set, 0 otherwise */
 	v = (((v & 0x5U) == 0x5U) ? 1U : 0U);
 
-	return ((v < mux->n) && (mux->parents[v].div > 0U)) ? &mux->parents[v] : NULL;
+	return ((v < mux->n) && (mux->parents[v].cdiv > 0U)) ? &mux->parents[v] : NULL;
 }
 
 static sbool clk_mux_j7_dpi_0_pclk_set_parent(struct clk *clock_ptr	TRACE_ONLY,
@@ -163,7 +163,7 @@ static const struct clk_parent *clk_mux_j7_dpi_2_pclk_get_parent(struct clk *clo
 		}
 	}
 
-	return ((v < mux->n) && (mux->parents[v].div > 0U)) ? &mux->parents[v] : NULL;
+	return ((v < mux->n) && (mux->parents[v].cdiv > 0U)) ? &mux->parents[v] : NULL;
 }
 
 static sbool clk_mux_j7_dpi_2_pclk_set_parent(struct clk *clock_ptr	TRACE_ONLY,
@@ -254,7 +254,7 @@ static const struct clk_parent *clk_mux_j7_dpi_3_pclk_get_parent(struct clk *clo
 		v = 4U;
 	}
 
-	return ((v < mux->n) && (mux->parents[v].div > 0U)) ? &mux->parents[v] : NULL;
+	return ((v < mux->n) && (mux->parents[v].cdiv > 0U)) ? &mux->parents[v] : NULL;
 }
 
 static sbool clk_mux_j7_dpi_3_pclk_set_parent(struct clk *clock_ptr, u8 new_parent)
@@ -371,7 +371,7 @@ static const struct clk_parent *clk_mux_j7_dpi_1_clk_out_get_parent(struct clk *
 		}
 	}
 
-	return ((v < mux->n) && (mux->parents[v].div > 0U)) ? &mux->parents[v] : NULL;
+	return ((v < mux->n) && (mux->parents[v].cdiv > 0U)) ? &mux->parents[v] : NULL;
 }
 
 static sbool clk_mux_j7_dpi_1_clk_out_set_parent(struct clk *clock_ptr	TRACE_ONLY,

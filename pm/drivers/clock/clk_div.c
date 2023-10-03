@@ -145,7 +145,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 			continue;
 		}
 
-		divider = i * p->div;
+		divider = i * p->cdiv;
 
 		/* Make sure target fits within out clock frequency type */
 		if (((u32) ULONG_MAX / divider) < min_hz) {
@@ -279,7 +279,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 	}
 
 	if (best_div != 0U) {
-		ret = best_parent_freq / (best_div * p->div);
+		ret = best_parent_freq / (best_div * p->cdiv);
 	} else {
 		ret = 0U;
 	}
