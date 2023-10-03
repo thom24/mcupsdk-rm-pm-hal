@@ -326,7 +326,7 @@ u32 clk_div_set_freq_static_parent(
 
 	div1 = div0 + 1U;
 
-	if (drv_div->valid_div != 0U) {
+	if (drv_div->valid_div != NULL) {
 		for (; (div0 > 0UL) && !drv_div->valid_div(clkp, div0); div0--) {
 			/* Step through loop until valid div is found */
 		}
@@ -420,7 +420,7 @@ s32 clk_div_init(struct clk *clkp)
 	drv_div = container_of(clk_datap->drv, const struct clk_drv_div, drv);
 
 	if ((clk_datap->flags & CLK_DATA_FLAG_NO_HW_REINIT) != 0U) {
-		if (drv_div->get_div != 0U) {
+		if (drv_div->get_div != NULL) {
 			if (drv_div->get_div(clkp) != 1U) {
 				skip_hw_init = STRUE;
 			}

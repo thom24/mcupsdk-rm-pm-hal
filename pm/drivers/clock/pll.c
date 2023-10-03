@@ -1178,7 +1178,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 				 * if one exists to avoid duplicating
 				 * calculations.
 				 */
-				if (data->bin_next_pllm != 0U) {
+				if (data->bin_next_pllm != NULL) {
 					high_pllm = data->bin_next_pllm(
 						clkp,
 						consider_data->curr_plld,

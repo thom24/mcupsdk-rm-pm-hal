@@ -688,7 +688,7 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 	/* Program output divider */
 	if (div_clk && ret) {
 		div_clk_data = clk_get_data(div_clk);
-		if (div_clk_data->drv != 0U) {
+		if (div_clk_data->drv != NULL) {
 			drv_div = container_of(div_clk_data->drv,
 					       const struct clk_drv_div, drv);
 		} else {
