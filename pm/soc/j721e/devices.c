@@ -1866,7 +1866,7 @@ static const struct psc_pd_data j721e_j7_main_psc_wrap_main_0_pd_data[J721E_PSC_
 		.flags	= PSC_PD_EXISTS,
 	},
 };
-static struct psc_pd j721e_j7_main_psc_wrap_main_0_powerdomains[ARRAY_SIZE(j721e_j7_main_psc_wrap_main_0_pd_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
+static struct psc_pd j721e_j7_main_psc_wrap_main_0_powerdomains[J721E_PSC_PD_PD_VPAC + 1] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const dev_idx_t dev_list_LPSC_main_alwayson[94] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J721E_DEV_COMPUTE_CLUSTER0_CORE_CORE,
 	J721E_DEV_CPT2_AGGR0,
@@ -2947,7 +2947,7 @@ static const struct lpsc_module_data j721e_j7_main_psc_wrap_main_0_mod_data[J721
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 };
-static struct lpsc_module j721e_j7_main_psc_wrap_main_0_modules[ARRAY_SIZE(j721e_j7_main_psc_wrap_main_0_mod_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
+static struct lpsc_module j721e_j7_main_psc_wrap_main_0_modules[J721E_PSC_LPSC_LPSC_VPAC_PBIST + 1] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const u8 j721e_dev_j7_main_psc_wrap_main_0_resources[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	RDAT_HDR(RESOURCE_MEM, 1, STRUE),
 	RDAT_MEM(0x00400000),
@@ -3024,7 +3024,7 @@ static const struct psc_pd_data j721e_j7_wkup_psc_wrap_wkup_0_pd_data[J721E_PSC_
 		.flags	= PSC_PD_EXISTS,
 	},
 };
-static struct psc_pd j721e_j7_wkup_psc_wrap_wkup_0_powerdomains[ARRAY_SIZE(j721e_j7_wkup_psc_wrap_wkup_0_pd_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
+static struct psc_pd j721e_j7_wkup_psc_wrap_wkup_0_powerdomains[J721E_PSC_PD_PD_MCU_PULSAR + 1] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
 static const dev_idx_t dev_list_LPSC_wkup_alwayson[45] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	J721E_DEV_MCU_CPSW0,
 	J721E_DEV_MCU_CPT2_AGGR0,
@@ -3253,7 +3253,7 @@ static const struct lpsc_module_data j721e_j7_wkup_psc_wrap_wkup_0_mod_data[J721
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 };
-static struct lpsc_module j721e_j7_wkup_psc_wrap_wkup_0_modules[ARRAY_SIZE(j721e_j7_wkup_psc_wrap_wkup_0_mod_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
+static struct lpsc_module j721e_j7_wkup_psc_wrap_wkup_0_modules[J721E_PSC_LPSC_LPSC_MCU_PULSAR_PBIST_0 + 1] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
 static const u8 j721e_dev_j7_wkup_psc_wrap_wkup_0_resources[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	RDAT_HDR(RESOURCE_MEM, 1, STRUE),
 	RDAT_MEM(0x42000000),
@@ -6203,7 +6203,7 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[328] __attribute__((__s
 		       CLK_J721E_J7_WAKEUP_16FF_WKUP_0_WKUP_RCOSC_32K_CLK,   1,
 		       7),
 };
-static struct dev_clk MCU_WAKEUP_dev_clk[ARRAY_SIZE(MCU_WAKEUP_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
+static struct dev_clk MCU_WAKEUP_dev_clk[328] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
 static const struct dev_clk_data MAIN_dev_clk_data[3149] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	DEV_CLK_MUX(J721E_DEV_ATL_MAIN_0_CLOCKS,					       J721E_DEV_ATL0_ATL_CLK,
 		    CLK_J721E_ATL_PCLKMUX_OUT0,						       1,
@@ -14624,11 +14624,11 @@ static const struct dev_clk_data MAIN_dev_clk_data[3149] __attribute__((__sectio
 		       CLK_J721E_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,			       1,
 		       1),
 };
-static struct dev_clk MAIN_dev_clk[ARRAY_SIZE(MAIN_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
+static struct dev_clk MAIN_dev_clk[3149] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const struct dev_clk_data DMSC_INTERNAL_dev_clk_data[1] __attribute__((__section__(".const.devgroup.DMSC_INTERNAL"))) = {
 	DEV_CLK(J721E_DEV_NAVSS_MCU_J7_MCU_0_RINGACC_0_CLOCKS, J721E_DEV_MCU_NAVSS0_RINGACC0_SYS_CLK, CLK_J721E_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
 };
-static struct dev_clk DMSC_INTERNAL_dev_clk[ARRAY_SIZE(DMSC_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.DMSC_INTERNAL")));
+static struct dev_clk DMSC_INTERNAL_dev_clk[1] __attribute__((__section__(".bss.devgroup.DMSC_INTERNAL")));
 
 const struct devgroup soc_devgroups[J721E_PM_DEVGRP_RANGE_ID_MAX] = {
 	[PM_DEVGRP_00] =   {
@@ -14991,7 +14991,7 @@ const struct dev_data *const soc_device_data_arr[J721E_DEV_MAIN_PLL8_SEL_EXTWAVE
 	[J721E_DEV_MAIN_PLL8_SEL_EXTWAVE_VD] = &j721e_dev_main_pll8_sel_extwave_VD,
 };
 
-struct device soc_devices[ARRAY_SIZE(soc_device_data_arr)];
+struct device soc_devices[J721E_DEV_MAIN_PLL8_SEL_EXTWAVE_VD + 1U];
 const size_t soc_device_count = ARRAY_SIZE(soc_device_data_arr);
 
 struct device *const this_dev = soc_devices + J721E_DEV_WKUP_DMSC0;

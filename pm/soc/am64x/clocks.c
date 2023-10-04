@@ -4253,5 +4253,5 @@ const struct clk_data soc_clock_data[228] = {
 	},
 };
 
-struct clk soc_clocks[ARRAY_SIZE(soc_clock_data)];
+struct clk soc_clocks[228];
 const size_t soc_clock_count = ARRAY_SIZE(soc_clock_data);
