@@ -12275,7 +12275,7 @@ const struct clk_data soc_clock_data[771] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= CLK_DATA_FLAG_NO_HW_REINIT,
+		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ | CLK_DATA_FLAG_NO_HW_REINIT,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv0_16fft_main_8_hsdiv0.data_div.data,
 	},
@@ -12646,7 +12646,7 @@ const struct clk_data soc_clock_data[771] = {
 	},
 	[CLK_J721E_MAIN_PLL8_SEL_EXTWAVE_OUT0] =				  {
 		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.data	= &clk_data_main_pll8_sel_extwave_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
