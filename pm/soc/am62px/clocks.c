@@ -5119,13 +5119,13 @@ const struct clk_data soc_clock_data[274] = {
 	},
 	[CLK_AM62PX_MAIN_DSS1_DPI0_PCLK_OUT0] =							{
 		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.data	= &clk_data_MAIN_DSS1_DPI0_PCLK_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM62PX_MAIN_DSS1_DPI1_PCLK_OUT0] =							{
 		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.data	= &clk_data_MAIN_DSS1_DPI1_PCLK_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
