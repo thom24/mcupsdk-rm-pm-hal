@@ -309,6 +309,7 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 1, dev_idx_t_is_16bit);
 #define AM62PX_DEV_WIZ16B8M4CDT3_MAIN_0_CLOCKS 999
 #define AM62PX_DEV_DSS1_DPI1_PLLSEL_DEV_VD_CLOCKS 1020
 #define AM62PX_DEV_DSS1_DPI0_PLLSEL_DEV_VD_CLOCKS 1023
+#define AM62PX_DEV_DPI0_OUT_SEL_DEV_VD_CLOCKS 1026
 
 static const struct dev_data am62px_dev_am67_dbgsuspendrouter_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -3408,6 +3409,14 @@ static const struct dev_data am62px_dev_oldi1_VD __attribute__((__section__(".co
 	},
 	.pm_devgrp		= PM_DEVGRP_00,
 };
+static const struct dev_data am62px_dev_dpi0_out_sel_dev_VD __attribute__((__section__(".const.devgroup.MAIN"))) = {
+	.soc			= {
+		.psc_idx	= PSC_DEV_NONE,
+	},
+	.dev_clk_idx		= AM62PX_DEV_DPI0_OUT_SEL_DEV_VD_CLOCKS,
+	.n_clocks		= 4,
+	.pm_devgrp		= PM_DEVGRP_00,
+};
 
 static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[152] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	DEV_CLK(AM62PX_DEV_AM67_MCU_GPIOMUX_INTROUTER_WKUP_0_CLOCKS,	       AM62PX_DEV_WKUP_MCU_GPIOMUX_INTROUTER0_INTR_CLK,
@@ -3886,7 +3895,7 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[152] __attribute__((__s
 		       9),
 };
 static struct dev_clk MCU_WAKEUP_dev_clk[ARRAY_SIZE(MCU_WAKEUP_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
-static const struct dev_clk_data MAIN_dev_clk_data[1026] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct dev_clk_data MAIN_dev_clk_data[1030] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	DEV_CLK(AM62PX_DEV_AM67_DBGSUSPENDROUTER_MAIN_0_CLOCKS,										      AM62PX_DEV_DBGSUSPENDROUTER0_INTR_CLK,
 		CLK_AM62PX_SAM62_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		4),
@@ -6285,6 +6294,21 @@ static const struct dev_clk_data MAIN_dev_clk_data[1026] __attribute__((__sectio
 		       AM62PX_DEV_DSS1_DPI0_PLLSEL_DEV_VD_CLK_PARENT_HSDIV0_16FFT_MAIN_17_HSDIVOUT0_CLK,
 		       CLK_AM62PX_HSDIV0_16FFT_MAIN_17_HSDIVOUT0_CLK,									      1,
 		       1),
+	DEV_CLK_MUX(AM62PX_DEV_DPI0_OUT_SEL_DEV_VD_CLOCKS,										      AM62PX_DEV_DPI0_OUT_SEL_DEV_VD_CLK,
+		    CLK_AM62PX_DPI0_SEL_OUT_SEL_OUT0,											      1,
+		    4),
+	DEV_CLK_PARENT(AM62PX_DEV_DPI0_OUT_SEL_DEV_VD_CLOCKS,
+		       AM62PX_DEV_DPI0_OUT_SEL_DEV_VD_CLK_PARENT_K3_DSS_UL_MAIN_0_DPI_1_OUT_CLK,
+		       CLK_AM62PX_K3_DSS_UL_MAIN_0_DPI_1_OUT_CLK,									      1,
+		       1),
+	DEV_CLK_PARENT(AM62PX_DEV_DPI0_OUT_SEL_DEV_VD_CLOCKS,
+		       AM62PX_DEV_DPI0_OUT_SEL_DEV_VD_CLK_PARENT_K3_DSS_UL_MAIN_1_DPI_0_OUT_CLK,
+		       CLK_AM62PX_K3_DSS_UL_MAIN_1_DPI_0_OUT_CLK,									      1,
+		       2),
+	DEV_CLK_PARENT(AM62PX_DEV_DPI0_OUT_SEL_DEV_VD_CLOCKS,
+		       AM62PX_DEV_DPI0_OUT_SEL_DEV_VD_CLK_PARENT_K3_DSS_UL_MAIN_1_DPI_1_OUT_CLK,
+		       CLK_AM62PX_K3_DSS_UL_MAIN_1_DPI_1_OUT_CLK,									      1,
+		       3),
 };
 static struct dev_clk MAIN_dev_clk[ARRAY_SIZE(MAIN_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const struct dev_clk_data TIFS_INTERNAL_dev_clk_data[1] __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
@@ -6323,7 +6347,7 @@ const struct soc_device_data *const soc_psc_multiple_domains[1] = {
 	[AM62PX_PSC_MULTIPLE_SAM67_GPU_BXS464_WRAP_MAIN_0] = sam67_gpu_bxs464_wrap_main_0_domains,
 };
 
-const struct dev_data *const soc_device_data_arr[AM62PX_DEV_OLDI1_VD + 1U] = {
+const struct dev_data *const soc_device_data_arr[AM62PX_DEV_DPI0_OUT_SEL_DEV_VD + 1U] = {
 	[AM62PX_DEV_DBGSUSPENDROUTER0] = &am62px_dev_am67_dbgsuspendrouter_main_0,
 	[AM62PX_DEV_MAIN_GPIOMUX_INTROUTER0] = &am62px_dev_am67_main_gpiomux_introuter_main_0,
 	[AM62PX_DEV_WKUP_MCU_GPIOMUX_INTROUTER0] = &am62px_dev_am67_mcu_gpiomux_introuter_wkup_0,
@@ -6496,6 +6520,7 @@ const struct dev_data *const soc_device_data_arr[AM62PX_DEV_OLDI1_VD + 1U] = {
 	[AM62PX_DEV_GPU0_CORE_VD] = &am62px_dev_gpu0_core_VD,
 	[AM62PX_DEV_OLDI0_VD] = &am62px_dev_oldi0_VD,
 	[AM62PX_DEV_OLDI1_VD] = &am62px_dev_oldi1_VD,
+	[AM62PX_DEV_DPI0_OUT_SEL_DEV_VD] = &am62px_dev_dpi0_out_sel_dev_VD,
 };
 
 struct device soc_devices[ARRAY_SIZE(soc_device_data_arr)];
