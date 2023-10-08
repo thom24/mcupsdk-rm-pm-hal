@@ -5694,6 +5694,24 @@ static const struct clk_data_div_reg clk_data_k3_pll_ctrl_wrap_wkup_0_chip_div24
 	.reg		= 0x42010000 + 0x11c,
 	.bit		= 0,
 };
+static const struct clk_parent clk_main_pll8_sel_extwave_parents[2] = {
+	{
+		CLK_J721S2_PLLFRACF2_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK,
+		1,
+	},
+	{
+		CLK_J721S2_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_main_pll8_sel_extwave_out0 = {
+	.data_mux		= {
+		.parents	= clk_main_pll8_sel_extwave_parents,
+		.n		= ARRAY_SIZE(clk_main_pll8_sel_extwave_parents),
+	},
+	.reg			= 0x00680000 + 32832,
+	.bit			= 0,
+};
 static const struct clk_parent clk_mcasp_ahclkr_mux_out0_parents[16] = {
 	{
 		CLK_J721S2_BOARD_0_HFOSC1_CLK_OUT,
@@ -7052,7 +7070,7 @@ static const struct clk_data_mux_reg clk_data_wkup_gpio0_clksel_out0 = {
 	.bit			= 0,
 };
 
-const struct clk_data soc_clock_data[601] = {
+const struct clk_data soc_clock_data[602] = {
 	[CLK_J721S2_GLUELOGIC_HFOSC0_CLKOUT] =						 {
 		.drv	= &clk_drv_soc_hfosc0,
 		.flags	= 0,
@@ -10414,6 +10432,12 @@ const struct clk_data soc_clock_data[601] = {
 			CLK_J721S2_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK,
 			1,
 		},
+	},
+	[CLK_J721S2_MAIN_PLL8_SEL_EXTWAVE_OUT0] =					 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
+		.data	= &clk_data_main_pll8_sel_extwave_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J721S2_PLLFRACF2_SSMOD_16FFT_MAIN_4_FOUTVCOP_CLK] =			 {
 		.parent		=							 {

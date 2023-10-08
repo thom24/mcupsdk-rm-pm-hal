@@ -527,6 +527,7 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J721S2_DEV_TIMER15_CLKSEL_VD_CLOCKS 2700
 #define J721S2_DEV_TIMER17_CLKSEL_VD_CLOCKS 2716
 #define J721S2_DEV_TIMER19_CLKSEL_VD_CLOCKS 2732
+#define J721S2_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS 2748
 
 static const struct dev_data j721s2_dev_adc12fc_16ffc_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -5537,6 +5538,14 @@ static const struct dev_data j721s2_dev_timer19_clksel_VD __attribute__((__secti
 	.n_clocks		= 16,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
+static const struct dev_data j721s2_dev_main_pll8_sel_extwave_VD __attribute__((__section__(".const.devgroup.MAIN"))) = {
+	.soc			= {
+		.psc_idx	= PSC_DEV_NONE,
+	},
+	.dev_clk_idx		= J721S2_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS,
+	.n_clocks		= 3,
+	.pm_devgrp		= PM_DEVGRP_01,
+};
 
 static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[365] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	DEV_CLK_MUX(J721S2_DEV_ADC12FC_16FFC_MCU_0_CLOCKS,			 J721S2_DEV_MCU_ADC12FC_16FFC0_ADC_CLK,
@@ -6517,7 +6526,7 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[365] __attribute__((__s
 		6),
 };
 static struct dev_clk MCU_WAKEUP_dev_clk[ARRAY_SIZE(MCU_WAKEUP_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
-static const struct dev_clk_data MAIN_dev_clk_data[2748] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct dev_clk_data MAIN_dev_clk_data[2751] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	DEV_CLK_MUX(J721S2_DEV_ATL_MAIN_0_CLOCKS,						      J721S2_DEV_ATL0_ATL_CLK,
 		    CLK_J721S2_ATL_PCLKMUX_OUT0,
 		    1,
@@ -12079,6 +12088,15 @@ static const struct dev_clk_data MAIN_dev_clk_data[2748] __attribute__((__sectio
 	DEV_CLK_PARENT(J721S2_DEV_TIMER19_CLKSEL_VD_CLOCKS,					      J721S2_DEV_TIMER19_CLKSEL_VD_CLK_PARENT_HSDIV4_16FFT_MAIN_1_HSDIVOUT3_CLK,
 		       CLK_J721S2_HSDIV4_16FFT_MAIN_1_HSDIVOUT3_CLK,				      1,
 		       9),
+	DEV_CLK_MUX(J721S2_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS,					      J721S2_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLK,
+		    CLK_J721S2_MAIN_PLL8_SEL_EXTWAVE_OUT0,					      1,
+		    2),
+	DEV_CLK_PARENT(J721S2_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS,				      J721S2_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLK_PARENT_PLLFRACF2_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK,
+		       CLK_J721S2_PLLFRACF2_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK,			      1,
+		       0),
+	DEV_CLK_PARENT(J721S2_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS,				      J721S2_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLK_PARENT_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,
+		       CLK_J721S2_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,				      1,
+		       1),
 };
 static struct dev_clk MAIN_dev_clk[ARRAY_SIZE(MAIN_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const struct dev_clk_data TIFS_INTERNAL_dev_clk_data[1] __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
@@ -12108,7 +12126,7 @@ const struct devgroup soc_devgroups[J721S2_PM_DEVGRP_RANGE_ID_MAX] = {
 	[PM_DEVGRP_HSM] =  {
 		.dev_clk_data	= HSM_INTERNAL_dev_clk_data,
 		.dev_clk	= HSM_INTERNAL_dev_clk,
-		.clk_idx	= 600U,
+		.clk_idx	= 601U,
 	},
 };
 const size_t soc_devgroup_count = ARRAY_SIZE(soc_devgroups);
@@ -12118,7 +12136,7 @@ const struct soc_device_data *const soc_psc_multiple_domains[2] = {
 	[J721S2_PSC_MULTIPLE_SMS_WKUP_0] = sms_wkup_0_domains,
 };
 
-const struct dev_data *const soc_device_data_arr[J721S2_DEV_TIMER19_CLKSEL_VD + 1U] = {
+const struct dev_data *const soc_device_data_arr[J721S2_DEV_MAIN_PLL8_SEL_EXTWAVE_VD + 1U] = {
 	[J721S2_DEV_MCU_ADC12FC_16FFC0] = &j721s2_dev_adc12fc_16ffc_mcu_0,
 	[J721S2_DEV_MCU_ADC12FC_16FFC1] = &j721s2_dev_adc12fc_16ffc_mcu_1,
 	[J721S2_DEV_ATL0] = &j721s2_dev_atl_main_0,
@@ -12462,6 +12480,7 @@ const struct dev_data *const soc_device_data_arr[J721S2_DEV_TIMER19_CLKSEL_VD + 
 	[J721S2_DEV_TIMER15_CLKSEL_VD] = &j721s2_dev_timer15_clksel_VD,
 	[J721S2_DEV_TIMER17_CLKSEL_VD] = &j721s2_dev_timer17_clksel_VD,
 	[J721S2_DEV_TIMER19_CLKSEL_VD] = &j721s2_dev_timer19_clksel_VD,
+	[J721S2_DEV_MAIN_PLL8_SEL_EXTWAVE_VD] = &j721s2_dev_main_pll8_sel_extwave_VD,
 };
 
 struct device soc_devices[ARRAY_SIZE(soc_device_data_arr)];
