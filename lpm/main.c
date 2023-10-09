@@ -743,7 +743,7 @@ s32 dm_stub_entry(void)
 
 	if (g_params.mode == LPM_DEEPSLEEP) {
 		pll_save(&mcu_pll);
-		pll_bypass(&mcu_pll);
+		pll_disable(&mcu_pll, 0xFFFF);
 		lpm_trace_init(STRUE);
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_BYPASS_MCU_PLL);
 
@@ -896,8 +896,8 @@ s32 dm_stub_entry(void)
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
 			lpm_abort();
 		} else {
-            lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
-        }
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
+		}
 
 		/* Send TISCI ROM Boot image message containing location
 		 * and boot address to load FS stub from SPS Memory
