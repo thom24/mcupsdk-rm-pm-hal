@@ -219,6 +219,11 @@ void pll_disable(struct pll_raw_data *pll, u16 hsdivs_to_disable)
 
 	/* Bypass actual PLL */
 	pll_bypass(pll);
+
+	/* Disable the PLL */
+	ctrl = pll_readl(pll->base + PLL_16FFT_CTRL_OFFSET);
+	ctrl &= ~PLL_16FFT_CTRL_PLL_EN;
+	pll_writel(ctrl, pll->base + PLL_16FFT_CTRL_OFFSET);
 }
 
 void pll_bypass(struct pll_raw_data *pll)
