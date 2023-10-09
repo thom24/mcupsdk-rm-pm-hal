@@ -66,6 +66,9 @@
 #define RA_CFG_RING_BASE(RING)                     (((u32) RING) * ((u32) 0x100U))
 #define RA_CFG_MON_BASE(MONITOR)                   ((MONITOR) * 0x1000U)
 
+#define RA_GCFG_OVRFLOW_DISABLE                    (0x0000FFFFu)
+#define RA_GCFG_OVRFLOW                            (0x00000020u)
+
 #define RA_GCFG_ERROR_EVENT                        (0x00000040u)
 
 /*
@@ -970,6 +973,39 @@ static s32 ra_set_ring_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 }
 
 /**
+ * \brief Configures the overflow ring to be disabled by default
+ *
+ * \param base The address of the global configuration register
+ *
+ * \return SUCCESS if the overflow queue is programmed successfully, else error
+ */
+#ifndef CONFIG_RM_RA_OVERFLOW_DEFAULT
+static s32 ra_set_gcfg_ovrflow_default(soc_phys_addr_t base)
+{
+	s32 r = SUCCESS;
+	mapped_addr_t maddr;
+	u32 ovrflow_addr, ovrflow_reg;
+
+	maddr = rm_core_map_region(base);
+	ovrflow_addr = maddr + RA_GCFG_OVRFLOW;
+
+	/*
+	 * Set the first 16 bits to 0xFFFF
+	 */
+	ovrflow_reg = readl(ovrflow_addr);
+	ovrflow_reg |= RA_GCFG_OVRFLOW_DISABLE;
+
+	if (writel_verified(ovrflow_reg, ovrflow_addr) != SUCCESS) {
+		r = -EFAILVERIFY;
+	}
+
+	rm_core_unmap_region();
+
+	return r;
+}
+#endif
+
+/**
  * \brief Configure a ring
  *
  * \param inst RA instance
@@ -1512,7 +1548,11 @@ s32 rm_ra_init(void)
 			r = rm_irq_oes_src_register(ra_inst[i].id,
 						    &ra_inst[i].oes_handler);
 #endif
-
+#ifndef CONFIG_RM_RA_OVERFLOW_DEFAULT
+			if ((r == SUCCESS) && (ra_inst[i].virtid_utype != 0)) {
+				r = ra_set_gcfg_ovrflow_default(ra_inst[i].gcfg->base);
+			}
+#endif
 			if (r != SUCCESS) {
 				break;
 			} else {
