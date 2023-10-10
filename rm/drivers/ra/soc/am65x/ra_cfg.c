@@ -174,7 +174,7 @@ static const struct ra_ring_type ring_mon_types_MCU_NAVSS0_RINGACC0[1] = {
 };
 
 
-struct ra_instance ra_inst[] = {
+struct ra_instance ra_inst[2] = {
 	{
 		/* NAVSS0_RINGACC0 */
 		.id = AM6_DEV_NAVSS0_RINGACC0,

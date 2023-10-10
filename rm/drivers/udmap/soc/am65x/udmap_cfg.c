@@ -3,7 +3,7 @@
  *
  * UDMAP SoC data for AM6
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -259,7 +259,7 @@ static struct udmap_used_mapping rom_usage_mcu_navss0_udmap0[4U] = {
 	},
 };
 
-struct udmap_instance udmap_inst[] = {
+struct udmap_instance udmap_inst[2] = {
 	{
 		/* NAVSS0_UDMAP0 */
 		.id = AM6_DEV_NAVSS0_UDMAP0,

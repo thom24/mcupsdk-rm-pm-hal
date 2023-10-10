@@ -3,7 +3,7 @@
  *
  * Defines the SoC-specific configuration of the UDMAP architecture
  *
- * Copyright (C) 2018-2020, Texas Instruments Incorporated
+ * Copyright (C) 2018-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -88,5 +88,9 @@
  * UDMAPs channel OES indexes to avoid event indexing conflicts.
  */
 #define UDMAP_GCFG_INVALID_FLOW_EVT_INDEX (0x400U)
+/**
+ * Total number of UDMA instances
+ */
+#define UDMAP_INST_RANGE (2U)
 
 #endif /* UDMAP_CFG_H */
