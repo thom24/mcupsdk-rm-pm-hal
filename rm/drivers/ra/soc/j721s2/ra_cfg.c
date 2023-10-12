@@ -259,7 +259,7 @@ static struct ra_used_mapping rom_usage_MCU_NAVSS0_RINGACC0[4U] = {
 	},
 };
 
-struct ra_instance ra_inst[] = {
+struct ra_instance ra_inst[3] = {
 	{
 		.id = J721S2_DEV_NAVSS0_BCDMA_0,
 		.root_id = J721S2_DEV_NAVSS0,

@@ -239,7 +239,7 @@ static const struct ra_ring_type ring_types_DMASS1_BCDMA_0[1] = {
 static const struct ra_ring_type ring_mon_types_DMASS1_BCDMA_0[0] = {
 };
 
-struct ra_instance ra_inst[] = {
+struct ra_instance ra_inst[4] = {
 	{
 		.id = AM62AX_DEV_DMASS0_BCDMA_0,
 		.root_id = AM62AX_DEV_DMASS0,

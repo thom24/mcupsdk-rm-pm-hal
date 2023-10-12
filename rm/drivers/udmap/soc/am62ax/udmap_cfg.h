@@ -74,5 +74,9 @@
  * DMASS1_BCDMA_0 total number of UDMAP receive channels
  */
 #define UDMAP_DMASS1_BCDMA_0_RX_CHAN_MAX_INDEX (6U)
+/**
+ * Total number of UDMA instances
+ */
+#define UDMAP_INST_RANGE (3U)
 
 #endif /* UDMAP_CFG_H */

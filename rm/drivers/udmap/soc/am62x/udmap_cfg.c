@@ -326,7 +326,7 @@ static struct udmap_used_mapping rom_usage_DMASS0_PKTDMA_0[4U] = {
 	},
 };
 
-struct udmap_instance udmap_inst[] = {
+struct udmap_instance udmap_inst[2] = {
 	{
 		.id = AM62X_DEV_DMASS0_BCDMA_0,
 		.root_id = AM62X_DEV_DMASS0,

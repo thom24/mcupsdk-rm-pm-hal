@@ -228,7 +228,7 @@ static struct ra_used_mapping rom_usage_mcu_navss0_ringacc0[8U] = {
 	},
 };
 
-struct ra_instance ra_inst[] = {
+struct ra_instance ra_inst[2] = {
 	{
 		.id = AM6_DEV_NAVSS0_RINGACC0,
 		.root_id = AM6_DEV_NAVSS0,

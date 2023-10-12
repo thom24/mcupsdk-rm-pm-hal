@@ -83,5 +83,9 @@
  * UDMAPs channel OES indexes to avoid event indexing conflicts.
  */
 #define UDMAP_GCFG_INVALID_FLOW_EVT_INDEX (0x400U)
+/**
+ * Total number of UDMA instances
+ */
+#define UDMAP_INST_RANGE (2U)
 
 #endif /* UDMAP_CFG_H */

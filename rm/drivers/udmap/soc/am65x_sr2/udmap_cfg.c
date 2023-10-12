@@ -290,7 +290,7 @@ static struct udmap_used_mapping rom_usage_mcu_navss0_udmap0[4U] = {
 	},
 };
 
-struct udmap_instance udmap_inst[] = {
+struct udmap_instance udmap_inst[2] = {
 	{
 		.id = AM6_DEV_NAVSS0_UDMAP0,
 		.root_id = AM6_DEV_NAVSS0,

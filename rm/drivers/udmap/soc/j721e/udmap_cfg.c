@@ -348,7 +348,7 @@ static struct udmap_used_mapping rom_usage_MCU_NAVSS0_UDMAP_0[10U] = {
 	},
 };
 
-struct udmap_instance udmap_inst[] = {
+struct udmap_instance udmap_inst[2] = {
 	{
 		.id = J721E_DEV_NAVSS0_UDMAP_0,
 		.root_id = J721E_DEV_NAVSS0,
