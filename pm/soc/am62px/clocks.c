@@ -1,5 +1,5 @@
 /*
- * Data version: 230922_165936
+ * Data version: 231011_130515
  *
  * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -1976,7 +1976,7 @@ static const struct clk_data_mux_reg clk_data_MCU_OBSCLK_MUX_SEL_out0 = {
 		.n		= ARRAY_SIZE(clk_MCU_OBSCLK_MUX_SEL_parents),
 	},
 	.reg			= 0x04500000 + 32768,
-	.bit			= 8,
+	.bit			= 0,
 };
 static const struct clk_parent clk_MCU_OBSCLK_OUTMUX_SEL_parents[2] = {
 	{
