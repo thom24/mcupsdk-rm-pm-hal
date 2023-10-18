@@ -865,7 +865,7 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 				actual64 += pm_div64(&rem64, clkod_plld);
 				rem = (u32) rem64;
 			} else {
-				actual64 += ((u32) rem64) / clkod_plld;
+				actual64 += (u64) (((u32) rem64) / clkod_plld);
 				rem = ((u32) rem64) % clkod_plld;
 			}
 
@@ -891,8 +891,8 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 				if (frem > (u64) ULONG_MAX) {
 					fret += pm_div64(&frem, clkod_plld);
 				} else if (frem >= clkod_plld) {
-					fret += ((u32) frem) / clkod_plld;
-					frem = ((u32) frem) % clkod_plld;
+					fret += (u64) (((u32) frem) / clkod_plld);
+					frem =  (u64) (((u32) frem) % clkod_plld);
 				} else {
 				/* Do Nothing */
 			  }
@@ -901,18 +901,18 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 				if (frem > (u64) ULONG_MAX) {
 					fret += pm_div64(&frem, clkod_plld);
 				} else if (frem >= clkod_plld) {
-					fret += ((u32) frem) / clkod_plld;
-					frem = ((u32) frem) % clkod_plld;
+					fret += (u64) (((u32) frem) / clkod_plld);
+					frem =  (u64) (((u32) frem) % clkod_plld);
 				} else {
 				/* Do Nothing */
 			  }
-				frem += ((u32) (fret & pllfm_mask)) * clkod_plld;
+				frem += (u64) (((u32) (fret & pllfm_mask)) * clkod_plld);
 
 				/* Add fractional part */
 				actual64 += fret >> pllfm_bits;
 				rem += (u32) (frem >> pllfm_bits);
 
-				actual64 += ((u32) rem) / clkod_plld;
+				actual64 += (u64) (((u32) rem) / clkod_plld);
 				rem += ((u32) rem) % clkod_plld;
 			}
 
