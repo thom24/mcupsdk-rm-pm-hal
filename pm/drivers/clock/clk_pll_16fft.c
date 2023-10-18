@@ -807,7 +807,7 @@ static u32 clk_pll_16fft_internal_set_freq(struct clk *pll_clk,
  */
 static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 							  struct clk *div_clk,
-							  const struct pll_data *pll_data,
+							  const struct pll_data *pll_data_t,
 							  u32 target_hz,
 							  u32 min_hz,
 							  u32 max_hz,
@@ -877,12 +877,12 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 				u32 pllfm_range;
 				u32 pllfm_mask;
 
-				pllfm_bits = pll_data->pllfm_bits;
+				pllfm_bits = pll_data_t->pllfm_bits;
 				pllfm_range = (u32) (1UL << pllfm_bits);
 				pllfm_mask = pllfm_range - 1U;
 
-				if (pll_data->pllm_stride != NULL) {
-					stride = pll_data->pllm_stride(pll_clk, soc_pll_table[data_pll->pll_entries[i]].pllm);
+				if (pll_data_t->pllm_stride != NULL) {
+					stride = pll_data_t->pllm_stride(pll_clk, soc_pll_table[data_pll->pll_entries[i]].pllm);
 				}
 
 				/* Calculate fractional component of frequency */
@@ -905,7 +905,7 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 					frem = ((u32) frem) % clkod_plld;
 				} else {
 				/* Do Nothing */
-			  }		
+			  }
 				frem += ((u32) (fret & pllfm_mask)) * clkod_plld;
 
 				/* Add fractional part */
