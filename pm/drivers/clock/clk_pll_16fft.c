@@ -817,7 +817,7 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 	const struct clk_data_pll_16fft *pll;
 	const struct clk_data_pll *data_pll;
 	const struct clk_data_div *data_div;
-	u32 div0, div1;
+	u32 div0 = 0U, div1;
 	u32 div0_delta = ULONG_MAX;
 	u32 div1_delta = ULONG_MAX;
 	u32 div0_hz, div1_hz;
@@ -829,7 +829,7 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 	u64 rem64;
 	u32 rem;
 	u64 actual64;
-	u32 actual;
+	u32 actual = 0U;
 	u32 clkod_plld;
 
 	pll_clk_data = clk_get_data(pll_clk);
