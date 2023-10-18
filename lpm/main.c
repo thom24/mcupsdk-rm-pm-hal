@@ -265,7 +265,7 @@ static void bypass_main_pll(void)
 	}
 
 	for (i = 0; i < num_main_plls_dis; i++) {
-		pll_disable(main_plls_dis[i], 0xFFFF);
+		pll_disable(main_plls_dis[i]);
 	}
 }
 
@@ -743,7 +743,7 @@ s32 dm_stub_entry(void)
 
 	if (g_params.mode == LPM_DEEPSLEEP) {
 		pll_save(&mcu_pll);
-		pll_disable(&mcu_pll, 0xFFFF);
+		pll_disable(&mcu_pll);
 		lpm_trace_init(STRUE);
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_BYPASS_MCU_PLL);
 
