@@ -128,14 +128,12 @@ int lpm_puts(char const *str)
 
 void lpm_console_init(void)
 {
-    lpm_serial_8250_init(UART_CLK_FREQ);
+	lpm_serial_8250_init(UART_CLK_FREQ);
 }
 
 void lpm_console_bypass_init(void)
 {
-	/* XXX: We must reduce hsdiv to /1 to get crystal frequency */
-	writel(0x8000, 0x4040088);
-    lpm_serial_8250_init(UART_CLK_FREQ_BYPASS_STATE);
+	lpm_serial_8250_init(UART_CLK_FREQ_BYPASS_STATE);
 }
 
 void lpm_trace_debug_uart(u8 *str, u8 len)
@@ -157,6 +155,6 @@ void lpm_trace_debug_uart(u8 *str, u8 len)
 	/* Add a carriage return to support unflexible terminals. */
 	lpm_console_tx('\r');
 
-    /* Move the cursor to new line. */
+	/* Move the cursor to new line. */
 	lpm_console_tx('\n');
 }
