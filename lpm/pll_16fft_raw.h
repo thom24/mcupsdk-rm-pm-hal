@@ -66,7 +66,7 @@ void pll_save(struct pll_raw_data *pll);
 void pll_disable(struct pll_raw_data *pll);
 
 /**
- * \brief Bypass a PLL and disable all hsdivs with bit set in hsdivs_to_disable
+ * \brief Bypass a PLL
  * \param pll Pointer to PLL context, with base set to address for pll to
  *            manipulate
  */
