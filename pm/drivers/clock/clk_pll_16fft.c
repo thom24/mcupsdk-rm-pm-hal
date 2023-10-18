@@ -850,7 +850,7 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 			 *
 			 * Note: We break up the calculation in order to avoid a div64.
 			 */
-			clkod_plld = (u64) (soc_pll_table[data_pll->pll_entries[i]].plld * soc_pll_table[data_pll->pll_entries[i]].clkod);
+			clkod_plld = (u32) (soc_pll_table[data_pll->pll_entries[i]].plld * soc_pll_table[data_pll->pll_entries[i]].clkod);
 
 			actual64 = ((u64) (input / clkod_plld)) * soc_pll_table[data_pll->pll_entries[i]].pllm;
 			rem64 = ((u64) (input % clkod_plld)) * soc_pll_table[data_pll->pll_entries[i]].pllm;
@@ -965,7 +965,7 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 		if (!clk_pll_16fft_program_freq(pll_clk, div_clk, pll,
 						soc_pll_table[data_pll->pll_entries[i]].plld, soc_pll_table[data_pll->pll_entries[i]].pllm,
 						soc_pll_table[data_pll->pll_entries[i]].pllfm, div0)) {
-			freq = 0UL;
+			freq = 0U;
 		}
 	}
 
