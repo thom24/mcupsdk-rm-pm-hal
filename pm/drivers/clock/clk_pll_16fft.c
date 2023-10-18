@@ -893,7 +893,9 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 				} else if (frem >= clkod_plld) {
 					fret += ((u32) frem) / clkod_plld;
 					frem = ((u32) frem) % clkod_plld;
-				}
+				} else {
+				/* Do Nothing */
+			  }
 				fret *= stride;
 				frem *= stride;
 				if (frem > (u64) ULONG_MAX) {
@@ -901,7 +903,9 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 				} else if (frem >= clkod_plld) {
 					fret += ((u32) frem) / clkod_plld;
 					frem = ((u32) frem) % clkod_plld;
-				}
+				} else {
+				/* Do Nothing */
+			  }		
 				frem += ((u32) (fret & pllfm_mask)) * clkod_plld;
 
 				/* Add fractional part */
