@@ -71,3 +71,8 @@ const struct pd_lpsc mcu_lpscs[LPSCS_MCU_MAX] = {
 };
 
 u32 num_mcu_lpscs = sizeof(mcu_lpscs) / sizeof(struct pd_lpsc);
+
+/* MCU PDs to be disabled during Deepsleep */
+const u32 mcu_pds[MCU_PDS_MAX] = { PD_GP_CORE_CTL_MCU, PD_MCU_M4F };
+
+u32 num_mcu_pds = sizeof(mcu_pds) / sizeof(u32);

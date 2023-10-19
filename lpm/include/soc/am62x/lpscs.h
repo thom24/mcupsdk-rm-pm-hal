@@ -118,6 +118,8 @@ extern "C" {
 #define LPSC_MCU_MCANSS1                 8
 #define LPSC_MCU_COMMON                  9
 
+#define DDR_PD                           PD_GP_CORE_CTL       /* DDR power domain */
+
 /**
  * @brief Structure to store power domain and corresponding lpsc
  * \param pd Power domain index of LPSC
@@ -156,13 +158,21 @@ enum lpscs_mcu {
 	LPSCS_MCU_MAX,
 };
 
+enum mcu_pds {
+	GP_CORE_CTL_MCU_PDS,
+	MCU_M4F_PDS,
+	MCU_PDS_MAX,
+};
+
 extern u32 num_main_lpscs_phase1;
 extern u32 num_main_lpscs_phase2;
 extern u32 num_mcu_lpscs;
+extern u32 num_mcu_pds;
 
 extern const struct pd_lpsc main_lpscs_phase1[LPSC_PHASE1_MAX];
 extern const struct pd_lpsc main_lpscs_phase2[LPSC_PHASE2_MAX];
 extern const struct pd_lpsc mcu_lpscs[LPSCS_MCU_MAX];
+extern const u32 mcu_pds[MCU_PDS_MAX];
 
 #ifdef __cplusplus
 }
