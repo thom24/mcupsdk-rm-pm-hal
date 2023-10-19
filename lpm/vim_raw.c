@@ -49,6 +49,7 @@
 #define VIM_GRP_STS_CLEAR(i)    (0x400U + (VGRP(i) * 0x20U) + 0x04U)
 #define VIM_GRP_EN_SET(i)       (0x400U + (VGRP(i) * 0x20U) + 0x08U)
 #define VIM_GRP_EN_CLEAR(i)     (0x400U + (VGRP(i) * 0x20U) + 0x0cU)
+#define VIM_GRP_INTR_STAT(i)    (0x400U + (VGRP(i) * 0x20U) + 0x00U)
 
 /* VIM_ACTIVE_IRQ register */
 #define VIM_ACTIVE_IRQ_VALID    BIT(31)
@@ -63,6 +64,16 @@ void vim_set_intr_enable(u32 intr, int enable)
 	} else {
 		writel(mask, VIM_BASE + VIM_GRP_EN_CLEAR(intr));
 	}
+}
+
+u32 vim_get_intr_status(u32 intr)
+{
+	u32 val = 0;
+	u32 mask = ((u32) 1U << VINTR(intr));
+
+	val = readl(VIM_BASE + VIM_GRP_INTR_STAT(intr));
+
+	return val & mask;
 }
 
 void vim_clear_intr(u32 intr)

@@ -66,3 +66,12 @@ s32 vim_get_intr_number(void);
  *        shall be called at the end of isr
  */
 void vim_irq_complete(void);
+
+/**
+ * \brief Get interrupt status
+ * \param intr the number of the interrupt
+ *
+ * \return 0 if the interrupt is not pending, if pending
+ *         return a non zero value
+ */
+u32 vim_get_intr_status(u32 intr);
