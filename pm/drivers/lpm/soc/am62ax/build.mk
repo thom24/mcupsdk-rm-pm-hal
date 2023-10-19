@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017-2023, Texas Instruments Incorporated
+# Copyright (c) 2023 Texas Instruments Incorporated
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,4 @@
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-obj-y +=			lpm_data.o
-obj-y +=			lpscs.o
-obj-y +=			pll.o
+obj-y += soc_ctrl_mmr.o
