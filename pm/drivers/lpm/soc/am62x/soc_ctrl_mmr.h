@@ -80,6 +80,25 @@ extern "C" {
 #define WKUP_CTRL_PMCTRL_IO_GLB_ENABLE_IO        1
 #define WKUP_CTRL_PMCTRL_IO_GLB_DISABLE_IO       0
 
+/* CANUART WAKE CTRL */
+#define WKUP_CANUART_CTRL                       (0x00018300U)
+#define WKUP_CANUART_WAKE_STAT0                 (0x00018308U)
+#define WKUP_CANUART_WAKE_STAT1                 (0x0001830CU)
+#define WKUP_CANUART_MAGIC_WRD                  (0x2AAAAAAAU << 1U)
+#define WKUP_CANUART_MAGIC_WRD_LD_EN            (0x1U)
+#define WKUP_CANUART_IO_MODE_ACTIVE             (0x1U)
+
+/* WKUP_PMCTRL_SYS */
+#define WKUP0_PMCTRL_SYS                        (0x00018080U)
+#define WKUP0_PMCTRL_SYS_LPM_EN_DS              (0x5U)
+#define WKUP0_PMCTRL_SYS_LPM_EN_PMIC            (0x0U)
+#define WKUP0_LPM_PMIC_OUT_EN                   (0x10U)
+#define WKUP0_LPM_PMIC_OUT_DIS                  (0x0U)
+
+/* WKUP0_EN */
+#define WKUP0_EN                                (0x00018180U)
+#define WKUP0_EN_CANUART_IO_DAISY_CHAIN          BIT(18)
+
 /* SOC Device IDs */
 #define DEV_GTC                 AM62X_DEV_WKUP_GTC0
 #define POWER_MASTER            AM62X_DEV_A53SS0_CORE_0

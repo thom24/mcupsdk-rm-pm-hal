@@ -63,9 +63,10 @@ extern u32 lpm_get_wake_up_source(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
 extern void lpm_clear_all_wakeup_interrupt(void);
 
-#define LPM_DEEPSLEEP 0U
-#define LPM_MCU_ONLY  1U
-#define LPM_STANDBY   2U
+#define LPM_DEEPSLEEP   0U
+#define LPM_MCU_ONLY    1U
+#define LPM_STANDBY     2U
+#define LPM_PARTIAL_IO  3U
 
 static void enter_WFI(void)
 {
