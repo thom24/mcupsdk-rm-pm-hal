@@ -34,6 +34,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include "timeout.h"
+#include <baseaddress.h>
 
 static void asm_func(void)
 {
@@ -42,9 +43,8 @@ static void asm_func(void)
 
 void delay_1us(void)
 {
-	/* This while-loop takes 2 instructions. Assume R5 runs @400MHz */
-	/* FIXME will -O2 comptimize out the code? */
-	unsigned long x = 400 / 2;
+	/* This while-loop takes 2 instructions. */
+	unsigned long x = DM_R5_CORE_FREQUENCY_MHZ / 2;
 
 	while (x != 0U) {
 		x--;

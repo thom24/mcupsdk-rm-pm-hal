@@ -66,6 +66,7 @@ extern "C" {
 #define TIFS_SEC_PROXY_MSG_TX_TID        61
 #define DM2DMSC_SEC_PROXY_MSG_RX_TID     22
 #define DM2DMSC_SEC_PROXY_MSG_TX_TID     23
+#define DM_R5_CORE_FREQUENCY_MHZ         800
 
 #ifdef __cplusplus
 }
