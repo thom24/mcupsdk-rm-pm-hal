@@ -58,6 +58,12 @@ config LPM_CLK
 	 Enable Clock Layer LPM with enables all suspend and resume
 	 handlers for clock drivers.
 
+config LPM_32_BIT_DDR
+	bool "Enable 32 bit DDR driver"
+	depends on LPM_DM
+	help
+	 Enable 32 bit DDR driver for DDR save and restore.
+
 menu "Low Power Debug Options"
 
 config LPM_DM_STUB_STANDALONE
