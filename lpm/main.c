@@ -111,6 +111,79 @@ static void lpm_abort(void)
 	}
 }
 
+#ifdef CONFIG_LPM_32_BIT_DDR
+
+static s32 enter_ddr_low_power_mode(void)
+{
+	s32 ret = 0;
+
+	/* Configure DDR for low power mode entry */
+	ret = ddr_enter_low_power_mode();
+
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
+			       MDCTL_STATE_DISABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
+
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+
+	if (ret == 0) {
+		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
+				       MDCTL_STATE_DISABLE, 0);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
+
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+	}
+
+	if (ret == 0) {
+		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
+				       MDCTL_STATE_DISABLE, 0);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
+
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+
+		/* Reset isolate DDR */
+		writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
+	}
+
+	return ret;
+}
+
+static s32 exit_ddr_low_power_mode(void)
+{
+	s32 ret = 0;
+
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
+			       MDCTL_STATE_ENABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
+
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+
+	if (ret == 0) {
+		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
+				       MDCTL_STATE_ENABLE, 0);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
+
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+
+		/* Remove DDR Reset isolation */
+		writel(DS_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
+	}
+
+	if (ret == 0) {
+		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
+				       MDCTL_STATE_ENABLE, 0);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
+
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+	}
+
+	if (ret == 0) {
+		ret = ddr_exit_low_power_mode();
+	}
+
+	return ret;
+}
+#else
 static s32 enter_ddr_low_power_mode(void)
 {
 	s32 ret = 0;
@@ -191,6 +264,7 @@ static s32 exit_ddr_low_power_mode(void)
 
 	return ret;
 }
+#endif
 
 static void clock_gate_legacy_peripherals(sbool enable)
 {

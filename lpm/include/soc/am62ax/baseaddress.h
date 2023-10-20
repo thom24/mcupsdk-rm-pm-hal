@@ -54,6 +54,14 @@ extern "C" {
 #define MAIN_PSC_BASE                   (0x00400000U)
 #define MCU_PSC_BASE                    (0x04000000U)
 
+#define DDRSS0_CTRL_BASE               (0x0F308000U)
+#define DDRSS0_HI0_MEM_BASE            (0x880000000U)
+#define DDRSS0_HI1_MEM_BASE            (0x900000000U)
+#define DDRSS0_HI2_MEM_BASE            (0xA00000000U)
+#define DDRSS0_HI3_MEM_BASE            (0xC00000000U)
+#define DDRSS0_MEM_BASE                (0x80000000U)
+#define DDRSS0_SS_BASE                 (0x0F300000U)
+
 #define DDR_CTRL_BASE                   (0x0f308000U)
 #define VIM_BASE                        (0x2fff0000U)
 #define ROM_SEC_PROXY_RT_ADDRESS        (0x44880000U)
