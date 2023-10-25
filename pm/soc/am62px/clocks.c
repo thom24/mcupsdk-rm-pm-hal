@@ -2691,7 +2691,7 @@ static const struct clk_data_div_reg clk_data_hsdiv0_16fft_main_12_hsdiv0 = {
 static const struct clk_data_div_reg clk_data_hsdiv0_16fft_main_16_hsdiv0 = {
 	.data_div		= {
 		.n		= 128,
-		.default_div	= 1,
+		.default_div	= 7,
 	},
 	.reg			= 0x00680000UL + (0x1000UL * 16UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
@@ -2707,7 +2707,7 @@ static const struct clk_data_div_reg clk_data_hsdiv0_16fft_main_17_hsdiv0 = {
 static const struct clk_data_div_reg clk_data_hsdiv0_16fft_main_18_hsdiv0 = {
 	.data_div		= {
 		.n		= 128,
-		.default_div	= 3,
+		.default_div	= 7,
 	},
 	.reg			= 0x00680000UL + (0x1000UL * 18UL) + 0x80UL + (0x4UL * 0UL),
 	.bit			= 0,
