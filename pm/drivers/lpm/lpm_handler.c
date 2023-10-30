@@ -245,7 +245,6 @@ static s32 lpm_sleep_jump_to_dm_Stub(void)
 
 static void lpm_enter_partial_io_mode(void)
 {
-	s32 ret = 0;
 	u32 reg = 0;
 	u32 timeout = TIMEOUT_10MS;
 
@@ -269,7 +268,6 @@ static void lpm_enter_partial_io_mode(void)
 		--timeout;
 	}
 	if (timeout == 0) {
-		ret = -ETIMEDOUT;
 		lpm_hang_abort();
 	}
 
@@ -292,7 +290,6 @@ static void lpm_enter_partial_io_mode(void)
 		--timeout;
 	}
 	if (timeout == 0U) {
-		ret = -ETIMEDOUT;
 		lpm_hang_abort();
 	}
 
