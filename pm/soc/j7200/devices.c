@@ -2728,7 +2728,7 @@ static const struct lpsc_module_data j7200_j7_wkup_psc_wrap_wkup_0_mod_data[J720
 			J7200_DEV_WKUPMCU2MAIN_VD,
 			DEV_ID_NONE,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MAIN2WKUPMCU] =	   {
 		.powerdomain		= J7200_PSC_PD_PD_WKUP,
@@ -2736,7 +2736,7 @@ static const struct lpsc_module_data j7200_j7_wkup_psc_wrap_wkup_0_mod_data[J720
 			J7200_DEV_MAIN2WKUPMCU_VD,
 			DEV_ID_NONE,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J7200_PSC_LPSC_LPSC_MCU_TEST] =	   {
 		.powerdomain		= J7200_PSC_PD_PD_WKUP,

@@ -2259,7 +2259,7 @@ static const struct lpsc_module_data j784s4_j7_wkup_psc_wrap_wkup_0_mod_data[J78
 			J784S4_DEV_WKUPMCU2MAIN_VD,
 			DEV_ID_NONE,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J784S4_PSC_LPSC_LPSC_MAIN2WKUPMCU] =	    {
 		.powerdomain		= J784S4_PSC_PD_PD_WKUP,
@@ -2267,7 +2267,7 @@ static const struct lpsc_module_data j784s4_j7_wkup_psc_wrap_wkup_0_mod_data[J78
 			J784S4_DEV_MAIN2WKUPMCU_VD,
 			DEV_ID_NONE,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J784S4_PSC_LPSC_LPSC_MCU_TEST] =	    {
 		.powerdomain		= J784S4_PSC_PD_PD_WKUP,
