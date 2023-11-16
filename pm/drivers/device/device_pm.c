@@ -75,7 +75,7 @@ void device_suspend(struct device *dev)
  * \param device
  * The device to modify.
  */
-static void device_enable(struct device *dev)
+void device_enable(struct device *dev)
 {
 	const struct dev_data *data = get_dev_data(dev);
 	u16 i;
