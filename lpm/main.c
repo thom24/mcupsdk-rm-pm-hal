@@ -970,6 +970,22 @@ s32 dm_stub_entry(void)
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
 		}
 
+		/* Clear WKUP_CTRL DS_DM_RESET.mask to remove isolation of DM
+		 * from MAIN domain reset
+		 */
+		writel(DS_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DM_RESET);
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_RST_UNMASK);
+
+		if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
+			/* Set WKUP_CTRL.RST_CTRL.main_reset_iso_done_z to 0 to
+			* unmask main reset
+			*/
+			reg = readl(WKUP_CTRL_MMR_BASE + RST_CTRL);
+			reg &= ~RST_CTRL_MAIN_RST_ISO_DONE_Z;
+			writel(reg, WKUP_CTRL_MMR_BASE + RST_CTRL);
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_RST_ISO_DONE);
+		}
+
 		/* Send TISCI ROM Boot image message containing location
 		 * and boot address to load FS stub from SPS Memory
 		 * TISCI_MSG_FIRMWARE_LOAD
