@@ -97,10 +97,10 @@ extern "C" {
 
 /* DDR16SS_PMCTRL */
 #define DDR16SS_RETENTION_DIS           0U
-#define DDR16SS_RETENTION_EN            0x6
+#define DDR16SS_RETENTION_EN            0x6U
 #define DDR16SS_DATA_RET_LD_BIT         31U
-#define DDR16SS_DATA_RET_LD_OPEN        0x1
-#define DDR16SS_DATA_RET_LD_CLOSE       0x0
+#define DDR16SS_DATA_RET_LD_OPEN        0x1U
+#define DDR16SS_DATA_RET_LD_CLOSE       0x0U
 
 /* WKUP_WWD0_CTRL */
 #define WWD_RUN                         0U
