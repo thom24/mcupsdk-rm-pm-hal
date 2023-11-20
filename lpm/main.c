@@ -919,8 +919,6 @@ s32 dm_stub_entry(void)
 		 * bits to release Main domain reset
 		 */
 		writel(DS_MAIN_ON, WKUP_CTRL_MMR_BASE + DS_MAIN);
-
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_ON);
 	}
 
 	wait_for_debug();
@@ -931,8 +929,6 @@ s32 dm_stub_entry(void)
 			lpm_abort();
 		}
 
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST);
-
 		/*
 		 * Set DM LPSC to enabled as early as possible as JTAG
 		 * will not connect until this is done.
@@ -941,7 +937,6 @@ s32 dm_stub_entry(void)
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MAIN_DM_LPSC_EN);
 			lpm_abort();
 		} else {
-			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MAIN_DM_LPSC_EN);
 		}
 
 		/* Modify WKUP_CLKSEL in WKUP_CTRL
@@ -949,15 +944,11 @@ s32 dm_stub_entry(void)
 		 */
 		writel(WKUP_CLKSEL_MAIN, WKUP_CTRL_MMR_BASE + WKUP_CLKSEL);
 
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WKUP_CLKSEL_MAIN);
-
 		/* Configure additional MCU PLLs and PSCs to return to
 		 * pre-DeepSleep state
 		 */
 		enable_mcu_remain_pll();
 		enable_mcu_lpsc();
-
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MCU_PLLS);
 
 		/* Poll on WKUP DS_MAGIC_WORD for 0x00d5d02e that indicates
 		 * TIFS ROM has completed and execution can continue.
