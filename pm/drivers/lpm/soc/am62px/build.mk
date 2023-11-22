@@ -30,6 +30,4 @@
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-obj-y +=			lpm_data.o
-obj-y +=			lpscs.o
-obj-y +=			pll.o
+obj-y += soc_ctrl_mmr.o
