@@ -108,26 +108,18 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 	},
 	[8] = {
 		/*
-		 * For: DM2TIFS response
+		 * For: DM err_event
 		 */
 		.id		= AM62AX_DEV_DMASS0_INTAGGR_0,
-		.event_id	= 0x0008U,
+		.event_id	= 0x000CU,
 		.vint		= 0x002AU,
 	},
 	[9] = {
 		/*
-		 * For: DM err_event
+		 * For: DM nonsec_low_priority_rx
 		 */
 		.id		= AM62AX_DEV_DMASS0_INTAGGR_0,
 		.event_id	= 0x000DU,
 		.vint		= 0x002BU,
-	},
-	[10] = {
-		/*
-		 * For: DM nonsec_low_priority_rx
-		 */
-		.id		= AM62AX_DEV_DMASS0_INTAGGR_0,
-		.event_id	= 0x000EU,
-		.vint		= 0x002CU,
 	},
 };
