@@ -3,7 +3,7 @@
  *
  * Static IA IRQ maps for Processing Entities for J7200 device
  *
- * Data version: 211118_090221
+ * Data version: 220622_142531
  *
  * Copyright (C) 2019-2023, Texas Instruments Incorporated
  * All rights reserved.

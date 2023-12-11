@@ -3,7 +3,7 @@
  *
  * Proxy SoC-specific configuration definitions
  *
- * Data version: 211118_090221
+ * Data version: 220622_142531
  *
  * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
