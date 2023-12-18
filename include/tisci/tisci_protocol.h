@@ -246,6 +246,12 @@ struct tisci_sec_header {
 /** Message to derive a KEK and return it via TISCI */
 #define TISCI_MSG_SA2UL_GET_DKEK                (0x9029U)
 
+/** Message to allow safety host to read fwl control region */
+#define TISCI_MSG_ALLOW_FWL_CTRL_READ           (0x902CU)
+
+/** Message to forbid hosts other than tifs from reading fwl control region */
+#define TISCI_MSG_FORBID_FWL_CTRL_READ          (0x902DU)
+
 /** Message for handing over subset of security functionality to
  * another core. Only available on certain platforms.
  */
