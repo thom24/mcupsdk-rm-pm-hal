@@ -286,6 +286,12 @@ struct tisci_sec_header {
 /** Message to import keyring */
 #define TISCI_MSG_KEYRING_IMPORT                (0X9039U)
 
+/** Message to derive a constant DKEK and set SA2UL DKEK register */
+#define TISCI_MSG_SA2UL_SET_DKEK_CONST			(0x902AU)
+
+/** Message to derive a constant DKEK and return it via TISCI */
+#define TISCI_MSG_SA2UL_GET_DKEK_CONST			(0x902BU)
+
 /* Processor Control APIs */
 
 /** Message to get a Processor */
