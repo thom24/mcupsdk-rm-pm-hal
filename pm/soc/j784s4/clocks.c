@@ -13767,7 +13767,7 @@ const struct clk_data soc_clock_data[844] = {
 	},
 	[CLK_J784S4_DPI_1_PCLK_SEL_OUT0] =						 {
 		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.data	= &clk_data_DPI_1_PCLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
@@ -13779,7 +13779,7 @@ const struct clk_data soc_clock_data[844] = {
 	},
 	[CLK_J784S4_DPI_3_PCLK_SEL_OUT0] =						 {
 		.drv	= &clk_drv_mux_reg_j7_dpi_3_pclk.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.data	= &clk_data_DPI_3_PCLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
