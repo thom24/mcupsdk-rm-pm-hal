@@ -5,7 +5,7 @@
  *
  * Data version: 230918_161319
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,7 @@
 #ifndef AM62X_IA_PE_CONF_H
 #define AM62X_IA_PE_CONF_H
 
-/** Count of IA init list (9 entries) */
-#define IA_SOC_PE_INIT_NUM (0x09U)
+/** Count of IA init list (10 entries) */
+#define IA_SOC_PE_INIT_NUM (0x0AU)
 
 #endif /* AM62X_IA_PE_CONF_H */

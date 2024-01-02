@@ -5,7 +5,7 @@
  *
  * Data version: 231011_130515
  *
- * Copyright (C) 2023, Texas Instruments Incorporated
+ * Copyright (C) 2023-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -100,13 +100,21 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 	},
 	[7] = {
 		/*
+		 * For: DM2TIFS response
+		 */
+		.id		= AM62PX_DEV_DMASS0_INTAGGR_0,
+		.event_id	= 0x05FFU,
+		.vint		= 0x004FU,
+	},
+	[8] = {
+		/*
 		 * For: DM err_event
 		 */
 		.id		= AM62PX_DEV_DMASS0_INTAGGR_0,
 		.event_id	= 0x000BU,
 		.vint		= 0x002AU,
 	},
-	[8] = {
+	[9] = {
 		/*
 		 * For: DM nonsec_low_priority_rx
 		 */
