@@ -1,7 +1,7 @@
 /*
  * DMSC firmware
  *
- * Copyright (C) 2018-2023, Texas Instruments Incorporated
+ * Copyright (C) 2018-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1245,6 +1245,27 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 
 		if (ret == SUCCESS) {
 			ret = pll_init(clock_ptr);
+		}
+	} else {
+		/*
+		 * Make sure all HSDIVs of the PLL are enabled when relying on
+		 * another entity to initialize the PLL instead of this driver.
+		 */
+
+		/* Unlock write access */
+		writel((u32) PLL_16FFT_LOCKKEY0_VALUE, (u32) pll->base + (u32) PLL_16FFT_LOCKKEY0(pll->idx));
+		writel((u32) PLL_16FFT_LOCKKEY1_VALUE, (u32) pll->base + (u32) PLL_16FFT_LOCKKEY1(pll->idx));
+
+		cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
+
+		/* Enable all HSDIV outputs */
+		for (i = 0U; (i < 16U) && (ret == SUCCESS); i++) {
+			/* Enable HSDIV output if present */
+			if ((PLL_16FFT_CFG_HSDIV_PRSNC(i) & cfg) != 0UL) {
+				ctrl = readl(pll->base + (u32) PLL_16FFT_HSDIV_CTRL(pll->idx, i));
+				ctrl |= PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
+				ret = pm_writel_verified(ctrl, (u32) pll->base + (u32) PLL_16FFT_HSDIV_CTRL(pll->idx, i));
+			}
 		}
 	}
 
