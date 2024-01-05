@@ -192,7 +192,7 @@ static void do_ddr_lpm_entry_sequence_thru_wkup_mmr()
 
 	/* 2. Program the OFF mode MMRs and CAN IO mode MMRs. At this point both OFF Mode and CAN IO mode are `1' */
 	writel(WKUP_CANUART_OFF_MAGIC_WORD, WKUP_CTRL_MMR_BASE + CANUART_WAKE_OFF_MODE);
-	writel(0x1, WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
+	writel((WKUP_CANUART_MAGIC_WRD | WKUP_CANUART_MAGIC_WRD_LD_EN), WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
 
 	/* 3. Write `1' into data_ret_ld[31] MMR to generate a LD signal to latch the retention signal */
 	writel(((DDR16SS_DATA_RET_LD_OPEN << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_EN), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
