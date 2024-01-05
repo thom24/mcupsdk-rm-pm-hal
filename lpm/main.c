@@ -3,7 +3,7 @@
  *
  * DM Stub main low power functionality
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -121,11 +121,13 @@ static s32 enter_ddr_low_power_mode(void)
 	/* Configure DDR for low power mode entry */
 	ret = ddr_enter_low_power_mode();
 
-	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
-			       MDCTL_STATE_DISABLE, 0);
-	psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
+	if (ret == 0) {
+		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
+				       MDCTL_STATE_DISABLE, 0);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
 
-	ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+	}
 
 	if (ret == 0) {
 		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
@@ -141,9 +143,6 @@ static s32 enter_ddr_low_power_mode(void)
 		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
 
 		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
-
-		/* Reset isolate DDR */
-		writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
 	}
 
 	return ret;
@@ -165,9 +164,6 @@ static s32 exit_ddr_low_power_mode(void)
 		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
 
 		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
-
-		/* Remove DDR Reset isolation */
-		writel(DS_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
 	}
 
 	if (ret == 0) {

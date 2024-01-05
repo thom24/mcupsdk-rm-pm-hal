@@ -3,7 +3,7 @@
  *
  * LPM DDR driver
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -125,7 +125,6 @@
 #define DDRSS_Address_Slice_1_REGISTER_BLOCK__OFFS      0x5400
 #define DDRSS_Address_Slice_2_REGISTER_BLOCK__OFFS      0x5800
 #define DDRSS_PHY_Core_REGISTER_BLOCK__OFFS     0x5c00
-#define LP_MODE_LONG_SELF_REFRESH    0x31 /* 0x51 AU */
 #define DENALI_CTL_160__SFR_OFFS        0x280
 #define DENALI_CTL_169__SFR_OFFS        0x2a4
 #define SDRAM_IDX  0x12
@@ -178,28 +177,28 @@ static void poll_for_init_completion(struct emif_handle_s *h)
 static void do_ddr_lpm_exit_sequence_thru_wkup_mmr()
 {
 	/* 1. write 0 to remove DDR data retention */
-	writel((((1 << 31) | 0x0)), WKUP_CTRL_MMR_BASE + WKUP_CTRL_DDR16SS_PMCTRL);
-	writel((((0 << 31) | 0x0)), WKUP_CTRL_MMR_BASE + WKUP_CTRL_DDR16SS_PMCTRL);
+	writel((((DDR16SS_DATA_RET_LD_OPEN << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_DIS)), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
+	writel((((DDR16SS_DATA_RET_LD_CLOSE << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_DIS)), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 
 	/* 2. Reset the OFF mode MMRs and CAN IO mode MMRs. */
-	writel(0x0, WKUP_CTRL_MMR_BASE + WKUP_CTRL_CANUART_WAKE_OFF_MODE);
-	writel(0x0, WKUP_CTRL_MMR_BASE + WKUP_CTRL_CANUART_WAKE_CTRL);
+	writel(0x0, WKUP_CTRL_MMR_BASE + CANUART_WAKE_OFF_MODE);
+	writel(WKUP_CANUART_MAGIC_WRD_LD_DIS, WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
 }
 
 static void do_ddr_lpm_entry_sequence_thru_wkup_mmr()
 {
 	/* 1. Write into data_retention MMR to put DDR into retention */
-	writel(0x6, WKUP_CTRL_MMR_BASE + WKUP_CTRL_DDR16SS_PMCTRL);
+	writel(DDR16SS_RETENTION_EN, WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 
 	/* 2. Program the OFF mode MMRs and CAN IO mode MMRs. At this point both OFF Mode and CAN IO mode are `1' */
-	writel(0x555555, WKUP_CTRL_MMR_BASE + WKUP_CTRL_CANUART_WAKE_OFF_MODE);
-	writel(0x1, WKUP_CTRL_MMR_BASE + WKUP_CTRL_CANUART_WAKE_CTRL);
+	writel(WKUP_CANUART_OFF_MAGIC_WORD, WKUP_CTRL_MMR_BASE + CANUART_WAKE_OFF_MODE);
+	writel(0x1, WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
 
 	/* 3. Write `1' into data_ret_ld[31] MMR to generate a LD signal to latch the retention signal */
-	writel(((1 << 31) | 0x6), WKUP_CTRL_MMR_BASE + WKUP_CTRL_DDR16SS_PMCTRL);
+	writel(((DDR16SS_DATA_RET_LD_OPEN << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_EN), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 
 	/* 4. Writes `0' into data_ret_ld[31] to close the latch */
-	writel(((0 << 31) | 0x6), WKUP_CTRL_MMR_BASE + WKUP_CTRL_DDR16SS_PMCTRL);
+	writel(((DDR16SS_DATA_RET_LD_CLOSE << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_EN), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 }
 
 static void enter_lpm_self_refresh()
@@ -209,8 +208,8 @@ static void enter_lpm_self_refresh()
 	/* Program Self Refresh mode */
 	writel((LP_MODE_LONG_SELF_REFRESH << 8), DDRSS0_CTRL_BASE + DENALI_CTL_160__SFR_OFFS);
 
-	while (lp_status != 0x4E) {
-		lp_status = ((readl(DDRSS0_CTRL_BASE + DENALI_CTL_169__SFR_OFFS) & 0x7F00) >> 8);
+	while (lp_status != STATUS_SR_LONG_ENTERED) {
+		lp_status = (readl(DDRSS0_CTRL_BASE + DENALI_CTL_169__SFR_OFFS) & 0x7F00);
 	}
 }
 
@@ -345,6 +344,7 @@ s32 ddr_enter_low_power_mode(void)
 		save_registers_optimized(&Emifhandle);
 		enter_lpm_self_refresh();
 		do_ddr_lpm_entry_sequence_thru_wkup_mmr();
+		break;
 #endif
 	default:
 		ret = -EFAIL;

@@ -3,7 +3,7 @@
  *
  * CDNS DDR driver
  *
- * Copyright (C) 2023, Texas Instruments Incorporated
+ * Copyright (C) 2023-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -103,6 +103,7 @@
 #define LP_MODE_NONE                 0x2
 #define STATUS_SR_ENTERED            0x4B00
 #define STATUS_SR_SHORT_ENTERED      0x4500
+#define STATUS_SR_LONG_ENTERED       0x4E00
 #define STATUS_SR_ENTERED_MASK       0xFF00
 
 
