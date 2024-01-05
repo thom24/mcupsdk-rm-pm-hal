@@ -1,7 +1,7 @@
 /*
  * Data version: 230209_212853
  *
- * Copyright (C) 2017-2023, Texas Instruments Incorporated
+ * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -3137,7 +3137,7 @@ const struct clk_data soc_clock_data[228] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= AM64X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_0,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_0.data_pll.data,
-		.flags		= 0,
+		.flags		= CLK_DATA_FLAG_NO_HW_REINIT,
 	},
 	[CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_0_FOUTPOSTDIV_CLK] = {
 		.parent =					  {
@@ -3197,7 +3197,7 @@ const struct clk_data soc_clock_data[228] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= AM64X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_2,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_2.data_pll.data,
-		.flags		= 0,
+		.flags		= CLK_DATA_FLAG_NO_HW_REINIT,
 	},
 	[CLK_AM64X_PLLFRACF_SSMOD_16FFT_MAIN_2_FOUTPOSTDIV_CLK] = {
 		.parent =					  {
@@ -3285,7 +3285,7 @@ const struct clk_data soc_clock_data[228] = {
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_NO_HW_REINIT,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_postdiv4_16ff_main_0_hsdiv9.data_div.data,
 	},
@@ -3671,7 +3671,7 @@ const struct clk_data soc_clock_data[228] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_NO_HW_REINIT,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv4_16fft_main_2_hsdiv0.data_div.data,
 	},
