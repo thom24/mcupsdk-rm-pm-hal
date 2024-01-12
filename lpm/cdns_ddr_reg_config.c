@@ -53,7 +53,7 @@ void configure_CTL_registers(struct emif_handle_s *h)
 	uint32_t cs_msk, cs_val_lower, cs_val_upper, i;
 
 	for (i = 0; i <= 434; i++) {
-		SOC_write32(DDR_CTL_REG_BASE + i * 4, denali_ctl_data[i]);
+		SOC_write32(DDR_CTL_REG_BASE + (i * 4), denali_ctl_data[i]);
 	}
 
 	/* Disable bank group rotation for DDR4 */
@@ -99,7 +99,7 @@ void configure_PI_registers(struct emif_handle_s *h)
 	uint32_t wdata_145, i;
 
 	for (i = 0; i <= 423; i++) {
-		SOC_write32(DDR_CTL_PI_REG_BASE + i * 4, denali_pi_data[i]);
+		SOC_write32(DDR_CTL_PI_REG_BASE + (i * 4), denali_pi_data[i]);
 	}
 
 	/* Disable bank group rotation for DDR4 */
@@ -143,7 +143,7 @@ void configure_data_slice0_registers(struct emif_handle_s *h)
 
 	for (i = 0; i <= 136; i++) {
 		{
-			SOC_write32(DDR_CTL_DATA_SLICE_0_REG_BASE + i * 4, denali_data_slice0[i]);
+			SOC_write32(DDR_CTL_DATA_SLICE_0_REG_BASE + (i * 4), denali_data_slice0[i]);
 		}
 	}
 }
@@ -155,7 +155,7 @@ void configure_data_slice1_registers(struct emif_handle_s *h)
 
 	for (i = 0; i <= 136; i++) {
 		{
-			SOC_write32(DDR_CTL_DATA_SLICE_1_REG_BASE + i * 4, denali_data_slice1[i]);
+			SOC_write32(DDR_CTL_DATA_SLICE_1_REG_BASE + (i * 4), denali_data_slice1[i]);
 		}
 	}
 }
@@ -167,7 +167,7 @@ void configure_data_slice2_registers(struct emif_handle_s *h)
 
 	for (i = 0; i <= 136; i++) {
 		{
-			SOC_write32(DDR_CTL_DATA_SLICE_2_REG_BASE + i * 4, denali_data_slice2[i]);
+			SOC_write32(DDR_CTL_DATA_SLICE_2_REG_BASE + (i * 4), denali_data_slice2[i]);
 		}
 	}
 }
@@ -179,7 +179,7 @@ void configure_data_slice3_registers(struct emif_handle_s *h)
 
 	for (i = 0; i <= 136; i++) {
 		{
-			SOC_write32(DDR_CTL_DATA_SLICE_3_REG_BASE + i * 4, denali_data_slice3[i]);
+			SOC_write32(DDR_CTL_DATA_SLICE_3_REG_BASE + (i * 4), denali_data_slice3[i]);
 		}
 	}
 }
@@ -190,7 +190,7 @@ void configure_address_slice0_registers(struct emif_handle_s *h)
 	uint32_t i;
 
 	for (i = 0; i <= 48; i++) {
-		SOC_write32(DDR_CTL_ADDR_SLICE_0_REG_BASE + i * 4, denali_addr_slice0[i]);
+		SOC_write32(DDR_CTL_ADDR_SLICE_0_REG_BASE + (i * 4), denali_addr_slice0[i]);
 	}
 }
 
@@ -200,7 +200,7 @@ void configure_address_slice1_registers(struct emif_handle_s *h)
 	uint32_t i;
 
 	for (i = 0; i <= 48; i++) {
-		SOC_write32(DDR_CTL_ADDR_SLICE_1_REG_BASE + i * 4, denali_addr_slice1[i]);
+		SOC_write32(DDR_CTL_ADDR_SLICE_1_REG_BASE + (i * 4), denali_addr_slice1[i]);
 	}
 }
 
@@ -210,7 +210,7 @@ void configure_address_slice2_registers(struct emif_handle_s *h)
 	uint32_t i;
 
 	for (i = 0; i <= 48; i++) {
-		SOC_write32(DDR_CTL_ADDR_SLICE_2_REG_BASE + i * 4, denali_addr_slice2[i]);
+		SOC_write32(DDR_CTL_ADDR_SLICE_2_REG_BASE + (i * 4), denali_addr_slice2[i]);
 	}
 }
 
@@ -221,7 +221,7 @@ void configure_ddrphy_registers(struct emif_handle_s *h)
 
 	/* Program the PHY */
 	for (i = 0; i <= 132; i++) {
-		SOC_write32(DDR_CTL_PHY_CORE_REG_BASE + i * 4, denali_phy_data[i]);
+		SOC_write32(DDR_CTL_PHY_CORE_REG_BASE + (i * 4), denali_phy_data[i]);
 	}
 
 	/* PHY_SW_GRP0_SHIFT_0:RW+:24:5:=0x00 PHY_FREQ_SEL_INDEX:RW+:16:2:=0x00 PHY_FREQ_SEL_MULTICAST_EN:RW+:8:1:=0x01 PHY_FREQ_SEL_FROM_REGIF:RW_D:0:1:=0x00 */
@@ -264,61 +264,61 @@ void save_registers_optimized(struct emif_handle_s *h)
 	count++;
 
 	for (i = 1; i <= 434; i++) {
-		saved_reg_data[count] = SOC_read32(DDR_CTL_REG_BASE + i * 4);
+		saved_reg_data[count] = SOC_read32(DDR_CTL_REG_BASE + (i * 4));
 		count++;
 	}
 
 	for (i = 1; i <= 423; i++) {
-		saved_reg_data[count] = SOC_read32(DDR_CTL_PI_REG_BASE + i * 4);
+		saved_reg_data[count] = SOC_read32(DDR_CTL_PI_REG_BASE + (i * 4));
 		count++;
 	}
 
 	for (i = 0; i <= 136; i++) {
 		{
-			saved_reg_data[count] = SOC_read32(DDR_CTL_DATA_SLICE_0_REG_BASE + i * 4);
+			saved_reg_data[count] = SOC_read32(DDR_CTL_DATA_SLICE_0_REG_BASE + (i * 4));
 			count++;
 		}
 	}
 
 	for (i = 0; i <= 136; i++) {
 		{
-			saved_reg_data[count] = SOC_read32(DDR_CTL_DATA_SLICE_1_REG_BASE + i * 4);
+			saved_reg_data[count] = SOC_read32(DDR_CTL_DATA_SLICE_1_REG_BASE + (i * 4));
 			count++;
 		}
 	}
 
 	for (i = 0; i <= 136; i++) {
 		{
-			saved_reg_data[count] = SOC_read32(DDR_CTL_DATA_SLICE_2_REG_BASE + i * 4);
+			saved_reg_data[count] = SOC_read32(DDR_CTL_DATA_SLICE_2_REG_BASE + (i * 4));
 			count++;
 		}
 	}
 
 	for (i = 0; i <= 136; i++) {
 		{
-			saved_reg_data[count] = SOC_read32(DDR_CTL_DATA_SLICE_3_REG_BASE + i * 4);
+			saved_reg_data[count] = SOC_read32(DDR_CTL_DATA_SLICE_3_REG_BASE + (i * 4));
 			count++;
 		}
 	}
 
 	for (i = 0; i <= 48; i++) {
-		saved_reg_data[count] = SOC_read32(DDR_CTL_ADDR_SLICE_0_REG_BASE + i * 4);
+		saved_reg_data[count] = SOC_read32(DDR_CTL_ADDR_SLICE_0_REG_BASE + (i * 4));
 		count++;
 	}
 
 	for (i = 0; i <= 48; i++) {
-		saved_reg_data[count] = SOC_read32(DDR_CTL_ADDR_SLICE_1_REG_BASE + i * 4);
+		saved_reg_data[count] = SOC_read32(DDR_CTL_ADDR_SLICE_1_REG_BASE + (i * 4));
 		count++;
 	}
 
 	for (i = 0; i <= 48; i++) {
-		saved_reg_data[count] = SOC_read32(DDR_CTL_ADDR_SLICE_2_REG_BASE + i * 4);
+		saved_reg_data[count] = SOC_read32(DDR_CTL_ADDR_SLICE_2_REG_BASE + (i * 4));
 		count++;
 	}
 
 	for (i = 0; i <= 132; i++) {
 		{
-			saved_reg_data[count] = SOC_read32(DDR_CTL_PHY_CORE_REG_BASE + i * 4);
+			saved_reg_data[count] = SOC_read32(DDR_CTL_PHY_CORE_REG_BASE + (i * 4));
 			count++;
 		}
 	}
@@ -353,61 +353,61 @@ void restore_registers_optimized(struct emif_handle_s *h)
 	count++;
 
 	for (i = 1; i <= 434; i++) {
-		SOC_write32(DDR_CTL_REG_BASE + i * 4, saved_reg_data[count]);
+		SOC_write32(DDR_CTL_REG_BASE + (i * 4), saved_reg_data[count]);
 		count++;
 	}
 
 	for (i = 1; i <= 423; i++) {
-		SOC_write32(DDR_CTL_PI_REG_BASE + i * 4, saved_reg_data[count]);
+		SOC_write32(DDR_CTL_PI_REG_BASE + (i * 4), saved_reg_data[count]);
 		count++;
 	}
 
 	for (i = 0; i <= 136; i++) {
 		{
-			SOC_write32(DDR_CTL_DATA_SLICE_0_REG_BASE + i * 4, saved_reg_data[count]);
+			SOC_write32(DDR_CTL_DATA_SLICE_0_REG_BASE + (i * 4), saved_reg_data[count]);
 			count++;
 		}
 	}
 
 	for (i = 0; i <= 136; i++) {
 		{
-			SOC_write32(DDR_CTL_DATA_SLICE_1_REG_BASE + i * 4, saved_reg_data[count]);
+			SOC_write32(DDR_CTL_DATA_SLICE_1_REG_BASE + (i * 4), saved_reg_data[count]);
 			count++;
 		}
 	}
 
 	for (i = 0; i <= 136; i++) {
 		{
-			SOC_write32(DDR_CTL_DATA_SLICE_2_REG_BASE + i * 4, saved_reg_data[count]);
+			SOC_write32(DDR_CTL_DATA_SLICE_2_REG_BASE + (i * 4), saved_reg_data[count]);
 			count++;
 		}
 	}
 
 	for (i = 0; i <= 136; i++) {
 		{
-			SOC_write32(DDR_CTL_DATA_SLICE_3_REG_BASE + i * 4, saved_reg_data[count]);
+			SOC_write32(DDR_CTL_DATA_SLICE_3_REG_BASE + (i * 4), saved_reg_data[count]);
 			count++;
 		}
 	}
 
 	for (i = 0; i <= 48; i++) {
-		SOC_write32(DDR_CTL_ADDR_SLICE_0_REG_BASE + i * 4, saved_reg_data[count]);
+		SOC_write32(DDR_CTL_ADDR_SLICE_0_REG_BASE + (i * 4), saved_reg_data[count]);
 		count++;
 	}
 
 	for (i = 0; i <= 48; i++) {
-		SOC_write32(DDR_CTL_ADDR_SLICE_1_REG_BASE + i * 4, saved_reg_data[count]);
+		SOC_write32(DDR_CTL_ADDR_SLICE_1_REG_BASE + (i * 4), saved_reg_data[count]);
 		count++;
 	}
 
 	for (i = 0; i <= 48; i++) {
-		SOC_write32(DDR_CTL_ADDR_SLICE_2_REG_BASE + i * 4, saved_reg_data[count]);
+		SOC_write32(DDR_CTL_ADDR_SLICE_2_REG_BASE + (i * 4), saved_reg_data[count]);
 		count++;
 	}
 
 	for (i = 0; i <= 132; i++) {
 		{
-			SOC_write32(DDR_CTL_PHY_CORE_REG_BASE + i * 4, saved_reg_data[count]);
+			SOC_write32(DDR_CTL_PHY_CORE_REG_BASE + (i * 4), saved_reg_data[count]);
 			count++;
 		}
 	}
