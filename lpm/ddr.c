@@ -178,7 +178,7 @@ static void poll_for_init_completion(struct emif_handle_s *h)
 #endif
 }
 
-static void do_ddr_lpm_exit_sequence_thru_wkup_mmr()
+static void do_ddr_lpm_exit_sequence_thru_wkup_mmr(void)
 {
 	/* 1. write 0 to remove DDR data retention */
 	writel((((DDR16SS_DATA_RET_LD_OPEN << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_DIS)), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
@@ -189,7 +189,7 @@ static void do_ddr_lpm_exit_sequence_thru_wkup_mmr()
 	writel(WKUP_CANUART_MAGIC_WRD_LD_DIS, WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
 }
 
-static void do_ddr_lpm_entry_sequence_thru_wkup_mmr()
+static void do_ddr_lpm_entry_sequence_thru_wkup_mmr(void)
 {
 	/* 1. Write into data_retention MMR to put DDR into retention */
 	writel(DDR16SS_RETENTION_EN, WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
@@ -205,7 +205,7 @@ static void do_ddr_lpm_entry_sequence_thru_wkup_mmr()
 	writel(((DDR16SS_DATA_RET_LD_CLOSE << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_EN), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 }
 
-static void enter_lpm_self_refresh()
+static void enter_lpm_self_refresh(void)
 {
 	u32 lp_status = 0;
 
