@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -104,6 +104,7 @@
 #define J721E_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_01 + 1U)
 #define J721S2_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_HSM + 1U)
 #define J784S4_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_HSM + 1U)
+#define J722S_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_HSM + 1U)
 
 #define AM64X_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_01 + 1U)
 #define AM6_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_01 + 1U)
