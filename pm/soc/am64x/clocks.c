@@ -187,7 +187,7 @@ enum {
 	PLL_ENTRY_PER0_19_2MHZ_960MHZ,
 	PLL_ENTRY_PER0_20MHZ_960MHZ,
 	PLL_ENTRY_PER0_24MHZ_960MHZ,
-	PLL_ENTRY_PER0_25MHZ_960MHZ,
+	PLL_ENTRY_PER0_25MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_PER0_27MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_PER1_19_2MHZ_1800MHZ_F24BIT,
@@ -203,12 +203,11 @@ enum {
 	PLL_ENTRY_ARM0_26MHZ_2000MHZ_F24BIT,
 	PLL_ENTRY_ARM0_27MHZ_2000MHZ_F24BIT,
 	PLL_ENTRY_DDR_20MHZ_1600MHZ,
-	PLL_ENTRY_DDR_19_2MHZ_1600MHZ,
+	PLL_ENTRY_DDR_19_2MHZ_1600MHZ_F24BIT,
 	PLL_ENTRY_DDR_24MHZ_1600MHZ_F24BIT,
 	PLL_ENTRY_DDR_25MHZ_1600MHZ,
 	PLL_ENTRY_DDR_26MHZ_1600MHZ_F24BIT,
 	PLL_ENTRY_DDR_27MHZ_1600MHZ_F24BIT,
-	PLL_ENTRY_PULSAR_26MHZ_2400MHZ_F24BIT,
 };
 
 enum {
@@ -219,6 +218,7 @@ enum {
 	FREQ_PLLFRACF_SSMOD_16FFT_MAIN_14_DEFAULT,
 	FREQ_PLLFRACF_SSMOD_16FFT_MAIN_2_DEFAULT,
 	FREQ_PLLFRACF_SSMOD_16FFT_MAIN_8_DEFAULT,
+	FREQ_PLLFRACF_SSMOD_16FFT_MCU_0_DEFAULT,
 };
 
 u32 soc_clock_values[AM64X_FREQ_VALUE_COUNT];
@@ -231,16 +231,17 @@ const struct clk_range soc_clock_ranges[AM64X_FREQ_RANGE_ID_MAX] = {
 	CLK_RANGE(AM64X_FREQ_RANGE_VCO_PLLFRACF_SSMOD_16FFT_MAIN_0,    800000000, 3200000000),
 };
 
-const struct clk_default soc_clock_freq_defaults[7] = {
+const struct clk_default soc_clock_freq_defaults[8] = {
 	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_0_DEFAULT,  1000000000UL, 1000000000UL, 1000000000UL),
 	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_1_DEFAULT,  960000000UL,  960000000UL,  960000000UL),
 	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_12_DEFAULT, 1600000000UL, 1600000000UL, 1600000000UL),
-	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_14_DEFAULT, 2400000000UL, 2400000000UL, 2400000000UL),
-	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_2_DEFAULT,  1800000000UL, 1800000000UL, 1800000000UL),
+	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_14_DEFAULT, 2400000000UL, 2400000000UL, 2400000001UL),
+	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_2_DEFAULT,  1800000000UL, 1800000000UL, 1800000001UL),
 	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MAIN_8_DEFAULT,  2000000000UL, 2000000000UL, 2000000000UL),
+	CLK_DEFAULT(FREQ_PLLFRACF_SSMOD_16FFT_MCU_0_DEFAULT,   2400000000UL, 2400000000UL, 2400000000UL),
 };
 
-const struct pll_table_entry soc_pll_table[37] = {
+const struct pll_table_entry soc_pll_table[36] = {
 	[PLL_ENTRY_MCU_19_2MHZ_2400MHZ] =	  {
 		.freq_min_hz	= 2400000000U,
 		.freq_max_hz	= 2400000000U,
@@ -292,9 +293,9 @@ const struct pll_table_entry soc_pll_table[37] = {
 	[PLL_ENTRY_MAIN_19_2MHZ_1000MHZ_F24BIT] = {
 		.freq_min_hz	= 1000000000U,
 		.freq_max_hz	= 1000000000U,
-		.plld		= 3U,
-		.pllm		= 312U,
-		.pllfm		= 8388608U,
+		.plld		= 1U,
+		.pllm		= 104U,
+		.pllfm		= 2796203U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_MAIN_20MHZ_1000MHZ] =	  {
@@ -361,12 +362,12 @@ const struct pll_table_entry soc_pll_table[37] = {
 		.pllfm		= 0U,
 		.clkod		= 2U,
 	},
-	[PLL_ENTRY_PER0_25MHZ_960MHZ] =		  {
+	[PLL_ENTRY_PER0_25MHZ_960MHZ_F24BIT] =	  {
 		.freq_min_hz	= 960000000U,
 		.freq_max_hz	= 960000000U,
-		.plld		= 5U,
-		.pllm		= 384U,
-		.pllfm		= 0U,
+		.plld		= 1U,
+		.pllm		= 76U,
+		.pllfm		= 13421773U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT] =	  {
@@ -380,9 +381,9 @@ const struct pll_table_entry soc_pll_table[37] = {
 	[PLL_ENTRY_PER0_27MHZ_960MHZ_F24BIT] =	  {
 		.freq_min_hz	= 960000000U,
 		.freq_max_hz	= 960000000U,
-		.plld		= 5U,
-		.pllm		= 355U,
-		.pllfm		= 9320676U,
+		.plld		= 1U,
+		.pllm		= 71U,
+		.pllfm		= 1864136U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER1_19_2MHZ_1800MHZ_F24BIT] = {
@@ -419,10 +420,10 @@ const struct pll_table_entry soc_pll_table[37] = {
 	},
 	[PLL_ENTRY_PER1_26MHZ_1800MHZ_F24BIT] =	  {
 		.freq_min_hz	= 1800000000U,
-		.freq_max_hz	= 1800000000U,
-		.plld		= 2U,
-		.pllm		= 138U,
-		.pllfm		= 7743331U,
+		.freq_max_hz	= 1800000001U,
+		.plld		= 1U,
+		.pllm		= 69U,
+		.pllfm		= 3871666U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_PER1_27MHZ_1800MHZ_F24BIT] =	  {
@@ -436,9 +437,9 @@ const struct pll_table_entry soc_pll_table[37] = {
 	[PLL_ENTRY_ARM0_19_2MHZ_2000MHZ_F24BIT] = {
 		.freq_min_hz	= 2000000000U,
 		.freq_max_hz	= 2000000000U,
-		.plld		= 3U,
-		.pllm		= 312U,
-		.pllfm		= 8388608U,
+		.plld		= 1U,
+		.pllm		= 104U,
+		.pllfm		= 2796203U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_ARM0_20MHZ_2000MHZ] =	  {
@@ -489,12 +490,12 @@ const struct pll_table_entry soc_pll_table[37] = {
 		.pllfm		= 0U,
 		.clkod		= 1U,
 	},
-	[PLL_ENTRY_DDR_19_2MHZ_1600MHZ] =	  {
+	[PLL_ENTRY_DDR_19_2MHZ_1600MHZ_F24BIT] =  {
 		.freq_min_hz	= 1600000000U,
 		.freq_max_hz	= 1600000000U,
-		.plld		= 3U,
-		.pllm		= 250U,
-		.pllfm		= 0U,
+		.plld		= 1U,
+		.pllm		= 83U,
+		.pllfm		= 5592406U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_DDR_24MHZ_1600MHZ_F24BIT] =	  {
@@ -529,14 +530,6 @@ const struct pll_table_entry soc_pll_table[37] = {
 		.pllfm		= 4349649U,
 		.clkod		= 1U,
 	},
-	[PLL_ENTRY_PULSAR_26MHZ_2400MHZ_F24BIT] = {
-		.freq_min_hz	= 2400000000U,
-		.freq_max_hz	= 2400000000U,
-		.plld		= 2U,
-		.pllm		= 184U,
-		.pllfm		= 10324441U,
-		.clkod		= 1U,
-	},
 };
 
 static const u8 pllfracf_ssmod_16fft_main_0_entries[7] = {
@@ -552,13 +545,13 @@ static const u8 pllfracf_ssmod_16fft_main_1_entries[7] = {
 	PLL_ENTRY_PER0_19_2MHZ_960MHZ,
 	PLL_ENTRY_PER0_20MHZ_960MHZ,
 	PLL_ENTRY_PER0_24MHZ_960MHZ,
-	PLL_ENTRY_PER0_25MHZ_960MHZ,
+	PLL_ENTRY_PER0_25MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_PER0_27MHZ_960MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
 static const u8 pllfracf_ssmod_16fft_main_12_entries[7] = {
-	PLL_ENTRY_DDR_19_2MHZ_1600MHZ,
+	PLL_ENTRY_DDR_19_2MHZ_1600MHZ_F24BIT,
 	PLL_ENTRY_DDR_20MHZ_1600MHZ,
 	PLL_ENTRY_DDR_24MHZ_1600MHZ_F24BIT,
 	PLL_ENTRY_DDR_25MHZ_1600MHZ,
@@ -571,7 +564,7 @@ static const u8 pllfracf_ssmod_16fft_main_14_entries[7] = {
 	PLL_ENTRY_MCU_20MHZ_2400MHZ,
 	PLL_ENTRY_MCU_24MHZ_2400MHZ,
 	PLL_ENTRY_MCU_25MHZ_2400MHZ,
-	PLL_ENTRY_PULSAR_26MHZ_2400MHZ_F24BIT,
+	PLL_ENTRY_MCU_26MHZ_2400MHZ_F24BIT,
 	PLL_ENTRY_MCU_27MHZ_2400MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
@@ -591,15 +584,6 @@ static const u8 pllfracf_ssmod_16fft_main_8_entries[7] = {
 	PLL_ENTRY_ARM0_25MHZ_2000MHZ,
 	PLL_ENTRY_ARM0_26MHZ_2000MHZ_F24BIT,
 	PLL_ENTRY_ARM0_27MHZ_2000MHZ_F24BIT,
-	PLL_TABLE_LAST,
-};
-static const u8 pllfracf_ssmod_16fft_mcu_0_entries[7] = {
-	PLL_ENTRY_MCU_19_2MHZ_2400MHZ,
-	PLL_ENTRY_MCU_20MHZ_2400MHZ,
-	PLL_ENTRY_MCU_24MHZ_2400MHZ,
-	PLL_ENTRY_MCU_25MHZ_2400MHZ,
-	PLL_ENTRY_MCU_26MHZ_2400MHZ_F24BIT,
-	PLL_ENTRY_MCU_27MHZ_2400MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
 
@@ -2485,8 +2469,8 @@ static const struct clk_data_pll_16fft clk_data_pllfracf_ssmod_16fft_mcu_0 = {
 		.vco_in_range_idx	= AM64X_FREQ_RANGE_VCO_IN_PLLFRACF_SSMOD_16FFT_MAIN_0,
 		.fractional_support	= STRUE,
 		.devgrp			= DEVGRP_01,
-		.pll_entries		= pllfracf_ssmod_16fft_mcu_0_entries,
-		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MAIN_14_DEFAULT,
+		.pll_entries		= pllfracf_ssmod_16fft_main_14_entries,
+		.default_freq_idx	= FREQ_PLLFRACF_SSMOD_16FFT_MCU_0_DEFAULT,
 	},
 	.idx				= 0,
 	.base				= 0x04040000,
