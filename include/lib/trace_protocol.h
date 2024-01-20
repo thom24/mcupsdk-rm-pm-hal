@@ -337,10 +337,10 @@
 #define TRACE_PM_VAL_MAX_FREQ                            (TRACE_PM_VAL_CLOCK_VAL_MASK >> TRACE_PM_VAL_CLOCK_VAL_SHIFT)
 
 #define TRACE_PM_VAL_PSC_SHIFT                           20U
-#define TRACE_PM_VAL_PD_SHIFT                            14U
-#define TRACE_PM_VAL_LPSC_SHIFT                          14U
+#define TRACE_PM_VAL_PD_SHIFT                            13U
+#define TRACE_PM_VAL_LPSC_SHIFT                          13U
 
-#define TRACE_PM_VAL_MAX_PSC_DATA                        0x00003FFFU
+#define TRACE_PM_VAL_MAX_PSC_DATA                        0x00001FFFU
 
 #define TRACE_PM_VAL_PD_POS1                             1U
 #define TRACE_PM_VAL_PD_POS2                             2U
