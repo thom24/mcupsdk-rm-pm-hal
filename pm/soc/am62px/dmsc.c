@@ -114,13 +114,15 @@ static s32 am62p_sys_reset_handler(domgrp_t domain)
 			writel(v, WKUP_CTRL_BASE + CTRLMMR_WKUP_RST_CTRL);
 		}
 
-		return ret;
 	}
 
-	s32 dmsc_init(void)
-	{
-		sys_reset_handler_register(am62p_sys_reset_handler);
+	return ret;
+}
 
-		return sleep_modes_register(am62p_sleep_modes, am62p_sleep_block,
-					    ARRAY_SIZE(am62p_sleep_modes));
-	}
+s32 dmsc_init(void)
+{
+	sys_reset_handler_register(am62p_sys_reset_handler);
+
+	return sleep_modes_register(am62p_sleep_modes, am62p_sleep_block,
+				    ARRAY_SIZE(am62p_sleep_modes));
+}
