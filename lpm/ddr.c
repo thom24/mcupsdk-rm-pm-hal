@@ -67,6 +67,10 @@
 #define CDNS_DENALI_PHY_1369                                    0x5564U
 #define CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK                    0x1U
 
+#define CDNS_DENALI_PI_13                                       0x2034U
+#define CDNS_DENALI_PI_13_CS_MAP_MASK                           0x00030000U
+#define CDNS_DENALI_PI_13_CS_MAP_SHIFT                          16U
+
 #define CDNS_DENALI_PI_23                                       0x205CU
 #define CDNS_DENALI_PI_23_WRLVL_REQ                             0x01000000U
 
@@ -498,6 +502,12 @@ s32 ddr_deepsleep_exit_training(void)
 	{
 		u32 timeout = DDR_RETRAIN_TIMEOUT;
 		u32 val;
+		u32 ddr_rank;
+		u8 curr_cs = 0;
+
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_13);
+		ddr_rank = (val & CDNS_DENALI_PI_13_CS_MAP_MASK) >>
+			   CDNS_DENALI_PI_13_CS_MAP_SHIFT;
 
 		/* Write phy_cal_start_0 = 1 */
 		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1333);
@@ -518,80 +528,107 @@ s32 ddr_deepsleep_exit_training(void)
 
 		/* Software trigger read gate level training */
 		if (ret == 0) {
-			/* Program PI_RDLVL_CS=0 */
-			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_34);
-			val &= ~CDNS_DENALI_PI_34_RDLVL_CS;
-			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_34);
+			for (u32 i = ddr_rank; i > 0; i >>= 1) {
+				/* Program PI_RDLVL_CS = 0 for first rank and 1 for second rank */
+				val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_34);
+				if (curr_cs == 0) {
+					val &= ~CDNS_DENALI_PI_34_RDLVL_CS;
+				} else {
+					val |= CDNS_DENALI_PI_34_RDLVL_CS;
+				}
 
-			/* Program PI_RDLVL_GATE_REQ=1 */
-			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_33);
-			val |= CDNS_DENALI_PI_33_RDLVL_GATE_REQ;
-			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_33);
+				writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_34);
 
-			/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
-			timeout = DDR_RETRAIN_TIMEOUT;
-			while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
-						    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
-				--timeout;
+				/* Program PI_RDLVL_GATE_REQ=1 */
+				val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_33);
+				val |= CDNS_DENALI_PI_33_RDLVL_GATE_REQ;
+				writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_33);
+
+				/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
+				timeout = DDR_RETRAIN_TIMEOUT;
+				while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
+							    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
+					--timeout;
+				}
+				if (timeout == 0U) {
+					ret = -EFAIL;
+				}
+
+				/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
+				writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
+				curr_cs++;
 			}
-			if (timeout == 0U) {
-				ret = -EFAIL;
-			}
-
-			/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
-			writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
 		}
 
 		/* Software trigger read level training */
 		if (ret == 0) {
-			/* Program PI_RDLVL_CS=0 */
-			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_34);
-			val &= ~CDNS_DENALI_PI_34_RDLVL_CS;
-			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_34);
+			curr_cs = 0;
 
-			/* Program PI_RDLVL_REQ=1 */
-			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_33);
-			val |= CDNS_DENALI_PI_33_RDLVL_REQ;
-			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_33);
+			for (u32 i = ddr_rank; i > 0; i >>= 1) {
+				/* Program PI_RDLVL_CS = 0 for first rank and 1 for second rank */
+				val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_34);
+				if (curr_cs == 0) {
+					val &= ~CDNS_DENALI_PI_34_RDLVL_CS;
+				} else {
+					val |= CDNS_DENALI_PI_34_RDLVL_CS;
+				}
 
-			/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
-			timeout = DDR_RETRAIN_TIMEOUT;
-			while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
-						    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
-				--timeout;
+				writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_34);
+
+				/* Program PI_RDLVL_REQ=1 */
+				val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_33);
+				val |= CDNS_DENALI_PI_33_RDLVL_REQ;
+				writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_33);
+
+				/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
+				timeout = DDR_RETRAIN_TIMEOUT;
+				while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
+							    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
+					--timeout;
+				}
+				if (timeout == 0U) {
+					ret = -EFAIL;
+				}
+
+				/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
+				writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
+				curr_cs++;
 			}
-			if (timeout == 0U) {
-				ret = -EFAIL;
-			}
-
-			/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
-			writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
 		}
 
 		/* Software trigger write level training */
 		if (ret == 0) {
-			/* Program PI_WRLVL_CS=0 */
-			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_24);
-			val &= ~CDNS_DENALI_PI_24_WRLVL_CS;
-			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_24);
+			curr_cs = 0;
 
-			/* Program PI_WRLVL_REQ=1 */
-			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_23);
-			val |= CDNS_DENALI_PI_23_WRLVL_REQ;
-			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_23);
+			for (u32 i = ddr_rank; i > 0; i >>= 1) {
+				/* Program PI_RDLVL_CS = 0 for first rank and 1 for second rank */
+				val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_24);
+				if (curr_cs == 0) {
+					val &= ~CDNS_DENALI_PI_24_WRLVL_CS;
+				} else {
+					val |= CDNS_DENALI_PI_24_WRLVL_CS;
+				}
 
-			/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
-			timeout = DDR_RETRAIN_TIMEOUT;
-			while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
-						    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
-				--timeout;
+				writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_24);
+
+				/* Program PI_WRLVL_REQ=1 */
+				val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_23);
+				val |= CDNS_DENALI_PI_23_WRLVL_REQ;
+				writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_23);
+
+				/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
+				timeout = DDR_RETRAIN_TIMEOUT;
+				while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
+							    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
+					--timeout;
+				}
+				if (timeout == 0U) {
+					ret = -EFAIL;
+				}
+
+				/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
+				writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
 			}
-			if (timeout == 0U) {
-				ret = -EFAIL;
-			}
-
-			/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
-			writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
 		}
 
 		break;
