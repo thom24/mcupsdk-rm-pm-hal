@@ -98,7 +98,7 @@ static s32 am62x_sys_reset_handler(domgrp_t domain)
 	if (ret == SUCCESS) {
 		mcu_magic_word = readl(WKUP_CTRL_BASE + CTRLMMR_RST_MAGIC_WORD);
 
-		if (mcu_magic_word == 0) {
+		if (mcu_magic_word == 0U) {
 			v = readl(MCU_CTRL_BASE + CTRLMMR_MCU_RST_CTRL);
 			v &= ~(CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_MASK <<
 			       CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_OFFSET);
