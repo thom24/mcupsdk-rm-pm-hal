@@ -4,7 +4,7 @@
  * TISCI_MSG_PREPARE_SLEEP and TISCI_MSG_ENTER_SLEEP handler for
  * Low Power Mode implementation
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -459,12 +459,6 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
-	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_CLOCK_SUSPEND) == LPM_CLOCK_SUSPEND)) {
-		if (clks_resume() != SUCCESS) {
-			lpm_hang_abort();
-		}
-	}
-
 	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_GTC) == LPM_SUSPEND_GTC)) {
 		if (lpm_resume_gtc() != SUCCESS) {
 			lpm_hang_abort();
@@ -473,6 +467,12 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SAVE_MMR_LOCK) == LPM_SAVE_MMR_LOCK)) {
 		if (lpm_restore_mmr_lock() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_CLOCK_SUSPEND) == LPM_CLOCK_SUSPEND)) {
+		if (clks_resume() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
