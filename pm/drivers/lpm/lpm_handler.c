@@ -53,6 +53,7 @@
 #include "soc_ctrl_mmr.h"
 #include "ctrlmmr_raw.h"
 #include "ctrl_mmr.h"
+#include "rm_lpm.h"
 
 
 /* counts of 1us delay for 10ms */
@@ -130,8 +131,12 @@ static s32 lpm_resume_disable_DM_reset_isolation(void)
 
 static s32 lpm_resume_restore_RM_context(void)
 {
-	/* restore IA and IR configurations */
-	return SUCCESS;
+	/* Restore IR configurations */
+	s32 ret = -EFAIL;
+
+	ret = lpm_resume_restore_ir_config();
+
+	return ret;
 }
 
 static s32 lpm_resume_send_core_resume_message(void)
