@@ -3,7 +3,7 @@
  *
  * PLL Raw driver for direct PLL manipulation
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -211,6 +211,21 @@ void pll_disable(struct pll_raw_data *pll)
 	ctrl = pll_readl(pll->base + PLL_16FFT_CTRL_OFFSET);
 	ctrl &= ~PLL_16FFT_CTRL_PLL_EN;
 	pll_writel(ctrl, pll->base + PLL_16FFT_CTRL_OFFSET);
+}
+
+void pll_hsdiv_ctrl(u32 pll_base, u8 hsdiv, u8 enable)
+{
+	u32 ctrl;
+
+	ctrl = pll_readl(pll_base + PLL_16FFT_HSDIV_CTRL_OFFSET + (hsdiv * 0x4U));
+
+	if (enable) {
+		ctrl |= PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
+	} else {
+		ctrl &= ~PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
+	}
+
+	pll_writel(ctrl, pll_base + PLL_16FFT_HSDIV_CTRL_OFFSET + (hsdiv * 0x4U));
 }
 
 void pll_bypass(struct pll_raw_data *pll)

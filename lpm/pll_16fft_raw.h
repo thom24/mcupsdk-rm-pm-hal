@@ -3,7 +3,7 @@
  *
  * PLL Raw driver for direct PLL manipulation
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,9 @@
 #include <types/short_types.h>
 #include <types/sbool.h>
 
+#define PLL_DISABLE    0U
+#define PLL_ENABLE     1U
+
 struct pll_raw_data {
 	u32	base;
 	u32	freq_ctrl0;
@@ -64,6 +67,16 @@ void pll_save(struct pll_raw_data *pll);
  *            manipulate
  */
 void pll_disable(struct pll_raw_data *pll);
+
+/**
+ * \brief Disable a hsdiv of PLL
+ * \param pll_base PLL base set to address for pll to manipulate
+ * \param hsdiv Bit-field indicating which hsdiv should be
+ *			    disabled.
+ * \param enable Control value of PLL. A value of 1 means hsdiv will
+ *               be enabled and 0 means it will be disabled
+ */
+void pll_hsdiv_ctrl(u32 pll_base, u8 hsdiv, u8 enable);
 
 /**
  * \brief Bypass a PLL
