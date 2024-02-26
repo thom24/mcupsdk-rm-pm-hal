@@ -3,7 +3,7 @@
  *
  * PSC Raw driver for direct PSC manipulation
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -80,3 +80,12 @@ void psc_raw_pd_set_state(u32 psc_base, u8 pd, u32 state, sbool force);
  * \param force Boolean indicating whether to set FORCE bit
  */
 void psc_raw_lpsc_set_state(u32 psc_base, u8 lpsc, u32 state, sbool force);
+
+/**
+ * \brief Get current state of a module
+ * \param psc_base Base address of the psc
+ * \param lpsc LPSC index to get next state
+ *
+ * \return Current state of LPSC. 0x3 if LPSC is enabled
+ */
+u8 psc_raw_lpsc_get_state(u32 psc_base, u8 lpsc);
