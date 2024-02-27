@@ -40,7 +40,7 @@
 #include <rm_lpm.h>
 #include <types/errno.h>
 
-static struct ir_config_entry ir_config_data[NUM_IR_CONFIGS] = { { 0U, 0U, 0U, SFALSE } };
+static struct ir_config_entry ir_config_data[NUM_IR_CONFIGS] = { 0U };
 
 s32 lpm_sleep_save_ir_config(u16 id, u16 inp, u16 outp, sbool validate)
 {
