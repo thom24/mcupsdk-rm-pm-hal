@@ -3,7 +3,7 @@
  *
  * am62ax soc lpscs.h
  *
- * Copyright (C) 2023, Texas Instruments Incorporated
+ * Copyright (C) 2023-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -195,16 +195,23 @@ enum mcu_pds {
 	MCU_PDS_MAX,
 };
 
+enum usb_lpscs {
+	USB_LPSC_0,
+	USB_LPSC_1,
+	USB_LPSCS_MAX,
+};
+
 extern u32 num_main_lpscs_phase1;
 extern u32 num_main_lpscs_phase2;
 extern u32 num_mcu_lpscs;
 extern u32 num_mcu_pds;
+extern u32 num_usb_lpscs;
 
 extern const struct pd_lpsc main_lpscs_phase1[LPSC_PHASE1_MAX];
 extern const struct pd_lpsc main_lpscs_phase2[LPSC_PHASE2_MAX];
 extern const struct pd_lpsc mcu_lpscs[LPSCS_MCU_MAX];
 extern const u32 mcu_pds[MCU_PDS_MAX];
-
+extern struct usb_lpsc usb_lpscs[USB_LPSCS_MAX];
 
 #ifdef __cplusplus
 }

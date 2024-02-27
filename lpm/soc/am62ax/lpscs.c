@@ -3,7 +3,7 @@
  *
  * am62ax soc lpscs.c
  *
- * Copyright (C) 2023, Texas Instruments Incorporated
+ * Copyright (C) 2023-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -112,3 +112,11 @@ const u32 mcu_pds[MCU_PDS_MAX] = {
 };
 
 u32 num_mcu_pds = sizeof(mcu_pds) / sizeof(u32);
+
+/* USB LPSCs to be saved and restored during Deepsleep */
+struct usb_lpsc usb_lpscs[USB_LPSCS_MAX] = {
+	{ PD_GP_CORE_CTL, LPSC_USB_0, LPSC_MAIN_USB0_ISO, 0U	},
+	{ PD_GP_CORE_CTL, LPSC_USB_1, LPSC_MAIN_USB1_ISO, 0U	},
+};
+
+u32 num_usb_lpscs = sizeof(usb_lpscs) / sizeof(struct usb_lpsc);

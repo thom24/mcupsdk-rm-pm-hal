@@ -3,7 +3,7 @@
  *
  * am62px soc pll.c
  *
- * Copyright (C) 2023, Texas Instruments Incorporated
+ * Copyright (C) 2023-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,3 +84,9 @@ u8 num_main_plls_save_rstr = sizeof(main_plls_save_rstr) / sizeof(struct pll_raw
 struct pll_raw_data *main_plls_dis[MAIN_PLL_DISABLE_MAX] = { &main_pll1, &main_pll2, &main_pll5, &main_pll6, &main_pll7, &main_pll8, &main_pll12, &main_pll16, &main_pll17, &main_pll18 };
 
 u8 num_main_plls_dis = sizeof(main_plls_dis) / sizeof(struct pll_raw_data *);
+
+/* USB PLL Base and HSDIV */
+struct pll_raw_data usb_pll = {
+	.base			= MAIN_PLL_MMR_BASE + PLLOFFSET(0U),
+	.hsdiv[0]   = 8U
+};

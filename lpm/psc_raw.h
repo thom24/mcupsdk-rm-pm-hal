@@ -58,6 +58,20 @@ struct pd_lpsc {
 };
 
 /**
+ * @brief Structure to store USB LPSC state, power domain, LPSC ID and ISO LPSC ID
+ * \param pd Power domain index of LPSC
+ * \param lpsc LPSC index value
+ * \param iso_lpsc Isolation LPSC index value
+ * \param state Current state/ resume state of USB LPSC
+ */
+struct usb_lpsc {
+	u8	pd;
+	u8	lpsc;
+	u8	iso_lpsc;
+	u8	state;
+};
+
+/**
  * \brief Wait for a psc transition to complete, or timeout if it does not
  * \param psc_base Base address of the psc to wait for
  * \param pd Power Domain index to wait for a transition on
