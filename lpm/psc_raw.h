@@ -48,6 +48,16 @@
 #define PDCTL_STATE_ON          1U
 
 /**
+ * @brief Structure to store power domain and corresponding lpsc
+ * \param pd Power domain index of LPSC
+ * \param lpsc LPSC index value
+ */
+struct pd_lpsc {
+	u8	pd;
+	u8	lpsc;
+};
+
+/**
  * \brief Wait for a psc transition to complete, or timeout if it does not
  * \param psc_base Base address of the psc to wait for
  * \param pd Power Domain index to wait for a transition on

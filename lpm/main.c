@@ -50,7 +50,6 @@
 #include "lpm_serial_8250.h"
 #include "lpm_string.h"
 #include "lpm_trace.h"
-#include "psc_raw.h"
 #include "sec_proxy.h"
 #include "timeout.h"
 #include "vim_raw.h"

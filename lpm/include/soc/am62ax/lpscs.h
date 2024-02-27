@@ -42,6 +42,7 @@ extern "C" {
 #endif
 
 #include <types/short_types.h>
+#include <psc_raw.h>
 
 #define PD_GP_CORE_CTL                   0       /* Main GP CORE CTL PD and its LPSCs */
 #define LPSC_MAIN_DM                     1
@@ -135,16 +136,6 @@ extern "C" {
 #define LPSC_MCU_PBIST                   10
 
 #define DDR_PD                           PD_DDR       /* DDR power domain */
-
-/**
- * @brief Structure to store power domain and corresponding lpsc
- * \param pd Power domain index of LPSC
- * \param lpsc LPSC index value
- */
-struct pd_lpsc {
-	u8	pd;
-	u8	lpsc;
-};
 
 enum lpscs_main_phase1 {
 	LPSC_PHASE1_A53_0,
