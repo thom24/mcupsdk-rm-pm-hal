@@ -289,19 +289,79 @@ static void clock_gate_legacy_peripherals(sbool enable)
 	}
 }
 
-static void set_usb_reset_isolation(void)
+static s32 set_usb_reset_isolation(void)
 {
-	writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB0_RESET);
-	writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB1_RESET);
+	s32 ret = 0;
+	u32 i = 0;
+
+	/* Save the state of USB LPSCs */
+	for (i = 0; i < num_usb_lpscs; i++) {
+		/* Get the current state of USBx LPSC */
+		usb_lpscs[i].state = psc_raw_lpsc_get_state(MAIN_PSC_BASE, usb_lpscs[i].lpsc);
+
+		if (ret == 0) {
+			psc_raw_lpsc_set_state(MAIN_PSC_BASE, usb_lpscs[i].iso_lpsc,
+					       MDCTL_STATE_DISABLE, 0);
+			psc_raw_pd_initiate(MAIN_PSC_BASE, usb_lpscs[i].pd);
+
+			ret = psc_raw_pd_wait(MAIN_PSC_BASE, usb_lpscs[i].pd);
+		}
+
+		if (ret == 0) {
+			psc_raw_lpsc_set_state(MAIN_PSC_BASE, usb_lpscs[i].lpsc,
+					       MDCTL_STATE_DISABLE, 0);
+			psc_raw_pd_initiate(MAIN_PSC_BASE, usb_lpscs[i].pd);
+
+			ret = psc_raw_pd_wait(MAIN_PSC_BASE, usb_lpscs[i].pd);
+		}
+	}
+
+	if (ret == 0) {
+		/* Reset isolate USB */
+		writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB0_RESET);
+		writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB1_RESET);
+
+		/* Disable source of USB clock */
+		pll_hsdiv_ctrl(usb_pll.base, usb_pll.hsdiv[0], PLL_DISABLE);
+	}
+
+	return ret;
 }
 
-static void release_usb_reset_isolation(void)
+static s32 release_usb_reset_isolation(void)
 {
-	/*
-	 * Nothing is done here, as we cannot yet remove reset isolation
-	 * until a method to enable USB LPSC before removing reset
-	 * isolation can be determined.
-	 */
+	s32 ret = 0;
+	u32 i = 0;
+
+	/* Enable source of USB clock */
+	pll_hsdiv_ctrl(usb_pll.base, usb_pll.hsdiv[0], PLL_ENABLE);
+
+	/* Restore the state of USB LPSCs */
+	for (i = 0; i < num_usb_lpscs; i++) {
+		if (ret == 0) {
+			psc_raw_lpsc_set_state(MAIN_PSC_BASE, usb_lpscs[i].lpsc,
+					       usb_lpscs[i].state, 0);
+			psc_raw_pd_initiate(MAIN_PSC_BASE, usb_lpscs[i].pd);
+
+			ret = psc_raw_pd_wait(MAIN_PSC_BASE, usb_lpscs[i].pd);
+		}
+
+		if (ret == 0) {
+			psc_raw_lpsc_set_state(MAIN_PSC_BASE, usb_lpscs[i].iso_lpsc,
+					       usb_lpscs[i].state, 0);
+			psc_raw_pd_initiate(MAIN_PSC_BASE, usb_lpscs[i].pd);
+
+			ret = psc_raw_pd_wait(MAIN_PSC_BASE, usb_lpscs[i].pd);
+		}
+	}
+
+	/* Remove reset isolation of USB */
+	if (ret == 0) {
+		writel(DS_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_USB0_RESET);
+		writel(DS_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_USB1_RESET);
+	}
+
+	return ret;
 }
 
 static s32 disable_main_lpsc(const struct pd_lpsc *lpscs, u32 n_lpscs)
@@ -699,8 +759,12 @@ s32 dm_stub_entry(void)
 	lpm_seq_trace(0x77);
 
 	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
-		set_usb_reset_isolation();
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
+		if (set_usb_reset_isolation()) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
+			lpm_abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
+		}
 
 		/* Disable all LPSCs in MAIN except Debug, Always ON */
 		if (disable_main_lpsc(main_lpscs_phase1, num_main_lpscs_phase1) != 0) {
@@ -1030,9 +1094,12 @@ s32 dm_stub_entry(void)
 	}
 
 	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
-		release_usb_reset_isolation();
-
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_USB_RST_ISO);
+		if (release_usb_reset_isolation()) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_USB_RST_ISO);
+			lpm_abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_USB_RST_ISO);
+		}
 
 		/* Send TISCI Message to TIFS to indicate DDR is active and
 		 * resume can proceed, include address of TIFS context
