@@ -280,6 +280,42 @@ static sbool clk_pll_16fft_check_lock(const struct clk_data_pll_16fft *pll)
 	return (stat & PLL_16FFT_STAT_LOCK) != 0U;
 }
 
+static s32 clk_pll_16fft_enable_pll(const struct clk_data_pll_16fft *pll)
+{
+	u32 ctrl;
+	s32 err = SUCCESS;
+
+	ctrl = readl(pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
+
+	if ((ctrl & PLL_16FFT_CTRL_PLL_EN) == 0U) {
+		ctrl |= PLL_16FFT_CTRL_PLL_EN;
+		err = pm_writel_verified(ctrl, pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
+		if (err == SUCCESS) {
+			osal_delay(1UL); /* Wait 1us */
+		}
+	}
+
+	return err;
+}
+
+static s32 clk_pll_16fft_disable_pll(const struct clk_data_pll_16fft *pll)
+{
+	u32 ctrl;
+	s32 err = SUCCESS;
+
+	ctrl = readl(pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
+
+	if ((ctrl & PLL_16FFT_CTRL_PLL_EN) != 0U) {
+		ctrl &= ~PLL_16FFT_CTRL_PLL_EN;
+		err = pm_writel_verified(ctrl, pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
+		if (err == SUCCESS) {
+			osal_delay(1UL); /* Wait 1us */
+		}
+	}
+
+	return err;
+}
+
 #if defined (CONFIG_CLK_PLL_16FFT_FRACF_CALIBRATION)
 /*
  * \brief Check if the PLL deskew calibration is complete.
@@ -581,13 +617,9 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 
 	if (ret) {
 		/* Disable the PLL */
-		ctrl = readl(pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
-		if ((ctrl & PLL_16FFT_CTRL_PLL_EN) != 0U) {
-			ctrl &= ~PLL_16FFT_CTRL_PLL_EN;
-			err = pm_writel_verified(ctrl, pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
-			if (err != SUCCESS) {
-				ret = SFALSE;
-			}
+		err = clk_pll_16fft_disable_pll(pll);
+		if (err != SUCCESS) {
+			ret = SFALSE;
 		}
 	}
 
@@ -692,14 +724,10 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 	}
 
 	/* Make sure PLL is enabled */
-	if ((ctrl & PLL_16FFT_CTRL_PLL_EN) == 0U) {
-		ctrl |= PLL_16FFT_CTRL_PLL_EN;
-		err = pm_writel_verified(ctrl, pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
+	if (ret) {
+		err = clk_pll_16fft_enable_pll(pll);
 		if (err != SUCCESS) {
 			ret = SFALSE;
-		}
-		if (ret) {
-			osal_delay(1UL); /* Wait 1us */
 		}
 	}
 
@@ -1246,13 +1274,7 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 		}
 
 		/* Make sure PLL is enabled */
-		if ((ctrl & PLL_16FFT_CTRL_PLL_EN) == 0U) {
-			ctrl |= PLL_16FFT_CTRL_PLL_EN;
-			ret = pm_writel_verified(ctrl, pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
-			if (ret == SUCCESS) {
-				osal_delay(1UL); /* Wait 1us */
-			}
-		}
+		ret = clk_pll_16fft_enable_pll(pll);
 
 		/* Always bypass if we lose lock */
 		ctrl |= PLL_16FFT_CTRL_BYP_ON_LOCKLOSS;
