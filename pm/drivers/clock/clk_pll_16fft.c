@@ -176,9 +176,6 @@ static void clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll)
 
 	cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
 
-	/* Enable calibration for FRACF */
-	cal |= PLL_16FFT_CAL_CTRL_CAL_EN;
-
 	/* Enable fast cal mode */
 	cal |= PLL_16FFT_CAL_CTRL_FAST_CAL;
 
@@ -191,6 +188,17 @@ static void clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll)
 
 	/* Set CAL_IN to 0 */
 	cal &= ~PLL_16FFT_CAL_CTRL_CAL_IN_MASK;
+
+	/* Note this register does not readback the written value. */
+	writel(cal, (u32) pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
+
+	/* Wait 1us before enabling the CAL_EN field */
+	osal_delay(1UL); /* Wait 1us */
+
+	cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
+
+	/* Enable calibration for FRACF */
+	cal |= PLL_16FFT_CAL_CTRL_CAL_EN;
 
 	/* Note this register does not readback the written value. */
 	writel(cal, (u32) pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
@@ -355,13 +363,13 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clock_ptr)
 
 	/*
 	 * Minimum VCO input freq is 5MHz, and the longest a lock should
-	 * be consider to be timed out after 120 cycles. That's 24us. Be
-	 * conservative and assume each loop takes 10 cycles and we run at a
-	 * max of 1GHz. That gives 2400 loop cycles. We may end up waiting
+	 * be consider to be timed out after 750 cycles. Be conservative
+	 * and assume each loop takes 10 cycles and we run at a
+	 * max of 1GHz. That gives 15000 loop cycles. We may end up waiting
 	 * longer than neccessary for timeout, but that should be ok.
 	 */
 	success = SFALSE;
-	for (i = 0U; i < (24U * 100U); i++) {
+	for (i = 0U; i < (150U * 100U); i++) {
 		if (clk_pll_16fft_check_lock(pll)) {
 			success = STRUE;
 			break;
@@ -378,7 +386,6 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clock_ptr)
 		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
 		u32 pll_type;
 		u32 cfg;
-		u32 cal;
 		cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
 		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
 		if (success &&
@@ -388,40 +395,44 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clock_ptr)
 			 *
 			 * Lock should occur within:
 			 *
-			 *	32 * 2^(4+CALCNT) / PFD
-			 *       2048 / PFD
+			 *	170 * 2^(5+CALCNT) / PFD
+			 *      21760 / PFD
 			 *
-			 * CALCNT = 2, PFD = 5-50MHz. This gives a range of 41uS to
-			 * 410uS depending on PFD frequency. Using the above logic
-			 * we calculate a maximum expected 41000 loop cycles.
+			 * CALCNT = 2, PFD = 5-50MHz. This gives a range of 0.435mS to
+			 * 4.35mS depending on PFD frequency.
 			 *
-			 * The recommend timeout for CALLOCK to go high is 2.2 ms
+			 * Be conservative and assume each loop takes 10 cycles and we run at a
+			 * max of 1GHz. That gives 435000 loop cycles. We may end up waiting
+			 * longer than neccessary for timeout, but that should be ok.
+			 *
+			 * The recommend timeout for CALLOCK to go high is 4.35 ms
 			 */
 			success = SFALSE;
-			for (i = 0U; i < (2200U * 100U); i++) {
+			for (i = 0U; i < (4350U * 100U); i++) {
 				if (clk_pll_16fft_check_cal_lock(pll)) {
 					success = STRUE;
 					break;
 				}
 			}
 
-			/* Remove FAST_CAL if calibration is locked and change CAL_CNT TO 7 */
-			if (success == STRUE) {
-				cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
+			/* In case of cal lock failure, operate without calibration */
+			if (success != STRUE) {
+				/* Disable PLL */
+				clk_pll_16fft_disable_pll(pll);
 
-				/* Disable fast cal mode */
-				cal &= ~PLL_16FFT_CAL_CTRL_FAST_CAL;
-
-				/* Set CALCNT to 7 to improve long term jitter */
-				cal &= ~PLL_16FFT_CAL_CTRL_CAL_CNT_MASK;
-				cal |= 7U << PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT;
-
-				/* Note this register does not readback the written value. */
-				writel(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
-			}
-			/* Disable Calibration if Calibration lock is timeout */
-			else {
+				/* Disable Calibration */
 				clk_pll_16fft_disable_cal(pll);
+
+				/* Enable PLL */
+				clk_pll_16fft_enable_pll(pll);
+
+				/* Wait for PLL Lock */
+				for (i = 0U; i < (150U * 100U); i++) {
+					if (clk_pll_16fft_check_lock(pll)) {
+						success = STRUE;
+						break;
+					}
+				}
 			}
 		}
 	}
@@ -723,8 +734,13 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 		}
 	}
 
-	/* Make sure PLL is enabled */
+	/*
+	 * Wait at least 1 ref cycle before enabling PLL.
+	 * Minimum VCO input frequency is 5MHz, therefore maximum
+	 * wait time for 1 ref clock is 0.2us.
+	 */
 	if (ret) {
+		osal_delay(1UL);
 		err = clk_pll_16fft_enable_pll(pll);
 		if (err != SUCCESS) {
 			ret = SFALSE;
@@ -1266,6 +1282,12 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 		freq_ctrl1 = readl(pll->base + (u32) PLL_16FFT_FREQ_CTRL1(pll->idx));
 		pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
 		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
+
+		if (!clk_pll_16fft_is_bypass(pll)) {
+			/* Put the PLL into bypass */
+			ret = clk_pll_16fft_bypass(clock_ptr, STRUE);
+		}
+
 		/* Disable calibration in the fractional mode of the FRACF PLL based on
 		 * data from silicon and simulation data.
 		 */
@@ -1294,8 +1316,16 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 		/* Make sure we have fractional support if required */
 		if (pllfm != 0UL) {
 			ctrl |= PLL_16FFT_CTRL_DSM_EN;
+			ctrl |= PLL_16FFT_CTRL_DAC_EN;
 		} else {
 			ctrl &= ~PLL_16FFT_CTRL_DSM_EN;
+			ctrl &= ~PLL_16FFT_CTRL_DAC_EN;
+		}
+
+		/* Enable Fractional by default for PLL_16FFT_CFG_PLL_TYPE_FRAC2 */
+		if (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRAC2) {
+			ctrl |= PLL_16FFT_CTRL_DSM_EN;
+			ctrl |= PLL_16FFT_CTRL_DAC_EN;
 		}
 
 		if (ret == SUCCESS) {
