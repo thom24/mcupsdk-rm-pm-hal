@@ -48,6 +48,7 @@ extern "C" {
 #define PMCTRL_MOSC                     (0x00018090U)
 #define RST_CTRL                        (0x00018170U)
 #define CANUART_WAKE_CTRL               (0x00018300U)
+#define CANUART_WAKE_STAT1              (0x0001830CU)
 #define CANUART_WAKE_OFF_MODE           (0x00018310U)
 #define SLEEP_STATUS                    (0x00018410U)
 #define DS_MAGIC_WORD                   (0x00018418U)
@@ -121,6 +122,10 @@ extern "C" {
 #define WKUP_CANUART_MAGIC_WRD          (0x2AAAAAAAU << 1U)
 #define WKUP_CANUART_MAGIC_WRD_LD_EN    (0x1U)
 #define WKUP_CANUART_MAGIC_WRD_LD_DIS   (0x0U)
+
+/* CANUART WAKE STAT1 */
+#define WKUP_CANUART_CAN_IO_ISO_SET     (0x1U)
+#define WKUP_CANUART_CAN_IO_ISO_CLRD    (0x0U)
 
 /* CANUART WAKE OFF MODE */
 #define WKUP_CANUART_OFF_MAGIC_WORD     (0x555555)
