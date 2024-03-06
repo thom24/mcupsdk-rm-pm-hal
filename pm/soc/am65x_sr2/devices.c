@@ -1,7 +1,7 @@
 /*
  * Data version: 000000_000000
  *
- * Copyright (C) 2017-2023 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2024 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #include <types/array_size.h>
@@ -6684,25 +6684,17 @@ static const struct dev_clk_data MAIN_dev_clk_data[887] __attribute__((__section
 		       CLK_AM6_FSS_MCU_0_OSPI_1_BUS_OSPI_OCLK_CLK),
 };
 static struct dev_clk MAIN_dev_clk[887] __attribute__((__section__(".bss.devgroup.MAIN")));
-static const struct dev_clk_data DMSC_INTERNAL_dev_clk_data[0] __attribute__((__section__(".const.devgroup.DMSC_INTERNAL"))) = {
-};
-static struct dev_clk DMSC_INTERNAL_dev_clk[0] __attribute__((__section__(".bss.devgroup.DMSC_INTERNAL")));
 
 const struct devgroup soc_devgroups[AM6_PM_DEVGRP_RANGE_ID_MAX] = {
-	[PM_DEVGRP_00] =   {
+	[PM_DEVGRP_00] = {
 		.dev_clk_data	= MCU_WAKEUP_dev_clk_data,
 		.dev_clk	= MCU_WAKEUP_dev_clk,
 		.clk_idx	= 1U,
 	},
-	[PM_DEVGRP_01] =   {
+	[PM_DEVGRP_01] = {
 		.dev_clk_data	= MAIN_dev_clk_data,
 		.dev_clk	= MAIN_dev_clk,
 		.clk_idx	= 75U,
-	},
-	[PM_DEVGRP_DMSC] = {
-		.dev_clk_data	= DMSC_INTERNAL_dev_clk_data,
-		.dev_clk	= DMSC_INTERNAL_dev_clk,
-		.clk_idx	= 1U,
 	},
 };
 const size_t soc_devgroup_count = ARRAY_SIZE(soc_devgroups);

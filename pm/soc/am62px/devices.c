@@ -6315,9 +6315,6 @@ static const struct dev_clk_data TIFS_INTERNAL_dev_clk_data[1] __attribute__((__
 	DEV_CLK(AM62PX_DEV_DMSS_AM67_MAIN_0_RINGACC_0_CLOCKS, AM62PX_DEV_DMASS0_RINGACC_0_CLK, CLK_AM62PX_SAM62_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK, 1),
 };
 static struct dev_clk TIFS_INTERNAL_dev_clk[1] __attribute__((__section__(".bss.devgroup.TIFS_INTERNAL")));
-static const struct dev_clk_data HSM_INTERNAL_dev_clk_data[0] __attribute__((__section__(".const.devgroup.HSM_INTERNAL"))) = {
-};
-static struct dev_clk HSM_INTERNAL_dev_clk[0] __attribute__((__section__(".bss.devgroup.HSM_INTERNAL")));
 
 const struct devgroup soc_devgroups[AM62PX_PM_DEVGRP_RANGE_ID_MAX] = {
 	[PM_DEVGRP_01] =   {
@@ -6334,11 +6331,6 @@ const struct devgroup soc_devgroups[AM62PX_PM_DEVGRP_RANGE_ID_MAX] = {
 		.dev_clk_data	= TIFS_INTERNAL_dev_clk_data,
 		.dev_clk	= TIFS_INTERNAL_dev_clk,
 		.clk_idx	= 1U,
-	},
-	[PM_DEVGRP_HSM] =  {
-		.dev_clk_data	= HSM_INTERNAL_dev_clk_data,
-		.dev_clk	= HSM_INTERNAL_dev_clk,
-		.clk_idx	= 272U,
 	},
 };
 const size_t soc_devgroup_count = ARRAY_SIZE(soc_devgroups);

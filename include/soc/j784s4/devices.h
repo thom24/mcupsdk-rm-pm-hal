@@ -1,7 +1,7 @@
 /*
  * Data version: 230112_095811
  *
- * Copyright (C) 2017-2023 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2024 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #ifndef SOC_J784S4_DEVICES_H
