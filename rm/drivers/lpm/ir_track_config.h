@@ -41,7 +41,7 @@
 #include <types/short_types.h>
 
 #ifdef CONFIG_LPM_LIMIT_IR_TRACKING
-#define NUM_IR_CONFIGS                  256U
+#define NUM_IR_CONFIGS                  512U
 #else
 #define NUM_IR_CONFIGS                  65535U
 #endif
