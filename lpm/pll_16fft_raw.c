@@ -50,7 +50,11 @@
 
 /* 16FFT PLL Registers */
 #define PLL_16FFT_PID_OFFSET                    ((u32) 0x00UL)
+
 #define PLL_16FFT_CFG_OFFSET                    ((u32) 0x08UL)
+#define PLL_16FFT_CFG_PLL_TYPE_SHIFT            ((u32) 0UL)
+#define PLL_16FFT_CFG_PLL_TYPE_MASK             ((u32) (0x3UL << 0UL))
+#define PLL_16FFT_CFG_PLL_TYPE_FRACF            1UL
 
 #define PLL_16FFT_LOCKKEY0_OFFSET               ((u32) 0x10UL)
 #define PLL_16FFT_LOCKKEY0_VALUE                ((u32) 0x68EF3490UL)
@@ -100,6 +104,16 @@
 
 #define PLL_16FFT_RAW_LOCK_TIMEOUT                              10000
 
+#define PLL_16FFT_CAL_CTRL_OFFSET               ((u32) 0x60UL)
+#define PLL_16FFT_CAL_CTRL_CAL_EN               BIT(31)
+#define PLL_16FFT_CAL_CTRL_FAST_CAL             BIT(20)
+#define PLL_16FFT_CAL_CTRL_CAL_BYP              BIT(15)
+#define PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT        ((u32) 16UL)
+#define PLL_16FFT_CAL_CTRL_CAL_CNT_MASK         ((u32) (0x7UL << 16UL))
+
+#define PLL_16FFT_CAL_STAT_OFFSET               ((u32) 0x64UL)
+#define PLL_16FFT_CAL_STAT_CAL_LOCK             BIT(31)
+
 #define pll_readl readl
 #define pll_writel writel
 
@@ -107,8 +121,9 @@ s32 pll_restore(struct pll_raw_data *pll)
 {
 	u8 i;
 	u32 ctrl, cfg;
+	u32 cal, pllfm, pll_type;
 	s32 ret = SUCCESS;
-	u32 pll_stat;
+	u32 pll_stat, cal_stat;
 	u32 timeout;
 
 	/* Unlock write access */
@@ -173,6 +188,38 @@ s32 pll_restore(struct pll_raw_data *pll)
 			timeout--;
 			pll_stat = pll_readl(pll->base + PLL_16FFT_STAT_OFFSET) & ((u32) PLL_16FFT_STAT_LOCK);
 		} while ((timeout > 0U) && (pll_stat != 1U));
+
+		/* Enable calibration if not in fractional mode of the FRACF PLL */
+		pllfm = pll->freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
+		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
+
+		cfg = pll_readl(pll->base + PLL_16FFT_CFG_OFFSET);
+		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
+
+		if ((timeout != 0U) && (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0)) {
+			cal = pll_readl(pll->base + PLL_16FFT_CAL_CTRL_OFFSET);
+			/* Enable calibration for FRACF */
+			cal |= PLL_16FFT_CAL_CTRL_CAL_EN;
+
+			/* Enable fast cal mode */
+			cal |= PLL_16FFT_CAL_CTRL_FAST_CAL;
+
+			/* Disable calibration bypass */
+			cal &= ~PLL_16FFT_CAL_CTRL_CAL_BYP;
+
+			/* Set CALCNT to 2 */
+			cal &= ~PLL_16FFT_CAL_CTRL_CAL_CNT_MASK;
+			cal |= 2 << PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT;
+
+			pll_writel(cal, pll->base + PLL_16FFT_CAL_CTRL_OFFSET);
+
+			timeout = PLL_16FFT_RAW_LOCK_TIMEOUT;
+			do {
+				timeout--;
+				cal_stat = pll_readl(pll->base + PLL_16FFT_CAL_STAT_OFFSET) & ((u32) PLL_16FFT_CAL_STAT_CAL_LOCK);
+			} while ((timeout > 0U) && (cal_stat != PLL_16FFT_CAL_STAT_CAL_LOCK));
+		}
+
 		if (timeout == 0U) {
 			ret = -EFAIL;
 		}
