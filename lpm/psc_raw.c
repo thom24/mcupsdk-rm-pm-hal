@@ -38,7 +38,7 @@
 #include <lib/bitops.h>
 #include <types/errno.h>
 #include <types/short_types.h>
-
+#include "timeout.h"
 #include "lpm_io.h"
 #include "psc_raw.h"
 
@@ -126,7 +126,7 @@
 #define PDCTL_EMUIHBIE          BIT(9)  /* EMU alters domain state IE */
 #define PDCTL_FORCE             BIT(31)
 
-#define PSC_TRANSITION_TIMEOUT  10000
+#define PSC_TRANSITION_TIMEOUT  100000
 
 #define psc_raw_read readl
 #define psc_raw_write writel
@@ -137,6 +137,7 @@ s32 psc_raw_pd_wait(u32 psc_base, u8 pd)
 	s32 i = PSC_TRANSITION_TIMEOUT;
 
 	while (((psc_raw_read(psc_base + PSC_PTSTAT) & BIT(pd)) != 0U) && (i != 0)) {
+		delay_1us();
 		--i;
 	}
 

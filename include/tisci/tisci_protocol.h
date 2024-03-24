@@ -68,15 +68,13 @@
  * \param type Type of message identified by a TISCI_MSG_* ID
  * \param host Host of the message.
  * \param seq Message identifier indicating a transfer sequence.
- * \param flags TISCI_MSG_FLAG_* for the message.
- * \param payload Placeholder pointer that can be used to access the raw message body.
+ * \param flags TISCI_MSG_FLAG_* for the message
  */
 struct tisci_header {
 	u16	type;
 	u8	host;
 	u8	seq;
 	u32	flags;
-	u8	payload[];
 };
 
 /*

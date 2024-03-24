@@ -1,7 +1,7 @@
 /*
  * System Firmware
  *
- * am62x soc lpscs.c
+ * am62ax soc lpscs.c
  *
  * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -38,16 +38,45 @@
 
 /* MAIN LPSCs to be disabled during Deepsleep phase 1 */
 const struct pd_lpsc main_lpscs_phase1[LPSC_PHASE1_MAX] = {
-	{ PD_A53_0,	    LPSC_A53_0		    },
-	{ PD_A53_CLUSTER_0, LPSC_A53_CLUSTER_0	    },
-	{ PD_GP_CORE_CTL,   LPSC_HSM		    },
-	{ PD_GP_CORE_CTL,   LPSC_TIFS		    },
-	/* Removing LPSC_SA3UL as this timeouts on GP: known issue SYSFW-5031 */
-	/* FIXME LPM suspend is crashing if LPSC_SMS_COMMON is used.  */
-	{ PD_GP_CORE_CTL,   LPSC_DM2CENTRAL_ISO	    },
-	{ PD_GP_CORE_CTL,   LPSC_MAIN2DM_ISO	    },
-	{ PD_GP_CORE_CTL,   LPSC_DM2MAIN_ISO	    },
-	{ PD_GP_CORE_CTL,   LPSC_CENTRAL2DM_ISO	    },
+	{ PD_A53_0,	    LPSC_A53_0			    },
+	{ PD_A53_1,	    LPSC_A53_1			    },
+	{ PD_A53_2,	    LPSC_A53_2			    },
+	{ PD_A53_3,	    LPSC_A53_3			    },
+	{ PD_A53_CLUSTER_0, LPSC_A53_CLUSTER_0_PBIST_0	    },
+	{ PD_A53_CLUSTER_0, LPSC_A53_CLUSTER_0		    },
+	{ PD_GP_CORE_CTL,   LPSC_HSM			    },
+	{ PD_GP_CORE_CTL,   LPSC_TIFS			    },
+	{ PD_GP_CORE_CTL,   LPSC_FSS_OSPI		    },
+	{ PD_GP_CORE_CTL,   LPSC_DM_PBIST		    },
+	{ PD_GP_CORE_CTL,   LPSC_DM_PBIST_1		    },
+	{ PD_GP_CORE_CTL,   LPSC_GPMC			    },
+	{ PD_GP_CORE_CTL,   LPSC_MAIN_MCASP_0		    },
+	{ PD_GP_CORE_CTL,   LPSC_MAIN_MCASP_1		    },
+	{ PD_GP_CORE_CTL,   LPSC_MAIN_MCASP_2		    },
+	{ PD_GP_CORE_CTL,   LPSC_EMMC_8B		    },
+	{ PD_GP_CORE_CTL,   LPSC_EMMC_4B_0		    },
+	{ PD_GP_CORE_CTL,   LPSC_EMMC_4B_1		    },
+	{ PD_GP_CORE_CTL,   LPSC_CSI_RX_0		    },
+	{ PD_GP_CORE_CTL,   LPSC_DPHY_0			    },
+	{ PD_GP_CORE_CTL,   LPSC_MAIN_MCANSS_0		    },
+	{ PD_GP_CORE_CTL,   LPSC_GIC			    },
+	{ PD_GP_CORE_CTL,   LPSC_MAIN_PBIST		    },
+	{ PD_CPSW,	    LPSC_CPSW3G			    },
+	{ PD_DSS,	    LPSC_DSS			    },
+	{ PD_GP_CORE_CTL,   LPSC_JPEG			    },
+	{ PD_VPAC,	    LPSC_VPAC_CORE		    },
+	{ PD_VPAC,	    LPSC_VPAC_PBIST		    },
+	{ PD_CODEC,	    LPSC_CODEC_PBIST		    },
+	{ PD_GP_CORE_CTL,   LPSC_DM2CENTRAL_ISO		    },
+	{ PD_GP_CORE_CTL,   LPSC_MAIN2DM_ISO		    },
+	{ PD_GP_CORE_CTL,   LPSC_DM2MAIN_ISO		    },
+	{ PD_GP_CORE_CTL,   LPSC_CENTRAL2DM_ISO		    }
+	/*
+	 * FIXME without force bit C7x is not turning off during low power mode
+	 * { PD_C7X,   LPSC_C7X_PBIST		    },
+	 * { PD_C7X,   LPSC_C7X_CORE		    },
+	 * { PD_C7X,   LPSC_C7X_COMMON		    },
+	 */
 	/* FIXME LPM resume is crashing if LPSC_DM2MAIN_INFRA_ISO is used, checking on this.  */
 };
 
@@ -55,7 +84,7 @@ u32 num_main_lpscs_phase1 = sizeof(main_lpscs_phase1) / sizeof(struct pd_lpsc);
 
 /* MAIN LPSCs to be disabled during Deepsleep phase 2 */
 const struct pd_lpsc main_lpscs_phase2[LPSC_PHASE2_MAX] = {
-	{ PD_GP_CORE_CTL, LPSC_DEBUGSS	  },
+	{ PD_GP_CORE_CTL, LPSC_DEBUGSS	  }
 };
 
 u32 num_main_lpscs_phase2 = sizeof(main_lpscs_phase2) / sizeof(struct pd_lpsc);
@@ -63,16 +92,23 @@ u32 num_main_lpscs_phase2 = sizeof(main_lpscs_phase2) / sizeof(struct pd_lpsc);
 /* MCU LPSCs to be disabled during Deepsleep */
 const struct pd_lpsc mcu_lpscs[LPSCS_MCU_MAX] = {
 	{ PD_GP_CORE_CTL_MCU, LPSC_MAIN2MCU_ISO	   },
-	{ PD_GP_CORE_CTL_MCU, LPSC_MCU2MAIN_ISO	   },
+	{ PD_GP_CORE_CTL_MCU, LPSC_DM2MCU_ISO	   },
 	{ PD_GP_CORE_CTL_MCU, LPSC_MCU2DM_ISO	   },
 	{ PD_GP_CORE_CTL_MCU, LPSC_MCU_TEST	   },
-	{ PD_MCU_M4F,	      LPSC_MCU_COMMON	   },
-	{ PD_GP_CORE_CTL_MCU, LPSC_DM2SAFE_ISO	   },
+	{ PD_MCUSS,	      LPSC_MCU_PBIST	   },
+	{ PD_MCUSS,	      LPSC_MCU_MCANSS0	   },
+	{ PD_MCUSS,	      LPSC_MCU_MCANSS1	   },
+	/* { PD_MCUSS,	      LPSC_MCU_R5	           }, FIXME force bit is required to turn off this LPSC */
+	/* { PD_MCUSS,	      LPSC_MCU_COMMON	   }, FIXME force bit is required to turn off this LPSC */
+	/* FIXME LPM suspend is crashing if LPSC_DM2SAFE_ISO is turned off { PD_GP_CORE_CTL_MCU, LPSC_DM2SAFE_ISO}, */
 };
 
 u32 num_mcu_lpscs = sizeof(mcu_lpscs) / sizeof(struct pd_lpsc);
 
 /* MCU PDs to be disabled during Deepsleep */
-const u32 mcu_pds[MCU_PDS_MAX] = { PD_GP_CORE_CTL_MCU, PD_MCU_M4F };
+const u32 mcu_pds[MCU_PDS_MAX] = {
+	PD_GP_CORE_CTL_MCU,
+	/* FIXME PD_MCUSS FIXME MCU power domain is not turning off during deepsleep */
+};
 
 u32 num_mcu_pds = sizeof(mcu_pds) / sizeof(u32);

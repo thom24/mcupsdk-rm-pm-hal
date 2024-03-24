@@ -1,9 +1,9 @@
 /*
  * System Firmware
  *
- * am62x soc baseaddress.h
+ * am62ax soc baseaddress.h
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,11 +49,19 @@ extern "C" {
 #define MCU_CTRL_MMR_BASE               MMR1_CFG_BASE
 #define MMR0_CFG_BASE                   (0x43000000U)
 #define WKUP_CTRL_MMR_BASE              MMR0_CFG_BASE
+#define WKUP_UART0_BASE                 (0x2b300000U)
 
 #define MAIN_PSC_BASE                   (0x00400000U)
 #define MCU_PSC_BASE                    (0x04000000U)
 
-#define WKUP_UART0_BASE                 (0x2b300000U)
+#define DDRSS0_CTRL_BASE               (0x0F308000U)
+#define DDRSS0_HI0_MEM_BASE            (0x880000000U)
+#define DDRSS0_HI1_MEM_BASE            (0x900000000U)
+#define DDRSS0_HI2_MEM_BASE            (0xA00000000U)
+#define DDRSS0_HI3_MEM_BASE            (0xC00000000U)
+#define DDRSS0_MEM_BASE                (0x80000000U)
+#define DDRSS0_SS_BASE                 (0x0F300000U)
+
 #define DDR_CTRL_BASE                   (0x0f308000U)
 #define VIM_BASE                        (0x2fff0000U)
 #define ROM_SEC_PROXY_RT_ADDRESS        (0x44880000U)
@@ -66,7 +74,7 @@ extern "C" {
 #define TIFS_SEC_PROXY_MSG_TX_TID        61
 #define DM2DMSC_SEC_PROXY_MSG_RX_TID     22
 #define DM2DMSC_SEC_PROXY_MSG_TX_TID     23
-#define DM_R5_CORE_FREQUENCY_MHZ         400
+#define DM_R5_CORE_FREQUENCY_MHZ         800
 
 #ifdef __cplusplus
 }

@@ -63,9 +63,10 @@ extern u32 lpm_get_wake_up_source(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
 extern void lpm_clear_all_wakeup_interrupt(void);
 
-#define LPM_DEEPSLEEP 0U
-#define LPM_MCU_ONLY  1U
-#define LPM_STANDBY   2U
+#define LPM_DEEPSLEEP   0U
+#define LPM_MCU_ONLY    1U
+#define LPM_STANDBY     2U
+#define LPM_PARTIAL_IO  3U
 
 static void enter_WFI(void)
 {
@@ -111,15 +112,88 @@ static void lpm_abort(void)
 	}
 }
 
+#ifdef CONFIG_LPM_32_BIT_DDR
+
+static s32 enter_ddr_low_power_mode(void)
+{
+	s32 ret = 0;
+
+	/* Configure DDR for low power mode entry */
+	ret = ddr_enter_low_power_mode();
+
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
+			       MDCTL_STATE_DISABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
+
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+
+	if (ret == 0) {
+		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
+				       MDCTL_STATE_DISABLE, 0);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
+
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+	}
+
+	if (ret == 0) {
+		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
+				       MDCTL_STATE_DISABLE, 0);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
+
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+
+		/* Reset isolate DDR */
+		writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
+	}
+
+	return ret;
+}
+
+static s32 exit_ddr_low_power_mode(void)
+{
+	s32 ret = 0;
+
+	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
+			       MDCTL_STATE_ENABLE, 0);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
+
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+
+	if (ret == 0) {
+		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
+				       MDCTL_STATE_ENABLE, 0);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
+
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+
+		/* Remove DDR Reset isolation */
+		writel(DS_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
+	}
+
+	if (ret == 0) {
+		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
+				       MDCTL_STATE_ENABLE, 0);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
+
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
+	}
+
+	if (ret == 0) {
+		ret = ddr_exit_low_power_mode();
+	}
+
+	return ret;
+}
+#else
 static s32 enter_ddr_low_power_mode(void)
 {
 	s32 ret = 0;
 
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
 			       MDCTL_STATE_DISABLE, 0);
-	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
 
-	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
 
 	if (ret == 0) {
 		/* Configure DDR for low power mode entry */
@@ -129,9 +203,9 @@ static s32 enter_ddr_low_power_mode(void)
 	if (ret == 0) {
 		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
 				       MDCTL_STATE_DISABLE, 0);
-		psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
 
-		ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
 	}
 
 	if (ret == 0) {
@@ -139,9 +213,9 @@ static s32 enter_ddr_low_power_mode(void)
 
 		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
 				       MDCTL_STATE_DISABLE, 0);
-		psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
 
-		ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
 
 		/* Reset isolate DDR */
 		writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
@@ -158,16 +232,16 @@ static s32 exit_ddr_low_power_mode(void)
 
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
 			       MDCTL_STATE_ENABLE, 0);
-	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
 
-	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
 
 	if (ret == 0) {
 		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
 				       MDCTL_STATE_ENABLE, 0);
-		psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
 
-		ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
 
 		/* Remove DDR Reset isolation */
 		writel(DS_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
@@ -180,9 +254,9 @@ static s32 exit_ddr_low_power_mode(void)
 	if (ret == 0) {
 		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
 				       MDCTL_STATE_ENABLE, 0);
-		psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, DDR_PD);
 
-		ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, DDR_PD);
 	}
 
 	if (ret == 0) {
@@ -191,6 +265,7 @@ static s32 exit_ddr_low_power_mode(void)
 
 	return ret;
 }
+#endif
 
 static void clock_gate_legacy_peripherals(sbool enable)
 {
@@ -265,7 +340,7 @@ static void bypass_main_pll(void)
 	}
 
 	for (i = 0; i < num_main_plls_dis; i++) {
-		pll_disable(main_plls_dis[i], 0xFFFF);
+		pll_disable(main_plls_dis[i]);
 	}
 }
 
@@ -376,19 +451,15 @@ static s32 disable_mcu_domain(void)
 		}
 	}
 
-	if (ret == 0) {
-		psc_raw_pd_set_state(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU,
-				     PDCTL_STATE_OFF, 0);
-		psc_raw_pd_initiate(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
 
-		ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
-	}
+	for (i = 0; i < num_mcu_pds; i++) {
+		if (ret == 0) {
+			psc_raw_pd_set_state(MCU_PSC_BASE, mcu_pds[i],
+					     PDCTL_STATE_OFF, 0);
+			psc_raw_pd_initiate(MCU_PSC_BASE, mcu_pds[i]);
 
-	if (ret == 0) {
-		psc_raw_pd_set_state(MCU_PSC_BASE, PD_MCU_M4F, PDCTL_STATE_OFF, 0);
-		psc_raw_pd_initiate(MCU_PSC_BASE, PD_MCU_M4F);
-
-		ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_MCU_M4F);
+			ret = psc_raw_pd_wait(MCU_PSC_BASE, mcu_pds[i]);
+		}
 	}
 
 	return ret;
@@ -743,7 +814,7 @@ s32 dm_stub_entry(void)
 
 	if (g_params.mode == LPM_DEEPSLEEP) {
 		pll_save(&mcu_pll);
-		pll_disable(&mcu_pll, 0xFFFF);
+		pll_disable(&mcu_pll);
 		lpm_trace_init(STRUE);
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_BYPASS_MCU_PLL);
 

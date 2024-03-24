@@ -3,7 +3,7 @@
  *
  * Minimal io library with readl and writel
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,3 +58,35 @@ static inline void writel(u32 v, local_phys_addr_t a)
 {
 	*(volatile u32 *) (a) = v;
 }
+
+#ifdef CONFIG_LPM_32_BIT_DDR
+static inline void SOC_write32(u32 a, u32 v)
+{
+	writel(v, a);
+}
+
+static inline u32 SOC_read32(u32 a)
+{
+	return readl(a);
+}
+
+/**
+ * \brief Write to a specific field in an MMR.
+ * \param mmr_address MMR address
+ * \param field_value value to be written
+ * \param width width of the field
+ * \param leftshift the number of bit fields the value has to be left shifted
+ */
+/* Write to a specific field in an MMR. */
+static void Write_MMR_Field(uint32_t mmr_address, uint32_t field_value, uint32_t width, uint32_t leftshift)
+{
+	uint32_t *p_mmr;
+	uint32_t mask;
+
+	p_mmr = (uint32_t *) mmr_address;       /* Grab the MMR value */
+	mask = (1 << width) - (1 << leftshift); /* Build a mask of 1s for the field. */
+	mask = ~(mask);                         /* Invert the mask so that the field will be zero'd out with the AND operation. */
+	*p_mmr &= mask;                         /* Zero out the field in the register. */
+	*p_mmr |= (field_value << leftshift);   /* Assign the value to that specific field. */
+}
+#endif

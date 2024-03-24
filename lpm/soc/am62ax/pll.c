@@ -1,9 +1,9 @@
 /*
  * System Firmware
  *
- * implement of timeout functions
+ * am62ax soc pll.c
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,21 +33,44 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "timeout.h"
-#include <baseaddress.h>
 
-static void asm_func(void)
-{
-	asm ("");
-}
+#include <pll.h>
 
-void delay_1us(void)
-{
-	/* This while-loop takes 2 instructions. */
-	unsigned long x = DM_R5_CORE_FREQUENCY_MHZ / 2;
+/* MCU PLL to be saved and restored */
+struct pll_raw_data mcu_pll =
+{ .base = MCU_PLL_MMR_BASE, };
 
-	while (x != 0U) {
-		x--;
-		asm_func();
-	}
-}
+/* Main PLL to be saved and restored */
+struct pll_raw_data main_pll0 =
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(0U), };
+
+struct pll_raw_data main_pll1 =
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(1U), };
+
+struct pll_raw_data main_pll2 =
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(2U), };
+
+struct pll_raw_data main_pll5 =
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(5U), };
+
+struct pll_raw_data main_pll7 =
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(7U), };
+
+struct pll_raw_data main_pll8 =
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(8U), };
+
+struct pll_raw_data main_pll12 =
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(12U), };
+
+struct pll_raw_data main_pll17 =
+{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(17U), };
+
+/* Base addresses of main PLL structures to be saved and restored */
+struct pll_raw_data *main_plls_save_rstr[SAVE_RESTORE_MAIN_PLL_MAX] = { &main_pll0, &main_pll1, &main_pll2, &main_pll5, &main_pll7, &main_pll8, &main_pll12, &main_pll17 };
+
+u8 num_main_plls_save_rstr = sizeof(main_plls_save_rstr) / sizeof(struct pll_raw_data *);
+
+/* Base addresses of main PLL structures to be disabled */
+struct pll_raw_data *main_plls_dis[MAIN_PLL_DISABLE_MAX] = { &main_pll1, &main_pll2, &main_pll5, &main_pll7, &main_pll8, &main_pll12, &main_pll17 };
+
+u8 num_main_plls_dis = sizeof(main_plls_dis) / sizeof(struct pll_raw_data *);

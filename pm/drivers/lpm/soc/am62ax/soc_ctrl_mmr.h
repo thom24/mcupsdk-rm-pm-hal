@@ -1,9 +1,9 @@
 /*
  * System Firmware
  *
- * am62x soc_ctrl_mmr.h
+ * am62ax soc_ctrl_mmr.h
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,28 +41,22 @@
 extern "C" {
 #endif
 
-#define WKUP_CTRL_BASE                      (0x43000000UL)
-
-/* WFI status of cores */
-#define WKUP_CTRL_WFI_STATUS                (0x18400UL)
-#define SMS_CPU0_WFI_MASK                    BIT(2)
-
-/* Device Manager Deep sleep reset mask */
-#define WKUP_CTRL_DS_DM_RESET               (0x00018440U)
-#define DS_DM_RESET_UNMASK                   0xFU
-
-/* PMCTRL IO0(WKUP) and IO1(MAIN) IOs */
-#define WKUP_CTRL_PMCTRL_IO_0               (0x18084U)
-#define WKUP_CTRL_PMCTRL_IO_1               (0x18088U)
-#define WKUP_CTRL_PMCTRL_IO_0_ISOCLK_OVRD   BIT(0)
-#define WKUP_CTRL_PMCTRL_IO_0_ISOOVR_EXTEND BIT(4)
-#define WKUP_CTRL_PMCTRL_IO_0_ISO_BYPASS    BIT(6)
-#define WKUP_CTRL_PMCTRL_IO_0_WUCLK_CTRL    BIT(8)
-#define WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS BIT(25)
-#define WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS_ENABLED  1U
-#define WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS_DISABLED 0U
-#define WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN   BIT(16)
-#define WKUP_CTRL_PMCTRL_IO_0_IO_ISO_CTRL   BIT(24)
+#define WKUP_CTRL_BASE                         (0x43000000UL)
+#define WKUP_CTRL_WFI_STATUS                   (0x18400UL)
+#define SMS_CPU0_WFI_MASK                      BIT(2)
+#define WKUP_CTRL_DS_DM_RESET                  (0x00018440U)
+#define DS_DM_RESET_UNMASK                     0xFU
+#define WKUP_CTRL_PMCTRL_IO_0                  (0x18084U)
+#define WKUP_CTRL_PMCTRL_IO_1                  (0x18088U)
+#define WKUP_CTRL_PMCTRL_IO_0_ISOCLK_OVRD      BIT(0)
+#define WKUP_CTRL_PMCTRL_IO_0_ISOOVR_EXTEND    BIT(4)
+#define WKUP_CTRL_PMCTRL_IO_0_ISO_BYPASS       BIT(6)
+#define WKUP_CTRL_PMCTRL_IO_0_WUCLK_CTRL       BIT(8)
+#define WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS    BIT(25)
+#define WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS_ENABLED 1
+#define WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS_DISABLED 0
+#define WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN      BIT(16)
+#define WKUP_CTRL_PMCTRL_IO_0_IO_ISO_CTRL      BIT(24)
 #define WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK (WKUP_CTRL_PMCTRL_IO_0_ISOCLK_OVRD	\
 					  | WKUP_CTRL_PMCTRL_IO_0_ISOOVR_EXTEND	 \
 					  | WKUP_CTRL_PMCTRL_IO_0_ISO_BYPASS	 \
@@ -70,15 +64,12 @@ extern "C" {
 					  | WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN	 \
 					  | WKUP_CTRL_PMCTRL_IO_0_IO_ISO_CTRL)
 
-/* IOs DEEPSLEEP CTRL */
-#define WKUP_CTRL_DEEPSLEEP_CTRL                (0x18160U)
-#define WKUP_CTRL_DEEPSLEEP_CTRL_ENABLE_IO      (0x101U)
-#define WKUP_CTRL_DEEPSLEEP_CTRL_DISABLE_IO      0
-
-/* PMCTRL IOs GLOBAL CTRL */
-#define WKUP_CTRL_PMCTRL_IO_GLB                 (0x1809CU)
-#define WKUP_CTRL_PMCTRL_IO_GLB_ENABLE_IO        1
-#define WKUP_CTRL_PMCTRL_IO_GLB_DISABLE_IO       0
+#define WKUP_CTRL_DEEPSLEEP_CTRL               (0x18160U)
+#define WKUP_CTRL_DEEPSLEEP_CTRL_ENABLE_IO     (0x101U)
+#define WKUP_CTRL_DEEPSLEEP_CTRL_DISABLE_IO    0
+#define WKUP_CTRL_PMCTRL_IO_GLB                (0x1809CU)
+#define WKUP_CTRL_PMCTRL_IO_GLB_ENABLE_IO      1
+#define WKUP_CTRL_PMCTRL_IO_GLB_DISABLE_IO     0
 
 /* CANUART WAKE CTRL */
 #define WKUP_CANUART_CTRL                       (0x00018300U)
@@ -99,25 +90,22 @@ extern "C" {
 #define WKUP0_EN                                (0x00018180U)
 #define WKUP0_EN_CANUART_IO_DAISY_CHAIN          BIT(18)
 
-/* SOC Device IDs */
-#define DEV_GTC                 AM62X_DEV_WKUP_GTC0
-#define POWER_MASTER            AM62X_DEV_A53SS0_CORE_0
-#define POWER_MASTER_CLUSTER    AM62X_DEV_A53SS0
+#define DEV_GTC                                AM62AX_DEV_WKUP_GTC0
+#define POWER_MASTER                           AM62AX_DEV_A53SS0_CORE_0
+#define POWER_MASTER_CLUSTER                   AM62AX_DEV_A53SS0
 
-/* GTC Config base */
-#define GTC_CFG0_BASE           (0xA80000UL)
-#define GTC_CFG1_BASE           (0xA90000UL)
+#define GTC_CFG0_BASE                          (0xa80000UL)
+#define GTC_CFG1_BASE                          (0xa90000UL)
 
-/* MAIN PADCFG address */
-#define PADCFG_CTRL_BASE        (0xf0000UL)
-#define PADCFG_OFFSET           (0x4000U)
-#define PADCFG_SIZE             (((0x42A8U - PADCFG_OFFSET) >> 2) + 1U)
+#define PADCFG_CTRL_BASE                       (0xf0000UL)
+#define PADCFG_OFFSET                          (0x4000U)
+#define PADCFG_SIZE                            (((0x4258U - PADCFG_OFFSET) >> 2) + 1U)
 
-#define RTC_BASE                (0x2b1f0000UL)
+#define RTC_BASE                               (0x2b1f0000UL)
 
-#define MAIN_CTRL_BASE          (0x100000UL)
-#define MCU_CTRL_BASE           (0x04500000UL)
-#define MAX_MMR_DATA            (20U)
+#define MAIN_CTRL_BASE                         (0x100000UL)
+#define MCU_CTRL_BASE                          (0x04500000UL)
+#define MAX_MMR_DATA                           (20U)
 
 
 #ifdef __cplusplus

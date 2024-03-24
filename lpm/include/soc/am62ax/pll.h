@@ -1,9 +1,9 @@
 /*
  * System Firmware
  *
- * implement of timeout functions
+ * am62ax soc pll.h
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,21 +33,59 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "timeout.h"
+
+#ifndef PLL_H_
+#define PLL_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <types/short_types.h>
 #include <baseaddress.h>
+#include <pll_16fft_raw.h>
 
-static void asm_func(void)
-{
-	asm ("");
+#define PLLOFFSET(idx) (0x1000 * (idx))
+
+enum save_restore_main_pll {
+	SAVE_RESTORE_MAIN_PLL0,
+	SAVE_RESTORE_MAIN_PLL1,
+	SAVE_RESTORE_MAIN_PLL2,
+	SAVE_RESTORE_MAIN_PLL5,
+	SAVE_RESTORE_MAIN_PLL7,
+	SAVE_RESTORE_MAIN_PLL8,
+	SAVE_RESTORE_MAIN_PLL12,
+	SAVE_RESTORE_MAIN_PLL17,
+	SAVE_RESTORE_MAIN_PLL_MAX,
+};
+
+enum main_pll_disable {
+	MAIN_PLL1_DISABLE,
+	MAIN_PLL2_DISABLE,
+	MAIN_PLL5_DISABLE,
+	MAIN_PLL7_DISABLE,
+	MAIN_PLL8_DISABLE,
+	MAIN_PLL12_DISABLE,
+	MAIN_PLL17_DISABLE,
+	MAIN_PLL_DISABLE_MAX,
+};
+
+extern struct pll_raw_data mcu_pll;
+extern struct pll_raw_data main_pll0;
+extern struct pll_raw_data main_pll1;
+extern struct pll_raw_data main_pll2;
+extern struct pll_raw_data main_pll5;
+extern struct pll_raw_data main_pll7;
+extern struct pll_raw_data main_pll8;
+extern struct pll_raw_data main_pll12;
+extern struct pll_raw_data main_pll17;
+
+extern struct pll_raw_data *main_plls_save_rstr[SAVE_RESTORE_MAIN_PLL_MAX];
+extern u8 num_main_plls_save_rstr;
+extern struct pll_raw_data *main_plls_dis[MAIN_PLL_DISABLE_MAX];
+extern u8 num_main_plls_dis;
+
+#ifdef __cplusplus
 }
-
-void delay_1us(void)
-{
-	/* This while-loop takes 2 instructions. */
-	unsigned long x = DM_R5_CORE_FREQUENCY_MHZ / 2;
-
-	while (x != 0U) {
-		x--;
-		asm_func();
-	}
-}
+#endif
+#endif /* PLL_H_ */

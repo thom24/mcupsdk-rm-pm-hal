@@ -2,6 +2,7 @@ cppflags-$(CONFIG_LPM_DM_STUB) += -I$(srctree)/lpm/include
 cppflags-$(CONFIG_LPM_DM_STUB) += -I$(srctree)/pm/include
 cppflags-$(CONFIG_LPM_DM_STUB) += -I$(srctree)/lpm/include/soc/$(TARGET_SOC)
 cppflags-$(CONFIG_LPM_DM_STUB) += -I$(srctree)/lpm
+cppflags-$(CONFIG_LPM_32_BIT_DDR) += -I$(srctree)/lpm/cdns_generated_defines
 
 obj-y += soc/
 
@@ -17,3 +18,4 @@ obj-y += ddr.o
 obj-y += vim_raw.o
 obj-y += lpm_string.o
 obj-y += lpm_trace.o
+obj-$(CONFIG_LPM_32_BIT_DDR) += cdns_ddr_reg_config.o

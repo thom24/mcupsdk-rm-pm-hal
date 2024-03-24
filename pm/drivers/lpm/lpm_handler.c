@@ -243,6 +243,63 @@ static s32 lpm_sleep_jump_to_dm_Stub(void)
 	return _stub_start();
 }
 
+static void lpm_enter_partial_io_mode(void)
+{
+	u32 reg = 0;
+	u32 timeout = TIMEOUT_10MS;
+
+	/* unlock wkup_ctrl_mmr region 6 */
+	ctrlmmr_unlock(WKUP_CTRL_BASE, 6);
+
+	/* set global wuen for WKUP IOs */
+	reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+	reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
+	reg = reg | WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN;
+	writel(reg, (WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0));
+
+	/* set global isoin for wakeup IOs */
+	reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+	reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
+	reg = reg | WKUP_CTRL_PMCTRL_IO_0_IO_ISO_CTRL;
+	writel(reg, (WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0));
+
+	/* wait for wu clock state to be 1 */
+	while ((timeout > 0) && (((readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0)) & WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS) != WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS)) {
+		--timeout;
+	}
+	if (timeout == 0) {
+		lpm_hang_abort();
+	}
+
+	/* Enable wakeup from CAN IO */
+	writel(WKUP0_EN_CANUART_IO_DAISY_CHAIN, (WKUP_CTRL_BASE + WKUP0_EN));
+
+	/* Ensure that PMIC EN control from SOC is selected */
+	writel((WKUP0_PMCTRL_SYS_LPM_EN_PMIC | WKUP0_LPM_PMIC_OUT_EN), (WKUP_CTRL_BASE + WKUP0_PMCTRL_SYS));
+
+	/* Program magic word */
+	reg = WKUP_CANUART_MAGIC_WRD;
+	writel(reg, WKUP_CTRL_BASE + WKUP_CANUART_CTRL);
+
+	/* Set enable bit */
+	reg |= WKUP_CANUART_MAGIC_WRD_LD_EN;
+	writel(reg, WKUP_CTRL_BASE + WKUP_CANUART_CTRL);
+
+	/* Wait for CAN_ONLY_IO signal to be 1 */
+	while ((timeout > 0) && ((readl(WKUP_CTRL_BASE + WKUP_CANUART_WAKE_STAT1)) != WKUP_CANUART_IO_MODE_ACTIVE)) {
+		--timeout;
+	}
+	if (timeout == 0U) {
+		lpm_hang_abort();
+	}
+
+	/* Enter Partial IO mode */
+	writel((WKUP0_PMCTRL_SYS_LPM_EN_PMIC | WKUP0_LPM_PMIC_OUT_DIS), WKUP_CTRL_BASE + WKUP0_PMCTRL_SYS);
+
+	/* If PMIC fails to suspend the system, hang abort */
+	lpm_hang_abort();
+}
+
 s32 dm_prepare_sleep_handler(u32 *msg_recv)
 {
 	struct tisci_msg_prepare_sleep_req *req =
@@ -261,6 +318,24 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 		 * the soc from LPM. This will only clear any unwanted pending wakeup interrupts
 		 */
 		lpm_clear_all_wakeup_interrupt();
+	} else if (mode == TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO) {
+		/* Suspend DM so that in case of failure, idle hook is not executed */
+		ret = lpm_sleep_suspend_dm();
+
+		if (ret == SUCCESS) {
+			/*
+			* wait for tifs to reach WFI in both the failed and successful case.
+			* but update the ret value only if it was SUCCESS previously
+			*/
+			ret = lpm_sleep_wait_for_tifs_wfi();
+		}
+
+		if (ret == SUCCESS) {
+			/* Enable CANUART IO daisy chain and enter partial io mode */
+			lpm_enter_partial_io_mode();
+		} else {
+			lpm_hang_abort();
+		}
 	} else {
 		ret = -EINVAL;
 	}

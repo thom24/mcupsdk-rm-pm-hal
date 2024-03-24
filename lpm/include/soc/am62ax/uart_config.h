@@ -1,9 +1,9 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
- * implement of timeout functions
+ * am62x uart config.h
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,21 +33,24 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "timeout.h"
+
+#ifndef UART_CONFIG_H_
+#define UART_CONFIG_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <baseaddress.h>
+#include <lpm_serial_8250.h>
 
-static void asm_func(void)
-{
-	asm ("");
+#define UART_BASE_ADDRESS           WKUP_UART0_BASE
+
+#define UART_BAUD_RATE              115200U
+#define UART_CLK_FREQ               48000000U
+#define UART_CLK_FREQ_BYPASS_STATE  25000000U
+
+#ifdef __cplusplus
 }
-
-void delay_1us(void)
-{
-	/* This while-loop takes 2 instructions. */
-	unsigned long x = DM_R5_CORE_FREQUENCY_MHZ / 2;
-
-	while (x != 0U) {
-		x--;
-		asm_func();
-	}
-}
+#endif
+#endif /* UART_CONFIG_H_ */

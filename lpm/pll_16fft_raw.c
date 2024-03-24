@@ -200,24 +200,11 @@ void pll_save(struct pll_raw_data *pll)
 	}
 }
 
-void pll_disable(struct pll_raw_data *pll, u16 hsdivs_to_disable)
+void pll_disable(struct pll_raw_data *pll)
 {
-	u8 i;
-	u32 ctrl, cfg, hsdiv_bit;
+	u32 ctrl;
 
-	/* disable all hsdivs */
-	cfg = pll_readl(pll->base + PLL_16FFT_CFG_OFFSET);
-	for (i = 0U; i < 16U; i++) {
-		/* Disable HSDIV output if present */
-		hsdiv_bit = (1UL << (i + 16UL)) & hsdivs_to_disable;
-		if ((hsdiv_bit & cfg) != 0UL) {
-			ctrl = pll_readl(pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + (i * 0x4U));
-			ctrl &= ~(PLL_16FFT_HSDIV_CTRL_HSDIV_MASK);
-			pll_writel(ctrl, pll->base + PLL_16FFT_HSDIV_CTRL_OFFSET + (i * 0x4U));
-		}
-	}
-
-	/* Bypass actual PLL */
+	/* Select reference clk for PLL and HSDIV clk outputs */
 	pll_bypass(pll);
 
 	/* Disable the PLL */
