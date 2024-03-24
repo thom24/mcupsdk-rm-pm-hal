@@ -398,6 +398,8 @@
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_HFOSC_PD_C                   0x0015U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_OSC_CG_WFI                   0x0016U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_PRE_WFI                         0x0017U
+#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_CLK_GATE                     0x0033U
+#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_CLK_GATE                    0x0034U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT                      0x0018U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_POST_WFI                        0x0019U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CLR_OSC_CG_WFI                  0x001AU
