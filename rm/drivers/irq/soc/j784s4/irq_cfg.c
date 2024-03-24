@@ -3,7 +3,7 @@
  *
  * Interrupt management driver instance data definition
  *
- * Data version: 220421_082009
+ * Data version: 220615_194547
  *
  * Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -34,7 +34,6 @@ const u16 evt_rt_srcs[] = {
 	J784S4_DEV_MCU_NAVSS0_RINGACC0,
 	J784S4_DEV_MCU_NAVSS0_UDMAP_0,
 	J784S4_DEV_MCU_NAVSS0_UDMASS_INTA_0,
-	J784S4_DEV_MCU_SA3_SS0_RINGACC_0,
 };
 
 const u32 evt_rt_srcs_count = ARRAY_SIZE(evt_rt_srcs);
@@ -44,21 +43,6 @@ const struct irq_global_event_type irq_global_event_types[] = {
 		.start = 0U,
 		.num = 4608U,
 		.utype = RESASG_UTYPE(J784S4_DEV_NAVSS0_UDMASS_INTA_0, RESASG_SUBTYPE_GLOBAL_EVENT_SEVT),
-	},
-	{
-		.start = 0U,
-		.num = 100U,
-		.utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_GLOBAL_EVENT_SEVT),
-	},
-	{
-		.start = 8192U,
-		.num = 32U,
-		.utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_GLOBAL_EVENT_MEVT),
-	},
-	{
-		.start = 10240U,
-		.num = 32U,
-		.utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_GLOBAL_EVENT_GEVT),
 	},
 	{
 		.start = 16384U,

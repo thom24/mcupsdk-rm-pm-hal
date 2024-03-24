@@ -3,7 +3,7 @@
  *
  * UDMAP SoC-specific configuration definitions
  *
- * Data version: 220421_082009
+ * Data version: 220615_194547
  *
  * Copyright (C) 2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -70,18 +70,6 @@
  * MCU_NAVSS0_UDMAP_0 total number of UDMAP receive flows
  */
 #define UDMAP_MCU_NAVSS0_UDMAP_0_RX_FLOW_MAX_INDEX (96U)
-/**
- * MCU_SA3_SS0_PKTDMA_0 total number of UDMAP transmit channels
- */
-#define UDMAP_MCU_SA3_SS0_PKTDMA_0_TX_CHAN_MAX_INDEX (2U)
-/**
- * MCU_SA3_SS0_PKTDMA_0 total number of UDMAP receive channels
- */
-#define UDMAP_MCU_SA3_SS0_PKTDMA_0_RX_CHAN_MAX_INDEX (4U)
-/**
- * MCU_SA3_SS0_PKTDMA_0 total number of UDMAP receive flows
- */
-#define UDMAP_MCU_SA3_SS0_PKTDMA_0_RX_FLOW_MAX_INDEX (32U)
 /**
  * UDMAP transmit channel OES index offset
  */

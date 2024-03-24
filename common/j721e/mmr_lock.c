@@ -42,6 +42,7 @@
 
 #define MAIN_CTRL_BASE  0x00100000
 #define WKUP_CTRL_BASE  0x43000000
+#define MCU_CTRL_BASE   0x40F00000
 
 #define CTRL_MMR0_PARTITION_SIZE                        0x4000
 
@@ -90,6 +91,7 @@ void mmr_unlock_all()
 		/* Unlock CLKSEL MMR partitions */
 		mmr_unlock(WKUP_CTRL_BASE, 2);
 		mmr_unlock(MAIN_CTRL_BASE, 2);
+		mmr_unlock(MCU_CTRL_BASE, 2);
 		/* Unlock WKUP_MCU_WARM_RST_CTRL MMR partitions*/
 		mmr_unlock(WKUP_CTRL_BASE, 6);
 	}
@@ -106,6 +108,7 @@ void mmr_lock_all()
 		/* Lock CLKSEL MMR partitions */
 		mmr_lock(WKUP_CTRL_BASE, 2);
 		mmr_lock(MAIN_CTRL_BASE, 2);
+		mmr_lock(MCU_CTRL_BASE, 2);
 		/* lock WKUP_MCU_WARM_RST_CTRL MMR partitions*/
 		mmr_lock(WKUP_CTRL_BASE, 6);
 	}

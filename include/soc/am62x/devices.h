@@ -1,5 +1,5 @@
 /*
- * Data version: 220527_134115
+ * Data version: 220811_185331
  *
  * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -156,5 +156,6 @@
 #define AM62X_DEV_MCASP2 192
 #define AM62X_DEV_CLK_32K_RC_SEL_DEV_VD 193
 #define AM62X_DEV_HSM0 225
+#define AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD 227
 
 #endif /* SOC_AM62X_DEVICES_H */

@@ -68,6 +68,8 @@ struct main_pd_lpsc {
 	u8	lpsc;
 };
 
+/* variable to store the last wakeup interrupt */
+u32 wake_up_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID;
 static struct tisci_msg_prepare_sleep_req g_params;
 
 /*
@@ -930,6 +932,8 @@ void dm_stub_irq_handler(void)
 	const struct wake_source_data *active_wake_source = NULL;
 	int i;
 
+	wake_up_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID;
+
 	/*
 	 * XXX: Add an additional delay for oscillator to stablize.
 	 */
@@ -942,6 +946,7 @@ void dm_stub_irq_handler(void)
 	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
 		if (soc_wake_sources_data[i].int_num == int_num) {
 			active_wake_source = &soc_wake_sources_data[i];
+			wake_up_source = soc_wake_sources_data[i].source_id;
 			break;
 		}
 	}
@@ -957,4 +962,9 @@ void dm_stub_irq_handler(void)
 
 	disable_wake_sources();
 	vim_irq_complete();
+}
+
+u32 lpm_get_wake_up_source(void)
+{
+	return wake_up_source;
 }

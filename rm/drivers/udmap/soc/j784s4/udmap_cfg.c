@@ -3,7 +3,7 @@
  *
  * UDMAP driver instance data definition
  *
- * Data version: 220421_082009
+ * Data version: 220615_194547
  *
  * Copyright (C) 2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -348,7 +348,7 @@ static struct udmap_flow_common common_flows_MCU_NAVSS0_UDMAP_0 = {
 /*
  * Resources used by ROM which must have their OES and EOES registers reset
  */
-static struct udmap_used_mapping rom_usage_MCU_NAVSS0_UDMAP_0[10U] = {
+static struct udmap_used_mapping rom_usage_MCU_NAVSS0_UDMAP_0[4U] = {
 	{
 		.ch = 0U,
 		.tx_ch = STRUE,
@@ -357,18 +357,6 @@ static struct udmap_used_mapping rom_usage_MCU_NAVSS0_UDMAP_0[10U] = {
 	},
 	{
 		.ch = 0U,
-		.tx_ch = STRUE,
-		.err_evt = STRUE,
-		.cleared = SFALSE,
-	},
-	{
-		.ch = 4U,
-		.tx_ch = STRUE,
-		.err_evt = SFALSE,
-		.cleared = SFALSE,
-	},
-	{
-		.ch = 4U,
 		.tx_ch = STRUE,
 		.err_evt = STRUE,
 		.cleared = SFALSE,
@@ -384,144 +372,6 @@ static struct udmap_used_mapping rom_usage_MCU_NAVSS0_UDMAP_0[10U] = {
 		.tx_ch = SFALSE,
 		.err_evt = STRUE,
 		.cleared = SFALSE,
-	},
-	{
-		.ch = 4U,
-		.tx_ch = SFALSE,
-		.err_evt = SFALSE,
-		.cleared = SFALSE,
-	},
-	{
-		.ch = 4U,
-		.tx_ch = SFALSE,
-		.err_evt = STRUE,
-		.cleared = SFALSE,
-	},
-	{
-		.ch = 5U,
-		.tx_ch = SFALSE,
-		.err_evt = SFALSE,
-		.cleared = SFALSE,
-	},
-	{
-		.ch = 5U,
-		.tx_ch = SFALSE,
-		.err_evt = STRUE,
-		.cleared = SFALSE,
-	},
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_GCFG = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44910000U,
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_TCHAN = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44913000U,
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_TCHANRT = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44918000U,
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RCHAN = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44912000U,
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RCHANRT = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44914000U,
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RFLOW = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44911000U,
-};
-
-static const struct udmap_ch_type rx_ch_types_MCU_SA3_SS0_PKTDMA_0[4] = {
-	{
-		.start = 0U,
-		.end = 0U,
-		.flow_start = 0U,
-		.flow_end = 7U,
-		.flow_utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_FLOW_SAUL_RX_0_CHAN),
-		.oes_offset = 0U,
-		.err_oes_offset = 0U,
-		.type = DMSS_PKTDMA_RX_CHAN,
-		.utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_SAUL_RX_0_CHAN),
-	},
-	{
-		.start = 1U,
-		.end = 1U,
-		.flow_start = 0U,
-		.flow_end = 7U,
-		.flow_utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_FLOW_SAUL_RX_1_CHAN),
-		.oes_offset = 0U,
-		.err_oes_offset = 0U,
-		.type = DMSS_PKTDMA_RX_CHAN,
-		.utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_SAUL_RX_1_CHAN),
-	},
-	{
-		.start = 2U,
-		.end = 2U,
-		.flow_start = 8U,
-		.flow_end = 15U,
-		.flow_utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_FLOW_SAUL_RX_2_CHAN),
-		.oes_offset = 0U,
-		.err_oes_offset = 0U,
-		.type = DMSS_PKTDMA_RX_CHAN,
-		.utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_SAUL_RX_2_CHAN),
-	},
-	{
-		.start = 3U,
-		.end = 3U,
-		.flow_start = 8U,
-		.flow_end = 15U,
-		.flow_utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_FLOW_SAUL_RX_3_CHAN),
-		.oes_offset = 0U,
-		.err_oes_offset = 0U,
-		.type = DMSS_PKTDMA_RX_CHAN,
-		.utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_SAUL_RX_3_CHAN),
-	},
-};
-
-static const struct udmap_ch_type tx_ch_types_MCU_SA3_SS0_PKTDMA_0[2] = {
-	{
-		.start = 0U,
-		.end = 0U,
-		.flow_start = 0U,
-		.flow_end = 0U,
-		.flow_utype = 0U,
-		.oes_offset = 0U,
-		.err_oes_offset = 0U,
-		.type = DMSS_PKTDMA_TX_CHAN,
-		.utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_SAUL_TX_0_CHAN),
-	},
-	{
-		.start = 1U,
-		.end = 1U,
-		.flow_start = 0U,
-		.flow_end = 0U,
-		.flow_utype = 0U,
-		.oes_offset = 0U,
-		.err_oes_offset = 0U,
-		.type = DMSS_PKTDMA_TX_CHAN,
-		.utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_SAUL_TX_1_CHAN),
 	},
 };
 
@@ -624,39 +474,6 @@ struct udmap_instance udmap_inst[] = {
 		.rom_usage = &rom_usage_MCU_NAVSS0_UDMAP_0[0U],
 		.n_rom_usage = ARRAY_SIZE(rom_usage_MCU_NAVSS0_UDMAP_0),
 		.dru_ch0_dst_thread_offset = 0xc800U,
-	},
-	{
-		.id = J784S4_DEV_MCU_SA3_SS0_PKTDMA_0,
-		.root_id = J784S4_DEV_MCU_SA3_SS0,
-		.initialized = SFALSE,
-		.devgrp = SOC_DEVGRP_J784S4_TIFS_INTERNAL,
-		.gcfg = &mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_GCFG,
-		.tchan = &mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_TCHAN,
-		.rchan = &mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RCHAN,
-		.bchan = NULL,
-		.rflow = &mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RFLOW,
-		.tchanrt = &mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_TCHANRT,
-		.rchanrt = &mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RCHANRT,
-		.bchanrt = NULL,
-		.n_tx_ch = UDMAP_MCU_SA3_SS0_PKTDMA_0_TX_CHAN_MAX_INDEX,
-		.n_rx_ch = UDMAP_MCU_SA3_SS0_PKTDMA_0_RX_CHAN_MAX_INDEX,
-		.n_bc_ch = 0U,
-		.n_rx_flow = UDMAP_MCU_SA3_SS0_PKTDMA_0_RX_FLOW_MAX_INDEX,
-		.bc_ch_offset = 0U,
-		.tx_ch_types = &tx_ch_types_MCU_SA3_SS0_PKTDMA_0[0U],
-		.rx_ch_types = &rx_ch_types_MCU_SA3_SS0_PKTDMA_0[0U],
-		.bc_ch_types = NULL,
-		.common_flow = NULL,
-		.n_tx_ch_type = ARRAY_SIZE(tx_ch_types_MCU_SA3_SS0_PKTDMA_0),
-		.n_rx_ch_type = ARRAY_SIZE(rx_ch_types_MCU_SA3_SS0_PKTDMA_0),
-		.n_bc_ch_type = 0U,
-		.invalid_flow_oes_offset = 0U,
-		.invalid_flow_oes_utype = 0U,
-		.gcfg_type = PKTDMA_GCFG,
-		.gcfg_utype = RESASG_UTYPE(J784S4_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_UDMAP_GLOBAL_CONFIG),
-		.rom_usage = NULL,
-		.n_rom_usage = 0U,
-		.dru_ch0_dst_thread_offset = 0x0U,
 	},
 };
 

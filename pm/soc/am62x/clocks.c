@@ -1,5 +1,5 @@
 /*
- * Data version: 220527_134115
+ * Data version: 220811_185331
  *
  * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -1616,6 +1616,38 @@ static const struct clk_parent clk_MCU_OBSCLK_MUX_SEL_parents[] = {
 	{
 		CLK_AM62X_HSDIV0_16FFT_MCU_32KHZ_GEN_0_HSDIVOUT0_CLK,
 		8,
+	},
+	{
+		CLK_AM62X_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
+		1,
+	},
+	{
+		CLK_AM62X_CLK_32K_RC_SEL_OUT0,
+		1,
+	},
+	{
+		0,
+		0,
+	},
+	{
+		0,
+		0,
+	},
+	{
+		0,
+		0,
+	},
+	{
+		0,
+		0,
+	},
+	{
+		0,
+		0,
+	},
+	{
+		0,
+		0,
 	},
 };
 static const struct clk_data_mux_reg clk_data_MCU_OBSCLK_MUX_SEL_out0 = {
@@ -3689,7 +3721,7 @@ const struct clk_data soc_clock_data[] = {
 		.drv		= &clk_drv_pll_16fft,
 		.freq_idx	= AM62X_FREQ_VALUE_PLLFRACF_SSMOD_16FFT_MAIN_8,
 		.data		= &clk_data_pllfracf_ssmod_16fft_main_8.data_pll.data,
-		.flags		= CLK_DATA_FLAG_NO_HW_REINIT,
+		.flags		= 0,
 	},
 	[CLK_AM62X_PLLFRACF_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK] =				      {
 		.parent		=							      {
@@ -3737,7 +3769,7 @@ const struct clk_data soc_clock_data[] = {
 			1,
 		},
 		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_NO_HW_REINIT,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_postdiv4_16ff_main_0_hsdiv6.data_div.data,
 	},
@@ -4005,7 +4037,7 @@ const struct clk_data soc_clock_data[] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ | CLK_DATA_FLAG_NO_HW_REINIT,
+		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv0_16fft_main_8_hsdiv0.data_div.data,
 	},
