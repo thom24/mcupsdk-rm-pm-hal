@@ -1549,7 +1549,7 @@ s32 rm_ra_init(void)
 						    &ra_inst[i].oes_handler);
 #endif
 #ifndef CONFIG_RM_RA_OVERFLOW_DEFAULT
-			if ((r == SUCCESS) && (ra_inst[i].virtid_utype != 0)) {
+			if ((r == SUCCESS) && (ra_inst[i].virtid_utype != 0U)) {
 				r = ra_set_gcfg_ovrflow_default(ra_inst[i].gcfg->base);
 			}
 #endif

@@ -261,6 +261,16 @@ s32 set_device_resets_handler(u32 *msg_recv)
 	mmr_unlock_all();
 
 	ret = device_prepare_exclusive(req->hdr.host, id, NULL, &dev);
+
+	if (ret == SUCCESS) {
+		if (resets == 0U || resets == BIT(0) || resets == BIT(1)) {
+			ret = SUCCESS;
+		} else {
+			pm_trace(TRACE_PM_ACTION_INVALID_STATE, resets);
+			ret = EFAIL;
+		}
+	}
+
 	if (ret == SUCCESS) {
 		device_set_resets(dev, resets);
 	}

@@ -38,6 +38,7 @@
 #include <tisci/tisci_core.h>
 #include <soc_capabilities.h>
 
+extern s32 query_fw_caps_handler(u32 *msg_recv);
 
 s32 query_fw_caps_handler(u32 *msg_recv)
 {
