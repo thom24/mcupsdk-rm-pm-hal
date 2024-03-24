@@ -1,7 +1,7 @@
 /*
  * Data version: 220721_142300
  *
- * Copyright (C) 2017-2023 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #include <types/array_size.h>
@@ -260,6 +260,10 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J784S4_PSC_LPSC_LPSC_SPARE_4 125
 #define J784S4_PSC_LPSC_LPSC_SPARE_5 126
 #define J784S4_PSC_LPSC_LPSC_SPARE_6 127
+#define J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_DRU4 5
+#define J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_DRU5 6
+#define J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_DRU6 7
+#define J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_DRU7 8
 
 #define J784S4_DEV_ADC12FC_16FFC_MCU_0_CLOCKS 0
 #define J784S4_DEV_ADC12FC_16FFC_MCU_1_CLOCKS 7
@@ -3031,6 +3035,10 @@ static const struct psc_pd_data j784s4_j7am_main_psc_wrap_main_0_pd_data[J784S4_
 static struct psc_pd j784s4_j7am_main_psc_wrap_main_0_powerdomains[ARRAY_SIZE(j784s4_j7am_main_psc_wrap_main_0_pd_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const dev_idx_t dev_list_LPSC_main_alwayson[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_COMPUTE_CLUSTER0_DRU0,
+	J784S4_DEV_COMPUTE_CLUSTER0_DRU4,
+	J784S4_DEV_COMPUTE_CLUSTER0_DRU5,
+	J784S4_DEV_COMPUTE_CLUSTER0_DRU6,
+	J784S4_DEV_COMPUTE_CLUSTER0_DRU7,
 	J784S4_DEV_COMPUTE_CLUSTER0_MSMC2_WRAP_0,
 	J784S4_DEV_CPT2_AGGR1,
 	J784S4_DEV_CPT2_AGGR5,
@@ -6369,35 +6377,91 @@ static const struct dev_data j784s4_dev_compute_cluster_j7ahp_main_0_dru0 __attr
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
 };
+static const struct soc_device_data compute_cluster_j7ahp_main_0_dru4_domains[] = {
+	{
+		.psc_idx = J784S4_PSC_INST_J7AM_BOLT_PSC_WRAP_MAIN_0,
+		.pd = J784S4_PSC_PD_PD_ANA0,
+		.mod = J784S4_PSC_LPSC_LPSC_DRU_0,
+	},
+	{
+		.psc_idx = J784S4_PSC_INST_J7AM_MAIN_PSC_WRAP_MAIN_0,
+		.pd = J784S4_PSC_PD_GP_CORE_CTL,
+		.mod = J784S4_PSC_LPSC_LPSC_MAIN_ALWAYSON,
+	},
+	{
+		.psc_idx = PSC_DEV_NONE,
+	},
+};
 static const struct dev_data j784s4_dev_compute_cluster_j7ahp_main_0_dru4 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
-		.psc_idx	= J784S4_PSC_INST_J7AM_BOLT_PSC_WRAP_MAIN_0,
-		.pd		= J784S4_PSC_PD_PD_ANA0,
-		.mod		= J784S4_PSC_LPSC_LPSC_DRU_0,
+		.psc_idx	= PSC_DEV_MULTIPLE,
+		.mod		= J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_DRU4,
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
+};
+static const struct soc_device_data compute_cluster_j7ahp_main_0_dru5_domains[] = {
+	{
+		.psc_idx = J784S4_PSC_INST_J7AM_BOLT_PSC_WRAP_MAIN_0,
+		.pd = J784S4_PSC_PD_PD_ANA1,
+		.mod = J784S4_PSC_LPSC_LPSC_DRU_1,
+	},
+	{
+		.psc_idx = J784S4_PSC_INST_J7AM_MAIN_PSC_WRAP_MAIN_0,
+		.pd = J784S4_PSC_PD_GP_CORE_CTL,
+		.mod = J784S4_PSC_LPSC_LPSC_MAIN_ALWAYSON,
+	},
+	{
+		.psc_idx = PSC_DEV_NONE,
+	},
 };
 static const struct dev_data j784s4_dev_compute_cluster_j7ahp_main_0_dru5 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
-		.psc_idx	= J784S4_PSC_INST_J7AM_BOLT_PSC_WRAP_MAIN_0,
-		.pd		= J784S4_PSC_PD_PD_ANA1,
-		.mod		= J784S4_PSC_LPSC_LPSC_DRU_1,
+		.psc_idx	= PSC_DEV_MULTIPLE,
+		.mod		= J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_DRU5,
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
+};
+static const struct soc_device_data compute_cluster_j7ahp_main_0_dru6_domains[] = {
+	{
+		.psc_idx = J784S4_PSC_INST_J7AM_BOLT_PSC_WRAP_MAIN_0,
+		.pd = J784S4_PSC_PD_PD_ANA2,
+		.mod = J784S4_PSC_LPSC_LPSC_DRU_2,
+	},
+	{
+		.psc_idx = J784S4_PSC_INST_J7AM_MAIN_PSC_WRAP_MAIN_0,
+		.pd = J784S4_PSC_PD_GP_CORE_CTL,
+		.mod = J784S4_PSC_LPSC_LPSC_MAIN_ALWAYSON,
+	},
+	{
+		.psc_idx = PSC_DEV_NONE,
+	},
 };
 static const struct dev_data j784s4_dev_compute_cluster_j7ahp_main_0_dru6 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
-		.psc_idx	= J784S4_PSC_INST_J7AM_BOLT_PSC_WRAP_MAIN_0,
-		.pd		= J784S4_PSC_PD_PD_ANA2,
-		.mod		= J784S4_PSC_LPSC_LPSC_DRU_2,
+		.psc_idx	= PSC_DEV_MULTIPLE,
+		.mod		= J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_DRU6,
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
 };
+static const struct soc_device_data compute_cluster_j7ahp_main_0_dru7_domains[] = {
+	{
+		.psc_idx = J784S4_PSC_INST_J7AM_BOLT_PSC_WRAP_MAIN_0,
+		.pd = J784S4_PSC_PD_PD_ANA3,
+		.mod = J784S4_PSC_LPSC_LPSC_DRU_3,
+	},
+	{
+		.psc_idx = J784S4_PSC_INST_J7AM_MAIN_PSC_WRAP_MAIN_0,
+		.pd = J784S4_PSC_PD_GP_CORE_CTL,
+		.mod = J784S4_PSC_LPSC_LPSC_MAIN_ALWAYSON,
+	},
+	{
+		.psc_idx = PSC_DEV_NONE,
+	},
+};
 static const struct dev_data j784s4_dev_compute_cluster_j7ahp_main_0_dru7 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
-		.psc_idx	= J784S4_PSC_INST_J7AM_BOLT_PSC_WRAP_MAIN_0,
-		.pd		= J784S4_PSC_PD_PD_ANA3,
-		.mod		= J784S4_PSC_LPSC_LPSC_DRU_3,
+		.psc_idx	= PSC_DEV_MULTIPLE,
+		.mod		= J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_DRU7,
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
 };
@@ -14048,6 +14112,10 @@ const struct soc_device_data *const soc_psc_multiple_domains[] = {
 	[J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_C71SS1] = compute_cluster_j7ahp_main_0_c71ss1_domains,
 	[J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_C71SS2] = compute_cluster_j7ahp_main_0_c71ss2_domains,
 	[J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_C71SS3] = compute_cluster_j7ahp_main_0_c71ss3_domains,
+	[J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_DRU4] = compute_cluster_j7ahp_main_0_dru4_domains,
+	[J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_DRU5] = compute_cluster_j7ahp_main_0_dru5_domains,
+	[J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_DRU6] = compute_cluster_j7ahp_main_0_dru6_domains,
+	[J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_DRU7] = compute_cluster_j7ahp_main_0_dru7_domains,
 };
 
 const struct dev_data *const soc_device_data_arr[J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER + 1] = {

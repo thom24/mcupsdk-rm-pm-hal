@@ -45,7 +45,6 @@
 
 #include <rm_core.h>
 #include <rm_ir.h>
-#include <rm_lpm.h>
 
 #include <ir_inst.h>
 #include <ir_init.h>
@@ -514,10 +513,6 @@ s32 rm_ir_configure(u16 id, u16 inp, u16 outp, sbool validate)
 		r = ir_configure_outp(inst, inp, outp);
 	}
 
-	if (r == SUCCESS) {
-		r = lpm_sleep_save_ir_config(id, inp, outp, (u16) validate);
-	}
-
 	return r;
 }
 
@@ -574,10 +569,6 @@ s32 rm_ir_clear(u16 id, u16 inp, u16 outp)
 			 */
 			inst->inp0_mapping = IR_MAPPING_FREE;
 		}
-	}
-
-	if (r == SUCCESS) {
-		r = lpm_sleep_save_ir_unconfig(id, inp, outp);
 	}
 
 	return r;
