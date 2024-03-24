@@ -1,9 +1,7 @@
 /*
- * System Firmware Source File
+ * System Firmware
  *
- * LPM IA configurations for AM62X device
- *
- * Data version: 220420_070512
+ * am62x soc_ctrl_mmr.h
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -35,10 +33,36 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef AM62X_LPM_IA_CFG_H
-#define AM62X_LPM_IA_CFG_H
 
-/** Global events from sec proxy IA (4 entries) */
-#define NUM_SEC_PROXY_IA_GLOBAL_EVENTS (0x0004U)
+#ifndef LPM_SOC_CTRL_MMR_H_
+#define LPM_SOC_CTRL_MMR_H_
 
-#endif /* AM62X_LPM_IA_CFG_H */
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#define WKUP_CTRL_BASE             (0x43000000UL)
+#define WKUP_CTRL_WFI_STATUS       (0x18400UL)
+#define SMS_CPU0_WFI_MASK               BIT(2)
+#define WKUP_CTRL_DS_DM_RESET          (0x00018440U)
+#define DS_DM_RESET_UNMASK              0xF
+
+#define DEV_GTC AM62X_DEV_WKUP_GTC0
+#define POWER_MASTER AM62X_DEV_A53SS0_CORE_0
+
+#define GTC_CFG0_BASE          (0xa80000UL)
+#define GTC_CFG1_BASE          (0xa90000UL)
+
+#define PADCFG_CTRL_BASE        (0xf0000UL)
+#define PADCFG_OFFSET           (0x4000U)
+#define PADCFG_SIZE             (((0x42a8U - PADCFG_OFFSET) >> 2) + 1)
+
+#define RTC_BASE             (0x2b1f0000UL)
+
+
+#ifdef __cplusplus
+}
+
+
+#endif
+#endif /* LPM_SOC_CTRL_MMR_H_ */

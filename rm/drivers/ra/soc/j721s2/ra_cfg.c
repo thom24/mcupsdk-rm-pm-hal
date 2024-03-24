@@ -3,7 +3,7 @@
  *
  * Ring accelerator driver instance data definition
  *
- * Data version: 220214_141435
+ * Data version: 220323_094332
  *
  * Copyright (C) 2021-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -91,7 +91,7 @@ static const struct rm_mmr mmr_NAVSS0_RINGACC_0_UDMASS_RINGACC0_CFG_RT = {
 	.base		= 0x3c000000U,
 };
 
-static const struct ra_ring_type ring_types_NAVSS0_RINGACC_0[8] = {
+static const struct ra_ring_type ring_types_NAVSS0_RINGACC_0[9] = {
 	{
 		.start = 0U,
 		.end = 1U,
@@ -100,12 +100,12 @@ static const struct ra_ring_type ring_types_NAVSS0_RINGACC_0[8] = {
 	},
 	{
 		.start = 2U,
-		.end = 5U,
+		.end = 3U,
 		.type = RA_STANDARD_RING,
 		.utype = RESASG_UTYPE(J721S2_DEV_NAVSS0_RINGACC_0, RESASG_SUBTYPE_RA_UDMAP_TX_H),
 	},
 	{
-		.start = 6U,
+		.start = 4U,
 		.end = 84U,
 		.type = RA_STANDARD_RING,
 		.utype = RESASG_UTYPE(J721S2_DEV_NAVSS0_RINGACC_0, RESASG_SUBTYPE_RA_UDMAP_TX),
@@ -124,19 +124,25 @@ static const struct ra_ring_type ring_types_NAVSS0_RINGACC_0[8] = {
 	},
 	{
 		.start = 343U,
-		.end = 346U,
+		.end = 344U,
 		.type = RA_STANDARD_RING,
 		.utype = RESASG_UTYPE(J721S2_DEV_NAVSS0_RINGACC_0, RESASG_SUBTYPE_RA_UDMAP_RX_H),
 	},
 	{
-		.start = 347U,
+		.start = 345U,
 		.end = 422U,
 		.type = RA_STANDARD_RING,
 		.utype = RESASG_UTYPE(J721S2_DEV_NAVSS0_RINGACC_0, RESASG_SUBTYPE_RA_UDMAP_RX),
 	},
 	{
 		.start = 423U,
-		.end = 973U,
+		.end = 767U,
+		.type = RA_STANDARD_RING,
+		.utype = RESASG_UTYPE(J721S2_DEV_NAVSS0_RINGACC_0, RESASG_SUBTYPE_RA_GP),
+	},
+	{
+		.start = 878U,
+		.end = 1023U,
 		.type = RA_STANDARD_RING,
 		.utype = RESASG_UTYPE(J721S2_DEV_NAVSS0_RINGACC_0, RESASG_SUBTYPE_RA_GP),
 	},

@@ -50,21 +50,11 @@
 #include "devices.h"
 #include "sec_proxy.h"
 #include "clk.h"
+#include "soc_ctrl_mmr.h"
 
-
-/* TODO move the base addresses to device specific header files. */
-#define WKUP_CTRL_BASE             (0x43000000UL)
-#define WKUP_CTRL_WFI_STATUS       (0x18400UL)
-#define SMS_CPU0_WFI               BIT(2)
-
-#define DS_DM_RESET_UNMASK              0xF
-#define DS_DM_RESET                     (0x00018440U)
 
 /* counts of 1us delay for 10ms */
 #define TIMEOUT_10MS                    10000
-
-#define DEV_GTC AM62X_DEV_WKUP_GTC0
-#define POWER_MASTER AM62X_DEV_A53SS0_CORE_0
 
 #define LPM_SUSPEND_POWERMASTER         BIT(0)
 #define LPM_DEVICE_DEINIT                       BIT(1)
@@ -76,6 +66,7 @@
 
 extern s32 _stub_start(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
+extern void lpm_clear_all_wakeup_interrupt();
 
 u32 key;
 volatile u32 enter_sleep_status = 0;
@@ -95,7 +86,7 @@ static s32 lpm_sleep_wait_for_tifs_wfi()
 
 	do {
 		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_WFI_STATUS);
-		if ((reg & SMS_CPU0_WFI) == SMS_CPU0_WFI) {
+		if ((reg & SMS_CPU0_WFI_MASK) == SMS_CPU0_WFI_MASK) {
 			return SUCCESS;
 		}
 		osal_delay(1);
@@ -124,10 +115,10 @@ static s32 lpm_resume_enable_lpsc()
 
 static s32 lpm_resume_disable_DM_reset_isolation()
 {
-	/* Clear WKUP_CTRL DS_DM_RESET.mask to stop
+	/* Clear WKUP_CTRL_DS_DM_RESET.mask to stop
 	* isolation of DM from MAIN domain
 	*/
-	writel(DS_DM_RESET_UNMASK, WKUP_CTRL_BASE + DS_DM_RESET);
+	writel(DS_DM_RESET_UNMASK, WKUP_CTRL_BASE + WKUP_CTRL_DS_DM_RESET);
 	return SUCCESS;
 }
 
@@ -261,8 +252,13 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 	if (mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) {
 		/* Parse and store the mode info and ctx address in the prepare sleep message*/
 		lpm_populate_prepare_sleep_data(req);
-		/* TODO: Parse and store the mode info and ctx address */
-		/* TODO: Forward TISCI_MSG_PREPARE_SLEEP to TIFS */
+
+		/*
+		 * clearing all wakeup interrupts from VIM. Even if we are cleaning interrupts
+		 * from VIM, if the wakeup interrupt is still active it will be able to wake
+		 * the soc from LPM. This will only clear any unwanted pending wakeup interrupts
+		 */
+		lpm_clear_all_wakeup_interrupt();
 	} else {
 		ret = -EINVAL;
 	}
@@ -280,6 +276,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	*/
 	s32 ret = SUCCESS;
 	u8 mode = req->mode;
+	u32 i;
 
 	enter_sleep_status = 0;
 
@@ -406,6 +403,10 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		if (devices_init() != SUCCESS) {
 			lpm_hang_abort();
 		}
+	}
+
+	for (i = 0; i < 10000; i++) {
+		osal_delay(1);
 	}
 
 	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {

@@ -1,7 +1,7 @@
 /*
  * Device Manager - LPM RTC Driver
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,9 +34,8 @@
 
 #include <lib/ioremap.h>
 #include "rtc.h"
+#include "soc_ctrl_mmr.h"
 
-/* TODO move the base addresses to device specific header files. */
-#define RTC_BASE             (0x2b1f0000UL)
 
 #define RTC_SUB_S_CNT        (0x04)
 #define RTC_S_CNT_LSW        (0x08)

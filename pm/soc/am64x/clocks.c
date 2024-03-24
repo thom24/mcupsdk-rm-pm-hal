@@ -1,5 +1,5 @@
 /*
- * Data version: 220307_084735
+ * Data version: 220420_174316
  *
  * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -603,6 +603,24 @@ static const u8 pllfracf_ssmod_16fft_mcu_0_entries[] = {
 	PLL_TABLE_LAST,
 };
 
+static const struct clk_parent clk_CLKOUT_CTRL_parents[] = {
+	{
+		CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK,
+		5,
+	},
+	{
+		CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK,
+		10,
+	},
+};
+static const struct clk_data_mux_reg clk_data_CLKOUT_CTRL_out0 = {
+	.data_mux		= {
+		.parents	= clk_CLKOUT_CTRL_parents,
+		.n		= ARRAY_SIZE(clk_CLKOUT_CTRL_parents),
+	},
+	.reg			= 0x43000000 + 32784,
+	.bit			= 4,
+};
 static const struct clk_parent clk_MAIN_ADC_clk_sel_parents[] = {
 	{
 		CLK_AM64X_GLUELOGIC_HFOSC0_CLKOUT,
@@ -1719,54 +1737,61 @@ static const struct clk_data_mux_reg clk_data_MCU_spi1_mstr_lp_clksel_out0 = {
 	.reg			= 0x04500000 + 32932,
 	.bit			= 16,
 };
-static const struct clk_data_div_reg clk_data_USART_Programmable_Clock_Divider_out0 = {
+static const struct clk_data_div_reg_go clk_data_USART_Programmable_Clock_Divider_out0 = {
 	.data_div	= {
 		.n	= 4,
 	},
 	.reg		= 0x43000000 + 33344,
 	.bit		= 0,
+	.go		= 16,
 };
-static const struct clk_data_div_reg clk_data_USART_Programmable_Clock_Divider_out1 = {
+static const struct clk_data_div_reg_go clk_data_USART_Programmable_Clock_Divider_out1 = {
 	.data_div	= {
 		.n	= 4,
 	},
 	.reg		= 0x43000000 + 33348,
 	.bit		= 0,
+	.go		= 16,
 };
-static const struct clk_data_div_reg clk_data_USART_Programmable_Clock_Divider_out2 = {
+static const struct clk_data_div_reg_go clk_data_USART_Programmable_Clock_Divider_out2 = {
 	.data_div	= {
 		.n	= 4,
 	},
 	.reg		= 0x43000000 + 33352,
 	.bit		= 0,
+	.go		= 16,
 };
-static const struct clk_data_div_reg clk_data_USART_Programmable_Clock_Divider_out3 = {
+static const struct clk_data_div_reg_go clk_data_USART_Programmable_Clock_Divider_out3 = {
 	.data_div	= {
 		.n	= 4,
 	},
 	.reg		= 0x43000000 + 33356,
 	.bit		= 0,
+	.go		= 16,
 };
-static const struct clk_data_div_reg clk_data_USART_Programmable_Clock_Divider_out4 = {
+static const struct clk_data_div_reg_go clk_data_USART_Programmable_Clock_Divider_out4 = {
 	.data_div	= {
 		.n	= 4,
 	},
 	.reg		= 0x43000000 + 33360,
 	.bit		= 0,
+	.go		= 16,
 };
-static const struct clk_data_div_reg clk_data_USART_Programmable_Clock_Divider_out5 = {
+static const struct clk_data_div_reg_go clk_data_USART_Programmable_Clock_Divider_out5 = {
 	.data_div	= {
 		.n	= 4,
 	},
 	.reg		= 0x43000000 + 33364,
 	.bit		= 0,
+	.go		= 16,
 };
-static const struct clk_data_div_reg clk_data_USART_Programmable_Clock_Divider_out6 = {
+static const struct clk_data_div_reg_go clk_data_USART_Programmable_Clock_Divider_out6 = {
 	.data_div	= {
 		.n	= 4,
 	},
 	.reg		= 0x43000000 + 33368,
 	.bit		= 0,
+	.go		= 16,
 };
 static const struct clk_data_from_dev clk_data_board_0_CPTS0_RFT_CLK_out = {
 	.dev		= AM64X_DEV_BOARD0,
@@ -2329,12 +2354,13 @@ static const struct clk_data_div_reg clk_data_k3_pll_ctrl_wrap_mcu_0_chip_div24_
 	.reg		= 0x04020000 + 0x11c,
 	.bit		= 0,
 };
-static const struct clk_data_div_reg clk_data_mcu_obsclk_div_out0 = {
+static const struct clk_data_div_reg_go clk_data_mcu_obsclk_div_out0 = {
 	.data_div	= {
 		.n	= 16,
 	},
 	.reg		= 0x04500000 + 32768,
 	.bit		= 8,
+	.go		= 16,
 };
 static const struct clk_data_from_dev clk_data_mshsi2c_main_0_porscl = {
 	.dev		= AM64X_DEV_I2C0,
@@ -2360,12 +2386,13 @@ static const struct clk_data_from_dev clk_data_mshsi2c_mcu_1_porscl = {
 	.dev		= AM64X_DEV_MCU_I2C1,
 	.clk_idx	= AM64X_DEV_MCU_I2C1_PORSCL,
 };
-static const struct clk_data_div_reg clk_data_osbclk0_div_out0 = {
+static const struct clk_data_div_reg_go clk_data_osbclk0_div_out0 = {
 	.data_div	= {
 		.n	= 256,
 	},
 	.reg		= 0x43000000 + 32768,
 	.bit		= 8,
+	.go		= 16,
 };
 static const struct clk_data_from_dev clk_data_pcie_g2x1_64_main_0_pcie_lane0_txclk = {
 	.dev		= AM64X_DEV_PCIE0,
@@ -3314,7 +3341,7 @@ const struct clk_data soc_clock_data[] = {
 			CLK_AM64X_MCU_OBSCLK_MUX_SEL_OUT0,
 			1,
 		},
-		.drv	= &clk_drv_div_reg.drv,
+		.drv	= &clk_drv_div_reg_go.drv,
 		.flags	= 0,
 		.data	= &clk_data_mcu_obsclk_div_out0.data_div.data,
 		.type	= CLK_TYPE_DIV,
@@ -3907,6 +3934,12 @@ const struct clk_data soc_clock_data[] = {
 			1,
 		},
 	},
+	[CLK_AM64X_CLKOUT_CTRL_OUT0] =				  {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_CLKOUT_CTRL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
 	[CLK_AM64X_MAIN_CPTS_CLK_SEL_OUT0] =			  {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
@@ -4080,7 +4113,7 @@ const struct clk_data soc_clock_data[] = {
 			CLK_AM64X_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
 			1,
 		},
-		.drv	= &clk_drv_div_reg.drv,
+		.drv	= &clk_drv_div_reg_go.drv,
 		.flags	= 0,
 		.data	= &clk_data_USART_Programmable_Clock_Divider_out0.data_div.data,
 		.type	= CLK_TYPE_DIV,
@@ -4090,7 +4123,7 @@ const struct clk_data soc_clock_data[] = {
 			CLK_AM64X_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
 			1,
 		},
-		.drv	= &clk_drv_div_reg.drv,
+		.drv	= &clk_drv_div_reg_go.drv,
 		.flags	= 0,
 		.data	= &clk_data_USART_Programmable_Clock_Divider_out1.data_div.data,
 		.type	= CLK_TYPE_DIV,
@@ -4100,7 +4133,7 @@ const struct clk_data soc_clock_data[] = {
 			CLK_AM64X_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
 			1,
 		},
-		.drv	= &clk_drv_div_reg.drv,
+		.drv	= &clk_drv_div_reg_go.drv,
 		.flags	= 0,
 		.data	= &clk_data_USART_Programmable_Clock_Divider_out2.data_div.data,
 		.type	= CLK_TYPE_DIV,
@@ -4110,7 +4143,7 @@ const struct clk_data soc_clock_data[] = {
 			CLK_AM64X_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
 			1,
 		},
-		.drv	= &clk_drv_div_reg.drv,
+		.drv	= &clk_drv_div_reg_go.drv,
 		.flags	= 0,
 		.data	= &clk_data_USART_Programmable_Clock_Divider_out3.data_div.data,
 		.type	= CLK_TYPE_DIV,
@@ -4120,7 +4153,7 @@ const struct clk_data soc_clock_data[] = {
 			CLK_AM64X_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
 			1,
 		},
-		.drv	= &clk_drv_div_reg.drv,
+		.drv	= &clk_drv_div_reg_go.drv,
 		.flags	= 0,
 		.data	= &clk_data_USART_Programmable_Clock_Divider_out4.data_div.data,
 		.type	= CLK_TYPE_DIV,
@@ -4130,7 +4163,7 @@ const struct clk_data soc_clock_data[] = {
 			CLK_AM64X_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
 			1,
 		},
-		.drv	= &clk_drv_div_reg.drv,
+		.drv	= &clk_drv_div_reg_go.drv,
 		.flags	= 0,
 		.data	= &clk_data_USART_Programmable_Clock_Divider_out5.data_div.data,
 		.type	= CLK_TYPE_DIV,
@@ -4140,7 +4173,7 @@ const struct clk_data soc_clock_data[] = {
 			CLK_AM64X_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
 			1,
 		},
-		.drv	= &clk_drv_div_reg.drv,
+		.drv	= &clk_drv_div_reg_go.drv,
 		.flags	= 0,
 		.data	= &clk_data_USART_Programmable_Clock_Divider_out6.data_div.data,
 		.type	= CLK_TYPE_DIV,
@@ -4150,7 +4183,7 @@ const struct clk_data soc_clock_data[] = {
 			CLK_AM64X_MAIN_OBSCLK0_MUX_SEL_OUT0,
 			1,
 		},
-		.drv	= &clk_drv_div_reg.drv,
+		.drv	= &clk_drv_div_reg_go.drv,
 		.flags	= 0,
 		.data	= &clk_data_osbclk0_div_out0.data_div.data,
 		.type	= CLK_TYPE_DIV,

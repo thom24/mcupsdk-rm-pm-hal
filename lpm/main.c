@@ -127,6 +127,15 @@ static int mcu_lpscs[] = {
 	LPSC_MCU_COMMON
 };
 
+void lpm_clear_all_wakeup_interrupt(void)
+{
+	int i;
+
+	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
+		vim_clear_intr(soc_wake_sources_data[i].int_num);
+	}
+}
+
 static void lpm_abort()
 {
 	volatile int a = 0x1234;
@@ -251,8 +260,6 @@ static void config_wake_sources()
 	u32 val = 0;
 
 	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
-		/* XXX: Clear interrupt to avoid spurious wake. */
-		vim_clear_intr(soc_wake_sources_data[i].int_num);
 		/* Enable interrupt */
 		vim_set_intr_enable(soc_wake_sources_data[i].int_num,
 				    INTR_ENABLE);
@@ -266,6 +273,12 @@ static void config_wake_sources()
 
 static void disable_wake_sources()
 {
+	int i;
+
+	/* disable all wake up interrupts */
+	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
+		vim_set_intr_enable(soc_wake_sources_data[i].int_num, INTR_DISABLE);
+	}
 	/* Clear all bits in WKUP0_EN */
 	writel(0, (WKUP_CTRL_MMR_BASE + WKUP0_EN));
 }

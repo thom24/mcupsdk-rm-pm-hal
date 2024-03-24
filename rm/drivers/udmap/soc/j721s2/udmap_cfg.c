@@ -3,7 +3,7 @@
  *
  * UDMAP driver instance data definition
  *
- * Data version: 220214_141435
+ * Data version: 220323_094332
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -127,7 +127,7 @@ static const struct rm_mmr mmr_NAVSS0_UDMAP_0_UDMASS_UDMAP0_CFG_TCHAN = {
 static const struct rm_mmr mmr_NAVSS0_UDMAP_0_UDMASS_UDMAP0_CFG_TCHANRT = {
 	.fwl_id		= 4368U,
 	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 292U,
+	.fwl_ch_end	= 340U,
 	.base		= 0x35000000U,
 };
 
@@ -140,8 +140,8 @@ static const struct rm_mmr mmr_NAVSS0_UDMAP_0_UDMASS_UDMAP0_CFG_RCHAN = {
 
 static const struct rm_mmr mmr_NAVSS0_UDMAP_0_UDMASS_UDMAP0_CFG_RCHANRT = {
 	.fwl_id		= 4368U,
-	.fwl_ch_start	= 293U,
-	.fwl_ch_end	= 374U,
+	.fwl_ch_start	= 341U,
+	.fwl_ch_end	= 422U,
 	.base		= 0x34000000U,
 };
 
@@ -166,9 +166,9 @@ static const struct udmap_ch_type rx_ch_types_NAVSS0_UDMAP_0[3] = {
 	},
 	{
 		.start = 2U,
-		.end = 5U,
+		.end = 3U,
 		.flow_start = 2U,
-		.flow_end = 5U,
+		.flow_end = 3U,
 		.flow_utype = RESASG_UTYPE(J721S2_DEV_NAVSS0_UDMAP_0, RESASG_SUBTYPE_UDMAP_RX_HCHAN),
 		.oes_offset = UDMAP_RCHAN_OES_EVT_INDEX_OFFSET,
 		.err_oes_offset = UDMAP_RCHAN_EOES_EVT_INDEX_OFFSET,
@@ -176,9 +176,9 @@ static const struct udmap_ch_type rx_ch_types_NAVSS0_UDMAP_0[3] = {
 		.utype = RESASG_UTYPE(J721S2_DEV_NAVSS0_UDMAP_0, RESASG_SUBTYPE_UDMAP_RX_HCHAN),
 	},
 	{
-		.start = 6U,
+		.start = 4U,
 		.end = 81U,
-		.flow_start = 6U,
+		.flow_start = 4U,
 		.flow_end = 81U,
 		.flow_utype = RESASG_UTYPE(J721S2_DEV_NAVSS0_UDMAP_0, RESASG_SUBTYPE_UDMAP_RX_CHAN),
 		.oes_offset = UDMAP_RCHAN_OES_EVT_INDEX_OFFSET,
@@ -202,7 +202,7 @@ static const struct udmap_ch_type tx_ch_types_NAVSS0_UDMAP_0[4] = {
 	},
 	{
 		.start = 2U,
-		.end = 5U,
+		.end = 3U,
 		.flow_start = 0U,
 		.flow_end = 0U,
 		.flow_utype = 0U,
@@ -212,7 +212,7 @@ static const struct udmap_ch_type tx_ch_types_NAVSS0_UDMAP_0[4] = {
 		.utype = RESASG_UTYPE(J721S2_DEV_NAVSS0_UDMAP_0, RESASG_SUBTYPE_UDMAP_TX_HCHAN),
 	},
 	{
-		.start = 6U,
+		.start = 4U,
 		.end = 84U,
 		.flow_start = 0U,
 		.flow_end = 0U,

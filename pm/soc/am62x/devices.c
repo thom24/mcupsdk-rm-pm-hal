@@ -1,5 +1,5 @@
 /*
- * Data version: 220228_160153
+ * Data version: 220420_070512
  *
  * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -2110,7 +2110,7 @@ static const struct lpsc_module_data am62x_sam62_main_psc_wrap_main_0_psc_0_mod_
 		.depends_psc_idx	= AM62X_PSC_INST_SAM62_MAIN_PSC_WRAP_MAIN_0,
 		.depends		= AM62X_PSC_LPSC_LPSC_SMS_COMMON,
 		.lpsc_dev.dev_list	= dev_list_LPSC_sa3ul,
-		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_DEVICES_LIST,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET | LPSC_DEVICES_LIST,
 	},
 	[AM62X_PSC_LPSC_LPSC_HSM_ISO] =		      {
 		.powerdomain		= AM62X_PSC_PD_GP_CORE_CTL,
@@ -4902,10 +4902,10 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK(AM62X_DEV_SAM62_MAIN_PSC_WRAP_MAIN_0_FW_0_CLOCKS,								   AM62X_DEV_PSC0_FW_0_CLK,
 		CLK_AM62X_SAM62_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		1),
-	DEV_CLK(AM62X_DEV_SAM62_MAIN_PSC_WRAP_MAIN_0_PSC_0_CLOCKS,								   AM62X_DEV_PSC0_PSC_0_CLK,
+	DEV_CLK(AM62X_DEV_SAM62_MAIN_PSC_WRAP_MAIN_0_PSC_0_CLOCKS,								   AM62X_DEV_PSC0_CLK,
 		CLK_AM62X_SAM62_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		1),
-	DEV_CLK(AM62X_DEV_SAM62_MAIN_PSC_WRAP_MAIN_0_PSC_0_CLOCKS,								   AM62X_DEV_PSC0_PSC_0_SLOW_CLK,
+	DEV_CLK(AM62X_DEV_SAM62_MAIN_PSC_WRAP_MAIN_0_PSC_0_CLOCKS,								   AM62X_DEV_PSC0_SLOW_CLK,
 		CLK_AM62X_SAM62_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		1),
 	DEV_CLK(AM62X_DEV_SAM62_DDR_WRAP_MAIN_0_CLOCKS,										   AM62X_DEV_DDR16SS0_DDRSS_DDR_PLL_CLK,
@@ -5395,7 +5395,7 @@ const struct dev_data *const soc_device_data_arr[AM62X_DEV_CLK_32K_RC_SEL_DEV_VD
 	[AM62X_DEV_A53SS0_CORE_1] = &am62x_dev_sam62_a53_512kb_wrap_main_0_a53_1,
 	[AM62X_DEV_A53SS0_CORE_2] = &am62x_dev_sam62_a53_512kb_wrap_main_0_a53_2,
 	[AM62X_DEV_A53SS0_CORE_3] = &am62x_dev_sam62_a53_512kb_wrap_main_0_a53_3,
-	[AM62X_DEV_PSC0] = &am62x_dev_sam62_main_psc_wrap_main_0,
+	[AM62X_DEV_PSCSS0] = &am62x_dev_sam62_main_psc_wrap_main_0,
 	[AM62X_DEV_WKUP_PSC0] = &am62x_dev_sam62_mcu_psc_wrap_wkup_0.drv_data.dev_data,
 	[AM62X_DEV_MCSPI0] = &am62x_dev_spi_main_0,
 	[AM62X_DEV_MCSPI1] = &am62x_dev_spi_main_1,
@@ -5420,7 +5420,7 @@ const struct dev_data *const soc_device_data_arr[AM62X_DEV_CLK_32K_RC_SEL_DEV_VD
 	[AM62X_DEV_A53SS0] = &am62x_dev_sam62_a53_512kb_wrap_main_0_arm_corepack_0,
 	[AM62X_DEV_COMPUTE_CLUSTER0_PBIST_0] = &am62x_dev_sam62_a53_512kb_wrap_main_0_pbist_0,
 	[AM62X_DEV_PSC0_FW_0] = &am62x_dev_sam62_main_psc_wrap_main_0_fw_0,
-	[AM62X_DEV_PSC0_PSC_0] = &am62x_dev_sam62_main_psc_wrap_main_0_psc_0.drv_data.dev_data,
+	[AM62X_DEV_PSC0] = &am62x_dev_sam62_main_psc_wrap_main_0_psc_0.drv_data.dev_data,
 	[AM62X_DEV_DDR16SS0] = &am62x_dev_sam62_ddr_wrap_main_0,
 	[AM62X_DEV_DEBUGSS0] = &am62x_dev_sam62_debug_main_cell_main_0,
 	[AM62X_DEV_A53_RS_BW_LIMITER0] = &am62x_dev_sam62_a53_rs_bw_limiter_main_0,
