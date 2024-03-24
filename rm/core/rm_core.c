@@ -311,6 +311,8 @@ s32 rm_core_get_resource_range(u32	*msg_recv,
 	u16 utype;
 	sbool type_found;
 	u8 trace_action = TRACE_RM_ACTION_RESOURCE_GET;
+	u16 start, start_sec;
+    u16 num, num_sec;
 
 	if ((msg->secondary_host != TISCI_MSG_VALUE_RM_UNUSED_SECONDARY_HOST) &&
 	    (msg->secondary_host != HOST_ID_ALL)) {
@@ -365,11 +367,16 @@ s32 rm_core_get_resource_range(u32	*msg_recv,
 #endif
 
 		if (type_found == STRUE) {
-			core_resasg_get_range(host, utype,
-					      &resp->range_start,
-					      &resp->range_num,
-					      &resp->range_start_sec,
-					      &resp->range_num_sec);
+            core_resasg_get_range(host, utype,
+                          &start,
+                          &num,
+                          &start_sec,
+                          &num_sec);
+
+            resp->range_start = start;
+            resp->range_num =num ;
+            resp->range_start_sec = start_sec,
+            resp->range_num_sec = num_sec; 
 		} else {
 			/*
 			 * Do not return failure so there's a common response
