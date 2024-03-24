@@ -98,7 +98,7 @@ void lpm_clear_all_wakeup_interrupt(void)
 {
 	u32 i;
 
-	for (i = 0; i < (u32)WAKEUP_SOURCE_MAX; i++) {
+	for (i = 0; i < (u32) WAKEUP_SOURCE_MAX; i++) {
 		vim_clear_intr(soc_wake_sources_data[i].int_num);
 	}
 }
@@ -111,53 +111,85 @@ static void lpm_abort(void)
 	}
 }
 
-static void enter_ddr_low_power_mode(void)
+static s32 enter_ddr_low_power_mode(void)
 {
+	s32 ret = 0;
+
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
 			       MDCTL_STATE_DISABLE, 0);
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
-	ddr_enter_low_power_mode();
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
-	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
-			       MDCTL_STATE_DISABLE, 0);
-	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	if (ret == 0) {
+		/* Configure DDR for low power mode entry */
+		ret = ddr_enter_low_power_mode();
+	}
 
-	ddr_enable_retention();
-	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
-			       MDCTL_STATE_DISABLE, 0);
-	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	if (ret == 0) {
+		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
+				       MDCTL_STATE_DISABLE, 0);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
-	writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	}
+
+	if (ret == 0) {
+		ddr_enable_retention();
+
+		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
+				       MDCTL_STATE_DISABLE, 0);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
+		/* Reset isolate DDR */
+		writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
+	}
+
+	return ret;
 }
 
-static void exit_ddr_low_power_mode(void)
+static s32 exit_ddr_low_power_mode(void)
 {
+	s32 ret = 0;
+
 	ddr_disable_retention();
 
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_LOCAL,
 			       MDCTL_STATE_ENABLE, 0);
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
-	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
-			       MDCTL_STATE_ENABLE, 0);
-	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
-	writel(DS_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
+	if (ret == 0) {
+		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_CFG_ISO,
+				       MDCTL_STATE_ENABLE, 0);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
-	ddr_exit_low_power_mode();
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
-	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
-			       MDCTL_STATE_ENABLE, 0);
-	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
-	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+		/* Remove DDR Reset isolation */
+		writel(DS_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
+	}
 
-	ddr_deepsleep_exit_training();
+	if (ret == 0) {
+		ret = ddr_exit_low_power_mode();
+	}
+
+	if (ret == 0) {
+		psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
+				       MDCTL_STATE_ENABLE, 0);
+		psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
+		ret = psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+	}
+
+	if (ret == 0) {
+		ret = ddr_deepsleep_exit_training();
+	}
+
+	return ret;
 }
 
 static void clock_gate_legacy_peripherals(sbool enable)
@@ -168,7 +200,7 @@ static void clock_gate_legacy_peripherals(sbool enable)
 		writel(WKUP_EN_CLKSTOP_ALL, WKUP_CTRL_MMR_BASE + DM_CLKSTOP_EN);
 		writel(WKUP_EN_GRP_CLKSTOP_REQ, WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_REQ);
 		while ((timeout > 0U) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_EN_GRP_CLKSTOP_ACK)) {
-            --timeout;
+			--timeout;
 		}
 		if (timeout == 0U) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_CLK_GATE);
@@ -177,8 +209,8 @@ static void clock_gate_legacy_peripherals(sbool enable)
 	} else {
 		writel(WKUP_DIS_GRP_CLKSTOP_REQ, WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_REQ);
 		while ((timeout > 0U) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_DIS_GRP_CLKSTOP_ACK)) {
-		    --timeout;
-        }
+			--timeout;
+		}
 		if (timeout == 0U) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_CLK_GATE);
 			lpm_abort();
@@ -270,7 +302,7 @@ static void disable_wake_sources(void)
 	u32 i;
 
 	/* disable all wake up interrupts */
-	for (i = 0; i < (u32)WAKEUP_SOURCE_MAX; i++) {
+	for (i = 0; i < (u32) WAKEUP_SOURCE_MAX; i++) {
 		vim_set_intr_enable(soc_wake_sources_data[i].int_num, INTR_DISABLE);
 	}
 	/* Clear all bits in WKUP0_EN */
@@ -346,7 +378,7 @@ static s32 disable_mcu_domain(void)
 
 	if (ret == 0) {
 		psc_raw_pd_set_state(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU,
-			     PDCTL_STATE_OFF, 0);
+				     PDCTL_STATE_OFF, 0);
 		psc_raw_pd_initiate(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
 
 		ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
@@ -571,7 +603,7 @@ s32 dm_stub_entry(void)
 {
 	u32 reg;
 
-	lpm_console_init();
+	lpm_trace_init(SFALSE);
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_START);
 
@@ -591,12 +623,16 @@ s32 dm_stub_entry(void)
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MMR_UNLOCK);
 
-	enter_ddr_low_power_mode();
+	if (enter_ddr_low_power_mode() != 0) {
+		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_RST_ISO);
+		lpm_abort();
+	} else {
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_RST_ISO);
+	}
 
 	lpm_seq_trace(0x77);
 
 	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_RST_ISO);
 		set_usb_reset_isolation();
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
 
@@ -707,8 +743,8 @@ s32 dm_stub_entry(void)
 
 	if (g_params.mode == LPM_DEEPSLEEP) {
 		pll_save(&mcu_pll);
-		pll_bypass(&mcu_pll);
-		lpm_console_bypass_init();
+		pll_disable(&mcu_pll, 0xFFFF);
+		lpm_trace_init(STRUE);
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_BYPASS_MCU_PLL);
 
 		/* set MCU_MMR.MCU_PLL_CLKSEL.clkloss_switch_en to 0
@@ -781,7 +817,7 @@ s32 dm_stub_entry(void)
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL);
 			lpm_abort();
 		} else {
-			lpm_console_init();
+			lpm_trace_init(SFALSE);
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL);
 		}
 
@@ -859,9 +895,9 @@ s32 dm_stub_entry(void)
 		if (wait_for_tifs_ready() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
 			lpm_abort();
+		} else {
+			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
 		}
-
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
 
 		/* Send TISCI ROM Boot image message containing location
 		 * and boot address to load FS stub from SPS Memory
@@ -913,14 +949,17 @@ s32 dm_stub_entry(void)
 	/* Disable GPIO wake up */
 	disable_gpio_wake_up();
 
-	exit_ddr_low_power_mode();
-
-	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_SR_EXIT);
+	if (exit_ddr_low_power_mode() != 0) {
+		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_SR_EXIT);
+		lpm_abort();
+	} else {
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_SR_EXIT);
+	}
 
 	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		release_usb_reset_isolation();
 
-		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_DDR_RST_ISO);
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_USB_RST_ISO);
 
 		/* Send TISCI Message to TIFS to indicate DDR is active and
 		 * resume can proceed, include address of TIFS context

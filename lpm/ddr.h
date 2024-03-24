@@ -3,7 +3,7 @@
  *
  * LPM DDR driver
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,31 +37,33 @@
 #ifndef __LPM_DDR_H__
 #define __LPM_DDR_H__
 
-#define DDR_SR_ENTER            0
-#define DDR_SR_EXIT             1
-
 /**
  * \brief Enter DDR low power mode
  */
-void ddr_enter_low_power_mode(void);
+s32 ddr_enter_low_power_mode(void);
 
 /**
  * \brief Exit DDR low power mode
  */
-void ddr_exit_low_power_mode(void);
+s32 ddr_exit_low_power_mode(void);
 
 /**
- * \brief Enable DDR retention
+ * \brief Run software triggerred trainings after self refresh exit
+ *        DDR4 trainings: 1. Read gate level training
+ *                        2. Read level training
+ *                        3. Write level training
+ *
+ * \note Current implementation handles single rank training.
+ */
+s32 ddr_deepsleep_exit_training(void);
+
+/**
+ * \brief Enable DDR data retention
  */
 void ddr_enable_retention(void);
 
 /**
- * \brief Disable DDR retention
+ * \brief Disable DDR data retention
  */
-s32 ddr_disable_retention(void);
-
-/**
- * \brief Run training after low power exit
- */
-s32 ddr_deepsleep_exit_training(void);
+void ddr_disable_retention(void);
 #endif

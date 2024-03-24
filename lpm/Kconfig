@@ -37,7 +37,19 @@ config LPM_DM_TRACE
 	bool "Enable LPM Debug Trace"
 	depends on LPM_DM
 	help
+	 Enable Low Power Mode Debug Output
+
+config LPM_DM_TRACE_UART
+	bool "Enable LPM Debug Trace Over UART"
+	depends on LPM_DM_TRACE
+	help
 	 Enable Low Power Mode Debug Output over wakeup UART
+
+config LPM_DM_TRACE_BUFFER
+	bool "Enable LPM Debug Trace Over Buffer"
+	depends on LPM_DM_TRACE
+	help
+	 Enable Low Power Mode Debug Output over Memory Buffer
 
 config LPM_CLK
 	bool "Enable Clock Layer LPM"

@@ -1,5 +1,5 @@
 /*
- * Data version: 230724_185448
+ * Data version: 230922_165936
  *
  * Copyright (C) 2017-2023 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -179,5 +179,6 @@
 #define AM62PX_DEV_GPU0_CORE_VD 242U
 #define AM62PX_DEV_OLDI0_VD 243U
 #define AM62PX_DEV_OLDI1_VD 244U
+#define AM62PX_DEV_DPI0_OUT_SEL_DEV_VD 245U
 
 #endif /* SOC_AM62PX_DEVICES_H */

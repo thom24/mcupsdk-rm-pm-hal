@@ -39,12 +39,9 @@
 #include <types/errno.h>
 #include <types/short_types.h>
 #include <types/sbool.h>
-#include <stdbool.h>
 #include <baseaddress.h>
 #include <wkup_ctrl_mmr.h>
 #include "ddr.h"
-
-#include "lpm_trace.h"
 
 #define DDR_RETRAIN_TIMEOUT 10000000U
 
@@ -62,15 +59,28 @@
 #define CDNS_DENALI_PHY_1369                                    0x5564U
 #define CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK                    0x1U
 
+#define CDNS_DENALI_PI_23                                       0x205CU
+#define CDNS_DENALI_PI_23_WRLVL_REQ                             0x01000000U
+
+#define CDNS_DENALI_PI_24                                       0x2060U
+#define CDNS_DENALI_PI_24_WRLVL_CS                              0x00000100U
+
+#define CDNS_DENALI_PI_25                                       0x2064U
+#define CDNS_DENALI_PI_25_WRLVL_AUTO_REQ                        0x00010000U
+
+#define CDNS_DENALI_PI_43                                       0x20ACU
+#define CDNS_DENALI_PI_43_RDLVL_AUTO_REQ                        0x00000100U
+#define CDNS_DENALI_PI_43_RDLVL_GATE_AUTO_REQ                   0x01000000U
+
+#define CDNS_DENALI_PI_55                                       0x20DCU
+#define CDNS_DENALI_PI_55_CALVL_AUTO_REQ                        0x00000100U
+
 #define CDNS_DENALI_PI_33                                       0x2084U
 #define CDNS_DENALI_PI_33_RDLVL_GATE_REQ                        0x01000000U
+#define CDNS_DENALI_PI_33_RDLVL_REQ                             0x00010000U
 
 #define CDNS_DENALI_PI_34                                       0x2088U
 #define CDNS_DENALI_PI_34_RDLVL_CS                              0x00000100U
-
-#define CDNS_DENALI_PI_67                                       0x210CU
-#define CDNS_DENALI_PI_67_WDQLVL_CS                             0x01000000U
-#define CDNS_DENALI_PI_67_WDQLVL_REQ                            0x00000100U
 
 #define CDNS_DENALI_PI_83                                       0x214CU
 #define CDNS_DENALI_PI_83_LVL_DONE_BIT                          0x2000U
@@ -85,6 +95,20 @@
 #define CDNS_DENALI_CTL_0_DRAM_CLASS_DDR4                       0xAU
 #define CDNS_DENALI_CTL_0_DRAM_CLASS_LPDDR4                     0xBU
 
+#define CDNS_DENALI_CTL_158                                     0x278U
+#define CDNS_DENALI_CTL_158_LP_CMD_MASK                         0xFF00U
+#define CDNS_DENALI_CTL_158_LP_CMD_SUSPEND                      0x5100U
+#define CDNS_DENALI_CTL_158_LP_CMD_RESUME                       0x0200U
+
+#define CDNS_DENALI_CTL_336                                     0x540U
+#define CDNS_DENALI_CTL_336_NO_TIMEOUT_ERROR                    0x0U
+
+#define CDNS_DENALI_PHY_1306                                    0x5468U
+#define CDNS_DENALI_PHY_1306_PHY_SET_DFI_INPUT_0                0x1U
+
+/**
+ * \brief Return type of DRAM class from DDR registers
+ */
 static u32 ddr_read_ddr_type(void)
 {
 	u32 dram_class, val;
@@ -96,119 +120,246 @@ static u32 ddr_read_ddr_type(void)
 	return dram_class;
 }
 
-void ddr_enter_low_power_mode(void)
+s32 ddr_enter_low_power_mode(void)
 {
 	u32 val;
+	s32 ret = SUCCESS;
 
-	/*
-	 * - Set CDNS_DENALI_PHY_1369:PHY UPDATE MASK
-	 * - Clear 0x7 in CDNS_DENALI_PHY_1364:PHY_INIT_UPDATE_CONFIG
-	 */
+	switch (ddr_read_ddr_type()) {
+	case CDNS_DENALI_CTL_0_DRAM_CLASS_LPDDR4:
+		/*
+		 * Enable auto training for WRLVL, RDLVL, CALVL
+		 * Assumption: RDLVL_GATE, CALVL auto trainings enabled by bootloader
+		 */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_25);
+		val |= CDNS_DENALI_PI_25_WRLVL_AUTO_REQ;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_25);
 
-	val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
-	val |= CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK;
-	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_43);
+		val |= CDNS_DENALI_PI_43_RDLVL_AUTO_REQ;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_43);
 
-	val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
-	val &= ~(CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_MASK <<
-		 CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_SHIFT);
-	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_55);
+		val |= CDNS_DENALI_PI_55_CALVL_AUTO_REQ;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_55);
+
+		/* Maintain reset signal throughout deep sleep */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1306);
+		val |= CDNS_DENALI_PHY_1306_PHY_SET_DFI_INPUT_0;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1306);
+
+		/* Set CDNS_DENALI_PHY_1369:PHY UPDATE MASK */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+		val |= CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+
+		/* Clear 0x7 in CDNS_DENALI_PHY_1364:PHY_INIT_UPDATE_CONFIG */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+		val &= ~(CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_MASK <<
+			 CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_SHIFT);
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+
+		/* Enter Self refresh with ctrl clk gating in deep sleep */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_CTL_158);
+		val &= ~CDNS_DENALI_CTL_158_LP_CMD_MASK;
+		val |= CDNS_DENALI_CTL_158_LP_CMD_SUSPEND;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_CTL_158);
+
+		break;
+	case CDNS_DENALI_CTL_0_DRAM_CLASS_DDR4:
+
+		/* Set CDNS_DENALI_PHY_1369:PHY UPDATE MASK */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+		val |= CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+
+		/* Clear 0x7 in CDNS_DENALI_PHY_1364:PHY_INIT_UPDATE_CONFIG */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+		val &= ~(CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_MASK <<
+			 CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_SHIFT);
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+
+		break;
+	default:
+		ret = -EFAIL;
+		break;
+	}
+
+	return ret;
 }
 
-void ddr_exit_low_power_mode(void)
+s32 ddr_exit_low_power_mode(void)
 {
 	u32 val;
+	s32 ret = SUCCESS;
 
-	/*
-	 * - Clear CDNS_DENALI_PHY_1369:PHY UPDATE MASK
-	 * - Set 0x7 in CDNS_DENALI_PHY_1364:PHY_INIT_UPDATE_CONFIG
-	 */
+	switch (ddr_read_ddr_type()) {
+	case CDNS_DENALI_CTL_0_DRAM_CLASS_LPDDR4:
 
-	val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
-	val &= ~CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK;
-	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+		/* Exit self refresh */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_CTL_158);
+		val &= ~CDNS_DENALI_CTL_158_LP_CMD_MASK;
+		val |= CDNS_DENALI_CTL_158_LP_CMD_RESUME;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_CTL_158);
 
-	val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
-	val |= (CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_MASK <<
-		CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_SHIFT);
-	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+		/* Clear CDNS_DENALI_PHY_1369:PHY UPDATE MASK */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+		val &= ~CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+
+		/* Set 0x7 in CDNS_DENALI_PHY_1364:PHY_INIT_UPDATE_CONFIG */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+		val |= (CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_MASK <<
+			CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_SHIFT);
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+
+		/* Ensure no timeout errors during self refresh entry or exit */
+		if (readl(DDR_CTRL_BASE + CDNS_DENALI_CTL_336) != CDNS_DENALI_CTL_336_NO_TIMEOUT_ERROR) {
+			ret = -EFAIL;
+		}
+
+		/* Remove reset signal and return to pre deep sleep state */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1306);
+		val &= ~CDNS_DENALI_PHY_1306_PHY_SET_DFI_INPUT_0;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1306);
+
+		break;
+	case CDNS_DENALI_CTL_0_DRAM_CLASS_DDR4:
+
+		/* Clear CDNS_DENALI_PHY_1369:PHY UPDATE MASK */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+		val &= ~CDNS_DENALI_PHY_1369_PHY_UPDATE_MASK;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1369);
+
+		/* Set 0x7 in CDNS_DENALI_PHY_1364:PHY_INIT_UPDATE_CONFIG */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+		val |= (CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_MASK <<
+			CDNS_DENALI_PHY_1364_PHY_INIT_UPDATE_CONFIG_SHIFT);
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1364);
+
+		break;
+	default:
+		ret = -EFAIL;
+		break;
+	}
+
+	return ret;
 }
 
-/* This only handles single rank, must dynamically detect dual rank */
 s32 ddr_deepsleep_exit_training(void)
 {
-	u32 timeout = DDR_RETRAIN_TIMEOUT;
 	s32 ret = SUCCESS;
-	u32 val;
 
-	/* Write phy_cal_start_0 = 1 */
-	val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1333);
-	val |= CDNS_DENALI_PHY_1333_PHY_CAL_START_0;
-	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1333);
+	switch (ddr_read_ddr_type()) {
+	case CDNS_DENALI_CTL_0_DRAM_CLASS_LPDDR4:
+		ret = SUCCESS;
 
-	/* Poll on phy_cal_result_obs_0 bit 23 = 1 */
-	while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1336) &
-				    (CDNS_DENALI_PHY_1336_PHY_CAL_RESULT_OBS_0)) == CDNS_DENALI_PHY_1336_PHY_CAL_RESULT_OBS_0)) == SFALSE) {
-		--timeout;
-	}
-	if (timeout == 0U) {
-		lpm_seq_trace_fail(0x92);
-		ret = -EFAIL;
-	}
+		break;
+	case CDNS_DENALI_CTL_0_DRAM_CLASS_DDR4:
+	{
+		u32 timeout = DDR_RETRAIN_TIMEOUT;
+		u32 val;
 
-	/* Soft trigger read gate training */
-	/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
-	writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
+		/* Write phy_cal_start_0 = 1 */
+		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1333);
+		val |= CDNS_DENALI_PHY_1333_PHY_CAL_START_0;
+		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PHY_1333);
 
-	/* Program PI_RDLVL_CS=0 */
-	val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_34);
-	val &= ~CDNS_DENALI_PI_34_RDLVL_CS;
-	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_34);
-
-	/* Program PI_RDLVL_GATE_REQ=1 */
-	val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_33);
-	val |= CDNS_DENALI_PI_33_RDLVL_GATE_REQ;
-	writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_33);
-
-	/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
-	timeout = DDR_RETRAIN_TIMEOUT;
-	while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
-				    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
-		--timeout;
-	}
-	if (timeout == 0U) {
-		lpm_seq_trace_fail(0x93);
-		ret = -EFAIL;
-	}
-
-	/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
-	writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
-
-	/* LPDDR4 Only: Soft trigger write DQ training */
-	if (ddr_read_ddr_type() == CDNS_DENALI_CTL_0_DRAM_CLASS_LPDDR4) {
-		/* Program PI_WDQLVL_CS=0 */
-		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_67);
-		val &= ~CDNS_DENALI_PI_67_WDQLVL_CS;
-		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_67);
-
-		/* Program PI_WDQLVL_REQ=1 */
-		val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_67);
-		val |= CDNS_DENALI_PI_67_WDQLVL_REQ;
-		writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_67);
-
-		/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
-		timeout = DDR_RETRAIN_TIMEOUT;
-		while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
-					    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
+		/* Poll on phy_cal_result_obs_0 bit 23 = 1 */
+		while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PHY_1336) &
+					    (CDNS_DENALI_PHY_1336_PHY_CAL_RESULT_OBS_0)) == CDNS_DENALI_PHY_1336_PHY_CAL_RESULT_OBS_0)) == SFALSE) {
 			--timeout;
 		}
 		if (timeout == 0U) {
-			lpm_seq_trace_fail(0x94);
 			ret = -EFAIL;
 		}
 
 		/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
 		writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
+
+		/* Software trigger read gate level training */
+		if (ret == 0) {
+			/* Program PI_RDLVL_CS=0 */
+			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_34);
+			val &= ~CDNS_DENALI_PI_34_RDLVL_CS;
+			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_34);
+
+			/* Program PI_RDLVL_GATE_REQ=1 */
+			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_33);
+			val |= CDNS_DENALI_PI_33_RDLVL_GATE_REQ;
+			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_33);
+
+			/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
+			timeout = DDR_RETRAIN_TIMEOUT;
+			while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
+						    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
+				--timeout;
+			}
+			if (timeout == 0U) {
+				ret = -EFAIL;
+			}
+
+			/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
+			writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
+		}
+
+		/* Software trigger read level training */
+		if (ret == 0) {
+			/* Program PI_RDLVL_CS=0 */
+			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_34);
+			val &= ~CDNS_DENALI_PI_34_RDLVL_CS;
+			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_34);
+
+			/* Program PI_RDLVL_REQ=1 */
+			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_33);
+			val |= CDNS_DENALI_PI_33_RDLVL_REQ;
+			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_33);
+
+			/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
+			timeout = DDR_RETRAIN_TIMEOUT;
+			while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
+						    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
+				--timeout;
+			}
+			if (timeout == 0U) {
+				ret = -EFAIL;
+			}
+
+			/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
+			writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
+		}
+
+		/* Software trigger write level training */
+		if (ret == 0) {
+			/* Program PI_WRLVL_CS=0 */
+			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_24);
+			val &= ~CDNS_DENALI_PI_24_WRLVL_CS;
+			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_24);
+
+			/* Program PI_WRLVL_REQ=1 */
+			val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_23);
+			val |= CDNS_DENALI_PI_23_WRLVL_REQ;
+			writel(val, DDR_CTRL_BASE + CDNS_DENALI_PI_23);
+
+			/* Polling PI_INT_STATUS[`ddr32_ew_PI_LVL_DONE_BIT]=1 */
+			timeout = DDR_RETRAIN_TIMEOUT;
+			while (((timeout > 0U) && ((readl(DDR_CTRL_BASE + CDNS_DENALI_PI_83) &
+						    (CDNS_DENALI_PI_83_LVL_DONE_BIT)) == CDNS_DENALI_PI_83_LVL_DONE_BIT)) == SFALSE) {
+				--timeout;
+			}
+			if (timeout == 0U) {
+				ret = -EFAIL;
+			}
+
+			/* Program PI_INT_ACK={`ddr32_ew_PI_NUM_INT_SOURCES{1'b1}} */
+			writel(CDNS_DENALI_PI_84_INT_ACK_REG_MASK, DDR_CTRL_BASE + CDNS_DENALI_PI_84);
+		}
+
+		break;
+	}
+	default:
+		ret = -EFAIL;
+		break;
 	}
 
 	return ret;
@@ -216,14 +367,10 @@ s32 ddr_deepsleep_exit_training(void)
 
 void ddr_enable_retention(void)
 {
-	/* TODO finish the sequence once it is consolidated */
-
 	writel(DDR16SS_RETENTION_EN, WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 }
 
-s32 ddr_disable_retention(void)
+void ddr_disable_retention(void)
 {
 	writel(DDR16SS_RETENTION_DIS, WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
-
-	return 0;
 }

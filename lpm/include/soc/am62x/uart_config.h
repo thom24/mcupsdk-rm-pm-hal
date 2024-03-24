@@ -1,7 +1,7 @@
 /*
- * Interrupt Management
+ * DM Stub Firmware
  *
- * Data version: 230922_165936
+ * am62x uart config.h
  *
  * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -33,31 +33,24 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef IRQ_CFG_H
-#define IRQ_CFG_H
 
-/**
- * Maximum depth, or number of nodes minus one, between the IRQ source and
- * destination subsystems.  The routing algorithm does not push a node for the
- * final destination host processor so only the peripheral and intermediate
- * routing subsystems need to be accounted for in the maximum route depth
- * calculation.
- */
-#define IRQ_MAX_ROUTE_DEPTH (3U)
-/**
- * IRQ global event types count
- */
-#define IRQ_GLOBAL_EVENT_TYPES_ID_MAX (9)
+#ifndef UART_CONFIG_H_
+#define UART_CONFIG_H_
 
-/**
- * Extern for IRQ event source devices array
- */
-extern const u16 evt_rt_srcs[3];
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-/**
- * Extern for number of IRQ event source devices
- */
-extern const u32 evt_rt_srcs_count;
+#include <baseaddress.h>
+#include <lpm_serial_8250.h>
 
+#define UART_BASE_ADDRESS           WKUP_UART0_BASE
 
-#endif /* IRQ_CFG_H */
+#define UART_BAUD_RATE              115200U
+#define UART_CLK_FREQ               48000000U
+#define UART_CLK_FREQ_BYPASS_STATE  25000000U
+
+#ifdef __cplusplus
+}
+#endif
+#endif /* UART_CONFIG_H_ */

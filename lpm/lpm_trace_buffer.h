@@ -1,7 +1,7 @@
 /*
- * Interrupt Management
+ * DM Stub Firmware
  *
- * Data version: 230922_165936
+ * DM Stub Memory Trace Buffer Layer
  *
  * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -33,31 +33,27 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef IRQ_CFG_H
-#define IRQ_CFG_H
 
-/**
- * Maximum depth, or number of nodes minus one, between the IRQ source and
- * destination subsystems.  The routing algorithm does not push a node for the
- * final destination host processor so only the peripheral and intermediate
- * routing subsystems need to be accounted for in the maximum route depth
- * calculation.
+#include <types/short_types.h>
+
+/* LPM trace buffer size. During a low power mode cycle ~600 bytes of
+ * trace data is generated. Keeping *3 as the size of buffer so that trace
+ * can be saved for the last 3 LPM cycles.( 3* 600 = 1800 ~ 2KB)
  */
-#define IRQ_MAX_ROUTE_DEPTH (3U)
+#define LPM_TRACE_LOG_BUF_SIZE (2U * 1024U)
+
+#ifdef CONFIG_LPM_DM_TRACE_BUFFER
 /**
- * IRQ global event types count
+ * \brief Print the input buffer at memory buffer address with "0x" prepended to indicate
+ *        hexadecimal representation
+ * \param str Pointer to location where input debug buffer is placed
+ * \param len Length of buffer to print
  */
-#define IRQ_GLOBAL_EVENT_TYPES_ID_MAX (9)
+void lpm_trace_debug_buffer(u8 *str, u8 len);
+#else
+static inline void lpm_trace_debug_buffer(u8 *str __attribute__((unused)), u8 len __attribute__((unused)))
+{
+	return;
+}
+#endif
 
-/**
- * Extern for IRQ event source devices array
- */
-extern const u16 evt_rt_srcs[3];
-
-/**
- * Extern for number of IRQ event source devices
- */
-extern const u32 evt_rt_srcs_count;
-
-
-#endif /* IRQ_CFG_H */

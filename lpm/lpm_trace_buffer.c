@@ -1,7 +1,7 @@
 /*
- * Interrupt Management
+ * DM Stub Firmware
  *
- * Data version: 230922_165936
+ * DM Stub Memory Trace Buffer Layer
  *
  * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -33,31 +33,50 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef IRQ_CFG_H
-#define IRQ_CFG_H
+
+#include "lpm_trace_buffer.h"
+
+/* Memory buffer to save low power mode trace messages */
+u8 lpm_trace_logbuf[LPM_TRACE_LOG_BUF_SIZE] __attribute__((section(".lpm_trace_buf"), aligned(4)));
+static u8 *lpm_logbuf_pos = &lpm_trace_logbuf[0];
 
 /**
- * Maximum depth, or number of nodes minus one, between the IRQ source and
- * destination subsystems.  The routing algorithm does not push a node for the
- * final destination host processor so only the peripheral and intermediate
- * routing subsystems need to be accounted for in the maximum route depth
- * calculation.
+ * \brief Puts a u8 character into the trace buffer
+ * \param ch character to write
  */
-#define IRQ_MAX_ROUTE_DEPTH (3U)
-/**
- * IRQ global event types count
- */
-#define IRQ_GLOBAL_EVENT_TYPES_ID_MAX (9)
+static void lpm_trace_print_buffer(u8 ch)
+{
+	if (lpm_logbuf_pos == NULL) {
+		lpm_logbuf_pos = &lpm_trace_logbuf[0];
+	}
 
-/**
- * Extern for IRQ event source devices array
- */
-extern const u16 evt_rt_srcs[3];
+	*lpm_logbuf_pos = ch;
+	lpm_logbuf_pos++;
+	if (lpm_logbuf_pos == &lpm_trace_logbuf[LPM_TRACE_LOG_BUF_SIZE]) {
+		lpm_logbuf_pos = &lpm_trace_logbuf[0];
+	}
+}
 
-/**
- * Extern for number of IRQ event source devices
- */
-extern const u32 evt_rt_srcs_count;
+void lpm_trace_debug_buffer(u8 *str, u8 len)
+{
+	u32 i;
 
+    /* Output "0x" at start of hex */
+	lpm_trace_print_buffer('0');
+	lpm_trace_print_buffer('x');
 
-#endif /* IRQ_CFG_H */
+    /*
+	 * Output string backwards as we converted from low
+	 * digit to high
+	 */
+	for (i = 0U; i <= len; i++) {
+		lpm_trace_print_buffer(str[len - i]);
+	}
+
+    /* Add a carriage return to support unflexible terminals. */
+    lpm_trace_print_buffer('\r');
+
+    /* Move the cursor to new line. */
+	lpm_trace_print_buffer('\n');
+}
+

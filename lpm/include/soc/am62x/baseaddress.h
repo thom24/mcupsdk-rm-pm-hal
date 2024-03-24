@@ -51,8 +51,9 @@ extern "C" {
 #define WKUP_CTRL_MMR_BASE              MMR0_CFG_BASE
 
 #define MAIN_PSC_BASE                   (0x00400000U)
-#define MCU_PSC_BASE                    (0x04000000U)  
+#define MCU_PSC_BASE                    (0x04000000U)
 
+#define WKUP_UART0_BASE                 (0x2b300000U)
 #define DDR_CTRL_BASE                   (0x0f308000U)
 #define VIM_BASE                        (0x2fff0000U)
 #define ROM_SEC_PROXY_RT_ADDRESS        (0x44880000U)

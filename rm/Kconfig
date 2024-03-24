@@ -80,6 +80,13 @@ config RM_RA
 	help
 	 Enable support for Resource Manager Ring Accelerator functions
 
+config RM_RA_OVERFLOW_DEFAULT
+	bool "Keep the default value of the overflow queue to be ring 0"
+	depends on RM_RA && SOC_AM65X_SR1
+	default y if SOC_AM65X_SR1
+	help
+	 Keep the default value of the overflow queue to be ring 0
+
 config RM_RA_DMSS_RING
 	bool "Enable support for DMSS dual rings"
 	depends on RM_RA

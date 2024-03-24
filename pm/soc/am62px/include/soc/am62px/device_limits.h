@@ -1,5 +1,5 @@
 /*
- * Data version: 230724_185448
+ * Data version: 230922_165936
  *
  * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -36,9 +36,9 @@
 
 
 #define PM_DEVGRP_RANGE_ID_MAX AM62PX_PM_DEVGRP_RANGE_ID_MAX
-#define SOC_DEVICES_DATA_ARR_RANGE_ID_MAX 245
+#define SOC_DEVICES_DATA_ARR_RANGE_ID_MAX 246
 
-#define SOC_DEVICES_RANGE_ID_MAX 245
+#define SOC_DEVICES_RANGE_ID_MAX 246
 
 #define SOC_MULTIPLE_DOMAINS_RANGE_ID_MAX 1
 
