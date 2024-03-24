@@ -94,7 +94,7 @@ sbool device_clk_set_gated(struct device *dev, dev_clk_idx_t clk_idx, sbool gate
 		ret = SFALSE;
 	} else {
 		sbool is_gated;
-		is_gated = (((u32) (dev_clkp->flags) & DEV_CLK_FLAG_DISABLE) > 0U ? STRUE : SFALSE);
+		is_gated = ((((u32) (dev_clkp->flags) & DEV_CLK_FLAG_DISABLE) > 0U)? STRUE : SFALSE );
 		if (is_gated != gated) {
 			is_enabled = (dev->flags & DEV_FLAG_ENABLED_MASK) != 0UL;
 			clkp = clk_lookup((clk_idx_t) devgrp->dev_clk_data[data->dev_clk_idx + clk_idx].clk);
@@ -202,7 +202,7 @@ void device_clk_set_ssc(struct device *dev, dev_clk_idx_t clk_idx, sbool allow)
 	if (!dev_clkp) {
 		/* Nothing to do */
 	} else {
-		is_allowed = (sbool) !!(dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC);
+		is_allowed = ((dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC) > 0U) ? STRUE : SFALSE;
 		if (is_allowed == allow) {
 			/* Nothing to do */
 		} else {
@@ -252,7 +252,7 @@ void device_clk_set_freq_change(struct device *dev, dev_clk_idx_t clk_idx, sbool
 	if (!dev_clkp) {
 		/* Nothing to do */
 	} else {
-		is_allowed = (sbool) !!(dev_clkp->flags & DEV_CLK_FLAG_ALLOW_FREQ_CHANGE);
+		is_allowed = ((dev_clkp->flags & DEV_CLK_FLAG_ALLOW_FREQ_CHANGE) > 0U) ? STRUE : SFALSE;
 		if (is_allowed == allow) {
 			/* Nothing to do */
 		} else {
@@ -294,7 +294,7 @@ void device_clk_set_input_term(struct device *dev, dev_clk_idx_t clk_idx, sbool 
 	if (!dev_clkp) {
 		/* Do nothing  - return */
 	} else {
-		is_term = (sbool) !!(dev_clkp->flags & DEV_CLK_FLAG_INPUT_TERM);
+		is_term = ((dev_clkp->flags & DEV_CLK_FLAG_INPUT_TERM) > 0U) ? STRUE : SFALSE;
 		if (is_term == enable) {
 			/* Do nothing  - return */
 		} else {
@@ -512,7 +512,7 @@ static u32 dev_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 
 	if (!done) {
 		/* Assign div based on selected clock */
-		div_var = clock_data->div;
+		div_var = clock_data->cdiv;
 
 		/*
 		 * We drop the block count on up to two clocks. The clock
@@ -534,7 +534,7 @@ static u32 dev_clk_set_freq(struct device *dev, dev_clk_idx_t clk_idx,
 			parent_clk_data = get_dev_clk_data(dev, clk_idx_val);
 			if (parent_clk_data != NULL) {
 				/* We are sending to parent, so use that div instead */
-				div_var = parent_clk_data->div;
+				div_var = parent_clk_data->cdiv;
 			}
 			if (parent == NULL) {
 				/* Mux parent clock not present */
@@ -667,7 +667,7 @@ u32 device_clk_get_freq(struct device *dev, dev_clk_idx_t clk_idx)
 	} else {
 		freq_hz = clk_get_freq(clkp);
 		if (clock_data->type != DEV_CLK_TABLE_TYPE_OUTPUT) {
-			freq_hz /= clock_data->div;
+			freq_hz /= clock_data->cdiv;
 		}
 	}
 

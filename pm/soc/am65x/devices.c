@@ -1045,7 +1045,7 @@ static const struct psc_pd_data am6_k3_main_psc_wrap_main_0_pd_data[AM6_PSC_PD_P
 		.flags		= PSC_PD_EXISTS | PSC_PD_DEPENDS,
 	},
 };
-static struct psc_pd am6_k3_main_psc_wrap_main_0_powerdomains[ARRAY_SIZE(am6_k3_main_psc_wrap_main_0_pd_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
+static struct psc_pd am6_k3_main_psc_wrap_main_0_powerdomains[AM6_PSC_PD_PD_EMIF + 1] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const dev_idx_t dev_list_LPSC_main_infra[22] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	AM6_DEV_CTRL_MMR0,
 	AM6_DEV_GPIOMUX_INTRTR0,
@@ -1505,7 +1505,7 @@ static const struct lpsc_module_data am6_k3_main_psc_wrap_main_0_mod_data[AM6_PS
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_NO_CLOCK_GATING,
 	},
 };
-static struct lpsc_module am6_k3_main_psc_wrap_main_0_modules[ARRAY_SIZE(am6_k3_main_psc_wrap_main_0_mod_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
+static struct lpsc_module am6_k3_main_psc_wrap_main_0_modules[AM6_PSC_LPSC_LPSC_EMIF_CFG + 1] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const u8 am6_dev_k3_main_psc_wrap_main_0_resources[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	RDAT_HDR(RESOURCE_MEM, 1, STRUE),
 	RDAT_MEM(0x00400000),
@@ -1619,7 +1619,7 @@ static const struct psc_pd_data am6_k3_wkup_psc_wrap_wkup_0_pd_data[AM6_PSC_PD_P
 		.flags		= PSC_PD_EXISTS | PSC_PD_DEPENDS,
 	},
 };
-static struct psc_pd am6_k3_wkup_psc_wrap_wkup_0_powerdomains[ARRAY_SIZE(am6_k3_wkup_psc_wrap_wkup_0_pd_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
+static struct psc_pd am6_k3_wkup_psc_wrap_wkup_0_powerdomains[AM6_PSC_PD_PD_MCU_PULSAR + 1] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
 static const dev_idx_t dev_list_LPSC_wkup_common[6] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	AM6_DEV_WKUP_CTRL_MMR0,
 	AM6_DEV_WKUP_ESM0,
@@ -1880,7 +1880,7 @@ static const struct lpsc_module_data am6_k3_wkup_psc_wrap_wkup_0_mod_data[AM6_PS
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_NO_CLOCK_GATING,
 	},
 };
-static struct lpsc_module am6_k3_wkup_psc_wrap_wkup_0_modules[ARRAY_SIZE(am6_k3_wkup_psc_wrap_wkup_0_mod_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
+static struct lpsc_module am6_k3_wkup_psc_wrap_wkup_0_modules[AM6_PSC_LPSC_LPSC_MCU_R5_1 + 1] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
 static const u8 am6_dev_k3_wkup_psc_wrap_wkup_0_resources[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	RDAT_HDR(RESOURCE_MEM, 1, STRUE),
 	RDAT_MEM(0x42000000),
@@ -4009,7 +4009,7 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[241] __attribute__((__s
 		       CLK_AM6_K3_PLL_CTRL_WRAP_WKUP_0_BUS_CHIP_DIV1_CLK_CLK,  2,
 		       1),
 };
-static struct dev_clk MCU_WAKEUP_dev_clk[ARRAY_SIZE(MCU_WAKEUP_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
+static struct dev_clk MCU_WAKEUP_dev_clk[241] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
 static const struct dev_clk_data MAIN_dev_clk_data[904] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	DEV_CLK(AM6_DEV_CAL_MAIN_0_CLOCKS,						 AM6_DEV_CAL0_BUS_CLK,
 		CLK_AM6_K3_PLL_CTRL_WRAP_MAIN_0_BUS_CHIP_DIV1_CLK_CLK,
@@ -6647,10 +6647,10 @@ static const struct dev_clk_data MAIN_dev_clk_data[904] __attribute__((__section
 	DEV_CLK_OUTPUT(AM6_DEV_FSS_MCU_0_OSPI_1_CLOCKS,					 AM6_DEV_MCU_FSS0_OSPI_1_BUS_OSPI1_OCLK_CLK,
 		       CLK_AM6_FSS_MCU_0_OSPI_1_BUS_OSPI1_OCLK_CLK),
 };
-static struct dev_clk MAIN_dev_clk[ARRAY_SIZE(MAIN_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
+static struct dev_clk MAIN_dev_clk[904] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const struct dev_clk_data DMSC_INTERNAL_dev_clk_data[0] __attribute__((__section__(".const.devgroup.DMSC_INTERNAL"))) = {
 };
-static struct dev_clk DMSC_INTERNAL_dev_clk[ARRAY_SIZE(DMSC_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.DMSC_INTERNAL")));
+static struct dev_clk DMSC_INTERNAL_dev_clk[0] __attribute__((__section__(".bss.devgroup.DMSC_INTERNAL")));
 
 const struct devgroup soc_devgroups[AM6_PM_DEVGRP_RANGE_ID_MAX] = {
 	[PM_DEVGRP_00] =   {
@@ -6921,7 +6921,7 @@ const struct dev_data *const soc_device_data_arr[AM6_DEV_MCU_FSS0_OSPI_1 + 1U] =
 	[AM6_DEV_MCU_FSS0_OSPI_1] = &am6_dev_fss_mcu_0_ospi_1,
 };
 
-struct device soc_devices[ARRAY_SIZE(soc_device_data_arr)];
+struct device soc_devices[AM6_DEV_MCU_FSS0_OSPI_1 + 1U];
 const size_t soc_device_count = ARRAY_SIZE(soc_device_data_arr);
 
 struct device *const this_dev = soc_devices + AM6_DEV_WKUP_DMSC0;

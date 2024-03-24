@@ -46,6 +46,7 @@ static u32 clk_mux_get_parent_value(struct clk *clkp)
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
 	u32 v;
+	u32 temp;
 
 	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
@@ -59,7 +60,8 @@ static u32 clk_mux_get_parent_value(struct clk *clkp)
 	} else {
 		v = readl(reg->reg);
 		v >>= reg->bit;
-		v &= (u32) ((1U << ilog32(mux->n - 1U)) - 1U);
+		temp = mux->n - 1U;
+		v &= (u32) ((1U << ilog32(temp)) - 1U);
 	}
 
 	return v;
@@ -75,7 +77,7 @@ static const struct clk_parent *clk_mux_get_parent(struct clk *clkp)
 
 	v = clk_mux_get_parent_value(clkp);
 
-	return ((v < mux->n) && (mux->parents[v].div != 0U)) ?
+	return ((v < mux->n) && (mux->parents[v].cdiv != 0U)) ?
 	       &mux->parents[v] : NULL;
 }
 
@@ -84,7 +86,7 @@ static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
-	u32 v;
+	u32 v, temp;
 	sbool ret = STRUE;
 
 	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
@@ -98,16 +100,17 @@ static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 	} else {
 		s32 err;
 		v = readl(reg->reg);
-		v &= ~(((1U << ilog32(mux->n - 1U)) - 1U) << reg->bit);
+		temp = mux->n - 1U;
+		v &= ~(((1U << ilog32(temp)) - 1U) << reg->bit);
 		v |= (u32) (new_parent << reg->bit);
 		err = pm_writel_verified(v, reg->reg);
 		if (err != SUCCESS) {
 			ret = SFALSE;
 		} else {
 			pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
-				 (((u16) new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
+				 (((u32) new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 				  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-				 ((clk_id(clkp) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+				 (((u32)clk_id(clkp) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 				  TRACE_PM_VAL_CLOCK_ID_MASK));
 		}
 	}
@@ -176,7 +179,7 @@ const struct clk_parent *clk_get_parent(struct clk *clkp)
 				   drv);
 		ret = mux->get_parent(clkp);
 	} else {
-		ret = ((clk_datap->parent.div > 0U) ? &clk_datap->parent : NULL);
+		ret = ((clk_datap->parent.cdiv > 0U) ? &clk_datap->parent : NULL);
 	}
 
 	return ret;
@@ -204,7 +207,7 @@ sbool clk_set_parent(struct clk *clkp, u8 new_parent)
 		if (new_parent >= mux_data->n) {
 			ret = SFALSE;
 			done = STRUE;
-		} else if (0U == mux_data->parents[new_parent].div) {
+		} else if (0U == mux_data->parents[new_parent].cdiv) {
 			ret = SFALSE;
 			done = STRUE;
 		} else {
@@ -224,7 +227,7 @@ sbool clk_set_parent(struct clk *clkp, u8 new_parent)
 	if (!done) {
 		op = mux_drv->get_parent(clkp);
 		if (op && (op->clk == mux_data->parents[new_parent].clk)
-		    && (op->div == mux_data->parents[new_parent].div)) {
+		    && (op->cdiv == mux_data->parents[new_parent].cdiv)) {
 			ret = STRUE;
 			done = STRUE;
 		}

@@ -103,7 +103,7 @@ struct dev_clk_data {
 	 * Clock divider, not valid for output, max 255 for parent otherwise
 	 * up to USHORT_MAX/8.
 	 */
-	u16	div : 13;
+	u16	cdiv : 13;
 
 	/** For mux, the number of parents, for parents the index for the mux */
 	u16	idx : 6;
@@ -130,18 +130,18 @@ struct dev_clk {
 
 /* Declare a device clock of type input */
 #define DEV_CLK(base, id, parent, _div) [(base) + (id)] = \
-{ .clk				= (parent), .div = (_div), .type = \
+{ .clk				= (parent), .cdiv = (_div), .type = \
 	  DEV_CLK_TABLE_TYPE_INPUT, \
 	.modify_parent_freq	= (u16) 1U }
 /* F variant does not allow parent freq to be modified */
 #define DEV_CLKF(base, id, parent, _div) [(base) + (id)] = \
-{ .clk				= (parent), .div = (_div), .type = \
+{ .clk				= (parent), .cdiv = (_div), .type = \
 	  DEV_CLK_TABLE_TYPE_INPUT, \
 	.modify_parent_freq	= SFALSE }
 
 /* Declare a device clock of type mux */
 #define DEV_CLK_MUX(base, id, parent, _div, n_parents) [(base) + (id)] = \
-{ .clk				= (parent),    .div = (_div), .type = DEV_CLK_TABLE_TYPE_MUX, \
+{ .clk				= (parent),    .cdiv = (_div), .type = DEV_CLK_TABLE_TYPE_MUX, \
 	.idx			= (n_parents), \
 	.modify_parent_freq	= STRUE }
 
@@ -154,7 +154,7 @@ struct dev_clk {
 	  (parent), \
 	.type			= \
 		DEV_CLK_TABLE_TYPE_PARENT, \
-	.div			= (_div) + (int) BUILD_ASSERT_OR_ZERO( \
+	.cdiv			= (_div) + (int) BUILD_ASSERT_OR_ZERO( \
 	  _div < 256), \
 	.idx			= (_idx), \
 	.modify_parent_freq	= \
@@ -165,7 +165,7 @@ struct dev_clk {
 	  (parent), \
 	.type			= \
 		DEV_CLK_TABLE_TYPE_PARENT, \
-	.div			= (_div) + (int) BUILD_ASSERT_OR_ZERO( \
+	.cdiv			= (_div) + (int) BUILD_ASSERT_OR_ZERO( \
 	  _div < 256), \
 	.idx			= (_idx), \
 	.modify_parent_freq	= \

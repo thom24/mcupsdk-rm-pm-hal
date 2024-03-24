@@ -292,7 +292,7 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 			if (frem > (u64) ULONG_MAX) {
 				fret += pm_div64(&frem, rem_div);
 			} else {
-				fret += ((u32) frem) / rem_div;
+				fret += (u64) ((u32) frem) / rem_div;
 				frem = (u64) (((u32) frem) % rem_div);
 			}
 
@@ -566,7 +566,7 @@ static inline void pll_consider_fractional(struct pll_consider_data *data,
 	 *
 	 * pllm_rem * pllfm range = pllfm * input
 	 */
-	rem_target = (u64) (((u64) pllm_rem) * (1UL << data->data->pllfm_bits));
+	rem_target = (u64)(((u64) pllm_rem) * (u64)(1UL << data->data->pllfm_bits));
 
 	/* Start at the lowest and walk it up to the highest */
 	pllfm_input = ((u64) lowest_pllfm) * data->input;
@@ -824,10 +824,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 	if (highest_plld > data->plld_max) {
 		highest_plld = data->plld_max;
 	}
-	if (0U == lowest_plld) {
-		lowest_plld++;
-	}
-
+	
 	/*
 	 * Find allowable clkod range. clkod is the PLL output divider. Valid
 	 * clkod values are constrained by the PLL limitations on clkod and
@@ -1178,7 +1175,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 				 * if one exists to avoid duplicating
 				 * calculations.
 				 */
-				if (data->bin_next_pllm != 0U) {
+				if (data->bin_next_pllm != NULL) {
 					high_pllm = data->bin_next_pllm(
 						clkp,
 						consider_data->curr_plld,

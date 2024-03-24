@@ -41,6 +41,7 @@
 #include <types/devgrps.h>
 #include <soc/rm_mmr.h>
 #include <rm_irq.h>
+#include <ra_cfg.h>
 
 /**
  * Ring type for NAVSS rings (those that support message/exposed/QM/cred)
@@ -198,7 +199,7 @@ struct ra_instance {
 /**
  * Extern for RA subsystem instances array
  */
-extern struct ra_instance ra_inst[];
+extern struct ra_instance ra_inst[RA_INST_RANGE];
 
 /**
  * Extern for number of RA subsystem instances

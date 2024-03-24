@@ -47,7 +47,7 @@
 /**
  * IRQ global event types count
  */
-#define IRQ_GLOBAL_EVENT_TYPES_ID_MAX (5)
+#define IRQ_GLOBAL_EVENT_TYPES_ID_MAX (5U)
 
 /**
  * Extern for IRQ event source devices array

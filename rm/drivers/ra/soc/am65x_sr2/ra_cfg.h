@@ -61,5 +61,9 @@
  * the max of all SoC RAs max ring index to avoid event indexing conflicts.
  */
 #define RA_GCFG_ERROR_EVT_INDEX (0x800U)
+/**
+ * Total number of RA instances
+ */
+#define RA_INST_RANGE (2U)
 
 #endif /* RA_CFG_H */

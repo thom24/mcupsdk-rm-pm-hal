@@ -605,6 +605,8 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J784S4_DEV_TIMER15_CLKSEL_VD_CLOCKS 3346
 #define J784S4_DEV_TIMER17_CLKSEL_VD_CLOCKS 3363
 #define J784S4_DEV_TIMER19_CLKSEL_VD_CLOCKS 3380
+#define J784S4_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS 3397
+#define J784S4_DEV_MAIN_PLL9_SEL_EXTWAVE_VD_CLOCKS 3400
 
 static const struct dev_data j784s4_dev_adc12fc_16ffc_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -2175,7 +2177,7 @@ static const struct psc_pd_data j784s4_j7_wkup_psc_wrap_wkup_0_pd_data[J784S4_PS
 		.flags	= PSC_PD_EXISTS,
 	},
 };
-static struct psc_pd j784s4_j7_wkup_psc_wrap_wkup_0_powerdomains[ARRAY_SIZE(j784s4_j7_wkup_psc_wrap_wkup_0_pd_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
+static struct psc_pd j784s4_j7_wkup_psc_wrap_wkup_0_powerdomains[J784S4_PSC_PD_PD_MCU_PULSAR + 1] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
 static const dev_idx_t dev_list_LPSC_wkup_alwayson[39] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	J784S4_DEV_MCU_CPSW0,
 	J784S4_DEV_MCU_CPT2_AGGR0,
@@ -2398,7 +2400,7 @@ static const struct lpsc_module_data j784s4_j7_wkup_psc_wrap_wkup_0_mod_data[J78
 		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
 	},
 };
-static struct lpsc_module j784s4_j7_wkup_psc_wrap_wkup_0_modules[ARRAY_SIZE(j784s4_j7_wkup_psc_wrap_wkup_0_mod_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
+static struct lpsc_module j784s4_j7_wkup_psc_wrap_wkup_0_modules[J784S4_PSC_LPSC_LPSC_MCU_PULSAR_PBIST_0 + 1] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
 static const u8 j784s4_dev_j7_wkup_psc_wrap_wkup_0_resources[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	RDAT_HDR(RESOURCE_MEM, 1, STRUE),
 	RDAT_MEM(0x42000000),
@@ -2525,7 +2527,7 @@ static const struct psc_pd_data j784s4_j7am_bolt_psc_wrap_main_0_pd_data[J784S4_
 		.flags	= PSC_PD_EXISTS,
 	},
 };
-static struct psc_pd j784s4_j7am_bolt_psc_wrap_main_0_powerdomains[ARRAY_SIZE(j784s4_j7am_bolt_psc_wrap_main_0_pd_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
+static struct psc_pd j784s4_j7am_bolt_psc_wrap_main_0_powerdomains[J784S4_PSC_PD_PD_ANA3 + 1] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const struct lpsc_module_data j784s4_j7am_bolt_psc_wrap_main_0_mod_data[J784S4_PSC_LPSC_LPSC_BSPARE_PD7_3 + 1] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	[J784S4_PSC_LPSC_LPSC_BSPARE_PDAON_0] = {
 		.powerdomain		= J784S4_PSC_PD_GP_CORE_CTL,
@@ -2762,7 +2764,7 @@ static const struct lpsc_module_data j784s4_j7am_bolt_psc_wrap_main_0_mod_data[J
 		.flags			= LPSC_MODULE_EXISTS,
 	},
 };
-static struct lpsc_module j784s4_j7am_bolt_psc_wrap_main_0_modules[ARRAY_SIZE(j784s4_j7am_bolt_psc_wrap_main_0_mod_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
+static struct lpsc_module j784s4_j7am_bolt_psc_wrap_main_0_modules[J784S4_PSC_LPSC_LPSC_BSPARE_PD7_3 + 1] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const u8 j784s4_dev_j7am_bolt_psc_wrap_main_0_resources[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	RDAT_HDR(RESOURCE_MEM, 1, STRUE),
 	RDAT_MEM(0x00420000),
@@ -3043,7 +3045,7 @@ static const struct psc_pd_data j784s4_j7am_main_psc_wrap_main_0_pd_data[J784S4_
 		.flags	= PSC_PD_EXISTS,
 	},
 };
-static struct psc_pd j784s4_j7am_main_psc_wrap_main_0_powerdomains[ARRAY_SIZE(j784s4_j7am_main_psc_wrap_main_0_pd_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
+static struct psc_pd j784s4_j7am_main_psc_wrap_main_0_powerdomains[J784S4_PSC_PD_PD_SPARE6 + 1] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const dev_idx_t dev_list_LPSC_main_alwayson[67] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_COMPUTE_CLUSTER0_DRU0,
 	J784S4_DEV_COMPUTE_CLUSTER0_MSMC2_WRAP_0,
@@ -4372,7 +4374,7 @@ static const struct lpsc_module_data j784s4_j7am_main_psc_wrap_main_0_mod_data[J
 		.flags			= LPSC_MODULE_EXISTS,
 	},
 };
-static struct lpsc_module j784s4_j7am_main_psc_wrap_main_0_modules[ARRAY_SIZE(j784s4_j7am_main_psc_wrap_main_0_mod_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
+static struct lpsc_module j784s4_j7am_main_psc_wrap_main_0_modules[J784S4_PSC_LPSC_LPSC_SPARE_6 + 1] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const u8 j784s4_dev_j7am_main_psc_wrap_main_0_resources[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	RDAT_HDR(RESOURCE_MEM, 1, STRUE),
 	RDAT_MEM(0x00400000),
@@ -6558,6 +6560,22 @@ static const struct dev_data j784s4_dev_timer19_clksel_VD __attribute__((__secti
 	.n_clocks		= 17,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
+static const struct dev_data j784s4_dev_main_pll8_sel_extwave_VD __attribute__((__section__(".const.devgroup.MAIN"))) = {
+	.soc			= {
+		.psc_idx	= PSC_DEV_NONE,
+	},
+	.dev_clk_idx		= J784S4_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS,
+	.n_clocks		= 3,
+	.pm_devgrp		= PM_DEVGRP_01,
+};
+static const struct dev_data j784s4_dev_main_pll9_sel_extwave_VD __attribute__((__section__(".const.devgroup.MAIN"))) = {
+	.soc			= {
+		.psc_idx	= PSC_DEV_NONE,
+	},
+	.dev_clk_idx		= J784S4_DEV_MAIN_PLL9_SEL_EXTWAVE_VD_CLOCKS,
+	.n_clocks		= 3,
+	.pm_devgrp		= PM_DEVGRP_01,
+};
 
 static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[344] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	DEV_CLK_MUX(J784S4_DEV_ADC12FC_16FFC_MCU_0_CLOCKS,			 J784S4_DEV_MCU_ADC12FC_16FFC0_ADC_CLK,
@@ -7549,8 +7567,8 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[344] __attribute__((__s
 		CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
 		6),
 };
-static struct dev_clk MCU_WAKEUP_dev_clk[ARRAY_SIZE(MCU_WAKEUP_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
-static const struct dev_clk_data MAIN_dev_clk_data[3397] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static struct dev_clk MCU_WAKEUP_dev_clk[344] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
+static const struct dev_clk_data MAIN_dev_clk_data[3403] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	DEV_CLK_MUX(J784S4_DEV_ATL_MAIN_0_CLOCKS,						      J784S4_DEV_ATL0_ATL_CLK,
 		    CLK_J784S4_ATL_PCLKMUX_OUT0,
 		    1,
@@ -14818,15 +14836,33 @@ static const struct dev_clk_data MAIN_dev_clk_data[3397] __attribute__((__sectio
 	DEV_CLK_PARENT(J784S4_DEV_TIMER19_CLKSEL_VD_CLOCKS,					      J784S4_DEV_TIMER19_CLKSEL_VD_CLK_PARENT_HSDIV4_16FFT_MAIN_1_HSDIVOUT3_CLK,
 		       CLK_J784S4_HSDIV4_16FFT_MAIN_1_HSDIVOUT3_CLK,				      1,
 		       9),
+	DEV_CLK_MUX(J784S4_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS,					      J784S4_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLK,
+		    CLK_J784S4_MAIN_PLL8_SEL_EXTWAVE_OUT0,					      1,
+		    2),
+	DEV_CLK_PARENT(J784S4_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS,				      J784S4_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLK_PARENT_PLLFRACF2_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK,
+		       CLK_J784S4_PLLFRACF2_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK,			      1,
+		       0),
+	DEV_CLK_PARENT(J784S4_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS,				      J784S4_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLK_PARENT_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,
+		       CLK_J784S4_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,				      1,
+		       1),
+	DEV_CLK_MUX(J784S4_DEV_MAIN_PLL9_SEL_EXTWAVE_VD_CLOCKS,					      J784S4_DEV_MAIN_PLL9_SEL_EXTWAVE_VD_CLK,
+		    CLK_J784S4_MAIN_PLL9_SEL_EXTWAVE_OUT0,					      1,
+		    2),
+	DEV_CLK_PARENT(J784S4_DEV_MAIN_PLL9_SEL_EXTWAVE_VD_CLOCKS,				      J784S4_DEV_MAIN_PLL9_SEL_EXTWAVE_VD_CLK_PARENT_PLLFRACF2_SSMOD_16FFT_MAIN_9_FOUTVCOP_CLK,
+		       CLK_J784S4_PLLFRACF2_SSMOD_16FFT_MAIN_9_FOUTVCOP_CLK,			      1,
+		       0),
+	DEV_CLK_PARENT(J784S4_DEV_MAIN_PLL9_SEL_EXTWAVE_VD_CLOCKS,				      J784S4_DEV_MAIN_PLL9_SEL_EXTWAVE_VD_CLK_PARENT_HSDIV0_16FFT_MAIN_9_HSDIVOUT0_CLK,
+		       CLK_J784S4_HSDIV0_16FFT_MAIN_9_HSDIVOUT0_CLK,				      1,
+		       1),
 };
-static struct dev_clk MAIN_dev_clk[ARRAY_SIZE(MAIN_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
+static struct dev_clk MAIN_dev_clk[3403] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const struct dev_clk_data TIFS_INTERNAL_dev_clk_data[1] __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
 	DEV_CLK(J784S4_DEV_NAVSS_MCU_J7_MCU_0_RINGACC_0_CLOCKS, J784S4_DEV_MCU_NAVSS0_RINGACC0_SYS_CLK, CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
 };
-static struct dev_clk TIFS_INTERNAL_dev_clk[ARRAY_SIZE(TIFS_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.TIFS_INTERNAL")));
+static struct dev_clk TIFS_INTERNAL_dev_clk[1] __attribute__((__section__(".bss.devgroup.TIFS_INTERNAL")));
 static const struct dev_clk_data HSM_INTERNAL_dev_clk_data[0] __attribute__((__section__(".const.devgroup.HSM_INTERNAL"))) = {
 };
-static struct dev_clk HSM_INTERNAL_dev_clk[ARRAY_SIZE(HSM_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.HSM_INTERNAL")));
+static struct dev_clk HSM_INTERNAL_dev_clk[0] __attribute__((__section__(".bss.devgroup.HSM_INTERNAL")));
 
 const struct devgroup soc_devgroups[J784S4_PM_DEVGRP_RANGE_ID_MAX] = {
 	[PM_DEVGRP_00] =   {
@@ -14847,7 +14883,7 @@ const struct devgroup soc_devgroups[J784S4_PM_DEVGRP_RANGE_ID_MAX] = {
 	[PM_DEVGRP_HSM] =  {
 		.dev_clk_data	= HSM_INTERNAL_dev_clk_data,
 		.dev_clk	= HSM_INTERNAL_dev_clk,
-		.clk_idx	= 841U,
+		.clk_idx	= 843U,
 	},
 };
 const size_t soc_devgroup_count = ARRAY_SIZE(soc_devgroups);
@@ -14860,7 +14896,7 @@ const struct soc_device_data *const soc_psc_multiple_domains[5] = {
 	[J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_C71SS3] = compute_cluster_j7ahp_main_0_c71ss3_domains,
 };
 
-const struct dev_data *const soc_device_data_arr[J784S4_DEV_TIMER19_CLKSEL_VD + 1U] = {
+const struct dev_data *const soc_device_data_arr[J784S4_DEV_MAIN_PLL9_SEL_EXTWAVE_VD + 1U] = {
 	[J784S4_DEV_MCU_ADC12FC_16FFC0] = &j784s4_dev_adc12fc_16ffc_mcu_0,
 	[J784S4_DEV_MCU_ADC12FC_16FFC1] = &j784s4_dev_adc12fc_16ffc_mcu_1,
 	[J784S4_DEV_ATL0] = &j784s4_dev_atl_main_0,
@@ -15272,9 +15308,11 @@ const struct dev_data *const soc_device_data_arr[J784S4_DEV_TIMER19_CLKSEL_VD + 
 	[J784S4_DEV_TIMER15_CLKSEL_VD] = &j784s4_dev_timer15_clksel_VD,
 	[J784S4_DEV_TIMER17_CLKSEL_VD] = &j784s4_dev_timer17_clksel_VD,
 	[J784S4_DEV_TIMER19_CLKSEL_VD] = &j784s4_dev_timer19_clksel_VD,
+	[J784S4_DEV_MAIN_PLL8_SEL_EXTWAVE_VD] = &j784s4_dev_main_pll8_sel_extwave_VD,
+	[J784S4_DEV_MAIN_PLL9_SEL_EXTWAVE_VD] = &j784s4_dev_main_pll9_sel_extwave_VD,
 };
 
-struct device soc_devices[ARRAY_SIZE(soc_device_data_arr)];
+struct device soc_devices[J784S4_DEV_MAIN_PLL9_SEL_EXTWAVE_VD + 1U];
 const size_t soc_device_count = ARRAY_SIZE(soc_device_data_arr);
 
 struct device *const this_dev = soc_devices + J784S4_DEV_WKUP_SMS0;

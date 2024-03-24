@@ -688,7 +688,7 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 	/* Program output divider */
 	if (div_clk && ret) {
 		div_clk_data = clk_get_data(div_clk);
-		if (div_clk_data->drv != 0U) {
+		if (div_clk_data->drv != NULL) {
 			drv_div = container_of(div_clk_data->drv,
 					       const struct clk_drv_div, drv);
 		} else {
@@ -784,6 +784,184 @@ static u32 clk_pll_16fft_internal_set_freq(struct clk *pll_clk,
 		if (!clk_pll_16fft_program_freq(pll_clk, div_clk, pll,
 						plld, pllm, pllfm, clkod)) {
 			freq = 0U;
+		}
+	}
+
+	return freq;
+}
+
+/**
+ * @brief Check desired frequency is possible from VCO frequencies in PLL table.
+ *
+ * @param pll_clk Parent clock PLL of the div_clk
+ * @param div_clk Clock data that requires frequency change ( HSDIV clk)
+ * @param target_hz Required frequency
+ * @param min_hz Minimum Required frequency
+ * @param max_hz Maximum Required frequency
+ * @param query If TRUE don't change the register value
+ *              If FALSE change the register value to set required frequency
+ * @param changed Indicates change in plld,pllm and pllfm
+ *
+ * @return u32 If the frequency can be derived from the PLL table, return the required frequency.
+ *             Else, return 0.
+ */
+static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
+							  struct clk *div_clk,
+							  const struct pll_data *pll_data,
+							  u32 target_hz,
+							  u32 min_hz,
+							  u32 max_hz,
+							  sbool query, sbool *changed)
+{
+	const struct clk_data *pll_clk_data;
+	const struct clk_data_pll_16fft *pll;
+	const struct clk_data_pll *data_pll;
+	const struct clk_data_div *data_div;
+	u32 div0, div1;
+	u32 div0_delta = ULONG_MAX;
+	u32 div1_delta = ULONG_MAX;
+	u32 div0_hz, div1_hz;
+	u32 freq = 0U;
+	u32 input;
+	sbool pll_consider_done = SFALSE;
+	s32 i;
+	u32 n;
+	u64 rem64;
+	u32 rem;
+	u64 actual64;
+	u32 actual;
+	u32 clkod_plld;
+
+	pll_clk_data = clk_get_data(pll_clk);
+	data_pll = container_of(pll_clk_data->data, const struct clk_data_pll, data);
+	pll = container_of(data_pll, const struct clk_data_pll_16fft, data_pll);
+	data_div = container_of(pll_clk_data->data, const struct clk_data_div, data);
+
+	input = clk_get_parent_freq(pll_clk);
+
+	n = data_div->n;
+
+	for (i = 0; data_pll->pll_entries[i] != PLL_TABLE_LAST; i++) {
+		if (!pll_consider_done) {
+			/*
+			 * Determine actual frequency given table entry would produce:
+			 *
+			 * actual = input * pllm / (plld * clkod)
+			 *
+			 * Note: We break up the calculation in order to avoid a div64.
+			 */
+			clkod_plld = soc_pll_table[data_pll->pll_entries[i]].plld * soc_pll_table[data_pll->pll_entries[i]].clkod;
+
+			actual64 = ((u64) (input / clkod_plld)) * soc_pll_table[data_pll->pll_entries[i]].pllm;
+			rem64 = ((u64) (input % clkod_plld)) * soc_pll_table[data_pll->pll_entries[i]].pllm;
+
+			if (rem64 > (u64) ULONG_MAX) {
+				/*
+				 * Note: This is only true if clkod * plld * pllm >
+				 * ULONG_MAX. This is not true for any currently
+				 * supported PLLs, this 64 bit division is only
+				 * included for completeness
+				 */
+				actual64 += pm_div64(&rem64, clkod_plld);
+				rem = (u32) rem64;
+			} else {
+				actual64 += ((u32) rem64) / clkod_plld;
+				rem = ((u32) rem64) % clkod_plld;
+			}
+
+			if (soc_pll_table[data_pll->pll_entries[i]].pllfm != 0UL) {
+				u64 fret;
+				u64 frem;
+				u32 stride = 1U;
+				u32 pllfm_bits;
+				u32 pllfm_range;
+				u32 pllfm_mask;
+
+				pllfm_bits = pll_data->pllfm_bits;
+				pllfm_range = (u32) (1UL << pllfm_bits);
+				pllfm_mask = pllfm_range - 1U;
+
+				if (pll_data->pllm_stride != NULL) {
+					stride = pll_data->pllm_stride(pll_clk, soc_pll_table[data_pll->pll_entries[i]].pllm);
+				}
+
+				/* Calculate fractional component of frequency */
+				fret = ((u64) (input / clkod_plld)) * soc_pll_table[data_pll->pll_entries[i]].pllfm;
+				frem = ((u64) (input % clkod_plld)) * soc_pll_table[data_pll->pll_entries[i]].pllfm;
+				if (frem > (u64) ULONG_MAX) {
+					fret += pm_div64(&frem, clkod_plld);
+				} else if (frem >= clkod_plld) {
+					fret += ((u32) frem) / clkod_plld;
+					frem = ((u32) frem) % clkod_plld;
+				}
+				fret *= stride;
+				frem *= stride;
+				if (frem > (u64) ULONG_MAX) {
+					fret += pm_div64(&frem, clkod_plld);
+				} else if (frem >= clkod_plld) {
+					fret += ((u32) frem) / clkod_plld;
+					frem = ((u32) frem) % clkod_plld;
+				}
+				frem += ((u32) (fret & pllfm_mask)) * clkod_plld;
+
+				/* Add fractional part */
+				actual64 += fret >> pllfm_bits;
+				rem += (u32) (frem >> pllfm_bits);
+
+				actual64 += ((u32) rem) / clkod_plld;
+				rem += ((u32) rem) % clkod_plld;
+			}
+
+			if (actual64 > (u64) ULONG_MAX) {
+				pll_consider_done = STRUE;
+			} else {
+				actual = (u32) actual64;
+			}
+		}
+
+		/* Calculate 2 best potential dividers for HSDIV */
+		div0 = actual / target_hz;
+
+		/*
+		 * Prevent out-of-bounds divider value. Rest of the code in the
+		 * function will check if the resulting divider value is within
+		 * the allowable min/max range.
+		 */
+		if (div0 > (n - 1U)) {
+			div0 = n - 1U;
+		}
+		div1 = div0 + 1U;
+		if (div0 != 0UL) {
+			div0_hz = actual / div0;
+			/* Check for in range */
+			if (div0_hz <= max_hz) {
+				div0_delta = div0_hz - target_hz;
+			}
+		}
+		div1_hz = actual / div1;
+		if (div1_hz >= min_hz) {
+			div1_delta = target_hz - div1_hz;
+		}
+
+		/* Make sure at least one of them is acceptable */
+		if ((div1_delta == ULONG_MAX) && ((div0_delta == ULONG_MAX))) {
+			*changed = SFALSE;
+			freq = 0U;
+		} else {
+			if (div0_delta > div1_delta) {
+				div0 = div1;
+			}
+			*changed = STRUE;
+			freq = actual / div0;
+			break;
+		}
+	}
+
+	if (!query && *changed) {
+		if (!clk_pll_16fft_program_freq(pll_clk, div_clk, pll,
+						soc_pll_table[data_pll->pll_entries[i]].plld, soc_pll_table[data_pll->pll_entries[i]].pllm,
+						soc_pll_table[data_pll->pll_entries[i]].pllfm, div0)) {
+			freq = 0UL;
 		}
 	}
 
@@ -1406,10 +1584,27 @@ static u32 clk_pll_16fft_hsdiv_set_freq(struct clk *clock_ptr,
 							     target_hz, query, changed);
 
 			if (ret == 0U) {
-				ret = clk_pll_16fft_internal_set_freq(pll_clk, clock_ptr,
-								      &pll_16fft_hsdiv_data,
-								      target_hz, min_hz, max_hz,
-								      query, changed);
+				/*
+				 * If the requested frequency cannot be achieved by changing the hsdiv and clk_modify_parent_frequency
+				 * is enabled for that hsdiv, the VCO frequency of the PLL will be altered to obtain the required frequency.
+				 * However, in this case, the VCO frequency can vary between 800MHz to 3.2 GHz for 16fft PLLs, and the user has
+				 * no control over it. To tackle this issue, if the required frequency is not achievable, one can refer to the PLL table,
+				 * which contains a list of alternate suggested VCO frequency values for the corresponding PLL.
+				 *
+				 * If the target frequency cannot be achieved using values from the PLL table,then use pll_internal_calc function to
+				 * determine the optimal VCO frequency.
+				 */
+				ret = clk_pll_16fft_internal_set_freq_from_pll_table(pll_clk, clock_ptr,
+										     &pll_16fft_hsdiv_data,
+										     target_hz, target_hz, target_hz,
+										     query, changed);
+
+				if (ret == 0U) {
+					ret = clk_pll_16fft_internal_set_freq(pll_clk, clock_ptr,
+									      &pll_16fft_hsdiv_data,
+									      target_hz, min_hz, max_hz,
+									      query, changed);
+				}
 			}
 		}
 	} else {

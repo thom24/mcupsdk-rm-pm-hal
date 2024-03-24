@@ -66,5 +66,9 @@
  * DMASS0_PKTDMA_0 total number of UDMAP receive flows
  */
 #define UDMAP_DMASS0_PKTDMA_0_RX_FLOW_MAX_INDEX (67U)
+/**
+ * Total number of UDMA instances
+ */
+#define UDMAP_INST_RANGE (2U)
 
 #endif /* UDMAP_CFG_H */

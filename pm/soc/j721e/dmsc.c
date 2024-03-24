@@ -66,7 +66,7 @@ static const struct sleep_mode j721e_sleep_modes[] = {
 	},
 };
 
-static u8 j721e_sleep_block[ARRAY_SIZE(j721e_sleep_modes)];
+static u8 j721e_sleep_block[1];
 
 static s32 wait_reset_done_with_timeout(domgrp_t domain)
 {
@@ -165,7 +165,7 @@ static s32 j721e_sys_reset_handler(domgrp_t domain)
 	}
 
 	pm_trace(trace_action,
-		 (((u16) domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
+		 (((u32) domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
 		  TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
 
 	return ret;

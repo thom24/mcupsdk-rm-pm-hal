@@ -250,7 +250,7 @@ static struct ra_used_mapping rom_usage_MCU_NAVSS0_RINGACC0[13U] = {
 	},
 };
 
-struct ra_instance ra_inst[] = {
+struct ra_instance ra_inst[2] = {
 	{
 		.id = J721E_DEV_NAVSS0_RINGACC_0,
 		.root_id = J721E_DEV_NAVSS0,

@@ -574,7 +574,7 @@ static sbool adpllm_dcc_pllm_valid(struct clk *clkp UNUSED, u32 pllm, sbool is_f
 	/* Fractional multiplier M.f is not supported for M < 20 and M > 2045 */
 	if (is_frac) {
 		if (m4x) {
-			if ((pllm < (20UL * 4UL)) || (pllm > (2045UL * 4UL))) {
+			if (pllm > (2045UL * 4UL)) {
 				ret = SFALSE;
 			}
 		} else {
@@ -669,7 +669,7 @@ static sbool adpllm_pllm_valid(struct clk *clkp UNUSED, u32 pllm, sbool is_frac)
 	/* Fractional multiplier M.f is not supported for M < 20 and M > 2045 */
 	if (is_frac) {
 		if (m4x) {
-			if ((pllm < (20UL * 8UL)) || (pllm > (2045UL * 8UL))) {
+			if (pllm > (2045UL * 8UL)) {
 				ret = SFALSE;
 			}
 		} else {
@@ -731,7 +731,7 @@ static sbool adpllm_clkod_valid(struct clk *clkp UNUSED, u32 clkod)
 	/* Only even numbers are allowed. */
 	sbool ret;
 
-	ret = !(clkod & 1U);
+	ret = (((clkod & 1U) > 0U) ? SFALSE : STRUE) ;
 	return ret;
 }
 
@@ -1134,13 +1134,13 @@ static void clk_adpllm_program_freq(struct adpllm_program_data *data)
 	if (data->pll->ljm) {
 		/* Select which DCO to use for PLLJM */
 		u64 dco = (u64) data->parent_freq_hz * data->pllm;
-		u64 cutoff = (u64) (FREQ_MHZ(1375) * data->plld);
+		u64 cutoff = (u64) (FREQ_MHZ(1375.0) * data->plld);
 		u32 sdd;
 
 		/* Program the Sigma-Delta Divider */
 
 		/* sdd = ceil(parent_freq_hz * pllm / (plld * FREQ_MHZ(250))) */
-		sdd = (u32) ((dco + (u64) (FREQ_MHZ(250) * data->plld) - 1ULL) / (u64) FREQ_MHZ(250));
+		sdd = (u32) ((dco + (u64) (FREQ_MHZ(250.0) * data->plld) - 1ULL) / (u64) FREQ_MHZ(250.0));
 		/*
 		 * 250MHz * plld doesn't fit in 32 bits, do two divisions by
 		 * a u32 rather than one by a u64.
@@ -1902,7 +1902,7 @@ static const struct clk_parent *clk_adpllm_get_div_parent(struct clk *clkp)
 	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 
 	/* div (clkout/hsdiv) is parent 0 */
-	if (mux->parents[0].div != 0U) {
+	if (mux->parents[0].cdiv !=0U) {
 		p = &mux->parents[0];
 	}
 
@@ -1919,7 +1919,7 @@ static const struct clk_parent *clk_adpllm_get_bypass_parent(struct clk *clkp)
 	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 
 	/* Bypass clock is parent 1 */
-	if (mux->parents[1].div != 0U) {
+	if (mux->parents[1].cdiv !=0U) {
 		p = &mux->parents[1];
 	}
 
@@ -1981,7 +1981,7 @@ static u32 clk_adpllm_bypass_get_freq(struct clk *clkp)
 			 * If we are disabled, ignore bypass state and return
 			 * frequency we will run at once enabled.
 			 */
-			ret = clk_get_freq(div_clk) / p->div;
+			ret = clk_get_freq(div_clk) / p->cdiv;
 		} else {
 			/*
 			 * If we are enabled and in bypass, return the bypass
@@ -1993,7 +1993,7 @@ static u32 clk_adpllm_bypass_get_freq(struct clk *clkp)
 				bypass_clk = clk_lookup((clk_idx_t) p->clk);
 			}
 			if (bypass_clk != NULL) {
-				ret = clk_get_freq(bypass_clk) / p->div;
+				ret = clk_get_freq(bypass_clk) / p->cdiv;
 			}
 		}
 	}

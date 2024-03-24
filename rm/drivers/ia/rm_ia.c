@@ -187,8 +187,8 @@ static s32 ia_configure_vint(struct ia_instance *inst, u16 evt, u16 vint,
 				  IA_ENTRY_INTMAP_REGNUM_MASK, vint);
 	entry_int_map_lo |= rm_fmk(IA_ENTRY_INTMAP_BITNUM_SHIFT,
 				   IA_ENTRY_INTMAP_BITNUM_MASK, vint_sb_index);
-	if (writel_verified(entry_int_map_lo,
-			    maddr + IA_ENTRY_INTMAP_LO(evt)) != SUCCESS) {
+  if (writel_verified(entry_int_map_lo,
+	 		    maddr + (u32)(IA_ENTRY_INTMAP_LO(evt))) != SUCCESS) {
 		/* Readback of write failed: halt */
 		r = -EFAILVERIFY;
 	}
@@ -283,7 +283,7 @@ static s32 ia_clear_vint(const struct ia_instance *inst, u16 evt, u16 vint __att
 					   IA_ENTRY_INTMAP_BITNUM_MASK, 0u);
 
 		if (writel_verified(entry_int_map_lo,
-				    maddr + IA_ENTRY_INTMAP_LO(evt)) != SUCCESS) {
+				     maddr + (u32)(IA_ENTRY_INTMAP_LO(evt))) != SUCCESS) {
 			/* Readback of write failed: halt */
 			r = -EFAILVERIFY;
 		}
@@ -321,7 +321,7 @@ static s32 ia_clear_rom_mapping(const struct ia_instance *inst, u16 evt)
 						   IA_ENTRY_INTMAP_BITNUM_MASK, 0u);
 
 			if (writel_verified(entry_int_map_lo,
-					    maddr + IA_ENTRY_INTMAP_LO(evt)) != SUCCESS) {
+					    maddr + (u32)(IA_ENTRY_INTMAP_LO(evt))) != SUCCESS) {
 				/* Readback of write failed: halt */
 				r = -EFAILVERIFY;
 			}
@@ -365,7 +365,7 @@ static s32 ia_unmap_clear_rom_mapping(const struct ia_instance *inst, u16 evt)
 					  IA_UENTRY_MAP_UMAPIDX_MASK, 0xFFFFU);
 
 			if (writel_verified(evt_reg,
-					    maddr + IA_UENTRY_MAP_LO(evt)) != SUCCESS) {
+					    maddr + (u32)(IA_UENTRY_MAP_LO(evt))) != SUCCESS) {
 				/* Readback of write failed: halt */
 				r = -EFAILVERIFY;
 			}
@@ -433,7 +433,7 @@ static s32 ia_validate_evt(const struct ia_instance *inst, u16 evt, u16 vint,
 		 */
 		maddr = rm_core_map_region(inst->imap->base);
 
-		entry_int_map_lo = readl(maddr + IA_ENTRY_INTMAP_LO(evt));
+		entry_int_map_lo = readl(maddr + (u32)IA_ENTRY_INTMAP_LO(evt));
 
 		reg_vint = (u16) rm_fext(entry_int_map_lo,
 					 IA_ENTRY_INTMAP_REGNUM_SHIFT,
@@ -558,7 +558,7 @@ static s32 ia_get_oes_evt(u8 host, u16 id, u16 oes_index, u16 *evt)
 
 	if (r == SUCCESS) {
 		maddr = rm_core_map_region(inst->unmap->base);
-		evt_addr = maddr + IA_UENTRY_MAP_LO(oes_index);
+		evt_addr = maddr + (u32)(IA_UENTRY_MAP_LO(oes_index));
 
 		evt_reg = readl(evt_addr);
 		rm_core_unmap_region();
@@ -654,7 +654,7 @@ static s32 ia_set_oes_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 				 IA_UENTRY_MAP_IRQMODE_MASK, 0U);
 		evt_reg |= rm_fmk(IA_UENTRY_MAP_UMAPIDX_SHIFT,
 				  IA_UENTRY_MAP_UMAPIDX_MASK, evt);
-		evt_addr = maddr + IA_UENTRY_MAP_LO(oes_index);
+		evt_addr = maddr + (u32)(IA_UENTRY_MAP_LO(oes_index));
 
 		if (writel_verified(evt_reg, evt_addr) != SUCCESS) {
 			/* Readback of write failed: halt */

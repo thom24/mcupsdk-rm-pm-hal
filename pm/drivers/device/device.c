@@ -146,7 +146,6 @@ s32 devices_init(void)
 		for (idx = 0U; idx < soc_device_count; idx++) {
 			devgrp_t devgrp;
 			dev = &soc_devices[idx];
-		
 			if (dev->initialized != 0U) {
 				continue;
 			}
@@ -177,7 +176,7 @@ s32 devices_init(void)
 				if (ret < 0) {
 					pm_trace(TRACE_PM_ACTION_FAIL | TRACE_PM_ACTION_DEV_INIT,
 						 ((((u32) (-ret)) & TRACE_PM_VAL_DEV_INIT_ERR_MASK) << TRACE_PM_VAL_DEV_INIT_ERR_SHIFT) |
-						 ((((u16) idx) & TRACE_PM_VAL_DEV_INIT_DEVICE_ID_MASK) << TRACE_PM_VAL_DEV_INIT_DEVICE_ID_SHIFT));
+						 ((((u32) idx) & TRACE_PM_VAL_DEV_INIT_DEVICE_ID_MASK) << TRACE_PM_VAL_DEV_INIT_DEVICE_ID_SHIFT));
 					errors = STRUE;
 				}
 			}

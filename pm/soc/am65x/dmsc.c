@@ -53,7 +53,7 @@ static const struct sleep_mode am6_sleep_modes[] = {
 	},
 };
 
-static u8 am6_sleep_block[ARRAY_SIZE(am6_sleep_modes)];
+static u8 am6_sleep_block[1];
 
 static s32 am6_sys_reset_handler(domgrp_t domain __attribute__((unused)))
 {

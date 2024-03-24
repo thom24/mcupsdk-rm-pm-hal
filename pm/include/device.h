@@ -67,7 +67,11 @@
 /* Device flags */
 #define DEV_FLAG_RETENTION              BIT(4)
 #define DEV_FLAG_ENABLED_BIT            5UL
+#if HOST_ID_CNT <= 26
+#define DEV_FLAG_ENABLED(host_idx)      (1UL << ((DEV_FLAG_ENABLED_BIT) + (host_idx)))
+#else
 #define DEV_FLAG_ENABLED(host_idx)      (1ULL << ((DEV_FLAG_ENABLED_BIT) + (host_idx)))
+#endif
 #define DEV_FLAG_POWER_ON_ENABLED       DEV_FLAG_ENABLED(DEV_POWER_ON_ENABLED_HOST_IDX)
 
 /* Note, can support HOST_ID_CNT up to 26 */
@@ -291,7 +295,7 @@ static inline struct device *device_api_lookup(u32 id)
  */
 static inline u32 device_id(struct device *dev)
 {
-	return (u32) (dev - soc_devices);
+	return (u32) ((s32) (dev - soc_devices)) ;
 }
 
 /**

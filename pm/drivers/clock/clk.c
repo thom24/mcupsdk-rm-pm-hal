@@ -108,12 +108,12 @@ u32 clk_get_parent_freq(struct clk *clkp)
 		p = clk_get_parent(clkp);
 	}
 
-	if (p && p->div) {
+	if (p && p->cdiv) {
 		parent_clk = clk_lookup((clk_idx_t) p->clk);
 	}
 
 	if (parent_clk != NULL) {
-		ret = clk_get_freq(parent_clk) / p->div;
+		ret = clk_get_freq(parent_clk) / p->cdiv;
 	}
 
 	return ret;
@@ -183,7 +183,7 @@ sbool clk_notify_sibling_freq(struct clk *clkpp, struct clk *parent,
 			continue;
 		}
 
-		if (!clk_notify_freq(clkp, parent_freq / p->div, query)) {
+		if (!clk_notify_freq(clkp, parent_freq / p->cdiv, query)) {
 			status = SFALSE;
 			break;
 		}
@@ -283,7 +283,7 @@ static u32 clk_generic_set_freq(struct clk *clkp,
 							  target_hz,
 							  min_hz, max_hz,
 							  query, changed,
-							  p->div);
+							  p->cdiv);
 		}
 	} else {
 		u32 freq = clk_get_freq(clkp);
@@ -313,7 +313,7 @@ static void clk_set_freq_trace(struct clk *clkp __attribute__((unused)), u32 fre
 		exp_val += 1U;
 	}
 
-	pm_trace(trace_act,
+	pm_trace( (u8)trace_act,
 		 (val << TRACE_PM_VAL_CLOCK_VAL_SHIFT) |
 		 (exp_val << TRACE_PM_VAL_CLOCK_EXP_SHIFT) |
 		 ((u32) (clk_id(clkp) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
@@ -393,13 +393,19 @@ sbool clk_set_state(struct clk *clkp, sbool enable)
 	const struct clk_data *clk_data_p = clk_get_data(clkp);
 	sbool ret;
 
-	if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
-		/* defer action */
+	if(clk_data_p != NULL)
+ 	{
+			if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
+				/* defer action */
+				ret = STRUE;
+			} else if (clk_data_p->drv->set_state == NULL) {
+				ret = STRUE;
+			} else {
+				ret = clk_data_p->drv->set_state(clkp, enable);
+			}
+ 	}
+	else {
 		ret = STRUE;
-	} else if (clk_data_p->drv->set_state == NULL) {
-		ret = STRUE;
-	} else {
-		ret = clk_data_p->drv->set_state(clkp, enable);
 	}
 
 	return ret;

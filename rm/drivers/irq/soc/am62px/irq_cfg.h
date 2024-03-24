@@ -1,7 +1,7 @@
 /*
  * Interrupt Management
  *
- * Data version: 230922_165936
+ * Data version: 231011_130515
  *
  * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -47,7 +47,7 @@
 /**
  * IRQ global event types count
  */
-#define IRQ_GLOBAL_EVENT_TYPES_ID_MAX (9)
+#define IRQ_GLOBAL_EVENT_TYPES_ID_MAX (9U)
 
 /**
  * Extern for IRQ event source devices array

@@ -361,7 +361,7 @@ static const struct udmap_ch_type rx_ch_types_DMASS1_BCDMA_0[1] = {
 	},
 };
 
-struct udmap_instance udmap_inst[] = {
+struct udmap_instance udmap_inst[3] = {
 	{
 		.id = AM62AX_DEV_DMASS0_BCDMA_0,
 		.root_id = AM62AX_DEV_DMASS0,
