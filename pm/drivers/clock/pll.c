@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -96,21 +96,10 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 	u64 actual64;
 	u32 actual;
 	u32 clkod_plld;
-	u32 clkod;
 	sbool pll_consider_done = SFALSE;
 
-	/**
-	 * Check if desired output is in given range for PLL table entry
-	 * entry->freq_max_hz represents max VCO frequency in PLL table entry
-	 * entry->freq_min_hz represents min VCO frequency in PLL table entry
-	 *
-	 * The PLL will be considered "done" if the output value is less than
-	 * the minimum frequency, or greater than the max frequency.
-	 *
-	 * To get min freq possible, divide min VCO freq by maximum divider(data->data->clkod_max).
-	 * To get max freq possible, divide max VCO freq by minimum divider(1).
-	 */
-	if ((data->output < ((entry->freq_min_hz) / data->data->clkod_max)) ||
+	/* Check if desired output is in given range for PLL table entry. */
+	if ((data->output < entry->freq_min_hz) ||
 	    (data->output > entry->freq_max_hz)) {
 		pll_consider_done = STRUE;
 	}
@@ -196,66 +185,11 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 		actual = (u32) actual64;
 
 		/*
-		 * Check if actual VCO frequency calculated is within our allowable bounds. Don't round
-		 * up, accept anything up to but not including freq_max_hz + 1.
+		 * Check if output is within our allowable bounds. Don't round
+		 * up, accept anything up to but not including max + 1.
 		 */
-		if ((actual < entry->freq_min_hz) || (actual > entry->freq_max_hz)) {
+		if ((actual < data->min) || (actual > data->max)) {
 			pll_consider_done = STRUE;
-		}
-	}
-
-	/**
-	 * check if the output frequency can be calculated from the obtained VCO frequency
-	 */
-	if (!pll_consider_done) {
-		u32 div0_delta = ULONG_MAX;
-		u32 div1_delta = ULONG_MAX;
-		u32 div0, div1;
-		u32 div0_hz, div1_hz;
-		u32 n;
-
-		n = data->data->clkod_max;
-
-		/**
-		* Calculate the two best potential dividers: div0 and div1
-		*
-		* div0 = (generated VCO frequency)/(required output freq)
-		* div1 = The next value of div0
-		*/
-		div0 = actual / data->output;
-		if (div0 > (n - 1U)) {
-			div0 = n - 1U;
-		}
-
-		/**
-		 * Take div1 as next value of div0.
-		 * Reason : Result of actual / data->output
-		 * maybe integer or float.
-		 */
-		div1 = div0 + 1U;
-		if (div0 != 0UL) {
-			div0_hz = actual / div0;
-			/* Check for in range */
-			if (div0_hz <= data->max) {
-				div0_delta = div0_hz - data->output;
-			}
-		}
-		div1_hz = actual / div1;
-		if (div1_hz >= data->min) {
-			div1_delta = data->output - div1_hz;
-		}
-
-		/**
-		 * Check that the output frequency produced by any divider
-		 * fits the required frequency range.
-		 */
-		if ((div1_delta == ULONG_MAX) && ((div0_delta == ULONG_MAX))) {
-			pll_consider_done = STRUE;
-		} else {
-			if (div0_delta > div1_delta) {
-				div0 = div1;
-			}
-			clkod = div0;
 		}
 	}
 
@@ -282,7 +216,7 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 			*data->pllm = entry->pllm;
 			*data->pllfm = entry->pllfm;
 			*data->plld = entry->plld;
-			*data->clkod = clkod;
+			*data->clkod = entry->clkod;
 			data->min_delta = delta;
 			data->min_delta_rem = delta_rem;
 			data->min_delta_div = clkod_plld;

@@ -1388,25 +1388,10 @@ static u32 clk_pll_16fft_hsdiv_set_freq(struct clk *clk,
 		}
 
 		if (pll_clk) {
-			/*
-			 * Before changing the VCO frequency of the PLL,
-			 * check that, by changing the divider, the new frequency
-			 * can be obtained by using the current parent frequency
-			 */
-			ret = clk_div_set_freq_static_parent(clk, target_hz, min_hz,
-							     max_hz, query, changed);
-
-			/*
-			 * If it is possible by changing the divider, then ret value will
-			 * be the desired output frequency.
-			 * If not, ret will be zero.
-			 */
-			if (ret == 0U) {
-				ret = clk_pll_16fft_internal_set_freq(pll_clk, clk,
-								      &pll_16fft_hsdiv_data,
-								      target_hz, min_hz, max_hz,
-								      query, changed);
-			}
+			ret = clk_pll_16fft_internal_set_freq(pll_clk, clk,
+							      &pll_16fft_hsdiv_data,
+							      target_hz, min_hz, max_hz,
+							      query, changed);
 		}
 	} else {
 		/* Just program the output divider. */
