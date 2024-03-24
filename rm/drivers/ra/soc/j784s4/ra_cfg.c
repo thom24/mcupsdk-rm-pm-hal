@@ -3,7 +3,7 @@
  *
  * Ring accelerator driver instance data definition
  *
- * Data version: 230112_095811
+ * Data version: 240306_111346
  *
  * Copyright (C) 2022-2023 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED

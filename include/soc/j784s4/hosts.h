@@ -3,7 +3,7 @@
  *
  * Host IDs for J784S4 device
  *
- * Data version: 230112_095811
+ * Data version: 240306_111346
  *
  * Copyright (C) 2022-2023, Texas Instruments Incorporated
  * All rights reserved.
