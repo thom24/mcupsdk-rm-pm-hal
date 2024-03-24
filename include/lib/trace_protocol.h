@@ -3,7 +3,7 @@
  *
  * Debug Trace layer Protocol Definition
  *
- * Copyright (C) 2018-2022, Texas Instruments Incorporated
+ * Copyright (C) 2018-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -428,6 +428,8 @@
 #define TRACE_PM_ACTION_LPM_SEQ_FS_STUB_START                           0x0030U
 #define TRACE_PM_ACTION_LPM_SEQ_FS_STUB_TISCI_CONT_RES                  0x0031U
 #define TRACE_PM_ACTION_LPM_SEQ_FS_STUB_CTX_RESTORE                     0x0032U
+#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_RST_UNMASK                   0x0033U
+#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_RST_ISO_DONE                0x0034U
 
 
 

@@ -38,7 +38,7 @@
 #ifndef AM62AX_IA_PE_CONF_H
 #define AM62AX_IA_PE_CONF_H
 
-/** Count of IA init list (10 entries) */
-#define IA_SOC_PE_INIT_NUM (0x0AU)
+/** Count of IA init list (11 entries) */
+#define IA_SOC_PE_INIT_NUM (0x0BU)
 
 #endif /* AM62AX_IA_PE_CONF_H */

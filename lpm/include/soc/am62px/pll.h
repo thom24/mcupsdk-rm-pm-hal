@@ -1,9 +1,7 @@
 /*
- * System Firmware Source File
+ * System Firmware
  *
- * Static IA IRQ Maps for AM62PX device
- *
- * Data version: 231011_130515
+ * am62px soc pll.h
  *
  * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -35,10 +33,68 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef AM62PX_IA_PE_CONF_H
-#define AM62PX_IA_PE_CONF_H
 
-/** Count of IA init list (10 entries) */
-#define IA_SOC_PE_INIT_NUM (0x0AU)
+#ifndef PLL_H_
+#define PLL_H_
 
-#endif /* AM62PX_IA_PE_CONF_H */
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <types/short_types.h>
+#include <baseaddress.h>
+#include <pll_16fft_raw.h>
+
+#define PLLOFFSET(idx) (0x1000 * (idx))
+
+enum save_restore_main_pll {
+	SAVE_RESTORE_MAIN_PLL0,
+	SAVE_RESTORE_MAIN_PLL1,
+	SAVE_RESTORE_MAIN_PLL2,
+	SAVE_RESTORE_MAIN_PLL5,
+	SAVE_RESTORE_MAIN_PLL6,
+	SAVE_RESTORE_MAIN_PLL7,
+	SAVE_RESTORE_MAIN_PLL8,
+	SAVE_RESTORE_MAIN_PLL12,
+	SAVE_RESTORE_MAIN_PLL16,
+	SAVE_RESTORE_MAIN_PLL17,
+	SAVE_RESTORE_MAIN_PLL18,
+	SAVE_RESTORE_MAIN_PLL_MAX,
+};
+
+enum main_pll_disable {
+	MAIN_PLL1_DISABLE,
+	MAIN_PLL2_DISABLE,
+	MAIN_PLL5_DISABLE,
+	MAIN_PLL6_DISABLE,
+	MAIN_PLL7_DISABLE,
+	MAIN_PLL8_DISABLE,
+	MAIN_PLL12_DISABLE,
+	MAIN_PLL16_DISABLE,
+	MAIN_PLL17_DISABLE,
+	MAIN_PLL18_DISABLE,
+	MAIN_PLL_DISABLE_MAX,
+};
+
+extern struct pll_raw_data mcu_pll;
+extern struct pll_raw_data main_pll0;
+extern struct pll_raw_data main_pll1;
+extern struct pll_raw_data main_pll2;
+extern struct pll_raw_data main_pll5;
+extern struct pll_raw_data main_pll6;
+extern struct pll_raw_data main_pll7;
+extern struct pll_raw_data main_pll8;
+extern struct pll_raw_data main_pll12;
+extern struct pll_raw_data main_pll16;
+extern struct pll_raw_data main_pll17;
+extern struct pll_raw_data main_pll18;
+
+extern struct pll_raw_data *main_plls_save_rstr[SAVE_RESTORE_MAIN_PLL_MAX];
+extern u8 num_main_plls_save_rstr;
+extern struct pll_raw_data *main_plls_dis[MAIN_PLL_DISABLE_MAX];
+extern u8 num_main_plls_dis;
+
+#ifdef __cplusplus
+}
+#endif
+#endif /* PLL_H_ */

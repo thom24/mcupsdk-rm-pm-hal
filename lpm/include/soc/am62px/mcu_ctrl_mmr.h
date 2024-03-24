@@ -1,9 +1,7 @@
 /*
- * System Firmware Source File
+ * System Firmware
  *
- * Static IA IRQ Maps for AM62PX device
- *
- * Data version: 231011_130515
+ * am62px lpm mcu_ctrl_mmr.h
  *
  * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -35,10 +33,35 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef AM62PX_IA_PE_CONF_H
-#define AM62PX_IA_PE_CONF_H
 
-/** Count of IA init list (10 entries) */
-#define IA_SOC_PE_INIT_NUM (0x0AU)
+#ifndef LPM_MCU_CTRL_MMR_H_
+#define LPM_MCU_CTRL_MMR_H_
 
-#endif /* AM62PX_IA_PE_CONF_H */
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#define HFOSC0_CTRL                     (0x00008010U)
+#define MCU_PLL_CLKSEL                  (0x00008050U)
+
+/* HFOSC0_CTRL */
+#define HFOSC0_CTRL_PD_C                BIT(7)
+
+/* MCU_PLL_CLKSEL */
+#define MCU_PLL_CLKSEL_CLKLOSS_SWTCH_EN BIT(8)
+
+#define MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL               (0x8070U)
+#define MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL_MCU_SYSCLK0   0U
+#define MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL_CLK_32K       2U
+#define MCU_CTRL_MMR_CFG0_MCU_GPIO_WKUP_CTRL            (0x4020U)
+#define MCU_CTRL_MMR_CFG0_MCU_GPIO_WKUP_CTRL_ENABLE     1U
+#define MCU_CTRL_MMR_CFG0_MCU_GPIO_WKUP_CTRL_DISABLE    0U
+
+#define MCU_IPC_INTERRUPT_NUMBER                        0U
+#define MCU_CTRL_MMR_IPC_CLR0                           (0x180U)
+#define MCU_CTRL_MMR_IPC_CLR0_CLEAR                     (0x11U)
+
+#ifdef __cplusplus
+}
+#endif
+#endif /* LPM_MCU_CTRL_MMR_H_ */

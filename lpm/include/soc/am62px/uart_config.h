@@ -1,9 +1,7 @@
 /*
- * System Firmware Source File
+ * DM Stub Firmware
  *
- * Static IA IRQ Maps for AM62PX device
- *
- * Data version: 231011_130515
+ * am62px uart config.h
  *
  * Copyright (C) 2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -35,10 +33,24 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef AM62PX_IA_PE_CONF_H
-#define AM62PX_IA_PE_CONF_H
 
-/** Count of IA init list (10 entries) */
-#define IA_SOC_PE_INIT_NUM (0x0AU)
+#ifndef UART_CONFIG_H_
+#define UART_CONFIG_H_
 
-#endif /* AM62PX_IA_PE_CONF_H */
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <baseaddress.h>
+#include <lpm_serial_8250.h>
+
+#define UART_BASE_ADDRESS           WKUP_UART0_BASE
+
+#define UART_BAUD_RATE              115200U
+#define UART_CLK_FREQ               48000000U
+#define UART_CLK_FREQ_BYPASS_STATE  25000000U
+
+#ifdef __cplusplus
+}
+#endif
+#endif /* UART_CONFIG_H_ */

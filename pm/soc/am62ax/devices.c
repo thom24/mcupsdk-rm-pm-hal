@@ -1835,7 +1835,7 @@ static const struct lpsc_module_data am62ax_sam62a_main_psc_wrap_main_0_psc_0_mo
 			0,
 			0,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
 	[AM62AX_PSC_LPSC_LPSC_MAIN_USB1_ISO] =	       {
 		.powerdomain		= AM62AX_PSC_PD_GP_CORE_CTL,
@@ -1847,7 +1847,7 @@ static const struct lpsc_module_data am62ax_sam62a_main_psc_wrap_main_0_psc_0_mo
 			0,
 			0,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
 	[AM62AX_PSC_LPSC_LPSC_MAIN_TEST] =	       {
 		.powerdomain		= AM62AX_PSC_PD_GP_CORE_CTL,
