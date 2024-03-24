@@ -3,7 +3,7 @@
  *
  * Defines the SoC-specific configuration of the IRQ architecture
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,7 @@
 /**
  * Extern for IRQ event source devices array
  */
-extern const u16 evt_rt_srcs[];
+extern const u16 evt_rt_srcs[10];
 
 /**
  * Extern for number of elements in IRQ event source devices array

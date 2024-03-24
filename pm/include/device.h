@@ -49,6 +49,7 @@
 #include <pm_types.h>
 #include <hosts.h>
 #include <soc/device.h>
+#include <device_limits.h>
 
 #define DEV_ID_NONE                     ((dev_idx_t) (-1L))
 
@@ -93,6 +94,17 @@
 #define PM_DEVGRP_02                    3U
 #define PM_DEVGRP_03                    4U
 #define PM_DEVGRP_HSM                   5U
+
+/** Max devgrp mapping for each SoC*/
+#define J7200_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_01 + 1U)
+#define J721E_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_01 + 1U)
+#define J721S2_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_HSM + 1U)
+#define J784S4_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_HSM + 1U)
+
+#define AM64X_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_01 + 1U)
+#define AM6_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_01 + 1U)
+#define AM62X_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_HSM + 1U)
+#define AM62AX_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_HSM + 1U)
 
 struct device;
 struct dev_clk;
@@ -193,16 +205,16 @@ struct devgroup {
 };
 
 /** The table of dynamic device data */
-extern struct device soc_devices[];
+extern struct device soc_devices[SOC_DEVICES_RANGE_ID_MAX];
 
 /** The table of const device data */
-extern const struct dev_data *const soc_device_data_arr[];
+extern const struct dev_data *const soc_device_data_arr[SOC_DEVICES_DATA_ARR_RANGE_ID_MAX];
 
 /** The total number of SoC devices */
 extern const size_t soc_device_count;
 
 /** The array of SoC device groups. */
-extern const struct devgroup soc_devgroups[];
+extern const struct devgroup soc_devgroups[PM_DEVGRP_RANGE_ID_MAX];
 
 /** The number of SoC device groups. */
 extern const size_t soc_devgroup_count;

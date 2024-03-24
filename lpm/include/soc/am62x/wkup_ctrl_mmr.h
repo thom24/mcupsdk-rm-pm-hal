@@ -73,20 +73,16 @@ extern "C" {
 #define SLEEP_STATUS_MAIN_RESETSTATZ	BIT(8)
 
 /* DS_MAGIC_WORD */
-#define DS_MAGIC_WORD_RESUME_TIFS	0xdee51ee5
-#define DS_MAGIC_WORD_RESUME_ROM	0x00d5d02e
+#define DS_MAGIC_WORD_RESUME_TIFS	    0xdee51ee5
+#define DS_MAGIC_WORD_RESUME_ROM	    0x00d5d02e
 
 /* DS_MAIN */
 #define DS_MAIN_OFF                     0x6
 #define DS_MAIN_ON                      0xF
 
-/* DS_DM_RESET */
-#define DS_DM_RESET_MASK                0x6
-#define DS_DM_RESET_UNMASK              0xF
-
-/* DS_DDDR0_RESET */
-#define DS_DDR0_RESET_MASK              0x6
-#define DS_DDR0_RESET_UNMASK            0xF
+/* Deep Sleep reset mask and unmask */
+#define DS_RESET_MASK                   0x6
+#define DS_RESET_UNMASK                 0xF
 
 #ifdef __cplusplus
 }

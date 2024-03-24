@@ -278,7 +278,7 @@ static u32 clk_div_set_freq_dyn_parent(struct clk *clkp,
 	return ret;
 }
 
-static u32 clk_div_set_freq_static_parent(
+u32 clk_div_set_freq_static_parent(
 	struct clk	*clkp,
 	u32		target_hz,
 	u32		min_hz,

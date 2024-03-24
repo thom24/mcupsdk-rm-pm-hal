@@ -34,7 +34,7 @@
 #include <soc/host_idx_mapping.h>
 #include <soc/j7200/hosts.h>
 
-const u8 soc_host_indexes[] = {
+const u8 soc_host_indexes[252] = {
 	[HOST_ID_DMSC] = 0U,
 	[HOST_ID_MCU_0_R5_0] = 1U,
 	[HOST_ID_MCU_0_R5_1] = 2U,

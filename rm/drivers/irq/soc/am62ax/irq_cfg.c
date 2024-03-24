@@ -50,7 +50,7 @@
 /*
  * SoC devices capable of sourcing global events
  */
-const u16 evt_rt_srcs[] = {
+const u16 evt_rt_srcs[3] = {
 	AM62AX_DEV_DMASS0_INTAGGR_0,
 	AM62AX_DEV_DMASS0_RINGACC_0,
 	AM62AX_DEV_DMASS1_INTAGGR_0,
@@ -58,7 +58,7 @@ const u16 evt_rt_srcs[] = {
 
 const u32 evt_rt_srcs_count = ARRAY_SIZE(evt_rt_srcs);
 
-const struct irq_global_event_type irq_global_event_types[] = {
+const struct irq_global_event_type irq_global_event_types[9] = {
 	{
 		.start = 0U,
 		.num = 1536U,

@@ -74,6 +74,7 @@ extern "C" {
 
 #define DEV_GTC AM62X_DEV_WKUP_GTC0
 #define POWER_MASTER AM62X_DEV_A53SS0_CORE_0
+#define POWER_MASTER_CLUSTER AM62X_DEV_A53SS0
 
 #define GTC_CFG0_BASE          (0xa80000UL)
 #define GTC_CFG1_BASE          (0xa90000UL)
@@ -83,6 +84,10 @@ extern "C" {
 #define PADCFG_SIZE             (((0x42a8U - PADCFG_OFFSET) >> 2) + 1)
 
 #define RTC_BASE             (0x2b1f0000UL)
+
+#define MAIN_CTRL_BASE             (0x100000UL)
+#define MCU_CTRL_BASE              (0x04500000UL)
+#define MAX_MMR_DATA                       (20U)
 
 
 #ifdef __cplusplus

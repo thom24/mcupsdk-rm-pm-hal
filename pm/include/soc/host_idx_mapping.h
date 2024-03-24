@@ -3,7 +3,7 @@
  *
  * Host ID/index mapping for J721E device
  *
- * Copyright (C) 2019-2020, Texas Instruments Incorporated
+ * Copyright (C) 2019-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,10 +37,11 @@
 #define SOC_HOST_IDX_MAPPING_H
 
 #include <types/short_types.h>
+#include <clock_limits.h>
 
 #define HOST_IDX_NONE 255U
 
-extern const u8 soc_host_indexes[];
+extern const u8 soc_host_indexes[HOST_RANGE_ID_MAX];
 extern const u8 soc_host_indexes_sz;
 
 static inline u8 host_idx_lookup(u8 host_id)

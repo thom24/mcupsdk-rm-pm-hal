@@ -37,7 +37,8 @@
 #include <lib/bitops.h>
 #include <tisci/lpm/tisci_lpm.h>
 #include <types/errno.h>
-#include <baseaddress.h>
+#include <lpscs.h>
+#include <pll.h>
 #include <mcu_ctrl_mmr.h>
 #include <wkup_ctrl_mmr.h>
 #include <wake_data.h>
@@ -49,7 +50,6 @@
 #include "lpm_serial_8250.h"
 #include "lpm_string.h"
 #include "lpm_trace.h"
-#include "pll_16fft_raw.h"
 #include "psc_raw.h"
 #include "sec_proxy.h"
 #include "timeout.h"
@@ -61,11 +61,6 @@ enum lpm_mode {
 	LPM_DEEPSLEEP,
 	LPM_MCU_ONLY,
 	LPM_STANDBY,
-};
-
-struct main_pd_lpsc {
-	u8	pd;
-	u8	lpsc;
 };
 
 /* variable to store the last wakeup interrupt */
@@ -82,56 +77,10 @@ static struct tisci_msg_prepare_sleep_req g_params;
 
 /* FIXME IO_ISO_TIMEOUT should be about 10us */
 #define IO_ISO_TIMEOUT  10000
-#define PLLOFFSET(idx) (0x1000 * (idx))
-
-static struct pll_raw_data mcu_pll = { .base = MCU_PLL_MMR_BASE, };
-static struct pll_raw_data main_pll0 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(0), };
-static struct pll_raw_data main_pll1 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(1), };
-static struct pll_raw_data main_pll2 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(2), };
-static struct pll_raw_data main_pll8 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(8), };
-static struct pll_raw_data main_pll12 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(12), };
-static struct pll_raw_data main_pll16 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(16), };
-static struct pll_raw_data main_pll17 =
-{ .base = MAIN_PLL_MMR_BASE + PLLOFFSET(17), };
-
-/* MAIN /LPSCs to be disabled during Deepsleep phase 1 */
-/* FIXME am62x specific, move to soc specific place */
-static struct main_pd_lpsc main_lpscs_phase1[] = {
-	{ PD_A53_0,	    LPSC_A53_0	       },
-	{ PD_A53_CLUSTER_0, LPSC_A53_CLUSTER_0 },
-	/* FIXME disabling LPSC_MAIN_IP causes problem on vlab, skip it for now */
-/*	{ PD_MAIN_IP,		LPSC_MAIN_IP },*/
-	/* FIXME Removing this lpsc since it is not getting turned off properly in second cycle of deep sleep */
-/*	{ PD_GP_CORE_CTL,   LPSC_MAIN_TEST},*/
-	{ PD_SMS,	    LPSC_HSM	       },
-	{ PD_SMS,	    LPSC_TIFS	       },
-	{ PD_SMS,	    LPSC_SA3UL	       },
-	{ PD_SMS,	    LPSC_SMS_COMMON    }
-};
-
-/* MAIN LPSCs to be disabled during Deepsleep phase 2 */
-/* FIXME am62x specific, move to soc specific place */
-static struct main_pd_lpsc main_lpscs_phase2[] = {
-	/* FIXME this times out, so skip it for now */
-/*	{ PD_DEBUG,		LPSC_DEBUGSS },*/
-};
-
-/* MCU LPSCs to be disabled during Deepsleep */
-/* FIXME am62x specific, move to soc specific place */
-static int mcu_lpscs[] = {
-	LPSC_MCU_TEST,
-	LPSC_MCU_COMMON
-};
 
 void lpm_clear_all_wakeup_interrupt(void)
 {
-	int i;
+	u32 i;
 
 	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
 		vim_clear_intr(soc_wake_sources_data[i].int_num);
@@ -149,7 +98,6 @@ static void lpm_abort()
 static void enter_ddr_low_power_mode()
 {
 	s32 ret;
-	int i;
 
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_EMIF_DATA_ISO,
 			       MDCTL_STATE_DISABLE, 0);
@@ -169,7 +117,7 @@ static void enter_ddr_low_power_mode()
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
-	writel(DS_DDR0_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
+	writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
 }
 
 static void exit_ddr_low_power_mode()
@@ -186,7 +134,7 @@ static void exit_ddr_low_power_mode()
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 
-	writel(DS_DDR0_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
+	writel(DS_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DDR0_RESET);
 
 	ddr_exit_low_power_mode();
 
@@ -200,8 +148,8 @@ static void exit_ddr_low_power_mode()
 
 static void set_usb_reset_isolation()
 {
-	writel(DS_DDR0_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB0_RESET);
-	writel(DS_DDR0_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB1_RESET);
+	writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB0_RESET);
+	writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_USB1_RESET);
 }
 
 static void release_usb_reset_isolation()
@@ -213,44 +161,40 @@ static void release_usb_reset_isolation()
 	 */
 }
 
-static s32 disable_main_lpsc(struct main_pd_lpsc *lpscs, u32 n_lpscs)
+static s32 disable_main_lpsc(const struct pd_lpsc *lpscs, u32 n_lpscs)
 {
 	u32 i;
-	int ret;
+	s32 ret;
 
 	for (i = 0; i < n_lpscs; i++) {
 		psc_raw_lpsc_set_state(MAIN_PSC_BASE, lpscs[i].lpsc,
 				       MDCTL_STATE_DISABLE, 0);
 		psc_raw_pd_initiate(MAIN_PSC_BASE, lpscs[i].pd);
-		ret = psc_raw_pd_wait(MAIN_PSC_BASE, lpscs[i].pd);
+		
+        ret = psc_raw_pd_wait(MAIN_PSC_BASE, lpscs[i].pd);
 		if (ret) {
 			return ret;
 		}
 	}
+
 	return 0;
 }
 
 static void bypass_main_pll()
 {
+	u32 i;
+
 	/* disable all HSDIV in MAIN_PLLCTRL, bypass all MAIN PLL
 	 * except clock for Debug, PLL0, PLL15
 	 */
-	pll_save(&main_pll0);
-	pll_save(&main_pll1);
-	pll_save(&main_pll2);
-	pll_save(&main_pll8);
-	pll_save(&main_pll12);
-	pll_save(&main_pll16);
-	pll_save(&main_pll17);
+	for (i = 0; i < num_main_plls_save_rstr; i++) {
+        pll_save(main_plls_save_rstr[i]);
+	}
 
-	pll_disable(&main_pll1, 0xFFFF);
-	pll_disable(&main_pll2, 0xFFFF);
-	pll_disable(&main_pll8, 0xFFFF);
-	pll_disable(&main_pll12, 0xFFFF);
-	pll_disable(&main_pll16, 0xFFFF);
-	pll_disable(&main_pll17, 0xFFFF);
+	for (i = 0; i < num_main_plls_dis; i++) {
+        pll_disable(main_plls_dis[i], 0xFFFF);
+	}
 }
-
 
 static void wait_for_debug(void)
 {
@@ -277,7 +221,7 @@ static void config_wake_sources()
 
 static void disable_wake_sources()
 {
-	int i;
+	u32 i;
 
 	/* disable all wake up interrupts */
 	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
@@ -297,9 +241,9 @@ static int disable_main_io_isolation()
 	return 0;
 }
 
-static void config_clk_muxes()
+static void config_gpio_clk_mux(u8 clk_src)
 {
-	writel(MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL_CLK_32K, (MCU_CTRL_MMR_BASE + MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL));
+	writel(clk_src, (MCU_CTRL_MMR_BASE + MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL));
 }
 
 static void enable_gpio_wake_up()
@@ -320,43 +264,15 @@ static void disable_main_remain_pll()
 
 static int enable_main_remain_pll()
 {
+	u32 i;
 	s32 ret = 0;
 
-	ret = pll_restore(&main_pll0);
-	if (ret) {
-		return ret;
-	}
-
-	ret = pll_restore(&main_pll1);
-	if (ret) {
-		return ret;
-	}
-
-	ret = pll_restore(&main_pll2);
-	if (ret) {
-		return ret;
-	}
-
-	/* Restore pll used by A53 */
-	ret = pll_restore(&main_pll8);
-	if (ret) {
-		return ret;
-	}
-
-	/* config additional MAIN PLLs and PSCs for EMIF */
-	ret = pll_restore(&main_pll12);
-	if (ret) {
-		return ret;
-	}
-
-	ret = pll_restore(&main_pll16);
-	if (ret) {
-		return ret;
-	}
-
-	ret = pll_restore(&main_pll17);
-	if (ret) {
-		return ret;
+	for (i = 0; i < num_main_plls_save_rstr; i++) {
+		
+        ret = pll_restore(main_plls_save_rstr[i]);
+		if (ret) {
+			return ret;
+		}
 	}
 
 	return ret;
@@ -367,25 +283,47 @@ static s32 disable_mcu_domain()
 	u32 i;
 	s32 ret;
 
-	for (i = 0; i < sizeof(mcu_lpscs) / sizeof(int); i++) {
-		psc_raw_lpsc_set_state(MCU_PSC_BASE, mcu_lpscs[i],
+	for (i = 0; i < num_mcu_lpscs; i++) {
+		psc_raw_lpsc_set_state(MCU_PSC_BASE, mcu_lpscs[i].lpsc,
 				       MDCTL_STATE_DISABLE, 0);
 	}
 
 	psc_raw_pd_set_state(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU,
 			     PDCTL_STATE_OFF, 0);
 	psc_raw_pd_initiate(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
-	ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
+	
+    ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_GP_CORE_CTL_MCU);
 	if (ret) {
 		return ret;
 	}
 
 	psc_raw_pd_set_state(MCU_PSC_BASE, PD_MCU_M4F, PDCTL_STATE_OFF, 0);
 	psc_raw_pd_initiate(MCU_PSC_BASE, PD_MCU_M4F);
-	ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_MCU_M4F);
+	
+    ret = psc_raw_pd_wait(MCU_PSC_BASE, PD_MCU_M4F);
 	if (ret) {
 		return ret;
 	}
+
+	return 0;
+}
+
+static s32 enable_mcu_lpsc()
+{
+	u32 i;
+	s32 ret;
+
+	for (i = 0; i < num_mcu_lpscs; i++) {
+		psc_raw_lpsc_set_state(MCU_PSC_BASE, mcu_lpscs[i].lpsc,
+				       MDCTL_STATE_ENABLE, 0);
+		psc_raw_pd_initiate(MCU_PSC_BASE, mcu_lpscs[i].pd);
+		
+        ret = psc_raw_pd_wait(MCU_PSC_BASE, mcu_lpscs[i].pd);
+		if (ret) {
+			return ret;
+		}
+	}
+
 	return 0;
 }
 
@@ -395,7 +333,7 @@ static void enable_mcu_remain_pll()
 
 static s32 enable_dm_lpsc(void)
 {
-	s32 ret = SUCCESS;
+	s32 ret = 0;
 
 	psc_raw_lpsc_set_state(MAIN_PSC_BASE, LPSC_MAIN_DM,
 			       MDCTL_STATE_ENABLE, 0);
@@ -425,7 +363,7 @@ static s32 send_tisci_msg_firmware_load()
 	req.hdr.type = TISCI_MSG_FIRMWARE_LOAD;
 	req.hdr.flags = 8 << 24;
 	req.image_addr = CONFIG_TIFSFW_SPS_BASE;
-	req.image_size = CONFIG_TIFSFW_SPS_BASE;
+	req.image_size = CONFIG_TIFSFW_SPS_LEN;
 
 	ret = sproxy_send_msg_rom(&req, sizeof(req));
 	if (ret) {
@@ -433,8 +371,8 @@ static s32 send_tisci_msg_firmware_load()
 	}
 
 	lpm_memset(&resp, 0, sizeof(resp));
-	ret = sproxy_receive_msg_rom(&resp, sizeof(resp));
-
+	
+    ret = sproxy_receive_msg_rom(&resp, sizeof(resp));
 	if (ret) {
 		return ret;
 	}
@@ -453,8 +391,8 @@ static s32 receive_tisci_msg_continue_resume_req()
 	s32 ret = 0;
 
 	lpm_memset(&req, 0, sizeof(req));
-	ret = sproxy_receive_msg_rom(&req, sizeof(req));
-
+	
+    ret = sproxy_receive_msg_rom(&req, sizeof(req));
 	if (ret) {
 		return ret;
 	}
@@ -491,8 +429,8 @@ static s32 receive_tisci_msg_sync_resume_req()
 	s32 ret = 0;
 
 	lpm_memset(&req, 0, sizeof(req));
-	ret = sproxy_receive_msg_rom(&req, sizeof(req));
-
+	
+    ret = sproxy_receive_msg_rom(&req, sizeof(req));
 	if (ret) {
 		return ret;
 	}
@@ -585,7 +523,6 @@ void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p)
 s32 dm_stub_entry(void)
 {
 	u32 reg;
-	u32 n_lpscs;
 
 	lpm_console_init();
 
@@ -616,8 +553,7 @@ s32 dm_stub_entry(void)
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
 
 		/* Disable all LPSCs in MAIN except Debug, Always ON */
-		n_lpscs = sizeof(main_lpscs_phase1) / sizeof(struct main_pd_lpsc);
-		if (disable_main_lpsc(main_lpscs_phase1, n_lpscs)) {
+		if (disable_main_lpsc(main_lpscs_phase1, num_main_lpscs_phase1)) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC);
 			lpm_abort();
 		}
@@ -648,8 +584,7 @@ s32 dm_stub_entry(void)
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_IO_ISO);
 
 		/* Disable remaining MAIN LPSCs for debug */
-		n_lpscs = sizeof(main_lpscs_phase2) / sizeof(struct main_pd_lpsc);
-		if (disable_main_lpsc(main_lpscs_phase2, n_lpscs)) {
+		if (disable_main_lpsc(main_lpscs_phase2, num_main_lpscs_phase2)) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
 			lpm_abort();
 		}
@@ -663,8 +598,8 @@ s32 dm_stub_entry(void)
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WKUP_CLKSEL_MCU);
 
-		/* Configure GPIO/WDT/32k Clock muxes */
-		config_clk_muxes();
+		/* Configure GPIO Clock mux in suspend path */
+		config_gpio_clk_mux(MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL_CLK_32K);
 
 		/* Enable GPIO wake up */
 		enable_gpio_wake_up();
@@ -679,7 +614,7 @@ s32 dm_stub_entry(void)
 		/* Set WKUP_CTRL DS_DM_RESET.mask to isolate DM
 		 * from MAIN domain reset
 		 */
-		writel(DS_DM_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DM_RESET);
+		writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DM_RESET);
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_DS_RST_MASK);
 
@@ -789,6 +724,9 @@ s32 dm_stub_entry(void)
 			lpm_console_init();
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_RESTORE_MCU_PLL);
 		}
+
+		/* Config GPIO Clk mux in resume path */
+		config_gpio_clk_mux(MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL_MCU_SYSCLK0);
 	}
 
 	/* Use WKUP_CTRL.WKUP_WWD0_CTRL to ungate clock to RTI */
@@ -816,8 +754,6 @@ s32 dm_stub_entry(void)
 		writel(DS_MAIN_ON, WKUP_CTRL_MMR_BASE + DS_MAIN);
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_ON);
-
-		/* FIXME unmask WKUP_CTRL.DS_DM_REST? it is set in suspend */
 	}
 
 	wait_for_debug();
@@ -852,6 +788,7 @@ s32 dm_stub_entry(void)
 		 * pre-DeepSleep state
 		 */
 		enable_mcu_remain_pll();
+		enable_mcu_lpsc();
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MCU_PLLS);
 
@@ -902,7 +839,6 @@ s32 dm_stub_entry(void)
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MAIN_PLLS);
 		}
 
-
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_DDR_RST_ISO);
 	} else {
 		/* Send TISCI message to restore SMS PLL */
@@ -944,7 +880,6 @@ s32 dm_stub_entry(void)
 			lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_SYNC_RES);
 		}
 	}
-
 
 	clear_prepare_sleep_data();
 

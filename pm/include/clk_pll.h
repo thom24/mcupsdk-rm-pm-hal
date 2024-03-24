@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,6 +41,7 @@
 #include <types/devgrps.h>
 #include <limits.h>
 #include <clk.h>
+#include <clock_limits.h>
 
 /*
  * Indexes into const PLL table entries are currently u8s
@@ -84,7 +85,7 @@ struct pll_table_entry {
 };
 
 /** The SoC specific table of precomputed PLL settings */
-extern const struct pll_table_entry soc_pll_table[];
+extern const struct pll_table_entry soc_pll_table[SOC_PLL_TABLE_RANGE_ID_MAX];
 
 /** PLL specific const clock data. */
 struct clk_data_pll {

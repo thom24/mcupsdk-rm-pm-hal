@@ -1,6 +1,7 @@
 cppflags-$(CONFIG_LPM_DM_STUB) += -I$(srctree)/lpm/include
 cppflags-$(CONFIG_LPM_DM_STUB) += -I$(srctree)/pm/include
 cppflags-$(CONFIG_LPM_DM_STUB) += -I$(srctree)/lpm/include/soc/$(TARGET_SOC)
+cppflags-$(CONFIG_LPM_DM_STUB) += -I$(srctree)/lpm
 
 obj-y += soc/
 

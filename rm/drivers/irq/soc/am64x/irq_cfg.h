@@ -48,7 +48,7 @@
 /**
  * Extern for IRQ event source devices array
  */
-extern const u16 evt_rt_srcs[];
+extern const u16 evt_rt_srcs[2];
 
 /**
  * Extern for number of IRQ event source devices

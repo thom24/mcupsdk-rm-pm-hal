@@ -723,7 +723,7 @@ static const struct dev_data j784s4_dev_compute_cluster_j7ahp_main_0_arm0_dft_em
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
 };
-static const struct soc_device_data sms_wkup_0_domains[] = {
+static const struct soc_device_data sms_wkup_0_domains[3] = {
 	{
 		.psc_idx = J784S4_PSC_INST_J7_WKUP_PSC_WRAP_WKUP_0,
 		.pd = J784S4_PSC_PD_PD_WKUP,
@@ -801,7 +801,7 @@ static const struct dev_data j784s4_dev_compute_cluster_j7ahp_main_0_aw7_msmc_df
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
 };
-static const struct soc_device_data compute_cluster_j7ahp_main_0_c71ss0_domains[] = {
+static const struct soc_device_data compute_cluster_j7ahp_main_0_c71ss0_domains[3] = {
 	{
 		.psc_idx = J784S4_PSC_INST_J7AM_BOLT_PSC_WRAP_MAIN_0,
 		.pd = J784S4_PSC_PD_PD_ANA0,
@@ -841,7 +841,7 @@ static const struct dev_data j784s4_dev_compute_cluster_j7ahp_main_0_c71ss0_mma_
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
 };
-static const struct soc_device_data compute_cluster_j7ahp_main_0_c71ss1_domains[] = {
+static const struct soc_device_data compute_cluster_j7ahp_main_0_c71ss1_domains[3] = {
 	{
 		.psc_idx = J784S4_PSC_INST_J7AM_BOLT_PSC_WRAP_MAIN_0,
 		.pd = J784S4_PSC_PD_PD_ANA1,
@@ -891,7 +891,7 @@ static const struct dev_data j784s4_dev_compute_cluster_j7ahp_main_0_c71ss1_mma_
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
 };
-static const struct soc_device_data compute_cluster_j7ahp_main_0_c71ss2_domains[] = {
+static const struct soc_device_data compute_cluster_j7ahp_main_0_c71ss2_domains[3] = {
 	{
 		.psc_idx = J784S4_PSC_INST_J7AM_BOLT_PSC_WRAP_MAIN_0,
 		.pd = J784S4_PSC_PD_PD_ANA2,
@@ -931,7 +931,7 @@ static const struct dev_data j784s4_dev_compute_cluster_j7ahp_main_0_c71ss2_mma_
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
 };
-static const struct soc_device_data compute_cluster_j7ahp_main_0_c71ss3_domains[] = {
+static const struct soc_device_data compute_cluster_j7ahp_main_0_c71ss3_domains[3] = {
 	{
 		.psc_idx = J784S4_PSC_INST_J7AM_BOLT_PSC_WRAP_MAIN_0,
 		.pd = J784S4_PSC_PD_PD_ANA3,
@@ -2161,7 +2161,7 @@ static const struct psc_pd_data j784s4_j7_wkup_psc_wrap_wkup_0_pd_data[J784S4_PS
 	},
 };
 static struct psc_pd j784s4_j7_wkup_psc_wrap_wkup_0_powerdomains[ARRAY_SIZE(j784s4_j7_wkup_psc_wrap_wkup_0_pd_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
-static const dev_idx_t dev_list_LPSC_wkup_alwayson[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const dev_idx_t dev_list_LPSC_wkup_alwayson[39] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	J784S4_DEV_MCU_CPSW0,
 	J784S4_DEV_MCU_CPT2_AGGR0,
 	J784S4_DEV_MCU_DCC0,
@@ -2202,7 +2202,7 @@ static const dev_idx_t dev_list_LPSC_wkup_alwayson[] __attribute__((__section__(
 	J784S4_DEV_MCU_UART0,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_wkup_gpio[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const dev_idx_t dev_list_LPSC_wkup_gpio[5] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	J784S4_DEV_WKUP_GPIO0,
 	J784S4_DEV_WKUP_GPIO1,
 	J784S4_DEV_WKUP_I2C0,
@@ -3029,7 +3029,7 @@ static const struct psc_pd_data j784s4_j7am_main_psc_wrap_main_0_pd_data[J784S4_
 	},
 };
 static struct psc_pd j784s4_j7am_main_psc_wrap_main_0_powerdomains[ARRAY_SIZE(j784s4_j7am_main_psc_wrap_main_0_pd_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
-static const dev_idx_t dev_list_LPSC_main_alwayson[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_alwayson[67] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_COMPUTE_CLUSTER0_DRU0,
 	J784S4_DEV_COMPUTE_CLUSTER0_MSMC2_WRAP_0,
 	J784S4_DEV_CPT2_AGGR1,
@@ -3098,14 +3098,14 @@ static const dev_idx_t dev_list_LPSC_main_alwayson[] __attribute__((__section__(
 	J784S4_DEV_NAVSS0_VIRTSS,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_main_pbist[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_pbist[5] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_PBIST3,
 	J784S4_DEV_PBIST0,
 	J784S4_DEV_PBIST1,
 	J784S4_DEV_PBIST4,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_PER_audio[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_PER_audio[6] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_MCASP0,
 	J784S4_DEV_MCASP1,
 	J784S4_DEV_MCASP2,
@@ -3113,7 +3113,7 @@ static const dev_idx_t dev_list_LPSC_PER_audio[] __attribute__((__section__(".co
 	J784S4_DEV_MCASP4,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_PER_motor[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_PER_motor[13] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_ECAP0,
 	J784S4_DEV_ECAP1,
 	J784S4_DEV_ECAP2,
@@ -3128,7 +3128,7 @@ static const dev_idx_t dev_list_LPSC_PER_motor[] __attribute__((__section__(".co
 	J784S4_DEV_EPWM5,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_PER_VPFE[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_PER_VPFE[10] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_GPIO2,
 	J784S4_DEV_GPIO4,
 	J784S4_DEV_GPIO6,
@@ -3140,7 +3140,7 @@ static const dev_idx_t dev_list_LPSC_PER_VPFE[] __attribute__((__section__(".con
 	J784S4_DEV_CMPEVENT_INTRTR0,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_PER_spare0[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_PER_spare0[13] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_TIMER10,
 	J784S4_DEV_TIMER11,
 	J784S4_DEV_TIMER12,
@@ -3155,13 +3155,13 @@ static const dev_idx_t dev_list_LPSC_PER_spare0[] __attribute__((__section__(".c
 	J784S4_DEV_TIMER9,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_main_debug[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_debug[4] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_STM0,
 	J784S4_DEV_DEBUGSS_WRAP0,
 	J784S4_DEV_DEBUGSUSPENDRTR0,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_main_mcanss_4[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_mcanss_4[7] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_MCAN4,
 	J784S4_DEV_MCAN5,
 	J784S4_DEV_MCAN6,
@@ -3170,7 +3170,7 @@ static const dev_idx_t dev_list_LPSC_main_mcanss_4[] __attribute__((__section__(
 	J784S4_DEV_MCAN9,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_main_mcanss_5[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_mcanss_5[9] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_MCAN10,
 	J784S4_DEV_MCAN11,
 	J784S4_DEV_MCAN12,
@@ -3181,21 +3181,21 @@ static const dev_idx_t dev_list_LPSC_main_mcanss_5[] __attribute__((__section__(
 	J784S4_DEV_MCAN17,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_main_mcanss_7[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_mcanss_7[5] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_MCSPI0,
 	J784S4_DEV_MCSPI1,
 	J784S4_DEV_MCSPI2,
 	J784S4_DEV_MCSPI3,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_main_mcanss_8[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_mcanss_8[5] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_MCSPI4,
 	J784S4_DEV_MCSPI5,
 	J784S4_DEV_MCSPI6,
 	J784S4_DEV_MCSPI7,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_main_mcanss_11[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_mcanss_11[7] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_UART4,
 	J784S4_DEV_UART5,
 	J784S4_DEV_UART6,
@@ -3204,43 +3204,43 @@ static const dev_idx_t dev_list_LPSC_main_mcanss_11[] __attribute__((__section__
 	J784S4_DEV_UART9,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_main_mcanss_12[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_mcanss_12[4] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_I2C1,
 	J784S4_DEV_I2C2,
 	J784S4_DEV_I2C3,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_main_mcanss_13[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_main_mcanss_13[4] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_I2C4,
 	J784S4_DEV_I2C5,
 	J784S4_DEV_I2C6,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_C71x_0[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_C71x_0[4] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_COMPUTE_CLUSTER0_C71SS0,
 	J784S4_DEV_COMPUTE_CLUSTER0_C71SS0_CORE0,
 	J784S4_DEV_RTI16,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_C71x_1[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_C71x_1[4] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_COMPUTE_CLUSTER0_C71SS1,
 	J784S4_DEV_COMPUTE_CLUSTER0_C71SS1_CORE0,
 	J784S4_DEV_RTI17,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_C66x_0[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_C66x_0[4] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_COMPUTE_CLUSTER0_C71SS2,
 	J784S4_DEV_COMPUTE_CLUSTER0_C71SS2_CORE0,
 	J784S4_DEV_RTI18,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_C66x_1[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_C66x_1[4] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_COMPUTE_CLUSTER0_C71SS3,
 	J784S4_DEV_COMPUTE_CLUSTER0_C71SS3_CORE0,
 	J784S4_DEV_RTI19,
 	DEV_ID_NONE,
 };
-static const dev_idx_t dev_list_LPSC_DMPAC[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const dev_idx_t dev_list_LPSC_DMPAC[4] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	J784S4_DEV_DMPAC0,
 	J784S4_DEV_DMPAC0_CTSET_0,
 	J784S4_DEV_DMPAC0_INTD_0,
@@ -6436,7 +6436,7 @@ static const struct dev_data j784s4_dev_GLUELOGIC_ACSPCIe1_buffer __attribute__(
 	.pm_devgrp		= PM_DEVGRP_01,
 };
 
-static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
+static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[344] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	DEV_CLK_MUX(J784S4_DEV_ADC12FC_16FFC_MCU_0_CLOCKS,			 J784S4_DEV_MCU_ADC12FC_16FFC0_ADC_CLK,
 		    CLK_J784S4_MCU_ADC_CLK_SEL_OUT0,
 		    1,
@@ -7427,7 +7427,7 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__sect
 		6),
 };
 static struct dev_clk MCU_WAKEUP_dev_clk[ARRAY_SIZE(MCU_WAKEUP_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MCU_WAKEUP")));
-static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct dev_clk_data MAIN_dev_clk_data[3166] __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	DEV_CLK_MUX(J784S4_DEV_ATL_MAIN_0_CLOCKS,						      J784S4_DEV_ATL0_ATL_CLK,
 		    CLK_J784S4_ATL_PCLKMUX_OUT0,
 		    1,
@@ -14010,15 +14010,15 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       CLK_J784S4_GLUELOGIC_ACSPCIE1_BUFFER_PAD1_P),
 };
 static struct dev_clk MAIN_dev_clk[ARRAY_SIZE(MAIN_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
-static const struct dev_clk_data TIFS_INTERNAL_dev_clk_data[] __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
+static const struct dev_clk_data TIFS_INTERNAL_dev_clk_data[1] __attribute__((__section__(".const.devgroup.TIFS_INTERNAL"))) = {
 	DEV_CLK(J784S4_DEV_NAVSS_MCU_J7_MCU_0_RINGACC_0_CLOCKS, J784S4_DEV_MCU_NAVSS0_RINGACC0_SYS_CLK, CLK_J784S4_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
 };
 static struct dev_clk TIFS_INTERNAL_dev_clk[ARRAY_SIZE(TIFS_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.TIFS_INTERNAL")));
-static const struct dev_clk_data HSM_INTERNAL_dev_clk_data[] __attribute__((__section__(".const.devgroup.HSM_INTERNAL"))) = {
+static const struct dev_clk_data HSM_INTERNAL_dev_clk_data[0] __attribute__((__section__(".const.devgroup.HSM_INTERNAL"))) = {
 };
 static struct dev_clk HSM_INTERNAL_dev_clk[ARRAY_SIZE(HSM_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.HSM_INTERNAL")));
 
-const struct devgroup soc_devgroups[] = {
+const struct devgroup soc_devgroups[J784S4_PM_DEVGRP_RANGE_ID_MAX] = {
 	[PM_DEVGRP_00] =   {
 		.dev_clk_data	= MCU_WAKEUP_dev_clk_data,
 		.dev_clk	= MCU_WAKEUP_dev_clk,
@@ -14042,7 +14042,7 @@ const struct devgroup soc_devgroups[] = {
 };
 const size_t soc_devgroup_count = ARRAY_SIZE(soc_devgroups);
 
-const struct soc_device_data *const soc_psc_multiple_domains[] = {
+const struct soc_device_data *const soc_psc_multiple_domains[5] = {
 	[J784S4_PSC_MULTIPLE_SMS_WKUP_0] = sms_wkup_0_domains,
 	[J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_C71SS0] = compute_cluster_j7ahp_main_0_c71ss0_domains,
 	[J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_C71SS1] = compute_cluster_j7ahp_main_0_c71ss1_domains,
@@ -14050,7 +14050,7 @@ const struct soc_device_data *const soc_psc_multiple_domains[] = {
 	[J784S4_PSC_MULTIPLE_COMPUTE_CLUSTER_J7AHP_MAIN_0_C71SS3] = compute_cluster_j7ahp_main_0_c71ss3_domains,
 };
 
-const struct dev_data *const soc_device_data_arr[J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER + 1] = {
+const struct dev_data *const soc_device_data_arr[J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER + 1U] = {
 	[J784S4_DEV_MCU_ADC12FC_16FFC0] = &j784s4_dev_adc12fc_16ffc_mcu_0,
 	[J784S4_DEV_MCU_ADC12FC_16FFC1] = &j784s4_dev_adc12fc_16ffc_mcu_1,
 	[J784S4_DEV_ATL0] = &j784s4_dev_atl_main_0,

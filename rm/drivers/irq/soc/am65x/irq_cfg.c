@@ -18,7 +18,7 @@
 #include "../../include/irq_resasg.h"
 
 /* SoC devices that are sources for system events */
-const u16 evt_rt_srcs[] = {
+const u16 evt_rt_srcs[10] = {
 	AM6_DEV_NAVSS0_UDMASS_INTA0,
 	AM6_DEV_NAVSS0_TIMER_MGR0,
 	AM6_DEV_NAVSS0_TIMER_MGR1,
@@ -33,7 +33,7 @@ const u16 evt_rt_srcs[] = {
 
 const u32 evt_rt_srcs_count = ARRAY_SIZE(evt_rt_srcs);
 
-const struct irq_global_event_type irq_global_event_types[] = {
+const struct irq_global_event_type irq_global_event_types[10] = {
 	{
 		.start = 0U,
 		.num = 4608U,

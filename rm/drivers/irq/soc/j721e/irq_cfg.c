@@ -23,7 +23,7 @@
 /*
  * SoC devices capable of sourcing global events
  */
-const u16 evt_rt_srcs[] = {
+const u16 evt_rt_srcs[10] = {
 	J721E_DEV_NAVSS0_PROXY_0,
 	J721E_DEV_NAVSS0_RINGACC_0,
 	J721E_DEV_NAVSS0_TIMERMGR_0,
@@ -38,7 +38,7 @@ const u16 evt_rt_srcs[] = {
 
 const u32 evt_rt_srcs_count = ARRAY_SIZE(evt_rt_srcs);
 
-const struct irq_global_event_type irq_global_event_types[] = {
+const struct irq_global_event_type irq_global_event_types[10] = {
 	{
 		.start = 0U,
 		.num = 4608U,

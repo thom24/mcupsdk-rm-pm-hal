@@ -31,3 +31,5 @@
 #
 
 obj-y +=			lpm_data.o
+obj-y +=			lpscs.o
+obj-y +=			pll.o

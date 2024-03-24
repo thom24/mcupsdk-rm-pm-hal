@@ -1,5 +1,5 @@
 /*
- * Data version: 221107_151433
+ * Data version: 230301_101735
  *
  * Copyright (C) 2019-2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -34,7 +34,7 @@
 #include <soc/host_idx_mapping.h>
 #include <soc/am62x/hosts.h>
 
-const u8 soc_host_indexes[] = {
+const u8 soc_host_indexes[254] = {
 	[HOST_ID_TIFS] = 0U,
 	[HOST_ID_MAIN_0_R5_0] = 1U,
 	[HOST_ID_MAIN_0_R5_1] = 2U,
