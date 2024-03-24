@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2017-2024, Texas Instruments Incorporated
+ * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,19 +67,10 @@ static const struct sleep_mode am62a_sleep_modes[] = {
 
 static u8 am62a_sleep_block[1];
 
-static s32 am62a_sys_reset_handler(domgrp_t domain)
+static s32 am62a_sys_reset_handler(domgrp_t domain __attribute__((unused)))
 {
 	u32 v;
 	u32 mcu_magic_word;
-	s32 ret = SUCCESS;
-
-	/*
-	 * domain group is unused for this device. Do some basic sanity
-	 * checking on the parameter for only valid value
-	 */
-	if ((domain != DOMGRP_COMPATIBILITY)) {
-		ret = -EINVAL;
-	}
 
 	/* Issue warm reset */
 
@@ -95,27 +86,25 @@ static s32 am62a_sys_reset_handler(domgrp_t domain)
 	 *   (SW_MAIN_WARMRESET)
 	 */
 
-	if (ret == SUCCESS) {
-		mcu_magic_word = readl(WKUP_CTRL_BASE + CTRLMMR_RST_MAGIC_WORD);
+	mcu_magic_word = readl(WKUP_CTRL_BASE + CTRLMMR_RST_MAGIC_WORD);
 
-		if (mcu_magic_word == 0) {
-			v = readl(MCU_CTRL_BASE + CTRLMMR_MCU_RST_CTRL);
-			v &= ~(CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_MASK <<
-			       CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_OFFSET);
-			v |= CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_VAL <<
-			     CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_OFFSET;
-			writel(v, MCU_CTRL_BASE + CTRLMMR_MCU_RST_CTRL);
-		} else {
-			v = readl(WKUP_CTRL_BASE + CTRLMMR_WKUP_RST_CTRL);
-			v &= ~(CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_MASK <<
-			       CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_OFFSET);
-			v |= CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_VAL <<
-			     CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_OFFSET;
-			writel(v, WKUP_CTRL_BASE + CTRLMMR_WKUP_RST_CTRL);
-		}
+	if (mcu_magic_word == 0) {
+		v = readl(MCU_CTRL_BASE + CTRLMMR_MCU_RST_CTRL);
+		v &= ~(CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_MASK <<
+		       CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_OFFSET);
+		v |= CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_VAL <<
+		     CTRLMMR_MCU_RST_CTRL_SW_MCU_WARMRST_OFFSET;
+		writel(v, MCU_CTRL_BASE + CTRLMMR_MCU_RST_CTRL);
+	} else {
+		v = readl(WKUP_CTRL_BASE + CTRLMMR_WKUP_RST_CTRL);
+		v &= ~(CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_MASK <<
+		       CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_OFFSET);
+		v |= CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_VAL <<
+		     CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_OFFSET;
+		writel(v, WKUP_CTRL_BASE + CTRLMMR_WKUP_RST_CTRL);
 	}
 
-	return ret;
+	return SUCCESS;
 }
 
 s32 dmsc_init(void)

@@ -133,6 +133,7 @@ s32 get_clock_handler(u32 *msg_recv)
 	struct tisci_msg_get_clock_resp *resp =
 		(struct tisci_msg_get_clock_resp *) msg_recv;
 	struct device *dev = NULL;
+	struct dev_clk *dev_clkp;
 	u32 id = req->device;
 	dev_clk_idx_t clkidx;
 	s32 ret = SUCCESS;
@@ -153,6 +154,14 @@ s32 get_clock_handler(u32 *msg_recv)
 	resp->hdr.flags = 0U;
 
 	ret = device_prepare_nonexclusive(req->hdr.host, id, NULL, &dev);
+	if (ret == SUCCESS) {
+		/* Check if "clk_idx" is available on the device */
+		dev_clkp = get_dev_clk(dev, clkidx);
+		if (dev_clkp == NULL) {
+			ret = -EFAIL;
+		}
+	}
+
 	if (ret == SUCCESS) {
 		u8 prog;
 		u8 state;
@@ -403,6 +412,7 @@ s32 query_freq_handler(u32 *msg_recv)
 	struct tisci_msg_query_freq_resp *resp =
 		(struct tisci_msg_query_freq_resp *) msg_recv;
 	struct device *dev = NULL;
+	struct dev_clk *dev_clkp;
 	u32 id = req->device;
 	u64 min_freq_hz = req->min_freq_hz;
 	u64 target_freq_hz = req->target_freq_hz;
@@ -427,6 +437,14 @@ s32 query_freq_handler(u32 *msg_recv)
 	resp->hdr.flags = 0U;
 
 	ret = device_prepare_exclusive(req->hdr.host, id, NULL, &dev);
+	if (ret == SUCCESS) {
+		/* Check if "clk_idx" is available on the device */
+		dev_clkp = get_dev_clk(dev, clkidx);
+		if (dev_clkp == NULL) {
+			ret = -EFAIL;
+		}
+	}
+
 	if (ret == SUCCESS) {
 		if ((min_freq_hz > (u64) ULONG_MAX) || (min_freq_hz > target_freq_hz) ||
 		    (target_freq_hz > max_freq_hz)) {
@@ -462,6 +480,7 @@ s32 get_freq_handler(u32 *msg_recv)
 	struct tisci_msg_get_freq_resp *resp =
 		(struct tisci_msg_get_freq_resp *) msg_recv;
 	struct device *dev = NULL;
+	struct dev_clk *dev_clkp;
 	u32 id = req->device;
 	dev_clk_idx_t clkidx;
 	s32 ret = SUCCESS;
@@ -482,6 +501,14 @@ s32 get_freq_handler(u32 *msg_recv)
 	resp->hdr.flags = 0U;
 
 	ret = device_prepare_nonexclusive(req->hdr.host, id, NULL, &dev);
+	if (ret == SUCCESS) {
+		/* Check if "clk_idx" is available on the device */
+		dev_clkp = get_dev_clk(dev, clkidx);
+		if (dev_clkp == NULL) {
+			ret = -EFAIL;
+		}
+	}
+
 	if (ret == SUCCESS) {
 		resp->freq_hz = device_clk_get_freq(dev, clkidx);
 	}
