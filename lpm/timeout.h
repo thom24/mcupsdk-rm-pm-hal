@@ -3,7 +3,7 @@
  *
  * timeout functions
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,9 @@
 
 /* RETRY_CNT_MS set to 50ms  */
 #define RETRY_CNT_MS          (1000U * 50U)
+
+/* POLL WAIT TIMEOUT set to 10ms */
+#define TIMEOUT_10_MS         (1000U * 10U)
 
 /**
  * \brief busy loop for 1us

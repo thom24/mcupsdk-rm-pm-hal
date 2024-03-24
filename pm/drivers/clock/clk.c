@@ -574,7 +574,21 @@ s32 clk_deinit_pm_devgrp(u8 pm_devgrp)
 		clk_id_end = soc_clock_count;
 	} else {
 		/* Chosen devgrp's last clock id is next devgrp's first clock id */
-		clk_id_end = soc_devgroups[pm_devgrp + 1U].clk_idx;
+
+		/* Loop through all the devgrp till we find valid devgrp */
+		while(pm_devgrp < soc_devgroup_count){
+			/* Check if next dev grp is valid devgrp*/
+			if(soc_devgroups[pm_devgrp + 1U].clk_idx != 0){
+				clk_id_end = soc_devgroups[pm_devgrp + 1U].clk_idx;
+				break;
+			}
+		pm_devgrp = pm_devgrp+1U;
+		}
+
+		/* If no valid devgrp is found,clock id is the same as last of all clock ids */
+		if(pm_devgrp == soc_devgroup_count){
+			clk_id_end = soc_clock_count;
+		}
 	}
 
 	/*

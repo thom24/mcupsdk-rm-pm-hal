@@ -1,7 +1,7 @@
 /*
- * Data version: 240306_111346
+ * Data version: 230112_095811
  *
- * Copyright (C) 2017-2023, Texas Instruments Incorporated
+ * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1574,7 +1574,7 @@ static const struct clk_parent clk_ACSPCIE0_BUFCLK_MUX_out0_parents[4] = {
 		1,
 	},
 	{
-		CLK_J784S4_HSDIV4_16FFT_MAIN_2_HSDIVOUT4_CLK,
+		CLK_J784S4_HSDIV4_16FFT_MCU_2_HSDIVOUT4_CLK,
 		1,
 	},
 	{
@@ -1608,7 +1608,7 @@ static const struct clk_parent clk_ACSPCIE1_BUFCLK_MUX_out0_parents[4] = {
 		1,
 	},
 	{
-		CLK_J784S4_HSDIV4_16FFT_MAIN_2_HSDIVOUT4_CLK,
+		CLK_J784S4_HSDIV4_16FFT_MCU_2_HSDIVOUT4_CLK,
 		1,
 	},
 	{
@@ -1617,7 +1617,7 @@ static const struct clk_parent clk_ACSPCIE1_BUFCLK_MUX_out0_parents[4] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 };
 static const struct clk_data_mux_reg clk_data_ACSPCIE1_BUFCLK_MUX_out0 = {
@@ -1659,31 +1659,31 @@ static const struct clk_parent clk_ATL_AWS_SEL_out0_parents[32] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_MCASP_MAIN_0_MCASP_AFSX_POUT,
@@ -1707,31 +1707,31 @@ static const struct clk_parent clk_ATL_AWS_SEL_out0_parents[32] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_BOARD_0_AUDIO_EXT_REFCLK0_OUT,
@@ -1743,27 +1743,27 @@ static const struct clk_parent clk_ATL_AWS_SEL_out0_parents[32] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 };
 static const struct clk_data_mux_reg clk_data_ATL_AWS_SEL_out0 = {
@@ -1821,31 +1821,31 @@ static const struct clk_parent clk_ATL_BWS_SEL_out0_parents[32] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_MCASP_MAIN_0_MCASP_AFSX_POUT,
@@ -1869,31 +1869,31 @@ static const struct clk_parent clk_ATL_BWS_SEL_out0_parents[32] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_BOARD_0_AUDIO_EXT_REFCLK0_OUT,
@@ -1905,27 +1905,27 @@ static const struct clk_parent clk_ATL_BWS_SEL_out0_parents[32] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 };
 static const struct clk_data_mux_reg clk_data_ATL_BWS_SEL_out0 = {
@@ -1971,11 +1971,11 @@ static const struct clk_parent clk_ATL_PCLKMUX_parents[16] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_POSTDIV3_16FFT_MAIN_0_HSDIVOUT7_CLK,
@@ -1991,7 +1991,7 @@ static const struct clk_parent clk_ATL_PCLKMUX_parents[16] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
@@ -2777,11 +2777,11 @@ static const struct clk_data_mux_reg clk_data_DPI0_EXT_CLKSEL_out0 = {
 static const struct clk_parent clk_DPI1_CLKOUT_SEL_parents[9] = {
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_K3_DSS_MAIN_0_DSS_INST0_PARA_1_OUT_CLK,
@@ -2789,23 +2789,23 @@ static const struct clk_parent clk_DPI1_CLKOUT_SEL_parents[9] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_K3_DSS_MAIN_0_DSS_INST0_PARA_3_OUT_CLK,
@@ -3281,27 +3281,27 @@ static const struct clk_parent clk_MAIN_TIMER16_AFS_SEL_parents[16] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 };
 static const struct clk_data_mux_reg clk_data_MAIN_TIMER16_AFS_SEL_out0 = {
@@ -4075,7 +4075,7 @@ static const struct clk_parent clk_MCU_OBSCLK_SEL_parents[16] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_HSDIV1_16FFT_MCU_0_HSDIVOUT0_CLK,
@@ -4175,7 +4175,7 @@ static const struct clk_parent clk_MCU_R5_phase0_clksel_parents[2] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 };
 static const struct clk_data_mux_reg clk_data_MCU_R5_phase0_clksel_out0 = {
@@ -4543,31 +4543,31 @@ static const struct clk_parent clk_McASP_AHCLKO_out0_parents[32] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_MCASP_MAIN_0_MCASP_AHCLKX_POUT,
@@ -4591,31 +4591,31 @@ static const struct clk_parent clk_McASP_AHCLKO_out0_parents[32] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_ATL_MAIN_0_ATL_IO_PORT_ATCLK_OUT,
@@ -4639,15 +4639,15 @@ static const struct clk_parent clk_McASP_AHCLKO_out0_parents[32] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 };
 static const struct clk_data_mux_reg clk_data_McASP_AHCLKO_out0 = {
@@ -4677,11 +4677,11 @@ static const struct clk_parent clk_McASP_AUXCLK_SEL_out0_parents[8] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_ATL_MAIN_0_ATL_IO_PORT_ATCLK_OUT,
@@ -6957,19 +6957,19 @@ static const struct clk_parent clk_mcasp_ahclkr_mux_out0_parents[16] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_ATL_MAIN_0_ATL_IO_PORT_ATCLK_OUT,
@@ -6989,19 +6989,19 @@ static const struct clk_parent clk_mcasp_ahclkr_mux_out0_parents[16] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 };
 static const struct clk_data_mux_reg clk_data_mcasp_ahclkr_mux_out0 = {
@@ -7381,11 +7381,11 @@ static const struct clk_parent clk_obsclk0_mux_parents[32] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_HSDIV0_16FFT_MAIN_12_HSDIVOUT0_CLK,
@@ -7401,7 +7401,7 @@ static const struct clk_parent clk_obsclk0_mux_parents[32] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_HSDIV1_16FFT_MAIN_16_HSDIVOUT0_CLK,
@@ -7413,7 +7413,7 @@ static const struct clk_parent clk_obsclk0_mux_parents[32] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_HSDIV1_16FFT_MAIN_19_HSDIVOUT0_CLK,
@@ -7433,11 +7433,11 @@ static const struct clk_parent clk_obsclk0_mux_parents[32] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		0,
-		0,
+		1,
 	},
 	{
 		CLK_J784S4_HSDIV1_16FFT_MAIN_25_HSDIVOUT0_CLK,
@@ -7491,7 +7491,7 @@ static const struct clk_parent clk_obsclk1_mux_parents[4] = {
 	},
 	{
 		0,
-		0,
+		1,
 	},
 };
 static const struct clk_data_mux_reg clk_data_obsclk1_mux_out0 = {
@@ -12820,6 +12820,30 @@ const struct clk_data soc_clock_data[844] = {
 		.data		= &clk_data_wiz16b8m4ct3_main_4_ip4_ln3_txmclk.data,
 		.freq_idx	= J784S4_FREQ_VALUE_WIZ16B8M4CT3_MAIN_4_IP4_LN3_TXMCLK,
 	},
+	[CLK_J784S4_ACSPCIE0_BUFCLK_MUX_OUT0] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ACSPCIE0_BUFCLK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J784S4_ACSPCIE0_BUFCLK_MUX_OUT1] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ACSPCIE0_BUFCLK_MUX_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J784S4_ACSPCIE1_BUFCLK_MUX_OUT0] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ACSPCIE1_BUFCLK_MUX_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J784S4_ACSPCIE1_BUFCLK_MUX_OUT1] =						 {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_ACSPCIE1_BUFCLK_MUX_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
 	[CLK_J784S4_ATL_AWS_SEL_OUT0] =							 {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
@@ -13716,30 +13740,6 @@ const struct clk_data soc_clock_data[844] = {
 		.freq_idx	= J784S4_FREQ_VALUE_PLLFRACF2_SSMOD_16FFT_MAIN_4,
 		.data		= &clk_data_pllfracf2_ssmod_16fft_main_4.data_pll.data,
 		.flags		= 0,
-	},
-	[CLK_J784S4_ACSPCIE0_BUFCLK_MUX_OUT0] =						 {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_ACSPCIE0_BUFCLK_MUX_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J784S4_ACSPCIE0_BUFCLK_MUX_OUT1] =						 {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_ACSPCIE0_BUFCLK_MUX_out1.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J784S4_ACSPCIE1_BUFCLK_MUX_OUT0] =						 {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_ACSPCIE1_BUFCLK_MUX_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J784S4_ACSPCIE1_BUFCLK_MUX_OUT1] =						 {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_ACSPCIE1_BUFCLK_MUX_out1.data_mux.data,
-		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J784S4_CPSW0_CPTS_RCLK_SEL_OUT0] =						 {
 		.drv	= &clk_drv_mux_reg.drv,

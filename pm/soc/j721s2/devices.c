@@ -1,7 +1,7 @@
 /*
  * Data version: 220525_125254
  *
- * Copyright (C) 2017-2023 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2024 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #include <types/array_size.h>
@@ -1820,7 +1820,7 @@ static const struct lpsc_module_data j721s2_j7_wkup_psc_wrap_wkup_0_mod_data[J72
 			J721S2_DEV_WKUPMCU2MAIN_VD,
 			DEV_ID_NONE,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J721S2_PSC_LPSC_LPSC_MAIN2WKUPMCU] =	    {
 		.powerdomain		= J721S2_PSC_PD_PD_WKUP,
@@ -1828,7 +1828,7 @@ static const struct lpsc_module_data j721s2_j7_wkup_psc_wrap_wkup_0_mod_data[J72
 			J721S2_DEV_MAIN2WKUPMCU_VD,
 			DEV_ID_NONE,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_MODULE_EXISTS,
 	},
 	[J721S2_PSC_LPSC_LPSC_MCU_TEST] =	    {
 		.powerdomain		= J721S2_PSC_PD_PD_WKUP,
@@ -12103,9 +12103,6 @@ static const struct dev_clk_data TIFS_INTERNAL_dev_clk_data[1] __attribute__((__
 	DEV_CLK(J721S2_DEV_NAVSS_MCU_J7_MCU_0_RINGACC_0_CLOCKS, J721S2_DEV_MCU_NAVSS0_RINGACC0_SYS_CLK, CLK_J721S2_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK, 1),
 };
 static struct dev_clk TIFS_INTERNAL_dev_clk[1] __attribute__((__section__(".bss.devgroup.TIFS_INTERNAL")));
-static const struct dev_clk_data HSM_INTERNAL_dev_clk_data[0] __attribute__((__section__(".const.devgroup.HSM_INTERNAL"))) = {
-};
-static struct dev_clk HSM_INTERNAL_dev_clk[0] __attribute__((__section__(".bss.devgroup.HSM_INTERNAL")));
 
 const struct devgroup soc_devgroups[J721S2_PM_DEVGRP_RANGE_ID_MAX] = {
 	[PM_DEVGRP_00] =   {
@@ -12122,11 +12119,6 @@ const struct devgroup soc_devgroups[J721S2_PM_DEVGRP_RANGE_ID_MAX] = {
 		.dev_clk_data	= TIFS_INTERNAL_dev_clk_data,
 		.dev_clk	= TIFS_INTERNAL_dev_clk,
 		.clk_idx	= 1U,
-	},
-	[PM_DEVGRP_HSM] =  {
-		.dev_clk_data	= HSM_INTERNAL_dev_clk_data,
-		.dev_clk	= HSM_INTERNAL_dev_clk,
-		.clk_idx	= 601U,
 	},
 };
 const size_t soc_devgroup_count = ARRAY_SIZE(soc_devgroups);

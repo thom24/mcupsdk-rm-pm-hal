@@ -3,7 +3,7 @@
  *
  * TISCI Protocol Definitions for RM IRQ messages
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -169,10 +169,14 @@
  * @ref tisci_msg_rm_irq_set_req::valid_params.
  *
  * \param secondary_host
- * The interrupt route destination is the specified secondary host if the
- * secondary_host's corresponding valid bit is set in
- * @ref tisci_msg_rm_irq_set_req::valid_params.  Otherwise, the host within the
- * TISCI message header is the route destination.
+ * The secondary host value is used to replace the host value for the
+ * message that will be sent. This way a message can be sent to configure
+ * a different host. For example, if the host is A, and the secondary host
+ * is B, then when host A sends a message, the message will be configured
+ * for host B, even though host A was the one that sent the message.
+ * However, this field is only valid if
+ * @ref TISCI_MSG_VALUE_RM_SECONDARY_HOST_VALID is set in
+ * @ref tisci_msg_rm_irq_set_req::valid_params.
  */
 struct tisci_msg_rm_irq_set_req {
 	struct tisci_header	hdr;
@@ -295,10 +299,14 @@ struct tisci_msg_rm_irq_set_resp {
  * @ref tisci_msg_rm_irq_release_req::valid_params.
  *
  * \param secondary_host
- * The interrupt route destination is the specified secondary host if the
- * secondary_host's corresponding valid bit is set in
- * @ref tisci_msg_rm_irq_release_req::valid_params.  Otherwise, the host within
- * the TISCI message header is the route destination.
+ * The secondary host value is used to replace the host value for the
+ * message that will be sent. This way a message can be sent to configure
+ * a different host. For example, if the host is A, and the secondary host
+ * is B, then when host A sends a message, the message will be configured
+ * for host B, even though host A was the one that sent the message.
+ * However, this field is only valid if
+ * @ref TISCI_MSG_VALUE_RM_SECONDARY_HOST_VALID is set in
+ * @ref tisci_msg_rm_irq_set_req::valid_params.
  */
 struct tisci_msg_rm_irq_release_req {
 	struct tisci_header	hdr;

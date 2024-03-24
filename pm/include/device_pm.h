@@ -124,6 +124,13 @@ extern u32 soc_device_get_context_loss_count(struct device *dev);
 extern void soc_device_enable(struct device *dev);
 
 /**
+ * \brief Enable a device (SoC specific impl.)
+ *
+ * \param dev The device to modify.
+ */
+extern void device_enable(struct device *dev);
+
+/**
  * \brief Disable a device (SoC specific impl.)
  *
  * \param device

@@ -3,9 +3,9 @@
  *
  * Ring accelerator driver instance data definition
  *
- * Data version: 240306_111346
+ * Data version: 230112_095811
  *
- * Copyright (C) 2022-2023 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2022-2024 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 
@@ -54,9 +54,6 @@ static const struct ra_ring_type ring_types_NAVSS0_BCDMA_0[2] = {
 		.type = RA_DMSS_RING,
 		.utype = RESASG_UTYPE(J784S4_DEV_NAVSS0_BCDMA_0, RESASG_SUBTYPE_BCDMA_RING_SPLIT_TR_RX_CHAN),
 	},
-};
-
-static const struct ra_ring_type ring_mon_types_NAVSS0_BCDMA_0[0] = {
 };
 
 static const struct rm_mmr mmr_NAVSS0_RINGACC_0_UDMASS_RINGACC0_GCFG = {
@@ -276,8 +273,8 @@ struct ra_instance ra_inst[3] = {
 		.gp_ring_oes_offset_post_sp = 0U,
 		.ring_types = &ring_types_NAVSS0_BCDMA_0[0U],
 		.n_ring_type = ARRAY_SIZE(ring_types_NAVSS0_BCDMA_0),
-		.ring_mon_types = &ring_mon_types_NAVSS0_BCDMA_0[0U],
-		.n_ring_mon_type = ARRAY_SIZE(ring_mon_types_NAVSS0_BCDMA_0),
+		.ring_mon_types = NULL,
+		.n_ring_mon_type = 0U,
 		.err_evt_index = RA_GCFG_ERROR_EVT_INDEX,
 		.err_evt_utype = RESASG_UTYPE(J784S4_DEV_NAVSS0_BCDMA_0, RESASG_SUBTYPE_RA_ERROR_OES),
 		.virtid_utype = 0U,

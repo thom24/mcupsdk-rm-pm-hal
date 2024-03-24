@@ -154,12 +154,12 @@ static void start_PI_CTL_init(struct emif_handle_s *h)
 
 	if (h->is_ddr4_mem == 1U) {
 		wr_init_val = ((DDR4_DRAM_CLASS_REG_VALUE << 8U) | 0x1U);
-	} else { wr_init_val = ((LPDDR4_DRAM_CLASS_REG_VALUE << 8U) | 0x1U); }                                    /* Decide init value based on memory type */
-	SOC_write32(h->ctl_cfg_base_addr + (u32)DDRSS_PI_REGISTER_BLOCK__OFFS + (u32)DENALI_PI_0__SFR_OFFS, wr_init_val); /* Set START bit in register for PI module */
+	} else { wr_init_val = ((LPDDR4_DRAM_CLASS_REG_VALUE << 8U) | 0x1U); }                                                  /* Decide init value based on memory type */
+	SOC_write32(h->ctl_cfg_base_addr + (u32) DDRSS_PI_REGISTER_BLOCK__OFFS + (u32) DENALI_PI_0__SFR_OFFS, wr_init_val);     /* Set START bit in register for PI module */
 	for (i = 0; i < 500U; i++) {
 		delay_1us();
 	}
-	SOC_write32(h->ctl_cfg_base_addr + (u32)DENALI_CTL_0__SFR_OFFS, wr_init_val); /* Set START bit in register for controller */
+	SOC_write32(h->ctl_cfg_base_addr + (u32) DENALI_CTL_0__SFR_OFFS, wr_init_val); /* Set START bit in register for controller */
 }
 
 static void poll_for_init_completion(struct emif_handle_s *h)
@@ -171,22 +171,38 @@ static void poll_for_init_completion(struct emif_handle_s *h)
 	while (((SOC_read32(h->ctl_cfg_base_addr + DDRSS_PI_REGISTER_BLOCK__OFFS + DENALI_PI_87__SFR_OFFS)) & 0x1) != 0x1) { /* Poll for PI Init completion */
 	}
 #else
-	while (((SOC_read32(h->ctl_cfg_base_addr + (u64)DDRSS_PI_REGISTER_BLOCK__OFFS + (u64)DENALI_PI_87__SFR_OFFS)) & 0x1U) != 0x1U) {    /* Poll for PI Init completion */
+	while (((SOC_read32(h->ctl_cfg_base_addr + (u64) DDRSS_PI_REGISTER_BLOCK__OFFS + (u64) DENALI_PI_87__SFR_OFFS)) & 0x1U) != 0x1U) {      /* Poll for PI Init completion */
 	}
-	while (((SOC_read32(h->ctl_cfg_base_addr + (u64)DENALI_CTL_350__SFR_OFFS)) & 0x02000000U) != 0x02000000U) {                    /* Poll for CTL Init completion */
+	while (((SOC_read32(h->ctl_cfg_base_addr + (u64) DENALI_CTL_350__SFR_OFFS)) & 0x02000000U) != 0x02000000U) {                            /* Poll for CTL Init completion */
 	}
 #endif
 }
 
-static void do_ddr_lpm_exit_sequence_thru_wkup_mmr(void)
+static s32 do_ddr_lpm_exit_sequence_thru_wkup_mmr(void)
 {
-	/* 1. write 0 to remove DDR data retention */
+	u32 timeout = TIMEOUT_10_MS;
+	s32 ret = SUCCESS;
+
+	/* Write 0 to remove DDR data retention */
 	writel((((DDR16SS_DATA_RET_LD_OPEN << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_DIS)), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 	writel((((DDR16SS_DATA_RET_LD_CLOSE << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_DIS)), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 
-	/* 2. Reset the OFF mode MMRs and CAN IO mode MMRs. */
+	/* Unload magic words - Clear CAN IO magic word load enable bit with magic word written. */
+	writel((WKUP_CANUART_MAGIC_WRD | WKUP_CANUART_MAGIC_WRD_LD_DIS), WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
+
+	/* Wait for CAN ONLY IO signal to be 0 */
+	while ((timeout > 0U) && ((readl(WKUP_CTRL_MMR_BASE + CANUART_WAKE_STAT1) == WKUP_CANUART_CAN_IO_ISO_CLRD)) == SFALSE) {
+		--timeout;
+	}
+	if (timeout == 0U) {
+		ret = -EFAIL;
+	}
+
+	/* Reset the OFF mode MMRs and CAN IO mode MMRs. */
 	writel(0x0, WKUP_CTRL_MMR_BASE + CANUART_WAKE_OFF_MODE);
 	writel(WKUP_CANUART_MAGIC_WRD_LD_DIS, WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
+
+	return ret;
 }
 
 static void do_ddr_lpm_entry_sequence_thru_wkup_mmr(void)
@@ -210,10 +226,10 @@ static void enter_lpm_self_refresh(void)
 	u32 lp_status = 0;
 
 	/* Program Self Refresh mode */
-	writel((LP_MODE_LONG_SELF_REFRESH << 8), DDRSS0_CTRL_BASE + (u32)DENALI_CTL_160__SFR_OFFS);
+	writel((LP_MODE_LONG_SELF_REFRESH << 8), DDRSS0_CTRL_BASE + (u32) DENALI_CTL_160__SFR_OFFS);
 
 	while (lp_status != STATUS_SR_LONG_ENTERED) {
-		lp_status = (readl(DDRSS0_CTRL_BASE + (u32)DENALI_CTL_169__SFR_OFFS) & 0x7F00U);
+		lp_status = (readl(DDRSS0_CTRL_BASE + (u32) DENALI_CTL_169__SFR_OFFS) & 0x7F00U);
 	}
 }
 
@@ -473,7 +489,7 @@ s32 ddr_exit_low_power_mode(void)
 	Write_MMR_Field(Emifhandle.ctl_cfg_base_addr + CSL_EMIF_CTLCFG_DENALI_PI_11, 0x2, 5, 0);        /* DENALI_PI_11 PI_INIT_WORK_FREQ bits 4:0 */
 
 	/* De-asserting data retention pin and wake Control bits */
-	do_ddr_lpm_exit_sequence_thru_wkup_mmr();
+	ret = do_ddr_lpm_exit_sequence_thru_wkup_mmr();
 
 	/* Wait for reg values to set */
 	for (i = 0; i < 1000U; i++) {
