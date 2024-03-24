@@ -3,7 +3,7 @@
  *
  * Debug Trace layer Protocol Definition
  *
- * Copyright (C) 2018-2023, Texas Instruments Incorporated
+ * Copyright (C) 2018-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -337,10 +337,10 @@
 #define TRACE_PM_VAL_MAX_FREQ                            (TRACE_PM_VAL_CLOCK_VAL_MASK >> TRACE_PM_VAL_CLOCK_VAL_SHIFT)
 
 #define TRACE_PM_VAL_PSC_SHIFT                           20U
-#define TRACE_PM_VAL_PD_SHIFT                            14U
-#define TRACE_PM_VAL_LPSC_SHIFT                          14U
+#define TRACE_PM_VAL_PD_SHIFT                            13U
+#define TRACE_PM_VAL_LPSC_SHIFT                          13U
 
-#define TRACE_PM_VAL_MAX_PSC_DATA                        0x00003FFFU
+#define TRACE_PM_VAL_MAX_PSC_DATA                        0x00001FFFU
 
 #define TRACE_PM_VAL_PD_POS1                             1U
 #define TRACE_PM_VAL_PD_POS2                             2U
@@ -398,8 +398,6 @@
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_HFOSC_PD_C                   0x0015U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_OSC_CG_WFI                   0x0016U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_PRE_WFI                         0x0017U
-#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_CLK_GATE                     0x0033U
-#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_CLK_GATE                    0x0034U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT                      0x0018U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_POST_WFI                        0x0019U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CLR_OSC_CG_WFI                  0x001AU
@@ -411,7 +409,6 @@
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_SET_MGC_WRD                     0x0020U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_ON                      0x0021U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST                   0x0022U
-#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MAIN_DM_LPSC_EN                 0x0051U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WKUP_CLKSEL_MAIN                0x0023U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_MCU_PLLS                     0x0024U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS                       0x0025U
@@ -430,6 +427,9 @@
 #define TRACE_PM_ACTION_LPM_SEQ_FS_STUB_CTX_RESTORE                     0x0032U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_RST_UNMASK                   0x0033U
 #define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_RST_ISO_DONE                0x0034U
+#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_CLK_GATE                     0x0035U
+#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_CLK_GATE                    0x0036U
+#define TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MAIN_DM_LPSC_EN                 0x0051U
 
 
 

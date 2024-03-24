@@ -1,7 +1,7 @@
 /*
  * DMSC firmware
  *
- * Copyright (C) 2018-2023, Texas Instruments Incorporated
+ * Copyright (C) 2018-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -193,44 +193,6 @@ static void clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll)
 	writel(cal, (u32) pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
 }
 
-/*
- * \brief Implement the option 4 PLL calibration method.
- *
- * This calibration method relies on an existing calibration value and allows
- * continual background calibration.
- *
- * \param pll The PLL data associated with this FRACF PLL.
- */
-static void clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll)
-{
-	u32 calout;
-	u32 cal;
-	u32 stat;
-
-	cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
-	stat = readl(pll->base + (u32) PLL_16FFT_CAL_STAT(pll->idx));
-
-	/* Read generated calibration value */
-	calout = stat & PLL_16FFT_CAL_STAT_CAL_OUT_MASK;
-	calout >>= PLL_16FFT_CAL_STAT_CAL_OUT_SHIFT;
-
-	/* Program stored calibration value */
-	cal &= ~PLL_16FFT_CAL_CTRL_CAL_IN_MASK;
-	cal |= calout << PLL_16FFT_CAL_CTRL_CAL_IN_SHIFT;
-
-	/* Disable calibration bypass */
-	cal &= ~PLL_16FFT_CAL_CTRL_CAL_BYP;
-
-	/* Disable fast cal mode */
-	cal &= ~PLL_16FFT_CAL_CTRL_FAST_CAL;
-
-	/* Set CALCNT to 7 */
-	cal &= ~PLL_16FFT_CAL_CTRL_CAL_CNT_MASK;
-	cal |= (u32) 7U << (u32) PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT;
-
-	/* Note this register does not readback the written value. */
-	writel(cal, (u32) pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
-}
 static void clk_pll_16fft_disable_cal(const struct clk_data_pll_16fft *pll)
 {
 	u32 cal, stat;
@@ -246,10 +208,6 @@ static void clk_pll_16fft_disable_cal(const struct clk_data_pll_16fft *pll)
 }
 #else
 static void clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll __attribute__((unused)))
-{
-	return;
-}
-static void clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll __attribute__((unused)))
 {
 	return;
 }
@@ -405,22 +363,6 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clock_ptr)
 					success = STRUE;
 					break;
 				}
-			}
-		}
-		/* Disable calibration in the fractional mode of the FRACF PLL based on data
-		 * from silicon and simulation data.
-		 */
-		if (success && (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF)
-		    && (pllfm == 0UL)) {
-			u32 cal;
-			cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
-			if ((cal & PLL_16FFT_CAL_CTRL_FAST_CAL) != 0U) {
-				/*
-				 * Fast cal enabled indicates we were performing
-				 * option 3. Now that we have a calibration value,
-				 * switch to option 4.
-				 */
-				clk_pll_16fft_cal_option4(pll);
 			}
 		}
 	}
@@ -621,21 +563,7 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 	}
 
 	if ((pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL)) {
-		u32 cal;
-		u32 stat;
-
-		cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
-		stat = readl(pll->base + (u32) PLL_16FFT_CAL_STAT(pll->idx));
-
-		/* Check if calibration is already enabled and locked */
-		if (((cal & PLL_16FFT_CAL_CTRL_CAL_EN) != 0U) &&
-		    ((stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U)) {
-			/* Yes, go straight to option 4 */
-			clk_pll_16fft_cal_option4(pll);
-		} else {
-			/* No, get an initial calibration via option 3 */
-			clk_pll_16fft_cal_option3(pll);
-		}
+		clk_pll_16fft_cal_option3(pll);
 	}
 
 	/* Program the new rate */
@@ -894,8 +822,8 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 					fret += (u64) (((u32) frem) / clkod_plld);
 					frem =  (u64) (((u32) frem) % clkod_plld);
 				} else {
-				/* Do Nothing */
-			  }
+					/* Do Nothing */
+				}
 				fret *= stride;
 				frem *= stride;
 				if (frem > (u64) ULONG_MAX) {
@@ -904,8 +832,8 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 					fret += (u64) (((u32) frem) / clkod_plld);
 					frem =  (u64) (((u32) frem) % clkod_plld);
 				} else {
-				/* Do Nothing */
-			  }
+					/* Do Nothing */
+				}
 				frem += (u64) (((u32) (fret & pllfm_mask)) * clkod_plld);
 
 				/* Add fractional part */
@@ -1238,21 +1166,7 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 		 * data from silicon and simulation data.
 		 */
 		if ((pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL)) {
-			u32 cal;
-			u32 stat;
-
-			cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
-			stat = readl(pll->base + (u32) PLL_16FFT_CAL_STAT(pll->idx));
-
-			/* Check if calibration is already enabled and locked */
-			if (((cal & PLL_16FFT_CAL_CTRL_CAL_EN) != 0U) &&
-			    ((stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U)) {
-				/* Yes, go straight to option 4 */
-				clk_pll_16fft_cal_option4(pll);
-			} else {
-				/* No, get an initial calibration via option 3 */
-				clk_pll_16fft_cal_option3(pll);
-			}
+			clk_pll_16fft_cal_option3(pll);
 		}
 
 		/* Make sure PLL is enabled */
@@ -1331,6 +1245,27 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 
 		if (ret == SUCCESS) {
 			ret = pll_init(clock_ptr);
+		}
+	} else {
+		/*
+		 * Make sure all HSDIVs of the PLL are enabled when relying on
+		 * another entity to initialize the PLL instead of this driver.
+		 */
+
+		/* Unlock write access */
+		writel((u32) PLL_16FFT_LOCKKEY0_VALUE, (u32) pll->base + (u32) PLL_16FFT_LOCKKEY0(pll->idx));
+		writel((u32) PLL_16FFT_LOCKKEY1_VALUE, (u32) pll->base + (u32) PLL_16FFT_LOCKKEY1(pll->idx));
+
+		cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
+
+		/* Enable all HSDIV outputs */
+		for (i = 0U; (i < 16U) && (ret == SUCCESS); i++) {
+			/* Enable HSDIV output if present */
+			if ((PLL_16FFT_CFG_HSDIV_PRSNC(i) & cfg) != 0UL) {
+				ctrl = readl(pll->base + (u32) PLL_16FFT_HSDIV_CTRL(pll->idx, i));
+				ctrl |= PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
+				ret = pm_writel_verified(ctrl, (u32) pll->base + (u32) PLL_16FFT_HSDIV_CTRL(pll->idx, i));
+			}
 		}
 	}
 

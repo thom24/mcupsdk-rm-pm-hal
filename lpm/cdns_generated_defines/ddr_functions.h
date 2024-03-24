@@ -3,7 +3,7 @@
  *
  * CDNS DDR driver
  *
- * Copyright (C) 2023, Texas Instruments Incorporated
+ * Copyright (C) 2023-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -95,15 +95,16 @@
  * Memory Type for Init and Self Refresh LP Mode
  * -----------------------------------------------------------------------------
  */
-#define DDR4_DRAM_CLASS_REG_VALUE    0xA
-#define LPDDR4_DRAM_CLASS_REG_VALUE  0xB
-#define LP_MODE_SELF_REFRESH         0x29
-#define LP_MODE_LONG_SELF_REFRESH    0x31 /* 0x51 AU */
-#define LP_MODE_PRECHARGE_POWER_DOWN 0x3
-#define LP_MODE_NONE                 0x2
-#define STATUS_SR_ENTERED            0x4B00
-#define STATUS_SR_SHORT_ENTERED      0x4500
-#define STATUS_SR_ENTERED_MASK       0xFF00
+#define DDR4_DRAM_CLASS_REG_VALUE    0xAU
+#define LPDDR4_DRAM_CLASS_REG_VALUE  0xBU
+#define LP_MODE_SELF_REFRESH         0x29U
+#define LP_MODE_LONG_SELF_REFRESH    0x31U /* 0x51 AU */
+#define LP_MODE_PRECHARGE_POWER_DOWN 0x3U
+#define LP_MODE_NONE                 0x2U
+#define STATUS_SR_ENTERED            0x4B00U
+#define STATUS_SR_SHORT_ENTERED      0x4500U
+#define STATUS_SR_LONG_ENTERED       0x4E00U
+#define STATUS_SR_ENTERED_MASK       0xFF00U
 
 
 /*

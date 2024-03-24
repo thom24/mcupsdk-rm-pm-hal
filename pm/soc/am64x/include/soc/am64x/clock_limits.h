@@ -1,7 +1,7 @@
 /*
  * Data version: 230209_212853
  *
- * Copyright (C) 2017-2023, Texas Instruments Incorporated
+ * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,9 +37,9 @@
 
 #define SOC_CLOCK_VALUES_RANGE_ID_MAX 109
 
-#define SOC_PLL_TABLE_RANGE_ID_MAX 37
+#define SOC_PLL_TABLE_RANGE_ID_MAX 36
 
-#define SOC_CLOCK_FREQ_DEFAULTS_RANGE_ID_MAX 7
+#define SOC_CLOCK_FREQ_DEFAULTS_RANGE_ID_MAX 8
 
 #define SOC_CLOCK_DATA_RANGE_ID_MAX 228
 

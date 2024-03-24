@@ -53,7 +53,7 @@ static u32 clk_soc_lfosc0_get_freq(struct clk *clk_ptr UNUSED)
 	u32 v;
 
 	v = readl(AM6_MCU_CTRL_MMR + AM6_MCU_LFXOSC_CTRL) & LFXOSC_32K_DISABLE_VAL;
-	if (v == 0) {
+	if (v == 0U) {
 		ret = FREQ_KHZ(32.768);
 	}
 

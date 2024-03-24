@@ -38,49 +38,49 @@
 
 /* Register Definitions */
 
-#define UART_16550_THR                  0x00
-#define UART_16550_RHR                  0x00
-#define UART_16550_DLL                  0x00
+#define UART_16550_THR                  0x00U
+#define UART_16550_RHR                  0x00U
+#define UART_16550_DLL                  0x00U
 
-#define UART_16550_IER                  0x04
-#define UART_16550_DLH                  0x04
+#define UART_16550_IER                  0x04U
+#define UART_16550_DLH                  0x04U
 
-#define UART_16550_IIR                  0x08
-#define UART_16550_FCR                  0x08
+#define UART_16550_IIR                  0x08U
+#define UART_16550_FCR                  0x08U
 
-#define UART_16550_LCR                  0x0C
+#define UART_16550_LCR                  0x0CU
 
-#define UART_16550_MCR                  0x10
+#define UART_16550_MCR                  0x10U
 
-#define UART_16550_LSR                  0x14
-#define UART_16550_MSR_TCR              0x18
-#define UART_16550_SPR_TLR              0x1C
-#define UART_16550_MDR1                 0x20
-#define UART_16550_MDR2                 0x24
-#define UART_16550_BLR_UASR             0x38
-#define UART_16550_ACREG                0x3C
-#define UART_16550_SCR                  0x40
-#define UART_16550_SSR                  0x44
-#define UART_16550_EBLR                 0x48
-#define UART_16550_MVR                  0x50
-#define UART_16550_SYSC                 0x54
-#define UART_16550_SYSS                 0x58
-#define UART_16550_WER                  0x5C
-#define UART_16550_CFPS                 0x60
-#define UART_16550_RXFIFO_LVL           0x64
-#define UART_16550_TXFIFO_LVL           0x68
-#define UART_16550_IER2                 0x6C
-#define UART_16550_ISR2                 0x70
-#define UART_16550_MDR3                 0x80
-#define UART_16550_TDT                  0x84
-#define UART_16550_MDR4                 0x88
-#define UART_16550_EFR2                 0x8C
-#define UART_16550_ECR                  0x90
-#define UART_16550_SCCR                 0xA0
-#define UART_16550_ERHR_ETHR            0xA4
-#define UART_16550_MAR                  0xA8
-#define UART_16550_MMR                  0xAC
-#define UART_16550_MBR                  0xB0
+#define UART_16550_LSR                  0x14U
+#define UART_16550_MSR_TCR              0x18U
+#define UART_16550_SPR_TLR              0x1CU
+#define UART_16550_MDR1                 0x20U
+#define UART_16550_MDR2                 0x24U
+#define UART_16550_BLR_UASR             0x38U
+#define UART_16550_ACREG                0x3CU
+#define UART_16550_SCR                  0x40U
+#define UART_16550_SSR                  0x44U
+#define UART_16550_EBLR                 0x48U
+#define UART_16550_MVR                  0x50U
+#define UART_16550_SYSC                 0x54U
+#define UART_16550_SYSS                 0x58U
+#define UART_16550_WER                  0x5CU
+#define UART_16550_CFPS                 0x60U
+#define UART_16550_RXFIFO_LVL           0x64U
+#define UART_16550_TXFIFO_LVL           0x68U
+#define UART_16550_IER2                 0x6CU
+#define UART_16550_ISR2                 0x70U
+#define UART_16550_MDR3                 0x80U
+#define UART_16550_TDT                  0x84U
+#define UART_16550_MDR4                 0x88U
+#define UART_16550_EFR2                 0x8CU
+#define UART_16550_ECR                  0x90U
+#define UART_16550_SCCR                 0xA0U
+#define UART_16550_ERHR_ETHR            0xA4U
+#define UART_16550_MAR                  0xA8U
+#define UART_16550_MMR                  0xACU
+#define UART_16550_MBR                  0xB0U
 
 /* Line Control Register bits */
 #define UART_16550_LCR_DLAB             (1U << 7U)      /* Divisor Latch Access */

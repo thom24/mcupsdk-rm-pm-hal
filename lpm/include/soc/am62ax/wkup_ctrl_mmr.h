@@ -3,7 +3,7 @@
  *
  * am62ax lpm wkup_ctrl_mmr.h
  *
- * Copyright (C) 2023, Texas Instruments Incorporated
+ * Copyright (C) 2023-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,6 +47,8 @@ extern "C" {
 #define PMCTRL_IO_0                     (0x00018084U)
 #define PMCTRL_MOSC                     (0x00018090U)
 #define RST_CTRL                        (0x00018170U)
+#define CANUART_WAKE_CTRL               (0x00018300U)
+#define CANUART_WAKE_OFF_MODE           (0x00018310U)
 #define SLEEP_STATUS                    (0x00018410U)
 #define DS_MAGIC_WORD                   (0x00018418U)
 #define DS_MAIN                         (0x00018420U)
@@ -95,7 +97,10 @@ extern "C" {
 
 /* DDR16SS_PMCTRL */
 #define DDR16SS_RETENTION_DIS           0U
-#define DDR16SS_RETENTION_EN            0x6
+#define DDR16SS_RETENTION_EN            0x6U
+#define DDR16SS_DATA_RET_LD_BIT         31U
+#define DDR16SS_DATA_RET_LD_OPEN        0x1U
+#define DDR16SS_DATA_RET_LD_CLOSE       0x0U
 
 /* WKUP_WWD0_CTRL */
 #define WWD_RUN                         0U
@@ -112,12 +117,20 @@ extern "C" {
 /* RST_CTRL */
 #define RST_CTRL_MAIN_RST_ISO_DONE_Z    BIT(18)
 
+/* CANUART WAKE CTRL */
+#define WKUP_CANUART_MAGIC_WRD          (0x2AAAAAAAU << 1U)
+#define WKUP_CANUART_MAGIC_WRD_LD_EN    (0x1U)
+#define WKUP_CANUART_MAGIC_WRD_LD_DIS   (0x0U)
+
+/* CANUART WAKE OFF MODE */
+#define WKUP_CANUART_OFF_MAGIC_WORD     (0x555555)
+
 /* SLEEP_STATUS */
 #define SLEEP_STATUS_MAIN_RESETSTATZ    BIT(8)
 
 /* DS_MAGIC_WORD */
-#define DS_MAGIC_WORD_RESUME_TIFS           0xdee51ee5U
-#define DS_MAGIC_WORD_RESUME_ROM            0x00d5d02eU
+#define DS_MAGIC_WORD_RESUME_TIFS       0xdee51ee5U
+#define DS_MAGIC_WORD_RESUME_ROM        0x00d5d02eU
 
 /* DS_MAIN */
 #define DS_MAIN_OFF                     0x6U
@@ -126,10 +139,6 @@ extern "C" {
 /* Deep Sleep reset mask and unmask */
 #define DS_RESET_MASK                   0x6U
 #define DS_RESET_UNMASK                 0xFU
-
-#define WKUP_CTRL_DDR16SS_PMCTRL                           (0x080d0U)
-#define WKUP_CTRL_CANUART_WAKE_OFF_MODE                    (0x18310U)
-#define WKUP_CTRL_CANUART_WAKE_CTRL                        (0x18300U)
 
 #ifdef __cplusplus
 }

@@ -45,7 +45,7 @@ extern "C" {
 #include <baseaddress.h>
 #include <pll_16fft_raw.h>
 
-#define PLLOFFSET(idx) (0x1000 * (idx))
+#define PLLOFFSET(idx) (0x1000U * (idx))
 
 enum save_restore_main_pll {
 	SAVE_RESTORE_MAIN_PLL0,

@@ -264,10 +264,10 @@ static void lpm_enter_partial_io_mode(void)
 	writel(reg, (WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0));
 
 	/* wait for wu clock state to be 1 */
-	while ((timeout > 0) && (((readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0)) & WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS) != WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS)) {
+	while ((timeout > 0U) && (((readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0)) & WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS) != WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS)) {
 		--timeout;
 	}
-	if (timeout == 0) {
+	if (timeout == 0U) {
 		lpm_hang_abort();
 	}
 
@@ -286,7 +286,7 @@ static void lpm_enter_partial_io_mode(void)
 	writel(reg, WKUP_CTRL_BASE + WKUP_CANUART_CTRL);
 
 	/* Wait for CAN_ONLY_IO signal to be 1 */
-	while ((timeout > 0) && ((readl(WKUP_CTRL_BASE + WKUP_CANUART_WAKE_STAT1)) != WKUP_CANUART_IO_MODE_ACTIVE)) {
+	while ((timeout > 0U) && ((readl(WKUP_CTRL_BASE + WKUP_CANUART_WAKE_STAT1)) != WKUP_CANUART_IO_MODE_ACTIVE)) {
 		--timeout;
 	}
 	if (timeout == 0U) {
