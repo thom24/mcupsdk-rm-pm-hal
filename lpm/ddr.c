@@ -528,10 +528,10 @@ s32 ddr_deepsleep_exit_training(void)
 
 		/* Software trigger read gate level training */
 		if (ret == 0) {
-			for (u32 i = ddr_rank; i > 0; i >>= 1) {
+			for (u32 i = ddr_rank; i > 0U; i >>= 1) {
 				/* Program PI_RDLVL_CS = 0 for first rank and 1 for second rank */
 				val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_34);
-				if (curr_cs == 0) {
+				if (curr_cs == 0U) {
 					val &= ~CDNS_DENALI_PI_34_RDLVL_CS;
 				} else {
 					val |= CDNS_DENALI_PI_34_RDLVL_CS;
@@ -564,10 +564,10 @@ s32 ddr_deepsleep_exit_training(void)
 		if (ret == 0) {
 			curr_cs = 0;
 
-			for (u32 i = ddr_rank; i > 0; i >>= 1) {
+			for (u32 i = ddr_rank; i > 0U; i >>= 1) {
 				/* Program PI_RDLVL_CS = 0 for first rank and 1 for second rank */
 				val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_34);
-				if (curr_cs == 0) {
+				if (curr_cs == 0U) {
 					val &= ~CDNS_DENALI_PI_34_RDLVL_CS;
 				} else {
 					val |= CDNS_DENALI_PI_34_RDLVL_CS;
@@ -600,10 +600,10 @@ s32 ddr_deepsleep_exit_training(void)
 		if (ret == 0) {
 			curr_cs = 0;
 
-			for (u32 i = ddr_rank; i > 0; i >>= 1) {
+			for (u32 i = ddr_rank; i > 0U; i >>= 1) {
 				/* Program PI_RDLVL_CS = 0 for first rank and 1 for second rank */
 				val = readl(DDR_CTRL_BASE + CDNS_DENALI_PI_24);
-				if (curr_cs == 0) {
+				if (curr_cs == 0U) {
 					val &= ~CDNS_DENALI_PI_24_WRLVL_CS;
 				} else {
 					val |= CDNS_DENALI_PI_24_WRLVL_CS;

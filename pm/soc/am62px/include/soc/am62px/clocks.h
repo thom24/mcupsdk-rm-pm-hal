@@ -1,7 +1,7 @@
 /*
  * Data version: 231011_130515
  *
- * Copyright (C) 2017-2023 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2024 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #ifndef SOC_AM62PX_CLOCKS_H
