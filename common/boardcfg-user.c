@@ -3,7 +3,7 @@
  *
  * Boardcfg API for receiving and storing board configuration
  *
- * Copyright (C) 2018-2021, Texas Instruments Incorporated
+ * Copyright (C) 2018-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -194,7 +194,7 @@ static bool boardcfg_validate_rm_resasg(const struct boardcfg_rm_resasg *resasg)
 		if ((resasg->resasg_entries_size == 0u) ||
 		    ((resasg->resasg_entries_size >=
 		      (RESASG_ENTRIES_MAX *
-		       sizeof(struct boardcfg_rm_resasg_entry))) &&
+		       sizeof(struct boardcfg_rm_resasg_entry))) ||
 		     ((resasg->resasg_entries_size %
 		       sizeof(struct boardcfg_rm_resasg_entry)) > 0u))) {
 			ret = false;
@@ -316,9 +316,14 @@ s32 boardcfg_rm_receive_and_validate(u8		host,
 		/*
 		* When combined image format config is enabled and extended boot
 		* information is present, ROM has already copied boardcfg to DMSC IRAM.
-		* Just do a memcpy */
+		* Just do a memcpy, but after a bound check
+		*
+		* boardcfg_rm_size includes boardcfg_rm and resource entry.
+		*/
 		else if (ft_is_true(extboot_is_valid()) &&
-			 ft_is_true(extboot_boardcfg_is_present(TISCI_MSG_BOARD_CONFIG_RM))) {
+			 ft_is_true(extboot_boardcfg_is_present(TISCI_MSG_BOARD_CONFIG_RM)) &&
+			 (boardcfg_rm_size <= (sizeof(struct boardcfg_rm) +
+					       (sizeof(struct boardcfg_rm_resasg_entry) * RESASG_ENTRIES_MAX)))) {
 			validp = (u8 *) memcpy(&local_rm_config.config_rm_cfg, (struct boardcfg_rm *) boardcfg_rmp_low,
 					       boardcfg_rm_size);
 			if (validp == NULL) {
