@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2014-2020, Texas Instruments Incorporated
+ * Copyright (C) 2014-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,17 +39,22 @@
 char *lib_strncpy(char *a, const char *b, size_t n)
 {
 	char *_a = a;
+	const char *_b = b;
+	size_t n_val_p = n;
 
-	while (b[0]) {
-		if (!(n--)) {
-			n = 0;
+	while (_b[0] != '\0') {
+		if ((n_val_p--) == 0U) {
+			n_val_p = 0U;
 			break;
 		}
-		*a++ = *b++;
+		*_a = *_b;
+		_a++;
+		_b++;
 	}
 
-	while (n--) {
-		*a++ = '\0';
+	while ((n_val_p--) != 0U) {
+		*_a = '\0';
+		_a++;
 	}
-	return _a;
+	return a;
 }

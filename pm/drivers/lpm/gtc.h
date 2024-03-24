@@ -1,7 +1,7 @@
 /*
  * Device Manager - LPM GTC Driver
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,13 +42,13 @@
  *
  *  \return ret      SUCCESS
  */
-s32 lpm_sleep_suspend_gtc();
+s32 lpm_sleep_suspend_gtc(void);
 
 /**
  *  \brief  Restore GTC counter and enable GTC
  *
  *  \return ret      SUCCESS
  */
-s32 lpm_resume_gtc();
+s32 lpm_resume_gtc(void);
 
 #endif /* __LPM_GTC_H__ */

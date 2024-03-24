@@ -3,7 +3,7 @@
  *
  * Resource Manager core utility functions used across RM internal subsystems
  *
- * Copyright (C) 2017-2022, Texas Instruments Incorporated
+ * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,7 @@
 #include <osal/osal_core.h>
 #include <boardcfg/boardcfg_rm_data.h>
 #include <resasg_types.h>
+#include <rm.h>
 
 #include <rm_core.h>
 
@@ -148,7 +149,8 @@ static s32 core_resasg_create_index(void)
 			}
 
 			/* Store number of unique indexes found for the resasg list */
-			resasg_indexer.valid_cnt = (u8)++ j;
+			++j;
+			resasg_indexer.valid_cnt = (u8) (j);
 
 			if (resasg_indexer.valid_cnt > resasg_indexer.max_cnt) {
 				r = -ECONFUSED;
@@ -254,14 +256,15 @@ static s32 core_resasg_validate_type(u16 type, u8 trace_action)
 {
 	s32 r = SUCCESS;
 	u16 mask = RESASG_TYPE_MASK >> RESASG_TYPE_SHIFT;
+	u8 trace_action_val = trace_action;
 
 	/* Type cannot be greater than mask width */
 	if (type > mask) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val,
 		     TRACE_RM_SUB_ACTION_RESOURCE_GET_TYPE,
 		     type);
 
@@ -285,14 +288,15 @@ static s32 core_resasg_validate_subtype(u16 subtype, u8 trace_action)
 {
 	s32 r = SUCCESS;
 	u16 mask = RESASG_SUBTYPE_MASK >> RESASG_SUBTYPE_SHIFT;
+	u8 trace_action_val = trace_action;
 
 	/* Subtype cannot be greater than mask width */
 	if (subtype > mask) {
-		trace_action |= TRACE_RM_ACTION_FAIL;
+		trace_action_val |= TRACE_RM_ACTION_FAIL;
 		r = -EINVAL;
 	}
 
-	rm_trace_sub(trace_action,
+	rm_trace_sub(trace_action_val,
 		     TRACE_RM_SUB_ACTION_RESOURCE_GET_SUBTYPE,
 		     subtype);
 
@@ -312,7 +316,7 @@ s32 rm_core_get_resource_range(u32	*msg_recv,
 	sbool type_found;
 	u8 trace_action = TRACE_RM_ACTION_RESOURCE_GET;
 	u16 start, start_sec;
-    u16 num, num_sec;
+	u16 num, num_sec;
 
 	if ((msg->secondary_host != TISCI_MSG_VALUE_RM_UNUSED_SECONDARY_HOST) &&
 	    (msg->secondary_host != HOST_ID_ALL)) {
@@ -367,16 +371,16 @@ s32 rm_core_get_resource_range(u32	*msg_recv,
 #endif
 
 		if (type_found == STRUE) {
-            core_resasg_get_range(host, utype,
-                          &start,
-                          &num,
-                          &start_sec,
-                          &num_sec);
+			core_resasg_get_range(host, utype,
+					      &start,
+					      &num,
+					      &start_sec,
+					      &num_sec);
 
-            resp->range_start = start;
-            resp->range_num =num ;
-            resp->range_start_sec = start_sec,
-            resp->range_num_sec = num_sec; 
+			resp->range_start = start;
+			resp->range_num = num;
+			resp->range_start_sec = start_sec;
+			resp->range_num_sec = num_sec;
 		} else {
 			/*
 			 * Do not return failure so there's a common response
@@ -439,7 +443,8 @@ s32 rm_core_get_resasg_hosts(u16	utype,
 					r = -EINVAL;
 					break;
 				}
-				host_array[(*n_hosts)++] = entry->host_id;
+				host_array[(*n_hosts)] = entry->host_id;
+				(*n_hosts) = (*n_hosts) + 1;
 			}
 		}
 	}
@@ -454,8 +459,8 @@ s32 rm_core_init(void)
 	r = core_resasg_create_index();
 
 	if (r != SUCCESS) {
-		rm_trace_sub(TRACE_RM_ACTION_RM_CORE_INIT |
-			     TRACE_RM_ACTION_FAIL, 0U, 0U);
+		rm_trace_sub((TRACE_RM_ACTION_RM_CORE_INIT |
+			      TRACE_RM_ACTION_FAIL), 0U, 0U);
 	}
 
 	return r;
@@ -483,7 +488,7 @@ mapped_addr_t rm_core_map_region(soc_phys_addr_t phy_addr)
 	 *
 	 * *NOTE*: This wont work for firewall setup and separated ops.
 	 */
-	return soc_phys_low_u32(phy_addr) + CONFIG_ADDR_REMAP_OFFSET;
+	return soc_phys_low_u32(phy_addr) + (u32) CONFIG_ADDR_REMAP_OFFSET;
 }
 
 void rm_core_unmap_region(void)
@@ -507,7 +512,7 @@ const struct rm_resasg_index *rm_core_resasg_get_utype_index(u16 utype)
 	sbool found = SFALSE;
 
 	lower = 0u;
-	upper = resasg_indexer.valid_cnt - 1u;
+	upper = (u16) resasg_indexer.valid_cnt - 1u;
 	cnt = resasg_indexer.valid_cnt;
 
 	/*

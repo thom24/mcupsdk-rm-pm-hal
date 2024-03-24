@@ -46,6 +46,7 @@ s32 query_fw_caps_handler(u32 *msg_recv)
 	s32 ret = SUCCESS;
 	unsigned int i;
 
+	resp->fw_caps = 0;
 	for (i = 0; i < TISCI_MSG_FLAG_FW_CAP_MAX; i++) {
 		resp->fw_caps |= soc_fw_caps[i];
 	}

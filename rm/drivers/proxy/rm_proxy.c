@@ -3,7 +3,7 @@
  *
  * proxy management infrastructure
  *
- * Copyright (C) 2019-2020, Texas Instruments Incorporated
+ * Copyright (C) 2019-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,6 +45,7 @@
 #include <hosts.h>
 
 #include <tisci/rm/tisci_rm_proxy.h>
+#include <rm.h>
 
 #include <rm_core.h>
 #include <rm_proxy.h>

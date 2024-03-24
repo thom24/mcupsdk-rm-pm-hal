@@ -1,5 +1,5 @@
 /*
- * Data version: 230126_160511
+ * Data version: 230918_161414
  *
  * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -37,7 +37,7 @@
 
 #define SOC_CLOCK_VALUES_RANGE_ID_MAX 114
 
-#define SOC_PLL_TABLE_RANGE_ID_MAX 30
+#define SOC_PLL_TABLE_RANGE_ID_MAX 27
 
 #define SOC_CLOCK_FREQ_DEFAULTS_RANGE_ID_MAX 10
 

@@ -105,6 +105,7 @@
 #define AM6_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_01 + 1U)
 #define AM62X_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_HSM + 1U)
 #define AM62AX_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_HSM + 1U)
+#define AM62PX_PM_DEVGRP_RANGE_ID_MAX (PM_DEVGRP_HSM + 1U)
 
 struct device;
 struct dev_clk;
@@ -112,8 +113,8 @@ struct dev_clk_data;
 struct resource;
 
 struct drv {
-	int	(*pre_init)(struct device *dev);
-	int	(*post_init)(struct device *dev);
+	s32	(*pre_init)(struct device *dev);
+	s32	(*post_init)(struct device *dev);
 	void	(*uninit)(struct device *dev);
 	void	(*suspend)(struct device *dev);
 };
@@ -479,7 +480,7 @@ s32 devices_deinit(u8 pm_devgrp);
  *
  * \return SUCCESS on success, <0 otherwise.
  */
-s32 devices_deinit_flags();
+s32 devices_deinit_flags(void);
 
 /**
  * \brief Drop device power up references.

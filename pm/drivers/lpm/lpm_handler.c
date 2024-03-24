@@ -56,12 +56,12 @@
 
 
 /* counts of 1us delay for 10ms */
-#define TIMEOUT_10MS                    10000
+#define TIMEOUT_10MS                    10000U
 
-#define LPM_SUSPEND_POWERMASTER         BIT(0)
+#define LPM_SUSPEND_POWERMASTER                 BIT(0)
 #define LPM_DEVICE_DEINIT                       BIT(1)
 #define LPM_DISABLE_LPSC                        BIT(2)
-#define LPM_SAVE_MAIN_PADCONFIG         BIT(3)
+#define LPM_SAVE_MAIN_PADCONFIG                 BIT(3)
 #define LPM_SUSPEND_GTC                         BIT(4)
 #define LPM_CLOCK_SUSPEND                       BIT(5)
 #define LPM_SUSPEND_DM                          BIT(6)
@@ -70,54 +70,56 @@
 extern s32 _stub_start(void);
 extern u32 lpm_get_wake_up_source(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
-extern void lpm_clear_all_wakeup_interrupt();
+extern void lpm_clear_all_wakeup_interrupt(void);
 
 u32 key;
 volatile u32 enter_sleep_status = 0;
 
-static void lpm_hang_abort()
+static void lpm_hang_abort(void)
 {
-	volatile int a = 0x12341234;
+	volatile u32 a = 0x12341234;
 
-	while (a) {
+	while (a != 0U) {
 	}
 }
 
-static s32 lpm_sleep_wait_for_tifs_wfi()
+static s32 lpm_sleep_wait_for_tifs_wfi(void)
 {
 	u32 reg;
-	int i = 0;
+	u32 i = 0;
+	s32 ret = -ETIMEDOUT;
 
 	do {
 		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_WFI_STATUS);
 		if ((reg & SMS_CPU0_WFI_MASK) == SMS_CPU0_WFI_MASK) {
-			return SUCCESS;
+			ret = SUCCESS;
+			break;
 		}
 		osal_delay(1);
 	} while (i++ < TIMEOUT_10MS);
 
-	return -ETIMEDOUT;
+	return ret;
 }
 
-static s32 lpm_sleep_disable_sec_lpsc()
+static s32 lpm_sleep_disable_sec_lpsc(void)
 {
 	/* Disable security LPSCs */
 	return SUCCESS;
 }
 
-static s32 lpm_sleep_disable_misc_lpsc()
+static s32 lpm_sleep_disable_misc_lpsc(void)
 {
 	/* Disable non-crtitical  LPSCs */
 	return SUCCESS;
 }
 
-static s32 lpm_resume_enable_lpsc()
+static s32 lpm_resume_enable_lpsc(void)
 {
 	/* enable LPSCs as needed for cores to resume */
 	return SUCCESS;
 }
 
-static s32 lpm_resume_disable_DM_reset_isolation()
+static s32 lpm_resume_disable_DM_reset_isolation(void)
 {
 	/* Clear WKUP_CTRL_DS_DM_RESET.mask to stop
 	* isolation of DM from MAIN domain
@@ -126,13 +128,13 @@ static s32 lpm_resume_disable_DM_reset_isolation()
 	return SUCCESS;
 }
 
-static s32 lpm_resume_restore_RM_context()
+static s32 lpm_resume_restore_RM_context(void)
 {
 	/* restore IA and IR configurations */
 	return SUCCESS;
 }
 
-static s32 lpm_resume_send_core_resume_message()
+static s32 lpm_resume_send_core_resume_message(void)
 {
 	/* send core resume message */
 	s32 ret = 0;
@@ -147,26 +149,22 @@ static s32 lpm_resume_send_core_resume_message()
 
 	ret = sproxy_send_msg_dm2dmsc_fw(&req, sizeof(req));
 
-	if (ret) {
-		return ret;
-	}
+	if (ret == 0) {
+		struct tisci_msg_core_resume_resp resp;
+		memset(&resp, 0, sizeof(resp));
 
-	struct tisci_msg_core_resume_resp resp;
-	memset(&resp, 0, sizeof(resp));
-	ret = sproxy_receive_msg_dm2dmsc_fw(&resp, sizeof(resp));
-
-	if (ret) {
-		return ret;
-	}
-
-	if (resp.hdr.type != TISCI_MSG_CORE_RESUME || (resp.hdr.flags & (TISCI_MSG_FLAG_ACK != TISCI_MSG_FLAG_ACK))) {
-		ret = -EINVAL;
+		ret = sproxy_receive_msg_dm2dmsc_fw(&resp, sizeof(resp));
+		if (ret == 0) {
+			if ((resp.hdr.type != TISCI_MSG_CORE_RESUME) || ((resp.hdr.flags & TISCI_MSG_FLAG_ACK) != TISCI_MSG_FLAG_ACK)) {
+				ret = -EINVAL;
+			}
+		}
 	}
 
 	return ret;
 }
 
-static s32 lpm_resume_send_enter_sleep_abort_message()
+static s32 lpm_resume_send_enter_sleep_abort_message(void)
 {
 	/* send abort enter sleep message */
 	s32 ret = 0;
@@ -184,7 +182,7 @@ static s32 lpm_resume_send_enter_sleep_abort_message()
 	return ret;
 }
 
-static s32 lpm_suspend_power_master()
+static s32 lpm_suspend_power_master(void)
 {
 	/* release reset of power master */
 	struct device *dev;
@@ -204,7 +202,7 @@ static s32 lpm_suspend_power_master()
 	return SUCCESS;
 }
 
-static s32 lpm_resume_release_reset_of_power_master()
+static s32 lpm_resume_release_reset_of_power_master(void)
 {
 	/* release reset of power master */
 	struct device *dev;
@@ -221,7 +219,7 @@ static s32 lpm_resume_release_reset_of_power_master()
 	return SUCCESS;
 }
 
-static s32 lpm_sleep_suspend_dm()
+static s32 lpm_sleep_suspend_dm(void)
 {
 	/* Suspend DM OS */
 	osal_dm_disable_interrupt();    /* Disable sciserver interrupt */
@@ -230,7 +228,7 @@ static s32 lpm_sleep_suspend_dm()
 	return SUCCESS;
 }
 
-static s32 lpm_resume_dm()
+static s32 lpm_resume_dm(void)
 {
 	/* Resume DM OS */
 	osal_dm_enable_interrupt();     /* Enable sciserver interrupts */
@@ -239,7 +237,7 @@ static s32 lpm_resume_dm()
 	return SUCCESS;
 }
 
-static s32 lpm_sleep_jump_to_dm_Stub()
+static s32 lpm_sleep_jump_to_dm_Stub(void)
 {
 	/* Jump to DM stub */
 	return _stub_start();
@@ -253,7 +251,7 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 	u8 mode = req->mode;
 
 	/* Only DEEP_SLEEP mode supported at the moment */
-	if (mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP || mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY) {
+	if ((mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
 		/* Parse and store the mode info and ctx address in the prepare sleep message*/
 		lpm_populate_prepare_sleep_data(req);
 
@@ -281,11 +279,12 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	s32 ret = SUCCESS;
 	u8 mode = req->mode;
 	u32 i;
+	u32 temp_sleep_status = 0;
 
 	enter_sleep_status = 0;
 
 	/* Only DEEP_SLEEP mode supported at the moment */
-	if (mode != TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP && mode != TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY) {
+	if ((mode != TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) && (mode != TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
 		ret = EINVAL;
 	}
 
@@ -300,7 +299,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	}
 
 	/*
-	 * sine, once power master reaches WFI power master is only recoverable
+	 * since, once power master reaches WFI power master is only recoverable
 	 * by reseting the  power master. Only update the ret value only if it was
 	 * SUCCESS previously
 	 */
@@ -366,7 +365,8 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_DISABLE_LPSC) == LPM_DISABLE_LPSC)) {
+	temp_sleep_status = enter_sleep_status;
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_DISABLE_LPSC) == LPM_DISABLE_LPSC)) {
 		if (lpm_resume_enable_lpsc() != SUCCESS) {
 			lpm_hang_abort();
 		}
@@ -384,47 +384,47 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_CLOCK_SUSPEND) == LPM_CLOCK_SUSPEND)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_CLOCK_SUSPEND) == LPM_CLOCK_SUSPEND)) {
 		if (clks_resume() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_GTC) == LPM_SUSPEND_GTC)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_GTC) == LPM_SUSPEND_GTC)) {
 		if (lpm_resume_gtc() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_SAVE_MMR_LOCK) == LPM_SAVE_MMR_LOCK)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SAVE_MMR_LOCK) == LPM_SAVE_MMR_LOCK)) {
 		if (lpm_restore_mmr_lock() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {
 		if (lpm_resume_send_core_resume_message() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_DM) == LPM_SUSPEND_DM)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_DM) == LPM_SUSPEND_DM)) {
 		if (lpm_resume_dm() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_DEVICE_DEINIT) == LPM_DEVICE_DEINIT)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_DEVICE_DEINIT) == LPM_DEVICE_DEINIT)) {
 		if (devices_init() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
 
-	for (i = 0; i < 10000; i++) {
+	for (i = 0; i < TIMEOUT_10MS; i++) {
 		osal_delay(1);
 	}
 
-	if (ret == SUCCESS || ((enter_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {
 		if (lpm_resume_release_reset_of_power_master() != SUCCESS) {
 			lpm_hang_abort();
 		}
@@ -459,7 +459,7 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 		(struct tisci_msg_set_io_isolation_req *) msg_recv;
 	s32 ret = EFAIL;
 	u32 reg;
-	int i = 0;
+	u32 i = 0;
 
 	/* unlock partion 6 of wakeup ctrl mmr */
 	ctrlmmr_unlock(WKUP_CTRL_BASE, 6);
@@ -537,6 +537,8 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 		writel(WKUP_CTRL_PMCTRL_IO_GLB_DISABLE_IO, (WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_GLB));
 
 		ret = SUCCESS;
+	} else {
+		/* Do Nothing */
 	}
 	return ret;
 }

@@ -1,7 +1,7 @@
 /*
  * DMSC firmware
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@ static u32 clk_fixed_get_freq(struct clk *clkp)
 
 	clk_datap = clk_get_data(clkp);
 	range = clk_get_range(clk_datap->range_idx);
-	if (range) {
+	if (range != NULL) {
 		ret = range->min_hz;
 	}
 

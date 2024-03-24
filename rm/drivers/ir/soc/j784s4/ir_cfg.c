@@ -54,6 +54,27 @@ static const struct rm_mmr mmr_MAIN2MCU_LVL_INTRTR0_CFG = {
 	.base		= 0xa10000U,
 };
 
+static struct ir_used_mapping rom_usage_MAIN2MCU_LVL_INTRTR0[3U] = {
+	{
+		.inp_start = 28U,
+		.outp_start = 32U,
+		.length = 2U,
+		.cleared = SFALSE,
+	},
+	{
+		.inp_start = 128U,
+		.outp_start = 34U,
+		.length = 8U,
+		.cleared = SFALSE,
+	},
+	{
+		.inp_start = 218U,
+		.outp_start = 50U,
+		.length = 1U,
+		.cleared = SFALSE,
+	},
+};
+
 static const struct rm_mmr mmr_MAIN2MCU_PLS_INTRTR0_CFG = {
 	.fwl_id		= RM_MMR_FWL_INVALID,
 	.fwl_ch_start	= 0U,
@@ -114,8 +135,8 @@ struct ir_instance ir_inst[IR_INST_COUNT] = {
 		.n_outp = 64U,
 		.inp0_mapping = 0U,
 		.outp_utype = RESASG_UTYPE(J784S4_DEV_MAIN2MCU_LVL_INTRTR0, RESASG_SUBTYPE_IR_OUTPUT),
-		.rom_usage = NULL,
-		.n_rom_usage = 0U,
+		.rom_usage = &rom_usage_MAIN2MCU_LVL_INTRTR0[0U],
+		.n_rom_usage = ARRAY_SIZE(rom_usage_MAIN2MCU_LVL_INTRTR0),
 	},
 	{
 		.id = J784S4_DEV_MAIN2MCU_PLS_INTRTR0,

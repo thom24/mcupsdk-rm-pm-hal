@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2014-2020, Texas Instruments Incorporated
+ * Copyright (C) 2014-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,17 +76,17 @@ static s32 device_prepare(u8 host_id, u32 id, u8 *host_idx, struct device **dev,
 		}
 	}
 
-	if (dev) {
+	if (dev != NULL) {
 		*dev = local_device;
 	}
-	if (host_idx) {
+	if (host_idx != NULL) {
 		*host_idx = local_host_idx;
 	}
 
 	return ret;
 }
 
-s32 device_prepare_exclusive(u8 host_id, u32 id, u8 *host_idx, struct device **dev)
+s32 device_prepare_exclusive(u8 host_id, u32 id, u8 *host_idx, struct device **device_ptr)
 {
 	s32 ret;
 
@@ -94,12 +94,12 @@ s32 device_prepare_exclusive(u8 host_id, u32 id, u8 *host_idx, struct device **d
 	ret = devices_init_rw();
 
 	if (ret == SUCCESS) {
-		ret = device_prepare(host_id, id, host_idx, dev, STRUE);
+		ret = device_prepare(host_id, id, host_idx, device_ptr, STRUE);
 	}
 	return ret;
 }
 
-s32 device_prepare_nonexclusive(u8 host_id, u32 id, u8 *host_idx, struct device **dev)
+s32 device_prepare_nonexclusive(u8 host_id, u32 id, u8 *host_idx, struct device **device_ptr)
 {
-	return device_prepare(host_id, id, host_idx, dev, SFALSE);
+	return device_prepare(host_id, id, host_idx, device_ptr, SFALSE);
 }

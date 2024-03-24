@@ -1,5 +1,5 @@
 /*
- * Data version: 230301_101735
+ * Data version: 230918_161319
  *
  * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -54,6 +54,8 @@ enum {
 	AM62X_FREQ_VALUE_BOARD_0_AUDIO_EXT_REFCLK0_OUT,
 	AM62X_FREQ_VALUE_BOARD_0_AUDIO_EXT_REFCLK1_OUT,
 	AM62X_FREQ_VALUE_BOARD_0_CP_GEMAC_CPTS0_RFT_CLK_OUT,
+	AM62X_FREQ_VALUE_BOARD_0_CSI0_RXCLKN_OUT,
+	AM62X_FREQ_VALUE_BOARD_0_CSI0_RXCLKP_OUT,
 	AM62X_FREQ_VALUE_BOARD_0_DDR0_CK0_OUT,
 	AM62X_FREQ_VALUE_BOARD_0_EXT_REFCLK1_OUT,
 	AM62X_FREQ_VALUE_BOARD_0_GPMC0_CLKLB_OUT,
@@ -113,8 +115,6 @@ enum {
 	AM62X_FREQ_VALUE_EMMCSD8SS_MAIN_0_EMMCSDSS_IO_CLK_O,
 	AM62X_FREQ_VALUE_FSS_UL_MAIN_0_OSPI_0_OSPI_OCLK_CLK,
 	AM62X_FREQ_VALUE_GPMC_MAIN_0_PO_GPMC_DEV_CLK,
-	AM62X_FREQ_VALUE_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_M,
-	AM62X_FREQ_VALUE_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_P,
 	AM62X_FREQ_VALUE_K3_DPHY_RX_MAIN_0_PPI_RX_BYTE_CLK,
 	AM62X_FREQ_VALUE_K3_DSS_UL_MAIN_0_DPI_1_OUT_CLK,
 	AM62X_FREQ_VALUE_MCASP_MAIN_0_MCASP_ACLKR_POUT,
@@ -176,7 +176,7 @@ enum {
 	PLL_ENTRY_MAIN_25MHZ_1000MHZ,
 	PLL_ENTRY_MAIN_26MHZ_1000MHZ_F24BIT,
 	PLL_ENTRY_PER0_24MHZ_960MHZ,
-	PLL_ENTRY_PER0_25MHZ_960MHZ,
+	PLL_ENTRY_PER0_25MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_ARM0_24MHZ_2500MHZ_F24BIT,
 	PLL_ENTRY_ARM0_25MHZ_2500MHZ,
@@ -222,7 +222,7 @@ const struct clk_default soc_clock_freq_defaults[9] = {
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_1_DEFAULT,	960000000UL,  960000000UL,  960000000UL),
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_12_DEFAULT, 1600000000UL, 1600000000UL, 1600000000UL),
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_15_DEFAULT, 2000000000UL, 2000000000UL, 2000000000UL),
-	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_16_DEFAULT, 2380000000UL, 2380000000UL, 2380000000UL),
+	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_16_DEFAULT, 2380000000UL, 2380000000UL, 2380000001UL),
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_17_DEFAULT, 2040000000UL, 2040000000UL, 2040000000UL),
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MAIN_8_DEFAULT,	2500000000UL, 2500000000UL, 2500000000UL),
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MCU_0_DEFAULT,	2400000000UL, 2400000000UL, 2400000000UL),
@@ -285,12 +285,12 @@ const struct pll_table_entry soc_pll_table[24] = {
 		.pllfm		= 0U,
 		.clkod		= 2U,
 	},
-	[PLL_ENTRY_PER0_25MHZ_960MHZ] =		{
+	[PLL_ENTRY_PER0_25MHZ_960MHZ_F24BIT] =	{
 		.freq_min_hz	= 960000000U,
 		.freq_max_hz	= 960000000U,
-		.plld		= 5U,
-		.pllm		= 384U,
-		.pllfm		= 0U,
+		.plld		= 1U,
+		.pllm		= 76U,
+		.pllfm		= 13421773U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT] =	{
@@ -383,10 +383,10 @@ const struct pll_table_entry soc_pll_table[24] = {
 	},
 	[PLL_ENTRY_DSS0_25MHZ_2380MHZ_F24BIT] = {
 		.freq_min_hz	= 2380000000U,
-		.freq_max_hz	= 2380000000U,
-		.plld		= 2U,
-		.pllm		= 190U,
-		.pllfm		= 6710887U,
+		.freq_max_hz	= 2380000001U,
+		.plld		= 1U,
+		.pllm		= 95U,
+		.pllfm		= 3355444U,
 		.clkod		= 1U,
 	},
 	[PLL_ENTRY_DSS0_26MHZ_2380MHZ_F24BIT] = {
@@ -431,7 +431,7 @@ static const u8 pllfracf2_ssmod_16fft_main_0_entries[4] = {
 };
 static const u8 pllfracf2_ssmod_16fft_main_1_entries[4] = {
 	PLL_ENTRY_PER0_24MHZ_960MHZ,
-	PLL_ENTRY_PER0_25MHZ_960MHZ,
+	PLL_ENTRY_PER0_25MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
@@ -568,14 +568,6 @@ static const struct clk_data_mux_reg clk_data_CLK_32K_RC_SEL_out0 = {
 };
 static const struct clk_data_div clk_data_CLK_32K_RC_SEL_div_in2 = {
 	.n	= 384,
-};
-static const struct clk_data_from_dev clk_data_K3_DPHY_RX_main_0_io_rx_cl_l_m = {
-	.dev		= AM62X_DEV_DPHY_RX0,
-	.clk_idx	= AM62X_DEV_DPHY_RX0_IO_RX_CL_L_M,
-};
-static const struct clk_data_from_dev clk_data_K3_DPHY_RX_main_0_io_rx_cl_l_p = {
-	.dev		= AM62X_DEV_DPHY_RX0,
-	.clk_idx	= AM62X_DEV_DPHY_RX0_IO_RX_CL_L_P,
 };
 static const struct clk_data_from_dev clk_data_K3_DPHY_RX_main_0_ppi_rx_byte_clk = {
 	.dev		= AM62X_DEV_DPHY_RX0,
@@ -2251,6 +2243,14 @@ static const struct clk_data_from_dev clk_data_board_0_CP_GEMAC_CPTS0_RFT_CLK_ou
 	.dev		= AM62X_DEV_BOARD0,
 	.clk_idx	= AM62X_DEV_BOARD0_CP_GEMAC_CPTS0_RFT_CLK_OUT,
 };
+static const struct clk_data_from_dev clk_data_board_0_CSI0_RXCLKN_out = {
+	.dev		= AM62X_DEV_BOARD0,
+	.clk_idx	= AM62X_DEV_BOARD0_CSI0_RXCLKN_OUT,
+};
+static const struct clk_data_from_dev clk_data_board_0_CSI0_RXCLKP_out = {
+	.dev		= AM62X_DEV_BOARD0,
+	.clk_idx	= AM62X_DEV_BOARD0_CSI0_RXCLKP_OUT,
+};
 static const struct clk_data_from_dev clk_data_board_0_DDR0_CK0_out = {
 	.dev		= AM62X_DEV_BOARD0,
 	.clk_idx	= AM62X_DEV_BOARD0_DDR0_CK0_OUT,
@@ -3137,18 +3137,6 @@ const struct clk_data soc_clock_data[257] = {
 		.flags		= 0,
 		.range_idx	= AM62X_FREQ_RANGE_GLUELOGIC_RCOSC_CLK_1P0V_97P65K,
 	},
-	[CLK_AM62X_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_M] =					      {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_K3_DPHY_RX_main_0_io_rx_cl_l_m.data,
-		.freq_idx	= AM62X_FREQ_VALUE_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_M,
-	},
-	[CLK_AM62X_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_P] =					      {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_K3_DPHY_RX_main_0_io_rx_cl_l_p.data,
-		.freq_idx	= AM62X_FREQ_VALUE_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_P,
-	},
 	[CLK_AM62X_K3_DPHY_RX_MAIN_0_PPI_RX_BYTE_CLK] =					      {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -3252,6 +3240,18 @@ const struct clk_data soc_clock_data[257] = {
 		.flags		= 0,
 		.data		= &clk_data_board_0_CP_GEMAC_CPTS0_RFT_CLK_out.data,
 		.freq_idx	= AM62X_FREQ_VALUE_BOARD_0_CP_GEMAC_CPTS0_RFT_CLK_OUT,
+	},
+	[CLK_AM62X_BOARD_0_CSI0_RXCLKN_OUT] =						      {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_CSI0_RXCLKN_out.data,
+		.freq_idx	= AM62X_FREQ_VALUE_BOARD_0_CSI0_RXCLKN_OUT,
+	},
+	[CLK_AM62X_BOARD_0_CSI0_RXCLKP_OUT] =						      {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_CSI0_RXCLKP_out.data,
+		.freq_idx	= AM62X_FREQ_VALUE_BOARD_0_CSI0_RXCLKP_OUT,
 	},
 	[CLK_AM62X_BOARD_0_DDR0_CK0_OUT] =						      {
 		.drv		= &clk_drv_from_device,

@@ -40,16 +40,17 @@
 #include <types/errno.h>
 #include <types/array_size.h>
 #include <lib/trace.h>
+#include <device_pm.h>
 
 static u32 soc_device_get_state_internal(const struct soc_device_data *dev)
 {
 	struct device *psc_dev = psc_lookup((psc_idx_t) dev->psc_idx);
 	u32 ret = 1;
 
-	if (psc_dev) {
+	if (psc_dev != NULL) {
 		struct lpsc_module *module;
 		module = psc_lookup_lpsc(psc_dev, dev->mod);
-		if (module) {
+		if (module != NULL) {
 			ret = lpsc_module_get_state(psc_dev, module);
 		}
 	}
@@ -74,6 +75,8 @@ u32 soc_device_get_state(struct device *dev)
 			} else if (ret != this_ret) {
 				/* Mixed state of our domains, label as transition */
 				ret = 2;
+			} else {
+				/* Do Nothing */
 			}
 		}
 	} else {
@@ -91,10 +94,10 @@ static void soc_device_set_reset_iso_internal(const struct soc_device_data *dev,
 {
 	struct device *psc_dev = psc_lookup((psc_idx_t) dev->psc_idx);
 
-	if (psc_dev) {
+	if (psc_dev != NULL) {
 		struct lpsc_module *module;
 		module = psc_lookup_lpsc(psc_dev, dev->mod);
-		if (module) {
+		if (module != NULL) {
 			lpsc_module_set_reset_iso(psc_dev, module, enable);
 		}
 	}
@@ -116,10 +119,10 @@ static sbool soc_device_get_reset_iso_internal(const struct soc_device_data *dev
 	struct device *psc_dev = psc_lookup((psc_idx_t) dev->psc_idx);
 	sbool ret = SFALSE;
 
-	if (psc_dev) {
+	if (psc_dev != NULL) {
 		struct lpsc_module *module;
 		module = psc_lookup_lpsc(psc_dev, dev->mod);
-		if (module) {
+		if (module != NULL) {
 			ret = lpsc_module_get_reset_iso(psc_dev, module);
 		}
 	}
@@ -145,10 +148,10 @@ static void soc_device_set_resets_internal(const struct soc_device_data *dev, u3
 {
 	struct device *psc_dev = psc_lookup((psc_idx_t) dev->psc_idx);
 
-	if (psc_dev) {
+	if (psc_dev != NULL) {
 		struct lpsc_module *module;
 		module = psc_lookup_lpsc(psc_dev, dev->mod);
-		if (module) {
+		if (module != NULL) {
 			sbool local_reset = SFALSE;
 			sbool module_reset = SFALSE;
 			if ((resets & BIT(0)) != 0U) {
@@ -179,10 +182,10 @@ static u32 soc_device_get_resets_internal(const struct soc_device_data *dev)
 	struct device *psc_dev = psc_lookup((psc_idx_t) dev->psc_idx);
 	u32 resets = 0U;
 
-	if (psc_dev) {
+	if (psc_dev != NULL) {
 		struct lpsc_module *module;
 		module = psc_lookup_lpsc(psc_dev, dev->mod);
-		if (module) {
+		if (module != NULL) {
 			sbool ret;
 			ret = lpsc_module_get_local_reset(psc_dev, module);
 			if (ret) {
@@ -217,10 +220,10 @@ static u32 soc_device_get_context_loss_count_internal(const struct soc_device_da
 	struct device *psc_dev = psc_lookup((psc_idx_t) dev->psc_idx);
 	u32 ret = 0;
 
-	if (psc_dev) {
+	if (psc_dev != NULL) {
 		struct lpsc_module *module;
 		module = psc_lookup_lpsc(psc_dev, dev->mod);
-		if (module) {
+		if (module != NULL) {
 			ret = module->loss_count;
 		}
 	}
@@ -251,10 +254,10 @@ static void soc_device_enable_internal(const struct soc_device_data *dev)
 {
 	struct device *psc_dev = psc_lookup((psc_idx_t) dev->psc_idx);
 
-	if (psc_dev) {
+	if (psc_dev != NULL) {
 		struct lpsc_module *module;
 		module = psc_lookup_lpsc(psc_dev, dev->mod);
-		if (module) {
+		if (module != NULL) {
 			lpsc_module_get(psc_dev, module);
 		}
 	}
@@ -282,10 +285,10 @@ static void soc_device_disable_internal(const struct soc_device_data *dev)
 {
 	struct device *psc_dev = psc_lookup((psc_idx_t) dev->psc_idx);
 
-	if (psc_dev) {
+	if (psc_dev != NULL) {
 		struct lpsc_module *module;
 		module = psc_lookup_lpsc(psc_dev, dev->mod);
-		if (module) {
+		if (module != NULL) {
 			lpsc_module_put(psc_dev, module);
 		}
 	}
@@ -301,16 +304,17 @@ static void soc_device_disable_internal_flags_iterate(struct device *psc_dev, st
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(psc_dev));
 	u32 idx;
+	struct lpsc_module *module_p = module;
 
 	if (module != NULL) {
 		module->use_count = 0U;
 		module->ret_count = 0U;
-		module->pwr_up_enabled = (u8) SFALSE;
-		module->pwr_up_ret = (u8) SFALSE;
-		module->sw_state = 0;
-		module->loss_count = 0;
-		module->mrst_active = SFALSE;
-		module->sw_mrst_ret = (u8) SFALSE;
+		module->pwr_up_enabled = 0U;
+		module->pwr_up_ret = 0U;
+		module->sw_state = 0U;
+		module->loss_count = 0U;
+		module->mrst_active = 0U;
+		module->sw_mrst_ret = SFALSE;
 		for (idx = 0U; idx < ARRAY_SIZE(psc->data->mods_enabled); idx++) {
 			psc->data->mods_enabled[idx] = 0U;
 		}
@@ -318,18 +322,18 @@ static void soc_device_disable_internal_flags_iterate(struct device *psc_dev, st
 	for (idx = 0U; idx < psc->pd_count; idx++) {
 		struct psc_pd *pd = psc->powerdomains + idx;
 		pd->use_count = 0U;
-		pd->pwr_up_enabled = 0U;
+		pd->pwr_up_enabled = SFALSE;
 	}
 	for (idx = 0; idx < psc->module_count; idx++) {
 		struct lpsc_module *temp = psc->modules + idx;
 		temp->use_count = 0U;
 		temp->ret_count = 0U;
-		temp->pwr_up_enabled = (u8) SFALSE;
-		temp->pwr_up_ret = (u8) SFALSE;
-		temp->sw_state = 0;
-		temp->sw_mrst_ret = (u8) SFALSE;
-		temp->loss_count = 0;
-		temp->mrst_active = SFALSE;
+		temp->pwr_up_enabled = 0U;
+		temp->pwr_up_ret = 0U;
+		temp->sw_state = 0U;
+		temp->sw_mrst_ret = SFALSE;
+		temp->loss_count = 0U;
+		temp->mrst_active = 0U;
 	}
 
 	psc->data->pds_enabled = 0U;
@@ -344,8 +348,8 @@ static void soc_device_disable_internal_flags_iterate(struct device *psc_dev, st
 		depends_psc = to_psc_drv_data(get_drv_data(depends_dev));
 
 		if (depends_dev && module) {
-			module = depends_psc->modules + (lpsc_idx_t) data->depends;
-			soc_device_disable_internal_flags_iterate(depends_dev, module);
+			module_p = depends_psc->modules + (lpsc_idx_t) data->depends;
+			soc_device_disable_internal_flags_iterate(depends_dev, module_p);
 		}
 	}
 }
@@ -409,17 +413,17 @@ static void soc_device_ret_enable_internal(const struct soc_device_data *dev)
 {
 	struct device *psc_dev = psc_lookup((psc_idx_t) dev->psc_idx);
 
-	if (psc_dev) {
+	if (psc_dev != NULL) {
 		struct psc_pd *pd;
 		struct lpsc_module *module;
 
 		pd = psc_lookup_pd(psc_dev, (pd_idx_t) dev->pd);
-		if (pd) {
+		if (pd != NULL) {
 			psc_pd_get(psc_dev, pd);
 		}
 
 		module = psc_lookup_lpsc(psc_dev, dev->mod);
-		if (module) {
+		if (module != NULL) {
 			lpsc_module_ret_get(psc_dev, module);
 		}
 	}
@@ -445,17 +449,17 @@ static void soc_device_ret_disable_internal(const struct soc_device_data *dev)
 {
 	struct device *psc_dev = psc_lookup((psc_idx_t) dev->psc_idx);
 
-	if (psc_dev) {
+	if (psc_dev != NULL) {
 		struct lpsc_module *module;
 		struct psc_pd *pd;
 
 		module = psc_lookup_lpsc(psc_dev, dev->mod);
-		if (module) {
+		if (module != NULL) {
 			lpsc_module_ret_put(psc_dev, module);
 		}
 
 		pd = psc_lookup_pd(psc_dev, (pd_idx_t) dev->pd);
-		if (pd) {
+		if (pd != NULL) {
 			psc_pd_put(psc_dev, pd);
 		}
 	}
@@ -515,7 +519,7 @@ static s32 soc_device_verify_mapping(const struct psc_drv_data *psc,
 	}
 
 	if (ret != 0L) {
-		pm_trace(TRACE_PM_ACTION_INVALID_PSC_DATA | TRACE_PM_ACTION_FAIL, 0UL);
+		pm_trace(TRACE_PM_ACTION_INVALID_PSC_DATA | TRACE_PM_ACTION_FAIL, 0U);
 	}
 
 	return ret;
@@ -533,7 +537,7 @@ static s32 soc_device_init_internal(struct device *dev)
 	devdata = get_dev_data(dev);
 
 	/* Check if this PSC manages it's own power domain */
-	if (devdata->flags & DEVD_FLAG_DRV_DATA) {
+	if ((devdata->flags & DEVD_FLAG_DRV_DATA) != 0U) {
 		const struct drv_data *drvdata;
 		drvdata = to_drv_data(devdata);
 		if (drvdata->drv == &psc_drv) {
@@ -546,7 +550,7 @@ static s32 soc_device_init_internal(struct device *dev)
 		}
 	}
 
-	if (psc) {
+	if (psc != NULL) {
 		/* We are our own PSC */
 		ret = soc_device_verify_mapping(psc, dev_id, &devdata->soc);
 	} else if (devdata->soc.psc_idx == PSC_DEV_MULTIPLE) {

@@ -98,7 +98,7 @@ void lpm_clear_all_wakeup_interrupt(void)
 {
 	u32 i;
 
-	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
+	for (i = 0; i < (u32)WAKEUP_SOURCE_MAX; i++) {
 		vim_clear_intr(soc_wake_sources_data[i].int_num);
 	}
 }
@@ -167,17 +167,19 @@ static void clock_gate_legacy_peripherals(sbool enable)
 	if (enable) {
 		writel(WKUP_EN_CLKSTOP_ALL, WKUP_CTRL_MMR_BASE + DM_CLKSTOP_EN);
 		writel(WKUP_EN_GRP_CLKSTOP_REQ, WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_REQ);
-		while ((--timeout > 0) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_EN_GRP_CLKSTOP_ACK)) {
+		while ((timeout > 0U) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_EN_GRP_CLKSTOP_ACK)) {
+            --timeout;
 		}
-		if (timeout == 0) {
+		if (timeout == 0U) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_CLK_GATE);
 			lpm_abort();
 		}
 	} else {
 		writel(WKUP_DIS_GRP_CLKSTOP_REQ, WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_REQ);
-		while ((--timeout > 0) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_DIS_GRP_CLKSTOP_ACK)) {
-		}
-		if (timeout == 0) {
+		while ((timeout > 0U) && (readl(WKUP_CTRL_MMR_BASE + DM_GRP_CLKSTOP_ACK) != WKUP_DIS_GRP_CLKSTOP_ACK)) {
+		    --timeout;
+        }
+		if (timeout == 0U) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_CLK_GATE);
 			lpm_abort();
 		}
@@ -203,7 +205,7 @@ static void release_usb_reset_isolation(void)
 static s32 disable_main_lpsc(const struct pd_lpsc *lpscs, u32 n_lpscs)
 {
 	u32 i;
-	s32 ret;
+	s32 ret = 0;
 
 	for (i = 0; i < n_lpscs; i++) {
 		psc_raw_lpsc_set_state(MAIN_PSC_BASE, lpscs[i].lpsc,
@@ -268,7 +270,7 @@ static void disable_wake_sources(void)
 	u32 i;
 
 	/* disable all wake up interrupts */
-	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
+	for (i = 0; i < (u32)WAKEUP_SOURCE_MAX; i++) {
 		vim_set_intr_enable(soc_wake_sources_data[i].int_num, INTR_DISABLE);
 	}
 	/* Clear all bits in WKUP0_EN */
@@ -329,7 +331,7 @@ static int enable_main_remain_pll(void)
 static s32 disable_mcu_domain(void)
 {
 	u32 i;
-	s32 ret;
+	s32 ret = 0;
 
 	for (i = 0; i < num_mcu_lpscs; i++) {
 		psc_raw_lpsc_set_state(MCU_PSC_BASE, mcu_lpscs[i].lpsc,
@@ -422,8 +424,8 @@ static s32 send_tisci_msg_firmware_load(void)
 
 		ret = sproxy_receive_msg_rom(&resp, sizeof(resp));
 		if (ret == 0) {
-			if (resp.hdr.type != MSG_FIRMWARE_LOAD_RESULT ||
-			    resp.hdr.flags != MSG_FLAG_CERT_AUTH_PASS) {
+			if ((resp.hdr.type != MSG_FIRMWARE_LOAD_RESULT) ||
+			    (resp.hdr.flags != MSG_FLAG_CERT_AUTH_PASS)) {
 				ret = -EINVAL;
 			}
 		}
@@ -593,7 +595,7 @@ s32 dm_stub_entry(void)
 
 	lpm_seq_trace(0x77);
 
-	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
+	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_RST_ISO);
 		set_usb_reset_isolation();
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
@@ -615,7 +617,7 @@ s32 dm_stub_entry(void)
 
 	wait_for_debug();
 
-	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
+	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		/* Configure selected wake sources
 		 * with writes to WKUP0_EN IN WKUP_CTRL
 		 */
@@ -686,7 +688,7 @@ s32 dm_stub_entry(void)
 		}
 	}
 
-	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
+	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		/* Set WKUP_CTRL.RST_CTRL.main_reset_iso_done_z to 1 to
 		 * mask main reset in case of RESET_REQz wakeup
 		 */
@@ -748,7 +750,7 @@ s32 dm_stub_entry(void)
 	} else {
 		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT);
 	}
-	
+
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_POST_WFI);
 
 	/* start resume */
@@ -792,7 +794,7 @@ s32 dm_stub_entry(void)
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_UNMSK_WWD0_CTRL);
 
-	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
+	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		/* Disable WKUP IO Daisy Chain and IO Isolation */
 		disable_mcu_io_isolation();
 
@@ -816,7 +818,7 @@ s32 dm_stub_entry(void)
 
 	wait_for_debug();
 
-	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
+	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		if (wait_for_reset_statz(SLEEP_STATUS_MAIN_RESETSTATZ) != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST);
 			lpm_abort();
@@ -915,7 +917,7 @@ s32 dm_stub_entry(void)
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_SR_EXIT);
 
-	if (g_params.mode == LPM_DEEPSLEEP || g_params.mode == LPM_MCU_ONLY) {
+	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
 		release_usb_reset_isolation();
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_DDR_RST_ISO);

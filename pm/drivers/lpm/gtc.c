@@ -1,7 +1,7 @@
 /*
  * Device Manager - LPM GTC Driver
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,13 +38,13 @@
 #include <types/errno.h>
 #include "rtc.h"
 #include "soc_ctrl_mmr.h"
+#include "gtc.h"
 
-
-#define GTC_CFG0_PUSHEVT       (0x08)
-#define GTC_CFG1_CNTCR         (0x00)
-#define GTC_CFG1_CNT_LO        (0x08)
-#define GTC_CFG1_CNT_HI        (0x0c)
-#define GTC_CFG1_CNTFID0       (0x20)
+#define GTC_CFG0_PUSHEVT       (0x08U)
+#define GTC_CFG1_CNTCR         (0x00U)
+#define GTC_CFG1_CNT_LO        (0x08U)
+#define GTC_CFG1_CNT_HI        (0x0cU)
+#define GTC_CFG1_CNTFID0       (0x20U)
 
 #define GTC_CFG1_CNTCR_HDBG    BIT(1)
 #define GTC_CFG1_CNTCR_EN      BIT(0)
@@ -59,7 +59,7 @@ static struct gtc_cfg_data {
 	u32		fid0;
 } gtc;
 
-s32 lpm_sleep_suspend_gtc()
+s32 lpm_sleep_suspend_gtc(void)
 {
 	u32 reg;
 
@@ -79,7 +79,7 @@ s32 lpm_sleep_suspend_gtc()
 	return SUCCESS;
 }
 
-s32 lpm_resume_gtc()
+s32 lpm_resume_gtc(void)
 {
 	u64 rtc1, rtc2, delta;
 

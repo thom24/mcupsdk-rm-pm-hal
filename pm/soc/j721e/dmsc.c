@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2019-2021, Texas Instruments Incorporated
+ * Copyright (C) 2019-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,14 +48,14 @@
 #include <soc_devgrps.h>
 #include <rm.h>
 
-#define WKUP_CTRL_BASE  0x43000000
+#define WKUP_CTRL_BASE  0x43000000U
 
-#define CTRLMMR_WKUP_MAIN_WARM_RST_CTRL                 0x18174
-#define CTRLMMR_WKUP_RST_STAT                           0x18178
-#define CTRLMMR_WKUP_MCU_WARM_RST_CTRL                  0x1817c
+#define CTRLMMR_WKUP_MAIN_WARM_RST_CTRL                 0x18174U
+#define CTRLMMR_WKUP_RST_STAT                           0x18178U
+#define CTRLMMR_WKUP_MCU_WARM_RST_CTRL                  0x1817cU
 
 #define WARM_RST_CTRL_VAL                               0x60000
-#define MCU_RST_DONE_MASK                               (0x1U << 16U)
+#define MCU_RST_DONE_MASK                               ((u32) 0x1U << 16)
 #define MAIN_RST_DONE_MASK                              (0x1U << 0U)
 #define RESET_WAIT_TIMEOUT                              100
 #define RESET_DELAY_PER_ITERATION_US                    1U
@@ -86,11 +86,11 @@ static s32 wait_reset_done_with_timeout(domgrp_t domain)
 		reg = readl(WKUP_CTRL_BASE + CTRLMMR_WKUP_RST_STAT);
 		reg &= mask;
 
-		if (reg != 0U) {
+		if (reg == 0U) {
 			osal_delay(RESET_DELAY_PER_ITERATION_US);
 		}
 		timeout--;
-	} while ((timeout != 0U) && (reg != 0U));
+	} while ((timeout != 0U) && (reg == 0U));
 
 	if (timeout == 0U) {
 		ret = -ETIMEDOUT;
@@ -165,7 +165,7 @@ static s32 j721e_sys_reset_handler(domgrp_t domain)
 	}
 
 	pm_trace(trace_action,
-		 ((domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
+		 (((u16) domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
 		  TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
 
 	return ret;

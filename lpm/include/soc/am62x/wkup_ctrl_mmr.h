@@ -85,21 +85,21 @@ extern "C" {
 #define WKUP_EN_CLKSTOP_WKUP_DMTIMER0   BIT(16)
 #define WKUP_EN_CLKSTOP_WKUP_DMTIMER1   BIT(17)
 #define WKUP_EN_GRP_CLKSTOP_REQ         BIT(0)
-#define WKUP_DIS_GRP_CLKSTOP_REQ        0
+#define WKUP_DIS_GRP_CLKSTOP_REQ        0U
 #define WKUP_EN_GRP_CLKSTOP_ACK         BIT(0)
-#define WKUP_DIS_GRP_CLKSTOP_ACK        0
+#define WKUP_DIS_GRP_CLKSTOP_ACK        0U
 
 /* WKUP_CLKSEL */
-#define WKUP_CLKSEL_MAIN                0
-#define WKUP_CLKSEL_MCU                 1
+#define WKUP_CLKSEL_MAIN                0U
+#define WKUP_CLKSEL_MCU                 1U
 
 /* DDR16SS_PMCTRL */
-#define DDR16SS_RETENTION_DIS           0
-#define DDR16SS_RETENTION_EN            0x6
+#define DDR16SS_RETENTION_DIS           0U
+#define DDR16SS_RETENTION_EN            0x6U
 
 /* WKUP_WWD0_CTRL */
-#define WWD_RUN                         0
-#define WWD_STOP                        0xA
+#define WWD_RUN                         0U
+#define WWD_STOP                        0xAU
 
 /* PMCTRL_IO_0 */
 #define PMCTRL_IO_0_IO_ISO_STATUS       BIT(25)

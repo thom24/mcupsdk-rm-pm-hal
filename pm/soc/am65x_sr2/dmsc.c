@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2017-2022, Texas Instruments Incorporated
+ * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,9 +43,9 @@
 #include <device_pm.h>
 #include <lib/trace.h>
 
-#define WKUP_CTRL_BASE  0x43000000
+#define WKUP_CTRL_BASE  0x43000000U
 
-#define CTRLMMR_WKUP_MCU_WARM_RST_CTRL                  0x1817c
+#define CTRLMMR_WKUP_MCU_WARM_RST_CTRL                  0x1817cU
 
 static const struct sleep_mode am6_sleep_modes[] = {
 	{

@@ -3,7 +3,7 @@
  *
  * IRQ management interrupt aggregator infrastructure
  *
- * Copyright (C) 2018-2022, Texas Instruments Incorporated
+ * Copyright (C) 2018-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -563,8 +563,8 @@ static s32 ia_get_oes_evt(u8 host, u16 id, u16 oes_index, u16 *evt)
 		evt_reg = readl(evt_addr);
 		rm_core_unmap_region();
 
-		*evt = (u16)rm_fext(evt_reg, IA_UENTRY_MAP_UMAPIDX_SHIFT,
-			       IA_UENTRY_MAP_UMAPIDX_MASK);
+		*evt = (u16) rm_fext(evt_reg, IA_UENTRY_MAP_UMAPIDX_SHIFT,
+				     IA_UENTRY_MAP_UMAPIDX_MASK);
 		rm_trace_sub(trace_action,
 			     TRACE_RM_SUB_ACTION_EVENT,
 			     *evt);
@@ -989,8 +989,8 @@ s32 rm_ia_init(void)
 
 
 	if (r != SUCCESS) {
-		rm_trace_sub(TRACE_RM_ACTION_IRQ_IA_INIT |
-			     TRACE_RM_ACTION_FAIL, 0U, 0U);
+		rm_trace_sub((TRACE_RM_ACTION_IRQ_IA_INIT |
+			      TRACE_RM_ACTION_FAIL), 0U, 0U);
 	}
 
 	return r;

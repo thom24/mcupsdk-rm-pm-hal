@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -112,7 +112,7 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 		 *
 		 * Note: We break up the calculation in order to avoid a div64.
 		 */
-		clkod_plld = entry->plld * entry->clkod;
+		clkod_plld = (u32) (entry->plld * entry->clkod);
 
 		actual64 = ((u64) (data->input / clkod_plld)) * entry->pllm;
 		rem64 = ((u64) (data->input % clkod_plld)) * entry->pllm;
@@ -127,7 +127,7 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 			actual64 += pm_div64(&rem64, clkod_plld);
 			rem = (u32) rem64;
 		} else {
-			actual64 += ((u32) rem64) / clkod_plld;
+			actual64 += (u64) (((u32) rem64) / clkod_plld);
 			rem = ((u32) rem64) % clkod_plld;
 		}
 
@@ -154,8 +154,10 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 			if (frem > (u64) ULONG_MAX) {
 				fret += pm_div64(&frem, clkod_plld);
 			} else if (frem >= clkod_plld) {
-				fret += ((u32) frem) / clkod_plld;
-				frem = ((u32) frem) % clkod_plld;
+				fret += (u64) (((u32) frem) / clkod_plld);
+				frem = frem % (u64) clkod_plld;
+			} else {
+				/* Do Nothing */
 			}
 
 			fret *= stride;
@@ -163,16 +165,18 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 			if (frem > (u64) ULONG_MAX) {
 				fret += pm_div64(&frem, clkod_plld);
 			} else if (frem >= clkod_plld) {
-				fret += ((u32) frem) / clkod_plld;
-				frem = ((u32) frem) % clkod_plld;
+				fret += (u64) (((u32) frem) / clkod_plld);
+				frem = (u64) (((u32) frem) % clkod_plld);
+			} else {
+				/* Do Nothing */
 			}
 
-			frem += ((u32) (fret & pllfm_mask)) * clkod_plld;
+			frem += (u64) (((u32) (fret & pllfm_mask)) * clkod_plld);
 
 			actual64 += fret >> pllfm_bits;
 			rem += (u32) (frem >> pllfm_bits);
 
-			actual64 += ((u32) rem) / clkod_plld;
+			actual64 += (u64) (((u32) rem) / clkod_plld);
 			rem += ((u32) rem) % clkod_plld;
 		}
 
@@ -199,7 +203,7 @@ static void pll_consider_entry(struct pll_consider_data		*data,
 		/* Check how close we got */
 		if (data->output > actual) {
 			delta = data->output - actual;
-			if (rem) {
+			if (rem != 0U) {
 				delta_rem = clkod_plld - rem;
 				delta--;
 			} else {
@@ -269,7 +273,7 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 			result64 += pm_div64(&rem64, rem_div);
 			rem = (u32) rem64;
 		} else {
-			result64 += ((u32) rem64) / rem_div;
+			result64 += (u64) (((u32) rem64) / rem_div);
 			rem = ((u32) rem64) % rem_div;
 		}
 
@@ -289,17 +293,17 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 				fret += pm_div64(&frem, rem_div);
 			} else {
 				fret += ((u32) frem) / rem_div;
-				frem = ((u32) frem) % rem_div;
+				frem = (u64) (((u32) frem) % rem_div);
 			}
 
 			/* Fold in multiplier */
 			fret *= stride;
 			frem *= stride;
-			if (frem > ULONG_MAX) {
+			if (frem > (u64) ULONG_MAX) {
 				fret += pm_div64(&frem, rem_div);
 			} else {
-				fret += ((u32) frem) / rem_div;
-				frem = ((u32) frem) % rem_div;
+				fret += (u64) (((u32) frem) / rem_div);
+				frem = (u64) (((u32) frem) % rem_div);
 			}
 
 			/* Fold fractional part back into remainder */
@@ -309,7 +313,7 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 			result64 += fret >> bits;
 			rem += (u32) (frem >> bits);
 
-			result64 += rem / rem_div;
+			result64 += (u64) rem / rem_div;
 			rem = rem % rem_div;
 		}
 
@@ -336,12 +340,14 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 			 * +1.
 			 */
 			ret = PLLM_HIGH;
-		} else if ((vco == data->vco->max_hz) && rem != 0UL) {
+		} else if ((vco == data->vco->max_hz) && (rem != 0UL)) {
 			/*
 			 * If we are at the vco limit and not just the output
 			 * limit, round up, don't allow any remainder.
 			 */
 			ret = PLLM_HIGH;
+		} else {
+			/* Do Nothing */
 		}
 	}
 
@@ -372,7 +378,7 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 		/* Check how close we got. */
 		if (data->output > actual) {
 			delta = data->output - actual;
-			if (rem) {
+			if (rem != 0U) {
 				delta_rem = rem_div - rem;
 				delta--;
 			} else {
@@ -389,16 +395,16 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 			/* Easy, clear winner */
 			better = STRUE;
 		} else if (delta == data->min_delta) {
-			if (!delta_rem && !data->min_delta_rem) {
+			if ((0U == delta_rem) && (0U == data->min_delta_rem)) {
 				/* Both are bang on at same delta */
 				same = STRUE;
-			} else if (!delta_rem) {
+			} else if (0U == delta_rem) {
 				/*
 				 * Other delta has a remainder, but we don't,
 				 * we are closer.
 				 */
 				better = STRUE;
-			} else if (data->min_delta_rem) {
+			} else if (data->min_delta_rem != 0U) {
 				/*
 				 * We both have remainders, cross multiply
 				 * and compare result to detrmine same, better,
@@ -429,9 +435,15 @@ static enum consider_result pll_consider(struct pll_consider_data *data,
 						better = STRUE;
 					} else if (a == b) {
 						same = STRUE;
+					} else {
+						/* Do Nothing */
 					}
 				}
+			} else {
+				/* Do Nothing */
 			}
+		} else {
+			/* Do Nothing */
 		}
 
 		/* Bin is the same, but delta is worse. */
@@ -533,12 +545,14 @@ static inline void pll_consider_fractional(struct pll_consider_data *data,
 		} else {
 			u32 extra = ((u32) test_vco_rem) / test_pllm;
 			test_vco += extra;
-			test_vco_rem -= extra * test_pllm;
+			test_vco_rem -= (u64) (extra * test_pllm);
 		}
 		if (test_vco > data->vco_max) {
 			highest_pllfm--;
 		} else if ((test_vco == data->vco->max_hz) && (test_vco_rem != 0UL)) {
 			highest_pllfm--;
+		} else {
+			/* Do Nothing */
 		}
 	}
 
@@ -552,7 +566,7 @@ static inline void pll_consider_fractional(struct pll_consider_data *data,
 	 *
 	 * pllm_rem * pllfm range = pllfm * input
 	 */
-	rem_target = ((u64) pllm_rem) * (1UL << data->data->pllfm_bits);
+	rem_target = (u64) (((u64) pllm_rem) * (1UL << data->data->pllfm_bits));
 
 	/* Start at the lowest and walk it up to the highest */
 	pllfm_input = ((u64) lowest_pllfm) * data->input;
@@ -619,7 +633,7 @@ static inline void pll_find_pllm(struct clk *clkp, const struct pll_data *data,
 		 */
 		*low = data->pllm_max;
 		*high = 0U;
-	} else if (!ideal) {
+	} else if (0U == ideal) {
 		/* pllm cannot be zero. Start at 1 and walk up if necessary */
 		*low = 0U;
 		*high = 1U;
@@ -644,7 +658,7 @@ static inline void pll_find_pllm(struct clk *clkp, const struct pll_data *data,
 
 	/* Walk pllm down to find the first valid value */
 	while (data->pllm_valid && !data->pllm_valid(clkp, *low, SFALSE)) {
-		if (!--(*low)) {
+		if (0U == (--(*low))) {
 			/*
 			 * Walked off the end of valid values, low = 0
 			 * indicades no valid low value.
@@ -801,7 +815,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 	 * 0.
 	 */
 	lowest_plld = 1U + ((consider_data->input - 1U) / consider_data->vco_in->max_hz);
-	if (consider_data->vco_in->min_hz) {
+	if (consider_data->vco_in->min_hz != 0U) {
 		highest_plld = consider_data->input / consider_data->vco_in->min_hz;
 	} else {
 		highest_plld = data->plld_max;
@@ -810,7 +824,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 	if (highest_plld > data->plld_max) {
 		highest_plld = data->plld_max;
 	}
-	if (!lowest_plld) {
+	if (0U == lowest_plld) {
 		lowest_plld++;
 	}
 
@@ -844,7 +858,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 	 * We then clip lowest/highest to the PLL's clkod range. As with plld,
 	 * the resulting lowest value may be above the highest value.
 	 */
-	if (consider_data->max == ULONG_MAX) {
+	if (consider_data->max == (u32) ULONG_MAX) {
 		/* Avoid divide by zero, result will always be one anyway */
 		lowest_clkod = 1U;
 	} else if (consider_data->vco->min_hz == 0UL) {
@@ -863,7 +877,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 	if (highest_clkod > data->clkod_max) {
 		highest_clkod = data->clkod_max;
 	}
-	if (!lowest_clkod) {
+	if (0U == lowest_clkod) {
 		lowest_clkod++;
 	}
 
@@ -949,11 +963,11 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 	 * the values directly above and below the estimate to check which value
 	 * is closest.
 	 */
-	do_frac = data->pllfm_bits != 0UL && consider_data->pll->fractional_support;
+	do_frac = (data->pllfm_bits != 0UL) && consider_data->pll->fractional_support;
 	if (do_frac) {
 		u64 input_inverse_rem64;
 
-		input_inverse_rem64 = 1UL << data->pllfm_bits;
+		input_inverse_rem64 = (u64) 1UL << data->pllfm_bits;
 		input_inverse_rem64 <<= 32U;
 		input_inverse64 = pm_div64(&input_inverse_rem64, consider_data->input);
 	}
@@ -972,20 +986,20 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 		 * VCO limits and the allowable output frequency.
 		 */
 		if (mul32_check_overflow(clkod, consider_data->min, &consider_data->vco_min)) {
-			consider_data->vco_min = ULONG_MAX;
+			consider_data->vco_min = (u32) ULONG_MAX;
 		}
 		if (consider_data->vco_min < consider_data->vco->min_hz) {
 			consider_data->vco_min = consider_data->vco->min_hz;
 		}
 
 		if (mul32_check_overflow(clkod, consider_data->max, &consider_data->vco_max)) {
-			consider_data->vco_max = ULONG_MAX;
+			consider_data->vco_max = (u32) ULONG_MAX;
 		} else {
 			/* vco_max = clkod * (max + 1U) - 1U */
 			consider_data->vco_max += clkod - 1U;
 			if (consider_data->vco_max < (clkod - 1UL)) {
 				/* Overflow occurred */
-				consider_data->vco_max = ULONG_MAX;
+				consider_data->vco_max = (u32) ULONG_MAX;
 			}
 		}
 		if (consider_data->vco_max > consider_data->vco->max_hz) {
@@ -1010,7 +1024,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 		 * the lowest_clkod - 1 to make the continue logic a bit easier.
 		 */
 		if (mul32_check_overflow(consider_data->output, clkod, &vco_target)) {
-			vco_target = ULONG_MAX;
+			vco_target = (u32) ULONG_MAX;
 		}
 
 		/*
@@ -1021,6 +1035,8 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 			vco_target = consider_data->vco->min_hz;
 		} else if (vco_target > consider_data->vco->max_hz) {
 			vco_target = consider_data->vco->max_hz;
+		} else {
+			/* Do Nothing */
 		}
 
 		/*
@@ -1038,7 +1054,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 		 */
 		ideal_pllm = ideal_pllm_step * (lowest_plld - 1U);
 		ideal_pllm_rem = ideal_pllm_step_rem;
-		ideal_pllm_rem *= lowest_plld - 1UL;
+		ideal_pllm_rem *= (u64) (lowest_plld - 1UL);
 
 		/* Handle the carry */
 		while (ideal_pllm_rem > (u64) ULONG_MAX) {
@@ -1104,7 +1120,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 			 * just below and above our target.
 			 */
 			pll_find_pllm(clkp, data, ideal_pllm,
-				      (u32) (ideal_pllm_rem != 0UL),
+				      (ideal_pllm_rem != 0UL) ? 1U : 0U,
 				      &low_pllm, &high_pllm);
 
 			/*
@@ -1138,7 +1154,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 					 * Adjust the remainder according to our
 					 * position within the stride.
 					 */
-					frem += (ideal_pllm - low_pllm) * consider_data->input;
+					frem += (u64) ((ideal_pllm - low_pllm) * consider_data->input);
 					frem /= stride;
 				}
 				estimate_pllfm = (u32) ((frem * input_inverse64) >> 32U);
@@ -1162,7 +1178,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 				 * if one exists to avoid duplicating
 				 * calculations.
 				 */
-				if (data->bin_next_pllm) {
+				if (data->bin_next_pllm != 0U) {
 					high_pllm = data->bin_next_pllm(
 						clkp,
 						consider_data->curr_plld,
@@ -1173,7 +1189,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 				}
 			}
 
-			while (low_pllm) {
+			while (low_pllm != 0U) {
 				/*
 				 * This value will be at or below our target
 				 * frequency.
@@ -1196,7 +1212,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 				}
 			}
 
-			while (high_pllm) {
+			while (high_pllm != 0U) {
 				/*
 				 * This value will be above our target
 				 * frequency.
@@ -1242,7 +1258,7 @@ u32 pll_calc(struct clk *clkp, const struct pll_data *data,
 			.min		= min,
 			.max		= max,
 
-			.min_delta	= ULONG_MAX,
+			.min_delta	= (u32) ULONG_MAX,
 			.max_fitness	= 0U,
 			.max_bin	= 0,
 			.best_actual	= 0U,
@@ -1253,13 +1269,13 @@ u32 pll_calc(struct clk *clkp, const struct pll_data *data,
 		};
 
 		/* Check tables */
-		if (consider_data.pll->pll_entries) {
+		if ((consider_data.pll->pll_entries) != NULL) {
 			s32 i;
 
-			for (i = 0; consider_data.pll->pll_entries[i] != PLL_TABLE_LAST; i++) {
+			for (i = 0; (consider_data.pll->pll_entries[i] != PLL_TABLE_LAST); i++) {
 				pll_consider_entry(&consider_data,
 						   &soc_pll_table[consider_data.pll->pll_entries[i]]);
-				if (!consider_data.min_delta) {
+				if (0U == consider_data.min_delta) {
 					/* Exact match found, done */
 					break;
 				}
@@ -1267,7 +1283,7 @@ u32 pll_calc(struct clk *clkp, const struct pll_data *data,
 		}
 
 		/* No table match found, perform calcualtion */
-		if (consider_data.min_delta == ULONG_MAX) {
+		if (consider_data.min_delta == (u32) ULONG_MAX) {
 			pll_internal_calc(&consider_data);
 		}
 
@@ -1293,7 +1309,7 @@ s32 pll_init(struct clk *clkp)
 	data_pll = container_of(clk_datap->data,
 				const struct clk_data_pll, data);
 
-	if (data_pll->default_freq_idx) {
+	if (data_pll->default_freq_idx != 0U) {
 		const struct clk_default *dflt;
 		sbool changed;
 

@@ -102,7 +102,8 @@ struct list_head {
  */
 static inline void list_head_init(struct list_head *h)
 {
-	h->n.next = h->n.prev = &h->n;
+	h->n.prev = &h->n;
+	h->n.next = h->n.prev;
 }
 
 /**
@@ -209,10 +210,15 @@ static inline void list_del(struct list_node *n)
 
 static inline const void *list_top_(const struct list_head *h, size_t off)
 {
+	const void *list_top_ret = NULL;
+
 	if (list_empty(h)) {
-		return NULL;
+		list_top_ret = NULL;
+	} else {
+		list_top_ret = (const char *) h->n.next - off;
 	}
-	return (const char *) h->n.next - off;
+
+	return list_top_ret;
 }
 
 /**
@@ -235,13 +241,16 @@ static inline const void *list_top_(const struct list_head *h, size_t off)
 static inline const void *list_pop_(const struct list_head *h, size_t off)
 {
 	struct list_node *n;
+	const void *list_pop_ret = NULL;
 
 	if (list_empty(h)) {
-		return NULL;
+		list_pop_ret = NULL;
+	} else {
+		n = h->n.next;
+		list_del(n);
+		list_pop_ret = (const char *) n - off;
 	}
-	n = h->n.next;
-	list_del(n);
-	return (const char *) n - off;
+	return list_pop_ret;
 }
 
 /**
@@ -263,10 +272,15 @@ static inline const void *list_pop_(const struct list_head *h, size_t off)
 
 static inline const void *list_tail_(const struct list_head *h, size_t off)
 {
+	const void *list_tail_ret = NULL;
+
 	if (list_empty(h)) {
-		return NULL;
+		list_tail_ret = NULL;
+	} else {
+		list_tail_ret = (const char *) h->n.prev - off;
 	}
-	return (const char *) h->n.prev - off;
+
+	return list_tail_ret;
 }
 
 /**
@@ -526,9 +540,13 @@ static inline void *list_entry_or_null(const struct list_head	*h,
 				       const struct list_node	*n,
 				       size_t			off)
 {
+	void *list_entry_or_null_ret;
+
 	if (n == &h->n) {
-		return NULL;
+		list_entry_or_null_ret = NULL;
+	} else {
+		list_entry_or_null_ret = (char *) n - off;
 	}
-	return (char *) n - off;
+	return list_entry_or_null_ret;
 }
 #endif /* LIST_H */

@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -162,38 +162,32 @@ const struct resource_mem *device_resource_mem(struct device *dev, u8 idx);
  */
 const struct resource_rst *device_resource_rst(struct device *dev, u8 idx);
 
-static inline u32 mem_readl(const struct resource_mem	*mem,
-			    unsigned int		off)
+static inline u32 mem_readl(const struct resource_mem *mem, u32 off)
 {
 	return readl(mem->addr + off);
 }
 
-static inline void mem_writel(const struct resource_mem *mem, u32 a,
-			      u32 off)
+static inline void mem_writel(const struct resource_mem *mem, u32 a, u32 off)
 {
 	writel(a, mem->addr + off);
 }
 
-static inline unsigned short mem_readw(const struct resource_mem	*mem,
-				       unsigned int			off)
+static inline u16 mem_readw(const struct resource_mem *mem, u32 off)
 {
 	return readw(mem->addr + off);
 }
 
-static inline void mem_writew(const struct resource_mem *mem, unsigned short a,
-			      u32 off)
+static inline void mem_writew(const struct resource_mem *mem, u16 a, u32 off)
 {
 	writew(a, mem->addr + off);
 }
 
-static inline unsigned char mem_readb(const struct resource_mem *mem,
-				      unsigned int		off)
+static inline u8 mem_readb(const struct resource_mem *mem, u32 off)
 {
 	return readb(mem->addr + off);
 }
 
-static inline void mem_writeb(const struct resource_mem *mem, unsigned char a,
-			      u32 off)
+static inline void mem_writeb(const struct resource_mem *mem, u8 a, u32 off)
 {
 	writeb(a, mem->addr + off);
 }

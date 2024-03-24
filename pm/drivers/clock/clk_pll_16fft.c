@@ -46,8 +46,8 @@
 #include <delay.h>
 #include <osal/osal_clock_user.h>
 
-#define PLL_16FFT_PID   (idx)                   (0x1000UL * (idx) + 0x00UL)
-#define PLL_16FFT_CFG(idx)                      (0x1000UL * (idx) + 0x08UL)
+#define PLL_16FFT_PID   (idx)                   ((0x1000UL * (idx)) + 0x00UL)
+#define PLL_16FFT_CFG(idx)                      ((0x1000UL * (idx)) + 0x08UL)
 #define PLL_16FFT_CFG_HSDIV_PRSNC(n)            BIT((n) + 16UL)
 #define PLL_16FFT_CFG_SSM                       BIT(11)
 #define PLL_16FFT_CFG_SSM_WVTBL                 BIT(8)
@@ -57,13 +57,13 @@
 #define PLL_16FFT_CFG_PLL_TYPE_FRACF            1UL
 #define PLL_16FFT_CFG_PLL_TYPE_DESKEW           2UL
 
-#define PLL_16FFT_LOCKKEY0(idx)                 (0x1000UL * (idx) + 0x10UL)
+#define PLL_16FFT_LOCKKEY0(idx)                 ((0x1000UL * (idx)) + 0x10UL)
 #define PLL_16FFT_LOCKKEY0_VALUE                0x68EF3490UL
 
-#define PLL_16FFT_LOCKKEY1(idx)                 (0x1000UL * (idx) + 0x14UL)
+#define PLL_16FFT_LOCKKEY1(idx)                 ((0x1000UL * (idx)) + 0x14UL)
 #define PLL_16FFT_LOCKKEY1_VALUE                0xD172BC5AUL
 
-#define PLL_16FFT_CTRL(idx)                     (0x1000UL * (idx) + 0x20UL)
+#define PLL_16FFT_CTRL(idx)                     ((0x1000UL * (idx)) + 0x20UL)
 #define PLL_16FFT_CTRL_BYPASS_EN                BIT(31)
 #define PLL_16FFT_CTRL_BYP_ON_LOCKLOSS          BIT(16)
 #define PLL_16FFT_CTRL_PLL_EN                   BIT(15)
@@ -73,19 +73,19 @@
 #define PLL_16FFT_CTRL_DSM_EN                   BIT(1)
 #define PLL_16FFT_CTRL_DAC_EN                   BIT(0)
 
-#define PLL_16FFT_STAT(idx)                     (0x1000UL * (idx) + 0x24UL)
+#define PLL_16FFT_STAT(idx)                     ((0x1000UL * (idx)) + 0x24UL)
 #define PLL_16FFT_STAT_LOCK                     BIT(0)
 
-#define PLL_16FFT_FREQ_CTRL0(idx)               (0x1000UL * (idx) + 0x30UL)
+#define PLL_16FFT_FREQ_CTRL0(idx)               ((0x1000UL * (idx)) + 0x30UL)
 #define PLL_16FFT_FREQ_CTRL0_FB_DIV_INT_SHIFT   0UL
 #define PLL_16FFT_FREQ_CTRL0_FB_DIV_INT_MASK    (0xfffUL << 0UL)
 
-#define PLL_16FFT_FREQ_CTRL1(idx)               (0x1000UL * (idx) + 0x34UL)
+#define PLL_16FFT_FREQ_CTRL1(idx)               ((0x1000UL * (idx)) + 0x34UL)
 #define PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT  0UL
 #define PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK   (0xffffffUL << 0UL)
 #define PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS   24UL
 
-#define PLL_16FFT_DIV_CTRL(idx)                 (0x1000UL * (idx) + 0x38UL)
+#define PLL_16FFT_DIV_CTRL(idx)                 ((0x1000UL * (idx)) + 0x38UL)
 #define PLL_16FFT_DIV_CTRL_POST_DIV2_SHIFT      24UL
 #define PLL_16FFT_DIV_CTRL_POST_DIV2_MASK       (0x7UL << 24UL)
 #define PLL_16FFT_DIV_CTRL_POST_DIV1_SHIFT      16UL
@@ -93,10 +93,10 @@
 #define PLL_16FFT_DIV_CTRL_REF_DIV_SHIFT        0UL
 #define PLL_16FFT_DIV_CTRL_REF_DIV_MASK         (0x3fUL << 0UL)
 
-#define PLL_16FFT_SS_CTRL(idx)                  (0x1000UL * (idx) + 0x40UL)
-#define PLL_16FFT_SS_SPREAD(idx)                (0x1000UL * (idx) + 0x44UL)
+#define PLL_16FFT_SS_CTRL(idx)                  ((0x1000UL * (idx)) + 0x40UL)
+#define PLL_16FFT_SS_SPREAD(idx)                ((0x1000UL * (idx)) + 0x44UL)
 
-#define PLL_16FFT_CAL_CTRL(idx)                 (0x1000UL * (idx) + 0x60UL)
+#define PLL_16FFT_CAL_CTRL(idx)                 ((0x1000UL * (idx)) + 0x60UL)
 #define PLL_16FFT_CAL_CTRL_CAL_EN               BIT(31)
 #define PLL_16FFT_CAL_CTRL_FAST_CAL             BIT(20)
 #define PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT        16UL
@@ -105,32 +105,32 @@
 #define PLL_16FFT_CAL_CTRL_CAL_IN_SHIFT         0U
 #define PLL_16FFT_CAL_CTRL_CAL_IN_MASK          (0xFFFU << 0U)
 
-#define PLL_16FFT_CAL_STAT(idx)                 (0x1000U * (idx) + 0x64U)
+#define PLL_16FFT_CAL_STAT(idx)                 ((0x1000U * (idx)) + 0x64U)
 #define PLL_16FFT_CAL_STAT_CAL_LOCK             BIT(31)
 #define PLL_16FFT_CAL_STAT_LOCK_CNT_SHIFT       16U
 #define PLL_16FFT_CAL_STAT_LOCK_CNT_MASK        (0xFU << 16U)
 #define PLL_16FFT_CAL_STAT_CAL_OUT_SHIFT        0U
 #define PLL_16FFT_CAL_STAT_CAL_OUT_MASK         (0xFFFU)
 
-#define PLL_16FFT_HSDIV_CTRL(idx, n)            (0x1000UL * (idx) + 0x80UL + ((n) * 4UL))
+#define PLL_16FFT_HSDIV_CTRL(idx, n)            ((0x1000UL * (idx)) + 0x80UL + ((n) * 4UL))
 #define PLL_16FFT_HSDIV_CTRL_RESET              BIT(31)
 #define PLL_16FFT_HSDIV_CTRL_CLKOUT_EN          BIT(15)
 #define PLL_16FFT_HSDIV_CTRL_SYNC_DIS           BIT(8)
 #define PLL_16FFT_HSDIV_CTRL_HSDIV_SHIFT        0UL
 #define PLL_16FFT_HSDIV_CTRL_HSDIV_MASK         (0x7fUL << 0UL)
 
-static sbool pll_16fft_pllm_valid(struct clk *clk UNUSED, u32 pllm, sbool is_frac);
+static sbool pll_16fft_pllm_valid(struct clk *clock_ptr UNUSED, u32 pllm, sbool is_frac);
 
-static s32 pll_16fft_bin(struct clk *clk UNUSED, u32 plld UNUSED, u32 pllm UNUSED, sbool is_frac, u32 clkod UNUSED);
+static s32 pll_16fft_bin(struct clk *clock_ptr UNUSED, u32 plld UNUSED, u32 pllm UNUSED, sbool is_frac, u32 clkod UNUSED);
 
-static u32 pll_16fft_vco_fitness(struct clk *clk UNUSED, u32 vco, sbool is_frac UNUSED);
+static u32 pll_16fft_vco_fitness(struct clk *clock_ptr UNUSED, u32 vco, sbool is_frac UNUSED);
 
-static sbool pll_16fft_clkod_valid(struct clk *clk UNUSED, u32 clkod);
+static sbool pll_16fft_clkod_valid(struct clk *clock_ptr UNUSED, u32 clkod);
 
 static const struct pll_data pll_16fft_raw_data = {
 	.plld_max	= 1U,
 	.pllm_max	= 640U,
-	.pllfm_bits	= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS,
+	.pllfm_bits	= (u32) PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS,
 	.clkod_max	= 1U,
 	.pllm_valid	= pll_16fft_pllm_valid,
 	.bin		= pll_16fft_bin,
@@ -141,7 +141,7 @@ static const struct pll_data pll_16fft_raw_data = {
 static const struct pll_data pll_16fft_postdiv_data = {
 	.plld_max	= 1U,
 	.pllm_max	= 640U,
-	.pllfm_bits	= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS,
+	.pllfm_bits	= (u32) PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS,
 	.clkod_max	= 49U,
 	.pllm_valid	= pll_16fft_pllm_valid,
 	.clkod_valid	= pll_16fft_clkod_valid,
@@ -153,7 +153,7 @@ static const struct pll_data pll_16fft_postdiv_data = {
 static const struct pll_data pll_16fft_hsdiv_data = {
 	.plld_max	= 1U,
 	.pllm_max	= 640U,
-	.pllfm_bits	= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS,
+	.pllfm_bits	= (u32) PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS,
 	.clkod_max	= 128U,
 	.pllm_valid	= pll_16fft_pllm_valid,
 	.bin		= pll_16fft_bin,
@@ -174,7 +174,7 @@ static void clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll)
 {
 	u32 cal;
 
-	cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+	cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
 
 	/* Enable calibration for FRACF */
 	cal |= PLL_16FFT_CAL_CTRL_CAL_EN;
@@ -187,10 +187,10 @@ static void clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll)
 
 	/* Set CALCNT to 2 */
 	cal &= ~PLL_16FFT_CAL_CTRL_CAL_CNT_MASK;
-	cal |= 2U << PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT;
+	cal |= (u32) 2U << (u32) PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT;
 
 	/* Note this register does not readback the written value. */
-	writel(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+	writel(cal, (u32) pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
 }
 
 /*
@@ -207,8 +207,8 @@ static void clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll)
 	u32 cal;
 	u32 stat;
 
-	cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
-	stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+	cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
+	stat = readl(pll->base + (u32) PLL_16FFT_CAL_STAT(pll->idx));
 
 	/* Read generated calibration value */
 	calout = stat & PLL_16FFT_CAL_STAT_CAL_OUT_MASK;
@@ -226,21 +226,21 @@ static void clk_pll_16fft_cal_option4(const struct clk_data_pll_16fft *pll)
 
 	/* Set CALCNT to 7 */
 	cal &= ~PLL_16FFT_CAL_CTRL_CAL_CNT_MASK;
-	cal |= 7U << PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT;
+	cal |= (u32) 7U << (u32) PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT;
 
 	/* Note this register does not readback the written value. */
-	writel(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+	writel(cal, (u32) pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
 }
 static void clk_pll_16fft_disable_cal(const struct clk_data_pll_16fft *pll)
 {
 	u32 cal, stat;
 
-	cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+	cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
 	cal &= ~PLL_16FFT_CAL_CTRL_CAL_EN;
 	/* Note this register does not readback the written value. */
-	writel(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+	writel(cal, (u32) pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
 	do {
-		stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+		stat = readl(pll->base + (u32) PLL_16FFT_CAL_STAT(pll->idx));
 	} while ((stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U);
 	return;
 }
@@ -267,16 +267,16 @@ static void clk_pll_16fft_disable_cal(const struct clk_data_pll_16fft *pll __att
  *
  * \return true if pllm value is valid, false otherwise
  */
-static sbool pll_16fft_pllm_valid(struct clk *clk UNUSED, u32 pllm, sbool is_frac)
+static sbool pll_16fft_pllm_valid(struct clk *clock_ptr UNUSED, u32 pllm, sbool is_frac)
 {
 	sbool ret = STRUE;
 
 	if (is_frac) {
-		if (pllm < 20UL || pllm > 320UL) {
+		if ((pllm < 20UL) || (pllm > 320UL)) {
 			ret = SFALSE;
 		}
 	} else {
-		if (pllm < 16UL || pllm > 640UL) {
+		if ((pllm < 16UL) || (pllm > 640UL)) {
 			ret = SFALSE;
 		}
 	}
@@ -284,22 +284,22 @@ static sbool pll_16fft_pllm_valid(struct clk *clk UNUSED, u32 pllm, sbool is_fra
 }
 
 /* Prefer non-fractional configuration if possible */
-static s32 pll_16fft_bin(struct clk *clk UNUSED, u32 plld UNUSED,
+static s32 pll_16fft_bin(struct clk *clock_ptr UNUSED, u32 plld UNUSED,
 			 u32 pllm UNUSED, sbool is_frac, u32 clkod UNUSED)
 {
 	s32 ret;
 
 	if (is_frac) {
-		ret = 0L;
+		ret = 0;
 	} else {
-		ret = 1L;
+		ret = 1;
 	}
 
 	return ret;
 }
 
 /* Prefer higher VCO frequencies */
-static u32 pll_16fft_vco_fitness(struct clk *clk UNUSED, u32 vco, sbool is_frac UNUSED)
+static u32 pll_16fft_vco_fitness(struct clk *clock_ptr UNUSED, u32 vco, sbool is_frac UNUSED)
 {
 	return vco;
 }
@@ -315,7 +315,7 @@ static sbool clk_pll_16fft_check_lock(const struct clk_data_pll_16fft *pll)
 {
 	u32 stat;
 
-	stat = readl(pll->base + PLL_16FFT_STAT(pll->idx));
+	stat = readl(pll->base + (u32) PLL_16FFT_STAT(pll->idx));
 	return (stat & PLL_16FFT_STAT_LOCK) != 0U;
 }
 
@@ -331,14 +331,14 @@ static sbool clk_pll_16fft_check_cal_lock(const struct clk_data_pll_16fft *pll)
 {
 	u32 stat;
 
-	stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+	stat = readl(pll->base + (u32) PLL_16FFT_CAL_STAT(pll->idx));
 	return (stat & PLL_16FFT_CAL_STAT_CAL_LOCK) != 0U;
 }
 #endif
 
-static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
+static sbool clk_pll_16fft_wait_for_lock(struct clk *clock_ptr)
 {
-	const struct clk_data *clk_data;
+	const struct clk_data *clock_data;
 	const struct clk_data_pll_16fft *pll;
 	const struct clk_data_pll *data_pll;
 	u32 i;
@@ -349,8 +349,8 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 	u32 pllfm;
 #endif
 
-	clk_data = clk_get_data(clk);
-	data_pll = container_of(clk_data->data, const struct clk_data_pll,
+	clock_data = clk_get_data(clock_ptr);
+	data_pll = container_of(clock_data->data, const struct clk_data_pll,
 				data);
 	pll = container_of(data_pll, const struct clk_data_pll_16fft,
 			   data_pll);
@@ -364,7 +364,7 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 	 * longer than neccessary for timeout, but that should be ok.
 	 */
 	success = SFALSE;
-	for (i = 0U; i < 24U * 100U; i++) {
+	for (i = 0U; i < (24U * 100U); i++) {
 		if (clk_pll_16fft_check_lock(pll)) {
 			success = STRUE;
 			break;
@@ -376,12 +376,12 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 		/* Disable calibration in the fractional mode of the FRACF PLL based on data
 		 * from silicon and simulation data.
 		 */
-		freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
+		freq_ctrl1 = readl(pll->base + (u32) PLL_16FFT_FREQ_CTRL1(pll->idx));
 		pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
 		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
 		u32 pll_type;
 		u32 cfg;
-		cfg = readl(pll->base + PLL_16FFT_CFG(pll->idx));
+		cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
 		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
 		if (success &&
 		    (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL)) {
@@ -400,7 +400,7 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 			 * The recommend timeout for CALLOCK to go high is 2.2 ms
 			 */
 			success = SFALSE;
-			for (i = 0U; i < 2200U * 100U; i++) {
+			for (i = 0U; i < (2200U * 100U); i++) {
 				if (clk_pll_16fft_check_cal_lock(pll)) {
 					success = STRUE;
 					break;
@@ -413,7 +413,7 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 		if (success && (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF)
 		    && (pllfm == 0UL)) {
 			u32 cal;
-			cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+			cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
 			if ((cal & PLL_16FFT_CAL_CTRL_FAST_CAL) != 0U) {
 				/*
 				 * Fast cal enabled indicates we were performing
@@ -441,26 +441,26 @@ static sbool clk_pll_16fft_is_bypass(const struct clk_data_pll_16fft *pll)
 	u32 ctrl;
 
 	/* IDLE Bypass */
-	ctrl = readl(pll->base + PLL_16FFT_CTRL(pll->idx));
+	ctrl = readl(pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
 	ret = (ctrl & PLL_16FFT_CTRL_BYPASS_EN) != 0U;
 
 	return ret;
 }
 
-static s32 clk_pll_16fft_bypass(struct clk *clk, sbool bypass)
+static s32 clk_pll_16fft_bypass(struct clk *clock_ptr, sbool bypass)
 {
-	const struct clk_data *clk_data;
+	const struct clk_data *clock_data;
 	const struct clk_data_pll_16fft *pll;
 	const struct clk_data_pll *data_pll;
 	u32 ctrl;
 
-	clk_data = clk_get_data(clk);
-	data_pll = container_of(clk_data->data, const struct clk_data_pll,
+	clock_data = clk_get_data(clock_ptr);
+	data_pll = container_of(clock_data->data, const struct clk_data_pll,
 				data);
 	pll = container_of(data_pll, const struct clk_data_pll_16fft,
 			   data_pll);
 
-	ctrl = readl(pll->base + PLL_16FFT_CTRL(pll->idx));
+	ctrl = readl(pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
 	if (bypass) {
 		/* Enable bypass */
 		ctrl |= PLL_16FFT_CTRL_BYPASS_EN;
@@ -468,15 +468,15 @@ static s32 clk_pll_16fft_bypass(struct clk *clk, sbool bypass)
 		/* Disable bypass */
 		ctrl &= ~PLL_16FFT_CTRL_BYPASS_EN;
 	}
-	return pm_writel_verified(ctrl, pll->base + PLL_16FFT_CTRL(pll->idx));
+	return pm_writel_verified(ctrl, pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
 }
 
-static u32 clk_pll_16fft_get_freq_internal(struct clk *clk, u32 clkod)
+static u32 clk_pll_16fft_get_freq_internal(struct clk *clock_ptr, u32 clkod)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_pll_16fft *pll;
 	const struct clk_data_pll *data_pll;
-	u32 ret = 0UL;
+	u32 ret = 0U;
 	u32 freq_ctrl0;
 	u32 freq_ctrl1;
 	u32 div_ctrl;
@@ -485,13 +485,13 @@ static u32 clk_pll_16fft_get_freq_internal(struct clk *clk, u32 clkod)
 	u32 plld;
 	u32 clkod_plld;
 
-	data_pll = container_of(clk_data->data, const struct clk_data_pll,
+	data_pll = container_of(clock_data->data, const struct clk_data_pll,
 				data);
 	pll = container_of(data_pll, const struct clk_data_pll_16fft,
 			   data_pll);
-	freq_ctrl0 = readl(pll->base + PLL_16FFT_FREQ_CTRL0(pll->idx));
-	freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
-	div_ctrl = readl(pll->base + PLL_16FFT_DIV_CTRL(pll->idx));
+	freq_ctrl0 = readl(pll->base + (u32) PLL_16FFT_FREQ_CTRL0(pll->idx));
+	freq_ctrl1 = readl(pll->base + (u32) PLL_16FFT_FREQ_CTRL1(pll->idx));
+	div_ctrl = readl(pll->base + (u32) PLL_16FFT_DIV_CTRL(pll->idx));
 
 	pllm = freq_ctrl0 & PLL_16FFT_FREQ_CTRL0_FB_DIV_INT_MASK;
 	pllm >>= PLL_16FFT_FREQ_CTRL0_FB_DIV_INT_SHIFT;
@@ -510,9 +510,9 @@ static u32 clk_pll_16fft_get_freq_internal(struct clk *clk, u32 clkod)
 		u64 rem;
 
 		/* Calculate non-fractional part */
-		parent_freq_hz = clk_get_parent_freq(clk);
-		ret64 = ((u64) (parent_freq_hz / clkod_plld)) * pllm;
-		rem = ((u64) (parent_freq_hz % clkod_plld)) * pllm;
+		parent_freq_hz = clk_get_parent_freq(clock_ptr);
+		ret64 = (u64) ((parent_freq_hz / clkod_plld) * pllm);
+		rem = (u64) ((parent_freq_hz % clkod_plld) * pllm);
 		if (rem > (u64) ULONG_MAX) {
 			/*
 			 * Remainder should always fit within 32 bits.
@@ -525,8 +525,8 @@ static u32 clk_pll_16fft_get_freq_internal(struct clk *clk, u32 clkod)
 			 */
 			ret64 += pm_div64(&rem, clkod_plld);
 		} else {
-			ret64 += ((u32) rem) / clkod_plld;
-			rem = ((u32) rem) % clkod_plld;
+			ret64 += rem / (u64) clkod_plld;
+			rem = rem % (u64) clkod_plld;
 		}
 
 		if (m_frac_mult != 0UL) {
@@ -556,26 +556,26 @@ static u32 clk_pll_16fft_get_freq_internal(struct clk *clk, u32 clkod)
 				 */
 				fret += pm_div64(&frem, clkod_plld);
 			} else {
-				fret += ((u32) frem) / clkod_plld;
-				frem = ((u32) frem) % clkod_plld;
+				fret += frem / (u64) clkod_plld;
+				frem = frem % (u64) clkod_plld;
 			}
 
 			/* Fold back into return/remainder */
 			frem += (fret & (u64) mask) * clkod_plld;
 
 			/* Round the fractional component. Above mid point is rounded up*/
-			fret += 1 << (PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS - 1U);
+			fret += (u32) 1U << (PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS - 1U);
 
 			ret64 += fret >> PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS;
 			rem += frem >> PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_BITS;
 
-			ret64 += ((u32) rem) / clkod_plld;
-			rem = ((u32) rem) % clkod_plld;
+			ret64 += (u64) (((u32) rem) / clkod_plld);
+			rem = ((u64) rem) % clkod_plld;
 		}
 
 		if (ret64 > (u64) ULONG_MAX) {
 			/* FIXME: Handle PLL value overflow */
-			ret = ULONG_MAX;
+			ret = (u32) ULONG_MAX;
 		} else {
 			ret = (u32) ret64;
 		}
@@ -604,7 +604,7 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 	u32 cfg;
 	u32 pll_type;
 
-	pll_clk->flags &= ~CLK_FLAG_CACHED;
+	pll_clk->flags &= (u8) ~CLK_FLAG_CACHED;
 
 	if (!clk_pll_16fft_is_bypass(pll)) {
 		/* Put the PLL into bypass */
@@ -614,7 +614,7 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 		}
 	}
 
-	cfg = readl(pll->base + PLL_16FFT_CFG(pll->idx));
+	cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
 	pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
 	if ((pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm != 0UL)) {
 		clk_pll_16fft_disable_cal(pll);
@@ -624,8 +624,8 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 		u32 cal;
 		u32 stat;
 
-		cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
-		stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+		cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
+		stat = readl(pll->base + (u32) PLL_16FFT_CAL_STAT(pll->idx));
 
 		/* Check if calibration is already enabled and locked */
 		if (((cal & PLL_16FFT_CAL_CTRL_CAL_EN) != 0U) &&
@@ -639,9 +639,9 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 	}
 
 	/* Program the new rate */
-	freq_ctrl0 = readl(pll->base + PLL_16FFT_FREQ_CTRL0(pll->idx));
-	freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
-	div_ctrl = readl(pll->base + PLL_16FFT_DIV_CTRL(pll->idx));
+	freq_ctrl0 = readl(pll->base + (u32) PLL_16FFT_FREQ_CTRL0(pll->idx));
+	freq_ctrl1 = readl(pll->base + (u32) PLL_16FFT_FREQ_CTRL1(pll->idx));
+	div_ctrl = readl(pll->base + (u32) PLL_16FFT_DIV_CTRL(pll->idx));
 
 	freq_ctrl0 &= ~PLL_16FFT_FREQ_CTRL0_FB_DIV_INT_MASK;
 	freq_ctrl0 |= pllm << PLL_16FFT_FREQ_CTRL0_FB_DIV_INT_SHIFT;
@@ -653,7 +653,7 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 	div_ctrl |= plld << PLL_16FFT_DIV_CTRL_REF_DIV_SHIFT;
 
 	/* Make sure we have fractional support if required */
-	ctrl = readl(pll->base + PLL_16FFT_CTRL(pll->idx));
+	ctrl = readl(pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
 	if (pllfm != 0UL) {
 		ctrl |= PLL_16FFT_CTRL_DSM_EN;
 	} else {
@@ -661,25 +661,25 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 	}
 
 	if (ret) {
-		err = pm_writel_verified(freq_ctrl0, pll->base + PLL_16FFT_FREQ_CTRL0(pll->idx));
+		err = pm_writel_verified(freq_ctrl0, (u32) pll->base + (u32) PLL_16FFT_FREQ_CTRL0(pll->idx));
 		if (err != SUCCESS) {
 			ret = SFALSE;
 		}
 	}
 	if (ret) {
-		err = pm_writel_verified(freq_ctrl1, pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
+		err = pm_writel_verified(freq_ctrl1, (u32) pll->base + (u32) PLL_16FFT_FREQ_CTRL1(pll->idx));
 		if (err != SUCCESS) {
 			ret = SFALSE;
 		}
 	}
 	if (ret) {
-		err = pm_writel_verified(div_ctrl, pll->base + PLL_16FFT_DIV_CTRL(pll->idx));
+		err = pm_writel_verified(div_ctrl, (u32) pll->base + (u32) PLL_16FFT_DIV_CTRL(pll->idx));
 		if (err != SUCCESS) {
 			ret = SFALSE;
 		}
 	}
 	if (ret) {
-		err = pm_writel_verified(ctrl, pll->base + PLL_16FFT_CTRL(pll->idx));
+		err = pm_writel_verified(ctrl, (u32) pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
 		if (err != SUCCESS) {
 			ret = SFALSE;
 		}
@@ -688,7 +688,7 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 	/* Program output divider */
 	if (div_clk && ret) {
 		div_clk_data = clk_get_data(div_clk);
-		if (div_clk_data->drv) {
+		if (div_clk_data->drv != 0U) {
 			drv_div = container_of(div_clk_data->drv,
 					       const struct clk_drv_div, drv);
 		} else {
@@ -699,7 +699,7 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 		}
 	}
 
-	if (pll_clk->ref_count != 0U && ret) {
+	if ((pll_clk->ref_count != 0U) && ret) {
 		/* Take the PLL out of bypass */
 		ret = clk_pll_16fft_wait_for_lock(pll_clk);
 		if (ret) {
@@ -715,7 +715,7 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 
 static u32 clk_pll_16fft_internal_set_freq(struct clk *pll_clk,
 					   struct clk *div_clk,
-					   const struct pll_data *pll_data,
+					   const struct pll_data *pll_data_t,
 					   u32 target_hz,
 					   u32 min_hz,
 					   u32 max_hz,
@@ -731,10 +731,10 @@ static u32 clk_pll_16fft_internal_set_freq(struct clk *pll_clk,
 	u32 prev_pllfm;
 	u32 prev_plld;
 	u32 prev_clkod;
-	u32 pllm = 0UL;
-	u32 pllfm = 0UL;
-	u32 plld = 0UL;
-	u32 clkod = 0UL;
+	u32 pllm = 0U;
+	u32 pllfm = 0U;
+	u32 plld = 0U;
+	u32 clkod = 0U;
 	u32 freq;
 	u32 parent_freq_hz;
 	sbool was_bypass;
@@ -747,9 +747,9 @@ static u32 clk_pll_16fft_internal_set_freq(struct clk *pll_clk,
 
 	was_bypass = clk_pll_16fft_is_bypass(pll);
 
-	freq_ctrl0 = readl(pll->base + PLL_16FFT_FREQ_CTRL0(pll->idx));
-	freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
-	div_ctrl = readl(pll->base + PLL_16FFT_DIV_CTRL(pll->idx));
+	freq_ctrl0 = readl(pll->base + (u32) PLL_16FFT_FREQ_CTRL0(pll->idx));
+	freq_ctrl1 = readl(pll->base + (u32) PLL_16FFT_FREQ_CTRL1(pll->idx));
+	div_ctrl = readl(pll->base + (u32) PLL_16FFT_DIV_CTRL(pll->idx));
 
 	/* Check current values */
 	prev_pllm = freq_ctrl0 & PLL_16FFT_FREQ_CTRL0_FB_DIV_INT_MASK;
@@ -761,7 +761,7 @@ static u32 clk_pll_16fft_internal_set_freq(struct clk *pll_clk,
 	prev_plld = div_ctrl & PLL_16FFT_DIV_CTRL_REF_DIV_MASK;
 	prev_plld >>= PLL_16FFT_DIV_CTRL_REF_DIV_SHIFT;
 
-	if (div_clk) {
+	if (div_clk != NULL) {
 		prev_clkod = clk_get_div(div_clk);
 	} else {
 		prev_clkod = 1U;
@@ -769,21 +769,21 @@ static u32 clk_pll_16fft_internal_set_freq(struct clk *pll_clk,
 
 	/* Compute new values */
 	parent_freq_hz = clk_get_parent_freq(pll_clk);
-	freq = pll_calc(pll_clk, pll_data, parent_freq_hz,
+	freq = pll_calc(pll_clk, pll_data_t, parent_freq_hz,
 			target_hz, min_hz, max_hz,
 			&plld, &pllm, &pllfm, &clkod);
 
 	*changed = STRUE;
 	/* No need to do anything if they haven't changed */
-	if (plld == prev_plld && pllm == prev_pllm && clkod == prev_clkod &&
-	    pllfm == prev_pllfm && !was_bypass) {
+	if ((plld == prev_plld) && (pllm == prev_pllm) && (clkod == prev_clkod) &&
+	    (pllfm == prev_pllfm) && !was_bypass) {
 		*changed = SFALSE;
 	}
 
-	if (freq != 0UL && !query && *changed) {
+	if ((freq != 0UL) && !query && *changed) {
 		if (!clk_pll_16fft_program_freq(pll_clk, div_clk, pll,
 						plld, pllm, pllfm, clkod)) {
-			freq = 0UL;
+			freq = 0U;
 		}
 	}
 
@@ -795,13 +795,13 @@ static u32 clk_pll_16fft_internal_set_freq(struct clk *pll_clk,
  * directly, it is only called by pll_init. We actually want to set the
  * frequency of foutpostdiv_clk not the DCO.
  */
-static u32 clk_pll_16fft_set_freq(struct clk *clk,
+static u32 clk_pll_16fft_set_freq(struct clk *clock_ptr,
 				  u32 target_hz,
 				  u32 min_hz,
 				  u32 max_hz,
 				  sbool query, sbool *changed)
 {
-	const struct pll_data *pll_data;
+	const struct pll_data *pll_data_t;
 	struct clk *div_clk = NULL;
 	u32 ret = 0U;
 	u32 i;
@@ -817,7 +817,7 @@ static u32 clk_pll_16fft_set_freq(struct clk *clk,
 			if (p != NULL) {
 				struct clk *pll_clk;
 				pll_clk = clk_lookup((clk_idx_t) p->clk);
-				if (pll_clk == clk) {
+				if (pll_clk == clock_ptr) {
 					div_clk = sub_clk;
 				}
 			}
@@ -842,16 +842,16 @@ static u32 clk_pll_16fft_set_freq(struct clk *clk,
 		 * This is a clock with FOUTPOSTDIV. Utilize the postdiv
 		 * output divider when determining a new frequency.
 		 */
-		pll_data = &pll_16fft_postdiv_data;
+		pll_data_t = &pll_16fft_postdiv_data;
 	} else {
 		/*
 		 * This is a clock without FOUTPOSTDIV. The clock
 		 * output divider must be 1.
 		 */
-		pll_data = &pll_16fft_raw_data;
+		pll_data_t = &pll_16fft_raw_data;
 	}
 
-	ret = clk_pll_16fft_internal_set_freq(clk, div_clk, pll_data,
+	ret = clk_pll_16fft_internal_set_freq(clock_ptr, div_clk, pll_data_t,
 					      target_hz, min_hz, max_hz,
 					      query, changed);
 
@@ -865,51 +865,51 @@ static u32 clk_pll_16fft_set_freq(struct clk *clk,
  *
  * \return The DCO frequency of the 16FFT in Hz.
  */
-static u32 clk_pll_16fft_get_freq(struct clk *clk)
+static u32 clk_pll_16fft_get_freq(struct clk *clock_ptr)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	u32 ret;
 
 	/*
 	 * If disabled, return the frequency we would be running at once
 	 * we bring it out of bypass. If enabled and in bypass, return 0.
 	 */
-	if (clk->ref_count == 0U) {
+	if (clock_ptr->ref_count == 0U) {
 		ret = 0U;
-	} else if ((clk->flags & CLK_FLAG_CACHED) != 0U) {
-		ret = soc_clock_values[clk_data->freq_idx];
+	} else if ((clock_ptr->flags & CLK_FLAG_CACHED) != 0U) {
+		ret = soc_clock_values[clock_data->freq_idx];
 	} else {
 		const struct clk_data_pll_16fft *pll;
 		const struct clk_data_pll *data_pll;
-		data_pll = container_of(clk_data->data, const struct clk_data_pll,
+		data_pll = container_of(clock_data->data, const struct clk_data_pll,
 					data);
 		pll = container_of(data_pll, const struct clk_data_pll_16fft,
 				   data_pll);
 
 		if (!clk_pll_16fft_is_bypass(pll)) {
-			ret = clk_pll_16fft_get_freq_internal(clk, 1UL);
+			ret = clk_pll_16fft_get_freq_internal(clock_ptr, 1U);
 		} else {
 			ret = 0U;
 		}
-		soc_clock_values[clk_data->freq_idx] = ret;
-		clk->flags |= CLK_FLAG_CACHED;
+		soc_clock_values[clock_data->freq_idx] = ret;
+		clock_ptr->flags |= CLK_FLAG_CACHED;
 	}
 
 	return ret;
 }
 
-static sbool clk_pll_16fft_set_state(struct clk *clk, sbool enabled)
+static sbool clk_pll_16fft_set_state(struct clk *clock_ptr, sbool enabled)
 {
 	sbool ret = STRUE;
 
 	if (enabled) {
-		ret = clk_pll_16fft_wait_for_lock(clk);
+		ret = clk_pll_16fft_wait_for_lock(clock_ptr);
 	}
 
 	if (ret) {
 		s32 err;
-		clk->flags &= ~CLK_FLAG_CACHED;
-		err = clk_pll_16fft_bypass(clk, !enabled);
+		clock_ptr->flags &= (u8) ~CLK_FLAG_CACHED;
+		err = clk_pll_16fft_bypass(clock_ptr, !enabled);
 		if (err != SUCCESS) {
 			ret = SFALSE;
 		}
@@ -925,35 +925,35 @@ static sbool clk_pll_16fft_set_state(struct clk *clk, sbool enabled)
  *
  * \return Returns HW state using the CLK_HW_STATE macro.
  */
-static u32 clk_pll_16fft_get_state(struct clk *clk)
+static u32 clk_pll_16fft_get_state(struct clk *clock_ptr)
 {
-	struct clk *clk_parent = NULL;
+	struct clk *clock_parent = NULL;
 	u32 ret = CLK_HW_STATE_ENABLED;
 
-	if (clk->ref_count == 0U) {
+	if (clock_ptr->ref_count == 0U) {
 		ret = CLK_HW_STATE_DISABLED;
 	}
 
 	/* PLLs can't function without an enabled parent */
 	if (ret == CLK_HW_STATE_ENABLED) {
 		const struct clk_parent *p;
-		p = clk_get_parent(clk);
-		if (p) {
-			clk_parent = clk_lookup(p->clk);
+		p = clk_get_parent(clock_ptr);
+		if (p != NULL) {
+			clock_parent = clk_lookup(p->clk);
 		}
-		if (clk_parent) {
-			ret = clk_get_state(clk_parent);
+		if (clock_parent != NULL) {
+			ret = clk_get_state(clock_parent);
 		} else {
 			ret = CLK_HW_STATE_DISABLED;
 		}
 	}
 
 	if (ret == CLK_HW_STATE_ENABLED) {
-		const struct clk_data *clk_data;
+		const struct clk_data *clock_data;
 		const struct clk_data_pll_16fft *pll;
 		const struct clk_data_pll *data_pll;
-		clk_data = clk_get_data(clk);
-		data_pll = container_of(clk_data->data, const struct clk_data_pll,
+		clock_data = clk_get_data(clock_ptr);
+		data_pll = container_of(clock_data->data, const struct clk_data_pll,
 					data);
 		pll = container_of(data_pll, const struct clk_data_pll_16fft,
 				   data_pll);
@@ -966,38 +966,38 @@ static u32 clk_pll_16fft_get_state(struct clk *clk)
 	return ret;
 }
 
-static struct clk *clk_pll_16fft_hsdiv_get_pll_root(struct clk *clk)
+static struct clk *clk_pll_16fft_hsdiv_get_pll_root(struct clk *clock_ptr)
 {
 	const struct clk_parent *p = NULL;
 	struct clk *pll_clk = NULL;
 
 	/* Get PLL root */
-	p = clk_get_parent(clk);
-	if (p) {
+	p = clk_get_parent(clock_ptr);
+	if (p != NULL) {
 		pll_clk = clk_lookup((clk_idx_t) p->clk);
 	}
 
 	return pll_clk;
 }
 
-static struct clk *clk_pll_16fft_postdiv_get_pll_root(struct clk *clk)
+static struct clk *clk_pll_16fft_postdiv_get_pll_root(struct clk *clock_ptr)
 {
 	const struct clk_parent *p = NULL;
 	struct clk *pll_clk = NULL;
 	const struct clk_data *pll_clk_data;
 
 	/* Get PLL post divider */
-	p = clk_get_parent(clk);
-	if (p) {
+	p = clk_get_parent(clock_ptr);
+	if (p != NULL) {
 		pll_clk = clk_lookup((clk_idx_t) p->clk);
 	}
 
 	/* Verify correct clock tree */
-	pll_clk_data = clk_get_data(clk);
-	if (pll_clk && pll_clk_data->drv == &clk_drv_div_pll_16fft_postdiv.drv) {
+	pll_clk_data = clk_get_data(clock_ptr);
+	if (pll_clk && (pll_clk_data->drv == &clk_drv_div_pll_16fft_postdiv.drv)) {
 		/* Get PLL root */
 		p = clk_get_parent(pll_clk);
-		if (p) {
+		if (p != NULL) {
 			pll_clk = clk_lookup((clk_idx_t) p->clk);
 		} else {
 			pll_clk = NULL;
@@ -1007,9 +1007,9 @@ static struct clk *clk_pll_16fft_postdiv_get_pll_root(struct clk *clk)
 	return pll_clk;
 }
 
-static s32 clk_pll_16fft_init_internal(struct clk *clk)
+static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_pll_16fft *pll;
 	const struct clk_data_pll *data_pll;
 	u32 freq_ctrl1;
@@ -1021,9 +1021,9 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 	s32 ret = SUCCESS;
 	sbool skip_hw_init = SFALSE;
 
-	clk->flags &= ~CLK_FLAG_CACHED;
+	clock_ptr->flags &= (u8) ~CLK_FLAG_CACHED;
 
-	data_pll = container_of(clk_data->data, const struct clk_data_pll,
+	data_pll = container_of(clock_data->data, const struct clk_data_pll,
 				data);
 	pll = container_of(data_pll, const struct clk_data_pll_16fft,
 			   data_pll);
@@ -1032,7 +1032,7 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 	 * we must check if the clk is enabled, and if so, skip re-setting
 	 * default frequency if it is available.
 	 */
-	if (((clk_data->flags & CLK_DATA_FLAG_NO_HW_REINIT) != 0) &&
+	if (((clock_data->flags & CLK_DATA_FLAG_NO_HW_REINIT) != 0U) &&
 	    (clk_pll_16fft_check_lock(pll) == STRUE)) {
 		skip_hw_init = STRUE;
 	}
@@ -1042,14 +1042,14 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 		* Unlock write access. Note this register does not readback the
 		* written value.
 		*/
-		writel(PLL_16FFT_LOCKKEY0_VALUE, pll->base + PLL_16FFT_LOCKKEY0(pll->idx));
-		writel(PLL_16FFT_LOCKKEY1_VALUE, pll->base + PLL_16FFT_LOCKKEY1(pll->idx));
+		writel((u32) PLL_16FFT_LOCKKEY0_VALUE, (u32) pll->base + (u32) PLL_16FFT_LOCKKEY0(pll->idx));
+		writel((u32) PLL_16FFT_LOCKKEY1_VALUE, (u32) pll->base + (u32) PLL_16FFT_LOCKKEY1(pll->idx));
 
-		cfg = readl(pll->base + PLL_16FFT_CFG(pll->idx));
-		ctrl = readl(pll->base + PLL_16FFT_CTRL(pll->idx));
+		cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
+		ctrl = readl(pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
 
 		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
-		freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
+		freq_ctrl1 = readl(pll->base + (u32) PLL_16FFT_FREQ_CTRL1(pll->idx));
 		pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
 		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
 		/* Disable calibration in the fractional mode of the FRACF PLL based on
@@ -1059,8 +1059,8 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 			u32 cal;
 			u32 stat;
 
-			cal = readl(pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
-			stat = readl(pll->base + PLL_16FFT_CAL_STAT(pll->idx));
+			cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
+			stat = readl(pll->base + (u32) PLL_16FFT_CAL_STAT(pll->idx));
 
 			/* Check if calibration is already enabled and locked */
 			if (((cal & PLL_16FFT_CAL_CTRL_CAL_EN) != 0U) &&
@@ -1076,7 +1076,7 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 		/* Make sure PLL is enabled */
 		if ((ctrl & PLL_16FFT_CTRL_PLL_EN) == 0U) {
 			ctrl |= PLL_16FFT_CTRL_PLL_EN;
-			ret = pm_writel_verified(ctrl, pll->base + PLL_16FFT_CTRL(pll->idx));
+			ret = pm_writel_verified(ctrl, pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
 			if (ret == SUCCESS) {
 				osal_delay(1UL); /* Wait 1us */
 			}
@@ -1086,7 +1086,7 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 		ctrl |= PLL_16FFT_CTRL_BYP_ON_LOCKLOSS;
 
 		/* Prefer glitchless bypass */
-		if (ctrl & PLL_16FFT_CTRL_INTL_BYP_EN) {
+		if ((ctrl & PLL_16FFT_CTRL_INTL_BYP_EN) != 0U) {
 			ctrl |= PLL_16FFT_CTRL_BYPASS_EN;
 			ctrl &= ~PLL_16FFT_CTRL_INTL_BYP_EN;
 		}
@@ -1105,16 +1105,16 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 		}
 
 		if (ret == SUCCESS) {
-			ret = pm_writel_verified(ctrl, pll->base + PLL_16FFT_CTRL(pll->idx));
+			ret = pm_writel_verified(ctrl, (u32) pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
 		}
 
 		/* Enable all HSDIV outputs */
 		for (i = 0U; (i < 16U) && (ret == SUCCESS); i++) {
 			/* Enable HSDIV output if present */
 			if ((PLL_16FFT_CFG_HSDIV_PRSNC(i) & cfg) != 0UL) {
-				ctrl = readl(pll->base + PLL_16FFT_HSDIV_CTRL(pll->idx, i));
+				ctrl = readl(pll->base + (u32) PLL_16FFT_HSDIV_CTRL(pll->idx, i));
 				ctrl |= PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
-				ret = pm_writel_verified(ctrl, pll->base + PLL_16FFT_HSDIV_CTRL(pll->idx, i));
+				ret = pm_writel_verified(ctrl, (u32) pll->base + (u32) PLL_16FFT_HSDIV_CTRL(pll->idx, i));
 			}
 		}
 
@@ -1132,21 +1132,23 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 		for (i = 0; (i < soc_clock_count) && (ret == SUCCESS); i++) {
 			const struct clk_data *sub_data = soc_clock_data + i;
 			struct clk *sub_clk = soc_clocks + i;
-			if (sub_data->drv == &clk_drv_div_reg.drv &&
+			if ((sub_data->drv == &clk_drv_div_reg.drv) &&
 			    sub_data->drv->init) {
-				if (clk_pll_16fft_postdiv_get_pll_root(sub_clk) == clk) {
+				if (clk_pll_16fft_postdiv_get_pll_root(sub_clk) == clock_ptr) {
 					sub_data->drv->init(sub_clk);
 				}
-			} else if (sub_data->drv == &clk_drv_div_pll_16fft_hsdiv.drv &&
+			} else if ((sub_data->drv == &clk_drv_div_pll_16fft_hsdiv.drv) &&
 				   sub_data->drv->init) {
-				if (clk_pll_16fft_hsdiv_get_pll_root(sub_clk) == clk) {
+				if (clk_pll_16fft_hsdiv_get_pll_root(sub_clk) == clock_ptr) {
 					sub_data->drv->init(sub_clk);
 				}
+			} else {
+				/* Do Nothing */
 			}
 		}
 
 		if (ret == SUCCESS) {
-			ret = pll_init(clk);
+			ret = pll_init(clock_ptr);
 		}
 	}
 
@@ -1155,23 +1157,23 @@ static s32 clk_pll_16fft_init_internal(struct clk *clk)
 	 * clocks in bypass.
 	 */
 	if (ret == SUCCESS) {
-		clk->flags |= CLK_FLAG_PWR_UP_EN;
+		clock_ptr->flags |= CLK_FLAG_PWR_UP_EN;
 	}
 
 	return ret;
 }
 
-static s32 clk_pll_16fft_init(struct clk *clk)
+static s32 clk_pll_16fft_init(struct clk *clock_ptr)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
+	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_pll *data_pll;
 	s32 ret;
 
-	data_pll = container_of(clk_data->data, const struct clk_data_pll,
+	data_pll = container_of(clock_data->data, const struct clk_data_pll,
 				data);
 
 	if (pm_devgroup_is_enabled(data_pll->devgrp)) {
-		ret = clk_pll_16fft_init_internal(clk);
+		ret = clk_pll_16fft_init_internal(clock_ptr);
 	} else {
 		ret = -EDEFER;
 	}
@@ -1197,7 +1199,7 @@ const struct clk_drv clk_drv_pll_16fft = {
  */
 #define PDV(pd1, pd2)           ((pd1) | ((pd2) << 4UL))
 #define PDV_ENTRY(div, pd1)     [(div)] = PDV((pd1), (div) / (pd1))
-static const u8 postdiv_mapping[7U * 7U + 1U] = {
+static const u8 postdiv_mapping[(7U * 7U) + 1U] = {
 	PDV_ENTRY(1U,  1U),
 	PDV_ENTRY(2U,  2U),
 	PDV_ENTRY(3U,  3U),
@@ -1233,63 +1235,63 @@ static const u8 postdiv_mapping[7U * 7U + 1U] = {
  *
  * \return true if clkod value is valid, false otherwise
  */
-static sbool pll_16fft_clkod_valid(struct clk *clk UNUSED, u32 clkod)
+static sbool pll_16fft_clkod_valid(struct clk *clock_ptr UNUSED, u32 clkod)
 {
-	return clkod < ARRAY_SIZE(postdiv_mapping) && postdiv_mapping[clkod] != 0U;
+	return (clkod < ARRAY_SIZE(postdiv_mapping)) && (postdiv_mapping[clkod] != 0U);
 }
 
-static u32 clk_pll_16fft_postdiv_set_freq(struct clk *clk,
+static u32 clk_pll_16fft_postdiv_set_freq(struct clk *clock_ptr,
 					  u32 target_hz,
 					  u32 min_hz,
 					  u32 max_hz,
 					  sbool query, sbool *changed)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
-	u32 ret = 0UL;
+	const struct clk_data *clock_data = clk_get_data(clock_ptr);
+	u32 ret = 0U;
 
-	if ((clk_data->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) != 0U) {
+	if ((clock_data->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) != 0U) {
 		/* Program the whole PLL */
 		const struct clk_parent *p;
 		struct clk *pll_clk = NULL;
 
-		p = clk_get_parent(clk);
-		if (p) {
+		p = clk_get_parent(clock_ptr);
+		if (p != NULL) {
 			pll_clk = clk_lookup((clk_idx_t) p->clk);
 		}
 
-		if (pll_clk) {
-			ret = clk_pll_16fft_internal_set_freq(pll_clk, clk,
+		if (pll_clk != NULL) {
+			ret = clk_pll_16fft_internal_set_freq(pll_clk, clock_ptr,
 							      &pll_16fft_postdiv_data,
 							      target_hz, min_hz, max_hz,
 							      query, changed);
 		}
 	} else {
 		/* Just program the output divider. */
-		ret = clk_div_set_freq(clk, target_hz, min_hz, max_hz,
+		ret = clk_div_set_freq(clock_ptr, target_hz, min_hz, max_hz,
 				       query, changed);
 	}
 
 	return ret;
 }
 
-static sbool clk_pll_16fft_postdiv_valid_div(struct clk *clk UNUSED, u32 d)
+static sbool clk_pll_16fft_postdiv_valid_div(struct clk *clock_ptr UNUSED, u32 d)
 {
-	return d < ARRAY_SIZE(postdiv_mapping) && postdiv_mapping[d] != 0U;
+	return (d < ARRAY_SIZE(postdiv_mapping)) && (postdiv_mapping[d] != 0U);
 }
 
-static sbool clk_pll_16fft_postdiv_set_div(struct clk *clk, u32 d)
+static sbool clk_pll_16fft_postdiv_set_div(struct clk *clock_ptr, u32 d)
 {
 	const struct clk_parent *p;
 	struct clk *pll_clk = NULL;
 	sbool ret = SFALSE;
 	u32 err;
 
-	p = clk_get_parent(clk);
-	if (p) {
+	p = clk_get_parent(clock_ptr);
+	if (p != NULL) {
 		pll_clk = clk_lookup((clk_idx_t) p->clk);
 	}
 
-	if (pll_clk) {
+	if (pll_clk != NULL) {
 		const struct clk_data *pll_clk_data = clk_get_data(pll_clk);
 		const struct clk_data_pll *data_pll;
 		const struct clk_data_pll_16fft *pll;
@@ -1303,19 +1305,19 @@ static sbool clk_pll_16fft_postdiv_set_div(struct clk *clk, u32 d)
 		pll = container_of(data_pll, const struct clk_data_pll_16fft,
 				   data_pll);
 
-		div_ctrl = readl(pll->base + PLL_16FFT_DIV_CTRL(pll->idx));
+		div_ctrl = readl(pll->base + (u32) PLL_16FFT_DIV_CTRL(pll->idx));
 		div_ctrl &= ~PLL_16FFT_DIV_CTRL_POST_DIV2_MASK;
 		div_ctrl &= ~PLL_16FFT_DIV_CTRL_POST_DIV1_MASK;
 
 		v = postdiv_mapping[d];
-		post_div1 = v & 0xfUL;
-		post_div2 = v >> 4UL;
+		post_div1 = (u32) v & 0xFU;
+		post_div2 = (u32) v >> 4UL;
 
 		div_ctrl |= post_div1 << PLL_16FFT_DIV_CTRL_POST_DIV1_SHIFT;
 		div_ctrl |= post_div2 << PLL_16FFT_DIV_CTRL_POST_DIV2_SHIFT;
 
-		err = pm_writel_verified(div_ctrl, pll->base + PLL_16FFT_DIV_CTRL(pll->idx));
-		if (err == SUCCESS) {
+		err = (u32) pm_writel_verified(div_ctrl, pll->base + (u32) PLL_16FFT_DIV_CTRL(pll->idx));
+		if (err == (u32) SUCCESS) {
 			ret = STRUE;
 		}
 	}
@@ -1323,18 +1325,18 @@ static sbool clk_pll_16fft_postdiv_set_div(struct clk *clk, u32 d)
 	return ret;
 }
 
-static u32 clk_pll_16fft_postdiv_get_div(struct clk *clk)
+static u32 clk_pll_16fft_postdiv_get_div(struct clk *clock_ptr)
 {
 	const struct clk_parent *p;
 	struct clk *pll_clk = NULL;
-	u32 ret = 0UL;
+	u32 ret = 0U;
 
-	p = clk_get_parent(clk);
-	if (p) {
+	p = clk_get_parent(clock_ptr);
+	if (p != NULL) {
 		pll_clk = clk_lookup((clk_idx_t) p->clk);
 	}
 
-	if (pll_clk) {
+	if (pll_clk != NULL) {
 		const struct clk_data *pll_clk_data = clk_get_data(pll_clk);
 		const struct clk_data_pll *data_pll;
 		const struct clk_data_pll_16fft *pll;
@@ -1347,7 +1349,7 @@ static u32 clk_pll_16fft_postdiv_get_div(struct clk *clk)
 		pll = container_of(data_pll, const struct clk_data_pll_16fft,
 				   data_pll);
 
-		div_ctrl = readl(pll->base + PLL_16FFT_DIV_CTRL(pll->idx));
+		div_ctrl = readl(pll->base + (u32) PLL_16FFT_DIV_CTRL(pll->idx));
 		post_div1 = div_ctrl & PLL_16FFT_DIV_CTRL_POST_DIV1_MASK;
 		post_div1 >>= PLL_16FFT_DIV_CTRL_POST_DIV1_SHIFT;
 		post_div2 = div_ctrl & PLL_16FFT_DIV_CTRL_POST_DIV2_MASK;
@@ -1370,35 +1372,41 @@ const struct clk_drv_div clk_drv_div_pll_16fft_postdiv = {
 	.get_div		= clk_pll_16fft_postdiv_get_div,
 };
 
-static u32 clk_pll_16fft_hsdiv_set_freq(struct clk *clk,
+static u32 clk_pll_16fft_hsdiv_set_freq(struct clk *clock_ptr,
 					u32 target_hz,
 					u32 min_hz,
 					u32 max_hz,
 					sbool query, sbool *changed)
 {
-	const struct clk_data *clk_data = clk_get_data(clk);
-	u32 ret = 0UL;
+	const struct clk_data *clock_data = clk_get_data(clock_ptr);
+	u32 ret = 0U;
 
-	if ((clk_data->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) != 0U) {
+	if ((clock_data->flags & CLK_DATA_FLAG_MODIFY_PARENT_FREQ) != 0U) {
 		/* Program the whole PLL */
 		const struct clk_parent *p;
 		struct clk *pll_clk = NULL;
 
-		p = clk_get_parent(clk);
-		if (p) {
+		p = clk_get_parent(clock_ptr);
+		if (p != NULL) {
 			pll_clk = clk_lookup((clk_idx_t) p->clk);
 		}
 
-		if (pll_clk) {
+		if (pll_clk != NULL) {
 			/*
-			 * Before changing the VCO frequency of PLL
-			 * Check that new freq can be obtained with current parent frequency by changing the divider
-			*/
-			ret = clk_div_set_freq_static_parent(clk, target_hz, min_hz,
-							     max_hz, query, changed);
+			 * Before changing the VCO frequency of PLL.
+			 * Check that new target freq can be obtained with current parent
+			 * frequency by changing the divider.
+			 *
+			 * Here both min and max freq is given same as target freq.
+			 * Reason :
+			 * If min and max frequency is given it might set to frequency other than target
+			 * frequency even if target frequency can be obtained by changing the PLL vco frequency.
+			 */
+			ret = clk_div_set_freq_static_parent(clock_ptr, target_hz, target_hz,
+							     target_hz, query, changed);
 
 			if (ret == 0U) {
-				ret = clk_pll_16fft_internal_set_freq(pll_clk, clk,
+				ret = clk_pll_16fft_internal_set_freq(pll_clk, clock_ptr,
 								      &pll_16fft_hsdiv_data,
 								      target_hz, min_hz, max_hz,
 								      query, changed);
@@ -1406,7 +1414,7 @@ static u32 clk_pll_16fft_hsdiv_set_freq(struct clk *clk,
 		}
 	} else {
 		/* Just program the output divider. */
-		ret = clk_div_set_freq(clk, target_hz, min_hz, max_hz,
+		ret = clk_div_set_freq(clock_ptr, target_hz, min_hz, max_hz,
 				       query, changed);
 	}
 

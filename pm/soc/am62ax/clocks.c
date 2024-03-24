@@ -1,5 +1,5 @@
 /*
- * Data version: 230126_160511
+ * Data version: 230918_161414
  *
  * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
@@ -54,6 +54,8 @@ enum {
 	AM62AX_FREQ_VALUE_BOARD_0_AUDIO_EXT_REFCLK0_OUT,
 	AM62AX_FREQ_VALUE_BOARD_0_AUDIO_EXT_REFCLK1_OUT,
 	AM62AX_FREQ_VALUE_BOARD_0_CP_GEMAC_CPTS0_RFT_CLK_OUT,
+	AM62AX_FREQ_VALUE_BOARD_0_CSI0_RXCLKN_OUT,
+	AM62AX_FREQ_VALUE_BOARD_0_CSI0_RXCLKP_OUT,
 	AM62AX_FREQ_VALUE_BOARD_0_DDR0_CK0_OUT,
 	AM62AX_FREQ_VALUE_BOARD_0_EXT_REFCLK1_OUT,
 	AM62AX_FREQ_VALUE_BOARD_0_GPMC0_CLKLB_OUT,
@@ -114,8 +116,6 @@ enum {
 	AM62AX_FREQ_VALUE_EMMCSD8SS_MAIN_0_EMMCSDSS_IO_CLK_O,
 	AM62AX_FREQ_VALUE_FSS_UL_MAIN_0_OSPI_0_OSPI_OCLK_CLK,
 	AM62AX_FREQ_VALUE_GPMC_MAIN_0_PO_GPMC_DEV_CLK,
-	AM62AX_FREQ_VALUE_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_M,
-	AM62AX_FREQ_VALUE_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_P,
 	AM62AX_FREQ_VALUE_K3_DPHY_RX_MAIN_0_PPI_RX_BYTE_CLK,
 	AM62AX_FREQ_VALUE_K3_DSS_UL_MAIN_0_DPI_1_OUT_CLK,
 	AM62AX_FREQ_VALUE_MCASP_MAIN_0_MCASP_ACLKR_POUT,
@@ -185,7 +185,7 @@ enum {
 	PLL_ENTRY_MAIN_25MHZ_1000MHZ,
 	PLL_ENTRY_MAIN_26MHZ_1000MHZ_F24BIT,
 	PLL_ENTRY_PER0_24MHZ_960MHZ,
-	PLL_ENTRY_PER0_25MHZ_960MHZ,
+	PLL_ENTRY_PER0_25MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_VIDEO_24MHZ_2250MHZ_F24BIT,
 	PLL_ENTRY_VIDEO_25MHZ_2250MHZ,
@@ -202,9 +202,6 @@ enum {
 	PLL_ENTRY_SMS_24MHZ_2400MHZ,
 	PLL_ENTRY_SMS_25MHZ_2400MHZ,
 	PLL_ENTRY_SMS_26MHZ_2400MHZ_F24BIT,
-	PLL_ENTRY_DSS0_24MHZ_2380MHZ_F24BIT,
-	PLL_ENTRY_DSS0_25MHZ_2380MHZ_F24BIT,
-	PLL_ENTRY_DSS0_26MHZ_2380MHZ_F24BIT,
 	PLL_ENTRY_DSS1_24MHZ_2040MHZ,
 	PLL_ENTRY_DSS1_25MHZ_2040MHZ_F24BIT,
 	PLL_ENTRY_DSS1_26MHZ_2040MHZ_F24BIT,
@@ -245,7 +242,7 @@ const struct clk_default soc_clock_freq_defaults[10] = {
 	CLK_DEFAULT(FREQ_PLLFRACF2_SSMOD_16FFT_MCU_0_DEFAULT,	1200000000UL, 1200000000UL, 1200000000UL),
 };
 
-const struct pll_table_entry soc_pll_table[30] = {
+const struct pll_table_entry soc_pll_table[27] = {
 	[PLL_ENTRY_MCU_24MHZ_1200MHZ] =		 {
 		.freq_min_hz	= 1200000000U,
 		.freq_max_hz	= 1200000000U,
@@ -302,12 +299,12 @@ const struct pll_table_entry soc_pll_table[30] = {
 		.pllfm		= 0U,
 		.clkod		= 2U,
 	},
-	[PLL_ENTRY_PER0_25MHZ_960MHZ] =		 {
+	[PLL_ENTRY_PER0_25MHZ_960MHZ_F24BIT] =	 {
 		.freq_min_hz	= 960000000U,
 		.freq_max_hz	= 960000000U,
-		.plld		= 5U,
-		.pllm		= 384U,
-		.pllfm		= 0U,
+		.plld		= 1U,
+		.pllm		= 76U,
+		.pllfm		= 13421773U,
 		.clkod		= 2U,
 	},
 	[PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT] =	 {
@@ -438,30 +435,6 @@ const struct pll_table_entry soc_pll_table[30] = {
 		.pllfm		= 5162221U,
 		.clkod		= 1U,
 	},
-	[PLL_ENTRY_DSS0_24MHZ_2380MHZ_F24BIT] =	 {
-		.freq_min_hz	= 2380000000U,
-		.freq_max_hz	= 2380000000U,
-		.plld		= 1U,
-		.pllm		= 99U,
-		.pllfm		= 2796203U,
-		.clkod		= 1U,
-	},
-	[PLL_ENTRY_DSS0_25MHZ_2380MHZ_F24BIT] =	 {
-		.freq_min_hz	= 2380000000U,
-		.freq_max_hz	= 2380000000U,
-		.plld		= 2U,
-		.pllm		= 190U,
-		.pllfm		= 6710887U,
-		.clkod		= 1U,
-	},
-	[PLL_ENTRY_DSS0_26MHZ_2380MHZ_F24BIT] =	 {
-		.freq_min_hz	= 2380000000U,
-		.freq_max_hz	= 2380000000U,
-		.plld		= 1U,
-		.pllm		= 91U,
-		.pllfm		= 9033886U,
-		.clkod		= 1U,
-	},
 	[PLL_ENTRY_DSS1_24MHZ_2040MHZ] =	 {
 		.freq_min_hz	= 2040000000U,
 		.freq_max_hz	= 2040000000U,
@@ -496,7 +469,7 @@ static const u8 pllfracf2_ssmod_16fft_main_0_entries[4] = {
 };
 static const u8 pllfracf2_ssmod_16fft_main_1_entries[4] = {
 	PLL_ENTRY_PER0_24MHZ_960MHZ,
-	PLL_ENTRY_PER0_25MHZ_960MHZ,
+	PLL_ENTRY_PER0_25MHZ_960MHZ_F24BIT,
 	PLL_ENTRY_PER0_26MHZ_960MHZ_F24BIT,
 	PLL_TABLE_LAST,
 };
@@ -636,14 +609,6 @@ static const struct clk_data_mux_reg clk_data_CLK_32K_RC_SEL_out0 = {
 	},
 	.reg			= 0x04500000 + 32856,
 	.bit			= 0,
-};
-static const struct clk_data_from_dev clk_data_K3_DPHY_RX_main_0_io_rx_cl_l_m = {
-	.dev		= AM62AX_DEV_DPHY_RX0,
-	.clk_idx	= AM62AX_DEV_DPHY_RX0_IO_RX_CL_L_M,
-};
-static const struct clk_data_from_dev clk_data_K3_DPHY_RX_main_0_io_rx_cl_l_p = {
-	.dev		= AM62AX_DEV_DPHY_RX0,
-	.clk_idx	= AM62AX_DEV_DPHY_RX0_IO_RX_CL_L_P,
 };
 static const struct clk_data_from_dev clk_data_K3_DPHY_RX_main_0_ppi_rx_byte_clk = {
 	.dev		= AM62AX_DEV_DPHY_RX0,
@@ -2205,6 +2170,14 @@ static const struct clk_data_from_dev clk_data_board_0_CP_GEMAC_CPTS0_RFT_CLK_ou
 	.dev		= AM62AX_DEV_BOARD0,
 	.clk_idx	= AM62AX_DEV_BOARD0_CP_GEMAC_CPTS0_RFT_CLK_OUT,
 };
+static const struct clk_data_from_dev clk_data_board_0_CSI0_RXCLKN_out = {
+	.dev		= AM62AX_DEV_BOARD0,
+	.clk_idx	= AM62AX_DEV_BOARD0_CSI0_RXCLKN_OUT,
+};
+static const struct clk_data_from_dev clk_data_board_0_CSI0_RXCLKP_out = {
+	.dev		= AM62AX_DEV_BOARD0,
+	.clk_idx	= AM62AX_DEV_BOARD0_CSI0_RXCLKP_OUT,
+};
 static const struct clk_data_from_dev clk_data_board_0_DDR0_CK0_out = {
 	.dev		= AM62AX_DEV_BOARD0,
 	.clk_idx	= AM62AX_DEV_BOARD0_DDR0_CK0_OUT,
@@ -3154,18 +3127,6 @@ const struct clk_data soc_clock_data[260] = {
 		.flags		= 0,
 		.range_idx	= AM62AX_FREQ_RANGE_GLUELOGIC_RCOSC_CLK_1P0V_97P65K,
 	},
-	[CLK_AM62AX_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_M] =						{
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_K3_DPHY_RX_main_0_io_rx_cl_l_m.data,
-		.freq_idx	= AM62AX_FREQ_VALUE_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_M,
-	},
-	[CLK_AM62AX_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_P] =						{
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_K3_DPHY_RX_main_0_io_rx_cl_l_p.data,
-		.freq_idx	= AM62AX_FREQ_VALUE_K3_DPHY_RX_MAIN_0_IO_RX_CL_L_P,
-	},
 	[CLK_AM62AX_K3_DPHY_RX_MAIN_0_PPI_RX_BYTE_CLK] =					{
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -3189,6 +3150,18 @@ const struct clk_data soc_clock_data[260] = {
 		.flags		= 0,
 		.data		= &clk_data_board_0_CP_GEMAC_CPTS0_RFT_CLK_out.data,
 		.freq_idx	= AM62AX_FREQ_VALUE_BOARD_0_CP_GEMAC_CPTS0_RFT_CLK_OUT,
+	},
+	[CLK_AM62AX_BOARD_0_CSI0_RXCLKN_OUT] =							{
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_CSI0_RXCLKN_out.data,
+		.freq_idx	= AM62AX_FREQ_VALUE_BOARD_0_CSI0_RXCLKN_OUT,
+	},
+	[CLK_AM62AX_BOARD_0_CSI0_RXCLKP_OUT] =							{
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_board_0_CSI0_RXCLKP_out.data,
+		.freq_idx	= AM62AX_FREQ_VALUE_BOARD_0_CSI0_RXCLKP_OUT,
 	},
 	[CLK_AM62AX_BOARD_0_DDR0_CK0_OUT] =							{
 		.drv		= &clk_drv_from_device,

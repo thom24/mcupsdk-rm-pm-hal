@@ -1,7 +1,7 @@
 /*
  * Device Manager - LPM RTC Driver
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,16 +37,17 @@
 #include "soc_ctrl_mmr.h"
 
 
-#define RTC_SUB_S_CNT        (0x04)
-#define RTC_S_CNT_LSW        (0x08)
-#define RTC_S_CNT_MSW        (0x0c)
+#define RTC_SUB_S_CNT        (0x04U)
+#define RTC_S_CNT_LSW        (0x08U)
+#define RTC_S_CNT_MSW        (0x0cU)
 
 void lpm_rtc_read_time(struct rtc_time *rtc)
 {
-	if (!rtc) {
-		return;
+	if (rtc != NULL) {
+		rtc->sub_sec = readl(RTC_BASE + RTC_SUB_S_CNT);
+		rtc->sec_lo = readl(RTC_BASE + RTC_S_CNT_LSW);
+		rtc->sec_hi = readl(RTC_BASE + RTC_S_CNT_MSW);
+	} else {
+		/* do nothing */
 	}
-	rtc->sub_sec = readl(RTC_BASE + RTC_SUB_S_CNT);
-	rtc->sec_lo = readl(RTC_BASE + RTC_S_CNT_LSW);
-	rtc->sec_hi = readl(RTC_BASE + RTC_S_CNT_MSW);
 }
