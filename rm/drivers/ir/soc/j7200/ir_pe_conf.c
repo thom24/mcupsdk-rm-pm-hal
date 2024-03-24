@@ -5,7 +5,7 @@
  *
  * Data version: 211118_090221
  *
- * Copyright (C) 2019-2021, Texas Instruments Incorporated
+ * Copyright (C) 2019-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -259,61 +259,5 @@ const struct ir_init ir_soc_pe_init_list[IR_SOC_PE_INIT_NUM] = {
 		.id	= J7200_DEV_MCU_NAVSS0_INTR_0,
 		.inp	= 0x07U,
 		.outp	= 0x0023U,
-	},
-	/*
-	 * For: DM err_event: MCU_R5FSS0_CORE0/intr_68
-	 */
-	[26] = {
-		.id	= J7200_DEV_MCU_NAVSS0_INTR_0,
-		.inp	= 0x08U,
-		.outp	= 0x0004U,
-	},
-	/*
-	 * For: DM nonsec_high_priority_rx: MCU_R5FSS0_CORE0/intr_69
-	 */
-	[27] = {
-		.id	= J7200_DEV_MCU_NAVSS0_INTR_0,
-		.inp	= 0x09U,
-		.outp	= 0x0005U,
-	},
-	/*
-	 * For: DM nonsec_high_priority_rx: MCU_R5FSS0_CORE0/intr_70
-	 */
-	[28] = {
-		.id	= J7200_DEV_MCU_NAVSS0_INTR_0,
-		.inp	= 0x0AU,
-		.outp	= 0x0006U,
-	},
-	/*
-	 * For: DM nonsec_low_priority_rx: MCU_R5FSS0_CORE0/intr_71
-	 */
-	[29] = {
-		.id	= J7200_DEV_MCU_NAVSS0_INTR_0,
-		.inp	= 0x0BU,
-		.outp	= 0x0007U,
-	},
-	/*
-	 * For: DM nonsec_low_priority_rx: MCU_R5FSS0_CORE0/intr_72
-	 */
-	[30] = {
-		.id	= J7200_DEV_MCU_NAVSS0_INTR_0,
-		.inp	= 0x0CU,
-		.outp	= 0x0008U,
-	},
-	/*
-	 * For: DM nonsec_notify_resp_rx: MCU_R5FSS0_CORE0/intr_73
-	 */
-	[31] = {
-		.id	= J7200_DEV_MCU_NAVSS0_INTR_0,
-		.inp	= 0x0DU,
-		.outp	= 0x0009U,
-	},
-	/*
-	 * For: DM nonsec_notify_resp_rx: MCU_R5FSS0_CORE0/intr_74
-	 */
-	[32] = {
-		.id	= J7200_DEV_MCU_NAVSS0_INTR_0,
-		.inp	= 0x0EU,
-		.outp	= 0x000AU,
 	},
 };
