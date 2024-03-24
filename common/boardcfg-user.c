@@ -3,7 +3,7 @@
  *
  * Boardcfg API for receiving and storing board configuration
  *
- * Copyright (C) 2018-2022, Texas Instruments Incorporated
+ * Copyright (C) 2018-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -192,7 +192,7 @@ static bool boardcfg_validate_rm_resasg(const struct boardcfg_rm_resasg *resasg)
 
 	if (ret == true) {
 		if ((resasg->resasg_entries_size == 0u) ||
-		    ((resasg->resasg_entries_size >=
+		    ((resasg->resasg_entries_size >
 		      (RESASG_ENTRIES_MAX *
 		       sizeof(struct boardcfg_rm_resasg_entry))) ||
 		     ((resasg->resasg_entries_size %
