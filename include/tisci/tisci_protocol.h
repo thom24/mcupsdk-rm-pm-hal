@@ -3,7 +3,7 @@
  *
  * TISCI Protocol Definitions
  *
- * Copyright (C) 2017-2022, Texas Instruments Incorporated
+ * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -269,6 +269,15 @@ struct tisci_sec_header {
 
 /** Message to write KEYREV value */
 #define TISCI_MSG_WRITE_KEYREV                  (0x9035U)
+
+/** Message to derive a SMEK and return it via TISCI */
+#define TISCI_MSG_SA2UL_GET_DSMEK               (0x9036U)
+
+/** Message to derive a SMEK and set SA2UL DKEK register */
+#define TISCI_MSG_SA2UL_SET_DSMEK               (0x9037U)
+
+/** Message to erase the DKEK register */
+#define TISCI_MSG_SA2UL_RELEASE_DSMEK           (0x9038U)
 
 /* Processor Control APIs */
 

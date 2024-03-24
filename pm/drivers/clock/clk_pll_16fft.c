@@ -343,6 +343,7 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 	const struct clk_data_pll *data_pll;
 	u32 i;
 	sbool success;
+
 #if defined (CONFIG_CLK_PLL_16FFT_FRACF_CALIBRATION)
 	u32 freq_ctrl1;
 	u32 pllfm;
@@ -371,13 +372,13 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 	}
 
 #if defined (CONFIG_CLK_PLL_16FFT_FRACF_CALIBRATION)
-{
-	/* Disable calibration in the fractional mode of the FRACF PLL based on data
-	 * from silicon and simulation data.
-	 */
-	freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
-	pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
-	pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
+	{
+		/* Disable calibration in the fractional mode of the FRACF PLL based on data
+		 * from silicon and simulation data.
+		 */
+		freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
+		pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
+		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
 		u32 pll_type;
 		u32 cfg;
 		cfg = readl(pll->base + PLL_16FFT_CFG(pll->idx));
@@ -1389,10 +1390,19 @@ static u32 clk_pll_16fft_hsdiv_set_freq(struct clk *clk,
 		}
 
 		if (pll_clk) {
-			ret = clk_pll_16fft_internal_set_freq(pll_clk, clk,
-							      &pll_16fft_hsdiv_data,
-							      target_hz, min_hz, max_hz,
-							      query, changed);
+			/*
+			 * Before changing the VCO frequency of PLL
+			 * Check that new freq can be obtained with current parent frequency by changing the divider
+			*/
+			ret = clk_div_set_freq_static_parent(clk, target_hz, min_hz,
+							     max_hz, query, changed);
+
+			if (ret == 0U) {
+				ret = clk_pll_16fft_internal_set_freq(pll_clk, clk,
+								      &pll_16fft_hsdiv_data,
+								      target_hz, min_hz, max_hz,
+								      query, changed);
+			}
 		}
 	} else {
 		/* Just program the output divider. */
