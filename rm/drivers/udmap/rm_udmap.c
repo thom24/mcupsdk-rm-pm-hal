@@ -730,15 +730,24 @@ static s32 udmap_get_type(const struct udmap_instance *inst,
  *
  * \param tx_ch Transmit channel if STRUE, Receive channel if SFALSE
  *
- * \return The host ID value if successful, or -EINVAL
+ * \param n_hosts Pointer to a variable which is populated with the number
+ *                of hosts assigned to the resource in the RM board
+ *                configuration
+ *
+ * \param host_array Pointer to a array variable which is populated with the
+ *                   hosts assigned to the resource in the RM board
+ *                   configuration
+ *
+ * \param host_array_max Maximum number of elements in the array pointed to by
+ *                       host_array
+ *
+ * \return SUCCESS or -EINVAL depending if valid or not
  */
-s32 udmap_get_host(u16 id, u16 index, sbool tx_ch)
+s32 udmap_get_host(u16 id, u16 index, sbool tx_ch, u8 *n_hosts, u8 *hosts_array, u8 host_array_max)
 {
 	s32 r = SUCCESS;
 	const struct udmap_instance *inst = NULL;
 	u16 utype;
-	u8 hosts[FWL_MAX_PRIVID_SLOTS];
-	u8 n_hosts = 0U;
 	u8 trace_action = (tx_ch == STRUE) ?
 			  TRACE_RM_ACTION_UDMAP_TX_CH_CFG :
 			  TRACE_RM_ACTION_UDMAP_RX_CH_CFG;
@@ -769,15 +778,11 @@ s32 udmap_get_host(u16 id, u16 index, sbool tx_ch)
 
 	/* Convert utype to host ID */
 	if (r == SUCCESS) {
-		r = rm_core_get_resasg_hosts(utype, index, &n_hosts,
-					     &hosts[0U], FWL_MAX_PRIVID_SLOTS);
+		r = rm_core_get_resasg_hosts(utype, index, n_hosts,
+					     &hosts_array[0U], host_array_max);
 	}
 
-	if (r == SUCCESS) {
-		return hosts[0];
-	} else {
-		return -EINVAL;
-	}
+	return r;
 }
 #endif
 

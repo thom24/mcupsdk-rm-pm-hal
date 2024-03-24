@@ -72,7 +72,10 @@ static s32 rm_psil_verify_host(u32 *msg_recv, sbool source_thread, sbool pairing
 	s32 r = SUCCESS;
 	s32 dev_id;
 	s32 index;
-	s32 res_host;
+	u8 host_array_max = RES_MAX_HOST_CNT;
+	u8 hosts[RES_MAX_HOST_CNT];
+	u8 n_hosts = 0U;
+
 
 	/* Get the device ID from the secure PSIL driver */
 	dev_id = sec_rm_psil_get_dev_id(msg_recv, source_thread, pairing, primary);
@@ -93,14 +96,34 @@ static s32 rm_psil_verify_host(u32 *msg_recv, sbool source_thread, sbool pairing
 	}
 
 	/*
+	 * Get the host ID(s) corresponding to
+	 * the resource in the boardcfg
+	 */
+	if (r == SUCCESS) {
+		r = udmap_get_host((u16) dev_id, (u16) index, STRUE, &n_hosts, &hosts[0], host_array_max);
+	}
+
+	/*
 	 * Check if the host in the message matches
 	 * the host that owns that resource
 	 */
 	if (r == SUCCESS) {
-		res_host = udmap_get_host((u16) dev_id, (u16) index, STRUE);
+		/*
+		 * Besides the cases below,
+		 * all other cases are invalid
+		 */
+		r = -EINVAL;
 
-		if ((res_host == -EINVAL) || (hdr->host != res_host)) {
-			r = -EINVAL;
+		if (n_hosts == 1) {
+			if ((hosts[0] == hdr->host) || (hosts[0] == HOST_ID_ALL)) {
+				r = SUCCESS;
+			}
+		} else if (n_hosts == 2) {
+			if ((hosts[0] == hdr->host) || (hosts[0] == HOST_ID_ALL)) {
+				r = SUCCESS;
+			} else if ((hosts[1] == hdr->host) || (hosts[1] == HOST_ID_ALL)) {
+				r = SUCCESS;
+			}
 		}
 	}
 
