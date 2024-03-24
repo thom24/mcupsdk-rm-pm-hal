@@ -5,7 +5,7 @@
  *
  * Data version: 211118_090221
  *
- * Copyright (C) 2019-2022, Texas Instruments Incorporated
+ * Copyright (C) 2019-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,7 @@
 #ifndef J7200_IA_PE_CONF_H
 #define J7200_IA_PE_CONF_H
 
-/** Count of IA init list (26 entries) */
-#define IA_SOC_PE_INIT_NUM (0x1AU)
+/** Count of IA init list (33 entries) */
+#define IA_SOC_PE_INIT_NUM (0x21U)
 
 #endif /* J7200_IA_PE_CONF_H */

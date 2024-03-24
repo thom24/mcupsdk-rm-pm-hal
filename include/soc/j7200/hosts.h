@@ -5,7 +5,7 @@
  *
  * Data version: 211118_090221
  *
- * Copyright (C) 2019-2022, Texas Instruments Incorporated
+ * Copyright (C) 2019-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,8 @@
 
 /** DMSC(Secure): Security Controller */
 #define HOST_ID_DMSC (0U)
+/** DM(Non Secure): Device Management */
+#define HOST_ID_DM (254U)
 /** MCU_0_R5_0(Non Secure): Cortex R5 context 0 on MCU island */
 #define HOST_ID_MCU_0_R5_0 (3U)
 /** MCU_0_R5_1(Secure): Cortex R5 context 1 on MCU island(Boot) */
@@ -66,6 +68,10 @@
 #define HOST_ID_MAIN_0_R5_2 (37U)
 /** MAIN_0_R5_3(Secure): Cortex R5_0 context 3 on MCU island */
 #define HOST_ID_MAIN_0_R5_3 (38U)
+/** DM2DMSC(Secure): DM to DMSC communication */
+#define HOST_ID_DM2DMSC (250U)
+/** DMSC2DM(Non Secure): DMSC to DM communication */
+#define HOST_ID_DMSC2DM (251U)
 
 /**
  * Host catch all. Used in board configuration resource assignments to define
@@ -74,6 +80,6 @@
 #define HOST_ID_ALL (128U)
 
 /** Number of unique hosts on the SoC */
-#define HOST_ID_CNT (14U)
+#define HOST_ID_CNT (17U)
 
 #endif /* J7200_HOSTS_H */

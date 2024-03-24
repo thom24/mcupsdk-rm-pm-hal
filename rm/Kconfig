@@ -62,6 +62,7 @@ config INTERRUPT_AGGREGATOR_UNMAPPED_EVENTS
 	default n if SOC_J721E
 	default n if SOC_J7200
 	default y if SOC_J721S2
+	default y if SOC_J784S4
 	default y if SOC_AM64
 	default y if SOC_AM62
 	help
@@ -80,6 +81,7 @@ config RM_RA_DMSS_RING
 	default n if SOC_J721E
 	default n if SOC_J7200
 	default y if SOC_J721S2
+	default y if SOC_J784S4
 	default y if SOC_AM64
 	default y if SOC_AM62
 	help
@@ -92,6 +94,7 @@ config RM_RA_NAV_RING
 	default y if SOC_J721E
 	default y if SOC_J7200
 	default y if SOC_J721S2
+	default y if SOC_J784S4
 	default y if SOC_AM64
 	default n if SOC_AM62
 	help
@@ -110,6 +113,7 @@ config UDMAP_CHANNEL_BURST_SIZE
 	default y if SOC_J721E
 	default y if SOC_J7200
 	default y if SOC_J721S2
+	default y if SOC_J784S4
 	default n if SOC_AM64
 	default n if SOC_AM62
 	help
@@ -122,6 +126,7 @@ config UDMAP_TX_CHANNEL_TEARDOWN_TYPE
 	default y if SOC_J721E
 	default y if SOC_J7200
 	default y if SOC_J721S2
+	default y if SOC_J784S4
 	default n if SOC_AM64
 	default n if SOC_AM62
 	help
@@ -134,6 +139,7 @@ config UDMAP_UDMA
 	default y if SOC_J721E
 	default y if SOC_J7200
 	default y if SOC_J721S2
+	default y if SOC_J784S4
 	default n if SOC_AM64
 	default n if SOC_AM62
 	help
@@ -146,6 +152,7 @@ config UDMAP_BCDMA
 	default n if SOC_J721E
 	default n if SOC_J7200
 	default y if SOC_J721S2
+	default y if SOC_J784S4
 	default y if SOC_AM64
 	default y if SOC_AM62
 	help
@@ -158,6 +165,7 @@ config UDMAP_PKTDMA
 	default n if SOC_J721E
 	default n if SOC_J7200
 	default n if SOC_J721S2
+	default n if SOC_J784S4
 	default y if SOC_AM64
 	default y if SOC_AM62
 	help

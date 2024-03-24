@@ -5,7 +5,7 @@
  *
  * Data version: 211118_090221
  *
- * Copyright (C) 2019-2022, Texas Instruments Incorporated
+ * Copyright (C) 2019-2021, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -249,5 +249,61 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 		.id		= J7200_DEV_MCU_NAVSS0_UDMASS_INTA_0,
 		.event_id	= 0x4007U,
 		.vint		= 0x0007U,
+	},
+	[26] = {
+		/*
+		 * For: DM err_event
+		 */
+		.id		= J7200_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x4008U,
+		.vint		= 0x0008U,
+	},
+	[27] = {
+		/*
+		 * For: DM nonsec_high_priority_rx
+		 */
+		.id		= J7200_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x4009U,
+		.vint		= 0x0009U,
+	},
+	[28] = {
+		/*
+		 * For: DM nonsec_high_priority_rx
+		 */
+		.id		= J7200_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x400AU,
+		.vint		= 0x000AU,
+	},
+	[29] = {
+		/*
+		 * For: DM nonsec_low_priority_rx
+		 */
+		.id		= J7200_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x400BU,
+		.vint		= 0x000BU,
+	},
+	[30] = {
+		/*
+		 * For: DM nonsec_low_priority_rx
+		 */
+		.id		= J7200_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x400CU,
+		.vint		= 0x000CU,
+	},
+	[31] = {
+		/*
+		 * For: DM nonsec_notify_resp_rx
+		 */
+		.id		= J7200_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x400DU,
+		.vint		= 0x000DU,
+	},
+	[32] = {
+		/*
+		 * For: DM nonsec_notify_resp_rx
+		 */
+		.id		= J7200_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x400EU,
+		.vint		= 0x000EU,
 	},
 };

@@ -488,4 +488,60 @@ const struct ir_init ir_soc_pe_init_list[IR_SOC_PE_INIT_NUM] = {
 		.inp	= 0x07U,
 		.outp	= 0x0023U,
 	},
+	/*
+	 * For: DM err_event: MCU_R5FSS0_CORE0/intr_69
+	 */
+	[54] = {
+		.id	= J721E_DEV_MCU_NAVSS0_INTR_0,
+		.inp	= 0x08U,
+		.outp	= 0x0005U,
+	},
+	/*
+	 * For: DM nonsec_high_priority_rx: MCU_R5FSS0_CORE0/intr_70
+	 */
+	[55] = {
+		.id	= J721E_DEV_MCU_NAVSS0_INTR_0,
+		.inp	= 0x09U,
+		.outp	= 0x0006U,
+	},
+	/*
+	 * For: DM nonsec_high_priority_rx: MCU_R5FSS0_CORE0/intr_71
+	 */
+	[56] = {
+		.id	= J721E_DEV_MCU_NAVSS0_INTR_0,
+		.inp	= 0x0AU,
+		.outp	= 0x0007U,
+	},
+	/*
+	 * For: DM nonsec_low_priority_rx: MCU_R5FSS0_CORE0/intr_72
+	 */
+	[57] = {
+		.id	= J721E_DEV_MCU_NAVSS0_INTR_0,
+		.inp	= 0x0BU,
+		.outp	= 0x0008U,
+	},
+	/*
+	 * For: DM nonsec_low_priority_rx: MCU_R5FSS0_CORE0/intr_73
+	 */
+	[58] = {
+		.id	= J721E_DEV_MCU_NAVSS0_INTR_0,
+		.inp	= 0x0CU,
+		.outp	= 0x0009U,
+	},
+	/*
+	 * For: DM nonsec_notify_resp_rx: MCU_R5FSS0_CORE0/intr_74
+	 */
+	[59] = {
+		.id	= J721E_DEV_MCU_NAVSS0_INTR_0,
+		.inp	= 0x0DU,
+		.outp	= 0x000AU,
+	},
+	/*
+	 * For: DM nonsec_notify_resp_rx: MCU_R5FSS0_CORE0/intr_75
+	 */
+	[60] = {
+		.id	= J721E_DEV_MCU_NAVSS0_INTR_0,
+		.inp	= 0x0EU,
+		.outp	= 0x000BU,
+	},
 };

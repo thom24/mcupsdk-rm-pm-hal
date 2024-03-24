@@ -40,6 +40,8 @@
 
 /** DMSC(Secure): Security Controller */
 #define HOST_ID_DMSC (0U)
+/** DM(Non Secure): Device Management */
+#define HOST_ID_DM (254U)
 /** MCU_0_R5_0(Non Secure): Cortex R5 context 0 on MCU island */
 #define HOST_ID_MCU_0_R5_0 (3U)
 /** MCU_0_R5_1(Secure): Cortex R5 context 1 on MCU island(Boot) */
@@ -90,6 +92,10 @@
 #define HOST_ID_MAIN_1_R5_3 (43U)
 /** ICSSG_0(Non Secure): ICSSG context 0 on Main island */
 #define HOST_ID_ICSSG_0 (50U)
+/** DM2DMSC(Secure): DM to DMSC communication */
+#define HOST_ID_DM2DMSC (250U)
+/** DMSC2DM(Non Secure): DMSC to DM communication */
+#define HOST_ID_DMSC2DM (251U)
 
 /**
  * Host catch all. Used in board configuration resource assignments to define
@@ -98,6 +104,6 @@
 #define HOST_ID_ALL (128U)
 
 /** Number of unique hosts on the SoC */
-#define HOST_ID_CNT (26U)
+#define HOST_ID_CNT (29U)
 
 #endif /* J721E_HOSTS_H */

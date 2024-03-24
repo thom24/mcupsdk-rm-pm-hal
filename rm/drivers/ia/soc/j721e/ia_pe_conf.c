@@ -410,4 +410,60 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 		.event_id	= 0x4007U,
 		.vint		= 0x0007U,
 	},
+	[46] = {
+		/*
+		 * For: DM err_event
+		 */
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x4008U,
+		.vint		= 0x0008U,
+	},
+	[47] = {
+		/*
+		 * For: DM nonsec_high_priority_rx
+		 */
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x4009U,
+		.vint		= 0x0009U,
+	},
+	[48] = {
+		/*
+		 * For: DM nonsec_high_priority_rx
+		 */
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x400AU,
+		.vint		= 0x000AU,
+	},
+	[49] = {
+		/*
+		 * For: DM nonsec_low_priority_rx
+		 */
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x400BU,
+		.vint		= 0x000BU,
+	},
+	[50] = {
+		/*
+		 * For: DM nonsec_low_priority_rx
+		 */
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x400CU,
+		.vint		= 0x000CU,
+	},
+	[51] = {
+		/*
+		 * For: DM nonsec_notify_resp_rx
+		 */
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x400DU,
+		.vint		= 0x000DU,
+	},
+	[52] = {
+		/*
+		 * For: DM nonsec_notify_resp_rx
+		 */
+		.id		= J721E_DEV_MCU_NAVSS0_UDMASS_INTA_0,
+		.event_id	= 0x400EU,
+		.vint		= 0x000EU,
+	},
 };
