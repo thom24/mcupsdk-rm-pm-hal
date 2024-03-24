@@ -89,136 +89,136 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 1, dev_idx_t_is_16bit);
 #define AM64X_DEV_AM64_MAIN_GPIOMUX_INTROUTER_MAIN_0_CLOCKS 9
 #define AM64X_DEV_AM64_MCU_GPIOMUX_INTROUTER_MCU_0_CLOCKS 0
 #define AM64X_DEV_AM64_TIMESYNC_EVENT_INTROUTER_MAIN_0_CLOCKS 10
-#define AM64X_DEV_BLAZAR_MCU_0_CBASS_0_CLOCKS 11
-#define AM64X_DEV_BLAZAR_MCU_0_CORTEX_M4_0_CLOCKS 12
-#define AM64X_DEV_CPSW_3GUSS_MAIN_0_CLOCKS 16
-#define AM64X_DEV_CPT2_AGGREGATOR32_MAIN_0_CLOCKS 43
-#define AM64X_DEV_CXSTM500SS_MAIN_0_CLOCKS 44
-#define AM64X_DEV_DCC2_MAIN_0_CLOCKS 47
-#define AM64X_DEV_DCC2_MAIN_1_CLOCKS 60
-#define AM64X_DEV_DCC2_MAIN_2_CLOCKS 73
-#define AM64X_DEV_DCC2_MAIN_3_CLOCKS 86
-#define AM64X_DEV_DCC2_MAIN_4_CLOCKS 99
-#define AM64X_DEV_DCC2_MAIN_5_CLOCKS 114
-#define AM64X_DEV_DCC2_MCU_0_CLOCKS 1
-#define AM64X_DEV_DEBUGSS_K3_WRAP_CV0_MAIN_0_CLOCKS 127
-#define AM64X_DEV_DMSS_AM64_MAIN_0_BCDMA_0_CLOCKS 131
-#define AM64X_DEV_DMSS_AM64_MAIN_0_CBASS_0_CLOCKS 132
-#define AM64X_DEV_DMSS_AM64_MAIN_0_INTAGGR_0_CLOCKS 133
-#define AM64X_DEV_DMSS_AM64_MAIN_0_IPCSS_0_CLOCKS 134
-#define AM64X_DEV_DMSS_AM64_MAIN_0_PKTDMA_0_CLOCKS 135
+#define AM64X_DEV_BLAZAR_MCU_0_CBASS_0_CLOCKS 1
+#define AM64X_DEV_BLAZAR_MCU_0_CORTEX_M4_0_CLOCKS 2
+#define AM64X_DEV_CPSW_3GUSS_MAIN_0_CLOCKS 11
+#define AM64X_DEV_CPT2_AGGREGATOR32_MAIN_0_CLOCKS 38
+#define AM64X_DEV_CXSTM500SS_MAIN_0_CLOCKS 39
+#define AM64X_DEV_DCC2_MAIN_0_CLOCKS 42
+#define AM64X_DEV_DCC2_MAIN_1_CLOCKS 55
+#define AM64X_DEV_DCC2_MAIN_2_CLOCKS 68
+#define AM64X_DEV_DCC2_MAIN_3_CLOCKS 81
+#define AM64X_DEV_DCC2_MAIN_4_CLOCKS 94
+#define AM64X_DEV_DCC2_MAIN_5_CLOCKS 109
+#define AM64X_DEV_DCC2_MCU_0_CLOCKS 6
+#define AM64X_DEV_DEBUGSS_K3_WRAP_CV0_MAIN_0_CLOCKS 122
+#define AM64X_DEV_DMSS_AM64_MAIN_0_BCDMA_0_CLOCKS 126
+#define AM64X_DEV_DMSS_AM64_MAIN_0_CBASS_0_CLOCKS 127
+#define AM64X_DEV_DMSS_AM64_MAIN_0_INTAGGR_0_CLOCKS 128
+#define AM64X_DEV_DMSS_AM64_MAIN_0_IPCSS_0_CLOCKS 129
+#define AM64X_DEV_DMSS_AM64_MAIN_0_PKTDMA_0_CLOCKS 130
 #define AM64X_DEV_DMSS_AM64_MAIN_0_RINGACC_0_CLOCKS 0
-#define AM64X_DEV_DMTIMER_DMC1MS_MCU_0_CLOCKS 14
-#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_0_CLOCKS 136
-#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_1_CLOCKS 155
-#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_2_CLOCKS 174
-#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_3_CLOCKS 193
-#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_4_CLOCKS 212
-#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_5_CLOCKS 231
-#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_6_CLOCKS 250
-#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_7_CLOCKS 269
-#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_8_CLOCKS 288
-#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_9_CLOCKS 307
-#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_10_CLOCKS 326
-#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_11_CLOCKS 345
-#define AM64X_DEV_DMTIMER_DMC1MS_MCU_1_CLOCKS 25
-#define AM64X_DEV_DMTIMER_DMC1MS_MCU_2_CLOCKS 36
-#define AM64X_DEV_DMTIMER_DMC1MS_MCU_3_CLOCKS 47
-#define AM64X_DEV_ECAP_MAIN_0_CLOCKS 364
-#define AM64X_DEV_ECAP_MAIN_1_CLOCKS 365
-#define AM64X_DEV_ECAP_MAIN_2_CLOCKS 366
-#define AM64X_DEV_ELM_MAIN_0_CLOCKS 367
-#define AM64X_DEV_EMMC8SS_16FFC_MAIN_0_CLOCKS 368
-#define AM64X_DEV_EMMCSD4SS_MAIN_0_CLOCKS 372
-#define AM64X_DEV_EQEP_T2_MAIN_0_CLOCKS 380
-#define AM64X_DEV_EQEP_T2_MAIN_1_CLOCKS 381
-#define AM64X_DEV_GTC_R10_MAIN_0_CLOCKS 382
-#define AM64X_DEV_EQEP_T2_MAIN_2_CLOCKS 392
-#define AM64X_DEV_ESM_AM64_MAIN_MAIN_0_CLOCKS 393
-#define AM64X_DEV_ESM_AM64_MCU_MCU_0_CLOCKS 58
-#define AM64X_DEV_FSI_RX_MAIN_0_CLOCKS 394
-#define AM64X_DEV_FSI_RX_MAIN_1_CLOCKS 397
-#define AM64X_DEV_FSI_RX_MAIN_2_CLOCKS 400
-#define AM64X_DEV_FSI_RX_MAIN_3_CLOCKS 403
-#define AM64X_DEV_FSI_RX_MAIN_4_CLOCKS 406
-#define AM64X_DEV_FSI_RX_MAIN_5_CLOCKS 409
-#define AM64X_DEV_FSI_TX_MAIN_0_CLOCKS 412
-#define AM64X_DEV_FSI_TX_MAIN_1_CLOCKS 415
-#define AM64X_DEV_FSS_UL_MAIN_0_FSAS_0_CLOCKS 418
-#define AM64X_DEV_FSS_UL_MAIN_0_OSPI_0_CLOCKS 419
-#define AM64X_DEV_GIC500SS_1_2_MAIN_0_CLOCKS 429
-#define AM64X_DEV_GPIO_144_MAIN_0_CLOCKS 430
-#define AM64X_DEV_GPIO_144_MAIN_1_CLOCKS 431
-#define AM64X_DEV_GPIO_144_MCU_0_CLOCKS 59
-#define AM64X_DEV_GPMC_MAIN_0_CLOCKS 432
-#define AM64X_DEV_ICSS_G_16FF_MAIN_0_CLOCKS 438
-#define AM64X_DEV_ICSS_G_16FF_MAIN_1_CLOCKS 462
-#define AM64X_DEV_J7_LED_MAIN_0_CLOCKS 486
-#define AM64X_DEV_K3_CPTS_MAIN_0_CLOCKS 488
-#define AM64X_DEV_K3_DDPA_MAIN_0_CLOCKS 502
-#define AM64X_DEV_K3_EPWM_MAIN_0_CLOCKS 503
-#define AM64X_DEV_K3_EPWM_MAIN_1_CLOCKS 504
-#define AM64X_DEV_K3_EPWM_MAIN_2_CLOCKS 505
-#define AM64X_DEV_K3_EPWM_MAIN_3_CLOCKS 506
-#define AM64X_DEV_K3_EPWM_MAIN_4_CLOCKS 507
-#define AM64X_DEV_K3_EPWM_MAIN_5_CLOCKS 508
-#define AM64X_DEV_K3_EPWM_MAIN_6_CLOCKS 509
-#define AM64X_DEV_K3_EPWM_MAIN_7_CLOCKS 510
-#define AM64X_DEV_K3_EPWM_MAIN_8_CLOCKS 511
-#define AM64X_DEV_K3VTM_N16FFC_MAIN_0_CLOCKS 512
-#define AM64X_DEV_MCANSS_MAIN_0_CLOCKS 515
-#define AM64X_DEV_MCANSS_MAIN_1_CLOCKS 521
-#define AM64X_DEV_MCRC64_MCU_0_CLOCKS 60
-#define AM64X_DEV_MSHSI2C_MAIN_0_CLOCKS 527
-#define AM64X_DEV_MSHSI2C_MAIN_1_CLOCKS 531
-#define AM64X_DEV_MSHSI2C_MAIN_2_CLOCKS 535
-#define AM64X_DEV_MSHSI2C_MAIN_3_CLOCKS 539
-#define AM64X_DEV_MSHSI2C_MCU_0_CLOCKS 61
-#define AM64X_DEV_MSHSI2C_MCU_1_CLOCKS 65
-#define AM64X_DEV_PCIE_G2X1_64_MAIN_0_CLOCKS 543
-#define AM64X_DEV_PULSAR_LITE_MAIN_0_R5_0_CLOCKS 560
-#define AM64X_DEV_PULSAR_LITE_MAIN_0_R5_1_CLOCKS 562
-#define AM64X_DEV_PULSAR_LITE_MAIN_1_R5_0_CLOCKS 564
-#define AM64X_DEV_PULSAR_LITE_MAIN_1_R5_1_CLOCKS 566
-#define AM64X_DEV_RTI_CFG1_MAIN_A53_0_CLOCKS 568
-#define AM64X_DEV_RTI_CFG1_MAIN_A53_1_CLOCKS 574
-#define AM64X_DEV_RTI_CFG1_MAIN_R5_0_CLOCKS 580
-#define AM64X_DEV_RTI_CFG1_MAIN_R5_1_CLOCKS 586
-#define AM64X_DEV_RTI_CFG1_MAIN_R5_2_CLOCKS 592
-#define AM64X_DEV_RTI_CFG1_MAIN_R5_3_CLOCKS 598
-#define AM64X_DEV_RTI_CFG1_MCU_0_CLOCKS 69
-#define AM64X_DEV_SA2_UL_MAIN_0_CLOCKS 604
-#define AM64X_DEV_SAM64_A53_256KB_WRAP_MAIN_0_A53_0_CLOCKS 607
-#define AM64X_DEV_SAM64_A53_256KB_WRAP_MAIN_0_A53_1_CLOCKS 608
-#define AM64X_DEV_SAM64_A53_256KB_WRAP_MAIN_0_ARM_COREPACK_0_CLOCKS 609
-#define AM64X_DEV_SAM64_DDR_WRAP_MAIN_0_CLOCKS 611
-#define AM64X_DEV_SAM64_MAIN_PSC_WRAP_MAIN_0_CLOCKS 613
-#define AM64X_DEV_SAM64_MCU_PSC_WRAP_MCU_0_CLOCKS 75
-#define AM64X_DEV_SPI_MAIN_0_CLOCKS 615
-#define AM64X_DEV_SPI_MAIN_1_CLOCKS 621
-#define AM64X_DEV_SPI_MAIN_2_CLOCKS 627
-#define AM64X_DEV_SPI_MAIN_3_CLOCKS 633
-#define AM64X_DEV_SPI_MAIN_4_CLOCKS 639
-#define AM64X_DEV_USART_MAIN_0_CLOCKS 645
-#define AM64X_DEV_SPI_MCU_0_CLOCKS 77
-#define AM64X_DEV_SPI_MCU_1_CLOCKS 83
-#define AM64X_DEV_USART_MCU_0_CLOCKS 89
-#define AM64X_DEV_SPINLOCK256_MAIN_0_CLOCKS 649
-#define AM64X_DEV_TIMER_MGR1024_MAIN_0_CLOCKS 650
-#define AM64X_DEV_USART_MAIN_1_CLOCKS 651
-#define AM64X_DEV_USART_MAIN_2_CLOCKS 655
-#define AM64X_DEV_USART_MAIN_3_CLOCKS 659
-#define AM64X_DEV_USART_MAIN_4_CLOCKS 663
-#define AM64X_DEV_USART_MAIN_5_CLOCKS 667
-#define AM64X_DEV_BOARD_0_CLOCKS 671
-#define AM64X_DEV_USART_MAIN_6_CLOCKS 797
-#define AM64X_DEV_USART_MCU_1_CLOCKS 91
-#define AM64X_DEV_USB3P0SS64_16FFC_MAIN_0_CLOCKS 801
-#define AM64X_DEV_WIZ16B2M4CT_MAIN_0_CLOCKS 814
-#define AM64X_DEV_K3_PBIST_8C28P_WRAP_MAIN_IP_0_CLOCKS 832
-#define AM64X_DEV_K3_PBIST_8C28P_WRAP_MAIN_NCGO_0_CLOCKS 833
-#define AM64X_DEV_K3_PBIST_8C28P_WRAP_MAIN_PULSAR_0_CLOCKS 834
-#define AM64X_DEV_K3_PBIST_8C28P_WRAP_MAIN_PULSAR_1_CLOCKS 835
+#define AM64X_DEV_DMTIMER_DMC1MS_MCU_0_CLOCKS 19
+#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_0_CLOCKS 131
+#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_1_CLOCKS 150
+#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_2_CLOCKS 169
+#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_3_CLOCKS 188
+#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_4_CLOCKS 207
+#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_5_CLOCKS 226
+#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_6_CLOCKS 245
+#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_7_CLOCKS 264
+#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_8_CLOCKS 283
+#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_9_CLOCKS 302
+#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_10_CLOCKS 321
+#define AM64X_DEV_DMTIMER_DMC1MS_MAIN_11_CLOCKS 340
+#define AM64X_DEV_DMTIMER_DMC1MS_MCU_1_CLOCKS 30
+#define AM64X_DEV_DMTIMER_DMC1MS_MCU_2_CLOCKS 41
+#define AM64X_DEV_DMTIMER_DMC1MS_MCU_3_CLOCKS 52
+#define AM64X_DEV_ECAP_MAIN_0_CLOCKS 359
+#define AM64X_DEV_ECAP_MAIN_1_CLOCKS 360
+#define AM64X_DEV_ECAP_MAIN_2_CLOCKS 361
+#define AM64X_DEV_ELM_MAIN_0_CLOCKS 362
+#define AM64X_DEV_EMMC8SS_16FFC_MAIN_0_CLOCKS 363
+#define AM64X_DEV_EMMCSD4SS_MAIN_0_CLOCKS 367
+#define AM64X_DEV_EQEP_T2_MAIN_0_CLOCKS 375
+#define AM64X_DEV_EQEP_T2_MAIN_1_CLOCKS 376
+#define AM64X_DEV_GTC_R10_MAIN_0_CLOCKS 377
+#define AM64X_DEV_EQEP_T2_MAIN_2_CLOCKS 387
+#define AM64X_DEV_ESM_AM64_MAIN_MAIN_0_CLOCKS 388
+#define AM64X_DEV_ESM_AM64_MCU_MCU_0_CLOCKS 63
+#define AM64X_DEV_FSI_RX_MAIN_0_CLOCKS 389
+#define AM64X_DEV_FSI_RX_MAIN_1_CLOCKS 392
+#define AM64X_DEV_FSI_RX_MAIN_2_CLOCKS 395
+#define AM64X_DEV_FSI_RX_MAIN_3_CLOCKS 398
+#define AM64X_DEV_FSI_RX_MAIN_4_CLOCKS 401
+#define AM64X_DEV_FSI_RX_MAIN_5_CLOCKS 404
+#define AM64X_DEV_FSI_TX_MAIN_0_CLOCKS 407
+#define AM64X_DEV_FSI_TX_MAIN_1_CLOCKS 410
+#define AM64X_DEV_FSS_UL_MAIN_0_FSAS_0_CLOCKS 413
+#define AM64X_DEV_FSS_UL_MAIN_0_OSPI_0_CLOCKS 414
+#define AM64X_DEV_GIC500SS_1_2_MAIN_0_CLOCKS 424
+#define AM64X_DEV_GPIO_144_MAIN_0_CLOCKS 425
+#define AM64X_DEV_GPIO_144_MAIN_1_CLOCKS 426
+#define AM64X_DEV_GPIO_144_MCU_0_CLOCKS 64
+#define AM64X_DEV_GPMC_MAIN_0_CLOCKS 427
+#define AM64X_DEV_ICSS_G_16FF_MAIN_0_CLOCKS 433
+#define AM64X_DEV_ICSS_G_16FF_MAIN_1_CLOCKS 457
+#define AM64X_DEV_J7_LED_MAIN_0_CLOCKS 481
+#define AM64X_DEV_K3_CPTS_MAIN_0_CLOCKS 483
+#define AM64X_DEV_K3_DDPA_MAIN_0_CLOCKS 497
+#define AM64X_DEV_K3_EPWM_MAIN_0_CLOCKS 498
+#define AM64X_DEV_K3_EPWM_MAIN_1_CLOCKS 499
+#define AM64X_DEV_K3_EPWM_MAIN_2_CLOCKS 500
+#define AM64X_DEV_K3_EPWM_MAIN_3_CLOCKS 501
+#define AM64X_DEV_K3_EPWM_MAIN_4_CLOCKS 502
+#define AM64X_DEV_K3_EPWM_MAIN_5_CLOCKS 503
+#define AM64X_DEV_K3_EPWM_MAIN_6_CLOCKS 504
+#define AM64X_DEV_K3_EPWM_MAIN_7_CLOCKS 505
+#define AM64X_DEV_K3_EPWM_MAIN_8_CLOCKS 506
+#define AM64X_DEV_K3VTM_N16FFC_MAIN_0_CLOCKS 507
+#define AM64X_DEV_MCANSS_MAIN_0_CLOCKS 510
+#define AM64X_DEV_MCANSS_MAIN_1_CLOCKS 516
+#define AM64X_DEV_MCRC64_MCU_0_CLOCKS 65
+#define AM64X_DEV_MSHSI2C_MAIN_0_CLOCKS 522
+#define AM64X_DEV_MSHSI2C_MAIN_1_CLOCKS 526
+#define AM64X_DEV_MSHSI2C_MAIN_2_CLOCKS 530
+#define AM64X_DEV_MSHSI2C_MAIN_3_CLOCKS 534
+#define AM64X_DEV_MSHSI2C_MCU_0_CLOCKS 66
+#define AM64X_DEV_MSHSI2C_MCU_1_CLOCKS 70
+#define AM64X_DEV_PCIE_G2X1_64_MAIN_0_CLOCKS 538
+#define AM64X_DEV_PULSAR_LITE_MAIN_0_R5_0_CLOCKS 555
+#define AM64X_DEV_PULSAR_LITE_MAIN_0_R5_1_CLOCKS 557
+#define AM64X_DEV_PULSAR_LITE_MAIN_1_R5_0_CLOCKS 559
+#define AM64X_DEV_PULSAR_LITE_MAIN_1_R5_1_CLOCKS 561
+#define AM64X_DEV_RTI_CFG1_MAIN_A53_0_CLOCKS 563
+#define AM64X_DEV_RTI_CFG1_MAIN_A53_1_CLOCKS 569
+#define AM64X_DEV_RTI_CFG1_MAIN_R5_0_CLOCKS 575
+#define AM64X_DEV_RTI_CFG1_MAIN_R5_1_CLOCKS 581
+#define AM64X_DEV_RTI_CFG1_MAIN_R5_2_CLOCKS 587
+#define AM64X_DEV_RTI_CFG1_MAIN_R5_3_CLOCKS 593
+#define AM64X_DEV_RTI_CFG1_MCU_0_CLOCKS 74
+#define AM64X_DEV_SA2_UL_MAIN_0_CLOCKS 599
+#define AM64X_DEV_SAM64_A53_256KB_WRAP_MAIN_0_A53_0_CLOCKS 602
+#define AM64X_DEV_SAM64_A53_256KB_WRAP_MAIN_0_A53_1_CLOCKS 603
+#define AM64X_DEV_SAM64_A53_256KB_WRAP_MAIN_0_ARM_COREPACK_0_CLOCKS 604
+#define AM64X_DEV_SAM64_DDR_WRAP_MAIN_0_CLOCKS 606
+#define AM64X_DEV_SAM64_MAIN_PSC_WRAP_MAIN_0_CLOCKS 608
+#define AM64X_DEV_SAM64_MCU_PSC_WRAP_MCU_0_CLOCKS 80
+#define AM64X_DEV_SPI_MAIN_0_CLOCKS 610
+#define AM64X_DEV_SPI_MAIN_1_CLOCKS 616
+#define AM64X_DEV_SPI_MAIN_2_CLOCKS 622
+#define AM64X_DEV_SPI_MAIN_3_CLOCKS 628
+#define AM64X_DEV_SPI_MAIN_4_CLOCKS 634
+#define AM64X_DEV_USART_MAIN_0_CLOCKS 640
+#define AM64X_DEV_SPI_MCU_0_CLOCKS 82
+#define AM64X_DEV_SPI_MCU_1_CLOCKS 88
+#define AM64X_DEV_USART_MCU_0_CLOCKS 94
+#define AM64X_DEV_SPINLOCK256_MAIN_0_CLOCKS 644
+#define AM64X_DEV_TIMER_MGR1024_MAIN_0_CLOCKS 645
+#define AM64X_DEV_USART_MAIN_1_CLOCKS 646
+#define AM64X_DEV_USART_MAIN_2_CLOCKS 650
+#define AM64X_DEV_USART_MAIN_3_CLOCKS 654
+#define AM64X_DEV_USART_MAIN_4_CLOCKS 658
+#define AM64X_DEV_USART_MAIN_5_CLOCKS 662
+#define AM64X_DEV_BOARD_0_CLOCKS 96
+#define AM64X_DEV_USART_MAIN_6_CLOCKS 666
+#define AM64X_DEV_USART_MCU_1_CLOCKS 222
+#define AM64X_DEV_USB3P0SS64_16FFC_MAIN_0_CLOCKS 670
+#define AM64X_DEV_WIZ16B2M4CT_MAIN_0_CLOCKS 683
+#define AM64X_DEV_K3_PBIST_8C28P_WRAP_MAIN_IP_0_CLOCKS 701
+#define AM64X_DEV_K3_PBIST_8C28P_WRAP_MAIN_NCGO_0_CLOCKS 702
+#define AM64X_DEV_K3_PBIST_8C28P_WRAP_MAIN_PULSAR_0_CLOCKS 703
+#define AM64X_DEV_K3_PBIST_8C28P_WRAP_MAIN_PULSAR_1_CLOCKS 704
 
 static const struct dev_data am64x_dev_adc12_core_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -228,7 +228,7 @@ static const struct dev_data am64x_dev_adc12_core_main_0 __attribute__((__sectio
 	},
 	.dev_clk_idx		= AM64X_DEV_ADC12_CORE_MAIN_0_CLOCKS,
 	.n_clocks		= 7,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_am64_cmp_event_introuter_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -238,7 +238,7 @@ static const struct dev_data am64x_dev_am64_cmp_event_introuter_main_0 __attribu
 	},
 	.dev_clk_idx		= AM64X_DEV_AM64_CMP_EVENT_INTROUTER_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_am64_dbgsuspendrouter_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -248,7 +248,7 @@ static const struct dev_data am64x_dev_am64_dbgsuspendrouter_main_0 __attribute_
 	},
 	.dev_clk_idx		= AM64X_DEV_AM64_DBGSUSPENDROUTER_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_am64_main_gpiomux_introuter_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -258,7 +258,7 @@ static const struct dev_data am64x_dev_am64_main_gpiomux_introuter_main_0 __attr
 	},
 	.dev_clk_idx		= AM64X_DEV_AM64_MAIN_GPIOMUX_INTROUTER_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_am64_mcu_gpiomux_introuter_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -268,7 +268,7 @@ static const struct dev_data am64x_dev_am64_mcu_gpiomux_introuter_mcu_0 __attrib
 	},
 	.dev_clk_idx		= AM64X_DEV_AM64_MCU_GPIOMUX_INTROUTER_MCU_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_am64_timesync_event_introuter_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -278,15 +278,15 @@ static const struct dev_data am64x_dev_am64_timesync_event_introuter_main_0 __at
 	},
 	.dev_clk_idx		= AM64X_DEV_AM64_TIMESYNC_EVENT_INTROUTER_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_blazar_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
 		.psc_idx	= PSC_DEV_NONE,
 	},
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
-static const struct dev_data am64x_dev_blazar_mcu_0_cbass_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct dev_data am64x_dev_blazar_mcu_0_cbass_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
 		.psc_idx	= AM64X_PSC_INST_SAM64_MCU_PSC_WRAP_MCU_0,
 		.pd		= AM64X_PSC_PD_PD_M4F,
@@ -296,7 +296,7 @@ static const struct dev_data am64x_dev_blazar_mcu_0_cbass_0 __attribute__((__sec
 	.n_clocks		= 1,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
-static const struct dev_data am64x_dev_blazar_mcu_0_cortex_m4_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct dev_data am64x_dev_blazar_mcu_0_cortex_m4_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
 		.psc_idx	= AM64X_PSC_INST_SAM64_MCU_PSC_WRAP_MCU_0,
 		.pd		= AM64X_PSC_PD_PD_M4F,
@@ -314,7 +314,7 @@ static const struct dev_data am64x_dev_cpsw_3guss_main_0 __attribute__((__sectio
 	},
 	.dev_clk_idx		= AM64X_DEV_CPSW_3GUSS_MAIN_0_CLOCKS,
 	.n_clocks		= 27,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_cpt2_aggregator32_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -324,7 +324,7 @@ static const struct dev_data am64x_dev_cpt2_aggregator32_main_0 __attribute__((_
 	},
 	.dev_clk_idx		= AM64X_DEV_CPT2_AGGREGATOR32_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_cxstm500ss_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -334,7 +334,7 @@ static const struct dev_data am64x_dev_cxstm500ss_main_0 __attribute__((__sectio
 	},
 	.dev_clk_idx		= AM64X_DEV_CXSTM500SS_MAIN_0_CLOCKS,
 	.n_clocks		= 3,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dcc2_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -344,7 +344,7 @@ static const struct dev_data am64x_dev_dcc2_main_0 __attribute__((__section__(".
 	},
 	.dev_clk_idx		= AM64X_DEV_DCC2_MAIN_0_CLOCKS,
 	.n_clocks		= 13,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dcc2_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -354,7 +354,7 @@ static const struct dev_data am64x_dev_dcc2_main_1 __attribute__((__section__(".
 	},
 	.dev_clk_idx		= AM64X_DEV_DCC2_MAIN_1_CLOCKS,
 	.n_clocks		= 13,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dcc2_main_2 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -364,7 +364,7 @@ static const struct dev_data am64x_dev_dcc2_main_2 __attribute__((__section__(".
 	},
 	.dev_clk_idx		= AM64X_DEV_DCC2_MAIN_2_CLOCKS,
 	.n_clocks		= 13,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dcc2_main_3 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -374,7 +374,7 @@ static const struct dev_data am64x_dev_dcc2_main_3 __attribute__((__section__(".
 	},
 	.dev_clk_idx		= AM64X_DEV_DCC2_MAIN_3_CLOCKS,
 	.n_clocks		= 13,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dcc2_main_4 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -384,7 +384,7 @@ static const struct dev_data am64x_dev_dcc2_main_4 __attribute__((__section__(".
 	},
 	.dev_clk_idx		= AM64X_DEV_DCC2_MAIN_4_CLOCKS,
 	.n_clocks		= 15,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dcc2_main_5 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -394,13 +394,13 @@ static const struct dev_data am64x_dev_dcc2_main_5 __attribute__((__section__(".
 	},
 	.dev_clk_idx		= AM64X_DEV_DCC2_MAIN_5_CLOCKS,
 	.n_clocks		= 13,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmsc_lite_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
 		.psc_idx	= PSC_DEV_NONE,
 	},
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dcc2_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -410,7 +410,7 @@ static const struct dev_data am64x_dev_dcc2_mcu_0 __attribute__((__section__(".c
 	},
 	.dev_clk_idx		= AM64X_DEV_DCC2_MCU_0_CLOCKS,
 	.n_clocks		= 13,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_debugss_k3_wrap_cv0_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -420,13 +420,13 @@ static const struct dev_data am64x_dev_debugss_k3_wrap_cv0_main_0 __attribute__(
 	},
 	.dev_clk_idx		= AM64X_DEV_DEBUGSS_K3_WRAP_CV0_MAIN_0_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmss_am64_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
 		.psc_idx	= PSC_DEV_NONE,
 	},
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmss_am64_main_0_bcdma_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -436,7 +436,7 @@ static const struct dev_data am64x_dev_dmss_am64_main_0_bcdma_0 __attribute__((_
 	},
 	.dev_clk_idx		= AM64X_DEV_DMSS_AM64_MAIN_0_BCDMA_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmss_am64_main_0_cbass_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -446,7 +446,7 @@ static const struct dev_data am64x_dev_dmss_am64_main_0_cbass_0 __attribute__((_
 	},
 	.dev_clk_idx		= AM64X_DEV_DMSS_AM64_MAIN_0_CBASS_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmss_am64_main_0_intaggr_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -456,7 +456,7 @@ static const struct dev_data am64x_dev_dmss_am64_main_0_intaggr_0 __attribute__(
 	},
 	.dev_clk_idx		= AM64X_DEV_DMSS_AM64_MAIN_0_INTAGGR_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmss_am64_main_0_ipcss_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -466,7 +466,7 @@ static const struct dev_data am64x_dev_dmss_am64_main_0_ipcss_0 __attribute__((_
 	},
 	.dev_clk_idx		= AM64X_DEV_DMSS_AM64_MAIN_0_IPCSS_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmss_am64_main_0_pktdma_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -476,7 +476,7 @@ static const struct dev_data am64x_dev_dmss_am64_main_0_pktdma_0 __attribute__((
 	},
 	.dev_clk_idx		= AM64X_DEV_DMSS_AM64_MAIN_0_PKTDMA_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmss_am64_main_0_ringacc_0 __attribute__((__section__(".const.devgroup.DMSC_INTERNAL"))) = {
 	.soc			= {
@@ -496,7 +496,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_mcu_0 __attribute__((__sec
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MCU_0_CLOCKS,
 	.n_clocks		= 11,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -506,7 +506,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_0 __attribute__((__se
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MAIN_0_CLOCKS,
 	.n_clocks		= 19,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -516,7 +516,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_1 __attribute__((__se
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MAIN_1_CLOCKS,
 	.n_clocks		= 19,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_2 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -526,7 +526,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_2 __attribute__((__se
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MAIN_2_CLOCKS,
 	.n_clocks		= 19,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_3 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -536,7 +536,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_3 __attribute__((__se
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MAIN_3_CLOCKS,
 	.n_clocks		= 19,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_4 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -546,7 +546,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_4 __attribute__((__se
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MAIN_4_CLOCKS,
 	.n_clocks		= 19,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_5 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -556,7 +556,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_5 __attribute__((__se
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MAIN_5_CLOCKS,
 	.n_clocks		= 19,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_6 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -566,7 +566,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_6 __attribute__((__se
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MAIN_6_CLOCKS,
 	.n_clocks		= 19,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_7 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -576,7 +576,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_7 __attribute__((__se
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MAIN_7_CLOCKS,
 	.n_clocks		= 19,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_8 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -586,7 +586,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_8 __attribute__((__se
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MAIN_8_CLOCKS,
 	.n_clocks		= 19,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_9 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -596,7 +596,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_9 __attribute__((__se
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MAIN_9_CLOCKS,
 	.n_clocks		= 19,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_10 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -606,7 +606,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_10 __attribute__((__s
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MAIN_10_CLOCKS,
 	.n_clocks		= 19,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_11 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -616,7 +616,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_main_11 __attribute__((__s
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MAIN_11_CLOCKS,
 	.n_clocks		= 19,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_mcu_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -626,7 +626,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_mcu_1 __attribute__((__sec
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MCU_1_CLOCKS,
 	.n_clocks		= 11,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_mcu_2 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -636,7 +636,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_mcu_2 __attribute__((__sec
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MCU_2_CLOCKS,
 	.n_clocks		= 11,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_dmtimer_dmc1ms_mcu_3 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -646,7 +646,7 @@ static const struct dev_data am64x_dev_dmtimer_dmc1ms_mcu_3 __attribute__((__sec
 	},
 	.dev_clk_idx		= AM64X_DEV_DMTIMER_DMC1MS_MCU_3_CLOCKS,
 	.n_clocks		= 11,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_ecap_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -656,7 +656,7 @@ static const struct dev_data am64x_dev_ecap_main_0 __attribute__((__section__(".
 	},
 	.dev_clk_idx		= AM64X_DEV_ECAP_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_ecap_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -666,7 +666,7 @@ static const struct dev_data am64x_dev_ecap_main_1 __attribute__((__section__(".
 	},
 	.dev_clk_idx		= AM64X_DEV_ECAP_MAIN_1_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_ecap_main_2 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -676,7 +676,7 @@ static const struct dev_data am64x_dev_ecap_main_2 __attribute__((__section__(".
 	},
 	.dev_clk_idx		= AM64X_DEV_ECAP_MAIN_2_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_elm_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -686,7 +686,7 @@ static const struct dev_data am64x_dev_elm_main_0 __attribute__((__section__(".c
 	},
 	.dev_clk_idx		= AM64X_DEV_ELM_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_emif_data_0_VD __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -694,7 +694,7 @@ static const struct dev_data am64x_dev_emif_data_0_VD __attribute__((__section__
 		.pd		= AM64X_PSC_PD_GP_CORE_CTL,
 		.mod		= AM64X_PSC_LPSC_LPSC_EMIF_DATA_0,
 	},
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_emmc8ss_16ffc_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -704,7 +704,7 @@ static const struct dev_data am64x_dev_emmc8ss_16ffc_main_0 __attribute__((__sec
 	},
 	.dev_clk_idx		= AM64X_DEV_EMMC8SS_16FFC_MAIN_0_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_emmcsd4ss_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -714,7 +714,7 @@ static const struct dev_data am64x_dev_emmcsd4ss_main_0 __attribute__((__section
 	},
 	.dev_clk_idx		= AM64X_DEV_EMMCSD4SS_MAIN_0_CLOCKS,
 	.n_clocks		= 8,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_eqep_t2_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -724,7 +724,7 @@ static const struct dev_data am64x_dev_eqep_t2_main_0 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_EQEP_T2_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_eqep_t2_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -734,7 +734,7 @@ static const struct dev_data am64x_dev_eqep_t2_main_1 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_EQEP_T2_MAIN_1_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_gtc_r10_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -744,7 +744,7 @@ static const struct dev_data am64x_dev_gtc_r10_main_0 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_GTC_R10_MAIN_0_CLOCKS,
 	.n_clocks		= 10,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_eqep_t2_main_2 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -754,7 +754,7 @@ static const struct dev_data am64x_dev_eqep_t2_main_2 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_EQEP_T2_MAIN_2_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_esm_am64_main_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -764,7 +764,7 @@ static const struct dev_data am64x_dev_esm_am64_main_main_0 __attribute__((__sec
 	},
 	.dev_clk_idx		= AM64X_DEV_ESM_AM64_MAIN_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_esm_am64_mcu_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -774,7 +774,7 @@ static const struct dev_data am64x_dev_esm_am64_mcu_mcu_0 __attribute__((__secti
 	},
 	.dev_clk_idx		= AM64X_DEV_ESM_AM64_MCU_MCU_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_fsi_rx_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -784,7 +784,7 @@ static const struct dev_data am64x_dev_fsi_rx_main_0 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_FSI_RX_MAIN_0_CLOCKS,
 	.n_clocks		= 3,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_fsi_rx_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -794,7 +794,7 @@ static const struct dev_data am64x_dev_fsi_rx_main_1 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_FSI_RX_MAIN_1_CLOCKS,
 	.n_clocks		= 3,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_fsi_rx_main_2 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -804,7 +804,7 @@ static const struct dev_data am64x_dev_fsi_rx_main_2 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_FSI_RX_MAIN_2_CLOCKS,
 	.n_clocks		= 3,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_fsi_rx_main_3 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -814,7 +814,7 @@ static const struct dev_data am64x_dev_fsi_rx_main_3 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_FSI_RX_MAIN_3_CLOCKS,
 	.n_clocks		= 3,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_fsi_rx_main_4 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -824,7 +824,7 @@ static const struct dev_data am64x_dev_fsi_rx_main_4 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_FSI_RX_MAIN_4_CLOCKS,
 	.n_clocks		= 3,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_fsi_rx_main_5 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -834,7 +834,7 @@ static const struct dev_data am64x_dev_fsi_rx_main_5 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_FSI_RX_MAIN_5_CLOCKS,
 	.n_clocks		= 3,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_fsi_tx_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -844,7 +844,7 @@ static const struct dev_data am64x_dev_fsi_tx_main_0 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_FSI_TX_MAIN_0_CLOCKS,
 	.n_clocks		= 3,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_fsi_tx_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -854,13 +854,13 @@ static const struct dev_data am64x_dev_fsi_tx_main_1 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_FSI_TX_MAIN_1_CLOCKS,
 	.n_clocks		= 3,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_fss_ul_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
 		.psc_idx	= PSC_DEV_NONE,
 	},
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_fss_ul_main_0_fsas_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -870,7 +870,7 @@ static const struct dev_data am64x_dev_fss_ul_main_0_fsas_0 __attribute__((__sec
 	},
 	.dev_clk_idx		= AM64X_DEV_FSS_UL_MAIN_0_FSAS_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_fss_ul_main_0_ospi_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -880,7 +880,7 @@ static const struct dev_data am64x_dev_fss_ul_main_0_ospi_0 __attribute__((__sec
 	},
 	.dev_clk_idx		= AM64X_DEV_FSS_UL_MAIN_0_OSPI_0_CLOCKS,
 	.n_clocks		= 10,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_gic500ss_1_2_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -890,7 +890,7 @@ static const struct dev_data am64x_dev_gic500ss_1_2_main_0 __attribute__((__sect
 	},
 	.dev_clk_idx		= AM64X_DEV_GIC500SS_1_2_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_gpio_144_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -900,7 +900,7 @@ static const struct dev_data am64x_dev_gpio_144_main_0 __attribute__((__section_
 	},
 	.dev_clk_idx		= AM64X_DEV_GPIO_144_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_gpio_144_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -910,7 +910,7 @@ static const struct dev_data am64x_dev_gpio_144_main_1 __attribute__((__section_
 	},
 	.dev_clk_idx		= AM64X_DEV_GPIO_144_MAIN_1_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_gpio_144_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -920,7 +920,7 @@ static const struct dev_data am64x_dev_gpio_144_mcu_0 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_GPIO_144_MCU_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_gpmc_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -930,7 +930,7 @@ static const struct dev_data am64x_dev_gpmc_main_0 __attribute__((__section__(".
 	},
 	.dev_clk_idx		= AM64X_DEV_GPMC_MAIN_0_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_icss_g_16ff_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -940,7 +940,7 @@ static const struct dev_data am64x_dev_icss_g_16ff_main_0 __attribute__((__secti
 	},
 	.dev_clk_idx		= AM64X_DEV_ICSS_G_16FF_MAIN_0_CLOCKS,
 	.n_clocks		= 24,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_icss_g_16ff_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -950,7 +950,7 @@ static const struct dev_data am64x_dev_icss_g_16ff_main_1 __attribute__((__secti
 	},
 	.dev_clk_idx		= AM64X_DEV_ICSS_G_16FF_MAIN_1_CLOCKS,
 	.n_clocks		= 24,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_j7_led_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -958,7 +958,7 @@ static const struct dev_data am64x_dev_j7_led_main_0 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_J7_LED_MAIN_0_CLOCKS,
 	.n_clocks		= 2,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_cpts_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -968,7 +968,7 @@ static const struct dev_data am64x_dev_k3_cpts_main_0 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_CPTS_MAIN_0_CLOCKS,
 	.n_clocks		= 14,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_ddpa_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -978,7 +978,7 @@ static const struct dev_data am64x_dev_k3_ddpa_main_0 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_DDPA_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_epwm_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -988,7 +988,7 @@ static const struct dev_data am64x_dev_k3_epwm_main_0 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_EPWM_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_epwm_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -998,7 +998,7 @@ static const struct dev_data am64x_dev_k3_epwm_main_1 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_EPWM_MAIN_1_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_epwm_main_2 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1008,7 +1008,7 @@ static const struct dev_data am64x_dev_k3_epwm_main_2 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_EPWM_MAIN_2_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_epwm_main_3 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1018,7 +1018,7 @@ static const struct dev_data am64x_dev_k3_epwm_main_3 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_EPWM_MAIN_3_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_epwm_main_4 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1028,7 +1028,7 @@ static const struct dev_data am64x_dev_k3_epwm_main_4 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_EPWM_MAIN_4_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_epwm_main_5 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1038,7 +1038,7 @@ static const struct dev_data am64x_dev_k3_epwm_main_5 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_EPWM_MAIN_5_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_epwm_main_6 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1048,7 +1048,7 @@ static const struct dev_data am64x_dev_k3_epwm_main_6 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_EPWM_MAIN_6_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_epwm_main_7 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1058,7 +1058,7 @@ static const struct dev_data am64x_dev_k3_epwm_main_7 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_EPWM_MAIN_7_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_epwm_main_8 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1068,7 +1068,7 @@ static const struct dev_data am64x_dev_k3_epwm_main_8 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_EPWM_MAIN_8_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3vtm_n16ffc_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1078,13 +1078,13 @@ static const struct dev_data am64x_dev_k3vtm_n16ffc_main_0 __attribute__((__sect
 	},
 	.dev_clk_idx		= AM64X_DEV_K3VTM_N16FFC_MAIN_0_CLOCKS,
 	.n_clocks		= 3,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_mailbox8_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
 		.psc_idx	= PSC_DEV_NONE,
 	},
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_main2mcu_VD __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -1092,7 +1092,7 @@ static const struct dev_data am64x_dev_main2mcu_VD __attribute__((__section__(".
 		.pd		= AM64X_PSC_PD_GP_CORE_CTL_MCU,
 		.mod		= AM64X_PSC_LPSC_LPSC_MAIN2MCU,
 	},
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_mcanss_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1102,7 +1102,7 @@ static const struct dev_data am64x_dev_mcanss_main_0 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_MCANSS_MAIN_0_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_mcanss_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1112,7 +1112,7 @@ static const struct dev_data am64x_dev_mcanss_main_1 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_MCANSS_MAIN_1_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_mcrc64_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -1122,7 +1122,7 @@ static const struct dev_data am64x_dev_mcrc64_mcu_0 __attribute__((__section__("
 	},
 	.dev_clk_idx		= AM64X_DEV_MCRC64_MCU_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_mcu2main_VD __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -1130,7 +1130,7 @@ static const struct dev_data am64x_dev_mcu2main_VD __attribute__((__section__(".
 		.pd		= AM64X_PSC_PD_GP_CORE_CTL_MCU,
 		.mod		= AM64X_PSC_LPSC_LPSC_MCU2MAIN,
 	},
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_mshsi2c_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1140,7 +1140,7 @@ static const struct dev_data am64x_dev_mshsi2c_main_0 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_MSHSI2C_MAIN_0_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_mshsi2c_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1150,7 +1150,7 @@ static const struct dev_data am64x_dev_mshsi2c_main_1 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_MSHSI2C_MAIN_1_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_mshsi2c_main_2 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1160,7 +1160,7 @@ static const struct dev_data am64x_dev_mshsi2c_main_2 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_MSHSI2C_MAIN_2_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_mshsi2c_main_3 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1170,7 +1170,7 @@ static const struct dev_data am64x_dev_mshsi2c_main_3 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_MSHSI2C_MAIN_3_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_mshsi2c_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -1180,7 +1180,7 @@ static const struct dev_data am64x_dev_mshsi2c_mcu_0 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_MSHSI2C_MCU_0_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_mshsi2c_mcu_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -1190,7 +1190,7 @@ static const struct dev_data am64x_dev_mshsi2c_mcu_1 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_MSHSI2C_MCU_1_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_pcie_g2x1_64_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1200,19 +1200,19 @@ static const struct dev_data am64x_dev_pcie_g2x1_64_main_0 __attribute__((__sect
 	},
 	.dev_clk_idx		= AM64X_DEV_PCIE_G2X1_64_MAIN_0_CLOCKS,
 	.n_clocks		= 17,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_pulsar_lite_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
 		.psc_idx	= PSC_DEV_NONE,
 	},
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_pulsar_lite_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
 		.psc_idx	= PSC_DEV_NONE,
 	},
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_pulsar_lite_main_0_R5_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1222,7 +1222,7 @@ static const struct dev_data am64x_dev_pulsar_lite_main_0_R5_0 __attribute__((__
 	},
 	.dev_clk_idx		= AM64X_DEV_PULSAR_LITE_MAIN_0_R5_0_CLOCKS,
 	.n_clocks		= 2,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_pulsar_lite_main_0_R5_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1232,7 +1232,7 @@ static const struct dev_data am64x_dev_pulsar_lite_main_0_R5_1 __attribute__((__
 	},
 	.dev_clk_idx		= AM64X_DEV_PULSAR_LITE_MAIN_0_R5_1_CLOCKS,
 	.n_clocks		= 2,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_pulsar_lite_main_1_R5_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1242,7 +1242,7 @@ static const struct dev_data am64x_dev_pulsar_lite_main_1_R5_0 __attribute__((__
 	},
 	.dev_clk_idx		= AM64X_DEV_PULSAR_LITE_MAIN_1_R5_0_CLOCKS,
 	.n_clocks		= 2,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_pulsar_lite_main_1_R5_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1252,7 +1252,7 @@ static const struct dev_data am64x_dev_pulsar_lite_main_1_R5_1 __attribute__((__
 	},
 	.dev_clk_idx		= AM64X_DEV_PULSAR_LITE_MAIN_1_R5_1_CLOCKS,
 	.n_clocks		= 2,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_rti_cfg1_main_a53_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1262,7 +1262,7 @@ static const struct dev_data am64x_dev_rti_cfg1_main_a53_0 __attribute__((__sect
 	},
 	.dev_clk_idx		= AM64X_DEV_RTI_CFG1_MAIN_A53_0_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_rti_cfg1_main_a53_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1272,7 +1272,7 @@ static const struct dev_data am64x_dev_rti_cfg1_main_a53_1 __attribute__((__sect
 	},
 	.dev_clk_idx		= AM64X_DEV_RTI_CFG1_MAIN_A53_1_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_rti_cfg1_main_r5_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1282,7 +1282,7 @@ static const struct dev_data am64x_dev_rti_cfg1_main_r5_0 __attribute__((__secti
 	},
 	.dev_clk_idx		= AM64X_DEV_RTI_CFG1_MAIN_R5_0_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_rti_cfg1_main_r5_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1292,7 +1292,7 @@ static const struct dev_data am64x_dev_rti_cfg1_main_r5_1 __attribute__((__secti
 	},
 	.dev_clk_idx		= AM64X_DEV_RTI_CFG1_MAIN_R5_1_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_rti_cfg1_main_r5_2 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1302,7 +1302,7 @@ static const struct dev_data am64x_dev_rti_cfg1_main_r5_2 __attribute__((__secti
 	},
 	.dev_clk_idx		= AM64X_DEV_RTI_CFG1_MAIN_R5_2_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_rti_cfg1_main_r5_3 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1312,7 +1312,7 @@ static const struct dev_data am64x_dev_rti_cfg1_main_r5_3 __attribute__((__secti
 	},
 	.dev_clk_idx		= AM64X_DEV_RTI_CFG1_MAIN_R5_3_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_rti_cfg1_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -1322,7 +1322,7 @@ static const struct dev_data am64x_dev_rti_cfg1_mcu_0 __attribute__((__section__
 	},
 	.dev_clk_idx		= AM64X_DEV_RTI_CFG1_MCU_0_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_sa2_ul_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1332,13 +1332,13 @@ static const struct dev_data am64x_dev_sa2_ul_main_0 __attribute__((__section__(
 	},
 	.dev_clk_idx		= AM64X_DEV_SA2_UL_MAIN_0_CLOCKS,
 	.n_clocks		= 3,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_sam64_a53_256kb_wrap_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
 		.psc_idx	= PSC_DEV_NONE,
 	},
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_sam64_a53_256kb_wrap_main_0_a53_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1348,7 +1348,7 @@ static const struct dev_data am64x_dev_sam64_a53_256kb_wrap_main_0_a53_0 __attri
 	},
 	.dev_clk_idx		= AM64X_DEV_SAM64_A53_256KB_WRAP_MAIN_0_A53_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_sam64_a53_256kb_wrap_main_0_a53_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1358,7 +1358,7 @@ static const struct dev_data am64x_dev_sam64_a53_256kb_wrap_main_0_a53_1 __attri
 	},
 	.dev_clk_idx		= AM64X_DEV_SAM64_A53_256KB_WRAP_MAIN_0_A53_1_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_sam64_a53_256kb_wrap_main_0_arm_corepack_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1368,7 +1368,7 @@ static const struct dev_data am64x_dev_sam64_a53_256kb_wrap_main_0_arm_corepack_
 	},
 	.dev_clk_idx		= AM64X_DEV_SAM64_A53_256KB_WRAP_MAIN_0_ARM_COREPACK_0_CLOCKS,
 	.n_clocks		= 2,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_sam64_ddr_wrap_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -1378,7 +1378,7 @@ static const struct dev_data am64x_dev_sam64_ddr_wrap_main_0 __attribute__((__se
 	},
 	.dev_clk_idx		= AM64X_DEV_SAM64_DDR_WRAP_MAIN_0_CLOCKS,
 	.n_clocks		= 2,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static struct psc_data am64x_sam64_main_psc_wrap_main_0_data __attribute__((__section__(".bss.devgroup.MAIN")));
 static const struct psc_pd_data am64x_sam64_main_psc_wrap_main_0_pd_data[AM64X_PSC_PD_PD_SPARE1 + 1] __attribute__((__section__(".const.devgroup.MAIN"))) = {
@@ -1955,7 +1955,7 @@ static const struct psc_drv_data am64x_dev_sam64_main_psc_wrap_main_0 __attribut
 			},
 			.dev_clk_idx		= AM64X_DEV_SAM64_MAIN_PSC_WRAP_MAIN_0_CLOCKS,
 			.n_clocks		= 2,
-			.pm_devgrp		= PM_DEVGRP_01,
+			.pm_devgrp		= PM_DEVGRP_00,
 			.flags			= DEVD_FLAG_DO_INIT | DEVD_FLAG_DRV_DATA,
 		},
 		.drv				= &psc_drv,
@@ -2095,7 +2095,7 @@ static const struct psc_drv_data am64x_dev_sam64_mcu_psc_wrap_mcu_0 __attribute_
 			},
 			.dev_clk_idx		= AM64X_DEV_SAM64_MCU_PSC_WRAP_MCU_0_CLOCKS,
 			.n_clocks		= 2,
-			.pm_devgrp		= PM_DEVGRP_00,
+			.pm_devgrp		= PM_DEVGRP_01,
 			.flags			= DEVD_FLAG_DO_INIT | DEVD_FLAG_DRV_DATA,
 		},
 		.drv				= &psc_drv,
@@ -2110,7 +2110,7 @@ static const struct dev_data am64x_dev_spi_main_0 __attribute__((__section__(".c
 	},
 	.dev_clk_idx		= AM64X_DEV_SPI_MAIN_0_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_spi_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2120,7 +2120,7 @@ static const struct dev_data am64x_dev_spi_main_1 __attribute__((__section__(".c
 	},
 	.dev_clk_idx		= AM64X_DEV_SPI_MAIN_1_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_spi_main_2 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2130,7 +2130,7 @@ static const struct dev_data am64x_dev_spi_main_2 __attribute__((__section__(".c
 	},
 	.dev_clk_idx		= AM64X_DEV_SPI_MAIN_2_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_spi_main_3 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2140,7 +2140,7 @@ static const struct dev_data am64x_dev_spi_main_3 __attribute__((__section__(".c
 	},
 	.dev_clk_idx		= AM64X_DEV_SPI_MAIN_3_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_spi_main_4 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2150,7 +2150,7 @@ static const struct dev_data am64x_dev_spi_main_4 __attribute__((__section__(".c
 	},
 	.dev_clk_idx		= AM64X_DEV_SPI_MAIN_4_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_usart_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2160,7 +2160,7 @@ static const struct dev_data am64x_dev_usart_main_0 __attribute__((__section__("
 	},
 	.dev_clk_idx		= AM64X_DEV_USART_MAIN_0_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_spi_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -2170,7 +2170,7 @@ static const struct dev_data am64x_dev_spi_mcu_0 __attribute__((__section__(".co
 	},
 	.dev_clk_idx		= AM64X_DEV_SPI_MCU_0_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_spi_mcu_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -2180,7 +2180,7 @@ static const struct dev_data am64x_dev_spi_mcu_1 __attribute__((__section__(".co
 	},
 	.dev_clk_idx		= AM64X_DEV_SPI_MCU_1_CLOCKS,
 	.n_clocks		= 6,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_usart_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -2190,7 +2190,7 @@ static const struct dev_data am64x_dev_usart_mcu_0 __attribute__((__section__(".
 	},
 	.dev_clk_idx		= AM64X_DEV_USART_MCU_0_CLOCKS,
 	.n_clocks		= 2,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_spinlock256_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2200,7 +2200,7 @@ static const struct dev_data am64x_dev_spinlock256_main_0 __attribute__((__secti
 	},
 	.dev_clk_idx		= AM64X_DEV_SPINLOCK256_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_timer_mgr1024_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2210,7 +2210,7 @@ static const struct dev_data am64x_dev_timer_mgr1024_main_0 __attribute__((__sec
 	},
 	.dev_clk_idx		= AM64X_DEV_TIMER_MGR1024_MAIN_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_usart_main_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2220,7 +2220,7 @@ static const struct dev_data am64x_dev_usart_main_1 __attribute__((__section__("
 	},
 	.dev_clk_idx		= AM64X_DEV_USART_MAIN_1_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_usart_main_2 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2230,7 +2230,7 @@ static const struct dev_data am64x_dev_usart_main_2 __attribute__((__section__("
 	},
 	.dev_clk_idx		= AM64X_DEV_USART_MAIN_2_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_usart_main_3 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2240,7 +2240,7 @@ static const struct dev_data am64x_dev_usart_main_3 __attribute__((__section__("
 	},
 	.dev_clk_idx		= AM64X_DEV_USART_MAIN_3_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_usart_main_4 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2250,7 +2250,7 @@ static const struct dev_data am64x_dev_usart_main_4 __attribute__((__section__("
 	},
 	.dev_clk_idx		= AM64X_DEV_USART_MAIN_4_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_usart_main_5 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2260,9 +2260,9 @@ static const struct dev_data am64x_dev_usart_main_5 __attribute__((__section__("
 	},
 	.dev_clk_idx		= AM64X_DEV_USART_MAIN_5_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
-static const struct dev_data am64x_dev_board_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct dev_data am64x_dev_board_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
 		.psc_idx	= PSC_DEV_NONE,
 	},
@@ -2278,7 +2278,7 @@ static const struct dev_data am64x_dev_usart_main_6 __attribute__((__section__("
 	},
 	.dev_clk_idx		= AM64X_DEV_USART_MAIN_6_CLOCKS,
 	.n_clocks		= 4,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_usart_mcu_1 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -2288,7 +2288,7 @@ static const struct dev_data am64x_dev_usart_mcu_1 __attribute__((__section__(".
 	},
 	.dev_clk_idx		= AM64X_DEV_USART_MCU_1_CLOCKS,
 	.n_clocks		= 2,
-	.pm_devgrp		= PM_DEVGRP_00,
+	.pm_devgrp		= PM_DEVGRP_01,
 };
 static const struct dev_data am64x_dev_usb3p0ss64_16ffc_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2298,7 +2298,7 @@ static const struct dev_data am64x_dev_usb3p0ss64_16ffc_main_0 __attribute__((__
 	},
 	.dev_clk_idx		= AM64X_DEV_USB3P0SS64_16FFC_MAIN_0_CLOCKS,
 	.n_clocks		= 13,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_wiz16b2m4ct_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2308,7 +2308,7 @@ static const struct dev_data am64x_dev_wiz16b2m4ct_main_0 __attribute__((__secti
 	},
 	.dev_clk_idx		= AM64X_DEV_WIZ16B2M4CT_MAIN_0_CLOCKS,
 	.n_clocks		= 18,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_pbist_8c28p_wrap_main_ip_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2318,7 +2318,7 @@ static const struct dev_data am64x_dev_k3_pbist_8c28p_wrap_main_ip_0 __attribute
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_PBIST_8C28P_WRAP_MAIN_IP_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_pbist_8c28p_wrap_main_ncgo_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2328,7 +2328,7 @@ static const struct dev_data am64x_dev_k3_pbist_8c28p_wrap_main_ncgo_0 __attribu
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_PBIST_8C28P_WRAP_MAIN_NCGO_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_pbist_8c28p_wrap_main_pulsar_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2338,7 +2338,7 @@ static const struct dev_data am64x_dev_k3_pbist_8c28p_wrap_main_pulsar_0 __attri
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_PBIST_8C28P_WRAP_MAIN_PULSAR_0_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_k3_pbist_8c28p_wrap_main_pulsar_1 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2348,7 +2348,7 @@ static const struct dev_data am64x_dev_k3_pbist_8c28p_wrap_main_pulsar_1 __attri
 	},
 	.dev_clk_idx		= AM64X_DEV_K3_PBIST_8C28P_WRAP_MAIN_PULSAR_1_CLOCKS,
 	.n_clocks		= 1,
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data am64x_dev_sam64_a53_256kb_wrap_main_0_pbist_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
@@ -2356,13 +2356,29 @@ static const struct dev_data am64x_dev_sam64_a53_256kb_wrap_main_0_pbist_0 __att
 		.pd		= AM64X_PSC_PD_PD_A53_CLUSTER_0,
 		.mod		= AM64X_PSC_LPSC_LPSC_A53_CLUSTER_0_PBIST,
 	},
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 
 static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	DEV_CLK(AM64X_DEV_AM64_MCU_GPIOMUX_INTROUTER_MCU_0_CLOCKS,	     AM64X_DEV_MCU_MCU_GPIOMUX_INTROUTER0_INTR_CLK,
 		CLK_AM64X_K3_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
 		4),
+	DEV_CLK(AM64X_DEV_BLAZAR_MCU_0_CBASS_0_CLOCKS,			     AM64X_DEV_MCU_M4FSS0_CBASS_0_CLK,
+		CLK_AM64X_MCU_M4FSS_CLKSEL_OUT0,
+		1),
+	DEV_CLK(AM64X_DEV_BLAZAR_MCU_0_CORTEX_M4_0_CLOCKS,		     AM64X_DEV_MCU_M4FSS0_CORE0_DAP_CLK,
+		CLK_AM64X_K3_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
+		1),
+	DEV_CLK_MUX(AM64X_DEV_BLAZAR_MCU_0_CORTEX_M4_0_CLOCKS,		     AM64X_DEV_MCU_M4FSS0_CORE0_VBUS_CLK,
+		    CLK_AM64X_MCU_M4FSS_CLKSEL_OUT0,
+		    1,
+		    2),
+	DEV_CLK_PARENT(AM64X_DEV_BLAZAR_MCU_0_CORTEX_M4_0_CLOCKS,	     AM64X_DEV_MCU_M4FSS0_CORE0_VBUS_CLK_PARENT_K3_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
+		       CLK_AM64X_K3_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,   1,
+		       0),
+	DEV_CLK_PARENT(AM64X_DEV_BLAZAR_MCU_0_CORTEX_M4_0_CLOCKS,	     AM64X_DEV_MCU_M4FSS0_CORE0_VBUS_CLK_PARENT_K3_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK2,
+		       CLK_AM64X_K3_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,   2,
+		       1),
 	DEV_CLK(AM64X_DEV_DCC2_MCU_0_CLOCKS,				     AM64X_DEV_MCU_DCC0_DCC_CLKSRC0_CLK,
 		CLK_AM64X_HSDIV4_16FFT_MCU_0_HSDIVOUT0_CLK,
 		1),
@@ -2635,6 +2651,271 @@ static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__sect
 	DEV_CLK(AM64X_DEV_USART_MCU_0_CLOCKS,				     AM64X_DEV_MCU_UART0_VBUSP_CLK,
 		CLK_AM64X_K3_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
 		4),
+	DEV_CLK_MUX(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_CLKOUT0_IN,							    CLK_AM64X_CLKOUT_CTRL_OUT0,
+		    1,
+		    2),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_CLKOUT0_IN_PARENT_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK5,
+		       CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK,
+		       5,
+		       0),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_CLKOUT0_IN_PARENT_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK10,
+		       CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK,
+		       10,
+		       1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_FSI_TX0_CLK_IN,							    CLK_AM64X_FSI_TX_MAIN_0_FSI_TX_CK,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_FSI_TX1_CLK_IN,							    CLK_AM64X_FSI_TX_MAIN_1_FSI_TX_CK,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_GPMC0_CLKLB_IN,
+		CLK_AM64X_GPMC_MAIN_0_PO_GPMC_DEV_CLK,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_GPMC0_CLK_IN,
+		CLK_AM64X_GPMC_MAIN_0_PO_GPMC_DEV_CLK,
+		1),
+	DEV_CLK_MUX(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_GPMC0_FCLK_MUX_IN,						    CLK_AM64X_MAIN_GPMC_FCLK_SEL_OUT0,
+		    1,
+		    2),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_GPMC0_FCLK_MUX_IN_PARENT_HSDIV4_16FFT_MAIN_0_HSDIVOUT3_CLK,
+		       CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT3_CLK,
+		       1,
+		       0),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_GPMC0_FCLK_MUX_IN_PARENT_POSTDIV4_16FF_MAIN_2_HSDIVOUT7_CLK,
+		       CLK_AM64X_POSTDIV4_16FF_MAIN_2_HSDIVOUT7_CLK,
+		       1,
+		       1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_I2C0_SCL_IN,							    CLK_AM64X_MSHSI2C_MAIN_0_PORSCL,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_I2C1_SCL_IN,							    CLK_AM64X_MSHSI2C_MAIN_1_PORSCL,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_I2C2_SCL_IN,							    CLK_AM64X_MSHSI2C_MAIN_2_PORSCL,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_I2C3_SCL_IN,							    CLK_AM64X_MSHSI2C_MAIN_3_PORSCL,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_I2C0_SCL_IN,							    CLK_AM64X_MSHSI2C_MCU_0_PORSCL,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_I2C1_SCL_IN,							    CLK_AM64X_MSHSI2C_MCU_1_PORSCL,
+		1),
+	DEV_CLK_MUX(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_OBSCLK0_IN,
+		    CLK_AM64X_MCU_OBSCLK_OUTMUX_SEL_OUT0,
+		    1,
+		    2),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_OBSCLK0_IN_PARENT_MCU_OBSCLK_DIV_OUT0,			    CLK_AM64X_MCU_OBSCLK_DIV_OUT0,
+		       1,
+		       0),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_OBSCLK0_IN_PARENT_GLUELOGIC_HFOSC0_CLKOUT,			    CLK_AM64X_GLUELOGIC_HFOSC0_CLKOUT,
+		       1,
+		       1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_SPI0_CLK_IN,							    CLK_AM64X_SPI_MCU_0_IO_CLKSPIO_CLK,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_SPI1_CLK_IN,							    CLK_AM64X_SPI_MCU_1_IO_CLKSPIO_CLK,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_SYSCLKOUT0_IN,
+		CLK_AM64X_K3_PLL_CTRL_WRAP_MCU_0_SYSCLKOUT_CLK,
+		4),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_TIMER_IO0_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MCU_0_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_TIMER_IO1_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MCU_1_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_TIMER_IO2_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MCU_2_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_TIMER_IO3_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MCU_3_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MMC1_CLK_IN,
+		CLK_AM64X_EMMCSD4SS_MAIN_0_EMMCSDSS_IO_CLK_O,
+		1),
+	DEV_CLK_MUX(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_OBSCLK0_IN,							    CLK_AM64X_OSBCLK0_DIV_OUT0,
+		    1,
+		    16),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK,
+		       CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK,
+		       1,
+		       0),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
+		       CLK_AM64X_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
+		       1,
+		       1),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_CPSW_3GUSS_MAIN_0_CPTS_GENF0,
+		       CLK_AM64X_CPSW_3GUSS_MAIN_0_CPTS_GENF0,
+		       1,
+		       10),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_CPSW_3GUSS_MAIN_0_CPTS_GENF1,
+		       CLK_AM64X_CPSW_3GUSS_MAIN_0_CPTS_GENF1,
+		       1,
+		       11),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_K3_CPTS_MAIN_0_CPTS_GENF1,			    CLK_AM64X_K3_CPTS_MAIN_0_CPTS_GENF1,
+		       1,
+		       12),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_K3_CPTS_MAIN_0_CPTS_GENF2,			    CLK_AM64X_K3_CPTS_MAIN_0_CPTS_GENF2,
+		       1,
+		       13),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_K3_CPTS_MAIN_0_CPTS_GENF3,			    CLK_AM64X_K3_CPTS_MAIN_0_CPTS_GENF3,
+		       1,
+		       14),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV1_16FFT_MAIN_14_HSDIVOUT0_CLK,
+		       CLK_AM64X_HSDIV1_16FFT_MAIN_14_HSDIVOUT0_CLK,
+		       1,
+		       15),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV4_16FFT_MAIN_2_HSDIVOUT0_CLK,
+		       CLK_AM64X_HSDIV4_16FFT_MAIN_2_HSDIVOUT0_CLK,
+		       1,
+		       2),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,
+		       CLK_AM64X_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,
+		       1,
+		       3),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV0_16FFT_MAIN_12_HSDIVOUT0_CLK,
+		       CLK_AM64X_HSDIV0_16FFT_MAIN_12_HSDIVOUT0_CLK,
+		       1,
+		       4),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_GLUELOGIC_RCOSC_CLKOUT,				    CLK_AM64X_GLUELOGIC_RCOSC_CLKOUT,
+		       1,
+		       5),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV0_16FFT_MCU_32KHZ_GEN_0_HSDIVOUT0_CLK8,
+		       CLK_AM64X_HSDIV0_16FFT_MCU_32KHZ_GEN_0_HSDIVOUT0_CLK, 8,
+		       6),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK_DUP0,
+		       CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK,
+		       1,
+		       7),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_GLUELOGIC_HFOSC0_CLKOUT,			    CLK_AM64X_GLUELOGIC_HFOSC0_CLKOUT,
+		       1,
+		       8),
+	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_GLUELOGIC_RCOSC_CLK_1P0V_97P65K3,
+		       CLK_AM64X_GLUELOGIC_RCOSC_CLK_1P0V_97P65K,
+		       3,
+		       9),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_OSPI0_LBCLKO_IN,
+		CLK_AM64X_FSS_UL_MAIN_0_OSPI_0_OSPI_OCLK_CLK,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_PRG0_MDIO0_MDC_IN,
+		CLK_AM64X_ICSS_G_16FF_MAIN_0_PR1_MDIO_MDCLK_O,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_PRG0_RGMII1_TXC_IN,
+		CLK_AM64X_ICSS_G_16FF_MAIN_0_PR1_RGMII0_TXC_O,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_PRG0_RGMII2_TXC_IN,
+		CLK_AM64X_ICSS_G_16FF_MAIN_0_PR1_RGMII1_TXC_O,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_PRG1_MDIO0_MDC_IN,
+		CLK_AM64X_ICSS_G_16FF_MAIN_1_PR1_MDIO_MDCLK_O,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_PRG1_RGMII1_TXC_IN,
+		CLK_AM64X_ICSS_G_16FF_MAIN_1_PR1_RGMII0_TXC_O,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_PRG1_RGMII2_TXC_IN,
+		CLK_AM64X_ICSS_G_16FF_MAIN_1_PR1_RGMII1_TXC_O,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_RGMII1_TXC_IN,
+		CLK_AM64X_CPSW_3GUSS_MAIN_0_RGMII1_TXC_O,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_RGMII2_TXC_IN,
+		CLK_AM64X_CPSW_3GUSS_MAIN_0_RGMII2_TXC_O,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_SPI0_CLK_IN,							    CLK_AM64X_SPI_MAIN_0_IO_CLKSPIO_CLK,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_SPI1_CLK_IN,							    CLK_AM64X_SPI_MAIN_1_IO_CLKSPIO_CLK,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_SPI2_CLK_IN,							    CLK_AM64X_SPI_MAIN_2_IO_CLKSPIO_CLK,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_SPI3_CLK_IN,							    CLK_AM64X_SPI_MAIN_3_IO_CLKSPIO_CLK,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_SPI4_CLK_IN,							    CLK_AM64X_SPI_MAIN_4_IO_CLKSPIO_CLK,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_SYSCLKOUT0_IN,
+		CLK_AM64X_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK,
+		4),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO0_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MAIN_0_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO10_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MAIN_10_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO11_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MAIN_11_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO1_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MAIN_1_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO2_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MAIN_2_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO3_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MAIN_3_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO4_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MAIN_4_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO5_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MAIN_5_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO6_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MAIN_6_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO7_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MAIN_7_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO8_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MAIN_8_TIMER_PWM,
+		1),
+	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO9_IN,
+		CLK_AM64X_DMTIMER_DMC1MS_MAIN_9_TIMER_PWM,
+		1),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_CPTS0_RFT_CLK_OUT,						    CLK_AM64X_BOARD_0_CPTS0_RFT_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_CP_GEMAC_CPTS0_RFT_CLK_OUT,
+		       CLK_AM64X_BOARD_0_CP_GEMAC_CPTS0_RFT_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_EXT_REFCLK1_OUT,							    CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_FSI_RX0_CLK_OUT,							    CLK_AM64X_BOARD_0_FSI_RX0_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_FSI_RX1_CLK_OUT,							    CLK_AM64X_BOARD_0_FSI_RX1_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_FSI_RX2_CLK_OUT,							    CLK_AM64X_BOARD_0_FSI_RX2_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_FSI_RX3_CLK_OUT,							    CLK_AM64X_BOARD_0_FSI_RX3_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_FSI_RX4_CLK_OUT,							    CLK_AM64X_BOARD_0_FSI_RX4_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_FSI_RX5_CLK_OUT,							    CLK_AM64X_BOARD_0_FSI_RX5_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_GPMC0_CLKLB_OUT,							    CLK_AM64X_BOARD_0_GPMC0_CLKLB_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_I2C0_SCL_OUT,							    CLK_AM64X_BOARD_0_I2C0_SCL_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_I2C1_SCL_OUT,							    CLK_AM64X_BOARD_0_I2C1_SCL_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_I2C2_SCL_OUT,							    CLK_AM64X_BOARD_0_I2C2_SCL_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_I2C3_SCL_OUT,							    CLK_AM64X_BOARD_0_I2C3_SCL_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_LED_CLK_OUT,							    CLK_AM64X_BOARD_0_LED_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_EXT_REFCLK0_OUT,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_I2C0_SCL_OUT,							    CLK_AM64X_BOARD_0_MCU_I2C0_SCL_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_I2C1_SCL_OUT,							    CLK_AM64X_BOARD_0_MCU_I2C1_SCL_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_SPI0_CLK_OUT,							    CLK_AM64X_BOARD_0_MCU_SPI0_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_SPI1_CLK_OUT,							    CLK_AM64X_BOARD_0_MCU_SPI1_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MMC1_CLKLB_OUT,							    CLK_AM64X_BOARD_0_MMC1_CLKLB_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OSPI0_DQS_OUT,							    CLK_AM64X_BOARD_0_OSPI0_DQS_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OSPI0_LBCLKO_OUT,							    CLK_AM64X_BOARD_0_OSPI0_LBCLKO_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG0_RGMII1_RXC_OUT,
+		       CLK_AM64X_BOARD_0_PRG0_RGMII1_RXC_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG0_RGMII1_TXC_OUT,
+		       CLK_AM64X_BOARD_0_PRG0_RGMII1_TXC_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG0_RGMII2_RXC_OUT,
+		       CLK_AM64X_BOARD_0_PRG0_RGMII2_RXC_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG0_RGMII2_TXC_OUT,
+		       CLK_AM64X_BOARD_0_PRG0_RGMII2_TXC_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG1_RGMII1_RXC_OUT,
+		       CLK_AM64X_BOARD_0_PRG1_RGMII1_RXC_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG1_RGMII1_TXC_OUT,
+		       CLK_AM64X_BOARD_0_PRG1_RGMII1_TXC_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG1_RGMII2_RXC_OUT,
+		       CLK_AM64X_BOARD_0_PRG1_RGMII2_RXC_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG1_RGMII2_TXC_OUT,
+		       CLK_AM64X_BOARD_0_PRG1_RGMII2_TXC_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_RGMII1_RXC_OUT,							    CLK_AM64X_BOARD_0_RGMII1_RXC_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_RGMII1_TXC_OUT,							    CLK_AM64X_BOARD_0_RGMII1_TXC_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_RGMII2_RXC_OUT,							    CLK_AM64X_BOARD_0_RGMII2_RXC_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_RGMII2_TXC_OUT,							    CLK_AM64X_BOARD_0_RGMII2_TXC_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_RMII_REF_CLK_OUT,							    CLK_AM64X_BOARD_0_RMII_REF_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_SPI0_CLK_OUT,							    CLK_AM64X_BOARD_0_SPI0_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_SPI1_CLK_OUT,							    CLK_AM64X_BOARD_0_SPI1_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_SPI2_CLK_OUT,							    CLK_AM64X_BOARD_0_SPI2_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_SPI3_CLK_OUT,							    CLK_AM64X_BOARD_0_SPI3_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_SPI4_CLK_OUT,							    CLK_AM64X_BOARD_0_SPI4_CLK_OUT),
+	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_TCK_OUT,								    CLK_AM64X_BOARD_0_TCK_OUT),
 	DEV_CLK(AM64X_DEV_USART_MCU_1_CLOCKS,				     AM64X_DEV_MCU_UART1_FCLK_CLK,
 		CLK_AM64X_HSDIV4_16FFT_MCU_0_HSDIVOUT2_CLK,
 		1),
@@ -2680,22 +2961,6 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK(AM64X_DEV_AM64_TIMESYNC_EVENT_INTROUTER_MAIN_0_CLOCKS,	     AM64X_DEV_TIMESYNC_EVENT_INTROUTER0_INTR_CLK,
 		CLK_AM64X_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		4),
-	DEV_CLK(AM64X_DEV_BLAZAR_MCU_0_CBASS_0_CLOCKS,			     AM64X_DEV_MCU_M4FSS0_CBASS_0_CLK,
-		CLK_AM64X_MCU_M4FSS_CLKSEL_OUT0,
-		1),
-	DEV_CLK(AM64X_DEV_BLAZAR_MCU_0_CORTEX_M4_0_CLOCKS,		     AM64X_DEV_MCU_M4FSS0_CORE0_DAP_CLK,
-		CLK_AM64X_K3_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
-		1),
-	DEV_CLK_MUX(AM64X_DEV_BLAZAR_MCU_0_CORTEX_M4_0_CLOCKS,		     AM64X_DEV_MCU_M4FSS0_CORE0_VBUS_CLK,
-		    CLK_AM64X_MCU_M4FSS_CLKSEL_OUT0,
-		    1,
-		    2),
-	DEV_CLK_PARENT(AM64X_DEV_BLAZAR_MCU_0_CORTEX_M4_0_CLOCKS,	     AM64X_DEV_MCU_M4FSS0_CORE0_VBUS_CLK_PARENT_K3_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
-		       CLK_AM64X_K3_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,   1,
-		       0),
-	DEV_CLK_PARENT(AM64X_DEV_BLAZAR_MCU_0_CORTEX_M4_0_CLOCKS,	     AM64X_DEV_MCU_M4FSS0_CORE0_VBUS_CLK_PARENT_K3_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK2,
-		       CLK_AM64X_K3_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,   2,
-		       1),
 	DEV_CLK(AM64X_DEV_CPSW_3GUSS_MAIN_0_CLOCKS,			     AM64X_DEV_CPSW0_CPPI_CLK_CLK,
 		CLK_AM64X_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		2),
@@ -2716,7 +2981,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_CPSW_3GUSS_MAIN_0_CLOCKS,		     AM64X_DEV_CPSW0_CPTS_RFT_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_CPSW_3GUSS_MAIN_0_CLOCKS,		     AM64X_DEV_CPSW0_CPTS_RFT_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -3099,7 +3365,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_0_CLOCKS,		     AM64X_DEV_TIMER0_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_0_CLOCKS,		     AM64X_DEV_TIMER0_TIMER_TCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -3164,7 +3431,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_1_CLOCKS,		     AM64X_DEV_TIMER1_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_1_CLOCKS,		     AM64X_DEV_TIMER1_TIMER_TCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -3229,7 +3497,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_2_CLOCKS,		     AM64X_DEV_TIMER2_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_2_CLOCKS,		     AM64X_DEV_TIMER2_TIMER_TCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -3294,7 +3563,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_3_CLOCKS,		     AM64X_DEV_TIMER3_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_3_CLOCKS,		     AM64X_DEV_TIMER3_TIMER_TCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -3359,7 +3629,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_4_CLOCKS,		     AM64X_DEV_TIMER4_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_4_CLOCKS,		     AM64X_DEV_TIMER4_TIMER_TCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -3424,7 +3695,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_5_CLOCKS,		     AM64X_DEV_TIMER5_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_5_CLOCKS,		     AM64X_DEV_TIMER5_TIMER_TCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -3489,7 +3761,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_6_CLOCKS,		     AM64X_DEV_TIMER6_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_6_CLOCKS,		     AM64X_DEV_TIMER6_TIMER_TCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -3554,7 +3827,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_7_CLOCKS,		     AM64X_DEV_TIMER7_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_7_CLOCKS,		     AM64X_DEV_TIMER7_TIMER_TCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -3619,7 +3893,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_8_CLOCKS,		     AM64X_DEV_TIMER8_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_8_CLOCKS,		     AM64X_DEV_TIMER8_TIMER_TCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -3684,7 +3959,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_9_CLOCKS,		     AM64X_DEV_TIMER9_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_9_CLOCKS,		     AM64X_DEV_TIMER9_TIMER_TCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -3749,7 +4025,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_10_CLOCKS,		     AM64X_DEV_TIMER10_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_10_CLOCKS,		     AM64X_DEV_TIMER10_TIMER_TCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -3814,7 +4091,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_11_CLOCKS,		     AM64X_DEV_TIMER11_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_DMTIMER_DMC1MS_MAIN_11_CLOCKS,		     AM64X_DEV_TIMER11_TIMER_TCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -3907,7 +4185,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_GTC_R10_MAIN_0_CLOCKS,			     AM64X_DEV_GTC0_GTC_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_GTC_R10_MAIN_0_CLOCKS,			     AM64X_DEV_GTC0_GTC_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -4070,7 +4349,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       CLK_AM64X_POSTDIV4_16FF_MAIN_0_HSDIVOUT9_CLK,	     1,
 		       1),
 	DEV_CLK_MUX(AM64X_DEV_ICSS_G_16FF_MAIN_0_CLOCKS,		     AM64X_DEV_PRU_ICSSG0_IEP_CLK,
-		    CLK_AM64X_MAIN_ICSSGN_IEPCLK_SEL_OUT0,		     1,
+		    CLK_AM64X_MAIN_ICSSGN_IEPCLK_SEL_OUT0,
+		    1,
 		    8),
 	DEV_CLK_PARENT(AM64X_DEV_ICSS_G_16FF_MAIN_0_CLOCKS,		     AM64X_DEV_PRU_ICSSG0_IEP_CLK_PARENT_POSTDIV4_16FF_MAIN_2_HSDIVOUT5_CLK,
 		       CLK_AM64X_POSTDIV4_16FF_MAIN_2_HSDIVOUT5_CLK,	     1,
@@ -4086,7 +4366,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_ICSS_G_16FF_MAIN_0_CLOCKS,		     AM64X_DEV_PRU_ICSSG0_IEP_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_ICSS_G_16FF_MAIN_0_CLOCKS,		     AM64X_DEV_PRU_ICSSG0_IEP_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -4141,7 +4422,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       CLK_AM64X_POSTDIV4_16FF_MAIN_0_HSDIVOUT9_CLK,	     1,
 		       1),
 	DEV_CLK_MUX(AM64X_DEV_ICSS_G_16FF_MAIN_1_CLOCKS,		     AM64X_DEV_PRU_ICSSG1_IEP_CLK,
-		    CLK_AM64X_MAIN_ICSSGN_IEPCLK_SEL_OUT1,		     1,
+		    CLK_AM64X_MAIN_ICSSGN_IEPCLK_SEL_OUT1,
+		    1,
 		    8),
 	DEV_CLK_PARENT(AM64X_DEV_ICSS_G_16FF_MAIN_1_CLOCKS,		     AM64X_DEV_PRU_ICSSG1_IEP_CLK_PARENT_POSTDIV4_16FF_MAIN_2_HSDIVOUT5_CLK,
 		       CLK_AM64X_POSTDIV4_16FF_MAIN_2_HSDIVOUT5_CLK,	     1,
@@ -4157,7 +4439,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_ICSS_G_16FF_MAIN_1_CLOCKS,		     AM64X_DEV_PRU_ICSSG1_IEP_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_ICSS_G_16FF_MAIN_1_CLOCKS,		     AM64X_DEV_PRU_ICSSG1_IEP_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -4226,7 +4509,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_K3_CPTS_MAIN_0_CLOCKS,			     AM64X_DEV_CPTS0_CPTS_RFT_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_K3_CPTS_MAIN_0_CLOCKS,			     AM64X_DEV_CPTS0_CPTS_RFT_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -4296,7 +4580,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT2_CLK,	     1,
 		       0),
 	DEV_CLK_PARENT(AM64X_DEV_MCANSS_MAIN_0_CLOCKS,			     AM64X_DEV_MCAN0_MCANSS_CCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       1),
 	DEV_CLK_PARENT(AM64X_DEV_MCANSS_MAIN_0_CLOCKS,			     AM64X_DEV_MCAN0_MCANSS_CCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -4317,7 +4602,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT2_CLK,	     1,
 		       0),
 	DEV_CLK_PARENT(AM64X_DEV_MCANSS_MAIN_1_CLOCKS,			     AM64X_DEV_MCAN1_MCANSS_CCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       1),
 	DEV_CLK_PARENT(AM64X_DEV_MCANSS_MAIN_1_CLOCKS,			     AM64X_DEV_MCAN1_MCANSS_CCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -4394,7 +4680,8 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       1,
 		       3),
 	DEV_CLK_PARENT(AM64X_DEV_PCIE_G2X1_64_MAIN_0_CLOCKS,		     AM64X_DEV_PCIE0_PCIE_CPTS_RCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,		     1,
+		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT,
+		       1,
 		       4),
 	DEV_CLK_PARENT(AM64X_DEV_PCIE_G2X1_64_MAIN_0_CLOCKS,		     AM64X_DEV_PCIE0_PCIE_CPTS_RCLK_CLK_PARENT_BOARD_0_EXT_REFCLK1_OUT,
 		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT,
@@ -4785,314 +5072,6 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK(AM64X_DEV_USART_MAIN_5_CLOCKS,				     AM64X_DEV_UART5_VBUSP_CLK,
 		CLK_AM64X_K3_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK,
 		4),
-	DEV_CLK_MUX(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_CLKOUT0_IN,
-		    CLK_AM64X_CLKOUT_CTRL_OUT0,
-		    1,
-		    2),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_CLKOUT0_IN_PARENT_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK5,
-		       CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK,	     5,
-		       0),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_CLKOUT0_IN_PARENT_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK10,
-		       CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT4_CLK,	     10,
-		       1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_FSI_TX0_CLK_IN,
-		CLK_AM64X_FSI_TX_MAIN_0_FSI_TX_CK,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_FSI_TX1_CLK_IN,
-		CLK_AM64X_FSI_TX_MAIN_1_FSI_TX_CK,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_GPMC0_CLKLB_IN,
-		CLK_AM64X_GPMC_MAIN_0_PO_GPMC_DEV_CLK,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_GPMC0_CLK_IN,
-		CLK_AM64X_GPMC_MAIN_0_PO_GPMC_DEV_CLK,
-		1),
-	DEV_CLK_MUX(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_GPMC0_FCLK_MUX_IN,
-		    CLK_AM64X_MAIN_GPMC_FCLK_SEL_OUT0,
-		    1,
-		    2),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_GPMC0_FCLK_MUX_IN_PARENT_HSDIV4_16FFT_MAIN_0_HSDIVOUT3_CLK,
-		       CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT3_CLK,	     1,
-		       0),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_GPMC0_FCLK_MUX_IN_PARENT_POSTDIV4_16FF_MAIN_2_HSDIVOUT7_CLK,
-		       CLK_AM64X_POSTDIV4_16FF_MAIN_2_HSDIVOUT7_CLK,	     1,
-		       1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_I2C0_SCL_IN,
-		CLK_AM64X_MSHSI2C_MAIN_0_PORSCL,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_I2C1_SCL_IN,
-		CLK_AM64X_MSHSI2C_MAIN_1_PORSCL,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_I2C2_SCL_IN,
-		CLK_AM64X_MSHSI2C_MAIN_2_PORSCL,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_I2C3_SCL_IN,
-		CLK_AM64X_MSHSI2C_MAIN_3_PORSCL,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_I2C0_SCL_IN,
-		CLK_AM64X_MSHSI2C_MCU_0_PORSCL,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_I2C1_SCL_IN,
-		CLK_AM64X_MSHSI2C_MCU_1_PORSCL,
-		1),
-	DEV_CLK_MUX(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_OBSCLK0_IN,
-		    CLK_AM64X_MCU_OBSCLK_OUTMUX_SEL_OUT0,
-		    1,
-		    2),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_OBSCLK0_IN_PARENT_MCU_OBSCLK_DIV_OUT0,
-		       CLK_AM64X_MCU_OBSCLK_DIV_OUT0,
-		       1,
-		       0),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_OBSCLK0_IN_PARENT_GLUELOGIC_HFOSC0_CLKOUT,
-		       CLK_AM64X_GLUELOGIC_HFOSC0_CLKOUT,
-		       1,
-		       1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_SPI0_CLK_IN,
-		CLK_AM64X_SPI_MCU_0_IO_CLKSPIO_CLK,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_SPI1_CLK_IN,
-		CLK_AM64X_SPI_MCU_1_IO_CLKSPIO_CLK,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_SYSCLKOUT0_IN,
-		CLK_AM64X_K3_PLL_CTRL_WRAP_MCU_0_SYSCLKOUT_CLK,
-		4),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_TIMER_IO0_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MCU_0_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_TIMER_IO1_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MCU_1_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_TIMER_IO2_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MCU_2_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MCU_TIMER_IO3_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MCU_3_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_MMC1_CLK_IN,
-		CLK_AM64X_EMMCSD4SS_MAIN_0_EMMCSDSS_IO_CLK_O,
-		1),
-	DEV_CLK_MUX(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_OBSCLK0_IN,
-		    CLK_AM64X_OSBCLK0_DIV_OUT0,
-		    1,
-		    16),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK,
-		       CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK,	     1,
-		       0),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,
-		       CLK_AM64X_HSDIV4_16FFT_MAIN_1_HSDIVOUT0_CLK,	     1,
-		       1),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_CPSW_3GUSS_MAIN_0_CPTS_GENF0,
-		       CLK_AM64X_CPSW_3GUSS_MAIN_0_CPTS_GENF0,		     1,
-		       10),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_CPSW_3GUSS_MAIN_0_CPTS_GENF1,
-		       CLK_AM64X_CPSW_3GUSS_MAIN_0_CPTS_GENF1,		     1,
-		       11),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_K3_CPTS_MAIN_0_CPTS_GENF1,
-		       CLK_AM64X_K3_CPTS_MAIN_0_CPTS_GENF1,
-		       1,
-		       12),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_K3_CPTS_MAIN_0_CPTS_GENF2,
-		       CLK_AM64X_K3_CPTS_MAIN_0_CPTS_GENF2,
-		       1,
-		       13),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_K3_CPTS_MAIN_0_CPTS_GENF3,
-		       CLK_AM64X_K3_CPTS_MAIN_0_CPTS_GENF3,
-		       1,
-		       14),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV1_16FFT_MAIN_14_HSDIVOUT0_CLK,
-		       CLK_AM64X_HSDIV1_16FFT_MAIN_14_HSDIVOUT0_CLK,	     1,
-		       15),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV4_16FFT_MAIN_2_HSDIVOUT0_CLK,
-		       CLK_AM64X_HSDIV4_16FFT_MAIN_2_HSDIVOUT0_CLK,	     1,
-		       2),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,
-		       CLK_AM64X_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,	     1,
-		       3),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV0_16FFT_MAIN_12_HSDIVOUT0_CLK,
-		       CLK_AM64X_HSDIV0_16FFT_MAIN_12_HSDIVOUT0_CLK,	     1,
-		       4),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_GLUELOGIC_RCOSC_CLKOUT,
-		       CLK_AM64X_GLUELOGIC_RCOSC_CLKOUT,
-		       1,
-		       5),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV0_16FFT_MCU_32KHZ_GEN_0_HSDIVOUT0_CLK8,
-		       CLK_AM64X_HSDIV0_16FFT_MCU_32KHZ_GEN_0_HSDIVOUT0_CLK, 8,
-		       6),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK_DUP0,
-		       CLK_AM64X_HSDIV4_16FFT_MAIN_0_HSDIVOUT0_CLK,	     1,
-		       7),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_GLUELOGIC_HFOSC0_CLKOUT,
-		       CLK_AM64X_GLUELOGIC_HFOSC0_CLKOUT,
-		       1,
-		       8),
-	DEV_CLK_PARENT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OBSCLK0_IN_PARENT_GLUELOGIC_RCOSC_CLK_1P0V_97P65K3,
-		       CLK_AM64X_GLUELOGIC_RCOSC_CLK_1P0V_97P65K,	     3,
-		       9),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_OSPI0_LBCLKO_IN,
-		CLK_AM64X_FSS_UL_MAIN_0_OSPI_0_OSPI_OCLK_CLK,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_PRG0_MDIO0_MDC_IN,
-		CLK_AM64X_ICSS_G_16FF_MAIN_0_PR1_MDIO_MDCLK_O,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_PRG0_RGMII1_TXC_IN,
-		CLK_AM64X_ICSS_G_16FF_MAIN_0_PR1_RGMII0_TXC_O,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_PRG0_RGMII2_TXC_IN,
-		CLK_AM64X_ICSS_G_16FF_MAIN_0_PR1_RGMII1_TXC_O,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_PRG1_MDIO0_MDC_IN,
-		CLK_AM64X_ICSS_G_16FF_MAIN_1_PR1_MDIO_MDCLK_O,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_PRG1_RGMII1_TXC_IN,
-		CLK_AM64X_ICSS_G_16FF_MAIN_1_PR1_RGMII0_TXC_O,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_PRG1_RGMII2_TXC_IN,
-		CLK_AM64X_ICSS_G_16FF_MAIN_1_PR1_RGMII1_TXC_O,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_RGMII1_TXC_IN,
-		CLK_AM64X_CPSW_3GUSS_MAIN_0_RGMII1_TXC_O,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_RGMII2_TXC_IN,
-		CLK_AM64X_CPSW_3GUSS_MAIN_0_RGMII2_TXC_O,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_SPI0_CLK_IN,
-		CLK_AM64X_SPI_MAIN_0_IO_CLKSPIO_CLK,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_SPI1_CLK_IN,
-		CLK_AM64X_SPI_MAIN_1_IO_CLKSPIO_CLK,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_SPI2_CLK_IN,
-		CLK_AM64X_SPI_MAIN_2_IO_CLKSPIO_CLK,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_SPI3_CLK_IN,
-		CLK_AM64X_SPI_MAIN_3_IO_CLKSPIO_CLK,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_SPI4_CLK_IN,
-		CLK_AM64X_SPI_MAIN_4_IO_CLKSPIO_CLK,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_SYSCLKOUT0_IN,
-		CLK_AM64X_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK,
-		4),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO0_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MAIN_0_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO10_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MAIN_10_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO11_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MAIN_11_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO1_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MAIN_1_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO2_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MAIN_2_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO3_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MAIN_3_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO4_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MAIN_4_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO5_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MAIN_5_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO6_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MAIN_6_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO7_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MAIN_7_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO8_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MAIN_8_TIMER_PWM,
-		1),
-	DEV_CLK(AM64X_DEV_BOARD_0_CLOCKS,				     AM64X_DEV_BOARD0_TIMER_IO9_IN,
-		CLK_AM64X_DMTIMER_DMC1MS_MAIN_9_TIMER_PWM,
-		1),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_CPTS0_RFT_CLK_OUT,
-		       CLK_AM64X_BOARD_0_CPTS0_RFT_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_CP_GEMAC_CPTS0_RFT_CLK_OUT,
-		       CLK_AM64X_BOARD_0_CP_GEMAC_CPTS0_RFT_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_EXT_REFCLK1_OUT,
-		       CLK_AM64X_BOARD_0_EXT_REFCLK1_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_FSI_RX0_CLK_OUT,
-		       CLK_AM64X_BOARD_0_FSI_RX0_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_FSI_RX1_CLK_OUT,
-		       CLK_AM64X_BOARD_0_FSI_RX1_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_FSI_RX2_CLK_OUT,
-		       CLK_AM64X_BOARD_0_FSI_RX2_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_FSI_RX3_CLK_OUT,
-		       CLK_AM64X_BOARD_0_FSI_RX3_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_FSI_RX4_CLK_OUT,
-		       CLK_AM64X_BOARD_0_FSI_RX4_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_FSI_RX5_CLK_OUT,
-		       CLK_AM64X_BOARD_0_FSI_RX5_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_GPMC0_CLKLB_OUT,
-		       CLK_AM64X_BOARD_0_GPMC0_CLKLB_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_I2C0_SCL_OUT,
-		       CLK_AM64X_BOARD_0_I2C0_SCL_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_I2C1_SCL_OUT,
-		       CLK_AM64X_BOARD_0_I2C1_SCL_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_I2C2_SCL_OUT,
-		       CLK_AM64X_BOARD_0_I2C2_SCL_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_I2C3_SCL_OUT,
-		       CLK_AM64X_BOARD_0_I2C3_SCL_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_LED_CLK_OUT,
-		       CLK_AM64X_BOARD_0_LED_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_EXT_REFCLK0_OUT,
-		       CLK_AM64X_BOARD_0_MCU_EXT_REFCLK0_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_I2C0_SCL_OUT,
-		       CLK_AM64X_BOARD_0_MCU_I2C0_SCL_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_I2C1_SCL_OUT,
-		       CLK_AM64X_BOARD_0_MCU_I2C1_SCL_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_SPI0_CLK_OUT,
-		       CLK_AM64X_BOARD_0_MCU_SPI0_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MCU_SPI1_CLK_OUT,
-		       CLK_AM64X_BOARD_0_MCU_SPI1_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_MMC1_CLKLB_OUT,
-		       CLK_AM64X_BOARD_0_MMC1_CLKLB_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OSPI0_DQS_OUT,
-		       CLK_AM64X_BOARD_0_OSPI0_DQS_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_OSPI0_LBCLKO_OUT,
-		       CLK_AM64X_BOARD_0_OSPI0_LBCLKO_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG0_RGMII1_RXC_OUT,
-		       CLK_AM64X_BOARD_0_PRG0_RGMII1_RXC_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG0_RGMII1_TXC_OUT,
-		       CLK_AM64X_BOARD_0_PRG0_RGMII1_TXC_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG0_RGMII2_RXC_OUT,
-		       CLK_AM64X_BOARD_0_PRG0_RGMII2_RXC_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG0_RGMII2_TXC_OUT,
-		       CLK_AM64X_BOARD_0_PRG0_RGMII2_TXC_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG1_RGMII1_RXC_OUT,
-		       CLK_AM64X_BOARD_0_PRG1_RGMII1_RXC_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG1_RGMII1_TXC_OUT,
-		       CLK_AM64X_BOARD_0_PRG1_RGMII1_TXC_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG1_RGMII2_RXC_OUT,
-		       CLK_AM64X_BOARD_0_PRG1_RGMII2_RXC_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_PRG1_RGMII2_TXC_OUT,
-		       CLK_AM64X_BOARD_0_PRG1_RGMII2_TXC_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_RGMII1_RXC_OUT,
-		       CLK_AM64X_BOARD_0_RGMII1_RXC_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_RGMII1_TXC_OUT,
-		       CLK_AM64X_BOARD_0_RGMII1_TXC_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_RGMII2_RXC_OUT,
-		       CLK_AM64X_BOARD_0_RGMII2_RXC_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_RGMII2_TXC_OUT,
-		       CLK_AM64X_BOARD_0_RGMII2_TXC_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_RMII_REF_CLK_OUT,
-		       CLK_AM64X_BOARD_0_RMII_REF_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_SPI0_CLK_OUT,
-		       CLK_AM64X_BOARD_0_SPI0_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_SPI1_CLK_OUT,
-		       CLK_AM64X_BOARD_0_SPI1_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_SPI2_CLK_OUT,
-		       CLK_AM64X_BOARD_0_SPI2_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_SPI3_CLK_OUT,
-		       CLK_AM64X_BOARD_0_SPI3_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_SPI4_CLK_OUT,
-		       CLK_AM64X_BOARD_0_SPI4_CLK_OUT),
-	DEV_CLK_OUTPUT(AM64X_DEV_BOARD_0_CLOCKS,			     AM64X_DEV_BOARD0_TCK_OUT,
-		       CLK_AM64X_BOARD_0_TCK_OUT),
 	DEV_CLK_MUX(AM64X_DEV_USART_MAIN_6_CLOCKS,			     AM64X_DEV_UART6_FCLK_CLK,
 		    CLK_AM64X_MAIN_USART6_FCLK_SEL_OUT0,
 		    1,
@@ -5212,15 +5191,15 @@ static const struct dev_clk_data DMSC_INTERNAL_dev_clk_data[] __attribute__((__s
 static struct dev_clk DMSC_INTERNAL_dev_clk[ARRAY_SIZE(DMSC_INTERNAL_dev_clk_data)] __attribute__((__section__(".bss.devgroup.DMSC_INTERNAL")));
 
 const struct devgroup soc_devgroups[] = {
-	[PM_DEVGRP_00] =   {
+	[PM_DEVGRP_01] =   {
 		.dev_clk_data	= MCU_WAKEUP_dev_clk_data,
 		.dev_clk	= MCU_WAKEUP_dev_clk,
-		.clk_idx	= 2U,
+		.clk_idx	= 192U,
 	},
-	[PM_DEVGRP_01] =   {
+	[PM_DEVGRP_00] =   {
 		.dev_clk_data	= MAIN_dev_clk_data,
 		.dev_clk	= MAIN_dev_clk,
-		.clk_idx	= 34U,
+		.clk_idx	= 2U,
 	},
 	[PM_DEVGRP_DMSC] = {
 		.dev_clk_data	= DMSC_INTERNAL_dev_clk_data,

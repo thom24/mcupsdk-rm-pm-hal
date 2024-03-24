@@ -43,13 +43,13 @@
 /**
  * Set of MCU domain peripherals to initialize at boot and use during runtime.
  */
-#define SOC_DEVGRP_AM64X_MCU_WAKEUP DEVGRP_00
+#define SOC_DEVGRP_AM64X_MCU_WAKEUP DEVGRP_01
 
 /**
  * Set of Main domain peripherals to initialize at boot and use during
  * runtime.
  */
-#define SOC_DEVGRP_AM64X_MAIN DEVGRP_01
+#define SOC_DEVGRP_AM64X_MAIN DEVGRP_00
 
 /**
  * Set of peripherals to initialize for System Firmware internal usage

@@ -3,7 +3,7 @@
  *
  * Debug Trace layer APIs
  *
- * Copyright (C) 2018-2021, Texas Instruments Incorporated
+ * Copyright (C) 2018-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -191,9 +191,9 @@ s32 trace_init(void);
 #define bp_trace_core(action, val) trace_debug_core(TRACE_DEBUG_CHANNEL_BP, \
 						    ((((u32) action) << TRACE_DEBUG_ACTION_SHIFT) \
 						     | (val)))
-#define sec_trace(action, val) trace_debug(TRACE_DEBUG_CHANNEL_SEC, \
-					   ((((u32) action) << TRACE_DEBUG_ACTION_SHIFT) \
-					    | (val)))
+#define sec_trace(action, val) trace_debug_core(TRACE_DEBUG_CHANNEL_SEC, \
+						((((u32) action) << TRACE_DEBUG_ACTION_SHIFT) \
+						 | (val)))
 #define rm_trace(action, val) trace_debug(TRACE_DEBUG_CHANNEL_RM, \
 					  ((((u32) action) << TRACE_DEBUG_ACTION_SHIFT)	\
 					   | (val)))

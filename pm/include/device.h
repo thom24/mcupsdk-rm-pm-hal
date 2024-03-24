@@ -92,6 +92,7 @@
 #define PM_DEVGRP_01                    2U
 #define PM_DEVGRP_02                    3U
 #define PM_DEVGRP_03                    4U
+#define PM_DEVGRP_HSM                   5U
 
 struct device;
 struct dev_clk;

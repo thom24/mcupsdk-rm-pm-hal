@@ -49,6 +49,7 @@ const u8 soc_host_indexes[] = {
 	[HOST_ID_A53_4] = 11U,
 	[HOST_ID_DM2TIFS] = 12U,
 	[HOST_ID_TIFS2DM] = 13U,
+	[HOST_ID_HSM] = 14U,
 	[1U] = HOST_IDX_NONE,
 	[2U] = HOST_IDX_NONE,
 	[3U] = HOST_IDX_NONE,
@@ -287,5 +288,6 @@ const u8 soc_host_indexes[] = {
 	[247U] = HOST_IDX_NONE,
 	[248U] = HOST_IDX_NONE,
 	[249U] = HOST_IDX_NONE,
+	[252U] = HOST_IDX_NONE,
 };
 const u8 soc_host_indexes_sz = (u8) sizeof(soc_host_indexes);

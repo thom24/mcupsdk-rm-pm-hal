@@ -56,5 +56,10 @@
  */
 #define SOC_DEVGRP_AM62X_TIFS_INTERNAL DEVGRP_DMSC
 
+/**
+ * Set of peripherals to initialize for TIFS HSM internal usage
+ */
+#define SOC_DEVGRP_AM62X_HSM_INTERNAL DEVGRP_HSM
+
 
 #endif /* SOC_AM62X_DEVGRPS_H */

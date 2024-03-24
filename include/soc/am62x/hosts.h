@@ -68,6 +68,8 @@
 #define HOST_ID_DM2TIFS (250U)
 /** TIFS2DM(Non Secure): TIFS to DM communication */
 #define HOST_ID_TIFS2DM (251U)
+/** HSM(Secure): HSM Controller */
+#define HOST_ID_HSM (253U)
 
 /**
  * Host catch all. Used in board configuration resource assignments to define
@@ -76,6 +78,6 @@
 #define HOST_ID_ALL (128U)
 
 /** Number of unique hosts on the SoC */
-#define HOST_ID_CNT (15U)
+#define HOST_ID_CNT (16U)
 
 #endif /* AM62X_HOSTS_H */

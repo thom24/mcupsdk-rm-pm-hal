@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2021, Texas Instruments Incorporated
+ * Copyright (C) 2015-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,7 @@
 #include <types/array_size.h>
 
 /** Maximum number of times to walk the clock tree in LPM handlers */
-#define LPM_CLK_MAX_TRIES		10
+#define LPM_CLK_MAX_TRIES               10
 
 u32 clk_value_set_freq(struct clk *clkp, u32 target_hz,
 		       u32 min_hz __attribute__((unused)),
@@ -173,7 +173,7 @@ sbool clk_notify_sibling_freq(struct clk *clkpp, struct clk *parent,
 		}
 
 		clkp = clk_lookup(i);
-		if (!clkp) {
+		if (!clkp || ((clkp->flags & CLK_FLAG_INITIALIZED) == 0)) {
 			continue;
 		}
 

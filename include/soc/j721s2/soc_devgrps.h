@@ -59,5 +59,10 @@
  */
 #define SOC_DEVGRP_J721S2_TIFS_INTERNAL DEVGRP_DMSC
 
+/**
+ * Set of peripherals to initialize for TIFS HSM internal usage
+ */
+#define SOC_DEVGRP_J721S2_HSM_INTERNAL DEVGRP_HSM
+
 
 #endif /* SOC_J721S2_DEVGRPS_H */
