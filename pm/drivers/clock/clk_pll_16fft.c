@@ -189,6 +189,9 @@ static void clk_pll_16fft_cal_option3(const struct clk_data_pll_16fft *pll)
 	cal &= ~PLL_16FFT_CAL_CTRL_CAL_CNT_MASK;
 	cal |= (u32) 2U << (u32) PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT;
 
+	/* Set CAL_IN to 0 */
+	cal &= ~PLL_16FFT_CAL_CTRL_CAL_IN_MASK;
+
 	/* Note this register does not readback the written value. */
 	writel(cal, (u32) pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
 }
@@ -339,6 +342,7 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clock_ptr)
 		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
 		u32 pll_type;
 		u32 cfg;
+		u32 cal;
 		cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
 		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
 		if (success &&
@@ -363,6 +367,25 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clock_ptr)
 					success = STRUE;
 					break;
 				}
+			}
+
+			/* Remove FAST_CAL if calibration is locked and change CAL_CNT TO 7 */
+			if (success == STRUE) {
+				cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
+
+				/* Disable fast cal mode */
+				cal &= ~PLL_16FFT_CAL_CTRL_FAST_CAL;
+
+				/* Set CALCNT to 7 to improve long term jitter */
+				cal &= ~PLL_16FFT_CAL_CTRL_CAL_CNT_MASK;
+				cal |= 7U << PLL_16FFT_CAL_CTRL_CAL_CNT_SHIFT;
+
+				/* Note this register does not readback the written value. */
+				writel(cal, pll->base + PLL_16FFT_CAL_CTRL(pll->idx));
+			}
+			/* Disable Calibration if Calibration lock is timeout */
+			else {
+				clk_pll_16fft_disable_cal(pll);
 			}
 		}
 	}
@@ -556,15 +579,20 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 		}
 	}
 
-	cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
-	pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
-	if ((pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm != 0UL)) {
-		clk_pll_16fft_disable_cal(pll);
+	if (ret) {
+		/* Disable the PLL */
+		ctrl = readl(pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
+		if ((ctrl & PLL_16FFT_CTRL_PLL_EN) != 0U) {
+			ctrl &= ~PLL_16FFT_CTRL_PLL_EN;
+			err = pm_writel_verified(ctrl, pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
+			if (err != SUCCESS) {
+				ret = SFALSE;
+			}
+		}
 	}
 
-	if ((pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL)) {
-		clk_pll_16fft_cal_option3(pll);
-	}
+	cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
+	pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
 
 	/* Program the new rate */
 	freq_ctrl0 = readl(pll->base + (u32) PLL_16FFT_FREQ_CTRL0(pll->idx));
@@ -582,10 +610,34 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 
 	/* Make sure we have fractional support if required */
 	ctrl = readl(pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
-	if (pllfm != 0UL) {
+
+	/* Don't use internal bypass,it is not glitch free. Always prefer glitchless bypass */
+	ctrl &= ~PLL_16FFT_CTRL_INTL_BYP_EN;
+
+	/* Always enable output if PLL */
+	ctrl |= PLL_16FFT_CTRL_CLK_POSTDIV_EN;
+
+	/* Currently unused by all PLLs */
+	ctrl &= ~PLL_16FFT_CTRL_CLK_4PH_EN;
+
+	/* Always bypass if we lose lock */
+	ctrl |= PLL_16FFT_CTRL_BYP_ON_LOCKLOSS;
+
+	/* Enable fractional support if required */
+	if (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) {
+		if (pllfm != 0UL) {
+			ctrl |= PLL_16FFT_CTRL_DSM_EN;
+			ctrl |= PLL_16FFT_CTRL_DAC_EN;
+		} else {
+			ctrl &= ~PLL_16FFT_CTRL_DSM_EN;
+			ctrl &= ~PLL_16FFT_CTRL_DAC_EN;
+		}
+	}
+
+	/* Enable Fractional by default for PLL_16FFT_CFG_PLL_TYPE_FRAC2 */
+	if (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRAC2) {
 		ctrl |= PLL_16FFT_CTRL_DSM_EN;
-	} else {
-		ctrl &= ~PLL_16FFT_CTRL_DSM_EN;
+		ctrl |= PLL_16FFT_CTRL_DAC_EN;
 	}
 
 	if (ret) {
@@ -606,12 +658,6 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 			ret = SFALSE;
 		}
 	}
-	if (ret) {
-		err = pm_writel_verified(ctrl, (u32) pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
-		if (err != SUCCESS) {
-			ret = SFALSE;
-		}
-	}
 
 	/* Program output divider */
 	if (div_clk && ret) {
@@ -624,6 +670,36 @@ static sbool clk_pll_16fft_program_freq(struct clk			*pll_clk,
 		}
 		if (drv_div && drv_div->set_div) {
 			ret = drv_div->set_div(div_clk, clkod);
+		}
+	}
+
+	if (ret) {
+		err = pm_writel_verified(ctrl, (u32) pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
+		if (err != SUCCESS) {
+			ret = SFALSE;
+		}
+	}
+
+	/* Configure PLL calibration*/
+	if ((pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && ret) {
+		if (pllfm != 0UL) {
+			/* Disable Calibration in Fractional mode */
+			clk_pll_16fft_disable_cal(pll);
+		} else {
+			/* Enable Calibration in Integer mode */
+			clk_pll_16fft_cal_option3(pll);
+		}
+	}
+
+	/* Make sure PLL is enabled */
+	if ((ctrl & PLL_16FFT_CTRL_PLL_EN) == 0U) {
+		ctrl |= PLL_16FFT_CTRL_PLL_EN;
+		err = pm_writel_verified(ctrl, pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
+		if (err != SUCCESS) {
+			ret = SFALSE;
+		}
+		if (ret) {
+			osal_delay(1UL); /* Wait 1us */
 		}
 	}
 

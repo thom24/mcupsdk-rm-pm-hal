@@ -3,7 +3,7 @@
  *
  * am62x soc pll.h
  *
- * Copyright (C) 2023, Texas Instruments Incorporated
+ * Copyright (C) 2023-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -82,6 +82,7 @@ extern struct pll_raw_data *main_plls_save_rstr[SAVE_RESTORE_MAIN_PLL_MAX];
 extern u8 num_main_plls_dis;
 extern struct pll_raw_data *main_plls_dis[MAIN_PLL_DISABLE_MAX];
 
+extern struct pll_raw_data usb_pll;
 
 #ifdef __cplusplus
 }

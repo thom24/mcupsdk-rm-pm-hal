@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021, Texas Instruments Incorporated
+# Copyright (c) 2024, Texas Instruments Incorporated
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,5 @@
 #
 
 cppflags-y += -I$(srctree)/rm_pm_hal/rm/drivers/lpm/
-cppflags-y += -I$(srctree)/rm_pm_hal/rm/drivers/lpm/soc/$(TARGET_SOC)/
 
-obj-y += ia_track_config.o ir_track_config.o
-obj-y += soc/
+obj-y += ir_track_config.o

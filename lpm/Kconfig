@@ -58,6 +58,14 @@ config LPM_CLK
 	 Enable Clock Layer LPM with enables all suspend and resume
 	 handlers for clock drivers.
 
+config LPM_LIMIT_IR_TRACKING
+	bool "Reduce amount of IR entries tracked"
+	default n
+	depends on LPM_DM
+	help
+	 Reduce the amount of IR entries tracked due to available memory.
+	 Enable for sysfw/sysfw-test, but disable for linux.
+
 config LPM_32_BIT_DDR
 	bool "Enable 32 bit DDR driver"
 	depends on LPM_DM

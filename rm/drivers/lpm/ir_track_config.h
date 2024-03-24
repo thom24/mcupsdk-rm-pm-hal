@@ -3,7 +3,7 @@
  *
  * LPM management interrupt router tracking infrastructure
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,10 +40,10 @@
 #include <config.h>
 #include <types/short_types.h>
 
-#ifdef CONFIG_LPM_LIMIT_IA_IR_TRACKING
-#define NUM_IR_CONFIGS                  256
+#ifdef CONFIG_LPM_LIMIT_IR_TRACKING
+#define NUM_IR_CONFIGS                  256U
 #else
-#define NUM_IR_CONFIGS                  65535
+#define NUM_IR_CONFIGS                  65535U
 #endif
 
 /**

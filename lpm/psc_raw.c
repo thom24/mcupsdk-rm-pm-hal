@@ -3,7 +3,7 @@
  *
  * PSC Raw driver for direct PSC manipulation
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -183,4 +183,9 @@ void psc_raw_lpsc_set_state(u32 psc_base, u8 lpsc, u32 state, sbool force)
 	}
 
 	psc_raw_write(mdctl, psc_base + PSC_MDCTL(lpsc));
+}
+
+u8 psc_raw_lpsc_get_state(u32 psc_base, u8 lpsc)
+{
+	return (u8) (MDSTAT_STATE_MASK & psc_raw_read(psc_base + PSC_MDSTAT(lpsc)));
 }
