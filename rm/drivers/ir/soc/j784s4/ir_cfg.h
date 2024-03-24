@@ -3,7 +3,7 @@
  *
  * Interrupt router SoC-specific configuration definitions
  *
- * Data version: 220721_142300
+ * Data version: 220615_194547
  *
  * Copyright (C) 2022, Texas Instruments Incorporated
  * All rights reserved.

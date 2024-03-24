@@ -1,7 +1,7 @@
 /*
  * Data version: 211118_090221
  *
- * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2021 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #ifndef SOC_J7200_DEVICES_H
@@ -263,6 +263,5 @@
 #define J7200_DEV_TIMER15_CLKSEL_VD 320
 #define J7200_DEV_TIMER17_CLKSEL_VD 321
 #define J7200_DEV_TIMER19_CLKSEL_VD 322
-#define J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD 323
 
 #endif /* SOC_J7200_DEVICES_H */
