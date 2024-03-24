@@ -1,5 +1,5 @@
 /*
- * Data version: 220420_070512
+ * Data version: 220527_134115
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -77,15 +77,15 @@ const struct wake_source_data soc_wake_sources_data[WAKEUP_SOURCE_MAX] = {
 		.int_num	= 26,
 		.source		= "GLUELOGIC_INVERTED_MAIN_RESETZ_LATCHED",
 	},
-	[WAKESOURCE_USB0_COMMON_0] =			      {
+	[WAKESOURCE_USB0] =				      {
 		.wkup_idx	= 9,
 		.int_num	= 61,
-		.source		= "USB0_COMMON_0",
+		.source		= "USB0",
 	},
-	[WAKESOURCE_USB1_COMMON_0] =			      {
+	[WAKESOURCE_USB1] =				      {
 		.wkup_idx	= 10,
 		.int_num	= 62,
-		.source		= "USB1_COMMON_0",
+		.source		= "USB1",
 	},
 	[WAKESOURCE_GLUELOGIC_IO_SWAKEUP_MAIN_IO] =	      {
 		.wkup_idx	= 16,

@@ -3,7 +3,7 @@
  *
  * Interrupt aggregator SoC-specific configuration definitions
  *
- * Data version: 220420_070512
+ * Data version: 220527_134115
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -41,6 +41,6 @@
 /**
  * Number of unique IA instances
  */
-#define IA_INST_COUNT (2U)
+#define IA_INST_COUNT (1U)
 
 #endif /* IA_CFG_H */

@@ -3,7 +3,7 @@
  *
  * Ring accelerator SoC-specific configuration definitions
  *
- * Data version: 220420_070512
+ * Data version: 220527_134115
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -46,14 +46,6 @@
  * Ring accelerator ring event index.
  */
 #define RA_DMASS0_RINGACC_0_RING_OES_EVT_INDEX_OFFSET (0x0U)
-/**
- * SA3_SS0_RINGACC_0 total number of rings
- */
-#define RA_SA3_SS0_RINGACC_0_MAX_INDEX (0U)
-/**
- * Ring accelerator ring event index.
- */
-#define RA_SA3_SS0_RINGACC_0_RING_OES_EVT_INDEX_OFFSET (0x0U)
 /**
  * Ring accelerator global control error event index.  Must be greater than
  * the max of all SoC RAs max ring index to avoid event indexing conflicts.

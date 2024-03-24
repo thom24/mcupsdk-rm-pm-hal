@@ -56,8 +56,6 @@
 
 #define CTRLMMR_RST_MAGIC_WORD                  (0x1817c)
 
-static volatile s32 mmr_lock_count = 0;
-
 void mmr_unlock(u32 base, u32 partition)
 {
 	/* Translate the base address */
@@ -71,67 +69,31 @@ void mmr_unlock(u32 base, u32 partition)
 	writel(CTRLMMR_LOCK_KICK1_UNLOCK_VAL, part_base + CTRLMMR_LOCK_KICK1);
 }
 
-void mmr_lock(u32 base, u32 partition)
-{
-	/* Translate the base address */
-	u32 part_base = base + (partition * CTRL_MMR0_PARTITION_SIZE);
-
-	/*
-	 * Unlock the requested partition if locked using two-step sequence.
-	 * This register does not read back the value written.
-	 */
-	writel(CTRLMMR_LOCK_KICK0_LOCK_VAL, part_base + CTRLMMR_LOCK_KICK0);
-	writel(CTRLMMR_LOCK_KICK1_LOCK_VAL, part_base + CTRLMMR_LOCK_KICK1);
-}
-
 void mmr_unlock_all()
 {
 	u32 key = osal_hwip_disable();
 	u32 mcu_magic_word;
 
-	if (mmr_lock_count == 0) {
-		/* Unlock CLKSEL MMR partitions */
-		mmr_unlock(MAIN_CTRL_BASE, 2);
-		/* Unlock RST_CTRL MMR partitions*/
-		mmr_unlock(MAIN_CTRL_BASE, 6);
-		/*
-		 * The MCU magic word register determines the state of the MCU island (M4FSS).
-		 * When the M4FSS is isolated from the MAIN domain, the magic word is programmed
-		 * a non-zero value; hence, the MCU_CTRLMMMR may not be accessible by
-		 * DMSC-lite (M3).
-		 */
-		mcu_magic_word = readl(MAIN_CTRL_BASE + CTRLMMR_RST_MAGIC_WORD);
-		if (mcu_magic_word == 0) {
-			mmr_unlock(MCU_CTRL_BASE, 2);
-			mmr_unlock(MCU_CTRL_BASE, 6);
-		}
+	/* Unlock CLKSEL MMR partitions */
+	mmr_unlock(MAIN_CTRL_BASE, 2);
+	/* Unlock RST_CTRL MMR partitions*/
+	mmr_unlock(MAIN_CTRL_BASE, 6);
+	/*
+	 * The MCU magic word register determines the state of the MCU island (M4FSS).
+	 * When the M4FSS is isolated from the MAIN domain, the magic word is programmed
+	 * a non-zero value; hence, the MCU_CTRLMMMR may not be accessible by
+	 * DMSC-lite (M3).
+	 */
+	mcu_magic_word = readl(MAIN_CTRL_BASE + CTRLMMR_RST_MAGIC_WORD);
+	if (mcu_magic_word == 0) {
+		mmr_unlock(MCU_CTRL_BASE, 2);
+		mmr_unlock(MCU_CTRL_BASE, 6);
 	}
-	mmr_lock_count++;
+
 	osal_hwip_restore(key);
 }
 
 void mmr_lock_all()
 {
-	u32 key = osal_hwip_disable();
-	u32 mcu_magic_word;
-
-	mmr_lock_count--;
-	if (mmr_lock_count == 0) {
-		/* Lock CLKSEL MMR partitions */
-		mmr_lock(MAIN_CTRL_BASE, 2);
-		/* lock RST_CTRL MMR partitions*/
-		mmr_lock(MAIN_CTRL_BASE, 6);
-		/*
-		 * The MCU magic word register determines the state of the MCU island (M4FSS).
-		 * When the M4FSS is isolated from the MAIN domain, the magic word is programmed
-		 * a non-zero value; hence, the MCU_CTRLMMMR may not be accessible by
-		 * DMSC-lite (M3).
-		 */
-		mcu_magic_word = readl(MAIN_CTRL_BASE + CTRLMMR_RST_MAGIC_WORD);
-		if (mcu_magic_word == 0) {
-			mmr_lock(MCU_CTRL_BASE, 2);
-			mmr_lock(MCU_CTRL_BASE, 6);
-		}
-	}
-	osal_hwip_restore(key);
+	/* Don't lock MMRs */
 }

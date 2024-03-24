@@ -103,7 +103,7 @@ extern "C" {
 #define TIFS_SEC_PROXY_TARGET_ADDRESS   (0x4d000000U)
 #define SEC_PROXY_MSG_RX_TID            0
 #define SEC_PROXY_MSG_TX_TID            1
-#define TIFS_SEC_PROXY_MSG_RX_TID               70
+#define TIFS_SEC_PROXY_MSG_RX_TID               69
 #define TIFS_SEC_PROXY_MSG_TX_TID               61
 #define DM2DMSC_SEC_PROXY_MSG_RX_TID            22
 #define DM2DMSC_SEC_PROXY_MSG_TX_TID            23

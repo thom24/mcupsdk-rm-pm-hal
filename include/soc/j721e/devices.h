@@ -1,7 +1,7 @@
 /*
  * Data version: 210812_211103
  *
- * Copyright (C) 2017-2021 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #ifndef SOC_J721E_DEVICES_H
@@ -338,5 +338,8 @@
 #define J721E_DEV_TIMER19_CLKSEL_VD 336
 #define J721E_DEV_ASCPCIE_BUFFER0 337
 #define J721E_DEV_ASCPCIE_BUFFER1 338
+#define J721E_DEV_NAVSS0_PVU_0 339
+#define J721E_DEV_NAVSS0_PVU_1 340
+#define J721E_DEV_NAVSS0_PVU_2 341
 
 #endif /* SOC_J721E_DEVICES_H */

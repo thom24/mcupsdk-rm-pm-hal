@@ -1,5 +1,5 @@
 /*
- * Data version: 220420_174316
+ * Data version: 220519_153621
  *
  * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -619,7 +619,7 @@ static const struct clk_data_mux_reg clk_data_CLKOUT_CTRL_out0 = {
 		.n		= ARRAY_SIZE(clk_CLKOUT_CTRL_parents),
 	},
 	.reg			= 0x43000000 + 32784,
-	.bit			= 4,
+	.bit			= 0,
 };
 static const struct clk_parent clk_MAIN_ADC_clk_sel_parents[] = {
 	{

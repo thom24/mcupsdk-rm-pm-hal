@@ -3,7 +3,7 @@
  *
  * Ring accelerator driver instance data definition
  *
- * Data version: 220323_094332
+ * Data version: 220525_125254
  *
  * Copyright (C) 2021-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -219,143 +219,23 @@ static const struct ra_ring_type ring_types_MCU_NAVSS0_RINGACC0[5] = {
 /*
  * Resources used by ROM which must have their OES registers reset
  */
-static struct ra_used_mapping rom_usage_MCU_NAVSS0_RINGACC0[13U] = {
+static struct ra_used_mapping rom_usage_MCU_NAVSS0_RINGACC0[4U] = {
 	{
 		.ring = 0U,
 		.cleared = SFALSE,
 	},
 	{
-		.ring = 1U,
+		.ring = 96U,
 		.cleared = SFALSE,
 	},
 	{
-		.ring = 2U,
+		.ring = 97U,
 		.cleared = SFALSE,
 	},
 	{
-		.ring = 3U,
+		.ring = 98U,
 		.cleared = SFALSE,
 	},
-	{
-		.ring = 4U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 52U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 100U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 101U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 102U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 256U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 257U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 258U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 259U,
-		.cleared = SFALSE,
-	},
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_GCFG = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44910000U,
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RING = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x4491a000U,
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RINGRT = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44940000U,
-};
-
-static const struct ra_ring_type ring_types_MCU_SA3_SS0_PKTDMA_0[6] = {
-	{
-		.start = 0U,
-		.end = 7U,
-		.type = RA_DMSS_RING,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_TX_0_CHAN),
-	},
-	{
-		.start = 8U,
-		.end = 15U,
-		.type = RA_DMSS_RING,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_TX_1_CHAN),
-	},
-	{
-		.start = 16U,
-		.end = 23U,
-		.type = RA_DMSS_RING,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_RX_0_CHAN),
-	},
-	{
-		.start = 16U,
-		.end = 23U,
-		.type = RA_DMSS_RING,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_RX_1_CHAN),
-	},
-	{
-		.start = 24U,
-		.end = 31U,
-		.type = RA_DMSS_RING,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_RX_2_CHAN),
-	},
-	{
-		.start = 24U,
-		.end = 31U,
-		.type = RA_DMSS_RING,
-		.utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_RX_3_CHAN),
-	},
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_RINGACC_0_IPCSS_RINGACC_CFG_GCFG = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44805000U,
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_RINGACC_0_IPCSS_RINGACC_CFG = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x448c0000U,
-};
-
-static const struct rm_mmr mmr_MCU_SA3_SS0_RINGACC_0_IPCSS_RINGACC_CFG_RT = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44c00000U,
-};
-
-static const struct ra_ring_type ring_types_MCU_SA3_SS0_RINGACC_0[0] = {
 };
 
 struct ra_instance ra_inst[] = {
@@ -427,52 +307,6 @@ struct ra_instance ra_inst[] = {
 		.ring_mon_oes_offset = RA_MON_OES_EVT_INDEX_OFFSET,
 		.rom_usage = &rom_usage_MCU_NAVSS0_RINGACC0[0U],
 		.n_rom_usage = ARRAY_SIZE(rom_usage_MCU_NAVSS0_RINGACC0),
-	},
-	{
-		.id = J721S2_DEV_MCU_SA3_SS0_PKTDMA_0,
-		.root_id = J721S2_DEV_MCU_SA3_SS0,
-		.initialized = SFALSE,
-		.devgrp = SOC_DEVGRP_J721S2_TIFS_INTERNAL,
-		.gcfg = &mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_GCFG,
-		.cfg = &mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RING,
-		.rt = &mmr_MCU_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RINGRT,
-		.mon = NULL,
-		.fifos = NULL,
-		.n_ring = 0U,
-		.ring_oes_offset = 0U,
-		.ring_types = &ring_types_MCU_SA3_SS0_PKTDMA_0[0U],
-		.n_ring_type = ARRAY_SIZE(ring_types_MCU_SA3_SS0_PKTDMA_0),
-		.err_evt_index = RA_GCFG_ERROR_EVT_INDEX,
-		.err_evt_utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_RA_ERROR_OES),
-		.virtid_utype = 0U,
-		.n_ring_mon = 0U,
-		.ring_mon_utype = 0U,
-		.ring_mon_oes_offset = 0U,
-		.rom_usage = NULL,
-		.n_rom_usage = 0U,
-	},
-	{
-		.id = J721S2_DEV_MCU_SA3_SS0_RINGACC_0,
-		.root_id = J721S2_DEV_MCU_SA3_SS0,
-		.initialized = SFALSE,
-		.devgrp = SOC_DEVGRP_J721S2_TIFS_INTERNAL,
-		.gcfg = &mmr_MCU_SA3_SS0_RINGACC_0_IPCSS_RINGACC_CFG_GCFG,
-		.cfg = &mmr_MCU_SA3_SS0_RINGACC_0_IPCSS_RINGACC_CFG,
-		.rt = &mmr_MCU_SA3_SS0_RINGACC_0_IPCSS_RINGACC_CFG_RT,
-		.mon = NULL,
-		.fifos = NULL,
-		.n_ring = RA_MCU_SA3_SS0_RINGACC_0_MAX_INDEX,
-		.ring_oes_offset = RA_MCU_SA3_SS0_RINGACC_0_RING_OES_EVT_INDEX_OFFSET,
-		.ring_types = &ring_types_MCU_SA3_SS0_RINGACC_0[0U],
-		.n_ring_type = ARRAY_SIZE(ring_types_MCU_SA3_SS0_RINGACC_0),
-		.err_evt_index = RA_GCFG_ERROR_EVT_INDEX,
-		.err_evt_utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_RINGACC_0, RESASG_SUBTYPE_RA_ERROR_OES),
-		.virtid_utype = RESASG_UTYPE(J721S2_DEV_MCU_SA3_SS0_RINGACC_0, RESASG_SUBTYPE_RA_VIRTID),
-		.n_ring_mon = 0U,
-		.ring_mon_utype = 0U,
-		.ring_mon_oes_offset = 0U,
-		.rom_usage = NULL,
-		.n_rom_usage = 0U,
 	},
 };
 

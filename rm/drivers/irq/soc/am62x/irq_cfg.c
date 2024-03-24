@@ -3,7 +3,7 @@
  *
  * Interrupt management driver instance data definition
  *
- * Data version: 220420_070512
+ * Data version: 220527_134115
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -53,7 +53,6 @@
 const u16 evt_rt_srcs[] = {
 	AM62X_DEV_DMASS0_INTAGGR_0,
 	AM62X_DEV_DMASS0_RINGACC_0,
-	AM62X_DEV_SA3_SS0_RINGACC_0,
 };
 
 const u32 evt_rt_srcs_count = ARRAY_SIZE(evt_rt_srcs);
@@ -65,29 +64,14 @@ const struct irq_global_event_type irq_global_event_types[] = {
 		.utype = RESASG_UTYPE(AM62X_DEV_DMASS0_INTAGGR_0, RESASG_SUBTYPE_GLOBAL_EVENT_SEVT),
 	},
 	{
-		.start = 0U,
-		.num = 100U,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_GLOBAL_EVENT_SEVT),
-	},
-	{
 		.start = 8192U,
 		.num = 128U,
 		.utype = RESASG_UTYPE(AM62X_DEV_DMASS0_INTAGGR_0, RESASG_SUBTYPE_GLOBAL_EVENT_MEVT),
 	},
 	{
-		.start = 8192U,
-		.num = 32U,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_GLOBAL_EVENT_MEVT),
-	},
-	{
 		.start = 10240U,
 		.num = 256U,
 		.utype = RESASG_UTYPE(AM62X_DEV_DMASS0_INTAGGR_0, RESASG_SUBTYPE_GLOBAL_EVENT_GEVT),
-	},
-	{
-		.start = 10240U,
-		.num = 32U,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_INTAGGR_0, RESASG_SUBTYPE_GLOBAL_EVENT_GEVT),
 	},
 	{
 		.start = 32768U,

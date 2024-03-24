@@ -192,6 +192,8 @@ static void exit_ddr_low_power_mode()
 			       MDCTL_STATE_ENABLE, 0);
 	psc_raw_pd_initiate(MAIN_PSC_BASE, PD_GP_CORE_CTL);
 	psc_raw_pd_wait(MAIN_PSC_BASE, PD_GP_CORE_CTL);
+
+	ddr_deepsleep_exit_training();
 }
 
 static void set_usb_reset_isolation()

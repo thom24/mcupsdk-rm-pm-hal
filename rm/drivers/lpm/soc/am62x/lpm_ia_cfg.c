@@ -3,7 +3,7 @@
  *
  * LPM IA configurations for AM62X device
  *
- * Data version: 220420_070512
+ * Data version: 220527_134115
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -41,4 +41,4 @@
 #include <lpm_ia_cfg.h>
 #include <types/short_types.h>
 
-const u16 sec_proxy_ia_global_events[NUM_SEC_PROXY_IA_GLOBAL_EVENTS] = { 8, 9, 6, 7 };
+const u16 sec_proxy_ia_global_events[NUM_SEC_PROXY_IA_GLOBAL_EVENTS] = { 8, 9, 10, 7 };

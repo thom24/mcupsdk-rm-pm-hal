@@ -3,7 +3,7 @@
  *
  * Ring accelerator driver instance data definition
  *
- * Data version: 220420_070512
+ * Data version: 220527_134115
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -197,112 +197,6 @@ static const struct rm_mmr mmr_DMASS0_RINGACC_0_RINGACC_RT = {
 static const struct ra_ring_type ring_types_DMASS0_RINGACC_0[0] = {
 };
 
-static const struct rm_mmr mmr_SA3_SS0_PKTDMA_0_PKTDMA_CFG_GCFG = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44910000U,
-};
-
-static const struct rm_mmr mmr_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RING = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x4491a000U,
-};
-
-static const struct rm_mmr mmr_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RINGRT = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44940000U,
-};
-
-static const struct ra_ring_type ring_types_SA3_SS0_PKTDMA_0[6] = {
-	{
-		.start = 0U,
-		.end = 7U,
-		.type = RA_DMSS_RING,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_TX_0_CHAN),
-	},
-	{
-		.start = 8U,
-		.end = 15U,
-		.type = RA_DMSS_RING,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_TX_1_CHAN),
-	},
-	{
-		.start = 16U,
-		.end = 23U,
-		.type = RA_DMSS_RING,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_RX_0_CHAN),
-	},
-	{
-		.start = 16U,
-		.end = 23U,
-		.type = RA_DMSS_RING,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_RX_1_CHAN),
-	},
-	{
-		.start = 24U,
-		.end = 31U,
-		.type = RA_DMSS_RING,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_RX_2_CHAN),
-	},
-	{
-		.start = 24U,
-		.end = 31U,
-		.type = RA_DMSS_RING,
-		.utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_PKTDMA_RING_SAUL_RX_3_CHAN),
-	},
-};
-
-static const struct rm_mmr mmr_SA3_SS0_RINGACC_0_IPCSS_RINGACC_CFG_GCFG = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44805000U,
-};
-
-static const struct rm_mmr mmr_SA3_SS0_RINGACC_0_IPCSS_RINGACC_CFG = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x448c0000U,
-};
-
-static const struct rm_mmr mmr_SA3_SS0_RINGACC_0_IPCSS_RINGACC_CFG_RT = {
-	.fwl_id		= RM_MMR_FWL_INVALID,
-	.fwl_ch_start	= 0U,
-	.fwl_ch_end	= 0U,
-	.base		= 0x44c00000U,
-};
-
-static const struct ra_ring_type ring_types_SA3_SS0_RINGACC_0[0] = {
-};
-
-/*
- * Resources used by ROM which must have their OES registers reset
- */
-static struct ra_used_mapping rom_usage_SA3_SS0_RINGACC_0[4U] = {
-	{
-		.ring = 0U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 1U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 2U,
-		.cleared = SFALSE,
-	},
-	{
-		.ring = 3U,
-		.cleared = SFALSE,
-	},
-};
-
 struct ra_instance ra_inst[] = {
 	{
 		.id = AM62X_DEV_DMASS0_BCDMA_0,
@@ -372,52 +266,6 @@ struct ra_instance ra_inst[] = {
 		.ring_mon_oes_offset = 0U,
 		.rom_usage = NULL,
 		.n_rom_usage = 0U,
-	},
-	{
-		.id = AM62X_DEV_SA3_SS0_PKTDMA_0,
-		.root_id = AM62X_DEV_SA3_SS0,
-		.initialized = SFALSE,
-		.devgrp = SOC_DEVGRP_AM62X_TIFS_INTERNAL,
-		.gcfg = &mmr_SA3_SS0_PKTDMA_0_PKTDMA_CFG_GCFG,
-		.cfg = &mmr_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RING,
-		.rt = &mmr_SA3_SS0_PKTDMA_0_PKTDMA_CFG_RINGRT,
-		.mon = NULL,
-		.fifos = NULL,
-		.n_ring = 0U,
-		.ring_oes_offset = 0U,
-		.ring_types = &ring_types_SA3_SS0_PKTDMA_0[0U],
-		.n_ring_type = ARRAY_SIZE(ring_types_SA3_SS0_PKTDMA_0),
-		.err_evt_index = RA_GCFG_ERROR_EVT_INDEX,
-		.err_evt_utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_PKTDMA_0, RESASG_SUBTYPE_RA_ERROR_OES),
-		.virtid_utype = 0U,
-		.n_ring_mon = 0U,
-		.ring_mon_utype = 0U,
-		.ring_mon_oes_offset = 0U,
-		.rom_usage = NULL,
-		.n_rom_usage = 0U,
-	},
-	{
-		.id = AM62X_DEV_SA3_SS0_RINGACC_0,
-		.root_id = AM62X_DEV_SA3_SS0,
-		.initialized = SFALSE,
-		.devgrp = SOC_DEVGRP_AM62X_TIFS_INTERNAL,
-		.gcfg = &mmr_SA3_SS0_RINGACC_0_IPCSS_RINGACC_CFG_GCFG,
-		.cfg = &mmr_SA3_SS0_RINGACC_0_IPCSS_RINGACC_CFG,
-		.rt = &mmr_SA3_SS0_RINGACC_0_IPCSS_RINGACC_CFG_RT,
-		.mon = NULL,
-		.fifos = NULL,
-		.n_ring = RA_SA3_SS0_RINGACC_0_MAX_INDEX,
-		.ring_oes_offset = RA_SA3_SS0_RINGACC_0_RING_OES_EVT_INDEX_OFFSET,
-		.ring_types = &ring_types_SA3_SS0_RINGACC_0[0U],
-		.n_ring_type = ARRAY_SIZE(ring_types_SA3_SS0_RINGACC_0),
-		.err_evt_index = RA_GCFG_ERROR_EVT_INDEX,
-		.err_evt_utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_RINGACC_0, RESASG_SUBTYPE_RA_ERROR_OES),
-		.virtid_utype = RESASG_UTYPE(AM62X_DEV_SA3_SS0_RINGACC_0, RESASG_SUBTYPE_RA_VIRTID),
-		.n_ring_mon = 0U,
-		.ring_mon_utype = 0U,
-		.ring_mon_oes_offset = 0U,
-		.rom_usage = &rom_usage_SA3_SS0_RINGACC_0[0U],
-		.n_rom_usage = ARRAY_SIZE(rom_usage_SA3_SS0_RINGACC_0),
 	},
 };
 

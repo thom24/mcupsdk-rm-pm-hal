@@ -1,5 +1,5 @@
 /*
- * Data version: 220420_070512
+ * Data version: 220527_134115
  *
  * Copyright (C) 2019-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -46,7 +46,7 @@ const u8 soc_host_indexes[] = {
 	[HOST_ID_A53_3] = 8U,
 	[HOST_ID_M4_0] = 9U,
 	[HOST_ID_GPU] = 10U,
-	[HOST_ID_ICSSG_0] = 11U,
+	[HOST_ID_A53_4] = 11U,
 	[HOST_ID_DM2TIFS] = 12U,
 	[HOST_ID_TIFS2DM] = 13U,
 	[1U] = HOST_IDX_NONE,
@@ -58,7 +58,6 @@ const u8 soc_host_indexes[] = {
 	[7U] = HOST_IDX_NONE,
 	[8U] = HOST_IDX_NONE,
 	[9U] = HOST_IDX_NONE,
-	[14U] = HOST_IDX_NONE,
 	[15U] = HOST_IDX_NONE,
 	[16U] = HOST_IDX_NONE,
 	[17U] = HOST_IDX_NONE,
@@ -88,6 +87,7 @@ const u8 soc_host_indexes[] = {
 	[47U] = HOST_IDX_NONE,
 	[48U] = HOST_IDX_NONE,
 	[49U] = HOST_IDX_NONE,
+	[50U] = HOST_IDX_NONE,
 	[51U] = HOST_IDX_NONE,
 	[52U] = HOST_IDX_NONE,
 	[53U] = HOST_IDX_NONE,

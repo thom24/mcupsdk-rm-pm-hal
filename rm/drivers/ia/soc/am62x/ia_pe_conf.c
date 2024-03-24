@@ -3,7 +3,7 @@
  *
  * Static IA IRQ maps for Processing Entities for AM62X device
  *
- * Data version: 220420_070512
+ * Data version: 220527_134115
  *
  * Copyright (C) 2021-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -92,18 +92,26 @@ const struct ia_init ia_soc_pe_init_list[IA_SOC_PE_INIT_NUM] = {
 	},
 	[6] = {
 		/*
+		 * For: A53_4 response
+		 */
+		.id		= AM62X_DEV_DMASS0_INTAGGR_0,
+		.event_id	= 0x0006U,
+		.vint		= 0x0004U,
+	},
+	[7] = {
+		/*
 		 * For: DM err_event
 		 */
 		.id		= AM62X_DEV_DMASS0_INTAGGR_0,
-		.event_id	= 0x000AU,
+		.event_id	= 0x000BU,
 		.vint		= 0x002AU,
 	},
-	[7] = {
+	[8] = {
 		/*
 		 * For: DM nonsec_low_priority_rx
 		 */
 		.id		= AM62X_DEV_DMASS0_INTAGGR_0,
-		.event_id	= 0x000BU,
+		.event_id	= 0x000CU,
 		.vint		= 0x002BU,
 	},
 };
