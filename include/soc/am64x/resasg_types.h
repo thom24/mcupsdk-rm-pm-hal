@@ -3,7 +3,7 @@
  *
  * Resource Assignment Subtype definitions
  *
- * Data version: 221102_180519
+ * Data version: 230209_212853
  *
  * Copyright (C) 2019-2023, Texas Instruments Incorporated
  * All rights reserved.
