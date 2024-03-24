@@ -1,7 +1,7 @@
 /*
- * UDMAP
+ * Non Secure PSIL
  *
- * UDMAP management infrastructure
+ * Non Secure PSIL management infrastructure
  *
  * Copyright (C) 2018-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -34,64 +34,10 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef RM_UDMAP_H
-#define RM_UDMAP_H
+#ifndef RM_PSIL_H
+#define RM_PSIL_H
 
 #include <types/sbool.h>
 #include <types/short_types.h>
 
-/**
- * Reset value of UDMAP channel's THRD_ID register
- */
-#define RM_UDMAP_THRD_ID_RESETVAL    (0x0000u)
-
-/**
- * \brief Confirms managed resource assignment types for UDMAP driver
- *
- * Returns whether or not the provided board cfg resource assignment unique
- * type is managed by UDMAP driver.
- *
- * \param type Resource assignment unique type
- *
- * \return TRUE if resource type is managed by UDMAP driver, else FALSE
- */
-sbool rm_udmap_is_managed_resasg_utype(u16 utype);
-
-/**
- * \brief Initializes the UDMAP driver
- *
- * Initializes the UDMAP driver data structures
- *
- * \return
- *      SUCCESS - Initialization completed successfully
- *      -E... - Error occurred during initialization
- */
-s32 rm_udmap_init(void);
-
-/**
- * \brief Deinitializes the UDMAP driver for a device group
- *
- * Set the UDMAP driver's initialized flag to false
- *
- * \return
- *      SUCCESS - Deinitialized the chosen device group successfully
- *      -E... - Failed to deinitialize the chosen device group
- */
-s32 rm_udmap_deinit(devgrp_t devgrp);
-
-/**
- * \brief Get the host ID corresponding to a particular DMA channel
- *
- * \param id Device ID
- *
- * \param index UDMAP tx or rx ch index
- *
- * \param tx_ch Transmit channel if STRUE, Receive channel if SFALSE
- *
- * \return The host ID value if successful, or -EINVAL
- */
-#ifdef CONFIG_RM_LOCAL_SUBSYSTEM_REQUESTS
-s32 udmap_get_host(u16 id, u16 index, sbool tx_ch);
-#endif
-
-#endif /* RM_UDMAP_H */
+#endif /* RM_PSIL_H */

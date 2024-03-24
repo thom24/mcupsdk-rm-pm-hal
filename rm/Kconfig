@@ -68,6 +68,12 @@ config INTERRUPT_AGGREGATOR_UNMAPPED_EVENTS
 	help
 	 Enable Interrupt Aggregator unmapped event support
 
+config RM_PSIL
+	bool "Enable PSIL support in Resource Manager"
+	depends on RM
+	help
+	 Enable support for Resource Manager PSIL functions
+
 config RM_RA
 	bool "Enable Ring Accelerator support in Resource Manager"
 	depends on RM
