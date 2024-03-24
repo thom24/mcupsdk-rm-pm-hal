@@ -1,5 +1,5 @@
 /*
- * Data version: 220721_142300
+ * Data version: 230112_095811
  *
  * Copyright (C) 2017-2023 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -75,8 +75,8 @@
 #define J784S4_DEV_CSI_RX_IF0 72U
 #define J784S4_DEV_CSI_RX_IF1 73U
 #define J784S4_DEV_CSI_RX_IF2 74U
-#define J784S4_DEV_CSI_TX_IF_V2_0 75U
-#define J784S4_DEV_CSI_TX_IF_V2_1 76U
+#define J784S4_DEV_CSI_TX_IF0 75U
+#define J784S4_DEV_CSI_TX_IF1 76U
 #define J784S4_DEV_STM0 77U
 #define J784S4_DEV_DCC0 78U
 #define J784S4_DEV_DCC1 79U
