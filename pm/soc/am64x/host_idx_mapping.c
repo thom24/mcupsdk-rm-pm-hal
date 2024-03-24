@@ -1,7 +1,7 @@
 /*
  * Data version: 221102_180519
  *
- * Copyright (C) 2019-2022, Texas Instruments Incorporated
+ * Copyright (C) 2019-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,8 @@ const u8 soc_host_indexes[] = {
 	[HOST_ID_MAIN_1_R5_2] = 12U,
 	[HOST_ID_MAIN_1_R5_3] = 13U,
 	[HOST_ID_A53_4] = 14U,
+	[HOST_ID_ICSSG_0] = 15U,
+	[HOST_ID_ICSSG_1] = 16U,
 	[1U] = HOST_IDX_NONE,
 	[2U] = HOST_IDX_NONE,
 	[3U] = HOST_IDX_NONE,
@@ -79,5 +81,11 @@ const u8 soc_host_indexes[] = {
 	[33U] = HOST_IDX_NONE,
 	[34U] = HOST_IDX_NONE,
 	[39U] = HOST_IDX_NONE,
+	[44U] = HOST_IDX_NONE,
+	[45U] = HOST_IDX_NONE,
+	[46U] = HOST_IDX_NONE,
+	[47U] = HOST_IDX_NONE,
+	[48U] = HOST_IDX_NONE,
+	[49U] = HOST_IDX_NONE,
 };
 const u8 soc_host_indexes_sz = (u8) sizeof(soc_host_indexes);

@@ -3,9 +3,9 @@
  *
  * Static IA IRQ maps for Processing Entities for AM62AX device
  *
- * Data version: 221215_112230
+ * Data version: 230126_160511
  *
- * Copyright (C) 2022, Texas Instruments Incorporated
+ * Copyright (C) 2022-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
