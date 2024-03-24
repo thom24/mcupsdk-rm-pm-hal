@@ -527,7 +527,7 @@ static s32 ia_get_oes_evt(u8 host, u16 id, u16 oes_index, u16 *evt)
 
 		for (i = 0U; i < inst->n_unmapped_events; i++) {
 			if ((oes_index >= inst->unmapped_events[i].start) &&
-			    (oes_index < inst->unmapped_events[i].end)) {
+			    (oes_index <= inst->unmapped_events[i].end)) {
 				if (inst->rom_usage_unmapped_events != NULL) {
 					/*
 					 * Did ROM use the unmapped event during boot?
@@ -618,7 +618,7 @@ static s32 ia_set_oes_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 
 		for (i = 0U; i < inst->n_unmapped_events; i++) {
 			if ((oes_index >= inst->unmapped_events[i].start) &&
-			    (oes_index < inst->unmapped_events[i].end)) {
+			    (oes_index <= inst->unmapped_events[i].end)) {
 				if (inst->rom_usage_unmapped_events != NULL) {
 					/*
 					 * Did ROM use the unmapped event during boot?
