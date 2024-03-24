@@ -3,7 +3,7 @@
  *
  * am62x soc_ctrl_mmr.h
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,11 +47,12 @@ extern "C" {
 #define WKUP_CTRL_DS_DM_RESET          (0x00018440U)
 #define DS_DM_RESET_UNMASK              0xF
 #define WKUP_CTRL_PMCTRL_IO_0           (0x18084)
+#define WKUP_CTRL_PMCTRL_IO_1           (0x18088)
 #define WKUP_CTRL_PMCTRL_IO_0_ISOCLK_OVRD BIT(0)
 #define WKUP_CTRL_PMCTRL_IO_0_ISOOVR_EXTEND BIT(4)
 #define WKUP_CTRL_PMCTRL_IO_0_ISO_BYPASS BIT(6)
 #define WKUP_CTRL_PMCTRL_IO_0_WUCLK_CTRL BIT(8)
-#define WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS BIT(9)
+#define WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS BIT(25)
 #define WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS_ENABLED 1
 #define WKUP_CTRL_PMCTRL_IO_0_WUCLK_STATUS_DISABLED 0
 #define WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN BIT(16)
@@ -62,6 +63,13 @@ extern "C" {
 					  | WKUP_CTRL_PMCTRL_IO_0_WUCLK_CTRL	 \
 					  | WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN	 \
 					  | WKUP_CTRL_PMCTRL_IO_0_IO_ISO_CTRL)
+
+#define WKUP_CTRL_DEEPSLEEP_CTRL                (0x18160)
+#define WKUP_CTRL_DEEPSLEEP_CTRL_ENABLE_IO (0x101)
+#define WKUP_CTRL_DEEPSLEEP_CTRL_DISABLE_IO 0
+#define WKUP_CTRL_PMCTRL_IO_GLB                 (0x1809C)
+#define WKUP_CTRL_PMCTRL_IO_GLB_ENABLE_IO 1
+#define WKUP_CTRL_PMCTRL_IO_GLB_DISABLE_IO 0
 
 
 #define DEV_GTC AM62X_DEV_WKUP_GTC0
