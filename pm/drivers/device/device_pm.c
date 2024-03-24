@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2020, Texas Instruments Incorporated
+ * Copyright (C) 2015-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -110,6 +110,21 @@ void device_disable(struct device *dev, sbool domain_reset)
 	for (i = (s32) data->n_clocks - 1L; i >= 0L; i--) {
 		device_clk_disable(dev, i);
 	}
+}
+
+/**
+ * \brief Clear device init flags
+ *
+ * \param device The device to modify.
+ *
+ */
+void device_clear_flags(struct device *dev)
+{
+	const struct dev_data *data = get_dev_data(dev);
+
+	device_notify(dev);
+
+	soc_device_clear_flags(dev);
 }
 
 void device_set_state(struct device *device, u8 host_idx, sbool enable)

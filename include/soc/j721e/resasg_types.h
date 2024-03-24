@@ -5,7 +5,7 @@
  *
  * Data version: 210812_211103
  *
- * Copyright (C) 2018-2022, Texas Instruments Incorporated
+ * Copyright (C) 2018-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -124,6 +124,6 @@
 /**
  * Total number of resource entries allowed for SoC
  */
-#define RESASG_ENTRIES_MAX (RESASG_UTYPE_CNT * 10U)
+#define RESASG_ENTRIES_MAX (480U)
 
 #endif /* RESASG_TYPES_H */

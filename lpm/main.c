@@ -3,7 +3,7 @@
  *
  * DM Stub main low power functionality
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -335,6 +335,16 @@ static int enable_main_remain_pll()
 
 	/* config additional MAIN PLLs and PSCs for EMIF */
 	ret = pll_restore(&main_pll12);
+	if (ret) {
+		return ret;
+	}
+
+	ret = pll_restore(&main_pll16);
+	if (ret) {
+		return ret;
+	}
+
+	ret = pll_restore(&main_pll17);
 	if (ret) {
 		return ret;
 	}

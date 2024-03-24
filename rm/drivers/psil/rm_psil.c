@@ -75,6 +75,7 @@ static s32 rm_psil_verify_host(u32 *msg_recv, sbool source_thread, sbool pairing
 	u8 host_array_max = RES_MAX_HOST_CNT;
 	u8 hosts[RES_MAX_HOST_CNT];
 	u8 n_hosts = 0U;
+	u32 trace_action = TRACE_RM_ACTION_PSIL_HOST_ID_CHECK;
 
 
 	/* Get the device ID from the secure PSIL driver */
@@ -125,6 +126,27 @@ static s32 rm_psil_verify_host(u32 *msg_recv, sbool source_thread, sbool pairing
 				r = SUCCESS;
 			}
 		}
+	}
+
+	if (r == -EINVAL) {
+		trace_action |= TRACE_RM_ACTION_FAIL;
+	}
+
+	rm_trace_sub(trace_action,
+		     TRACE_RM_SUB_ACTION_PSIL_MSG_HOST_ID,
+		     hdr->host);
+
+	if (n_hosts == 1) {
+		rm_trace_sub(trace_action,
+			     TRACE_RM_SUB_ACTION_PSIL_HOST_ID_BCFG,
+			     hosts[0]);
+	} else if (n_hosts == 2) {
+		rm_trace_sub(trace_action,
+			     TRACE_RM_SUB_ACTION_PSIL_HOST_ID_BCFG,
+			     hosts[0]);
+		rm_trace_sub(trace_action,
+			     TRACE_RM_SUB_ACTION_PSIL_HOST_ID_BCFG,
+			     hosts[1]);
 	}
 
 	return r;

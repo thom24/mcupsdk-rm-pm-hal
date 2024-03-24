@@ -1,7 +1,7 @@
 /*
  * Data version: 220525_125254
  *
- * Copyright (C) 2017-2022, Texas Instruments Incorporated
+ * Copyright (C) 2017-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -10048,7 +10048,7 @@ const struct clk_data soc_clock_data[] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
+		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ | CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv1_16fft_main_25_hsdiv0.data_div.data,
 	},
@@ -10058,7 +10058,7 @@ const struct clk_data soc_clock_data[] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
+		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ | CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv1_16fft_main_25_hsdiv1.data_div.data,
 	},
@@ -10605,7 +10605,7 @@ const struct clk_data soc_clock_data[] = {
 	},
 	[CLK_J721S2_VPAC_CLK_SEL_OUT0] =						 {
 		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.data	= &clk_data_VPAC_CLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
