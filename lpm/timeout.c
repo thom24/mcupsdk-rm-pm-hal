@@ -3,7 +3,7 @@
  *
  * implement of timeout functions
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,13 +33,21 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#include "timeout.h"
+
+static void asm_func(void)
+{
+	asm ("");
+}
+
 void delay_1us(void)
 {
 	/* This while-loop takes 2 instructions. Assume R5 runs @400MHz */
 	/* FIXME will -O2 comptimize out the code? */
 	unsigned long x = 400 / 2;
 
-	while (x--) {
-		asm ("");
+	while (x != 0U) {
+		x--;
+		asm_func();
 	}
 }

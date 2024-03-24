@@ -3,7 +3,7 @@
  *
  * VIM Raw driver for direct interrupt manipulation
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,9 +35,10 @@
  */
 
 #include <types/short_types.h>
+#include <types/sbool.h>
 
-#define INTR_ENABLE           0U
-#define INTR_DISABLE          1U
+#define INTR_ENABLE           0
+#define INTR_DISABLE          1
 
 /**
  * \brief Enable/disable an interrupt
@@ -58,10 +59,10 @@ void vim_clear_intr(u32 intr);
  * \return s32 value for the number of the active interrupt,
  *         or -EINVAL when no active interrupt
  */
-s32 vim_get_intr_number();
+s32 vim_get_intr_number(void);
 
 /**
  * \brief Complete an interrupt service
  *        shall be called at the end of isr
  */
-void vim_irq_complete();
+void vim_irq_complete(void);

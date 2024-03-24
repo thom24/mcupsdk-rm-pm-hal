@@ -38,7 +38,7 @@ const u16 evt_rt_srcs[10] = {
 
 const u32 evt_rt_srcs_count = ARRAY_SIZE(evt_rt_srcs);
 
-const struct irq_global_event_type irq_global_event_types[11] = {
+const struct irq_global_event_type irq_global_event_types[IRQ_GLOBAL_EVENT_TYPES_ID_MAX] = {
 	{
 		.start = 0U,
 		.num = 4608U,
@@ -95,5 +95,3 @@ const struct irq_global_event_type irq_global_event_types[11] = {
 		.utype = RESASG_UTYPE(J784S4_DEV_MCU_NAVSS0_UDMAP_0, RESASG_SUBTYPE_GLOBAL_EVENT_TRIGGER),
 	},
 };
-
-const u16 irq_global_event_types_count = ARRAY_SIZE(irq_global_event_types);

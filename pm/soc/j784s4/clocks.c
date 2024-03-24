@@ -2973,36 +2973,36 @@ static const struct clk_data_mux_reg clk_data_EMMCSD_REFCLK_SEL_out1 = {
 	.bit			= 0,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe0_buffer_PAD0_M = {
-	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER,
-	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER_PAD0_M,
+	.dev		= J784S4_DEV_ACSPCIE_BUFFER0,
+	.clk_idx	= J784S4_DEV_ACSPCIE_BUFFER0_PAD0_M,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe0_buffer_PAD0_P = {
-	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER,
-	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER_PAD0_P,
+	.dev		= J784S4_DEV_ACSPCIE_BUFFER0,
+	.clk_idx	= J784S4_DEV_ACSPCIE_BUFFER0_PAD0_P,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe0_buffer_PAD1_M = {
-	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER,
-	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER_PAD1_M,
+	.dev		= J784S4_DEV_ACSPCIE_BUFFER0,
+	.clk_idx	= J784S4_DEV_ACSPCIE_BUFFER0_PAD1_M,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe0_buffer_PAD1_P = {
-	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER,
-	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE0_BUFFER_PAD1_P,
+	.dev		= J784S4_DEV_ACSPCIE_BUFFER0,
+	.clk_idx	= J784S4_DEV_ACSPCIE_BUFFER0_PAD1_P,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe1_buffer_PAD0_M = {
-	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER,
-	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER_PAD0_M,
+	.dev		= J784S4_DEV_ACSPCIE_BUFFER1,
+	.clk_idx	= J784S4_DEV_ACSPCIE_BUFFER1_PAD0_M,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe1_buffer_PAD0_P = {
-	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER,
-	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER_PAD0_P,
+	.dev		= J784S4_DEV_ACSPCIE_BUFFER1,
+	.clk_idx	= J784S4_DEV_ACSPCIE_BUFFER1_PAD0_P,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe1_buffer_PAD1_M = {
-	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER,
-	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER_PAD1_M,
+	.dev		= J784S4_DEV_ACSPCIE_BUFFER1,
+	.clk_idx	= J784S4_DEV_ACSPCIE_BUFFER1_PAD1_M,
 };
 static const struct clk_data_from_dev clk_data_GLUELOGIC_ACSPCIe1_buffer_PAD1_P = {
-	.dev		= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER,
-	.clk_idx	= J784S4_DEV_GLUELOGIC_ACSPCIE1_BUFFER_PAD1_P,
+	.dev		= J784S4_DEV_ACSPCIE_BUFFER1,
+	.clk_idx	= J784S4_DEV_ACSPCIE_BUFFER1_PAD1_P,
 };
 static const struct clk_data_mux_reg clk_data_GTC_CLK_MUX_out0 = {
 	.data_mux		= {

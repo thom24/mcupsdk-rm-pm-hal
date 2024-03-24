@@ -3,7 +3,7 @@
  *
  * PSC Raw driver for direct PSC manipulation
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -136,10 +136,11 @@ s32 psc_raw_pd_wait(u32 psc_base, u8 pd)
 	s32 ret = SUCCESS;
 	s32 i = PSC_TRANSITION_TIMEOUT;
 
-	while (((psc_raw_read(psc_base + PSC_PTSTAT) & BIT(pd)) != 0U) && (--i != 0)) {
+	while (((psc_raw_read(psc_base + PSC_PTSTAT) & BIT(pd)) != 0U) && (i != 0)) {
+		--i;
 	}
 
-	if (!i) {
+	if (i == 0) {
 		ret = -ETIMEDOUT;
 	}
 
@@ -151,7 +152,7 @@ void psc_raw_pd_initiate(u32 psc_base, u8 pd)
 	psc_raw_write(BIT(pd), psc_base + PSC_PTCMD);
 }
 
-void psc_raw_pd_set_state(u32 psc_base, u8 pd, u8 state, u8 force)
+void psc_raw_pd_set_state(u32 psc_base, u8 pd, u32 state, sbool force)
 {
 	u32 pdctl = psc_raw_read(psc_base + PSC_PDCTL(pd));
 
@@ -167,7 +168,7 @@ void psc_raw_pd_set_state(u32 psc_base, u8 pd, u8 state, u8 force)
 	psc_raw_write(pdctl, psc_base + PSC_PDCTL(pd));
 }
 
-void psc_raw_lpsc_set_state(u32 psc_base, u8 lpsc, u8 state, u8 force)
+void psc_raw_lpsc_set_state(u32 psc_base, u8 lpsc, u32 state, sbool force)
 {
 	u32 mdctl = psc_raw_read(psc_base + PSC_MDCTL(lpsc));
 

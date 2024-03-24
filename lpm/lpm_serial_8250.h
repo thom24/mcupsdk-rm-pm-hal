@@ -3,7 +3,7 @@
  *
  * Minimal driver for UART access
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -83,38 +83,38 @@
 #define UART_16550_MBR                  0xB0
 
 /* Line Control Register bits */
-#define UART_16550_LCR_DLAB             (1 << 7)        /* Divisor Latch Access */
-#define UART_16550_LCR_SETB             (1 << 6)        /* Set BREAK Condition */
-#define UART_16550_LCR_SETP             (1 << 5)        /* Set Parity to LCR[4] */
-#define UART_16550_LCR_EVEN             (1 << 4)        /* Even Parity Format */
-#define UART_16550_LCR_PAR              (1 << 3)        /* Parity */
-#define UART_16550_LCR_STOP             (1 << 2)        /* Stop Bit */
+#define UART_16550_LCR_DLAB             (1U << 7U)      /* Divisor Latch Access */
+#define UART_16550_LCR_SETB             (1U << 6U)      /* Set BREAK Condition */
+#define UART_16550_LCR_SETP             (1U << 5U)      /* Set Parity to LCR[4] */
+#define UART_16550_LCR_EVEN             (1U << 4U)      /* Even Parity Format */
+#define UART_16550_LCR_PAR              (1U << 3U)      /* Parity */
+#define UART_16550_LCR_STOP             (1U << 2U)      /* Stop Bit */
 #define UART_16550_LCR_WORDSZ_5         0               /* Word Length of 5 */
 #define UART_16550_LCR_WORDSZ_6         1               /* Word Length of 6 */
 #define UART_16550_LCR_WORDSZ_7         2               /* Word Length of 7 */
 #define UART_16550_LCR_WORDSZ_8         3               /* Word Length of 8 */
 
 /* FIFO Control Register bits */
-#define UART_16550_FCR_RXTRIG_8         (0 << 6)
-#define UART_16550_FCR_RXTRIG_16        (1 << 6)
-#define UART_16550_FCR_RXTRIG_56        (2 << 6)
-#define UART_16550_FCR_RXTRIG_60        (3 << 6)
-#define UART_16550_FCR_TXTRIG_8         (0 << 4)
-#define UART_16550_FCR_TXTRIG_16        (1 << 4)
-#define UART_16550_FCR_TXTRIG_56        (2 << 4)
-#define UART_16550_FCR_TXTRIG_60        (3 << 4)
-#define UART_16550_FCR_DMAEN            (1 << 3)        /* Enable DMA mode */
-#define UART_16550_FCR_TXCLR            (1 << 2)        /* Clear contents of Tx FIFO */
-#define UART_16550_FCR_RXCLR            (1 << 1)        /* Clear contents of Rx FIFO */
-#define UART_16550_FCR_FIFOEN           (1 << 0)        /* Enable the Tx/Rx FIFO */
+#define UART_16550_FCR_RXTRIG_8         (0U << 6U)
+#define UART_16550_FCR_RXTRIG_16        (1U << 6U)
+#define UART_16550_FCR_RXTRIG_56        (2U << 6U)
+#define UART_16550_FCR_RXTRIG_60        (3U << 6U)
+#define UART_16550_FCR_TXTRIG_8         (0U << 4U)
+#define UART_16550_FCR_TXTRIG_16        (1U << 4U)
+#define UART_16550_FCR_TXTRIG_56        (2U << 4U)
+#define UART_16550_FCR_TXTRIG_60        (3U << 4U)
+#define UART_16550_FCR_DMAEN            (1U << 3U)              /* Enable DMA mode */
+#define UART_16550_FCR_TXCLR            (1U << 2U)              /* Clear contents of Tx FIFO */
+#define UART_16550_FCR_RXCLR            (1U << 1U)              /* Clear contents of Rx FIFO */
+#define UART_16550_FCR_FIFOEN           (1U << 0U)              /* Enable the Tx/Rx FIFO */
 
 /* Line Status Register bits */
-#define UART_16550_LSR_SR_E             (1 << 6)        /* Shift register empty */
-#define UART_16550_LSR_TX_FIFO_E        (1 << 5)        /* TX FIFO empty */
+#define UART_16550_LSR_SR_E             (1U << 6U)              /* Shift register empty */
+#define UART_16550_LSR_TX_FIFO_E        (1U << 5U)              /* TX FIFO empty */
 
 /* Modem Control Register bits */
-#define UART_16550_MCR_RTS              (1 << 0)        /* Request to Send */
-#define UART_16550_MCR_DTR              (1 << 1)        /* Data Terminal Ready */
+#define UART_16550_MCR_RTS              (1U << 0U)              /* Request to Send */
+#define UART_16550_MCR_DTR              (1U << 1U)              /* Data Terminal Ready */
 
 struct uart_16550_config {
 	u32	base_addr;
@@ -130,7 +130,7 @@ extern const struct uart_16550_config soc_uart_16550_boot_config;
 extern const struct uart_16550_config soc_uart_16550_reinit_config;
 
 void lpm_serial_8250_init(const struct uart_16550_config *cfg);
-int lpm_console_tx(int data);
+int lpm_console_tx(u8 data);
 int lpm_puts(const char *str);
 
 void lpm_console_init(void);

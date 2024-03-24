@@ -3,7 +3,7 @@
  *
  * Functions for bit and bitfield operations
  *
- * Copyright (C) 2016-2020, Texas Instruments Incorporated
+ * Copyright (C) 2016-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -93,7 +93,7 @@ static inline u32 get_mask(u32 end, u32 start);
  */
 static inline u32 get_mask(u32 end, u32 start)
 {
-	return ((1U << (end - start + 1)) - 1U) << start;
+	return ((1U << (end - start + 1U)) - 1U) << start;
 }
 
 /**

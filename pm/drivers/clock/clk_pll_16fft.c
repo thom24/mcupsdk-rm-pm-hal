@@ -343,8 +343,10 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 	const struct clk_data_pll *data_pll;
 	u32 i;
 	sbool success;
+#if defined (CONFIG_CLK_PLL_16FFT_FRACF_CALIBRATION)
 	u32 freq_ctrl1;
 	u32 pllfm;
+#endif
 
 	clk_data = clk_get_data(clk);
 	data_pll = container_of(clk_data->data, const struct clk_data_pll,
@@ -368,15 +370,14 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clk)
 		}
 	}
 
+#if defined (CONFIG_CLK_PLL_16FFT_FRACF_CALIBRATION)
+{
 	/* Disable calibration in the fractional mode of the FRACF PLL based on data
 	 * from silicon and simulation data.
 	 */
 	freq_ctrl1 = readl(pll->base + PLL_16FFT_FREQ_CTRL1(pll->idx));
 	pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
 	pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
-
-#if defined (CONFIG_CLK_PLL_16FFT_FRACF_CALIBRATION)
-	{
 		u32 pll_type;
 		u32 cfg;
 		cfg = readl(pll->base + PLL_16FFT_CFG(pll->idx));

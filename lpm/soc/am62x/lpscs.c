@@ -37,37 +37,37 @@
 #include <lpscs.h>
 
 /* MAIN LPSCs to be disabled during Deepsleep phase 1 */
-const struct pd_lpsc main_lpscs_phase1[] = {
-	{ PD_A53_0, 		LPSC_A53_0          },
-	{ PD_A53_CLUSTER_0, LPSC_A53_CLUSTER_0  },
-	{ PD_GP_CORE_CTL,	LPSC_HSM	        },
-	{ PD_GP_CORE_CTL,	LPSC_TIFS	        },
+const struct pd_lpsc main_lpscs_phase1[LPSC_PHASE1_MAX] = {
+	{ PD_A53_0,	    LPSC_A53_0		    },
+	{ PD_A53_CLUSTER_0, LPSC_A53_CLUSTER_0	    },
+	{ PD_GP_CORE_CTL,   LPSC_HSM		    },
+	{ PD_GP_CORE_CTL,   LPSC_TIFS		    },
 	/* Removing LPSC_SA3UL as this timeouts on GP: known issue SYSFW-5031 */
 	/* FIXME LPM suspend is crashing if LPSC_SMS_COMMON is used.  */
-	{ PD_GP_CORE_CTL,   LPSC_DM2CENTRAL_ISO },
-	{ PD_GP_CORE_CTL,   LPSC_MAIN2DM_ISO    },
-	{ PD_GP_CORE_CTL,   LPSC_DM2MAIN_ISO    },
-	{ PD_GP_CORE_CTL,   LPSC_CENTRAL2DM_ISO },
+	{ PD_GP_CORE_CTL,   LPSC_DM2CENTRAL_ISO	    },
+	{ PD_GP_CORE_CTL,   LPSC_MAIN2DM_ISO	    },
+	{ PD_GP_CORE_CTL,   LPSC_DM2MAIN_ISO	    },
+	{ PD_GP_CORE_CTL,   LPSC_CENTRAL2DM_ISO	    },
 	/* FIXME LPM resume is crashing if LPSC_DM2MAIN_INFRA_ISO is used, checking on this.  */
 };
 
 u32 num_main_lpscs_phase1 = sizeof(main_lpscs_phase1) / sizeof(struct pd_lpsc);
 
 /* MAIN LPSCs to be disabled during Deepsleep phase 2 */
-const struct pd_lpsc main_lpscs_phase2[] = {
-	{ PD_GP_CORE_CTL,		LPSC_DEBUGSS    },
+const struct pd_lpsc main_lpscs_phase2[LPSC_PHASE2_MAX] = {
+	{ PD_GP_CORE_CTL, LPSC_DEBUGSS	  },
 };
 
 u32 num_main_lpscs_phase2 = sizeof(main_lpscs_phase2) / sizeof(struct pd_lpsc);
 
 /* MCU LPSCs to be disabled during Deepsleep */
-const struct pd_lpsc mcu_lpscs[] = {
-	{ PD_GP_CORE_CTL_MCU,  LPSC_MAIN2MCU_ISO},
-	{ PD_GP_CORE_CTL_MCU,  LPSC_MCU2MAIN_ISO},
-	{ PD_GP_CORE_CTL_MCU,  LPSC_MCU2DM_ISO  },
-	{ PD_GP_CORE_CTL_MCU,  LPSC_MCU_TEST    },
-	{ PD_MCU_M4F,		   LPSC_MCU_COMMON	},	
-	{ PD_GP_CORE_CTL_MCU,  LPSC_DM2SAFE_ISO},
+const struct pd_lpsc mcu_lpscs[LPSCS_MCU_MAX] = {
+	{ PD_GP_CORE_CTL_MCU, LPSC_MAIN2MCU_ISO	   },
+	{ PD_GP_CORE_CTL_MCU, LPSC_MCU2MAIN_ISO	   },
+	{ PD_GP_CORE_CTL_MCU, LPSC_MCU2DM_ISO	   },
+	{ PD_GP_CORE_CTL_MCU, LPSC_MCU_TEST	   },
+	{ PD_MCU_M4F,	      LPSC_MCU_COMMON	   },
+	{ PD_GP_CORE_CTL_MCU, LPSC_DM2SAFE_ISO	   },
 };
 
 u32 num_mcu_lpscs = sizeof(mcu_lpscs) / sizeof(struct pd_lpsc);

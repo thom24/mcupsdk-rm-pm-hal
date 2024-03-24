@@ -3,7 +3,7 @@
  *
  * Secure Proxy driver for Message Transfer
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,25 +41,26 @@
 #include <baseaddress.h>
 #include "lpm_string.h"
 #include "timeout.h"
+#include "sec_proxy.h"
 
-#define SPROXY_THREAD_OFFSET(tid) (0x1000 * (tid))
+#define SPROXY_THREAD_OFFSET(tid) (0x1000U * (tid))
 
 #define SPROXY_THREAD_DATA_ADDRESS(_target_base, tid)	\
 	(_target_base + SPROXY_THREAD_OFFSET(tid) +	\
-	 4)
+	 4U)
 #define SPROXY_THREAD_DATA_ADDRESS_END(_target_base, tid) \
-	(SPROXY_THREAD_DATA_ADDRESS(_target_base, tid) + 14 * 4)
+	(SPROXY_THREAD_DATA_ADDRESS(_target_base, tid) + (14U * 4U))
 
 #define SPROXY_THREAD_STATUS(_rt_base, tid) \
 	(_rt_base + SPROXY_THREAD_OFFSET(tid))
 
 #define SPROXY_STATUS_ERR       BIT(31)
-#define SPROXY_STATUS_CNT_MASK  0xFF
+#define SPROXY_STATUS_CNT_MASK  0xFFU
 
 #define SPROXY_SEND             0
 #define SPROXY_GET              1
 
-static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, void *msg, u32 len, sbool is_secure)
+static s32 trans_message(u32 target_base, u32 rt_base, sbool is_rx, u8 thread_id, void *msg, u32 len, sbool is_secure)
 {
 	u32 start_addr = SPROXY_THREAD_DATA_ADDRESS(target_base, thread_id);
 	u32 end_addr = SPROXY_THREAD_DATA_ADDRESS_END(target_base, thread_id);
@@ -68,71 +69,78 @@ static s32 trans_message(u32 target_base, u32 rt_base, u8 is_rx, u8 thread_id, v
 	u32 word;
 	u32 mask;
 	u16 i;
+	s32 ret = SUCCESS;
 
-	if (is_secure == SFALSE && start_addr + len > end_addr) {
-		return -EINVAL;
+	if ((is_secure == SFALSE) && ((start_addr + len) > end_addr)) {
+		ret = -EINVAL;
 	}
 
-	if (is_secure == STRUE && start_addr + len + 4 > end_addr) {
-		return -EINVAL;
+	if ((ret == SUCCESS) && (is_secure == STRUE) && ((start_addr + len + 4U) > end_addr)) {
+		ret = -EINVAL;
 	}
 
-	for (i = 0; i < RETRY_CNT_MS; i++) {
-		status = readl(SPROXY_THREAD_STATUS(rt_base, thread_id));
-		if (status & SPROXY_STATUS_ERR) {
-			return -EFAIL;
-		}
+	if (ret == SUCCESS) {
+		for (i = 0; i < RETRY_CNT_MS; i++) {
+			status = readl(SPROXY_THREAD_STATUS(rt_base, thread_id));
+			if ((status & SPROXY_STATUS_ERR) != 0U) {
+				ret = -EFAIL;
+			}
 
-		if (status & SPROXY_STATUS_CNT_MASK) {
-			break;
-		}
+			if ((status & SPROXY_STATUS_CNT_MASK) != 0U) {
+				break;
+			}
 
-		if (i < RETRY_CNT_MS - 1) {
-			delay_1us();
-		} else {
-			return -ETIMEDOUT;
+			if (i < (RETRY_CNT_MS - 1U)) {
+				delay_1us();
+			} else {
+				ret = -ETIMEDOUT;
+			}
 		}
 	}
 
-	/*
-	 * HACK: We will need to deal with sec hdr someday...
-	 * For now, just skip that portion
-	 */
-	if (is_secure == STRUE) {
-		if (is_rx == 0U) {
-			writel(0u, start_addr);
+	if (ret == SUCCESS) {
+		/*
+		* HACK: We will need to deal with sec hdr someday...
+		* For now, just skip that portion
+		*/
+		if (is_secure == STRUE) {
+			if (is_rx == SFALSE) {
+				writel(0u, start_addr);
+			}
+
+			start_addr += 4u;
 		}
 
-		start_addr += 4u;
-	}
+		for (i = 0; i < (len / 4U); i++) {
+			if (is_rx) {
+				*raw = readl(start_addr);
+				raw = raw + 1;
+			} else {
+				writel(*raw, start_addr);
+				raw = raw + 1;
+			}
+			start_addr += 4u;
+		}
 
-	for (i = 0; i < len / 4; i++, start_addr += 4) {
+		if ((len % 4U) != 0U) {
+			if (!is_rx) {
+				mask = ~0UL >> ((4U - (len % 4U)) * 8U);
+				word = (*raw) & mask;
+				writel(word, start_addr);
+			} else {
+				word = readl(start_addr);
+				lpm_memcpy(raw, &word, len % 4U);
+			}
+		}
+
+		/* flush out the transfer */
 		if (is_rx) {
-			*raw++ = readl(start_addr);
+			(void) readl(end_addr);
 		} else {
-			writel(*raw++, start_addr);
+			writel(0x0, end_addr);
 		}
 	}
-
-	if (len % 4) {
-		if (!is_rx) {
-			mask = ~0UL >> ((4 - (len % 4)) * 8);
-			word = (*raw) & mask;
-			writel(word, start_addr);
-		} else {
-			word = readl(start_addr);
-			lpm_memcpy(raw, &word, len % 4);
-		}
-	}
-
-	/* flush out the transfer */
-	if (is_rx) {
-		(void) readl(end_addr);
-	} else {
-		writel(0x0, end_addr);
-	}
-
-	return 0;
+	return ret;
 }
 
 s32 sproxy_send_msg_rom(void *msg, u32 len)

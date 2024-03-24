@@ -41,11 +41,11 @@
  * \param msg message buffer pointer pointing to the message to be send
  * \param len length of the message in bytes
  */
-s32 sproxy_send_msg_r5_to_tifs_fw(void *msg, u32 len);
+s32 sproxy_send_msg_r5_to_tifs_fw(void *msg, size_t len);
 
 /**
  * \brief Receive a Secure Proxy message on dm2dmsc thread
  * \param msg buffer pointer pointing to the buffer to store the message
  * \param len length of the message in bytes
  */
-s32 sproxy_receive_msg_r5_to_tifs_fw(void *msg, u32 len);
+s32 sproxy_receive_msg_r5_to_tifs_fw(void *msg, size_t len);

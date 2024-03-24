@@ -3,7 +3,7 @@
  *
  * PSC Raw driver for direct PSC manipulation
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,7 @@
  */
 
 #include <types/short_types.h>
+#include <types/sbool.h>
 
 #define MDCTL_STATE_SWRSTDISABLE       0x00U
 #define MDCTL_STATE_SYNCRST            0x01U
@@ -69,7 +70,7 @@ void psc_raw_pd_initiate(u32 base, u8 pd);
  * \param state PDCTL_STATE to set
  * \param force Boolean indicating whether to set FORCE bit
  */
-void psc_raw_pd_set_state(u32 psc_base, u8 pd, u8 state, u8 force);
+void psc_raw_pd_set_state(u32 psc_base, u8 pd, u32 state, sbool force);
 
 /**
  * \brief Set next state for an MDCTL
@@ -78,4 +79,4 @@ void psc_raw_pd_set_state(u32 psc_base, u8 pd, u8 state, u8 force);
  * \param state MDCTL_STATE to set
  * \param force Boolean indicating whether to set FORCE bit
  */
-void psc_raw_lpsc_set_state(u32 psc_base, u8 lpsc, u8 state, u8 force);
+void psc_raw_lpsc_set_state(u32 psc_base, u8 lpsc, u32 state, sbool force);

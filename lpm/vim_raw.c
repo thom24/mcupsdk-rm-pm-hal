@@ -3,7 +3,7 @@
  *
  * VIM Raw driver for direct interrupt manipulation
  *
- * Copyright (C) 2021, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,23 +40,23 @@
 #include "lpm_io.h"
 #include "vim_raw.h"
 
-#define NUM_INTR_PER_GRP        32
+#define NUM_INTR_PER_GRP        32U
 #define VGRP(i)                 (i / NUM_INTR_PER_GRP)
 #define VINTR(i)                (i & (NUM_INTR_PER_GRP - 1U))
 
-#define VIM_IRQ_VECTOR_ADDRESS  0x18
-#define VIM_ACTIVE_IRQ          0x20
-#define VIM_GRP_STS_CLEAR(i)    (0x400U + VGRP(i) * 0x20 + 0x04U)
-#define VIM_GRP_EN_SET(i)       (0x400U + VGRP(i) * 0x20 + 0x08U)
-#define VIM_GRP_EN_CLEAR(i)     (0x400U + VGRP(i) * 0x20 + 0x0cU)
+#define VIM_IRQ_VECTOR_ADDRESS  0x18U
+#define VIM_ACTIVE_IRQ          0x20U
+#define VIM_GRP_STS_CLEAR(i)    (0x400U + (VGRP(i) * 0x20U) + 0x04U)
+#define VIM_GRP_EN_SET(i)       (0x400U + (VGRP(i) * 0x20U) + 0x08U)
+#define VIM_GRP_EN_CLEAR(i)     (0x400U + (VGRP(i) * 0x20U) + 0x0cU)
 
 /* VIM_ACTIVE_IRQ register */
-#define VIM_ACTIVE_IRQ_VALID	BIT(31)
-#define VIM_ACTIVE_IRQ_NUM_MASK 0x3FF
+#define VIM_ACTIVE_IRQ_VALID    BIT(31)
+#define VIM_ACTIVE_IRQ_NUM_MASK 0x3FFU
 
 void vim_set_intr_enable(u32 intr, int enable)
 {
-	u32 mask = 1U << VINTR(intr);
+	u32 mask = ((u32) 1U << VINTR(intr));
 
 	if (enable == INTR_ENABLE) {
 		writel(mask, VIM_BASE + VIM_GRP_EN_SET(intr));
@@ -67,10 +67,10 @@ void vim_set_intr_enable(u32 intr, int enable)
 
 void vim_clear_intr(u32 intr)
 {
-	writel(1U << VINTR(intr), VIM_BASE + VIM_GRP_STS_CLEAR(intr));
+	writel((u32) 1U << VINTR(intr), VIM_BASE + VIM_GRP_STS_CLEAR(intr));
 }
 
-s32 vim_get_intr_number()
+s32 vim_get_intr_number(void)
 {
 	u32 val;
 	s32 ret = -EINVAL;
@@ -78,14 +78,14 @@ s32 vim_get_intr_number()
 	readl(VIM_BASE + VIM_IRQ_VECTOR_ADDRESS);
 	val = readl(VIM_BASE + VIM_ACTIVE_IRQ);
 
-	if (val & VIM_ACTIVE_IRQ_VALID) {
+	if ((val & VIM_ACTIVE_IRQ_VALID) == VIM_ACTIVE_IRQ_VALID) {
 		ret = val & VIM_ACTIVE_IRQ_NUM_MASK;
 	}
 
 	return ret;
 }
 
-void vim_irq_complete()
+void vim_irq_complete(void)
 {
 	writel(0, VIM_BASE + VIM_IRQ_VECTOR_ADDRESS);
 }

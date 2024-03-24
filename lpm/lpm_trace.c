@@ -3,7 +3,7 @@
  *
  * DM Stub Minimal Trace Debug Layer
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,22 +55,25 @@ void lpm_trace_debug(u32 value)
 	u32 val;
 	u32 i;
 	u8 str[9];
+	u32 v = 0;
 
-	if (value == 0U) {
+	v = value;
+
+	if (v == 0U) {
 		str[0] = (u8) '0';
-		idx+=2;
+		idx += 2U;
 	}
 
-	while (value > 0U) {
-		val = value % 16;
-		if (val < 10) {
-			str[idx] = (u8) (val + '0');
+	while (v > 0U) {
+		val = v % 16U;
+		if (val < 10U) {
+			str[idx] = (u8) (val + (u8) '0');
 		} else {
-			str[idx] = (u8) ((val - 10U) + 'A');
+			str[idx] = (u8) ((val - 10U) + (u8) 'A');
 		}
 
 		idx++;
-		value /= 16;
+		v /= 16U;
 	}
 
 	str[idx] = (u8) '\0';
@@ -89,6 +92,12 @@ void lpm_trace_debug(u32 value)
 		for (i = 0U; i <= idx; i++) {
 			lpm_trace_output_char(str[idx - i]);
 		}
+
+		/*
+		     * Add a carriage return before newline to support
+		     * unflexible terminals.
+		     */
+		lpm_trace_output_char('\r');
 		lpm_trace_output_char('\n');
 	}
 }

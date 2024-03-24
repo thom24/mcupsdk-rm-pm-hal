@@ -57,7 +57,7 @@ const u16 evt_rt_srcs[2] = {
 
 const u32 evt_rt_srcs_count = ARRAY_SIZE(evt_rt_srcs);
 
-const struct irq_global_event_type irq_global_event_types[5] = {
+const struct irq_global_event_type irq_global_event_types[IRQ_GLOBAL_EVENT_TYPES_ID_MAX] = {
 	{
 		.start = 0U,
 		.num = 1536U,
@@ -84,5 +84,3 @@ const struct irq_global_event_type irq_global_event_types[5] = {
 		.utype = RESASG_UTYPE(AM62X_DEV_DMASS0_BCDMA_0, RESASG_SUBTYPE_GLOBAL_EVENT_TRIGGER),
 	},
 };
-
-const u16 irq_global_event_types_count = ARRAY_SIZE(irq_global_event_types);
