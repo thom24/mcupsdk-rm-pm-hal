@@ -1,5 +1,5 @@
 /*
- * Data version: 220811_185331
+ * Data version: 221107_151433
  *
  * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -90,9 +90,9 @@
 #define AM62X_DEV_WKUP_UART0 114
 #define AM62X_DEV_MCRC64_0 116
 #define AM62X_DEV_WKUP_RTCSS0 117
-#define AM62X_DEV_R5FSS0_SS0 118
-#define AM62X_DEV_R5FSS0 119
-#define AM62X_DEV_R5FSS0_CORE0 121
+#define AM62X_DEV_WKUP_R5FSS0_SS0 118
+#define AM62X_DEV_WKUP_R5FSS0 119
+#define AM62X_DEV_WKUP_R5FSS0_CORE0 121
 #define AM62X_DEV_RTI0 125
 #define AM62X_DEV_RTI1 126
 #define AM62X_DEV_RTI2 127

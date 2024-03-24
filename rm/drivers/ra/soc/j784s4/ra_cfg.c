@@ -3,7 +3,7 @@
  *
  * Ring accelerator driver instance data definition
  *
- * Data version: 220615_194547
+ * Data version: 220721_142300
  *
  * Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -54,6 +54,9 @@ static const struct ra_ring_type ring_types_NAVSS0_BCDMA_0[2] = {
 		.type = RA_DMSS_RING,
 		.utype = RESASG_UTYPE(J784S4_DEV_NAVSS0_BCDMA_0, RESASG_SUBTYPE_BCDMA_RING_SPLIT_TR_RX_CHAN),
 	},
+};
+
+static const struct ra_ring_type ring_mon_types_NAVSS0_BCDMA_0[0] = {
 };
 
 static const struct rm_mmr mmr_NAVSS0_RINGACC_0_UDMASS_RINGACC0_GCFG = {
@@ -148,6 +151,15 @@ static const struct ra_ring_type ring_types_NAVSS0_RINGACC_0[9] = {
 	},
 };
 
+static const struct ra_ring_type ring_mon_types_NAVSS0_RINGACC_0[1] = {
+	{
+		.start = 0U,
+		.end = 31U,
+		.type = RA_STANDARD_RING,
+		.utype = RESASG_UTYPE(J784S4_DEV_NAVSS0_RINGACC_0, RESASG_SUBTYPE_RA_MONITORS),
+	},
+};
+
 static const struct rm_mmr mmr_MCU_NAVSS0_RINGACC0_UDMASS_RINGACC0_CFG_GCFG = {
 	.fwl_id		= RM_MMR_FWL_INVALID,
 	.fwl_ch_start	= 0U,
@@ -216,6 +228,15 @@ static const struct ra_ring_type ring_types_MCU_NAVSS0_RINGACC0[5] = {
 	},
 };
 
+static const struct ra_ring_type ring_mon_types_MCU_NAVSS0_RINGACC0[1] = {
+	{
+		.start = 0U,
+		.end = 31U,
+		.type = RA_STANDARD_RING,
+		.utype = RESASG_UTYPE(J784S4_DEV_MCU_NAVSS0_RINGACC0, RESASG_SUBTYPE_RA_MONITORS),
+	},
+};
+
 /*
  * Resources used by ROM which must have their OES registers reset
  */
@@ -253,6 +274,8 @@ struct ra_instance ra_inst[] = {
 		.ring_oes_offset = 0U,
 		.ring_types = &ring_types_NAVSS0_BCDMA_0[0U],
 		.n_ring_type = ARRAY_SIZE(ring_types_NAVSS0_BCDMA_0),
+		.ring_mon_types = &ring_mon_types_NAVSS0_BCDMA_0[0U],
+		.n_ring_mon_type = ARRAY_SIZE(ring_mon_types_NAVSS0_BCDMA_0),
 		.err_evt_index = RA_GCFG_ERROR_EVT_INDEX,
 		.err_evt_utype = RESASG_UTYPE(J784S4_DEV_NAVSS0_BCDMA_0, RESASG_SUBTYPE_RA_ERROR_OES),
 		.virtid_utype = 0U,
@@ -276,6 +299,8 @@ struct ra_instance ra_inst[] = {
 		.ring_oes_offset = RA_NAVSS0_RINGACC_0_RING_OES_EVT_INDEX_OFFSET,
 		.ring_types = &ring_types_NAVSS0_RINGACC_0[0U],
 		.n_ring_type = ARRAY_SIZE(ring_types_NAVSS0_RINGACC_0),
+		.ring_mon_types = &ring_mon_types_NAVSS0_RINGACC_0[0U],
+		.n_ring_mon_type = ARRAY_SIZE(ring_mon_types_NAVSS0_RINGACC_0),
 		.err_evt_index = RA_GCFG_ERROR_EVT_INDEX,
 		.err_evt_utype = RESASG_UTYPE(J784S4_DEV_NAVSS0_RINGACC_0, RESASG_SUBTYPE_RA_ERROR_OES),
 		.virtid_utype = RESASG_UTYPE(J784S4_DEV_NAVSS0_RINGACC_0, RESASG_SUBTYPE_RA_VIRTID),
@@ -299,6 +324,8 @@ struct ra_instance ra_inst[] = {
 		.ring_oes_offset = RA_MCU_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET,
 		.ring_types = &ring_types_MCU_NAVSS0_RINGACC0[0U],
 		.n_ring_type = ARRAY_SIZE(ring_types_MCU_NAVSS0_RINGACC0),
+		.ring_mon_types = &ring_mon_types_MCU_NAVSS0_RINGACC0[0U],
+		.n_ring_mon_type = ARRAY_SIZE(ring_mon_types_MCU_NAVSS0_RINGACC0),
 		.err_evt_index = RA_GCFG_ERROR_EVT_INDEX,
 		.err_evt_utype = RESASG_UTYPE(J784S4_DEV_MCU_NAVSS0_RINGACC0, RESASG_SUBTYPE_RA_ERROR_OES),
 		.virtid_utype = RESASG_UTYPE(J784S4_DEV_MCU_NAVSS0_RINGACC0, RESASG_SUBTYPE_RA_VIRTID),

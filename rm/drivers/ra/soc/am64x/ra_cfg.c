@@ -3,7 +3,7 @@
  *
  * Ring accelerator driver instance data definition
  *
- * Data version: 220809_192501
+ * Data version: 221102_180519
  *
  * Copyright (C) 2019-2022, Texas Instruments Incorporated
  * All rights reserved.
@@ -87,6 +87,9 @@ static const struct ra_ring_type ring_types_DMASS0_BCDMA_0[3] = {
 		.type = RA_DMSS_RING,
 		.utype = RESASG_UTYPE(AM64X_DEV_DMASS0_BCDMA_0, RESASG_SUBTYPE_BCDMA_RING_SPLIT_TR_RX_CHAN),
 	},
+};
+
+static const struct ra_ring_type ring_mon_types_DMASS0_BCDMA_0[0] = {
 };
 
 static const struct rm_mmr mmr_DMASS0_PKTDMA_0_PKTDMA_GCFG = {
@@ -197,6 +200,9 @@ static const struct ra_ring_type ring_types_DMASS0_PKTDMA_0[14] = {
 	},
 };
 
+static const struct ra_ring_type ring_mon_types_DMASS0_PKTDMA_0[0] = {
+};
+
 static const struct rm_mmr mmr_DMASS0_RINGACC_0_RINGACC_GCFG = {
 	.fwl_id		= RM_MMR_FWL_INVALID,
 	.fwl_ch_start	= 0U,
@@ -234,6 +240,9 @@ static const struct ra_ring_type ring_types_DMASS0_RINGACC_0[1] = {
 	},
 };
 
+static const struct ra_ring_type ring_mon_types_DMASS0_RINGACC_0[0] = {
+};
+
 struct ra_instance ra_inst[] = {
 	{
 		.id = AM64X_DEV_DMASS0_BCDMA_0,
@@ -249,6 +258,8 @@ struct ra_instance ra_inst[] = {
 		.ring_oes_offset = 0U,
 		.ring_types = &ring_types_DMASS0_BCDMA_0[0U],
 		.n_ring_type = ARRAY_SIZE(ring_types_DMASS0_BCDMA_0),
+		.ring_mon_types = &ring_mon_types_DMASS0_BCDMA_0[0U],
+		.n_ring_mon_type = ARRAY_SIZE(ring_mon_types_DMASS0_BCDMA_0),
 		.err_evt_index = RA_GCFG_ERROR_EVT_INDEX,
 		.err_evt_utype = RESASG_UTYPE(AM64X_DEV_DMASS0_BCDMA_0, RESASG_SUBTYPE_RA_ERROR_OES),
 		.virtid_utype = 0U,
@@ -272,6 +283,8 @@ struct ra_instance ra_inst[] = {
 		.ring_oes_offset = 0U,
 		.ring_types = &ring_types_DMASS0_PKTDMA_0[0U],
 		.n_ring_type = ARRAY_SIZE(ring_types_DMASS0_PKTDMA_0),
+		.ring_mon_types = &ring_mon_types_DMASS0_PKTDMA_0[0U],
+		.n_ring_mon_type = ARRAY_SIZE(ring_mon_types_DMASS0_PKTDMA_0),
 		.err_evt_index = RA_GCFG_ERROR_EVT_INDEX,
 		.err_evt_utype = RESASG_UTYPE(AM64X_DEV_DMASS0_PKTDMA_0, RESASG_SUBTYPE_RA_ERROR_OES),
 		.virtid_utype = 0U,
@@ -295,6 +308,8 @@ struct ra_instance ra_inst[] = {
 		.ring_oes_offset = RA_DMASS0_RINGACC_0_RING_OES_EVT_INDEX_OFFSET,
 		.ring_types = &ring_types_DMASS0_RINGACC_0[0U],
 		.n_ring_type = ARRAY_SIZE(ring_types_DMASS0_RINGACC_0),
+		.ring_mon_types = &ring_mon_types_DMASS0_RINGACC_0[0U],
+		.n_ring_mon_type = ARRAY_SIZE(ring_mon_types_DMASS0_RINGACC_0),
 		.err_evt_index = RA_GCFG_ERROR_EVT_INDEX,
 		.err_evt_utype = RESASG_UTYPE(AM64X_DEV_DMASS0_RINGACC_0, RESASG_SUBTYPE_RA_ERROR_OES),
 		.virtid_utype = RESASG_UTYPE(AM64X_DEV_DMASS0_RINGACC_0, RESASG_SUBTYPE_RA_VIRTID),

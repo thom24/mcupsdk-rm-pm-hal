@@ -1,5 +1,5 @@
 /*
- * Data version: 220811_185331
+ * Data version: 221107_151433
  *
  * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
@@ -1687,7 +1687,7 @@ static const struct lpsc_module_data am62x_sam62_main_psc_wrap_main_0_psc_0_mod_
 	[AM62X_PSC_LPSC_LPSC_MAIN_DM] =		      {
 		.powerdomain		= AM62X_PSC_PD_GP_CORE_CTL,
 		.lpsc_dev.dev_array	=	      {
-			AM62X_DEV_R5FSS0_CORE0,
+			AM62X_DEV_WKUP_R5FSS0_CORE0,
 			AM62X_DEV_WKUP_RTI0,
 			DEV_ID_NONE,
 			0,
@@ -4181,18 +4181,18 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       AM62X_DEV_WKUP_RTCSS0_VCLK_CLK_PARENT_HSDIV4_16FFT_MCU_0_HSDIVOUT0_CLK,
 		       CLK_AM62X_HSDIV4_16FFT_MCU_0_HSDIVOUT0_CLK,								   8,
 		       1),
-	DEV_CLK_MUX(AM62X_DEV_PULSAR_UL_WKUP_0_R5_0_CLOCKS,									   AM62X_DEV_R5FSS0_CORE0_CPU_CLK,
+	DEV_CLK_MUX(AM62X_DEV_PULSAR_UL_WKUP_0_R5_0_CLOCKS,									   AM62X_DEV_WKUP_R5FSS0_CORE0_CPU_CLK,
 		    CLK_AM62X_WKUP_CLKSEL_OUT0,											   1,
 		    2),
 	DEV_CLK_PARENT(AM62X_DEV_PULSAR_UL_WKUP_0_R5_0_CLOCKS,
-		       AM62X_DEV_R5FSS0_CORE0_CPU_CLK_PARENT_HSDIV1_16FFT_MAIN_15_HSDIVOUT0_CLK,
+		       AM62X_DEV_WKUP_R5FSS0_CORE0_CPU_CLK_PARENT_HSDIV1_16FFT_MAIN_15_HSDIVOUT0_CLK,
 		       CLK_AM62X_HSDIV1_16FFT_MAIN_15_HSDIVOUT0_CLK,								   1,
 		       0),
 	DEV_CLK_PARENT(AM62X_DEV_PULSAR_UL_WKUP_0_R5_0_CLOCKS,
-		       AM62X_DEV_R5FSS0_CORE0_CPU_CLK_PARENT_HSDIV4_16FFT_MCU_0_HSDIVOUT0_CLK,
+		       AM62X_DEV_WKUP_R5FSS0_CORE0_CPU_CLK_PARENT_HSDIV4_16FFT_MCU_0_HSDIVOUT0_CLK,
 		       CLK_AM62X_HSDIV4_16FFT_MCU_0_HSDIVOUT0_CLK,								   1,
 		       1),
-	DEV_CLK(AM62X_DEV_PULSAR_UL_WKUP_0_R5_0_CLOCKS,										   AM62X_DEV_R5FSS0_CORE0_INTERFACE_CLK,
+	DEV_CLK(AM62X_DEV_PULSAR_UL_WKUP_0_R5_0_CLOCKS,										   AM62X_DEV_WKUP_R5FSS0_CORE0_INTERFACE_CLK,
 		CLK_AM62X_WKUP_CLKSEL_OUT0,
 		1),
 	DEV_CLK_MUX(AM62X_DEV_RTI_CFG1_MAIN_A53_0_CLOCKS,									   AM62X_DEV_RTI0_RTI_CLK,
@@ -5415,9 +5415,9 @@ const struct dev_data *const soc_device_data_arr[AM62X_DEV_MCU_OBSCLK_MUX_SEL_DE
 	[AM62X_DEV_WKUP_UART0] = &am62x_dev_usart_wkup_0,
 	[AM62X_DEV_MCRC64_0] = &am62x_dev_mcrc64_main_0,
 	[AM62X_DEV_WKUP_RTCSS0] = &am62x_dev_rtcss_wkup_0,
-	[AM62X_DEV_R5FSS0_SS0] = &am62x_dev_pulsar_ul_wkup_0_cortex_r5_ss_0,
-	[AM62X_DEV_R5FSS0] = &am62x_dev_pulsar_ul_wkup_0,
-	[AM62X_DEV_R5FSS0_CORE0] = &am62x_dev_pulsar_ul_wkup_0_R5_0,
+	[AM62X_DEV_WKUP_R5FSS0_SS0] = &am62x_dev_pulsar_ul_wkup_0_cortex_r5_ss_0,
+	[AM62X_DEV_WKUP_R5FSS0] = &am62x_dev_pulsar_ul_wkup_0,
+	[AM62X_DEV_WKUP_R5FSS0_CORE0] = &am62x_dev_pulsar_ul_wkup_0_R5_0,
 	[AM62X_DEV_RTI0] = &am62x_dev_rti_cfg1_main_a53_0,
 	[AM62X_DEV_RTI1] = &am62x_dev_rti_cfg1_main_a53_1,
 	[AM62X_DEV_RTI2] = &am62x_dev_rti_cfg1_main_a53_2,

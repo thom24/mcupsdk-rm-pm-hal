@@ -5,7 +5,7 @@
  *
  * Data version: 000000_000000
  *
- * Copyright (C) 2019-2021 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2019-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 
@@ -94,6 +94,15 @@ static const struct ra_ring_type ring_types_navss0_ringacc0[6] = {
 	},
 };
 
+static const struct ra_ring_type ring_mon_types_navss0_ringacc0[1] = {
+	{
+		.start = 0U,
+		.end = 31U,
+		.type = RA_STANDARD_RING,
+		.utype = RESASG_UTYPE(AM6_DEV_NAVSS0_RINGACC0, RESASG_SUBTYPE_RA_MONITORS),
+	},
+};
+
 /*
  * Resources used by ROM which must have their OES registers reset
  */
@@ -172,6 +181,15 @@ static const struct ra_ring_type ring_types_mcu_navss0_ringacc0[5] = {
 	},
 };
 
+static const struct ra_ring_type ring_mon_types_mcu_navss0_ringacc0[1] = {
+	{
+		.start = 0U,
+		.end = 31U,
+		.type = RA_STANDARD_RING,
+		.utype = RESASG_UTYPE(AM6_DEV_MCU_NAVSS0_RINGACC0, RESASG_SUBTYPE_RA_MONITORS),
+	},
+};
+
 /*
  * Resources used by ROM which must have their OES registers reset
  */
@@ -225,6 +243,8 @@ struct ra_instance ra_inst[] = {
 		.ring_oes_offset = RA_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET,
 		.ring_types = &ring_types_navss0_ringacc0[0U],
 		.n_ring_type = ARRAY_SIZE(ring_types_navss0_ringacc0),
+		.ring_mon_types = &ring_mon_types_navss0_ringacc0[0U],
+		.n_ring_mon_type = ARRAY_SIZE(ring_mon_types_navss0_ringacc0),
 		.err_evt_index = RA_GCFG_ERROR_EVT_INDEX,
 		.err_evt_utype = RESASG_UTYPE(AM6_DEV_NAVSS0_RINGACC0, RESASG_SUBTYPE_RA_ERROR_OES),
 		.virtid_utype = RESASG_UTYPE(AM6_DEV_NAVSS0_RINGACC0, RESASG_SUBTYPE_RA_VIRTID),
@@ -248,6 +268,8 @@ struct ra_instance ra_inst[] = {
 		.ring_oes_offset = RA_MCU_NAVSS0_RINGACC0_RING_OES_EVT_INDEX_OFFSET,
 		.ring_types = &ring_types_mcu_navss0_ringacc0[0U],
 		.n_ring_type = ARRAY_SIZE(ring_types_mcu_navss0_ringacc0),
+		.ring_mon_types = &ring_mon_types_mcu_navss0_ringacc0[0U],
+		.n_ring_mon_type = ARRAY_SIZE(ring_mon_types_mcu_navss0_ringacc0),
 		.err_evt_index = RA_GCFG_ERROR_EVT_INDEX,
 		.err_evt_utype = RESASG_UTYPE(AM6_DEV_MCU_NAVSS0_RINGACC0, RESASG_SUBTYPE_RA_ERROR_OES),
 		.virtid_utype = RESASG_UTYPE(AM6_DEV_MCU_NAVSS0_RINGACC0, RESASG_SUBTYPE_RA_VIRTID),

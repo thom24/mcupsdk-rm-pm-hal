@@ -3,7 +3,7 @@
  *
  * Ring Accelerator management infrastructure
  *
- * Copyright (C) 2018-2021, Texas Instruments Incorporated
+ * Copyright (C) 2018-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -132,19 +132,19 @@ static const struct ra_valid_masks_local local_rm_ra_valid_masks[RA_NUM_RING_TYP
 		TISCI_MSG_VALUE_RM_RING_SIZE_VALID |
 		TISCI_MSG_VALUE_RM_RING_ORDER_ID_VALID |
 		TISCI_MSG_VALUE_RM_RING_VIRTID_VALID
-    },
+	},
 #else
-	[RA_STANDARD_RING] = {0U},
+	[RA_STANDARD_RING] = { 0U },
 #endif
 #ifdef CONFIG_RM_RA_DMSS_RING
-	[RA_DMSS_RING] = {
+	[RA_DMSS_RING] =     {
 		TISCI_MSG_VALUE_RM_RING_ADDR_LO_VALID |
 		TISCI_MSG_VALUE_RM_RING_ADDR_HI_VALID |
 		TISCI_MSG_VALUE_RM_RING_COUNT_VALID |
 		TISCI_MSG_VALUE_RM_RING_ASEL_VALID
-    },
+	},
 #else
-	[RA_DMSS_RING] = {0U},
+	[RA_DMSS_RING] =     { 0U },
 #endif
 };
 
@@ -255,10 +255,18 @@ static s32 ra_check_monitor_index_range(const struct ra_instance *inst, u8 host,
 					u16 index, u8 trace_action)
 {
 	s32 r = -EINVAL;
+	u8 i;
 
-	r = rm_core_resasg_validate_resource(host,
-					     inst->ring_mon_utype,
-					     index);
+	for (i = 0U; i < inst->n_ring_mon_type; i++) {
+		if ((index >= inst->ring_mon_types[i].start) &&
+		    (index <= inst->ring_mon_types[i].end)) {
+			r = rm_core_resasg_validate_resource(
+				host,
+				inst->ring_mon_utype,
+				index);
+			break;
+		}
+	}
 
 	if (r != SUCCESS) {
 		trace_action |= TRACE_RM_ACTION_FAIL;

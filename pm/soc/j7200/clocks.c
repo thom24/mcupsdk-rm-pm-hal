@@ -1,7 +1,7 @@
 /*
  * Data version: 211118_090221
  *
- * Copyright (C) 2017-2021, Texas Instruments Incorporated
+ * Copyright (C) 2017-2022, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -3501,6 +3501,24 @@ static const struct clk_data_div_reg clk_data_k3_pll_ctrl_wrap_wkup_0_chip_div24
 	.reg		= 0x42010000 + 0x11c,
 	.bit		= 0,
 };
+static const struct clk_parent clk_main_pll8_sel_extwave_parents[] = {
+	{
+		CLK_J7200_PLLFRACF_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK,
+		1,
+	},
+	{
+		CLK_J7200_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,
+		1,
+	},
+};
+static const struct clk_data_mux_reg clk_data_main_pll8_sel_extwave_out0 = {
+	.data_mux		= {
+		.parents	= clk_main_pll8_sel_extwave_parents,
+		.n		= ARRAY_SIZE(clk_main_pll8_sel_extwave_parents),
+	},
+	.reg			= 0x00680000 + 32832,
+	.bit			= 0,
+};
 static const struct clk_data_from_dev clk_data_mcasp_main_0_mcasp_aclkr_pout = {
 	.dev		= J7200_DEV_MCASP0,
 	.clk_idx	= J7200_DEV_MCASP0_MCASP_ACLKR_POUT,
@@ -6207,7 +6225,7 @@ const struct clk_data soc_clock_data[] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
+		.flags	= 0,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv0_16fft_main_8_hsdiv0.data_div.data,
 	},
@@ -6425,6 +6443,12 @@ const struct clk_data soc_clock_data[] = {
 			CLK_J7200_K3_PLL_CTRL_WRAP_MAIN_0_SYSCLKOUT_CLK,
 			1,
 		},
+	},
+	[CLK_J7200_MAIN_PLL8_SEL_EXTWAVE_OUT0] =			{
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_main_pll8_sel_extwave_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J7200_MCU_OBSCLK_DIV_OUT0] =				{
 		.parent =						{

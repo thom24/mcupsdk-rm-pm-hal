@@ -1,7 +1,7 @@
 /*
  * Data version: 211118_090221
  *
- * Copyright (C) 2017-2021 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2017-2022 Texas Instruments Incorporated - http://www.ti.com/
  * ALL RIGHTS RESERVED
  */
 #include <types/array_size.h>
@@ -419,6 +419,7 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J7200_DEV_TIMER15_CLKSEL_VD_CLOCKS 1738
 #define J7200_DEV_TIMER17_CLKSEL_VD_CLOCKS 1755
 #define J7200_DEV_TIMER19_CLKSEL_VD_CLOCKS 1772
+#define J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS 1789
 
 static const struct dev_data j7200_dev_adc12_core_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
@@ -4300,6 +4301,14 @@ static const struct dev_data j7200_dev_timer19_clksel_VD __attribute__((__sectio
 	.n_clocks		= 17,
 	.pm_devgrp		= PM_DEVGRP_01,
 };
+static const struct dev_data j7200_dev_main_pll8_sel_extwave_VD __attribute__((__section__(".const.devgroup.MAIN"))) = {
+	.soc			= {
+		.psc_idx	= PSC_DEV_NONE,
+	},
+	.dev_clk_idx		= J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS,
+	.n_clocks		= 3,
+	.pm_devgrp		= PM_DEVGRP_01,
+};
 
 static const struct dev_clk_data MCU_WAKEUP_dev_clk_data[] __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	DEV_CLK_MUX(J7200_DEV_ADC12_CORE_MCU_0_CLOCKS,			       J7200_DEV_MCU_ADC0_ADC_CLK,
@@ -7055,8 +7064,7 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 		       CLK_J7200_HSDIV2_16FFT_MAIN_4_HSDIVOUT2_CLK,			1,
 		       28),
 	DEV_CLK_MUX(J7200_DEV_BOARD_0_CLOCKS,						J7200_DEV_BOARD0_CLKOUT_IN,
-		    CLK_J7200_CLKOUT_MUX_OUT0,
-		    1,
+		    CLK_J7200_CLKOUT_MUX_OUT0,						1,
 		    2),
 	DEV_CLK_PARENT(J7200_DEV_BOARD_0_CLOCKS,					J7200_DEV_BOARD0_CLKOUT_IN_PARENT_HSDIV4_16FFT_MAIN_3_HSDIVOUT0_CLK5,
 		       CLK_J7200_HSDIV4_16FFT_MAIN_3_HSDIVOUT0_CLK,			5,
@@ -9150,6 +9158,15 @@ static const struct dev_clk_data MAIN_dev_clk_data[] __attribute__((__section__(
 	DEV_CLK_PARENT(J7200_DEV_TIMER19_CLKSEL_VD_CLOCKS,				J7200_DEV_TIMER19_CLKSEL_VD_CLK_PARENT_HSDIV4_16FFT_MAIN_1_HSDIVOUT3_CLK,
 		       CLK_J7200_HSDIV4_16FFT_MAIN_1_HSDIVOUT3_CLK,			1,
 		       9),
+	DEV_CLK_MUX(J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS,				J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLK,
+		    CLK_J7200_MAIN_PLL8_SEL_EXTWAVE_OUT0,				1,
+		    2),
+	DEV_CLK_PARENT(J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS,			J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLK_PARENT_PLLFRACF_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK,
+		       CLK_J7200_PLLFRACF_SSMOD_16FFT_MAIN_8_FOUTVCOP_CLK,		1,
+		       0),
+	DEV_CLK_PARENT(J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLOCKS,			J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD_CLK_PARENT_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,
+		       CLK_J7200_HSDIV0_16FFT_MAIN_8_HSDIVOUT0_CLK,			1,
+		       1),
 };
 static struct dev_clk MAIN_dev_clk[ARRAY_SIZE(MAIN_dev_clk_data)] __attribute__((__section__(".bss.devgroup.MAIN")));
 static const struct dev_clk_data DMSC_INTERNAL_dev_clk_data[] __attribute__((__section__(".const.devgroup.DMSC_INTERNAL"))) = {
@@ -9180,7 +9197,7 @@ const struct soc_device_data *const soc_psc_multiple_domains[] = {
 	[J7200_PSC_MULTIPLE_COMPUTE_CLUSTER_J7VCL_TB_VDC_MAIN_0_PBIST_WRAP] = compute_cluster_j7vcl_tb_vdc_main_0_pbist_wrap_domains,
 };
 
-const struct dev_data *const soc_device_data_arr[J7200_DEV_TIMER19_CLKSEL_VD + 1] = {
+const struct dev_data *const soc_device_data_arr[J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD + 1] = {
 	[J7200_DEV_MCU_ADC0] = &j7200_dev_adc12_core_mcu_0,
 	[J7200_DEV_MCU_ADC1] = &j7200_dev_adc12_core_mcu_1,
 	[J7200_DEV_ATL0] = &j7200_dev_atl_main_0,
@@ -9437,6 +9454,7 @@ const struct dev_data *const soc_device_data_arr[J7200_DEV_TIMER19_CLKSEL_VD + 1
 	[J7200_DEV_TIMER15_CLKSEL_VD] = &j7200_dev_timer15_clksel_VD,
 	[J7200_DEV_TIMER17_CLKSEL_VD] = &j7200_dev_timer17_clksel_VD,
 	[J7200_DEV_TIMER19_CLKSEL_VD] = &j7200_dev_timer19_clksel_VD,
+	[J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD] = &j7200_dev_main_pll8_sel_extwave_VD,
 };
 
 struct device soc_devices[ARRAY_SIZE(soc_device_data_arr)];
