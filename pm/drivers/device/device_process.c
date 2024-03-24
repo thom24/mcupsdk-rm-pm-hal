@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2020-2023, Texas Instruments Incorporated
+ * Copyright (C) 2020-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -261,6 +261,16 @@ s32 set_device_resets_handler(u32 *msg_recv)
 	mmr_unlock_all();
 
 	ret = device_prepare_exclusive(req->hdr.host, id, NULL, &dev);
+
+	if (ret == SUCCESS) {
+		if (resets <= 3U) {
+			ret = SUCCESS;
+		} else {
+			pm_trace(TRACE_PM_ACTION_INVALID_STATE, resets);
+			ret = EFAIL;
+		}
+	}
+
 	if (ret == SUCCESS) {
 		device_set_resets(dev, resets);
 	}
