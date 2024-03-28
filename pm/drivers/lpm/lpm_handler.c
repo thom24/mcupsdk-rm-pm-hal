@@ -458,14 +458,14 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
-	if (ret == SUCCESS) {
-		if (lpm_resume_restore_RM_context() != SUCCESS) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_GTC) == LPM_SUSPEND_GTC)) {
+		if (lpm_resume_gtc() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
 
-	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_GTC) == LPM_SUSPEND_GTC)) {
-		if (lpm_resume_gtc() != SUCCESS) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_DM) == LPM_SUSPEND_DM)) {
+		if (lpm_resume_dm() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
@@ -482,14 +482,14 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
-	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {
-		if (lpm_resume_send_core_resume_message() != SUCCESS) {
+	if (ret == SUCCESS) {
+		if (lpm_resume_restore_RM_context() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
 
-	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_DM) == LPM_SUSPEND_DM)) {
-		if (lpm_resume_dm() != SUCCESS) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_POWERMASTER) == LPM_SUSPEND_POWERMASTER)) {
+		if (lpm_resume_send_core_resume_message() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
