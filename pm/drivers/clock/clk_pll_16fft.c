@@ -1283,11 +1283,6 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 		pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
 		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
 
-		if (!clk_pll_16fft_is_bypass(pll)) {
-			/* Put the PLL into bypass */
-			ret = clk_pll_16fft_bypass(clock_ptr, STRUE);
-		}
-
 		/* Disable calibration in the fractional mode of the FRACF PLL based on
 		 * data from silicon and simulation data.
 		 */
