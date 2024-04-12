@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -451,7 +451,7 @@ u32 clk_div_reg_get_div(struct clk *clkp)
 				data_div);
 
 	/*
-	 * Hack, temporarily return parent 0 for muxes without register
+	 * Return parent 0 for muxes without register
 	 * assignments.
 	 */
 	if (data_reg->reg == 0U) {
@@ -578,7 +578,7 @@ u32 clk_div_reg_go_get_div(struct clk *clkp)
 				data_div);
 
 	/*
-	 * Hack, temporarily return parent 0 for muxes without register
+	 * Return parent 0 for muxes without register
 	 * assignments.
 	 */
 	if (data_reg->reg == 0U) {
