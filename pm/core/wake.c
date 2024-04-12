@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2014-2020, Texas Instruments Incorporated
+ * Copyright (C) 2014-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,9 +51,6 @@
  * from disabled state. Its likely that each master will need its own set of
  * wake interrupts.
  */
-
-/* FIXME: Wake sources will likely need to be tracked per device */
-
 s32 wake_finish(void)
 {
 	return -ENODEV;

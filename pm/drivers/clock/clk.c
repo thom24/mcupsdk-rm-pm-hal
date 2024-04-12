@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -313,7 +313,7 @@ static void clk_set_freq_trace(struct clk *clkp __attribute__((unused)), u32 fre
 		exp_val += 1U;
 	}
 
-	pm_trace( (u8)trace_act,
+	pm_trace((u8) trace_act,
 		 (val << TRACE_PM_VAL_CLOCK_VAL_SHIFT) |
 		 (exp_val << TRACE_PM_VAL_CLOCK_EXP_SHIFT) |
 		 ((u32) (clk_id(clkp) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
@@ -393,18 +393,16 @@ sbool clk_set_state(struct clk *clkp, sbool enable)
 	const struct clk_data *clk_data_p = clk_get_data(clkp);
 	sbool ret;
 
-	if(clk_data_p != NULL)
- 	{
-			if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
-				/* defer action */
-				ret = STRUE;
-			} else if (clk_data_p->drv->set_state == NULL) {
-				ret = STRUE;
-			} else {
-				ret = clk_data_p->drv->set_state(clkp, enable);
-			}
- 	}
-	else {
+	if (clk_data_p != NULL) {
+		if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
+			/* defer action */
+			ret = STRUE;
+		} else if (clk_data_p->drv->set_state == NULL) {
+			ret = STRUE;
+		} else {
+			ret = clk_data_p->drv->set_state(clkp, enable);
+		}
+	} else {
 		ret = STRUE;
 	}
 
@@ -466,7 +464,6 @@ void clk_put(struct clk *clkp)
 	}
 }
 
-/* FIXME: Stop propogation at PLL and notify PLL */
 void clk_ssc_allow(struct clk *clkp)
 {
 	if (--clkp->ssc_block_count == 0U) {
@@ -576,17 +573,17 @@ s32 clk_deinit_pm_devgrp(u8 pm_devgrp)
 		/* Chosen devgrp's last clock id is next devgrp's first clock id */
 
 		/* Loop through all the devgrp till we find valid devgrp */
-		while(pm_devgrp < soc_devgroup_count){
+		while (pm_devgrp < soc_devgroup_count) {
 			/* Check if next dev grp is valid devgrp*/
-			if(soc_devgroups[pm_devgrp + 1U].clk_idx != 0){
+			if (soc_devgroups[pm_devgrp + 1U].clk_idx != 0) {
 				clk_id_end = soc_devgroups[pm_devgrp + 1U].clk_idx;
 				break;
 			}
-		pm_devgrp = pm_devgrp+1U;
+			pm_devgrp = pm_devgrp + 1U;
 		}
 
 		/* If no valid devgrp is found,clock id is the same as last of all clock ids */
-		if(pm_devgrp == soc_devgroup_count){
+		if (pm_devgrp == soc_devgroup_count) {
 			clk_id_end = soc_clock_count;
 		}
 	}

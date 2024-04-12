@@ -146,7 +146,7 @@ s32 set_device_handler(u32 *msg_recv)
 
 	if (ret == SUCCESS) {
 		if ((flags & TISCI_MSG_FLAG_DEVICE_WAKE_ENABLED) != 0UL) {
-			/* FIXME: Not supported */
+			/* Not supported */
 		}
 
 		if ((flags & TISCI_MSG_FLAG_DEVICE_EXCLUSIVE) != 0UL) {

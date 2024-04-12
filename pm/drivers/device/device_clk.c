@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -94,7 +94,7 @@ sbool device_clk_set_gated(struct device *dev, dev_clk_idx_t clk_idx, sbool gate
 		ret = SFALSE;
 	} else {
 		sbool is_gated;
-		is_gated = ((((u32) (dev_clkp->flags) & DEV_CLK_FLAG_DISABLE) > 0U)? STRUE : SFALSE );
+		is_gated = ((((u32) (dev_clkp->flags) & DEV_CLK_FLAG_DISABLE) > 0U) ? STRUE : SFALSE);
 		if (is_gated != gated) {
 			is_enabled = (dev->flags & DEV_FLAG_ENABLED_MASK) != 0UL;
 			clkp = clk_lookup((clk_idx_t) devgrp->dev_clk_data[data->dev_clk_idx + clk_idx].clk);
@@ -239,7 +239,6 @@ sbool device_clk_get_ssc(struct device *dev, dev_clk_idx_t clk_idx)
 sbool device_clk_get_hw_ssc(struct device *dev __attribute__(
 				    (unused)), dev_clk_idx_t clk_idx __attribute__((unused)))
 {
-	/* FIXME: Implement */
 	return SFALSE;
 }
 
@@ -301,7 +300,6 @@ void device_clk_set_input_term(struct device *dev, dev_clk_idx_t clk_idx, sbool 
 			dev_clkp->flags ^= DEV_CLK_FLAG_INPUT_TERM;
 		}
 	}
-	/* FIXME: Implement */
 	return;
 }
 
