@@ -1,7 +1,7 @@
 /*
  * DMSC firmware
  *
- * Copyright (C) 2018-2023, Texas Instruments Incorporated
+ * Copyright (C) 2018-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -508,7 +508,7 @@ static u32 clk_pll_deskew_get_freq_internal(struct clk *clock_ptr)
 		}
 
 		if (ret64 > (u64) ULONG_MAX) {
-			/* FIXME: Handle PLL value overflow */
+			/* Cap overflow */
 			ret = (u32) ULONG_MAX;
 		} else {
 			ret = (u32) ret64;

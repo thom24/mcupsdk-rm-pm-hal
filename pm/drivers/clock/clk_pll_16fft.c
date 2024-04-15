@@ -586,7 +586,7 @@ static u32 clk_pll_16fft_get_freq_internal(struct clk *clock_ptr, u32 clkod)
 		}
 
 		if (ret64 > (u64) ULONG_MAX) {
-			/* FIXME: Handle PLL value overflow */
+			/* Cap overflow */
 			ret = (u32) ULONG_MAX;
 		} else {
 			ret = (u32) ret64;
