@@ -361,7 +361,6 @@ sbool device_clk_set_parent(struct device *dev, dev_clk_idx_t clk_idx, dev_clk_i
 	}
 
 	if (ret) {
-		/* FIXME: Check for other uses of this mux */
 		ret = clk_set_parent(clkp, parent_data->idx);
 	}
 

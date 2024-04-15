@@ -185,7 +185,6 @@ const struct clk_parent *clk_get_parent(struct clk *clkp)
 	return ret;
 }
 
-/* FIXME: freq change ok/notify? new freq in range? */
 sbool clk_set_parent(struct clk *clkp, u8 new_parent)
 {
 	const struct clk_data *clk_datap = clk_get_data(clkp);
