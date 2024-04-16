@@ -320,10 +320,6 @@ static void clk_set_freq_trace(struct clk *clkp __attribute__((unused)), u32 fre
 		  TRACE_PM_VAL_CLOCK_ID_MASK));
 }
 
-/*
- * FIXME: When called directly from device_clk_set_freq, it can change
- * the freq without regard for children of the clock
- */
 u32 clk_set_freq(struct clk *clkp, u32 target_hz,
 		 u32 min_hz, u32 max_hz, sbool query,
 		 sbool *changed)
