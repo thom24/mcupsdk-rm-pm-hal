@@ -3,7 +3,7 @@
  *
  * Secure Proxy driver for Message Transfer
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -161,10 +161,10 @@ static s32 trans_message(u32 target_base, u32 rt_base, sbool is_rx, u8 thread_id
 
 s32 sproxy_send_msg_r5_to_tifs_fw(void *msg, size_t len)
 {
-	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, R5_TO_TIFS_SEC_PROXY_MSG_TX_TID, msg, len, STRUE);
+	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_SEND, SEC_PROXY_MSG_TX_TID, msg, len, STRUE);
 }
 
 s32 sproxy_receive_msg_r5_to_tifs_fw(void *msg, size_t len)
 {
-	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_GET, R5_TO_TIFS_SEC_PROXY_MSG_RX_TID, msg, len, STRUE);
+	return trans_message(TIFS_SEC_PROXY_TARGET_ADDRESS, TIFS_SEC_PROXY_RT_ADDRESS, SPROXY_GET, SEC_PROXY_MSG_RX_TID, msg, len, STRUE);
 }
