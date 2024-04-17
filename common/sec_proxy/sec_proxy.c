@@ -59,19 +59,21 @@
 #define SPROXY_SEND             0
 #define SPROXY_GET              1
 
-/* retry for 10ms */
-#define RETRY_CNT_10ms          (1000U * 10U)
+/* retry for 100ms */
+#define RETRY_CNT_100ms          (1000U * 100U)
 
 static void asm_func(void)
 {
 	asm ("");
 }
 
-static void delay(void)
+static void delay_us(void)
 {
-	/* This while-loop takes 5 instructions. Assume R5 runs @400MHz */
-	/* FIXME will -O2 comptimize out the code? */
-	unsigned long x = 400 / 5;
+	/* The max frequency DM R5 runs is 800 MHz, with maximum optimization
+	 * the while-loop takes minimum 2 instructions per cycles. So in order
+	 * to generate 1us delay (800,000,000/(2 * 1000,000)) iterations are required
+	 */
+	unsigned long x = 800 / 2;
 
 	while (x-- != 0U) {
 		asm_func();
@@ -86,7 +88,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, sbool is_rx, u8 thread_id
 	u32 status;
 	u32 word;
 	u32 mask;
-	u16 i;
+	u32 i;
 	s32 ret = SUCCESS;
 
 	if ((is_secure == SFALSE) && ((start_addr + len) > end_addr)) {
@@ -98,7 +100,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, sbool is_rx, u8 thread_id
 	}
 
 	if (ret == SUCCESS) {
-		for (i = 0; i < RETRY_CNT_10ms; i++) {
+		for (i = 0; i < RETRY_CNT_100ms; i++) {
 			status = readl(SPROXY_THREAD_STATUS(rt_base, thread_id));
 			if ((status & SPROXY_STATUS_ERR) != 0U) {
 				ret = -EFAIL;
@@ -106,8 +108,8 @@ static s32 trans_message(u32 target_base, u32 rt_base, sbool is_rx, u8 thread_id
 			if ((status & SPROXY_STATUS_CNT_MASK) != 0U) {
 				break;
 			}
-			if (i < (RETRY_CNT_10ms - 1U)) {
-				delay();
+			if (i < (RETRY_CNT_100ms - 1U)) {
+				delay_us();
 			} else {
 				ret = -ETIMEDOUT;
 			}
