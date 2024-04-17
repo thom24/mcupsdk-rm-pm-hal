@@ -692,7 +692,6 @@ static void lpsc_module_sync_state(struct device	*dev,
 	} else if (transition) {
 		/*
 		 * Initiate transition
-		 * FIXME: defer (for coalescing) if wait not requested
 		 */
 		pd_initiate(dev, pd);
 	} else {
