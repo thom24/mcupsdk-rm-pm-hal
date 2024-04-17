@@ -117,10 +117,9 @@ static s32 trans_message(u32 target_base, u32 rt_base, sbool is_rx, u8 thread_id
 	}
 
 	if (ret == SUCCESS) {
-		/*
-		* HACK: We will need to deal with sec hdr someday...
-		* For now, just skip that portion
-		*/
+		/* Secure header is present in the initial 32 bits of the TISCI message
+		 * Write 0 to the intial 32 bit as the secure header currenly not used
+		 */
 		if (is_secure == STRUE) {
 			if (is_rx == SFALSE) {
 				writel(0U, start_addr);
