@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -112,6 +112,8 @@ struct clk_parent {
 };
 
 struct clk_drv_data {
+	/** Dummy member to avoid zero sized structure error with certain compilers */
+	u8 reserved;
 };
 
 struct clk_data {
