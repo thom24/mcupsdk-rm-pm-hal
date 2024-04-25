@@ -125,17 +125,19 @@ sbool device_clk_set_gated(struct device *dev, dev_clk_idx_t clk_idx, sbool gate
 	} else if (clkp != NULL) {
 		dev_clkp->flags &= (u8) ~DEV_CLK_FLAG_DISABLE;
 		if (is_enabled) {
-			if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
-				clk_ssc_block(clkp);
-			}
+			if (clk_get(clkp)) {
+				if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
+					clk_ssc_block(clkp);
+				}
 
-			if (0U == (dev_clkp->flags &
-				   DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
-				clk_freq_change_block(clkp);
+				if (0U == (dev_clkp->flags &
+					   DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
+					clk_freq_change_block(clkp);
+				}
+				ret = STRUE;
+			} else {
+				ret = SFALSE;
 			}
-
-			/* FIXME: Error handling */
-			clk_get(clkp);
 		}
 	} else {
 		/* Do Nothing */
@@ -682,15 +684,15 @@ void device_clk_enable(struct device *dev, dev_clk_idx_t clk_idx)
 	}
 
 	if (clkp != NULL) {
-		if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
-			clk_ssc_block(clkp);
-		}
+		if (clk_get(clkp)) {
+			if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
+				clk_ssc_block(clkp);
+			}
 
-		if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
-			clk_freq_change_block(clkp);
+			if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
+				clk_freq_change_block(clkp);
+			}
 		}
-
-		clk_get(clkp);
 	}
 }
 

@@ -81,7 +81,6 @@ void device_enable(struct device *dev)
 	u16 i;
 
 	for (i = 0U; i < data->n_clocks; i++) {
-		/* FIXME: Error handling */
 		device_clk_enable(dev, i);
 	}
 	soc_device_enable(dev);
