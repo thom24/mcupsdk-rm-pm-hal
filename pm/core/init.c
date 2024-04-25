@@ -67,6 +67,7 @@ s32 pm_init(void)
 	sbool progress;
 	sbool errors;
 	u32 i;
+	s32 ret = -EFAIL;
 
 	for (i = 0; i < ARRAY_SIZE(startups); i++) {
 		startup_done[i] = SFALSE;
@@ -77,21 +78,21 @@ s32 pm_init(void)
 		done = STRUE;
 		progress = SFALSE;
 		for (i = 0; i < ARRAY_SIZE(startups); i++) {
-			s32 ret;
+			s32 st_ret;
 			if (startup_done[i]) {
 				continue;
 			}
-			ret = (*startups[i])();
-			if (ret == -EDEFER) {
+			st_ret = (*startups[i])();
+			if (st_ret == -EDEFER) {
 				pm_trace(TRACE_PM_ACTION_FAIL | TRACE_PM_ACTION_INIT,
 					 ((((u32) EDEFER) & TRACE_PM_VAL_INIT_ERR_MASK) << TRACE_PM_VAL_INIT_ERR_SHIFT) |
 					 ((i & TRACE_PM_VAL_INIT_IDX_MASK) << TRACE_PM_VAL_INIT_IDX_SHIFT));
 				done = SFALSE;
 			} else {
 				progress = STRUE;
-				if (ret < 0) {
+				if (st_ret < 0) {
 					pm_trace(TRACE_PM_ACTION_FAIL | TRACE_PM_ACTION_INIT,
-						 ((((u32) (-ret)) & TRACE_PM_VAL_INIT_ERR_MASK) << TRACE_PM_VAL_INIT_ERR_SHIFT) |
+						 ((((u32) (-st_ret)) & TRACE_PM_VAL_INIT_ERR_MASK) << TRACE_PM_VAL_INIT_ERR_SHIFT) |
 						 ((i & TRACE_PM_VAL_INIT_IDX_MASK) << TRACE_PM_VAL_INIT_IDX_SHIFT));
 					errors = STRUE;
 				}
@@ -106,7 +107,8 @@ s32 pm_init(void)
 		pm_trace(TRACE_PM_ACTION_FAIL | TRACE_PM_ACTION_INIT, (u32) TRACE_PM_VAL_INIT_ERROR);
 	} else {
 		pm_trace(TRACE_PM_ACTION_INIT, 0x0U);
+		ret = SUCCESS;
 	}
 
-	return 0;
+	return ret;
 }
