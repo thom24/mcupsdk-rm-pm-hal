@@ -794,8 +794,11 @@ s32 clk_init(void)
 	if (progress) {
 		for (i = 0U; i < clock_count; i++) {
 			if ((soc_clocks[i].flags & CLK_FLAG_PWR_UP_EN) != 0U) {
-				/* FIXME: Error handling */
-				clk_get(soc_clocks + i);
+				if (!clk_get(soc_clocks + i)) {
+					/* clk_get failed for one of the clocks */
+					ret = -EFAIL;
+					break;
+				}
 			}
 		}
 	} else if (contents) {
