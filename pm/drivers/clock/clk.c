@@ -690,6 +690,8 @@ s32 clks_suspend(void)
 				done = SFALSE;
 			} else if (ret != SUCCESS) {
 				error = STRUE;
+			} else {
+				/* Do nothing */
 			}
 		}
 
@@ -727,6 +729,8 @@ s32 clks_resume(void)
 				done = SFALSE;
 			} else if (ret != SUCCESS) {
 				error = STRUE;
+			} else {
+				/* Do nothing */
 			}
 		}
 
