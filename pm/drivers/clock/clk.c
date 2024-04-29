@@ -621,7 +621,7 @@ static s32 clk_suspend_save(struct clk *clkp)
 	s32 ret = SUCCESS;
 
 	if ((clkp->flags & CLK_FLAG_SUSPENDED) == 0U) {
-		if (clk_data_p->drv->suspend_save) {
+		if (clk_data_p->drv->suspend_save != NULL) {
 			ret = clk_data_p->drv->suspend_save(clkp);
 			/* Mark clock as suspended to avoid duplicate operations */
 			clkp->flags |= CLK_FLAG_SUSPENDED;
@@ -643,7 +643,7 @@ static s32 clk_resume_restore(struct clk *clkp)
 	s32 ret = SUCCESS;
 
 	p = clk_get_parent(clkp);
-	if (p) {
+	if (p != NULL) {
 		parent_clk = clk_lookup((clk_idx_t) p->clk);
 	}
 
@@ -655,7 +655,7 @@ static s32 clk_resume_restore(struct clk *clkp)
 	}
 
 	if ((ret != -EDEFER) && ((clkp->flags & CLK_FLAG_SUSPENDED) == CLK_FLAG_SUSPENDED)) {
-		if (clk_data_p->drv->resume_restore) {
+		if (clk_data_p->drv->resume_restore != NULL) {
 			ret = clk_data_p->drv->resume_restore(clkp);
 			/* Clear suspended flag to avoid duplicate operations */
 			clkp->flags &= ~CLK_FLAG_SUSPENDED;
