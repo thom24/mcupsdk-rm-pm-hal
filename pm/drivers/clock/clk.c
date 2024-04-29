@@ -571,7 +571,7 @@ s32 clk_deinit_pm_devgrp(u8 pm_devgrp)
 		/* Loop through all the devgrp till we find valid devgrp */
 		while (pm_devgrp < soc_devgroup_count) {
 			/* Check if next dev grp is valid devgrp*/
-			if (soc_devgroups[pm_devgrp + 1U].clk_idx != 0) {
+			if (soc_devgroups[pm_devgrp + 1U].clk_idx != 0U) {
 				clk_id_end = soc_devgroups[pm_devgrp + 1U].clk_idx;
 				break;
 			}
@@ -620,7 +620,7 @@ static s32 clk_suspend_save(struct clk *clkp)
 	const struct clk_data *clk_data_p = clk_get_data(clkp);
 	s32 ret = SUCCESS;
 
-	if ((clkp->flags & CLK_FLAG_SUSPENDED) == 0) {
+	if ((clkp->flags & CLK_FLAG_SUSPENDED) == 0U) {
 		if (clk_data_p->drv->suspend_save) {
 			ret = clk_data_p->drv->suspend_save(clkp);
 			/* Mark clock as suspended to avoid duplicate operations */
@@ -695,9 +695,9 @@ s32 clks_suspend(void)
 
 		/* Avoid getting stuck forever, bound the number of loops */
 		max_tries--;
-	} while (!done && !error && (max_tries != 0));
+	} while (!done && !error && (max_tries != 0U));
 
-	if (max_tries == 0) {
+	if (max_tries == 0U) {
 		ret = -ETIMEDOUT;
 	} else {
 		ret = SUCCESS;
@@ -732,9 +732,9 @@ s32 clks_resume(void)
 
 		/* Avoid getting stuck forever, bound the number of loops */
 		max_tries--;
-	} while (!done && !error && (max_tries != 0));
+	} while (!done && !error && (max_tries != 0U));
 
-	if (max_tries == 0) {
+	if (max_tries == 0U) {
 		ret = -ETIMEDOUT;
 	} else {
 		ret = SUCCESS;
