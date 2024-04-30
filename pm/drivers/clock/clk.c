@@ -557,29 +557,30 @@ s32 clk_deinit_pm_devgrp(u8 pm_devgrp)
 	u32 i;
 	u32 clk_id_start;
 	u32 clk_id_end = 0U;
+	u8 pm_devgrp_val = pm_devgrp;
 
-	clk_id_start = soc_devgroups[pm_devgrp].clk_idx;
+	clk_id_start = soc_devgroups[pm_devgrp_val].clk_idx;
 
-	if (pm_devgrp >= soc_devgroup_count) {
+	if (pm_devgrp_val >= soc_devgroup_count) {
 		ret = -EINVAL;
-	} else if (pm_devgrp == (soc_devgroup_count - 1U)) {
+	} else if (pm_devgrp_val == (soc_devgroup_count - 1U)) {
 		/* Last devgrp's last clock id is the same as last of all clock ids */
 		clk_id_end = soc_clock_count;
 	} else {
 		/* Chosen devgrp's last clock id is next devgrp's first clock id */
 
 		/* Loop through all the devgrp till we find valid devgrp */
-		while (pm_devgrp < soc_devgroup_count) {
+		while (pm_devgrp_val < soc_devgroup_count) {
 			/* Check if next dev grp is valid devgrp*/
-			if (soc_devgroups[pm_devgrp + 1U].clk_idx != 0U) {
-				clk_id_end = soc_devgroups[pm_devgrp + 1U].clk_idx;
+			if (soc_devgroups[pm_devgrp_val + 1U].clk_idx != 0U) {
+				clk_id_end = soc_devgroups[pm_devgrp_val + 1U].clk_idx;
 				break;
 			}
-			pm_devgrp = pm_devgrp + 1U;
+			pm_devgrp_val = pm_devgrp_val + 1U;
 		}
 
 		/* If no valid devgrp is found,clock id is the same as last of all clock ids */
-		if (pm_devgrp == soc_devgroup_count) {
+		if (pm_devgrp_val == soc_devgroup_count) {
 			clk_id_end = soc_clock_count;
 		}
 	}
