@@ -96,7 +96,7 @@ s32 set_device_handler(u32 *msg_recv)
 			u64 mask = DEV_FLAG_ENABLED_MASK;
 			u64 enabled;
 			/* It's ok if we already have the device enabled */
-			mask &= ~DEV_FLAG_ENABLED(host_idx);
+			mask &= (u64) ~DEV_FLAG_ENABLED(host_idx);
 			/* It's also ok if the device in on due to power up en */
 			mask &= (u64) ~DEV_FLAG_POWER_ON_ENABLED;
 			enabled = (dev->flags & mask) >> DEV_FLAG_ENABLED_BIT;
