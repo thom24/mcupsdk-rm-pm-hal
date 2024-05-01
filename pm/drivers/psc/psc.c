@@ -208,7 +208,6 @@ static inline struct lpsc_module *psc_idx2mod(const struct psc_drv_data *psc,
 	return psc->modules + id;
 }
 
-/* FIXME: Timeout behavior */
 void psc_pd_wait(struct device *dev, struct psc_pd *pd)
 {
 	u32 psc_ptstat = PSC_PTSTAT;
