@@ -2133,7 +2133,7 @@ static const struct lpsc_module_data am62px_sam67_main_psc_wrap_main_0_psc_0_mod
 			0,
 			0,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS,
+		.flags			= LPSC_DEPENDS,
 	},
 	[AM62PX_PSC_LPSC_LPSC_MAIN_SA3UL] =		{
 		.powerdomain		= AM62PX_PSC_PD_GP_CORE,
@@ -2157,7 +2157,7 @@ static const struct lpsc_module_data am62px_sam67_main_psc_wrap_main_0_psc_0_mod
 			0,
 			0,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_DEPENDS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
 	[AM62PX_PSC_LPSC_LPSC_MAIN_DEBUGSS] =		{
 		.powerdomain		= AM62PX_PSC_PD_GP_CORE,
