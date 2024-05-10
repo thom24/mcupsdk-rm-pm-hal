@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2014-2023, Texas Instruments Incorporated
+ * Copyright (C) 2014-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,11 +32,6 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-/*
- * FIXME: Perhaps remove off state, on state bumps use count,
- * this would maintain dependancies as off could not be forced
  */
 
 #ifndef PSC_H
@@ -84,7 +79,7 @@ struct psc_pd_data {
 
 struct psc_pd {
 	u8	use_count : 7;
-	sbool	pwr_up_enabled ;
+	sbool	pwr_up_enabled;
 };
 
 /** Module is present, information in record is valid */
@@ -165,7 +160,7 @@ struct lpsc_module {
 	 * case sw_state indicates SWRSTDISABLE but this module holds
 	 * a reference count to it's powerdomain.
 	 */
-	sbool	sw_mrst_ret ;
+	sbool	sw_mrst_ret;
 	u8	pwr_up_enabled : 1;
 	u8	pwr_up_ret : 1;
 	/** True if host has requested a module reset */

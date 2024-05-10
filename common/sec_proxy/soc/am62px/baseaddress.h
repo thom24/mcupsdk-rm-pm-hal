@@ -3,7 +3,7 @@
  *
  * am62px soc baseaddress.h
  *
- * Copyright (C) 2023, Texas Instruments Incorporated
+ * Copyright (C) 2023-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,8 +44,11 @@ extern "C" {
 
 #define TIFS_SEC_PROXY_RT_ADDRESS       (0x4a600000U)
 #define TIFS_SEC_PROXY_TARGET_ADDRESS   (0x4d000000U)
-#define R5_TO_TIFS_SEC_PROXY_MSG_RX_TID         0
-#define R5_TO_TIFS_SEC_PROXY_MSG_TX_TID         1
+#define DM2TIFS_SEC_PROXY_MSG_RX_TID         20U
+#define DM2TIFS_SEC_PROXY_MSG_TX_TID         21U
+
+#define SEC_PROXY_MSG_RX_TID            DM2TIFS_SEC_PROXY_MSG_RX_TID
+#define SEC_PROXY_MSG_TX_TID            DM2TIFS_SEC_PROXY_MSG_TX_TID
 
 #ifdef __cplusplus
 }

@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -313,17 +313,13 @@ static void clk_set_freq_trace(struct clk *clkp __attribute__((unused)), u32 fre
 		exp_val += 1U;
 	}
 
-	pm_trace( (u8)trace_act,
+	pm_trace((u8) trace_act,
 		 (val << TRACE_PM_VAL_CLOCK_VAL_SHIFT) |
 		 (exp_val << TRACE_PM_VAL_CLOCK_EXP_SHIFT) |
 		 ((u32) (clk_id(clkp) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 		  TRACE_PM_VAL_CLOCK_ID_MASK));
 }
 
-/*
- * FIXME: When called directly from device_clk_set_freq, it can change
- * the freq without regard for children of the clock
- */
 u32 clk_set_freq(struct clk *clkp, u32 target_hz,
 		 u32 min_hz, u32 max_hz, sbool query,
 		 sbool *changed)
@@ -393,18 +389,16 @@ sbool clk_set_state(struct clk *clkp, sbool enable)
 	const struct clk_data *clk_data_p = clk_get_data(clkp);
 	sbool ret;
 
-	if(clk_data_p != NULL)
- 	{
-			if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
-				/* defer action */
-				ret = STRUE;
-			} else if (clk_data_p->drv->set_state == NULL) {
-				ret = STRUE;
-			} else {
-				ret = clk_data_p->drv->set_state(clkp, enable);
-			}
- 	}
-	else {
+	if (clk_data_p != NULL) {
+		if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
+			/* defer action */
+			ret = STRUE;
+		} else if (clk_data_p->drv->set_state == NULL) {
+			ret = STRUE;
+		} else {
+			ret = clk_data_p->drv->set_state(clkp, enable);
+		}
+	} else {
 		ret = STRUE;
 	}
 
@@ -466,7 +460,6 @@ void clk_put(struct clk *clkp)
 	}
 }
 
-/* FIXME: Stop propogation at PLL and notify PLL */
 void clk_ssc_allow(struct clk *clkp)
 {
 	if (--clkp->ssc_block_count == 0U) {
@@ -564,29 +557,30 @@ s32 clk_deinit_pm_devgrp(u8 pm_devgrp)
 	u32 i;
 	u32 clk_id_start;
 	u32 clk_id_end = 0U;
+	u8 pm_devgrp_val = pm_devgrp;
 
-	clk_id_start = soc_devgroups[pm_devgrp].clk_idx;
+	clk_id_start = soc_devgroups[pm_devgrp_val].clk_idx;
 
-	if (pm_devgrp >= soc_devgroup_count) {
+	if (pm_devgrp_val >= soc_devgroup_count) {
 		ret = -EINVAL;
-	} else if (pm_devgrp == (soc_devgroup_count - 1U)) {
+	} else if (pm_devgrp_val == (soc_devgroup_count - 1U)) {
 		/* Last devgrp's last clock id is the same as last of all clock ids */
 		clk_id_end = soc_clock_count;
 	} else {
 		/* Chosen devgrp's last clock id is next devgrp's first clock id */
 
 		/* Loop through all the devgrp till we find valid devgrp */
-		while(pm_devgrp < soc_devgroup_count){
+		while (pm_devgrp_val < soc_devgroup_count) {
 			/* Check if next dev grp is valid devgrp*/
-			if(soc_devgroups[pm_devgrp + 1U].clk_idx != 0){
-				clk_id_end = soc_devgroups[pm_devgrp + 1U].clk_idx;
+			if (soc_devgroups[pm_devgrp_val + 1U].clk_idx != 0U) {
+				clk_id_end = soc_devgroups[pm_devgrp_val + 1U].clk_idx;
 				break;
 			}
-		pm_devgrp = pm_devgrp+1U;
+			pm_devgrp_val = pm_devgrp_val + 1U;
 		}
 
 		/* If no valid devgrp is found,clock id is the same as last of all clock ids */
-		if(pm_devgrp == soc_devgroup_count){
+		if (pm_devgrp_val == soc_devgroup_count) {
 			clk_id_end = soc_clock_count;
 		}
 	}
@@ -627,8 +621,8 @@ static s32 clk_suspend_save(struct clk *clkp)
 	const struct clk_data *clk_data_p = clk_get_data(clkp);
 	s32 ret = SUCCESS;
 
-	if ((clkp->flags & CLK_FLAG_SUSPENDED) == 0) {
-		if (clk_data_p->drv->suspend_save) {
+	if ((clkp->flags & CLK_FLAG_SUSPENDED) == 0U) {
+		if (clk_data_p->drv->suspend_save != NULL) {
 			ret = clk_data_p->drv->suspend_save(clkp);
 			/* Mark clock as suspended to avoid duplicate operations */
 			clkp->flags |= CLK_FLAG_SUSPENDED;
@@ -650,7 +644,7 @@ static s32 clk_resume_restore(struct clk *clkp)
 	s32 ret = SUCCESS;
 
 	p = clk_get_parent(clkp);
-	if (p) {
+	if (p != NULL) {
 		parent_clk = clk_lookup((clk_idx_t) p->clk);
 	}
 
@@ -662,7 +656,7 @@ static s32 clk_resume_restore(struct clk *clkp)
 	}
 
 	if ((ret != -EDEFER) && ((clkp->flags & CLK_FLAG_SUSPENDED) == CLK_FLAG_SUSPENDED)) {
-		if (clk_data_p->drv->resume_restore) {
+		if (clk_data_p->drv->resume_restore != NULL) {
 			ret = clk_data_p->drv->resume_restore(clkp);
 			/* Clear suspended flag to avoid duplicate operations */
 			clkp->flags &= ~CLK_FLAG_SUSPENDED;
@@ -697,14 +691,16 @@ s32 clks_suspend(void)
 				done = SFALSE;
 			} else if (ret != SUCCESS) {
 				error = STRUE;
+			} else {
+				/* Do nothing */
 			}
 		}
 
 		/* Avoid getting stuck forever, bound the number of loops */
 		max_tries--;
-	} while (!done && !error && (max_tries != 0));
+	} while (!done && !error && (max_tries != 0U));
 
-	if (max_tries == 0) {
+	if (max_tries == 0U) {
 		ret = -ETIMEDOUT;
 	} else {
 		ret = SUCCESS;
@@ -734,14 +730,16 @@ s32 clks_resume(void)
 				done = SFALSE;
 			} else if (ret != SUCCESS) {
 				error = STRUE;
+			} else {
+				/* Do nothing */
 			}
 		}
 
 		/* Avoid getting stuck forever, bound the number of loops */
 		max_tries--;
-	} while (!done && !error && (max_tries != 0));
+	} while (!done && !error && (max_tries != 0U));
 
-	if (max_tries == 0) {
+	if (max_tries == 0U) {
 		ret = -ETIMEDOUT;
 	} else {
 		ret = SUCCESS;
@@ -801,8 +799,11 @@ s32 clk_init(void)
 	if (progress) {
 		for (i = 0U; i < clock_count; i++) {
 			if ((soc_clocks[i].flags & CLK_FLAG_PWR_UP_EN) != 0U) {
-				/* FIXME: Error handling */
-				clk_get(soc_clocks + i);
+				if (!clk_get(soc_clocks + i)) {
+					/* clk_get failed for one of the clocks */
+					ret = -EFAIL;
+					break;
+				}
 			}
 		}
 	} else if (contents) {

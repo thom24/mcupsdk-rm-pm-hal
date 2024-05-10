@@ -1,7 +1,7 @@
 /*
  * DMSC firmware
  *
- * Copyright (C) 2017-2023, Texas Instruments Incorporated
+ * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -515,10 +515,8 @@
 #define ADPLLM_HSDIV_PWR_STAT_LPOPWDN           BIT(14)
 
 static struct clk *clk_adpllm_hsdiv_get_pll_root(struct clk *clkp);
-static sbool clk_adpllm_hsdiv4_notify_freq(struct clk	*clkp,
-				    u32		parent_freq_hz __attribute__((unused)),
-				    sbool	query);
-						
+static sbool clk_adpllm_hsdiv4_notify_freq(struct clk *clkp, u32 parent_freq_hz __attribute__((unused)), sbool query);
+
 struct adpllm_program_data {
 	/** The ADPLLM clock */
 	struct clk				*pll_clk;
@@ -731,7 +729,7 @@ static sbool adpllm_clkod_valid(struct clk *clkp UNUSED, u32 clkod)
 	/* Only even numbers are allowed. */
 	sbool ret;
 
-	ret = (((clkod & 1U) > 0U) ? SFALSE : STRUE) ;
+	ret = (((clkod & 1U) > 0U) ? SFALSE : STRUE);
 	return ret;
 }
 
@@ -1090,7 +1088,7 @@ static u32 clk_adpllm_get_freq_internal(struct clk *clkp,
 	}
 
 	if (ret > (u64) ULONG_MAX) {
-		/* FIXME: Handle PLL value overflow */
+		/* Cap overflow */
 		ret = (u64) ULONG_MAX;
 	}
 	return (u32) ret;
@@ -1902,7 +1900,7 @@ static const struct clk_parent *clk_adpllm_get_div_parent(struct clk *clkp)
 	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 
 	/* div (clkout/hsdiv) is parent 0 */
-	if (mux->parents[0].cdiv !=0U) {
+	if (mux->parents[0].cdiv != 0U) {
 		p = &mux->parents[0];
 	}
 
@@ -1919,7 +1917,7 @@ static const struct clk_parent *clk_adpllm_get_bypass_parent(struct clk *clkp)
 	mux = container_of(clk_datap->data, const struct clk_data_mux, data);
 
 	/* Bypass clock is parent 1 */
-	if (mux->parents[1].cdiv !=0U) {
+	if (mux->parents[1].cdiv != 0U) {
 		p = &mux->parents[1];
 	}
 

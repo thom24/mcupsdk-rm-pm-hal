@@ -83,4 +83,4 @@ void pll_hsdiv_ctrl(u32 pll_base, u8 hsdiv, u8 enable);
  * \param pll Pointer to PLL context, with base set to address for pll to
  *            manipulate
  */
-void pll_bypass(struct pll_raw_data *pll);
+void pll_bypass(struct pll_raw_data *pll, sbool enable);

@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -89,5 +89,10 @@ sbool clk_div_reg_set_div(struct clk *clkp, u32 d);
 u32 clk_get_div(struct clk *clkp);
 sbool clk_set_div(struct clk *clkp, u32 d);
 s32 clk_div_init(struct clk *clkp);
+
+#ifdef CONFIG_LPM_CLK
+s32 clk_div_suspend_save(struct clk *clkp);
+s32 clk_div_resume_restore(struct clk *clkp);
+#endif
 
 #endif

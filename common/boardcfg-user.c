@@ -3,7 +3,7 @@
  *
  * Boardcfg API for receiving and storing board configuration
  *
- * Copyright (C) 2018-2023, Texas Instruments Incorporated
+ * Copyright (C) 2018-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -330,13 +330,6 @@ s32 boardcfg_rm_receive_and_validate(u8		host,
 				ret = -EINVAL;
 			}
 		} else {
-			/*
-			* The requirement is to send a boot notification showing the status.
-			* If we return an error, we will go to halt()
-			*
-			* TODO: Cleaner approach is to display a trace error and halt. To be
-			* discussed.
-			*/
 			ret = -EINVAL;
 		}
 

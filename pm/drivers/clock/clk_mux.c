@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@ static u32 clk_mux_get_parent_value(struct clk *clkp)
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
 
 	/*
-	 * Hack, temporarily return parent 0 for muxes without register
+	 * Return parent 0 for muxes without register
 	 * assignments.
 	 */
 	if (reg->reg == 0U) {
@@ -94,7 +94,7 @@ static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 
 	if (reg->reg == 0U) {
 		/*
-		 * Hack, temporarily ignore assignments for muxes without
+		 * Ignore assignments for muxes without
 		 * register assignments.
 		 */
 	} else {
@@ -110,7 +110,7 @@ static sbool clk_mux_set_parent(struct clk *clkp, u8 new_parent)
 			pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
 				 (((u32) new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 				  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-				 (((u32)clk_id(clkp) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+				 (((u32) clk_id(clkp) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 				  TRACE_PM_VAL_CLOCK_ID_MASK));
 		}
 	}
@@ -185,7 +185,6 @@ const struct clk_parent *clk_get_parent(struct clk *clkp)
 	return ret;
 }
 
-/* FIXME: freq change ok/notify? new freq in range? */
 sbool clk_set_parent(struct clk *clkp, u8 new_parent)
 {
 	const struct clk_data *clk_datap = clk_get_data(clkp);

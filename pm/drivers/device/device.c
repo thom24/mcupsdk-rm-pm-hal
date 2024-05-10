@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -107,11 +107,6 @@ static s32 device_init(struct device *dev)
 			device_set_state(dev, DEV_POWER_ON_ENABLED_HOST_IDX, STRUE);
 			device_set_retention(dev, STRUE);
 		}
-
-		/*
-		 * FIXME: Set reset isolation flag as marked by LPSC
-		 * FIXME: Set local reset bit as marked by LPSC
-		 */
 
 		if (((data->flags & DEVD_FLAG_DRV_DATA) != 0U) &&
 		    ((data->flags & DEVD_FLAG_DO_INIT) != 0U)) {

@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -86,10 +86,6 @@ u32 soc_device_get_state(struct device *dev)
 	return ret;
 }
 
-/*
- * FIXME: Reset ISO and local reset are per module, but those are often
- * shared by several devices.
- */
 static void soc_device_set_reset_iso_internal(const struct soc_device_data *dev, sbool enable)
 {
 	struct device *psc_dev = psc_lookup((psc_idx_t) dev->psc_idx);
@@ -320,7 +316,7 @@ static void soc_device_disable_internal_flags_iterate(struct device *psc_dev, st
 		}
 	}
 
-	if ( psc != NULL) {
+	if (psc != NULL) {
 		for (idx = 0U; idx < psc->pd_count; idx++) {
 			struct psc_pd *pd = psc->powerdomains + idx;
 			pd->use_count = 0U;
@@ -346,10 +342,10 @@ static void soc_device_disable_internal_flags_iterate(struct device *psc_dev, st
 			const struct psc_drv_data *depends_psc = psc;
 			struct device *depends_dev = psc_dev;
 
-	    if ((depends_dev != NULL)   || (depends_psc != NULL)) {
-			depends_dev = psc_lookup((psc_idx_t) data->depends_psc_idx);
-			depends_psc = to_psc_drv_data(get_drv_data(depends_dev));
-		  }
+			if ((depends_dev != NULL) || (depends_psc != NULL)) {
+				depends_dev = psc_lookup((psc_idx_t) data->depends_psc_idx);
+				depends_psc = to_psc_drv_data(get_drv_data(depends_dev));
+			}
 
 			if (depends_dev && module_p) {
 				module_p = depends_psc->modules + (lpsc_idx_t) data->depends;

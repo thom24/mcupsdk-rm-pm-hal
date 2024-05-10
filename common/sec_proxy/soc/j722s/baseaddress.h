@@ -47,6 +47,9 @@ extern "C" {
 #define R5_TO_TIFS_SEC_PROXY_MSG_RX_TID         0
 #define R5_TO_TIFS_SEC_PROXY_MSG_TX_TID         1
 
+#define SEC_PROXY_MSG_RX_TID            R5_TO_TIFS_SEC_PROXY_MSG_RX_TID
+#define SEC_PROXY_MSG_TX_TID            R5_TO_TIFS_SEC_PROXY_MSG_TX_TID
+
 #ifdef __cplusplus
 }
 #endif

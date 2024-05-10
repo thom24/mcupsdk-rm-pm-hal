@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -94,7 +94,7 @@ sbool device_clk_set_gated(struct device *dev, dev_clk_idx_t clk_idx, sbool gate
 		ret = SFALSE;
 	} else {
 		sbool is_gated;
-		is_gated = ((((u32) (dev_clkp->flags) & DEV_CLK_FLAG_DISABLE) > 0U)? STRUE : SFALSE );
+		is_gated = ((((u32) (dev_clkp->flags) & DEV_CLK_FLAG_DISABLE) > 0U) ? STRUE : SFALSE);
 		if (is_gated != gated) {
 			is_enabled = (dev->flags & DEV_FLAG_ENABLED_MASK) != 0UL;
 			clkp = clk_lookup((clk_idx_t) devgrp->dev_clk_data[data->dev_clk_idx + clk_idx].clk);
@@ -125,17 +125,19 @@ sbool device_clk_set_gated(struct device *dev, dev_clk_idx_t clk_idx, sbool gate
 	} else if (clkp != NULL) {
 		dev_clkp->flags &= (u8) ~DEV_CLK_FLAG_DISABLE;
 		if (is_enabled) {
-			if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
-				clk_ssc_block(clkp);
-			}
+			if (clk_get(clkp)) {
+				if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
+					clk_ssc_block(clkp);
+				}
 
-			if (0U == (dev_clkp->flags &
-				   DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
-				clk_freq_change_block(clkp);
+				if (0U == (dev_clkp->flags &
+					   DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
+					clk_freq_change_block(clkp);
+				}
+				ret = STRUE;
+			} else {
+				ret = SFALSE;
 			}
-
-			/* FIXME: Error handling */
-			clk_get(clkp);
 		}
 	} else {
 		/* Do Nothing */
@@ -239,7 +241,6 @@ sbool device_clk_get_ssc(struct device *dev, dev_clk_idx_t clk_idx)
 sbool device_clk_get_hw_ssc(struct device *dev __attribute__(
 				    (unused)), dev_clk_idx_t clk_idx __attribute__((unused)))
 {
-	/* FIXME: Implement */
 	return SFALSE;
 }
 
@@ -301,7 +302,6 @@ void device_clk_set_input_term(struct device *dev, dev_clk_idx_t clk_idx, sbool 
 			dev_clkp->flags ^= DEV_CLK_FLAG_INPUT_TERM;
 		}
 	}
-	/* FIXME: Implement */
 	return;
 }
 
@@ -361,7 +361,6 @@ sbool device_clk_set_parent(struct device *dev, dev_clk_idx_t clk_idx, dev_clk_i
 	}
 
 	if (ret) {
-		/* FIXME: Check for other uses of this mux */
 		ret = clk_set_parent(clkp, parent_data->idx);
 	}
 
@@ -685,15 +684,15 @@ void device_clk_enable(struct device *dev, dev_clk_idx_t clk_idx)
 	}
 
 	if (clkp != NULL) {
-		if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
-			clk_ssc_block(clkp);
-		}
+		if (clk_get(clkp)) {
+			if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_SSC)) {
+				clk_ssc_block(clkp);
+			}
 
-		if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
-			clk_freq_change_block(clkp);
+			if (0U == (dev_clkp->flags & DEV_CLK_FLAG_ALLOW_FREQ_CHANGE)) {
+				clk_freq_change_block(clkp);
+			}
 		}
-
-		clk_get(clkp);
 	}
 }
 

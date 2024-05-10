@@ -2039,7 +2039,7 @@ static const struct lpsc_module_data am62x_sam62_main_psc_wrap_main_0_psc_0_mod_
 			0,
 			0,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET,
+		.flags			= LPSC_DEPENDS | LPSC_HAS_LOCAL_RESET,
 	},
 	[AM62X_PSC_LPSC_LPSC_SA3UL] =		      {
 		.powerdomain		= AM62X_PSC_PD_GP_CORE_CTL,
@@ -2063,7 +2063,7 @@ static const struct lpsc_module_data am62x_sam62_main_psc_wrap_main_0_psc_0_mod_
 			0,
 			0,
 		},
-		.flags			= LPSC_MODULE_EXISTS | LPSC_DEPENDS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
+		.flags			= LPSC_DEPENDS | LPSC_NO_CLOCK_GATING | LPSC_NO_MODULE_RESET,
 	},
 	[AM62X_PSC_LPSC_LPSC_DEBUGSS] =		      {
 		.powerdomain		= AM62X_PSC_PD_GP_CORE_CTL,

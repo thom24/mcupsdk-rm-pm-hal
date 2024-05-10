@@ -107,15 +107,17 @@ static s32 j784s4_sys_reset_handler(domgrp_t domain)
 	u8 trace_action = TRACE_PM_ACTION_SYSRESET;
 	u32 trace_val = TRACE_PM_ACTION_SYSRESET_ERR_VAL_SUCCESS;
 
-	/* Ensure devices are fully initialized to allow modification */
-	ret = devices_init_rw();
+	if(domain == SOC_DEVGRP_J784S4_MAIN) {
+		/* Ensure devices are fully initialized to allow modification */
+		ret = devices_init_rw();
 
-	if( (ret == 0) || (domain == SOC_DEVGRP_J784S4_MAIN))
-	{
 		/* power management de-initialization
 		 * PM_DEVGRP_01 belongs to the MAIN domain in J784S4
 		 */
-		ret = devices_deinit(PM_DEVGRP_01);
+		if (ret == SUCCESS) {
+			ret = devices_deinit(PM_DEVGRP_01);
+		}
+
 		if (ret == SUCCESS) {
 			ret = clk_deinit_pm_devgrp(PM_DEVGRP_01);
 		}
@@ -128,28 +130,30 @@ static s32 j784s4_sys_reset_handler(domgrp_t domain)
 		if (ret != SUCCESS) {
 			trace_val |= TRACE_PM_ACTION_SYSRESET_ERR_VAL_DEINIT_FAIL;
 		}
-	}
 
-	/* PSC0: Disable MAIN2WKUPMCU bridge */
-	dev = device_lookup(J784S4_DEV_MAIN2WKUPMCU_VD);
-	soc_device_disable(dev, SFALSE);
-	soc_device_ret_disable(dev);
+		if (ret != SUCCESS) {
+			/* PSC0: Disable MAIN2WKUPMCU bridge */
+			dev = device_lookup(J784S4_DEV_MAIN2WKUPMCU_VD);
+			soc_device_disable(dev, SFALSE);
+			soc_device_ret_disable(dev);
 
-	/* Check device state of MAIN2WKUPMCU bridge */
-	while(device_get_state(dev)!= 0U)
-	{
-		osal_delay(RESET_DELAY_PER_ITERATION_US);
-	}
+			/* Check device state of MAIN2WKUPMCU bridge */
+			while(device_get_state(dev)!= 0U)
+			{
+				osal_delay(RESET_DELAY_PER_ITERATION_US);
+			}
 
-	/* WKUP_PSC0: Disable WKUPMCU2MAIN bridge */
-	dev = device_lookup(J784S4_DEV_WKUPMCU2MAIN_VD);
-	soc_device_disable(dev, SFALSE);
-	soc_device_ret_disable(dev);
+			/* WKUP_PSC0: Disable WKUPMCU2MAIN bridge */
+			dev = device_lookup(J784S4_DEV_WKUPMCU2MAIN_VD);
+			soc_device_disable(dev, SFALSE);
+			soc_device_ret_disable(dev);
 
-	/* Check device state of WKUPMCU2MAIN bridge */
-	while(device_get_state(dev)!= 0U)
-	{
-		osal_delay(RESET_DELAY_PER_ITERATION_US);
+			/* Check device state of WKUPMCU2MAIN bridge */
+			while(device_get_state(dev)!= 0U)
+			{
+				osal_delay(RESET_DELAY_PER_ITERATION_US);
+			}
+		}
 	}
 
 	switch (domain) {
@@ -182,34 +186,38 @@ static s32 j784s4_sys_reset_handler(domgrp_t domain)
 		trace_action |= TRACE_PM_ACTION_FAIL;
 	}
 
-	/* WKUP_PSC0: Enable WKUPMCU2MAIN bridge */
-	dev = device_lookup(J784S4_DEV_WKUPMCU2MAIN_VD);
-	soc_device_ret_enable(dev);
-	device_enable(dev);
+	if (ret == SUCCESS) {
+		/* WKUP_PSC0: Enable WKUPMCU2MAIN bridge */
+		dev = device_lookup(J784S4_DEV_WKUPMCU2MAIN_VD);
+		soc_device_ret_enable(dev);
+		device_enable(dev);
 
-	/* Check device state of WKUPMCU2MAIN bridge */
-	while(device_get_state(dev)!= 1U)
-	{
-		osal_delay(RESET_DELAY_PER_ITERATION_US);
+		/* Check device state of WKUPMCU2MAIN bridge */
+		while(device_get_state(dev)!= 1U)
+		{
+			osal_delay(RESET_DELAY_PER_ITERATION_US);
+		}
+
+		/* PSC0: Enable MAIN2WKUPMCU bridge */
+		dev = device_lookup(J784S4_DEV_MAIN2WKUPMCU_VD);
+		soc_device_ret_enable(dev);
+		device_enable(dev);
+
+		/* Check device state of MAIN2WKUPMCU bridge */
+		while(device_get_state(dev)!= 1U)
+		{
+			osal_delay(RESET_DELAY_PER_ITERATION_US);
+		}
+
+		pm_trace(trace_action,
+			 (((u32) domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
+			  TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
+
+		/* Wait till Main MMR is initialized*/
+		osal_delay(350);
+	} else {
+		trace_action |= TRACE_PM_ACTION_FAIL;
 	}
-
-	/* PSC0: Enable MAIN2WKUPMCU bridge */
-	dev = device_lookup(J784S4_DEV_MAIN2WKUPMCU_VD);
-	soc_device_ret_enable(dev);
-	device_enable(dev);
-
-	/* Check device state of MAIN2WKUPMCU bridge */
-	while(device_get_state(dev)!= 1U)
-	{
-		osal_delay(RESET_DELAY_PER_ITERATION_US);
-	}
-
-	pm_trace(trace_action,
-		 (((u32) domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
-		  TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
-
-	/* Wait till Main MMR is initialized*/
-	osal_delay(350);
 
 	return ret;
 }
