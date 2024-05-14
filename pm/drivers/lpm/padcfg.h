@@ -37,6 +37,9 @@
 
 #include <types/short_types.h>
 
+#define MAIN_PADCFG_SIZE        (((MAIN_PADCFG_REG_END - PADCFG_OFFSET) >> 2) + 1U)
+#define MCU_PADCFG_SIZE         (((MCU_PADCFG_REG_END - PADCFG_OFFSET) >> 2) + 1U)
+
 /**
  *  \brief  Save MAIN padcfg Ctrl MMR during suspend
  *
@@ -45,10 +48,24 @@
 s32 lpm_sleep_save_main_padconf(void);
 
 /**
+ *  \brief  Save MCU padcfg Ctrl MMR during suspend
+ *
+ *  \return ret      SUCCESS
+ */
+s32 lpm_sleep_save_mcu_padconf(void);
+
+/**
  *  \brief  Restore MAIN padcfg Ctrl MMR during resume
  *
  *  \return ret      SUCCESS
  */
 s32 lpm_resume_restore_main_padconf(void);
+
+/**
+ *  \brief  Restore MCU padcfg Ctrl MMR during resume
+ *
+ *  \return ret      SUCCESS
+ */
+s32 lpm_resume_restore_mcu_padconf(void);
 
 #endif /* __LPM_PADCFG_H__ */

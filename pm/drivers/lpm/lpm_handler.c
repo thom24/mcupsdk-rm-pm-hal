@@ -68,6 +68,7 @@
 #define LPM_CLOCK_SUSPEND                       BIT(5)
 #define LPM_SUSPEND_DM                          BIT(6)
 #define LPM_SAVE_MMR_LOCK                       BIT(7)
+#define LPM_SAVE_MCU_PADCONFIG                  BIT(8)
 
 #define LPM_WKUP_LATENCY_VALID_FLAG             BIT(16)
 
@@ -250,7 +251,7 @@ static s32 lpm_sleep_suspend_dm(void)
 static s32 lpm_resume_dm(void)
 {
 	/* Resume DM OS */
-	osal_dm_enable_interrupt();     /* Enable sciserver interrupts */
+	osal_dm_enable_interrupt();     /* Enable sciserver interrupts */	
 	osal_resume_dm();               /* Resume DM task scheduler */
 	osal_hwip_restore(key);         /* Enable Global interrupts */
 	return SUCCESS;
@@ -423,6 +424,11 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		enter_sleep_status |= LPM_SAVE_MAIN_PADCONFIG;
 	}
 
+	if ((mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) && (ret == SUCCESS)) {
+		ret = lpm_sleep_save_mcu_padconf();
+		enter_sleep_status |= LPM_SAVE_MCU_PADCONFIG;
+	}
+
 	if (ret == SUCCESS) {
 		ret = lpm_save_mmr_lock();
 		enter_sleep_status |= LPM_SAVE_MMR_LOCK;
@@ -519,7 +525,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
-	if (ret == SUCCESS) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SAVE_MAIN_PADCONFIG) == LPM_SAVE_MAIN_PADCONFIG)) {
 		if (lpm_resume_restore_main_padconf() != SUCCESS) {
 			lpm_hang_abort();
 		}

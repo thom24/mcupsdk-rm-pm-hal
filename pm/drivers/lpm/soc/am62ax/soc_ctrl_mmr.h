@@ -97,9 +97,13 @@ extern "C" {
 #define GTC_CFG0_BASE                          (0xa80000UL)
 #define GTC_CFG1_BASE                          (0xa90000UL)
 
-#define PADCFG_CTRL_BASE                       (0xf0000UL)
+#define MAIN_PADCFG_CTRL_BASE                  (0xf0000UL)
 #define PADCFG_OFFSET                          (0x4000U)
-#define PADCFG_SIZE                            (((0x4258U - PADCFG_OFFSET) >> 2) + 1U)
+#define MAIN_PADCFG_REG_END                    (0x4258U)
+
+/* MCU PADCFG address */
+#define MCU_PADCFG_CTRL_BASE                   (0x4080000UL)
+#define MCU_PADCFG_REG_END                     (0x4084U)
 
 #define RTC_BASE                               (0x2b1f0000UL)
 
