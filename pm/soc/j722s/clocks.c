@@ -6340,7 +6340,7 @@ const struct clk_data soc_clock_data[374] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_BLOCK_FREQ_CHANGE,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv4_16fft_mcu_0_hsdiv0.data_div.data,
 	},
