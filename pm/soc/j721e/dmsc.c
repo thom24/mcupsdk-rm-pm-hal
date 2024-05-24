@@ -209,15 +209,15 @@ static s32 j721e_sys_reset_handler(domgrp_t domain)
 			osal_delay(RESET_DELAY_PER_ITERATION_US);
 		}
 
-		pm_trace(trace_action,
-			 (((u32) domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
-			  TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
-
 		/* Wait till Main MMR is initialized*/
 		osal_delay(350);
 	} else {
 		trace_action |= TRACE_PM_ACTION_FAIL;
 	}
+
+	pm_trace(trace_action,
+		(((u32) domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
+		 TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
 
 	return ret;
 }

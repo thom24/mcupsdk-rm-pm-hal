@@ -386,6 +386,7 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clock_ptr)
 		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
 		u32 pll_type;
 		u32 cfg;
+		s32 err;
 		cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
 		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
 		if (success &&
@@ -417,20 +418,31 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clock_ptr)
 
 			/* In case of cal lock failure, operate without calibration */
 			if (success != STRUE) {
+				success = STRUE;
 				/* Disable PLL */
-				clk_pll_16fft_disable_pll(pll);
+				err = clk_pll_16fft_disable_pll(pll);
+				if (err != SUCCESS) {
+					success = SFALSE;
+				}
 
-				/* Disable Calibration */
-				clk_pll_16fft_disable_cal(pll);
+				if (success == STRUE) {
+					/* Disable Calibration */
+					clk_pll_16fft_disable_cal(pll);
 
-				/* Enable PLL */
-				clk_pll_16fft_enable_pll(pll);
+					/* Enable PLL */
+					err = clk_pll_16fft_enable_pll(pll);
+					if (err != SUCCESS) {
+						success = SFALSE;
+					}
+				}
 
-				/* Wait for PLL Lock */
-				for (i = 0U; i < (150U * 100U); i++) {
-					if (clk_pll_16fft_check_lock(pll)) {
-						success = STRUE;
-						break;
+				if (success == STRUE) {
+					/* Wait for PLL Lock */
+					for (i = 0U; i < (150U * 100U); i++) {
+						if (clk_pll_16fft_check_lock(pll)) {
+							success = STRUE;
+							break;
+						}
 					}
 				}
 			}
