@@ -54,6 +54,7 @@
 #include "ctrl_mmr.h"
 #include "rm_lpm.h"
 #include "device_prepare.h"
+#include <soc/host_idx_mapping.h>
 #include <lib/trace.h>
 
 /* Count of 1us delay for 10ms */
@@ -67,6 +68,8 @@
 #define LPM_CLOCK_SUSPEND                       BIT(5)
 #define LPM_SUSPEND_DM                          BIT(6)
 #define LPM_SAVE_MMR_LOCK                       BIT(7)
+
+#define LPM_WKUP_LATENCY_VALID_FLAG             BIT(16)
 
 extern s32 _stub_start(void);
 extern u32 lpm_get_wake_up_source(void);
@@ -84,6 +87,8 @@ static u32 dev_cons[SOC_DEVICES_RANGE_ID_MAX] = { 0U };
 #else
 static u64 dev_cons[SOC_DEVICES_RANGE_ID_MAX] = { 0U };
 #endif
+
+static u32 latency[HOST_ID_CNT] = { 0U };
 
 static void lpm_hang_abort(void)
 {
@@ -659,6 +664,43 @@ s32 dm_lpm_set_device_constraint(u32 *msg_recv)
 		if (ret == SUCCESS) {
 			/* Clear constraint */
 			dev_cons[id] &= ~(1U << host_idx);
+		}
+	}
+
+	return ret;
+}
+
+s32 dm_lpm_set_latency_constraint(u32 *msg_recv)
+{
+	s32 ret = SUCCESS;
+	struct tisci_msg_lpm_set_latency_constraint_req *req =
+		(struct tisci_msg_lpm_set_latency_constraint_req *) msg_recv;
+	struct tisci_msg_lpm_set_latency_constraint_resp *resp =
+		(struct tisci_msg_lpm_set_latency_constraint_resp *) msg_recv;
+	u16 wkup_latency = req->wkup_latency;
+	sbool state = (sbool) req->state;
+	u8 host_id = req->hdr.host;
+	u8 host_idx;
+
+	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_LPM_SET_LATENCY_CONSTRAINT);
+	pm_trace(TRACE_PM_ACTION_MSG_PARAM_LATENCY, wkup_latency);
+	pm_trace(TRACE_PM_ACTION_MSG_PARAM_VAL, state);
+
+	resp->hdr.flags = 0U;
+
+	/* Check if current host is valid and get lookup host ID */
+	host_idx = host_idx_lookup(host_id);
+	if (host_idx == HOST_IDX_NONE) {
+		ret = -EFAIL;
+	}
+
+	if (ret == SUCCESS) {
+		if (state == STRUE) {
+			/* Set latency constraint */
+			latency[host_idx] = (LPM_WKUP_LATENCY_VALID_FLAG | wkup_latency);
+		} else {
+			/* Clear latency constraint */
+			latency[host_idx] = 0U;
 		}
 	}
 

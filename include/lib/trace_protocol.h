@@ -327,6 +327,7 @@
 #define TRACE_PM_ACTION_EXCLUSIVE_DEVICE                 0x7CU
 #define TRACE_PM_ACTION_INVALID_STATE                    0x7DU
 #define TRACE_PM_ACTION_BAD_DEVICE                       0x7EU
+#define TRACE_PM_ACTION_MSG_PARAM_LATENCY                0x18U
 
 #define TRACE_PM_VAL_CLOCK_VAL_SHIFT                     10U
 #define TRACE_PM_VAL_CLOCK_VAL_MASK                      0x0001FC00U

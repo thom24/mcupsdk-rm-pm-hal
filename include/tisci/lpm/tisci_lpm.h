@@ -427,4 +427,37 @@ struct tisci_msg_lpm_set_device_constraint_resp {
 	struct tisci_header hdr;
 } __attribute__((__packed__));
 
+/**
+ * \brief Request for TISCI_MSG_LPM_SET_LATENCY_CONSTRAINT.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ * \param wkup_latency The maximum acceptable latency to wake up from low power mode
+ *                     in milliseconds. The deeper the state, the higher the latency.
+ * \param state The desired state of constraint: set or clear.
+ * \param rsvd Reserved for future use.
+ *
+ * This message is used by host to set latency to wakeup from low power mode. This can
+ * be sent anytime after boot before prepare sleep message and after current low power
+ * mode is exited. Any host can set a constraint on the low power mode that the SoC can
+ * enter. It allows configurable information to be easily shared from the application, as
+ * this is a non-secure message and therefore can be sent by anyone. By setting a wakeup
+ * latency constraint, the host ensures that the resume time from selected low power mode
+ * will be less than the constraint value.
+ */
+struct tisci_msg_lpm_set_latency_constraint_req {
+	struct tisci_header	hdr;
+	u16			wkup_latency;
+	u8			state;
+	u32			rsvd;
+} __attribute__((__packed__));
+
+/**
+ * \brief Response for TISCI_MSG_LPM_SET_LATENCY_CONSTRAINT.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ */
+struct tisci_msg_lpm_set_latency_constraint_resp {
+	struct tisci_header hdr;
+} __attribute__((__packed__));
+
 #endif

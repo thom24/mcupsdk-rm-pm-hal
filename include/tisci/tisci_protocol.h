@@ -151,6 +151,7 @@ struct tisci_sec_header {
 #define TISCI_MSG_SET_IO_ISOLATION              (0x0307U)
 #define TISCI_MSG_MIN_CONTEXT_RESTORE           (0x0308U)
 #define TISCI_MSG_LPM_SET_DEVICE_CONSTRAINT     (0x0309U)
+#define TISCI_MSG_LPM_SET_LATENCY_CONSTRAINT    (0x030AU)
 
 #define TISCI_MSG_FIRMWARE_LOAD                 (0x8105U)
 #define MSG_FIRMWARE_LOAD_RESULT                (0x8805U)
