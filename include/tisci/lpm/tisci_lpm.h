@@ -47,6 +47,7 @@
 #define TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR     0x2U
 #define TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO           0x3U
 #define TISCI_MSG_VALUE_SLEEP_MODE_STANDBY              0x4U
+#define TISCI_MSG_VALUE_SLEEP_MODE_INVALID              0xFFU
 
 #define MSG_FLAG_CERT_AUTH_PASS                        0x555555U
 #define MSG_FLAG_CERT_AUTH_FAIL                        0xffffffU

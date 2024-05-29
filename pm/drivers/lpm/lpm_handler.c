@@ -72,6 +72,12 @@
 
 #define LPM_WKUP_LATENCY_VALID_FLAG             BIT(16)
 
+/* Deep sleep and MCU Only latency values */
+#define LPM_DEEP_SLEEP_WKUP_LAT_MIN             101U
+#define LPM_DEEP_SLEEP_WKUP_LAT_MAX             200U
+#define LPM_MCU_ONLY_WKUP_LAT_MIN               10U
+#define LPM_MCU_ONLY_WKUP_LAT_MAX               100U
+
 extern s32 _stub_start(void);
 extern u32 lpm_get_wake_up_source(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
@@ -90,6 +96,22 @@ static u64 dev_cons[SOC_DEVICES_RANGE_ID_MAX] = { 0U };
 #endif
 
 static u32 latency[HOST_ID_CNT] = { 0U };
+static sbool lpm_locked = SFALSE;
+
+static u8 lpm_select_shallowest_mode(u8 req_mode, u8 curr_mode)
+{
+	u8 mode;
+
+	if ((curr_mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY) || (req_mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
+		mode = TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY;
+	} else if ((curr_mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (req_mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP)) {
+		mode = TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP;
+	} else {
+		mode = DEEPEST_LOW_POWER_MODE;
+	}
+
+	return mode;
+}
 
 static void lpm_hang_abort(void)
 {
@@ -251,7 +273,7 @@ static s32 lpm_sleep_suspend_dm(void)
 static s32 lpm_resume_dm(void)
 {
 	/* Resume DM OS */
-	osal_dm_enable_interrupt();     /* Enable sciserver interrupts */	
+	osal_dm_enable_interrupt();     /* Enable sciserver interrupts */
 	osal_resume_dm();               /* Resume DM task scheduler */
 	osal_hwip_restore(key);         /* Enable Global interrupts */
 	return SUCCESS;
@@ -261,6 +283,98 @@ static s32 lpm_sleep_jump_to_dm_Stub(void)
 {
 	/* Jump to DM stub */
 	return _stub_start();
+}
+
+static s32 lpm_select_sleep_mode(u8 *mode)
+{
+	u8 lpsc;
+	u16 devgrp;
+	u8 i = 0U;
+	s32 ret = SUCCESS;
+	sbool mode_selected = SFALSE;
+	sbool main_padcfg_wkup_en = SFALSE;
+	sbool mcu_padcfg_wkup_en = SFALSE;
+
+	*mode = DEEPEST_LOW_POWER_MODE;
+
+	/* Device constraint based selection */
+	for (i = 0; i < soc_device_count; i++) {
+		if (dev_cons[i] != 0U) {
+			/* Get devgrp and LPSC info from device_id */
+			ret = device_id_lookup_devgroup_and_lpsc(i, &devgrp, &lpsc);
+			if (ret != SUCCESS) {
+				ret = -EFAIL;
+				break;
+			}
+
+			/**
+			 * If device having constraints belongs to MAIN DEVGRP, then no lpm is possible
+			 * Exceptions: USB0 and USB1
+			 */
+			if (devgrp == MAIN_DEVGRP) {
+				if ((i == USB0_DEV_ID) || (i == USB1_DEV_ID)) {
+					*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
+				} else {
+					ret = -EFAIL;
+					break;
+				}
+			} else {
+				/* If device is in ALWAYS ON domain in MCU_WAKEUP devgrp, then select Deep sleep */
+				if (lpsc == ALWAYS_ON_LPSC_ID) {
+					*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
+					/* Otherwise, the device belongs to MCU Domain, select MCU only mode */
+				} else {
+					*mode = TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY;
+					mode_selected = STRUE;
+					/* Return as this mode is shallowest of all */
+					break;
+				}
+			}
+		}
+	}
+
+	/* Latency based selection */
+	if (ret == SUCCESS) {
+		for (i = 0; i < HOST_ID_CNT; i++) {
+			if ((latency[i] & LPM_WKUP_LATENCY_VALID_FLAG) != 0U) {
+				/* If the latency value lie in deep sleep mode wakeup latency range, select deep sleep */
+				if (((u16) latency[i] >= LPM_DEEP_SLEEP_WKUP_LAT_MIN) & ((u16) latency[i] <= LPM_DEEP_SLEEP_WKUP_LAT_MAX)) {
+					*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
+					/* If the latency value lie in mcu only mode wakeup latency range, select mcu only */
+				} else if (((u16) latency[i] >= LPM_MCU_ONLY_WKUP_LAT_MIN) & ((u16) latency[i] <= LPM_MCU_ONLY_WKUP_LAT_MAX)) {
+					*mode = TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY;
+					mode_selected = STRUE;
+					break;
+					/* If the latency value is out of wakeup latency range values, no lpm is possible */
+				} else {
+					ret = -EFAIL;
+					break;
+				}
+			}
+		}
+	}
+
+	/* Scan and save the padconfig values */
+	if (ret == SUCCESS) {
+		ret = lpm_sleep_save_main_padconf(&main_padcfg_wkup_en);
+	}
+
+	if (ret == SUCCESS) {
+		ret = lpm_sleep_save_mcu_padconf(&mcu_padcfg_wkup_en);
+	}
+
+	if (ret == SUCCESS) {
+		/* Wakeup source based selection (Padconfig) - Skipped if shallowest mode is already selected */
+		if (((main_padcfg_wkup_en == STRUE) || (mcu_padcfg_wkup_en == STRUE)) && (mode_selected == SFALSE)) {
+			/* Deepest mode is selected unless explicit constraint is there */
+			*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
+		}
+	} else {
+		/* Update the selected mode to invalid in response */
+		*mode = TISCI_MSG_VALUE_SLEEP_MODE_INVALID;
+	}
+
+	return ret;
 }
 
 static void lpm_enter_partial_io_mode(void)
@@ -340,7 +454,7 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 	} else if (mode == TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO) {
 		/* Suspend DM so that in case of failure, idle hook is not executed */
 		ret = lpm_sleep_suspend_dm();
-
+		
 		if (ret == SUCCESS) {
 			/*
 			* Wait for tifs to reach WFI in both the failed and successful case.

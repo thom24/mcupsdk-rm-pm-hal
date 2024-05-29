@@ -103,6 +103,8 @@ extern "C" {
 #define DEV_GTC                 AM62X_DEV_WKUP_GTC0
 #define POWER_MASTER            AM62X_DEV_A53SS0_CORE_0
 #define POWER_MASTER_CLUSTER    AM62X_DEV_A53SS0
+#define USB0_DEV_ID             AM62X_DEV_USB0
+#define USB1_DEV_ID             AM62X_DEV_USB1
 
 /* GTC Config base */
 #define GTC_CFG0_BASE           (0xA80000UL)
@@ -123,6 +125,12 @@ extern "C" {
 #define MCU_CTRL_BASE           (0x04500000UL)
 #define MAX_MMR_DATA            (20U)
 
+/* DEVGRP and LPSC ID */
+#define MAIN_DEVGRP             DEVGRP_00
+#define ALWAYS_ON_LPSC_ID       0U
+
+/* Deepest low power mode supported according to fw caps */
+#define DEEPEST_LOW_POWER_MODE  TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP
 
 #ifdef __cplusplus
 }

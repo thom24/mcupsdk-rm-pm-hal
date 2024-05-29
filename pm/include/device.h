@@ -296,7 +296,7 @@ static inline struct device *device_api_lookup(u32 id)
  */
 static inline u32 device_id(struct device *dev)
 {
-	return (u32) ((s32) (dev - soc_devices)) ;
+	return (u32) ((s32) (dev - soc_devices));
 }
 
 /**
@@ -495,5 +495,28 @@ s32 devices_deinit_flags(void);
  * or disabled. This function call can drop all remaining powerup refs.
  */
 void devices_drop_power_up_ref(void);
+
+#ifdef CONFIG_LPM_DM
+
+/**
+ * \brief Find the devgroup number and LPSC ID associated with a device.
+ *
+ * This does a lookup of a device based on the device ID. The device pointer
+ * is translated to a device index based on it's position in the soc_devices
+ * array. That index is then used to find the correct element within the
+ * soc_device_data array. This array is used to get devgroup and LPSC ID
+ * information.
+ *
+ * \param id
+ * The device ID to lookup.
+ * \param devgrp
+ * Pointer to the variable in which devgroup number should be returned.
+ * \param lpsc
+ * Pointer to the variable in which lpsc id should be returned.
+ *
+ * \return SUCCESS on success, <0 otherwise.
+ */
+s32 device_id_lookup_devgroup_and_lpsc(u8 id, u16 *devgrp, u8 *lpsc);
+#endif
 
 #endif

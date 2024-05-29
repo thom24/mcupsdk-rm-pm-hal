@@ -1,7 +1,7 @@
 /*
  * Device Manager - Manage PADCFG Ctrl MMR during Suspend/Resume
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,12 @@
 #define __LPM_PADCFG_H__
 
 #include <types/short_types.h>
+#include <types/sbool.h>
+
+#define MAIN_PADCFG_SIZE        (((MAIN_PADCFG_REG_END - PADCFG_OFFSET) >> 2) + 1U)
+#define MCU_PADCFG_SIZE         (((MCU_PADCFG_REG_END - PADCFG_OFFSET) >> 2) + 1U)
+
+#define PADCFG_WAKE_EN_BIT      (1U << 29U)
 
 #define MAIN_PADCFG_SIZE        (((MAIN_PADCFG_REG_END - PADCFG_OFFSET) >> 2) + 1U)
 #define MCU_PADCFG_SIZE         (((MCU_PADCFG_REG_END - PADCFG_OFFSET) >> 2) + 1U)
@@ -43,16 +49,22 @@
 /**
  *  \brief  Save MAIN padcfg Ctrl MMR during suspend
  *
+ *  \param wkup_en Boolean pointer to store whether wakeup
+ *                 is enabled for any MAIN padcfg pin
+ *
  *  \return ret      SUCCESS
  */
-s32 lpm_sleep_save_main_padconf(void);
+s32 lpm_sleep_save_main_padconf(sbool *wkup_en);
 
 /**
  *  \brief  Save MCU padcfg Ctrl MMR during suspend
  *
+ *  \param wkup_en Boolean pointer to store whether wakeup
+ *                 is enabled for any MCU padcfg pin
+ *
  *  \return ret      SUCCESS
  */
-s32 lpm_sleep_save_mcu_padconf(void);
+s32 lpm_sleep_save_mcu_padconf(sbool *wkup_en);
 
 /**
  *  \brief  Restore MAIN padcfg Ctrl MMR during resume
