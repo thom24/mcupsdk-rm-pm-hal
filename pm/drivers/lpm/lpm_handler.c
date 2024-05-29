@@ -53,7 +53,8 @@
 #include "ctrlmmr_raw.h"
 #include "ctrl_mmr.h"
 #include "rm_lpm.h"
-
+#include "device_prepare.h"
+#include <lib/trace.h>
 
 /* Count of 1us delay for 10ms */
 #define TIMEOUT_10MS                    10000U
@@ -74,6 +75,15 @@ extern void lpm_clear_all_wakeup_interrupt(void);
 
 u32 key;
 volatile u32 enter_sleep_status = 0;
+
+/* Each bit represents whether that host has set constraints or not */
+#if HOST_ID_CNT <= 16U
+static u16 dev_cons[SOC_DEVICES_RANGE_ID_MAX] = { 0U };
+#elif HOST_ID_CNT <= 32U
+static u32 dev_cons[SOC_DEVICES_RANGE_ID_MAX] = { 0U };
+#else
+static u64 dev_cons[SOC_DEVICES_RANGE_ID_MAX] = { 0U };
+#endif
 
 static void lpm_hang_abort(void)
 {
@@ -614,5 +624,43 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 	} else {
 		/* Do Nothing */
 	}
+	return ret;
+}
+
+s32 dm_lpm_set_device_constraint(u32 *msg_recv)
+{
+	s32 ret = SUCCESS;
+	struct tisci_msg_lpm_set_device_constraint_req *req =
+		(struct tisci_msg_lpm_set_device_constraint_req *) msg_recv;
+	struct tisci_msg_lpm_set_device_constraint_resp *resp =
+		(struct tisci_msg_lpm_set_device_constraint_resp *) msg_recv;
+	struct device *dev = NULL;
+	u8 id = req->id;
+	sbool state = (sbool) req->state;
+	u8 host_id = req->hdr.host;
+	u8 host_idx;
+
+	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_LPM_SET_DEVICE_CONSTRAINT);
+	pm_trace(TRACE_PM_ACTION_MSG_PARAM_DEV_CLK_ID, id);
+	pm_trace(TRACE_PM_ACTION_MSG_PARAM_VAL, state);
+
+	resp->hdr.flags = 0U;
+
+	if (state == STRUE) {
+		/* Prepare the host and device for setting constraints - Exclusive rights valued */
+		ret = device_prepare_exclusive(host_id, id, &host_idx, &dev);
+		if (ret == SUCCESS) {
+			/* Set constraint */
+			dev_cons[id] |= (1U << host_idx);
+		}
+	} else {
+		/* Prepare the host and device for clearing constraints - Can be cleared irrespective of exclusive rights */
+		ret = device_prepare_nonexclusive(host_id, id, &host_idx, &dev);
+		if (ret == SUCCESS) {
+			/* Clear constraint */
+			dev_cons[id] &= ~(1U << host_idx);
+		}
+	}
+
 	return ret;
 }

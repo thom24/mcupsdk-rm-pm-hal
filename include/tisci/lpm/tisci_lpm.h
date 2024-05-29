@@ -387,4 +387,44 @@ struct tisci_msg_min_context_restore_resp {
 	struct tisci_header hdr;
 } __attribute__((__packed__));
 
+/**
+ * \brief Request for TISCI_MSG_LPM_SET_DEVICE_CONSTRAINT.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ * \param id Device ID of device on which constraint has to be set/cleared.
+ * \param state The desired state of constraint: set or clear.
+ * \param rsvd_0 Reserved for future use.
+ * \param rsvd_1 Reserved for future use.
+ *
+ * This message is used by host to set constraint on a device. This can be
+ * sent anytime after boot before prepare sleep message and after current low
+ * power mode is exited. Any device can set a constraint on the low power mode
+ * that the SoC can enter. It allows configurable information to be easily shared
+ * from the application, as this is a non-secure message and therefore can be sent
+ * by anyone. By setting a constraint, the device ensures that it will not be
+ * powered off or reset in the selected mode.
+ *
+ * Notes:
+ * * Access Restriction: Exclusivity flag of Device will be honored for setting
+ *   constraint. If some other host has exclusive rights on this device, NAK will
+ *   be returned.
+ * * Clearing of constraints can be done irrespective of exclusivity.
+ */
+struct tisci_msg_lpm_set_device_constraint_req {
+	struct tisci_header	hdr;
+	u32			id;
+	u8			state;
+	u32			rsvd_0;
+	u32			rsvd_1;
+} __attribute__((__packed__));
+
+/**
+ * \brief Response for TISCI_MSG_LPM_SET_DEVICE_CONSTRAINT.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ */
+struct tisci_msg_lpm_set_device_constraint_resp {
+	struct tisci_header hdr;
+} __attribute__((__packed__));
+
 #endif
