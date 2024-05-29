@@ -123,11 +123,15 @@
  *
  * Notes:
  *  * Mode is defined as one of TISCI_MSG_VALUE_SLEEP_MODE_x macros.
- *  * ctx_lo and ctx_hi are to be a reserved memory region as decided on by
- *    the HLOS. This region should be a carve out in DDR and valid for use
- *    with DMA. Otherwise there are no constraints on this memory. An
- *    encrypted blob will be placed here and only a valid blob can be
+ *  * Mode parameter is applicable only for partial IO low power mode. For
+ *    other low power mode entry requests, this value must not be equal
+ *    to partial IO mode value.
+ *  * For version < 10.x, ctx_lo and ctx_hi are to be a reserved memory region
+ *    as decided on by the HLOS. This region should be a carve out in DDR and
+ *    valid for use with DMA. Otherwise there are no constraints on this memory.
+ *    An encrypted blob will be placed here and only a valid blob can be
  *    decrypted and authenticated, which eliminates risk of tampering.
+ *  * For version >= 10.x, ctx_lo and ctx_hi are reserved for internal use.
  */
 struct tisci_msg_prepare_sleep_req {
 	struct tisci_header	hdr;
@@ -152,12 +156,14 @@ struct tisci_msg_prepare_sleep_resp {
  * \param hdr TISCI header to provide ACK/NAK flags to the host.
  * \param mode Low power mode to enter.
  * \param proc_id Processor id to be used for restoring boot vector and debug
- *                status upon resume
- * \param core_resume_lo Low 32-bits of physical pointer to address for core to begin execution upon resume.
- * \param core_resume_hi High 32-bits of physical pointer to address for core to begin execution upon resume.
+ *                status upon resume.
+ * \param core_resume_lo Low 32-bits of physical pointer to address for core to
+ *                       begin execution upon resume.
+ * \param core_resume_hi High 32-bits of physical pointer to address for core to
+ *                       begin execution upon resume.
  *
- * This message is to be sent after TISCI_MSG_PREPARE_SLEEP and actually triggers entry into the specified
- * low power mode.
+ * This message is to be sent after TISCI_MSG_PREPARE_SLEEP and actually triggers
+ * entry into the previously selected low power mode.
  *
  */
 struct tisci_msg_enter_sleep_req {
@@ -172,7 +178,7 @@ struct tisci_msg_enter_sleep_req {
  * \brief Response for TISCI_MSG_ENTER_SLEEP.
  *
  * \param hdr TISCI header to provide ACK/NAK flags to the host.
- * \param status Value that gives information about what happened during LPM cycle
+ * \param status Value that gives information about what happened during LPM cycle.
  */
 struct tisci_msg_enter_sleep_resp {
 	struct tisci_header	hdr;
@@ -290,7 +296,7 @@ struct tisci_msg_core_resume_resp {
  * suspend sequence to indicate that DM was not able to successfully suspend
  * the SOC and DM is aborting the sleep cycle. On receiving this message TIFS
  * will wake from WFI and the same message will be forwarded to the power
- * master to wake it from WFI
+ * master to wake it from WFI.
  */
 struct tisci_msg_abort_enter_sleep_req {
 	struct tisci_header hdr;

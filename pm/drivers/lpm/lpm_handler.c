@@ -82,6 +82,7 @@ extern s32 _stub_start(void);
 extern u32 lpm_get_wake_up_source(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
 extern void lpm_clear_all_wakeup_interrupt(void);
+extern u8 lpm_get_selected_sleep_mode(void);
 
 u32 key;
 volatile u32 enter_sleep_status = 0;
@@ -438,39 +439,65 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 {
 	struct tisci_msg_prepare_sleep_req *req =
 		(struct tisci_msg_prepare_sleep_req *) msg_recv;
+
 	s32 ret = SUCCESS;
-	u8 mode = req->mode;
+	u8 mode;
 
-	if ((mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
-		/* Parse and store the mode info and ctx address in the prepare sleep message */
-		lpm_populate_prepare_sleep_data(req);
-
-		/*
-		 * Clearing all wakeup interrupts from VIM. Even if we are cleaning interrupts
-		 * from VIM, if the wakeup interrupt is still active it will be able to wake
-		 * the soc from LPM. This will only clear any unwanted pending wakeup interrupts
-		 */
-		lpm_clear_all_wakeup_interrupt();
-	} else if (mode == TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO) {
-		/* Suspend DM so that in case of failure, idle hook is not executed */
-		ret = lpm_sleep_suspend_dm();
-		
-		if (ret == SUCCESS) {
-			/*
-			* Wait for tifs to reach WFI in both the failed and successful case.
-			* but update the ret value only if it was SUCCESS previously
-			*/
-			ret = lpm_sleep_wait_for_tifs_wfi();
-		}
-
-		if (ret == SUCCESS) {
-			/* Enable CANUART IO daisy chain and enter partial io mode */
-			lpm_enter_partial_io_mode();
-		} else {
-			lpm_hang_abort();
+	/* Skip mode selection in case of partial IO low power mode */
+	if (req->mode == TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO) {
+		mode = TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO;
+		/* Select low power mode only if mode is not locked yet */
+	} else if (lpm_locked == SFALSE) {
+		if (lpm_select_sleep_mode(&mode) == SUCCESS) {
+			lpm_locked = STRUE;
+			req->mode = mode;
 		}
 	} else {
-		ret = -EINVAL;
+		ret = -EFAIL;
+	}
+
+	if (ret == SUCCESS) {
+		switch (mode) {
+		case TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR:
+			/* Return failure if the device does not support IO only plus DDR mode */
+			if (mode != DEEPEST_LOW_POWER_MODE) {
+				ret = -EFAIL;
+				break;
+			}
+		case TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP:
+		case TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY:
+			/* Parse and store the mode info and ctx address in the prepare sleep message */
+			lpm_populate_prepare_sleep_data(req);
+
+			/*
+			 * Clearing all wakeup interrupts from VIM. Even if we are cleaning interrupts
+			 * from VIM, if the wakeup interrupt is still active it will be able to wake
+			 * the soc from LPM. This will only clear any unwanted pending wakeup interrupts
+			 */
+			lpm_clear_all_wakeup_interrupt();
+			break;
+		case TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO:
+			/* Suspend DM so that in case of failure, idle hook is not executed */
+			ret = lpm_sleep_suspend_dm();
+
+			if (ret == SUCCESS) {
+				/*
+				 * Wait for tifs to reach WFI in both the failed and successful case.
+				 * but update the ret value only if it was SUCCESS previously
+				 */
+				ret = lpm_sleep_wait_for_tifs_wfi();
+			}
+
+			if (ret == SUCCESS) {
+				/* Enable CANUART IO daisy chain and enter partial io mode */
+				lpm_enter_partial_io_mode();
+			} else {
+				lpm_hang_abort();
+			}
+			break;
+		default: ret = -EFAIL;
+			break;
+		}
 	}
 
 	return ret;
@@ -488,7 +515,8 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 	enter_sleep_status = 0;
 
-	if ((mode != TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) && (mode != TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
+	/* Check if this req mode matches with DM selected mode */
+	if (lpm_get_selected_sleep_mode() != mode) {
 		ret = -EINVAL;
 	}
 
@@ -534,13 +562,13 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	}
 
 	if (ret == SUCCESS) {
-		ret = lpm_sleep_save_main_padconf();
+		/* As PADCFGs have already been saved, set the flag */
 		enter_sleep_status |= LPM_SAVE_MAIN_PADCONFIG;
-	}
 
-	if ((mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) && (ret == SUCCESS)) {
-		ret = lpm_sleep_save_mcu_padconf();
-		enter_sleep_status |= LPM_SAVE_MCU_PADCONFIG;
+		/* MCU PADCFGs values is lost only during IO DDR mode */
+		if (mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) {
+			enter_sleep_status |= LPM_SAVE_MCU_PADCONFIG;
+		}
 	}
 
 	if (ret == SUCCESS) {
@@ -589,6 +617,12 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_GTC) == LPM_SUSPEND_GTC)) {
 		if (lpm_resume_gtc() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if (((temp_sleep_status & LPM_SAVE_MCU_PADCONFIG) == LPM_SAVE_MCU_PADCONFIG) && (ret == SUCCESS)) {
+		if (lpm_resume_restore_mcu_padconf() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
@@ -644,6 +678,9 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 			lpm_hang_abort();
 		}
 	}
+
+	/* Open the mode selection lock */
+	lpm_locked = SFALSE;
 
 	return ret;
 }
