@@ -941,3 +941,20 @@ s32 dm_lpm_get_latency_constraint(u32 *msg_recv)
 	return ret;
 }
 
+s32 dm_lpm_get_next_sys_mode(u32 *msg_recv)
+{
+	s32 ret = SUCCESS;
+	struct tisci_msg_lpm_get_next_sys_mode_resp *resp =
+		(struct tisci_msg_lpm_get_next_sys_mode_resp *) msg_recv;
+
+	resp->hdr.flags = 0U;
+
+	if (lpm_locked == STRUE) {
+		resp->mode = lpm_get_selected_sleep_mode();
+	} else {
+		resp->mode = TISCI_MSG_VALUE_SLEEP_MODE_NOT_SELECTED;
+	}
+
+	return ret;
+}
+

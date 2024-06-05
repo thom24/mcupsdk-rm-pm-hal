@@ -560,4 +560,29 @@ struct tisci_msg_lpm_get_latency_constraint_resp {
 	u8			state;
 } __attribute__((__packed__));
 
+/**
+ * \brief Request for TISCI_MSG_LPM_GET_NEXT_SYS_MODE.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ *
+ * This message is used to enquire DM for selected system wide low power mode.
+ *
+ */
+struct tisci_msg_lpm_get_next_sys_mode_req {
+	struct tisci_header hdr;
+} __attribute__((__packed__));
+
+/**
+ * \brief Response for TISCI_MSG_LPM_GET_NEXT_SYS_MODE.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ * \param mode The selected system wide low power mode.
+ *
+ * Note: If the mode selection is not yet locked, this API returns "not selected" mode.
+ */
+struct tisci_msg_lpm_get_next_sys_mode_resp {
+	struct tisci_header	hdr;
+	u8			mode;
+} __attribute__((__packed__));
+
 #endif

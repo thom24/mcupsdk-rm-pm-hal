@@ -119,4 +119,13 @@ s32 dm_lpm_set_latency_constraint(u32 *msg_recv);
  */
 s32 dm_lpm_get_latency_constraint(u32 *msg_recv);
 
+/**
+ *  \brief  LPM get next system mode handler Function.
+ *
+ *  \param  msg_recv Pointer to the received and returned message. Same buffer
+ *                   used.
+ *  \return ret      SUCCESS
+ */
+s32 dm_lpm_get_next_sys_mode(u32 *msg_recv);
+
 #endif
