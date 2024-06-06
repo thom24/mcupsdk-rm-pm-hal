@@ -1259,12 +1259,9 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_pll_16fft *pll;
 	const struct clk_data_pll *data_pll;
-	u32 freq_ctrl1;
-	u32 ctrl;
 	u32 cfg;
-	u32 pll_type;
+	u32 ctrl;
 	u32 i;
-	u32 pllfm;
 	s32 ret = SUCCESS;
 	sbool skip_hw_init = SFALSE;
 
@@ -1293,56 +1290,6 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 		writel((u32) PLL_16FFT_LOCKKEY1_VALUE, (u32) pll->base + (u32) PLL_16FFT_LOCKKEY1(pll->idx));
 
 		cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
-		ctrl = readl(pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
-
-		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
-		freq_ctrl1 = readl(pll->base + (u32) PLL_16FFT_FREQ_CTRL1(pll->idx));
-		pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
-		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
-
-		/* Disable calibration in the fractional mode of the FRACF PLL based on
-		 * data from silicon and simulation data.
-		 */
-		if ((pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL)) {
-			clk_pll_16fft_cal_option3(pll);
-		}
-
-		/* Make sure PLL is enabled */
-		ret = clk_pll_16fft_enable_pll(pll);
-
-		/* Always bypass if we lose lock */
-		ctrl |= PLL_16FFT_CTRL_BYP_ON_LOCKLOSS;
-
-		/* Prefer glitchless bypass */
-		if ((ctrl & PLL_16FFT_CTRL_INTL_BYP_EN) != 0U) {
-			ctrl |= PLL_16FFT_CTRL_BYPASS_EN;
-			ctrl &= ~PLL_16FFT_CTRL_INTL_BYP_EN;
-		}
-
-		/* Always enable output if PLL */
-		ctrl |= PLL_16FFT_CTRL_CLK_POSTDIV_EN;
-
-		/* Currently unused by all PLLs */
-		ctrl &= ~PLL_16FFT_CTRL_CLK_4PH_EN;
-
-		/* Make sure we have fractional support if required */
-		if (pllfm != 0UL) {
-			ctrl |= PLL_16FFT_CTRL_DSM_EN;
-			ctrl |= PLL_16FFT_CTRL_DAC_EN;
-		} else {
-			ctrl &= ~PLL_16FFT_CTRL_DSM_EN;
-			ctrl &= ~PLL_16FFT_CTRL_DAC_EN;
-		}
-
-		/* Enable Fractional by default for PLL_16FFT_CFG_PLL_TYPE_FRAC2 */
-		if (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRAC2) {
-			ctrl |= PLL_16FFT_CTRL_DSM_EN;
-			ctrl |= PLL_16FFT_CTRL_DAC_EN;
-		}
-
-		if (ret == SUCCESS) {
-			ret = pm_writel_verified(ctrl, (u32) pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
-		}
 
 		/* Enable all HSDIV outputs */
 		for (i = 0U; (i < 16U) && (ret == SUCCESS); i++) {
