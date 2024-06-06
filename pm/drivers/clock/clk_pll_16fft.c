@@ -387,10 +387,15 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clock_ptr)
 		u32 pll_type;
 		u32 cfg;
 		s32 err;
+		u32 cal, cal_en;
 		cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
 		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
+
+		cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
+		cal_en = (cal & PLL_16FFT_CAL_CTRL_CAL_EN);
+
 		if (success &&
-		    (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL)) {
+		    (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL) && (cal_en == 1UL)) {
 			/*
 			 * Wait for calibration lock.
 			 *
