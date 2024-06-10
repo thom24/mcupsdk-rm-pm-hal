@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2019-2023, Texas Instruments Incorporated
+ * Copyright (C) 2019-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,23 @@
 #define CTRLMMR_LOCK_KICK1_UNLOCK_VAL                   (0xd172bc5aU)
 #define CTRLMMR_LOCK_KICK1_LOCK_VAL                     (0x0U)
 
+#define MMR_WKUP_CTRL_BASE_PARTITION_2                  BIT(0)
+#define MMR_MAIN_CTRL_BASE_PARTITION_2                  BIT(1)
+#define MMR_MCU_CTRL_BASE_PARTITION_2                   BIT(2)
+#define MMR_WKUP_CTRL_BASE_PARTITION_6                  BIT(3)
+
 static volatile s32 mmr_lock_count = 0;
+static volatile u32 mmr_read_value = 0U;
+
+void mmr_read(u32 base, u32 partition, u32 value)
+{
+	/* Translate the base address */
+	u32 part_base = base + (partition * CTRL_MMR0_PARTITION_SIZE);
+
+	if ((readl(part_base + CTRLMMR_LOCK_KICK0) & CTRLMMR_LOCK_KICK0_UNLOCKED_MASK) != CTRLMMR_LOCK_KICK0_UNLOCKED_MASK) {
+		mmr_read_value |= value;
+	}
+}
 
 void mmr_unlock(u32 base, u32 partition)
 {
@@ -87,6 +103,15 @@ void mmr_unlock_all(void)
 {
 	u32 key = osal_hwip_disable();
 
+	/* Initailize the value to zero */
+	mmr_read_value = 0U;
+
+	/* Check the previous unlock status of MMR partitions and store the status */
+	mmr_read(WKUP_CTRL_BASE, 2, MMR_WKUP_CTRL_BASE_PARTITION_2);
+	mmr_read(MAIN_CTRL_BASE, 2, MMR_MAIN_CTRL_BASE_PARTITION_2);
+	mmr_read(MCU_CTRL_BASE, 2, MMR_MCU_CTRL_BASE_PARTITION_2);
+	mmr_read(WKUP_CTRL_BASE, 6, MMR_WKUP_CTRL_BASE_PARTITION_6);
+
 	if (mmr_lock_count == 0) {
 		/* Unlock CLKSEL MMR partitions */
 		mmr_unlock(WKUP_CTRL_BASE, 2);
@@ -105,12 +130,24 @@ void mmr_lock_all(void)
 
 	mmr_lock_count -= 1;
 	if (mmr_lock_count == 0) {
-		/* Lock CLKSEL MMR partitions */
-		mmr_lock(WKUP_CTRL_BASE, 2);
-		mmr_lock(MAIN_CTRL_BASE, 2);
-		mmr_lock(MCU_CTRL_BASE, 2);
-		/* lock WKUP_MCU_WARM_RST_CTRL MMR partitions*/
-		mmr_lock(WKUP_CTRL_BASE, 6);
+		/* Lock MMR partitions only if it is locked before unlocking all MMRs in mmr_unlock_all */
+
+		if ((mmr_read_value & MMR_WKUP_CTRL_BASE_PARTITION_2) == MMR_WKUP_CTRL_BASE_PARTITION_2) {
+			/* Lock CLKSEL MMR partitions */
+			mmr_lock(WKUP_CTRL_BASE, 2);
+		}
+		if ((mmr_read_value & MMR_MAIN_CTRL_BASE_PARTITION_2) == MMR_MAIN_CTRL_BASE_PARTITION_2) {
+			/* Lock CLKSEL MMR partitions */
+			mmr_lock(MAIN_CTRL_BASE, 2);
+		}
+		if ((mmr_read_value & MMR_MCU_CTRL_BASE_PARTITION_2) == MMR_MCU_CTRL_BASE_PARTITION_2) {
+			/* Lock CLKSEL MMR partitions */
+			mmr_lock(MCU_CTRL_BASE, 2);
+		}
+		if ((mmr_read_value & MMR_WKUP_CTRL_BASE_PARTITION_6) == MMR_WKUP_CTRL_BASE_PARTITION_6) {
+			/* lock WKUP_MCU_WARM_RST_CTRL MMR partitions*/
+			mmr_lock(WKUP_CTRL_BASE, 6);
+		}
 	}
 	osal_hwip_restore(key);
 }
