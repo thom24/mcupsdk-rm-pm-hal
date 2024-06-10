@@ -76,23 +76,19 @@ static void enable_intr(void)
 	__asm volatile ("\tCPSIE I");
 }
 
-/* variable to store the last wakeup interrupt */
+/* Variable to store the last wakeup interrupt */
 u32 wake_up_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID;
+
+/* Variable to store the information passed in prepare sleep msg */
 static struct tisci_msg_prepare_sleep_req g_params;
 
 /*
- * XXX: Define a setup time of 4x default for MOSC
+ * Define a setup time of 4x default for MOSC
  *
  * This allows for better clock stability once R5 begins
  * execution again.
  */
 #define PMCTRL_MOSC_SETUP_TIME          0xFC000U
-
-/* FIXME IO_ISO_TIMEOUT should be about 10us */
-#define IO_ISO_TIMEOUT  10000
-
-/* Timeout for legacy peripherals clock stop transition */
-#define CLKSTOP_TRANSITION_TIMEOUT  10000
 
 void lpm_clear_all_wakeup_interrupt(void)
 {
@@ -264,7 +260,7 @@ static s32 exit_ddr_low_power_mode(void)
 
 static void clock_gate_legacy_peripherals(sbool enable)
 {
-	u32 timeout = CLKSTOP_TRANSITION_TIMEOUT;
+	u32 timeout = TIMEOUT_10_MS;
 
 	if (enable) {
 		writel(WKUP_EN_CLKSTOP_ALL, WKUP_CTRL_MMR_BASE + DM_CLKSTOP_EN);
@@ -387,13 +383,14 @@ static void bypass_main_pll(void)
 {
 	u32 i;
 
-	/* disable all HSDIV in MAIN_PLLCTRL, bypass all MAIN PLL
-	 * except clock for Debug, PLL0, PLL15
-	 */
+	/* Save the PLL config */
 	for (i = 0; i < num_main_plls_save_rstr; i++) {
 		pll_save(main_plls_save_rstr[i]);
 	}
 
+	/* Bypass and disable all PLL in MAIN_PLLCTRL,
+	 * except clock for Debug, PLL0, PLL15
+	 */
 	for (i = 0; i < num_main_plls_dis; i++) {
 		pll_disable(main_plls_dis[i]);
 	}
@@ -415,7 +412,7 @@ static void config_wake_sources(void)
 		vim_set_intr_enable(soc_wake_sources_data[i].int_num,
 				    INTR_ENABLE);
 
-		/* Set WKUP0_EN BIT to be enabled */
+		/* Set wkup enable bit in MMR */
 		val |= BIT(soc_wake_sources_data[i].wkup_idx);
 	}
 	/* Write all bits to enable at once */
@@ -431,7 +428,7 @@ static void disable_wake_sources(void)
 {
 	u32 i;
 
-	/* disable all wake up interrupts */
+	/* Disable all wake up interrupts */
 	for (i = 0; i < (u32) WAKEUP_SOURCE_MAX; i++) {
 		vim_set_intr_enable(soc_wake_sources_data[i].int_num, INTR_DISABLE);
 	}
@@ -471,7 +468,6 @@ static void disable_gpio_wake_up(void)
 
 static void disable_main_remain_pll(void)
 {
-	/* disable remaining HSDIV & PLL in MAIN */
 	return;
 }
 
@@ -505,7 +501,6 @@ static s32 disable_mcu_domain(void)
 			break;
 		}
 	}
-
 
 	for (i = 0; i < num_mcu_pds; i++) {
 		if (ret == 0) {
@@ -556,7 +551,6 @@ static s32 enable_dm_lpsc(void)
 
 static void disable_mcu_io_isolation(void)
 {
-	/* disable WKUP IO Daisy Chain & IO isolation */
 }
 
 /* Send TISCI ROM Boot image message containing location
@@ -721,7 +715,7 @@ void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p)
 	if (p != NULL) {
 		lpm_memcpy(&g_params, p, sizeof(g_params));
 	} else {
-		/* do nothing*/
+		/* Do nothing*/
 	}
 }
 
@@ -733,17 +727,11 @@ s32 dm_stub_entry(void)
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_START);
 
-#ifdef CONFIG_LPM_DM_STUB_STANDALONE
-	/* FIXME parameters should be passed in from DM */
-	g_params.mode = LPM_DEEPSLEEP;
-	g_params.debug_flags = 0;
-#endif
-
-	/* unlock wkup_ctrl_mmr region 2 & 6 */
+	/* Unlock wkup_ctrl_mmr region 2 & 6 */
 	ctrlmmr_unlock(WKUP_CTRL_MMR_BASE, 2);
 	ctrlmmr_unlock(WKUP_CTRL_MMR_BASE, 6);
 
-	/* unlock mcu_ctrl_mmr region 0,2 */
+	/* Unlock mcu_ctrl_mmr region 0,2 */
 	ctrlmmr_unlock(MCU_CTRL_MMR_BASE, 0);
 	ctrlmmr_unlock(MCU_CTRL_MMR_BASE, 2);
 
@@ -774,9 +762,7 @@ s32 dm_stub_entry(void)
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC);
 
-		/* Disable all HSDIVs in MAIN_PLL, bypass all MAIN PLLs,
-		 * except clock for debug, PLL0_HSDIV0, PLL15
-		 */
+		/* Bypass and disable all PLL in MAIN_PLLCTRL except clock for Debug, PLL0, PLL15 */
 		bypass_main_pll();
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_BYPASS_MAIN_PLL);
 	}
@@ -784,9 +770,7 @@ s32 dm_stub_entry(void)
 	wait_for_debug();
 
 	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
-		/* Configure selected wake sources
-		 * with writes to WKUP0_EN IN WKUP_CTRL
-		 */
+		/* Configure selected wake sources with writes to WKUP0_EN IN WKUP_CTRL */
 		config_wake_sources();
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CONFIG_WAKE_SRC);
 
@@ -805,9 +789,7 @@ s32 dm_stub_entry(void)
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
 
-		/* Modify WKUP_CLKSEL in WKUP_CTRL
-		 * to use MCU_PLL instead of MAIN PLL
-		 */
+		/* Modify WKUP_CLKSEL in WKUP_CTRL to use MCU_PLL instead of MAIN PLL */
 		writel(WKUP_CLKSEL_MCU, WKUP_CTRL_MMR_BASE + WKUP_CLKSEL);
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WKUP_CLKSEL_MCU);
@@ -825,9 +807,7 @@ s32 dm_stub_entry(void)
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_PLLS);
 
-		/* Set WKUP_CTRL DS_DM_RESET.mask to isolate DM
-		 * from MAIN domain reset
-		 */
+		/* Set WKUP_CTRL DS_DM_RESET.mask to isolate DM from MAIN domain reset */
 		writel(DS_RESET_MASK, WKUP_CTRL_MMR_BASE + DS_DM_RESET);
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_DS_RST_MASK);
@@ -877,7 +857,7 @@ s32 dm_stub_entry(void)
 		lpm_trace_init(STRUE);
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_BYPASS_MCU_PLL);
 
-		/* set MCU_MMR.MCU_PLL_CLKSEL.clkloss_switch_en to 0
+		/* Set MCU_MMR.MCU_PLL_CLKSEL.clkloss_switch_en to 0
 		 *     to avoid clk switch
 		 */
 		reg = readl(MCU_CTRL_MMR_BASE + MCU_PLL_CLKSEL);
@@ -885,13 +865,13 @@ s32 dm_stub_entry(void)
 		writel(reg, MCU_CTRL_MMR_BASE + MCU_PLL_CLKSEL);
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CLR_CLKLOSS_EN);
 
-		/* set MCU_MMR.HFOSC0_CTRL.pd_c to power off of HFOSC PD */
+		/* Set MCU_MMR.HFOSC0_CTRL.pd_c to power off of HFOSC PD */
 		reg = readl(MCU_CTRL_MMR_BASE + HFOSC0_CTRL);
 		reg |= HFOSC0_CTRL_PD_C;
 		writel(reg, MCU_CTRL_MMR_BASE + HFOSC0_CTRL);
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_EN_HFOSC_PD_C);
 
-		/* set OSC_CG_ON_WFI bit in WKUP_CTRL.PMCTRL_MOSC */
+		/* Set OSC_CG_ON_WFI bit in WKUP_CTRL.PMCTRL_MOSC */
 		reg = readl(WKUP_CTRL_MMR_BASE + PMCTRL_MOSC);
 		reg |= PMCTRL_MOSC_OSC_CG_ON_WFI | PMCTRL_MOSC_SETUP_TIME;
 		writel(reg, WKUP_CTRL_MMR_BASE + PMCTRL_MOSC);
@@ -903,9 +883,9 @@ s32 dm_stub_entry(void)
 	/* Enable clock gating of legacy peripherals */
 	clock_gate_legacy_peripherals(STRUE);
 
-	/* enter WFI */
+	/* Enter WFI */
 	enter_WFI();
-	/* enable global interrupt */
+	/* Enable global interrupt */
 	enable_intr();
 
 	/* Disable clock gating of legacy peripherals */
@@ -919,18 +899,16 @@ s32 dm_stub_entry(void)
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_POST_WFI);
 
-	/* start resume */
+	/* Start resume */
 	if (g_params.mode == LPM_DEEPSLEEP) {
-		/* clear OSC_CG_ON_WFI bit in WKUP_CTRL.PMCTRL_MOSC */
+		/* Clear OSC_CG_ON_WFI bit in WKUP_CTRL.PMCTRL_MOSC */
 		reg = readl(WKUP_CTRL_MMR_BASE + PMCTRL_MOSC);
 		reg &= ~PMCTRL_MOSC_OSC_CG_ON_WFI;
 		writel(reg, WKUP_CTRL_MMR_BASE + PMCTRL_MOSC);
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CLR_OSC_CG_WFI);
 
-		/* clear MCU_MMR.HFOSC0_CTRL.pd_c and
-		 * set MCU_MMR.MCU_PLL_CLKSEL.clkloss_switch_en
-		 */
+		/* Clear MCU_MMR.HFOSC0_CTRL.pd_c and set MCU_MMR.MCU_PLL_CLKSEL.clkloss_switch_en */
 		reg = readl(MCU_CTRL_MMR_BASE + HFOSC0_CTRL);
 		reg &= ~HFOSC0_CTRL_PD_C;
 		writel(reg, MCU_CTRL_MMR_BASE + HFOSC0_CTRL);
@@ -966,17 +944,13 @@ s32 dm_stub_entry(void)
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DIS_MCU_IO_ISO);
 
-		/* Write 0xdee51ee5 to WKUP DS_MAGIC_WORD to
-		 * indicate resume is required to TIFS ROM
-		 */
+		/* Write 0xdee51ee5 to WKUP DS_MAGIC_WORD to indicate resume path for TIFS ROM */
 		writel(DS_MAGIC_WORD_RESUME_TIFS,
 		       WKUP_CTRL_MMR_BASE + DS_MAGIC_WORD);
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_SET_MGC_WRD);
 
-		/* Write to WKUP_CTRL DS_MAIN.por_pdoff
-		 * bits to release Main domain reset
-		 */
+		/* Write to WKUP_CTRL DS_MAIN.por_pdoff bits to release Main domain reset */
 		writel(DS_MAIN_ON, WKUP_CTRL_MMR_BASE + DS_MAIN);
 	}
 
@@ -988,30 +962,22 @@ s32 dm_stub_entry(void)
 			lpm_abort();
 		}
 
-		/*
-		 * Set DM LPSC to enabled as early as possible as JTAG
-		 * will not connect until this is done.
-		 */
+		/* Set DM LPSC to enabled as early as possible as JTAG will not connect until this is done. */
 		if (enable_dm_lpsc() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MAIN_DM_LPSC_EN);
 			lpm_abort();
 		} else {
 		}
 
-		/* Modify WKUP_CLKSEL in WKUP_CTRL
-		 * to use SMS_PLL instead of MCU PLL
-		 */
+		/* Modify WKUP_CLKSEL in WKUP_CTRL to use SMS_PLL instead of MCU PLL */
 		writel(WKUP_CLKSEL_MAIN, WKUP_CTRL_MMR_BASE + WKUP_CLKSEL);
 
-		/* Configure additional MCU PLLs and PSCs to return to
-		 * pre-DeepSleep state
-		 */
+		/* Configure additional MCU PLLs and PSCs to return to pre-DeepSleep state */
 		enable_mcu_remain_pll();
 		enable_mcu_lpsc();
 
 		/* Poll on WKUP DS_MAGIC_WORD for 0x00d5d02e that indicates
 		 * TIFS ROM has completed and execution can continue.
-		 * Clear WKUP DS_MAGIC_WORD
 		 */
 		if (wait_for_tifs_ready() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_TIFS);
@@ -1048,7 +1014,6 @@ s32 dm_stub_entry(void)
 		}
 
 		/* Wait for TISCI Message to indicate DDR restore can resume */
-		/* TISCI_MSG_CONTINUE_RESUME */
 		if (receive_tisci_msg_continue_resume_req() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_TISCI_CONT_RES);
 			lpm_abort();
@@ -1133,9 +1098,7 @@ void dm_stub_irq_handler(void)
 
 	wake_up_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID;
 
-	/*
-	 * XXX: Add an additional delay for oscillator to stablize.
-	 */
+	/* Add an additional delay for oscillator to stabilize. */
 	for (i = 0; i < 10; i++) {
 		delay_1us();
 	}

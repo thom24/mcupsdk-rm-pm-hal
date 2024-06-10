@@ -122,7 +122,7 @@
  * Notes:
  *  * Mode is defined as one of TISCI_MSG_VALUE_SLEEP_MODE_x macros.
  *  * ctx_lo and ctx_hi are to be a reserved memory region as decided on by
- *    the HLOS. This region should be a carveout in DDR and valid for use
+ *    the HLOS. This region should be a carve out in DDR and valid for use
  *    with DMA. Otherwise there are no constraints on this memory. An
  *    encrypted blob will be placed here and only a valid blob can be
  *    decrypted and authenticated, which eliminates risk of tampering.
@@ -182,7 +182,7 @@ struct tisci_msg_enter_sleep_resp {
  *
  * \param hdr TISCI header to provide ACK/NAK flags to the host.
  * \param image_addr SPS memory address to load FS stub from.
- * \param image_size size of the FS stub imsage.
+ * \param image_size Size of the FS stub image.
  */
 struct tisci_msg_firmware_load_req {
 	struct tisci_header	hdr;
@@ -334,7 +334,7 @@ struct tisci_msg_lpm_wake_reason_resp {
  * \brief Request for TISCI_MSG_SET_IO_ISOLATION.
  *
  * \param hdr TISCI header to provide ACK/NAK flags to the host.
- * \param state The deseared state of the IO isolation.
+ * \param state The desired state of the IO isolation.
  *
  * This message is used to enable/disable IO isolation for low power modes.
  *

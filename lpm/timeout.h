@@ -41,6 +41,6 @@
 #define TIMEOUT_10_MS         (1000U * 10U)
 
 /**
- * \brief busy loop for 1us
+ * \brief Busy loop for 1us
  */
 void delay_1us(void);

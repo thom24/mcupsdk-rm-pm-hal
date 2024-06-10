@@ -71,13 +71,6 @@ const struct pd_lpsc main_lpscs_phase1[LPSC_PHASE1_MAX] = {
 	{ PD_GP_CORE_CTL,   LPSC_MAIN2DM_ISO		    },
 	{ PD_GP_CORE_CTL,   LPSC_DM2MAIN_ISO		    },
 	{ PD_GP_CORE_CTL,   LPSC_CENTRAL2DM_ISO		    }
-	/*
-	 * FIXME without force bit C7x is not turning off during low power mode
-	 * { PD_C7X,   LPSC_C7X_PBIST		    },
-	 * { PD_C7X,   LPSC_C7X_CORE		    },
-	 * { PD_C7X,   LPSC_C7X_COMMON		    },
-	 */
-	/* FIXME LPM resume is crashing if LPSC_DM2MAIN_INFRA_ISO is used, checking on this.  */
 };
 
 u32 num_main_lpscs_phase1 = sizeof(main_lpscs_phase1) / sizeof(struct pd_lpsc);
@@ -98,9 +91,6 @@ const struct pd_lpsc mcu_lpscs[LPSCS_MCU_MAX] = {
 	{ PD_MCUSS,	      LPSC_MCU_PBIST	   },
 	{ PD_MCUSS,	      LPSC_MCU_MCANSS0	   },
 	{ PD_MCUSS,	      LPSC_MCU_MCANSS1	   },
-	/* { PD_MCUSS,	      LPSC_MCU_R5	           }, FIXME force bit is required to turn off this LPSC */
-	/* { PD_MCUSS,	      LPSC_MCU_COMMON	   }, FIXME force bit is required to turn off this LPSC */
-	/* FIXME LPM suspend is crashing if LPSC_DM2SAFE_ISO is turned off { PD_GP_CORE_CTL_MCU, LPSC_DM2SAFE_ISO}, */
 };
 
 u32 num_mcu_lpscs = sizeof(mcu_lpscs) / sizeof(struct pd_lpsc);
@@ -108,7 +98,6 @@ u32 num_mcu_lpscs = sizeof(mcu_lpscs) / sizeof(struct pd_lpsc);
 /* MCU PDs to be disabled during Deepsleep */
 const u32 mcu_pds[MCU_PDS_MAX] = {
 	PD_GP_CORE_CTL_MCU,
-	/* FIXME PD_MCUSS FIXME MCU power domain is not turning off during deepsleep */
 };
 
 u32 num_mcu_pds = sizeof(mcu_pds) / sizeof(u32);

@@ -42,21 +42,21 @@
 
 /**
  * \brief Enable/disable an interrupt
- * \param intr the number of the interrupt to enable/disable
- * \param enable flag to specify enable or disable
+ * \param intr The number of the interrupt to enable/disable
+ * \param enable Flag to specify enable or disable
  */
 void vim_set_intr_enable(u32 intr, int enable);
 
 /**
  * \brief Clear an interrupt status
- * \param intr the number of the interrupt to clear
+ * \param intr The number of the interrupt to clear
  */
 void vim_clear_intr(u32 intr);
 
 /**
  * \brief Get the active interrupt number
  *
- * \return s32 value for the number of the active interrupt,
+ * \return s32 Value for the number of the active interrupt,
  *         or -EINVAL when no active interrupt
  */
 s32 vim_get_intr_number(void);
@@ -69,9 +69,9 @@ void vim_irq_complete(void);
 
 /**
  * \brief Get interrupt status
- * \param intr the number of the interrupt
+ * \param intr The number of the interrupt
  *
- * \return 0 if the interrupt is not pending, if pending
+ * \return 0 If the interrupt is not pending, if pending
  *         return a non zero value
  */
 u32 vim_get_intr_status(u32 intr);

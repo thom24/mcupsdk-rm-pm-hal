@@ -77,7 +77,6 @@ static inline u32 SOC_read32(u32 a)
  * \param width width of the field
  * \param leftshift the number of bit fields the value has to be left shifted
  */
-/* Write to a specific field in an MMR. */
 static void Write_MMR_Field(uint32_t mmr_address, uint32_t field_value, uint32_t width, uint32_t leftshift)
 {
 	uint32_t *p_mmr;

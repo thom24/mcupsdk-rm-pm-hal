@@ -1,7 +1,7 @@
 /*
  * Device Manager - LPM GTC Driver
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ s32 lpm_sleep_suspend_gtc(void)
 {
 	u32 reg;
 
-	/* disable GTC */
+	/* Disable GTC */
 	reg = readl(GTC_CFG1_BASE + GTC_CFG1_CNTCR);
 	reg &= ~GTC_CFG1_CNTCR_EN;
 	writel(reg, GTC_CFG1_BASE + GTC_CFG1_CNTCR);
@@ -98,7 +98,7 @@ s32 lpm_resume_gtc(void)
 	writel(gtc.cnt_lo, GTC_CFG1_BASE + GTC_CFG1_CNT_LO);
 	writel(gtc.cnt_hi, GTC_CFG1_BASE + GTC_CFG1_CNT_HI);
 
-	/* enable GTC */
+	/* Enable GTC */
 	writel(gtc.hdbg | GTC_CFG1_CNTCR_EN, GTC_CFG1_BASE + GTC_CFG1_CNTCR);
 
 	return SUCCESS;

@@ -3,7 +3,7 @@
  *
  * Minimal driver for UART access
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -152,7 +152,7 @@ void lpm_trace_debug_uart(u8 *str, u8 len)
 		lpm_console_tx(str[len - i]);
 	}
 
-	/* Add a carriage return to support unflexible terminals. */
+	/* Add a carriage return to support inflexible terminals. */
 	lpm_console_tx('\r');
 
 	/* Move the cursor to new line. */
