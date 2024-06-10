@@ -1,5 +1,5 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * am62x soc lpscs.c
  *

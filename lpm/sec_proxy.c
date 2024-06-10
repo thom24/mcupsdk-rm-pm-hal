@@ -1,5 +1,5 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * Secure Proxy driver for Message Transfer
  *

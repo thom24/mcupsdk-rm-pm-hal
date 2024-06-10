@@ -1,5 +1,5 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * am62px soc lpscs.c
  *
@@ -59,12 +59,12 @@ u32 num_main_lpscs_phase2 = sizeof(main_lpscs_phase2) / sizeof(struct pd_lpsc);
 
 /* MCU LPSCs to be disabled during Deepsleep */
 const struct pd_lpsc mcu_lpscs[LPSCS_MCU_MAX] = {
-	{ PD_GP_CORE_CTL_MCU, LPSC_MAIN2MCU_ISO	   },
-	{ PD_GP_CORE_CTL_MCU, LPSC_MCU2DM_ISO	   },
-    { PD_GP_CORE_CTL_MCU, LPSC_DM2MCU_ISO	   },
-	{ PD_GP_CORE_CTL_MCU, LPSC_MCU_TEST	   },
-	{ PD_MCUSS,	      LPSC_MCU_COMMON	   },
-	{ PD_GP_CORE_CTL_MCU, LPSC_DM2SAFE_ISO	   },
+	{ PD_GP_CORE_CTL_MCU, LPSC_MAIN2MCU_ISO	       },
+	{ PD_GP_CORE_CTL_MCU, LPSC_MCU2DM_ISO	       },
+	{ PD_GP_CORE_CTL_MCU, LPSC_DM2MCU_ISO	       },
+	{ PD_GP_CORE_CTL_MCU, LPSC_MCU_TEST	       },
+	{ PD_MCUSS,	      LPSC_MCU_COMMON	       },
+	{ PD_GP_CORE_CTL_MCU, LPSC_DM2SAFE_ISO	       },
 };
 
 u32 num_mcu_lpscs = sizeof(mcu_lpscs) / sizeof(struct pd_lpsc);

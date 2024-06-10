@@ -1,9 +1,9 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * Minimal io library with readl and writel
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -83,10 +83,10 @@ static void Write_MMR_Field(uint32_t mmr_address, uint32_t field_value, uint32_t
 	uint32_t *p_mmr;
 	uint32_t mask;
 
-	p_mmr = (uint32_t *) mmr_address;       /* Grab the MMR value */
-	mask = (1U << width) - (1U << leftshift); /* Build a mask of 1s for the field. */
-	mask = ~(mask);                         /* Invert the mask so that the field will be zero'd out with the AND operation. */
-	*p_mmr &= mask;                         /* Zero out the field in the register. */
-	*p_mmr |= (field_value << leftshift);   /* Assign the value to that specific field. */
+	p_mmr = (uint32_t *) mmr_address;               /* Grab the MMR value */
+	mask = (1U << width) - (1U << leftshift);       /* Build a mask of 1s for the field. */
+	mask = ~(mask);                                 /* Invert the mask so that the field will be zero'd out with the AND operation. */
+	*p_mmr &= mask;                                 /* Zero out the field in the register. */
+	*p_mmr |= (field_value << leftshift);           /* Assign the value to that specific field. */
 }
 #endif

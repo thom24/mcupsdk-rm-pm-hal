@@ -1,8 +1,7 @@
 /*
  * Device Manager - LPM interface
  *
- * TISCI_MSG_PREPARE_SLEEP and TISCI_MSG_ENTER_SLEEP handler for
- * Low Power Mode implementation
+ * Handlers for Low Power Mode implementation
  *
  * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.

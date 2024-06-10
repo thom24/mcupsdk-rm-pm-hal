@@ -1,9 +1,9 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * VIM Raw driver for direct interrupt manipulation
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

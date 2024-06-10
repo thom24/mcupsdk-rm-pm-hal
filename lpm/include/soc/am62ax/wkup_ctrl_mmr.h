@@ -1,5 +1,5 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * am62ax lpm wkup_ctrl_mmr.h
  *

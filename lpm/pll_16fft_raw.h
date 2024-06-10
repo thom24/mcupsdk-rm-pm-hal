@@ -1,5 +1,5 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * PLL Raw driver for direct PLL manipulation
  *

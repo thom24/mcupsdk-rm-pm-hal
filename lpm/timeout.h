@@ -1,7 +1,7 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
- * timeout functions
+ * Implementation of timeout functions
  *
  * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.

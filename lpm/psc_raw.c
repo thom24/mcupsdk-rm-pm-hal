@@ -1,5 +1,5 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * PSC Raw driver for direct PSC manipulation
  *
