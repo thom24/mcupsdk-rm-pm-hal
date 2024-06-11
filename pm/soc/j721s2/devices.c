@@ -3290,7 +3290,7 @@ static const struct lpsc_module_data j721s2_j7am_main_psc_wrap_main_0_mod_data[J
 			J721S2_DEV_R5FSS1_CORE0,
 			J721S2_DEV_RTI30,
 		},
-		.flags			= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_HAS_LOCAL_RESET,
 	},
 	[J721S2_PSC_LPSC_LPSC_PULSAR_1_R5_1] =	     {
 		.powerdomain		= J721S2_PSC_PD_PD_PULSAR_1,
@@ -3298,7 +3298,7 @@ static const struct lpsc_module_data j721s2_j7am_main_psc_wrap_main_0_mod_data[J
 			J721S2_DEV_R5FSS1_CORE1,
 			J721S2_DEV_RTI31,
 		},
-		.flags			= LPSC_MODULE_EXISTS,
+		.flags			= LPSC_MODULE_EXISTS | LPSC_HAS_LOCAL_RESET,
 	},
 	[J721S2_PSC_LPSC_LPSC_PULSAR_PBIST_1] =	     {
 		.powerdomain		= J721S2_PSC_PD_PD_PULSAR_1,
