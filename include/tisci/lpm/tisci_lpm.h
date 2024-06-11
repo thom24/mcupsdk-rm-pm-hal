@@ -354,4 +354,37 @@ struct tisci_msg_set_io_isolation_resp {
 	struct tisci_header hdr;
 } __attribute__((__packed__));
 
+/**
+ * \brief Request for TISCI_MSG_MIN_CONTEXT_RESTORE.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ * \param ctx_lo Low 32-bits of physical pointer to address to use for context restore.
+ * \param ctx_hi High 32-bits of physical pointer to address to use for context restore.
+ *
+ * This message is sent from R5 SPL to TIFS to indicate that DDR is active and
+ * TIFS can restore the minimal context from the address provided in the ctx_lo and
+ * ctx_hi parameters. This response assumes DDR has been fully restored by R5 SPL before
+ * it is sent.
+ *
+ */
+struct tisci_msg_min_context_restore_req {
+	struct tisci_header	hdr;
+	u32			ctx_lo;
+	u32			ctx_hi;
+} __attribute__((__packed__));
+
+/**
+ * \brief Response for TISCI_MSG_MIN_CONTEXT_RESTORE.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ *
+ * This response is sent from the TIFS to the R5 SPL to indicate that now standard
+ * firmware can be executed. This response is sent after DDR firewalls have been fully
+ * restored by TIFS.
+ *
+ */
+struct tisci_msg_min_context_restore_resp {
+	struct tisci_header hdr;
+} __attribute__((__packed__));
+
 #endif
