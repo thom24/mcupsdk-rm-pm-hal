@@ -1,5 +1,5 @@
 /*
- * DM Stub Firmware
+ * Data version: 231011_130515
  *
  * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
