@@ -3213,16 +3213,6 @@ const struct clk_data soc_clock_data[257] = {
 		.data	= &clk_data_MCU_OBSCLK_MUX_SEL_div_in5.data,
 		.type	= CLK_TYPE_DIV,
 	},
-	[CLK_AM62X_RTC_CLK_SEL_DIV_CLKOUT] =						      {
-		.parent =								      {
-			CLK_AM62X_GLUELOGIC_RCOSC_CLKOUT,
-			1,
-		},
-		.drv	= &clk_drv_div_fixed.drv,
-		.flags	= 0,
-		.data	= &clk_data_RTC_CLK_SEL_div_in1.data,
-		.type	= CLK_TYPE_DIV,
-	},
 	[CLK_AM62X_BOARD_0_AUDIO_EXT_REFCLK0_OUT] =					      {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -4475,12 +4465,6 @@ const struct clk_data soc_clock_data[257] = {
 		.data	= &clk_data_MAIN_GPMC_FCLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_AM62X_MAIN_GTCCLK_SEL_OUT0] =						      {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_GTCCLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
 	[CLK_AM62X_MAIN_ICSSM_CORE_CLK_SEL_OUT0] =					      {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
@@ -4589,22 +4573,10 @@ const struct clk_data soc_clock_data[257] = {
 		.data	= &clk_data_MAIN_WWDTCLKn_SEL_out4.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_AM62X_MCU_M4FSS_CLKSEL_OUT0] =						      {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCU_M4FSS_CLKSEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
 	[CLK_AM62X_MCU_OBSCLK_MUX_SEL_OUT0] =						      {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_MCU_OBSCLK_MUX_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM62X_RTC_CLK_SEL_OUT0] =							      {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_RTC_CLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM62X_USART_PROGRAMMABLE_CLOCK_DIVIDER_OUT0] =				      {
@@ -4683,12 +4655,6 @@ const struct clk_data soc_clock_data[257] = {
 		.data	= &clk_data_WKUP_CLKOUT_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_AM62X_WKUP_CLKSEL_OUT0] =							      {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_WKUP_CLKSEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
 	[CLK_AM62X_MCU_OBSCLK_DIV_OUT0] =						      {
 		.parent =								      {
 			CLK_AM62X_MCU_OBSCLK_MUX_SEL_OUT0,
@@ -4757,10 +4723,22 @@ const struct clk_data soc_clock_data[257] = {
 		.data	= &clk_data_MCU_OBSCLK_OUTMUX_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
+	[CLK_AM62X_MAIN_GTCCLK_SEL_OUT0] =						      {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_GTCCLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
 	[CLK_AM62X_MCU_GPIO0_CLKSEL_OUT0] =						      {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_MCU_GPIO0_CLKSEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM62X_MCU_M4FSS_CLKSEL_OUT0] =						      {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCU_M4FSS_CLKSEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM62X_MCU_MCANN_CLK_SEL_OUT0] =						      {
@@ -4835,6 +4813,22 @@ const struct clk_data soc_clock_data[257] = {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_MCU_spi1_mstr_lp_clksel_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM62X_RTC_CLK_SEL_DIV_CLKOUT] =						      {
+		.parent =								      {
+			CLK_AM62X_GLUELOGIC_RCOSC_CLKOUT,
+			1,
+		},
+		.drv	= &clk_drv_div_fixed.drv,
+		.flags	= 0,
+		.data	= &clk_data_RTC_CLK_SEL_div_in1.data,
+		.type	= CLK_TYPE_DIV,
+	},
+	[CLK_AM62X_WKUP_CLKSEL_OUT0] =							      {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_WKUP_CLKSEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM62X_WKUP_TIMERCLKN_SEL_OUT0_DIV_CLKOUT] =				      {
@@ -4931,6 +4925,12 @@ const struct clk_data soc_clock_data[257] = {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_MCU_WWDTCLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM62X_RTC_CLK_SEL_OUT0] =							      {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_RTC_CLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM62X_WKUP_TIMERCLKN_SEL_OUT0] =						      {
