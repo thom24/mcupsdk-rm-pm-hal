@@ -133,6 +133,11 @@
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MCU_IPC                         0x90U
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID                         0xFFU
 
+/** Used by TISCI_MSG_GET_NEXT_HOST_STATE to return state of MCU core in upcoming low power mode */
+#define TISCI_MSG_VALUE_HOST_STATE_ON                                   1U
+#define TISCI_MSG_VALUE_HOST_STATE_OFF                                  0U
+#define TISCI_MSG_VALUE_HOST_STATE_INVALID                              0xFFU
+
 /** Used by TISCI_MSG_SET_IO_ISOLATION to enable IO isolation */
 #define TISCI_MSG_VALUE_IO_ENABLE 1U
 /** Used by TISCI_MSG_SET_IO_ISOLATION to disable IO isolation */
@@ -583,6 +588,32 @@ struct tisci_msg_lpm_get_next_sys_mode_req {
 struct tisci_msg_lpm_get_next_sys_mode_resp {
 	struct tisci_header	hdr;
 	u8			mode;
+} __attribute__((__packed__));
+
+/**
+ * \brief Request for TISCI_MSG_GET_LPM_NEXT_HOST_STATE.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ *
+ * This message is used by host to enquire DM for its expected state
+ * in current low power mode selection - ON or OFF.
+ *
+ */
+struct tisci_msg_lpm_get_next_host_state_req {
+	struct tisci_header hdr;
+} __attribute__((__packed__));
+
+/**
+ * \brief Response for TISCI_MSG_LPM_GET_NEXT_HOST_STATE.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ * \param state The expected state of host in selected low power mode.
+ *
+ * Note: If the mode selection is not yet locked, this API returns invalid state.
+ */
+struct tisci_msg_lpm_get_next_host_state_resp {
+	struct tisci_header	hdr;
+	u8			state;
 } __attribute__((__packed__));
 
 #endif

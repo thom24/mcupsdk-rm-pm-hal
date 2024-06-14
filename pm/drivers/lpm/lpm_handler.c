@@ -76,6 +76,10 @@
 #define LPM_DEEP_SLEEP_RESUME_LAT_MIN           101U
 #define LPM_MCU_ONLY_RESUME_LAT_MIN             10U
 
+#define HOST_STATE_ON                           1U
+#define HOST_STATE_OFF                          0U
+#define HOST_STATE_INVALID                      0xFFU
+
 extern s32 _stub_start(void);
 extern u32 lpm_get_wake_up_source(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
@@ -958,3 +962,37 @@ s32 dm_lpm_get_next_sys_mode(u32 *msg_recv)
 	return ret;
 }
 
+s32 dm_lpm_get_next_host_state(u32 *msg_recv)
+{
+	s32 ret = SUCCESS;
+	u8 mode;
+	u8 state;
+	struct tisci_msg_lpm_get_next_host_state_req *req =
+		(struct tisci_msg_lpm_get_next_host_state_req *) msg_recv;
+	struct tisci_msg_lpm_get_next_host_state_resp *resp =
+		(struct tisci_msg_lpm_get_next_host_state_resp *) msg_recv;
+
+	resp->hdr.flags = 0U;
+
+	if (lpm_locked == STRUE) {
+		mode = lpm_get_selected_sleep_mode();
+
+		if (mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY) {
+			/* MCU host needs to stay ON during MCU only low power mode */
+			if (req->hdr.host == MCU_HOST_ID) {
+				state = TISCI_MSG_VALUE_HOST_STATE_ON;
+			} else {
+				state = TISCI_MSG_VALUE_HOST_STATE_OFF;
+			}
+		} else {
+			state = TISCI_MSG_VALUE_HOST_STATE_OFF;
+		}
+	} else {
+		/* Return invalid state */
+		state = TISCI_MSG_VALUE_HOST_STATE_INVALID;
+	}
+
+	resp->state = state;
+
+	return ret;
+}

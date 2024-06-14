@@ -123,6 +123,9 @@ extern "C" {
 /* Deepest low power mode supported according to fw caps */
 #define DEEPEST_LOW_POWER_MODE                 TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP
 
+/* SOC MCU Core Host ID */
+#define MCU_HOST_ID                             HOST_ID_MCU_0_R5_0
+
 #ifdef __cplusplus
 }
 
