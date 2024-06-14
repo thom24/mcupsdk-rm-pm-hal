@@ -138,6 +138,11 @@
 /** Used by TISCI_MSG_SET_IO_ISOLATION to disable IO isolation */
 #define TISCI_MSG_VALUE_IO_DISABLE 0U
 
+/** Used by set and get constraints APIs to set/get constraint for device/latency */
+#define TISCI_MSG_VALUE_STATE_SET       1U
+/** Used by set and get constraints APIs to clear/get constraint for device/latency */
+#define TISCI_MSG_VALUE_STATE_CLEAR     0U
+
 /**
  * \brief Request for TISCI_MSG_PREPARE_SLEEP.
  *
@@ -470,6 +475,32 @@ struct tisci_msg_lpm_set_device_constraint_resp {
 } __attribute__((__packed__));
 
 /**
+ * \brief Request for TISCI_MSG_LPM_GET_DEVICE_CONSTRAINT.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ * \param id Device ID of device for which constraint value is requested.
+ *
+ * This message is used by host to get constraints that it has put on a
+ * device.
+ *
+ */
+struct tisci_msg_lpm_get_device_constraint_req {
+	struct tisci_header	hdr;
+	u32			id;
+} __attribute__((__packed__));
+
+/**
+ * \brief Response for TISCI_MSG_LPM_GET_DEVICE_CONSTRAINT.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ * \param state The returned state of constraint: set or clear.
+ */
+struct tisci_msg_lpm_get_device_constraint_resp {
+	struct tisci_header	hdr;
+	u8			state;
+} __attribute__((__packed__));
+
+/**
  * \brief Request for TISCI_MSG_LPM_SET_LATENCY_CONSTRAINT.
  *
  * \param hdr TISCI header to provide ACK/NAK flags to the host.
@@ -478,7 +509,7 @@ struct tisci_msg_lpm_set_device_constraint_resp {
  * \param state The desired state of constraint: set or clear.
  * \param rsvd Reserved for future use.
  *
- * This message is used by host to set latency to wakeup from low power mode. This can
+ * This message is used by host to set latency for waking up from low power mode. This can
  * be sent anytime after boot before prepare sleep message and after current low power
  * mode is exited. Any host can set a constraint on the low power mode that the SoC can
  * enter. It allows configurable information to be easily shared from the application, as
@@ -500,6 +531,33 @@ struct tisci_msg_lpm_set_latency_constraint_req {
  */
 struct tisci_msg_lpm_set_latency_constraint_resp {
 	struct tisci_header hdr;
+} __attribute__((__packed__));
+
+/**
+ * \brief Request for TISCI_MSG_LPM_GET_LATENCY_CONSTRAINT.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ *
+ * This message is used by the host to get the resume latency it set for waking up from low
+ * power mode.
+ *
+ */
+struct tisci_msg_lpm_get_latency_constraint_req {
+	struct tisci_header hdr;
+} __attribute__((__packed__));
+
+/**
+ * \brief Response for TISCI_MSG_LPM_GET_LATENCY_CONSTRAINT.
+ *
+ * \param hdr TISCI header to provide ACK/NAK flags to the host.
+ * \param resume_latency The maximum acceptable latency for waking up from low power mode
+ *                       in milliseconds. The deeper the state, the higher the latency.
+ * \param state The returned state of constraint: set or clear.
+ */
+struct tisci_msg_lpm_get_latency_constraint_resp {
+	struct tisci_header	hdr;
+	u16			resume_latency;
+	u8			state;
 } __attribute__((__packed__));
 
 #endif

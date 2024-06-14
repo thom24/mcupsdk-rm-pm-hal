@@ -819,7 +819,7 @@ s32 dm_lpm_set_device_constraint(u32 *msg_recv)
 		(struct tisci_msg_lpm_set_device_constraint_resp *) msg_recv;
 	struct device *dev = NULL;
 	u8 id = req->id;
-	sbool state = (sbool) req->state;
+	u8 state = req->state;
 	u8 host_id = req->hdr.host;
 	u8 host_idx;
 
@@ -829,7 +829,7 @@ s32 dm_lpm_set_device_constraint(u32 *msg_recv)
 
 	resp->hdr.flags = 0U;
 
-	if (state == STRUE) {
+	if (state == TISCI_MSG_VALUE_STATE_SET) {
 		/* Prepare the host and device for setting constraints - Exclusive rights valued */
 		ret = device_prepare_exclusive(host_id, id, &host_idx, &dev);
 		if (ret == SUCCESS) {
@@ -848,6 +848,33 @@ s32 dm_lpm_set_device_constraint(u32 *msg_recv)
 	return ret;
 }
 
+s32 dm_lpm_get_device_constraint(u32 *msg_recv)
+{
+	s32 ret = SUCCESS;
+	struct tisci_msg_lpm_get_device_constraint_req *req =
+		(struct tisci_msg_lpm_get_device_constraint_req *) msg_recv;
+	struct tisci_msg_lpm_get_device_constraint_resp *resp =
+		(struct tisci_msg_lpm_get_device_constraint_resp *) msg_recv;
+	struct device *dev = NULL;
+	u8 id = req->id;
+	u8 host_id = req->hdr.host;
+	u8 host_idx;
+
+	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_LPM_GET_DEVICE_CONSTRAINT);
+	pm_trace(TRACE_PM_ACTION_MSG_PARAM_DEV_CLK_ID, id);
+
+	resp->hdr.flags = 0U;
+
+	/* Prepare the host and device for getting constraint value */
+	ret = device_prepare_nonexclusive(host_id, id, &host_idx, &dev);
+	if (ret == SUCCESS) {
+		/* Get constraint value on this device put by requesting host */
+		resp->state = dev_cons[id] & (1U << host_idx);
+	}
+
+	return ret;
+}
+
 s32 dm_lpm_set_latency_constraint(u32 *msg_recv)
 {
 	s32 ret = SUCCESS;
@@ -856,7 +883,7 @@ s32 dm_lpm_set_latency_constraint(u32 *msg_recv)
 	struct tisci_msg_lpm_set_latency_constraint_resp *resp =
 		(struct tisci_msg_lpm_set_latency_constraint_resp *) msg_recv;
 	u16 resume_latency = req->resume_latency;
-	sbool state = (sbool) req->state;
+	u8 state = req->state;
 	u8 host_id = req->hdr.host;
 	u8 host_idx;
 
@@ -873,7 +900,7 @@ s32 dm_lpm_set_latency_constraint(u32 *msg_recv)
 	}
 
 	if (ret == SUCCESS) {
-		if (state == STRUE) {
+		if (state == TISCI_MSG_VALUE_STATE_SET) {
 			/* Set latency constraint */
 			latency[host_idx] = (LPM_RESUME_LATENCY_VALID_FLAG | resume_latency);
 		} else {
@@ -884,3 +911,33 @@ s32 dm_lpm_set_latency_constraint(u32 *msg_recv)
 
 	return ret;
 }
+
+s32 dm_lpm_get_latency_constraint(u32 *msg_recv)
+{
+	s32 ret = SUCCESS;
+	struct tisci_msg_lpm_get_latency_constraint_req *req =
+		(struct tisci_msg_lpm_get_latency_constraint_req *) msg_recv;
+	struct tisci_msg_lpm_get_latency_constraint_resp *resp =
+		(struct tisci_msg_lpm_get_latency_constraint_resp *) msg_recv;
+	u8 host_id = req->hdr.host;
+	u8 host_idx;
+
+	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_LPM_GET_LATENCY_CONSTRAINT);
+
+	resp->hdr.flags = 0U;
+
+	/* Check if current host is valid and get lookup host ID */
+	host_idx = host_idx_lookup(host_id);
+	if (host_idx == HOST_IDX_NONE) {
+		ret = -EFAIL;
+	}
+
+	if (ret == SUCCESS) {
+		/* Get latency constraint value for given host */
+		resp->state = ((latency[host_idx] & LPM_RESUME_LATENCY_VALID_FLAG) == LPM_RESUME_LATENCY_VALID_FLAG);
+		resp->resume_latency = (u16) latency[host_idx];
+	}
+
+	return ret;
+}
+
