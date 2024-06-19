@@ -1,9 +1,9 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * Secure Proxy driver for Message Transfer
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,42 +38,42 @@
 
 /**
  * \brief Send a Secure Proxy message
- * \param msg message buffer pointer pointing to the message to be send
- * \param len length of the message in bytes
+ * \param msg Message buffer pointer pointing to the message to be sent
+ * \param len Length of the message in bytes
  */
 s32 sproxy_send_msg_rom(void *msg, u32 len);
 
 /**
  * \brief Receive a Secure Proxy message
  * \param msg buffer pointer pointing to the buffer to store the message
- * \param len length of the message in bytes
+ * \param len Length of the message in bytes
  */
 s32 sproxy_receive_msg_rom(void *msg, u32 len);
 
 /**
  * \brief Send a Secure Proxy message on dmsc2dm thread
- * \param msg message buffer pointer pointing to the message to be send
- * \param len length of the message in bytes
+ * \param msg Message buffer pointer pointing to the message to be sent
+ * \param len Length of the message in bytes
  */
 s32 sproxy_send_msg_tifs_fw(void *msg, u32 len);
 
 /**
  * \brief Receive a Secure Proxy message on dmsc2dm thread
  * \param msg buffer pointer pointing to the buffer to store the message
- * \param len length of the message in bytes
+ * \param len Length of the message in bytes
  */
 s32 sproxy_receive_msg_tifs_fw(void *msg, u32 len);
 
 /**
  * \brief Send a Secure Proxy message on dm2dmsc thread
- * \param msg message buffer pointer pointing to the message to be send
- * \param len length of the message in bytes
+ * \param msg Message buffer pointer pointing to the message to be sent
+ * \param len Length of the message in bytes
  */
 s32 sproxy_send_msg_dm2dmsc_fw(void *msg, u32 len);
 
 /**
  * \brief Receive a Secure Proxy message on dm2dmsc thread
  * \param msg buffer pointer pointing to the buffer to store the message
- * \param len length of the message in bytes
+ * \param len Length of the message in bytes
  */
 s32 sproxy_receive_msg_dm2dmsc_fw(void *msg, u32 len);

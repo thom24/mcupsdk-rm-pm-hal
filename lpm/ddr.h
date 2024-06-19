@@ -1,9 +1,9 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * LPM DDR driver
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ s32 ddr_enter_low_power_mode(void);
 s32 ddr_exit_low_power_mode(void);
 
 /**
- * \brief Run software triggerred trainings after self refresh exit
+ * \brief Run software triggered trainings after self refresh exit
  *        DDR4 trainings: 1. Read gate level training
  *                        2. Read level training
  *                        3. Write level training

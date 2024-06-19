@@ -1,5 +1,5 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * PSC Raw driver for direct PSC manipulation
  *
@@ -91,9 +91,9 @@
 #define MDSTAT_EMURST           BIT(16) /* EMU alters reset to module */
 #define MDSTAT_MCKOUT           BIT(12) /* Module clock output status */
 #define MDSTAT_MRSTDONE         BIT(11) /* Module reset done */
-#define MDSTAT_MRST             BIT(10) /* Module reset deasserted */
+#define MDSTAT_MRST             BIT(10) /* Module reset de asserted */
 #define MDSTAT_LRSTDONE         BIT(9)  /* Local reset done */
-#define MDSTAT_LRST             BIT(8)  /* Local reset deasserted */
+#define MDSTAT_LRST             BIT(8)  /* Local reset de asserted */
 
 #define MDCTL_STATE_MASK        0x3fU
 #define MDCTL_FORCE             BIT(31)
@@ -105,7 +105,7 @@
 #define PDSTAT_EMUIHB                   BIT(11) /* EMU alters domain state */
 #define PDSTAT_PWRBAD                   BIT(10) /* Power bad error */
 #define PDSTAT_PORDONE                  BIT(9)  /* Power on reset done */
-#define PDSTAT_POR                      BIT(8)  /* Power on reset deasserted */
+#define PDSTAT_POR                      BIT(8)  /* Power on reset de asserted */
 #define PDSTAT_STATE_MASK               0x1fU
 #define PDSTAT_STATE_OFF                0x00U
 #define PDSTAT_STATE_ON                 0x01U

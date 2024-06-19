@@ -1,5 +1,5 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * am62px soc lpscs.h
  *
@@ -198,7 +198,7 @@ enum lpscs_main_phase2 {
 enum lpscs_mcu {
 	LPSCS_MAIN2MCU_ISO,
 	LPSCS_MCU2DM_ISO,
-    LPSCS_DM2MCU_ISO,
+	LPSCS_DM2MCU_ISO,
 	LPSCS_MCU_TEST,
 	LPSCS_MCU_COMMON,
 	LPSCS_DM2SAFE_ISO,

@@ -1,5 +1,5 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * am62x soc lpscs.c
  *
@@ -42,13 +42,10 @@ const struct pd_lpsc main_lpscs_phase1[LPSC_PHASE1_MAX] = {
 	{ PD_A53_CLUSTER_0, LPSC_A53_CLUSTER_0	    },
 	{ PD_GP_CORE_CTL,   LPSC_HSM		    },
 	{ PD_GP_CORE_CTL,   LPSC_TIFS		    },
-	/* Removing LPSC_SA3UL as this timeouts on GP: known issue SYSFW-5031 */
-	/* FIXME LPM suspend is crashing if LPSC_SMS_COMMON is used.  */
 	{ PD_GP_CORE_CTL,   LPSC_DM2CENTRAL_ISO	    },
 	{ PD_GP_CORE_CTL,   LPSC_MAIN2DM_ISO	    },
 	{ PD_GP_CORE_CTL,   LPSC_DM2MAIN_ISO	    },
 	{ PD_GP_CORE_CTL,   LPSC_CENTRAL2DM_ISO	    },
-	/* FIXME LPM resume is crashing if LPSC_DM2MAIN_INFRA_ISO is used, checking on this.  */
 };
 
 u32 num_main_lpscs_phase1 = sizeof(main_lpscs_phase1) / sizeof(struct pd_lpsc);

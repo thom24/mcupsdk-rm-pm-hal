@@ -1,8 +1,7 @@
 /*
  * Device Manager - LPM interface
  *
- * TISCI_MSG_PREPARE_SLEEP and TISCI_MSG_ENTER_SLEEP handler for
- * Low Power Mode implementation
+ * Handlers for Low Power Mode implementation
  *
  * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
@@ -56,7 +55,7 @@
 #include "rm_lpm.h"
 
 
-/* counts of 1us delay for 10ms */
+/* Count of 1us delay for 10ms */
 #define TIMEOUT_10MS                    10000U
 
 #define LPM_SUSPEND_POWERMASTER                 BIT(0)
@@ -110,7 +109,7 @@ static s32 lpm_sleep_disable_sec_lpsc(void)
 
 static s32 lpm_sleep_disable_misc_lpsc(void)
 {
-	/* Disable non-crtitical  LPSCs */
+	/* Disable non-critical LPSCs */
 	return SUCCESS;
 }
 
@@ -141,7 +140,7 @@ static s32 lpm_resume_restore_RM_context(void)
 
 static s32 lpm_resume_send_core_resume_message(void)
 {
-	/* send core resume message */
+	/* Send core resume message */
 	s32 ret = 0;
 
 	struct tisci_msg_core_resume_req req = {
@@ -171,7 +170,7 @@ static s32 lpm_resume_send_core_resume_message(void)
 
 static s32 lpm_resume_send_enter_sleep_abort_message(void)
 {
-	/* send abort enter sleep message */
+	/* Send abort enter sleep message */
 	s32 ret = 0;
 
 	struct tisci_msg_abort_enter_sleep_req req = {
@@ -189,7 +188,7 @@ static s32 lpm_resume_send_enter_sleep_abort_message(void)
 
 static s32 lpm_suspend_power_master(void)
 {
-	/* release reset of power master */
+	/* Release reset of power master */
 	struct device *dev;
 
 	dev = device_lookup(DEV_GTC);
@@ -209,7 +208,7 @@ static s32 lpm_suspend_power_master(void)
 
 static s32 lpm_resume_release_reset_of_power_master(void)
 {
-	/* release reset of power master */
+	/* Release reset of power master */
 	struct device *dev;
 
 	dev = device_lookup(POWER_MASTER_CLUSTER);
@@ -253,22 +252,22 @@ static void lpm_enter_partial_io_mode(void)
 	u32 reg = 0;
 	u32 timeout = TIMEOUT_10MS;
 
-	/* unlock wkup_ctrl_mmr region 6 */
+	/* Unlock wkup_ctrl_mmr region 6 */
 	ctrlmmr_unlock(WKUP_CTRL_BASE, 6);
 
-	/* set global wuen for WKUP IOs */
+	/* Set global wuen for WKUP IOs */
 	reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
 	reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
 	reg = reg | WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN;
 	writel(reg, (WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0));
 
-	/* set global isoin for wakeup IOs */
+	/* Set global isoin for wakeup IOs */
 	reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
 	reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
 	reg = reg | WKUP_CTRL_PMCTRL_IO_0_IO_ISO_CTRL;
 	writel(reg, (WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0));
 
-	/* wait for wu clock state to be 1 */
+	/* Wait for wu clock state to be 1 */
 	while ((timeout > 0U) && (((readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0)) & WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS) != WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS)) {
 		--timeout;
 	}
@@ -312,13 +311,12 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 	s32 ret = SUCCESS;
 	u8 mode = req->mode;
 
-	/* Only DEEP_SLEEP mode supported at the moment */
 	if ((mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
-		/* Parse and store the mode info and ctx address in the prepare sleep message*/
+		/* Parse and store the mode info and ctx address in the prepare sleep message */
 		lpm_populate_prepare_sleep_data(req);
 
 		/*
-		 * clearing all wakeup interrupts from VIM. Even if we are cleaning interrupts
+		 * Clearing all wakeup interrupts from VIM. Even if we are cleaning interrupts
 		 * from VIM, if the wakeup interrupt is still active it will be able to wake
 		 * the soc from LPM. This will only clear any unwanted pending wakeup interrupts
 		 */
@@ -329,7 +327,7 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 
 		if (ret == SUCCESS) {
 			/*
-			* wait for tifs to reach WFI in both the failed and successful case.
+			* Wait for tifs to reach WFI in both the failed and successful case.
 			* but update the ret value only if it was SUCCESS previously
 			*/
 			ret = lpm_sleep_wait_for_tifs_wfi();
@@ -352,10 +350,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 {
 	struct tisci_msg_enter_sleep_req *req =
 		(struct tisci_msg_enter_sleep_req *) msg_recv;
-	/*
-	struct tisci_msg_enter_sleep_resp *resp =
-	        (struct tisci_msg_enter_sleep_resp *) msg_recv;
-	*/
+
 	s32 ret = SUCCESS;
 	u8 mode = req->mode;
 	u32 i;
@@ -363,13 +358,12 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 	enter_sleep_status = 0;
 
-	/* Only DEEP_SLEEP mode supported at the moment */
 	if ((mode != TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) && (mode != TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
-		ret = EINVAL;
+		ret = -EINVAL;
 	}
 
 	/*
-	 * wait for tifs to reach WFI in both the failed and successful case.
+	 * Wait for tifs to reach WFI in both the failed and successful case.
 	 * but update the ret value only if it was SUCCESS previously
 	 */
 	if (ret == SUCCESS) {
@@ -379,7 +373,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	}
 
 	/*
-	 * since, once power master reaches WFI power master is only recoverable
+	 * Since, once power master reaches WFI, power master is only recoverable
 	 * by reseting the  power master. Only update the ret value only if it was
 	 * SUCCESS previously
 	 */
@@ -438,7 +432,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		ret = lpm_sleep_jump_to_dm_Stub();
 	}
 
-	/* if there is any failure inform TIFS using abort message */
+	/* If there is any failure, inform TIFS using abort message */
 	if (ret != SUCCESS) {
 		if (lpm_resume_send_enter_sleep_abort_message() != SUCCESS) {
 			lpm_hang_abort();
@@ -527,7 +521,7 @@ s32 dm_lpm_wake_reason_handler(u32 *msg_recv)
 
 	resp->hdr.flags = 0U;
 	resp->wake_source = lpm_get_wake_up_source();
-	/* TODO: Add support for time stamp */
+	/* Write 0 to the timestamp value as the support to get time in sleep has not been added yet */
 	resp->wake_timestamp = 0;
 
 	return ret;
@@ -541,13 +535,13 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 	u32 reg;
 	u32 i = 0;
 
-	/* unlock partion 6 of wakeup ctrl mmr */
+	/* Unlock partition 6 of wakeup ctrl mmr */
 	ctrlmmr_unlock(WKUP_CTRL_BASE, 6);
 	if (req->state == TISCI_MSG_VALUE_IO_ENABLE) {
 		writel(WKUP_CTRL_DEEPSLEEP_CTRL_ENABLE_IO, (WKUP_CTRL_BASE + WKUP_CTRL_DEEPSLEEP_CTRL));
 		writel(WKUP_CTRL_PMCTRL_IO_GLB_ENABLE_IO, (WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_GLB));
 
-		/* set global wuen */
+		/* Set global wuen */
 		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
 		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
 		reg = reg | WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN;
@@ -558,7 +552,7 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 		reg = reg | WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN;
 		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
 
-		/* set global isoin */
+		/* Set global isoin */
 		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
 		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
 		reg = reg | WKUP_CTRL_PMCTRL_IO_0_IO_ISO_CTRL;
@@ -569,7 +563,7 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 		reg = reg | WKUP_CTRL_PMCTRL_IO_0_IO_ISO_CTRL;
 		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
 
-		/* wait for wu clock state to be 1*/
+		/* Wait for wu clock state to be 1*/
 		i = 0;
 		do {
 			ret = ETIMEDOUT;
@@ -591,7 +585,7 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 			osal_delay(1);
 		} while (i++ < TIMEOUT_10MS);
 	} else if (req->state == TISCI_MSG_VALUE_IO_DISABLE) {
-		/* clear global wuen */
+		/* Clear global wuen */
 		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
 		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
 		reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN);
@@ -602,7 +596,7 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 		reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_GLOBAL_WUEN);
 		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_1);
 
-		/* clear global isoin */
+		/* Clear global isoin */
 		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
 		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
 		reg = reg & (~WKUP_CTRL_PMCTRL_IO_0_IO_ISO_CTRL);

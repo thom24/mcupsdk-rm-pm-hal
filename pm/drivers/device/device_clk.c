@@ -168,7 +168,7 @@ sbool device_clk_get_hw_ready(struct device *dev, dev_clk_idx_t clk_idx)
 	if (ret) {
 		switch (devgroup_ptr->dev_clk_data[data->dev_clk_idx + clk_idx].type) {
 		case DEV_CLK_TABLE_TYPE_INPUT:
-			ret = STRUE;
+			ret = clk_get_state(clkp) == CLK_HW_STATE_ENABLED;
 			break;
 		case DEV_CLK_TABLE_TYPE_PARENT:
 			ret = clk_get_state(clkp) == CLK_HW_STATE_ENABLED;

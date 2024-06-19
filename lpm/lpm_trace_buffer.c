@@ -3,7 +3,7 @@
  *
  * DM Stub Memory Trace Buffer Layer
  *
- * Copyright (C) 2023, Texas Instruments Incorporated
+ * Copyright (C) 2023-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,11 +61,11 @@ void lpm_trace_debug_buffer(u8 *str, u8 len)
 {
 	u32 i;
 
-    /* Output "0x" at start of hex */
+	/* Output "0x" at start of hex */
 	lpm_trace_print_buffer('0');
 	lpm_trace_print_buffer('x');
 
-    /*
+	/*
 	 * Output string backwards as we converted from low
 	 * digit to high
 	 */
@@ -73,10 +73,9 @@ void lpm_trace_debug_buffer(u8 *str, u8 len)
 		lpm_trace_print_buffer(str[len - i]);
 	}
 
-    /* Add a carriage return to support unflexible terminals. */
-    lpm_trace_print_buffer('\r');
+	/* Add a carriage return to support inflexible terminals. */
+	lpm_trace_print_buffer('\r');
 
-    /* Move the cursor to new line. */
+	/* Move the cursor to new line. */
 	lpm_trace_print_buffer('\n');
 }
-

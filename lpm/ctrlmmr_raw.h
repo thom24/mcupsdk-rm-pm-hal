@@ -1,9 +1,9 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
  * CTRLMMR Raw driver for direct CTRLMMR manipulation
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,14 +38,14 @@
 
 /**
  * \brief Unlock a control mmr region
- * \param base base address of the region to be unlocked
- * \param partition which partition to unlock
+ * \param base Base address of the region to be unlocked
+ * \param partition Partition number to unlock
  */
 void ctrlmmr_unlock(u32 base, u8 partition);
 
 /**
- * \brief lock a control mmr region
- * \param base base address of the region to be locked
- * \param partition which partition to lock
+ * \brief Lock a control mmr region
+ * \param base Base address of the region to be locked
+ * \param partition Partition number to lock
  */
 void ctrlmmr_lock(u32 base, u8 partition);

@@ -1,9 +1,9 @@
 /*
- * System Firmware
+ * DM Firmware
  *
  * am62px soc_ctrl_mmr.c
  *
- * Copyright (C) 2023, Texas Instruments Incorporated
+ * Copyright (C) 2023-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

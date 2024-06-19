@@ -1,10 +1,9 @@
 /*
  * Device Manager - LPM interface
  *
- * TISCI_MSG_PREPARE_SLEEP and TISCI_MSG_ENTER_SLEEP handler for
- * Low Power Mode implementation
+ * Handlers for Low Power Mode implementation
  *
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +42,7 @@
 /**
  *  \brief  LPM enter sleep handler Function.
  *
- *  \param  msg_recv Pointer to the recieved and returned message. Same buffer
+ *  \param  msg_recv Pointer to the received and returned message. Same buffer
  *                   used.
  *  \return ret      SUCCESS if the API executed successfully.
  *                   EFAIL   if the API failed to execute.
@@ -53,7 +52,7 @@ s32 dm_enter_sleep_handler(u32 *msg_recv);
 /**
  *  \brief  LPM prepare sleep handler Function.
  *
- *  \param  msg_recv Pointer to the recieved and returned message. Same buffer
+ *  \param  msg_recv Pointer to the received and returned message. Same buffer
  *                   used.
  *  \return ret      SUCCESS if the API executed successfully.
  *                   EFAIL   if the API failed to execute.
@@ -63,7 +62,7 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv);
 /**
  *  \brief  LPM wake reason handler Function.
  *
- *  \param  msg_recv Pointer to the recieved and returned message. Same buffer
+ *  \param  msg_recv Pointer to the received and returned message. Same buffer
  *                   used.
  *  \return ret      SUCCESS if the API executed successfully.
  *                   EFAIL   if the API failed to execute.
@@ -71,7 +70,7 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv);
 s32 dm_lpm_wake_reason_handler(u32 *msg_recv);
 
 /**
- *  \brief  enable/disable io isolation handler Function.
+ *  \brief  Enable / Disable io isolation handler Function.
  *
  *  \param  msg_recv Pointer to the received and returned message. Same buffer
  *                   used.

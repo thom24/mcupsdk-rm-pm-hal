@@ -1,7 +1,7 @@
 /*
- * System Firmware
+ * DM Stub Firmware
  *
- * timeout functions
+ * Implementation of timeout functions
  *
  * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
@@ -41,6 +41,6 @@
 #define TIMEOUT_10_MS         (1000U * 10U)
 
 /**
- * \brief busy loop for 1us
+ * \brief Busy loop for 1us
  */
 void delay_1us(void);
