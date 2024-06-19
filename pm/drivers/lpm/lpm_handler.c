@@ -53,10 +53,15 @@
 #include "ctrlmmr_raw.h"
 #include "ctrl_mmr.h"
 #include "rm_lpm.h"
-
+#include "device_prepare.h"
+#include <soc/host_idx_mapping.h>
+#include <lib/trace.h>
 
 /* Count of 1us delay for 10ms */
 #define TIMEOUT_10MS                    10000U
+
+/* Number of bits required to perform one word shift */
+#define WORD_SHIFT                      32U
 
 #define LPM_SUSPEND_POWERMASTER                 BIT(0)
 #define LPM_DEVICE_DEINIT                       BIT(1)
@@ -66,14 +71,52 @@
 #define LPM_CLOCK_SUSPEND                       BIT(5)
 #define LPM_SUSPEND_DM                          BIT(6)
 #define LPM_SAVE_MMR_LOCK                       BIT(7)
+#define LPM_SAVE_MCU_PADCONFIG                  BIT(8)
+
+#define LPM_WKUP_LATENCY_VALID_FLAG             BIT(16)
+
+/* Deep sleep and MCU Only latency values */
+#define LPM_DEEP_SLEEP_WKUP_LAT_MIN             101U
+#define LPM_DEEP_SLEEP_WKUP_LAT_MAX             200U
+#define LPM_MCU_ONLY_WKUP_LAT_MIN               10U
+#define LPM_MCU_ONLY_WKUP_LAT_MAX               100U
 
 extern s32 _stub_start(void);
 extern u32 lpm_get_wake_up_source(void);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
 extern void lpm_clear_all_wakeup_interrupt(void);
+extern u8 lpm_get_selected_sleep_mode(void);
 
 u32 key;
 volatile u32 enter_sleep_status = 0;
+
+/* Each bit represents whether that host has set constraints or not */
+#if HOST_ID_CNT <= 16U
+static u16 dev_cons[SOC_DEVICES_RANGE_ID_MAX] = { 0U };
+#elif HOST_ID_CNT <= 32U
+static u32 dev_cons[SOC_DEVICES_RANGE_ID_MAX] = { 0U };
+#else
+static u64 dev_cons[SOC_DEVICES_RANGE_ID_MAX] = { 0U };
+#endif
+
+static u32 latency[HOST_ID_CNT] = { 0U };
+static sbool lpm_locked = SFALSE;
+extern u64 __FS_CTXT_START;
+
+static u8 lpm_select_shallowest_mode(u8 req_mode, u8 curr_mode)
+{
+	u8 mode;
+
+	if ((curr_mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY) || (req_mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
+		mode = TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY;
+	} else if ((curr_mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (req_mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP)) {
+		mode = TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP;
+	} else {
+		mode = DEEPEST_LOW_POWER_MODE;
+	}
+
+	return mode;
+}
 
 static void lpm_hang_abort(void)
 {
@@ -247,6 +290,98 @@ static s32 lpm_sleep_jump_to_dm_Stub(void)
 	return _stub_start();
 }
 
+static s32 lpm_select_sleep_mode(u8 *mode)
+{
+	u8 lpsc;
+	u16 devgrp;
+	u8 i = 0U;
+	s32 ret = SUCCESS;
+	sbool mode_selected = SFALSE;
+	sbool main_padcfg_wkup_en = SFALSE;
+	sbool mcu_padcfg_wkup_en = SFALSE;
+
+	*mode = DEEPEST_LOW_POWER_MODE;
+
+	/* Device constraint based selection */
+	for (i = 0; i < soc_device_count; i++) {
+		if (dev_cons[i] != 0U) {
+			/* Get devgrp and LPSC info from device_id */
+			ret = device_id_lookup_devgroup_and_lpsc(i, &devgrp, &lpsc);
+			if (ret != SUCCESS) {
+				ret = -EFAIL;
+				break;
+			}
+
+			/**
+			 * If device having constraints belongs to MAIN DEVGRP, then no lpm is possible
+			 * Exceptions: USB0 and USB1
+			 */
+			if (devgrp == MAIN_DEVGRP) {
+				if ((i == USB0_DEV_ID) || (i == USB1_DEV_ID)) {
+					*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
+				} else {
+					ret = -EFAIL;
+					break;
+				}
+			} else {
+				/* If device is in ALWAYS ON domain in MCU_WAKEUP devgrp, then select Deep sleep */
+				if (lpsc == ALWAYS_ON_LPSC_ID) {
+					*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
+					/* Otherwise, the device belongs to MCU Domain, select MCU only mode */
+				} else {
+					*mode = TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY;
+					mode_selected = STRUE;
+					/* Return as this mode is shallowest of all */
+					break;
+				}
+			}
+		}
+	}
+
+	/* Latency based selection */
+	if (ret == SUCCESS) {
+		for (i = 0; i < HOST_ID_CNT; i++) {
+			if ((latency[i] & LPM_WKUP_LATENCY_VALID_FLAG) != 0U) {
+				/* If the latency value lie in deep sleep mode wakeup latency range, select deep sleep */
+				if (((u16) latency[i] >= LPM_DEEP_SLEEP_WKUP_LAT_MIN) & ((u16) latency[i] <= LPM_DEEP_SLEEP_WKUP_LAT_MAX)) {
+					*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
+					/* If the latency value lie in mcu only mode wakeup latency range, select mcu only */
+				} else if (((u16) latency[i] >= LPM_MCU_ONLY_WKUP_LAT_MIN) & ((u16) latency[i] <= LPM_MCU_ONLY_WKUP_LAT_MAX)) {
+					*mode = TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY;
+					mode_selected = STRUE;
+					break;
+					/* If the latency value is out of wakeup latency range values, no lpm is possible */
+				} else {
+					ret = -EFAIL;
+					break;
+				}
+			}
+		}
+	}
+
+	/* Scan and save the padconfig values */
+	if (ret == SUCCESS) {
+		ret = lpm_sleep_save_main_padconf(&main_padcfg_wkup_en);
+	}
+
+	if (ret == SUCCESS) {
+		ret = lpm_sleep_save_mcu_padconf(&mcu_padcfg_wkup_en);
+	}
+
+	if (ret == SUCCESS) {
+		/* Wakeup source based selection (Padconfig) - Skipped if shallowest mode is already selected */
+		if (((main_padcfg_wkup_en == STRUE) || (mcu_padcfg_wkup_en == STRUE)) && (mode_selected == SFALSE)) {
+			/* Deepest mode is selected unless explicit constraint is there */
+			*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
+		}
+	} else {
+		/* Update the selected mode to invalid in response */
+		*mode = TISCI_MSG_VALUE_SLEEP_MODE_INVALID;
+	}
+
+	return ret;
+}
+
 static void lpm_enter_partial_io_mode(void)
 {
 	u32 reg = 0;
@@ -308,39 +443,78 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 {
 	struct tisci_msg_prepare_sleep_req *req =
 		(struct tisci_msg_prepare_sleep_req *) msg_recv;
+
 	s32 ret = SUCCESS;
-	u8 mode = req->mode;
+	u8 mode;
 
-	if ((mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
-		/* Parse and store the mode info and ctx address in the prepare sleep message */
-		lpm_populate_prepare_sleep_data(req);
+	/* Skip mode selection if mode is partial IO or context address value is valid (indicating old kernel) */
+	if ((req->mode == TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO) || ((req->ctx_lo != 0U) || (req->ctx_hi != 0U))) {
+		mode = req->mode;
 
-		/*
-		 * Clearing all wakeup interrupts from VIM. Even if we are cleaning interrupts
-		 * from VIM, if the wakeup interrupt is still active it will be able to wake
-		 * the soc from LPM. This will only clear any unwanted pending wakeup interrupts
-		 */
-		lpm_clear_all_wakeup_interrupt();
-	} else if (mode == TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO) {
-		/* Suspend DM so that in case of failure, idle hook is not executed */
-		ret = lpm_sleep_suspend_dm();
-
+		/* Scan and save the padconfig values */
 		if (ret == SUCCESS) {
-			/*
-			* Wait for tifs to reach WFI in both the failed and successful case.
-			* but update the ret value only if it was SUCCESS previously
-			*/
-			ret = lpm_sleep_wait_for_tifs_wfi();
+			ret = lpm_sleep_save_main_padconf(NULL);
 		}
 
-		if (ret == SUCCESS) {
-			/* Enable CANUART IO daisy chain and enter partial io mode */
-			lpm_enter_partial_io_mode();
-		} else {
-			lpm_hang_abort();
+		if ((mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) && (ret == SUCCESS)) {
+			ret = lpm_sleep_save_mcu_padconf(NULL);
+		}
+		/* Select low power mode only if mode is not locked yet */
+	} else if (lpm_locked == SFALSE) {
+		if (lpm_select_sleep_mode(&mode) == SUCCESS) {
+			lpm_locked = STRUE;
+			req->mode = mode;
+
+			/* Update the context address */
+			req->ctx_lo = (u32) &__FS_CTXT_START;
+			req->ctx_hi = (u32) (((u64) (&__FS_CTXT_START)) >> WORD_SHIFT);
 		}
 	} else {
-		ret = -EINVAL;
+		ret = -EFAIL;
+	}
+
+	if (ret == SUCCESS) {
+		switch (mode) {
+		case TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR:
+			/* Return failure if the device does not support IO only plus DDR mode */
+			if (mode != DEEPEST_LOW_POWER_MODE) {
+				ret = -EFAIL;
+				break;
+			}
+		case TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP:
+		case TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY:
+			/* Parse and store the mode info and ctx address in the prepare sleep message */
+			lpm_populate_prepare_sleep_data(req);
+
+			/*
+			 * Clearing all wakeup interrupts from VIM. Even if we are cleaning interrupts
+			 * from VIM, if the wakeup interrupt is still active it will be able to wake
+			 * the soc from LPM. This will only clear any unwanted pending wakeup interrupts
+			 */
+			lpm_clear_all_wakeup_interrupt();
+			break;
+		case TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO:
+			/* Suspend DM so that in case of failure, idle hook is not executed */
+			ret = lpm_sleep_suspend_dm();
+
+			if (ret == SUCCESS) {
+				/*
+				 * Wait for tifs to reach WFI in both the failed and successful case.
+				 * but update the ret value only if it was SUCCESS previously
+				 */
+				ret = lpm_sleep_wait_for_tifs_wfi();
+			}
+
+			if (ret == SUCCESS) {
+				/* Enable CANUART IO daisy chain and enter partial io mode */
+				lpm_enter_partial_io_mode();
+			} else {
+				lpm_hang_abort();
+			}
+			break;
+		default: ret = -EFAIL;
+			break;
+		}
 	}
 
 	return ret;
@@ -358,7 +532,8 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 	enter_sleep_status = 0;
 
-	if ((mode != TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) && (mode != TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
+	/* Check if this req mode matches with DM selected mode */
+	if (lpm_get_selected_sleep_mode() != mode) {
 		ret = -EINVAL;
 	}
 
@@ -404,8 +579,13 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 	}
 
 	if (ret == SUCCESS) {
-		ret = lpm_sleep_save_main_padconf();
+		/* As PADCFGs have already been saved, set the flag */
 		enter_sleep_status |= LPM_SAVE_MAIN_PADCONFIG;
+
+		/* MCU PADCFGs values is lost only during IO DDR mode */
+		if (mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) {
+			enter_sleep_status |= LPM_SAVE_MCU_PADCONFIG;
+		}
 	}
 
 	if (ret == SUCCESS) {
@@ -458,6 +638,12 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
+	if (((temp_sleep_status & LPM_SAVE_MCU_PADCONFIG) == LPM_SAVE_MCU_PADCONFIG) && (ret == SUCCESS)) {
+		if (lpm_resume_restore_mcu_padconf() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
 	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SUSPEND_DM) == LPM_SUSPEND_DM)) {
 		if (lpm_resume_dm() != SUCCESS) {
 			lpm_hang_abort();
@@ -504,11 +690,14 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
-	if (ret == SUCCESS) {
+	if ((ret == SUCCESS) || ((temp_sleep_status & LPM_SAVE_MAIN_PADCONFIG) == LPM_SAVE_MAIN_PADCONFIG)) {
 		if (lpm_resume_restore_main_padconf() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
+
+	/* Open the mode selection lock */
+	lpm_locked = SFALSE;
 
 	return ret;
 }
@@ -614,5 +803,80 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 	} else {
 		/* Do Nothing */
 	}
+	return ret;
+}
+
+s32 dm_lpm_set_device_constraint(u32 *msg_recv)
+{
+	s32 ret = SUCCESS;
+	struct tisci_msg_lpm_set_device_constraint_req *req =
+		(struct tisci_msg_lpm_set_device_constraint_req *) msg_recv;
+	struct tisci_msg_lpm_set_device_constraint_resp *resp =
+		(struct tisci_msg_lpm_set_device_constraint_resp *) msg_recv;
+	struct device *dev = NULL;
+	u8 id = req->id;
+	sbool state = (sbool) req->state;
+	u8 host_id = req->hdr.host;
+	u8 host_idx;
+
+	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_LPM_SET_DEVICE_CONSTRAINT);
+	pm_trace(TRACE_PM_ACTION_MSG_PARAM_DEV_CLK_ID, id);
+	pm_trace(TRACE_PM_ACTION_MSG_PARAM_VAL, state);
+
+	resp->hdr.flags = 0U;
+
+	if (state == STRUE) {
+		/* Prepare the host and device for setting constraints - Exclusive rights valued */
+		ret = device_prepare_exclusive(host_id, id, &host_idx, &dev);
+		if (ret == SUCCESS) {
+			/* Set constraint */
+			dev_cons[id] |= (1U << host_idx);
+		}
+	} else {
+		/* Prepare the host and device for clearing constraints - Can be cleared irrespective of exclusive rights */
+		ret = device_prepare_nonexclusive(host_id, id, &host_idx, &dev);
+		if (ret == SUCCESS) {
+			/* Clear constraint */
+			dev_cons[id] &= ~(1U << host_idx);
+		}
+	}
+
+	return ret;
+}
+
+s32 dm_lpm_set_latency_constraint(u32 *msg_recv)
+{
+	s32 ret = SUCCESS;
+	struct tisci_msg_lpm_set_latency_constraint_req *req =
+		(struct tisci_msg_lpm_set_latency_constraint_req *) msg_recv;
+	struct tisci_msg_lpm_set_latency_constraint_resp *resp =
+		(struct tisci_msg_lpm_set_latency_constraint_resp *) msg_recv;
+	u16 wkup_latency = req->wkup_latency;
+	sbool state = (sbool) req->state;
+	u8 host_id = req->hdr.host;
+	u8 host_idx;
+
+	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_LPM_SET_LATENCY_CONSTRAINT);
+	pm_trace(TRACE_PM_ACTION_MSG_PARAM_LATENCY, wkup_latency);
+	pm_trace(TRACE_PM_ACTION_MSG_PARAM_VAL, state);
+
+	resp->hdr.flags = 0U;
+
+	/* Check if current host is valid and get lookup host ID */
+	host_idx = host_idx_lookup(host_id);
+	if (host_idx == HOST_IDX_NONE) {
+		ret = -EFAIL;
+	}
+
+	if (ret == SUCCESS) {
+		if (state == STRUE) {
+			/* Set latency constraint */
+			latency[host_idx] = (LPM_WKUP_LATENCY_VALID_FLAG | wkup_latency);
+		} else {
+			/* Clear latency constraint */
+			latency[host_idx] = 0U;
+		}
+	}
+
 	return ret;
 }

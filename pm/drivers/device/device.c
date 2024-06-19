@@ -43,6 +43,9 @@
 #include <device_clk.h>
 #include <clk.h>
 #include <hosts.h>
+#ifdef CONFIG_LPM_DM
+#include <psc.h>
+#endif
 
 /** The bitmask of currently enabled devgroups. */
 static u32 pm_devgroups_enabled;
@@ -301,3 +304,28 @@ void devices_drop_power_up_ref(void)
 		}
 	}
 }
+
+#ifdef CONFIG_LPM_DM
+s32 device_id_lookup_devgroup_and_lpsc(u8 id, u16 *devgrp, u8 *lpsc)
+{
+	s32 ret = SUCCESS;
+	struct device *dev = NULL;
+	const struct dev_data *data = NULL;
+
+	/* Get the device array from device ID */
+	dev = device_lookup(id);
+
+	/* Get the dev_data struct associated with a device */
+	data = get_dev_data(dev);
+	*devgrp = data->pm_devgrp;
+
+	/* Update the LPSC ID only if Device has a LPSC associated with it */
+	if (data->soc.psc_idx != PSC_DEV_NONE) {
+		*lpsc = data->soc.mod;
+	} else {
+		ret = -EFAIL;
+	}
+
+	return ret;
+}
+#endif

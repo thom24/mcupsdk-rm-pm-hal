@@ -3785,16 +3785,6 @@ const struct clk_data soc_clock_data[260] = {
 		.data		= &clk_data_pllfracf2_ssmod_16fft_mcu_0.data_pll.data,
 		.flags		= 0,
 	},
-	[CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTPOSTDIV_CLK] =				{
-		.parent =									{
-			CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_postdiv.drv,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_pllfracf2_ssmod_16fft_mcu_0_postdiv.data,
-		.flags	= 0,
-	},
 	[CLK_AM62AX_POSTDIV1_16FFT_MAIN_1_HSDIVOUT5_CLK] =					{
 		.parent =									{
 			CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MAIN_1_FOUTPOSTDIV_CLK,
@@ -3814,26 +3804,6 @@ const struct clk_data soc_clock_data[260] = {
 		.flags	= 0,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_postdiv1_16fft_main_1_hsdiv6.data_div.data,
-	},
-	[CLK_AM62AX_POSTDIV1_16FFT_MCU_0_HSDIVOUT5_CLK] =					{
-		.parent =									{
-			CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTPOSTDIV_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_postdiv1_16fft_mcu_0_hsdiv5.data_div.data,
-	},
-	[CLK_AM62AX_POSTDIV1_16FFT_MCU_0_HSDIVOUT6_CLK] =					{
-		.parent =									{
-			CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTPOSTDIV_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_reg.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_postdiv1_16fft_mcu_0_hsdiv6.data_div.data,
 	},
 	[CLK_AM62AX_POSTDIV4_16FF_MAIN_0_HSDIVOUT5_CLK] =					{
 		.parent =									{
@@ -4159,18 +4129,6 @@ const struct clk_data soc_clock_data[260] = {
 		.data	= &clk_data_MCASPn_CLKSEL_AUXCLK_out2.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_AM62AX_MCU_WWDTCLK_SEL_OUT0] =							{
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCU_WWDTCLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM62AX_RTC_CLK_SEL_OUT0] =								{
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_RTC_CLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
 	[CLK_AM62AX_HSDIV0_16FFT_MAIN_12_HSDIVOUT0_CLK] =					{
 		.parent =									{
 			CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MAIN_12_FOUTVCOP_CLK,
@@ -4411,16 +4369,6 @@ const struct clk_data soc_clock_data[260] = {
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv4_16fft_mcu_0_hsdiv0.data_div.data,
 	},
-	[CLK_AM62AX_HSDIV4_16FFT_MCU_0_HSDIVOUT3_CLK] =						{
-		.parent =									{
-			CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_mcu_0_hsdiv3.data_div.data,
-	},
 	[CLK_AM62AX_HSDIV4_16FFT_MCU_0_HSDIVOUT4_CLK] =						{
 		.parent =									{
 			CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
@@ -4501,12 +4449,6 @@ const struct clk_data soc_clock_data[260] = {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_MAIN_GPMC_FCLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM62AX_MAIN_GTCCLK_SEL_OUT0] =							{
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MAIN_GTCCLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM62AX_MAIN_MCANN_CLK_SEL_OUT0] =							{
@@ -4669,12 +4611,6 @@ const struct clk_data soc_clock_data[260] = {
 		.data	= &clk_data_WKUP_CLKSEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_AM62AX_WKUP_CLKSEL_R5FSS_OUT0] =							{
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_WKUP_CLKSEL_R5FSS_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
 	[CLK_AM62AX_MAIN_OBSCLK_DIV_OUT0] =							{
 		.parent =									{
 			CLK_AM62AX_MAIN_OBSCLK0_MUX_SEL_OUT0,
@@ -4779,6 +4715,12 @@ const struct clk_data soc_clock_data[260] = {
 		.data	= &clk_data_MCU_OBSCLK_OUTMUX_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
+	[CLK_AM62AX_MAIN_GTCCLK_SEL_OUT0] =							{
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MAIN_GTCCLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
 	[CLK_AM62AX_MCU_GPIO0_CLKSEL_OUT0] =							{
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
@@ -4797,28 +4739,10 @@ const struct clk_data soc_clock_data[260] = {
 		.data	= &clk_data_MCU_MCANn_CLK_SEL_out1.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_AM62AX_MCU_TIMERCLKN_SEL_OUT0] =							{
+	[CLK_AM62AX_MCU_WWDTCLK_SEL_OUT0] =							{
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
-		.data	= &clk_data_MCU_TIMERCLKn_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM62AX_MCU_TIMERCLKN_SEL_OUT1] =							{
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCU_TIMERCLKn_SEL_out1.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM62AX_MCU_TIMERCLKN_SEL_OUT2] =							{
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCU_TIMERCLKn_SEL_out2.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_AM62AX_MCU_TIMERCLKN_SEL_OUT3] =							{
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCU_TIMERCLKn_SEL_out3.data_mux.data,
+		.data	= &clk_data_MCU_WWDTCLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM62AX_MCU_SPI0_MSTR_LP_CLKSEL_OUT0] =						{
@@ -4833,16 +4757,16 @@ const struct clk_data soc_clock_data[260] = {
 		.data	= &clk_data_MCU_spi1_mstr_lp_clksel_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_AM62AX_WKUP_TIMERCLKN_SEL_OUT0] =							{
+	[CLK_AM62AX_RTC_CLK_SEL_OUT0] =								{
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
-		.data	= &clk_data_WKUP_TIMERCLKn_SEL_out0.data_mux.data,
+		.data	= &clk_data_RTC_CLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_AM62AX_WKUP_TIMERCLKN_SEL_OUT1] =							{
+	[CLK_AM62AX_WKUP_CLKSEL_R5FSS_OUT0] =							{
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
-		.data	= &clk_data_WKUP_TIMERCLKn_SEL_out1.data_mux.data,
+		.data	= &clk_data_WKUP_CLKSEL_R5FSS_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM62AX_WKUP_WWDTCLK_SEL_OUT0] =							{
@@ -4877,6 +4801,16 @@ const struct clk_data soc_clock_data[260] = {
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv4_16fft_mcu_0_hsdiv2.data_div.data,
 	},
+	[CLK_AM62AX_HSDIV4_16FFT_MCU_0_HSDIVOUT3_CLK] =						{
+		.parent =									{
+			CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_mcu_0_hsdiv3.data_div.data,
+	},
 	[CLK_AM62AX_MSHSI2C_MCU_0_PORSCL] =							{
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -4888,6 +4822,72 @@ const struct clk_data soc_clock_data[260] = {
 		.flags		= 0,
 		.data		= &clk_data_mshsi2c_wkup_0_porscl.data,
 		.freq_idx	= AM62AX_FREQ_VALUE_MSHSI2C_WKUP_0_PORSCL,
+	},
+	[CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTPOSTDIV_CLK] =				{
+		.parent =									{
+			CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_postdiv.drv,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_pllfracf2_ssmod_16fft_mcu_0_postdiv.data,
+		.flags	= 0,
+	},
+	[CLK_AM62AX_POSTDIV1_16FFT_MCU_0_HSDIVOUT5_CLK] =					{
+		.parent =									{
+			CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTPOSTDIV_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_postdiv1_16fft_mcu_0_hsdiv5.data_div.data,
+	},
+	[CLK_AM62AX_POSTDIV1_16FFT_MCU_0_HSDIVOUT6_CLK] =					{
+		.parent =									{
+			CLK_AM62AX_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTPOSTDIV_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_reg.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_postdiv1_16fft_mcu_0_hsdiv6.data_div.data,
+	},
+	[CLK_AM62AX_MCU_TIMERCLKN_SEL_OUT0] =							{
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCU_TIMERCLKn_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM62AX_MCU_TIMERCLKN_SEL_OUT1] =							{
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCU_TIMERCLKn_SEL_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM62AX_MCU_TIMERCLKN_SEL_OUT2] =							{
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCU_TIMERCLKn_SEL_out2.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM62AX_MCU_TIMERCLKN_SEL_OUT3] =							{
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCU_TIMERCLKn_SEL_out3.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM62AX_WKUP_TIMERCLKN_SEL_OUT0] =							{
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_WKUP_TIMERCLKn_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_AM62AX_WKUP_TIMERCLKN_SEL_OUT1] =							{
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_WKUP_TIMERCLKn_SEL_out1.data_mux.data,
+		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_AM62AX_MCU_TIMER1_CASCADE_OUT0] =							{
 		.drv	= &clk_drv_mux_reg.drv,

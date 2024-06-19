@@ -90,16 +90,23 @@ extern "C" {
 #define WKUP0_EN                                (0x00018180U)
 #define WKUP0_EN_CANUART_IO_DAISY_CHAIN          BIT(18)
 
+/* SOC Device IDs */
 #define DEV_GTC                                AM62AX_DEV_WKUP_GTC0
 #define POWER_MASTER                           AM62AX_DEV_A53SS0_CORE_0
 #define POWER_MASTER_CLUSTER                   AM62AX_DEV_A53SS0
+#define USB0_DEV_ID                            AM62AX_DEV_USB0
+#define USB1_DEV_ID                            AM62AX_DEV_USB1
 
 #define GTC_CFG0_BASE                          (0xa80000UL)
 #define GTC_CFG1_BASE                          (0xa90000UL)
 
-#define PADCFG_CTRL_BASE                       (0xf0000UL)
+#define MAIN_PADCFG_CTRL_BASE                  (0xf0000UL)
 #define PADCFG_OFFSET                          (0x4000U)
-#define PADCFG_SIZE                            (((0x4258U - PADCFG_OFFSET) >> 2) + 1U)
+#define MAIN_PADCFG_REG_END                    (0x4258U)
+
+/* MCU PADCFG address */
+#define MCU_PADCFG_CTRL_BASE                   (0x4080000UL)
+#define MCU_PADCFG_REG_END                     (0x4084U)
 
 #define RTC_BASE                               (0x2b1f0000UL)
 
@@ -107,6 +114,12 @@ extern "C" {
 #define MCU_CTRL_BASE                          (0x04500000UL)
 #define MAX_MMR_DATA                           (20U)
 
+/* DEVGRP and LPSC ID */
+#define MAIN_DEVGRP                            DEVGRP_00
+#define ALWAYS_ON_LPSC_ID                      0U
+
+/* Deepest low power mode supported according to fw caps */
+#define DEEPEST_LOW_POWER_MODE                 TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP
 
 #ifdef __cplusplus
 }

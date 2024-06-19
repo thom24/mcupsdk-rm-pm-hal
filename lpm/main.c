@@ -719,6 +719,11 @@ void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p)
 	}
 }
 
+u8 lpm_get_selected_sleep_mode(void)
+{
+	return g_params.mode;
+}
+
 s32 dm_stub_entry(void)
 {
 	u32 reg;
