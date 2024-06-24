@@ -73,13 +73,11 @@
 #define LPM_SAVE_MMR_LOCK                       BIT(7)
 #define LPM_SAVE_MCU_PADCONFIG                  BIT(8)
 
-#define LPM_WKUP_LATENCY_VALID_FLAG             BIT(16)
+#define LPM_RESUME_LATENCY_VALID_FLAG           BIT(16)
 
 /* Deep sleep and MCU Only latency values */
-#define LPM_DEEP_SLEEP_WKUP_LAT_MIN             101U
-#define LPM_DEEP_SLEEP_WKUP_LAT_MAX             200U
-#define LPM_MCU_ONLY_WKUP_LAT_MIN               10U
-#define LPM_MCU_ONLY_WKUP_LAT_MAX               100U
+#define LPM_DEEP_SLEEP_RESUME_LAT_MIN           101U
+#define LPM_MCU_ONLY_RESUME_LAT_MIN             10U
 
 extern s32 _stub_start(void);
 extern u32 lpm_get_wake_up_source(void);
@@ -341,16 +339,16 @@ static s32 lpm_select_sleep_mode(u8 *mode)
 	/* Latency based selection */
 	if (ret == SUCCESS) {
 		for (i = 0; i < HOST_ID_CNT; i++) {
-			if ((latency[i] & LPM_WKUP_LATENCY_VALID_FLAG) != 0U) {
-				/* If the latency value lie in deep sleep mode wakeup latency range, select deep sleep */
-				if (((u16) latency[i] >= LPM_DEEP_SLEEP_WKUP_LAT_MIN) & ((u16) latency[i] <= LPM_DEEP_SLEEP_WKUP_LAT_MAX)) {
+			if ((latency[i] & LPM_RESUME_LATENCY_VALID_FLAG) != 0U) {
+				/* If the latency value is more than or equal to deep sleep mode minimum resume latency, select deep sleep */
+				if ((u16) latency[i] >= LPM_DEEP_SLEEP_RESUME_LAT_MIN) {
 					*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
-					/* If the latency value lie in mcu only mode wakeup latency range, select mcu only */
-				} else if (((u16) latency[i] >= LPM_MCU_ONLY_WKUP_LAT_MIN) & ((u16) latency[i] <= LPM_MCU_ONLY_WKUP_LAT_MAX)) {
+					/* If the latency value lie in mcu only mode resume latency range, select mcu only */
+				} else if ((u16) latency[i] >= LPM_MCU_ONLY_RESUME_LAT_MIN) {
 					*mode = TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY;
 					mode_selected = STRUE;
 					break;
-					/* If the latency value is out of wakeup latency range values, no lpm is possible */
+					/* If the latency value is out of resume latency range values, no lpm is possible */
 				} else {
 					ret = -EFAIL;
 					break;
@@ -403,7 +401,8 @@ static void lpm_enter_partial_io_mode(void)
 	writel(reg, (WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0));
 
 	/* Wait for wu clock state to be 1 */
-	while ((timeout > 0U) && (((readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0)) & WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS) != WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS)) {
+	while ((timeout > 0U) &&
+	       (((readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0)) & WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS) != WKUP_CTRL_PMCTRL_IO_0_IO_ISO_STATUS)) {
 		--timeout;
 	}
 	if (timeout == 0U) {
@@ -851,13 +850,13 @@ s32 dm_lpm_set_latency_constraint(u32 *msg_recv)
 		(struct tisci_msg_lpm_set_latency_constraint_req *) msg_recv;
 	struct tisci_msg_lpm_set_latency_constraint_resp *resp =
 		(struct tisci_msg_lpm_set_latency_constraint_resp *) msg_recv;
-	u16 wkup_latency = req->wkup_latency;
+	u16 resume_latency = req->resume_latency;
 	sbool state = (sbool) req->state;
 	u8 host_id = req->hdr.host;
 	u8 host_idx;
 
 	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_LPM_SET_LATENCY_CONSTRAINT);
-	pm_trace(TRACE_PM_ACTION_MSG_PARAM_LATENCY, wkup_latency);
+	pm_trace(TRACE_PM_ACTION_MSG_PARAM_LATENCY, resume_latency);
 	pm_trace(TRACE_PM_ACTION_MSG_PARAM_VAL, state);
 
 	resp->hdr.flags = 0U;
@@ -871,7 +870,7 @@ s32 dm_lpm_set_latency_constraint(u32 *msg_recv)
 	if (ret == SUCCESS) {
 		if (state == STRUE) {
 			/* Set latency constraint */
-			latency[host_idx] = (LPM_WKUP_LATENCY_VALID_FLAG | wkup_latency);
+			latency[host_idx] = (LPM_RESUME_LATENCY_VALID_FLAG | resume_latency);
 		} else {
 			/* Clear latency constraint */
 			latency[host_idx] = 0U;

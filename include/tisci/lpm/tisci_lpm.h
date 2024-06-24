@@ -439,8 +439,8 @@ struct tisci_msg_lpm_set_device_constraint_resp {
  * \brief Request for TISCI_MSG_LPM_SET_LATENCY_CONSTRAINT.
  *
  * \param hdr TISCI header to provide ACK/NAK flags to the host.
- * \param wkup_latency The maximum acceptable latency to wake up from low power mode
- *                     in milliseconds. The deeper the state, the higher the latency.
+ * \param resume_latency The maximum acceptable latency to wake up from low power mode
+ *                       in milliseconds. The deeper the state, the higher the latency.
  * \param state The desired state of constraint: set or clear.
  * \param rsvd Reserved for future use.
  *
@@ -454,7 +454,7 @@ struct tisci_msg_lpm_set_device_constraint_resp {
  */
 struct tisci_msg_lpm_set_latency_constraint_req {
 	struct tisci_header	hdr;
-	u16			wkup_latency;
+	u16			resume_latency;
 	u8			state;
 	u32			rsvd;
 } __attribute__((__packed__));
