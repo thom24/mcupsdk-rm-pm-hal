@@ -1652,3 +1652,18 @@ const struct clk_drv_div clk_drv_div_pll_16fft_hsdiv = {
 	.set_div		= clk_div_reg_set_div,
 	.get_div		= clk_div_reg_get_div,
 };
+
+const struct clk_drv_div clk_drv_div_pll_16fft_postdiv_hsdiv = {
+	.drv			= {
+		.notify_freq	= clk_div_notify_freq,
+		.set_freq	= clk_div_set_freq,
+		.get_freq	= clk_div_get_freq,
+		.init		= clk_div_init,
+#ifdef CONFIG_LPM_CLK
+		.suspend_save	= clk_div_suspend_save,
+		.resume_restore = clk_div_resume_restore,
+#endif
+	},
+	.set_div		= clk_div_reg_set_div,
+	.get_div		= clk_div_reg_get_div,
+};
