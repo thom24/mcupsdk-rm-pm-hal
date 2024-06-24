@@ -60,9 +60,6 @@
 /* Count of 1us delay for 10ms */
 #define TIMEOUT_10MS                    10000U
 
-/* Number of bits required to perform one word shift */
-#define WORD_SHIFT                      32U
-
 #define LPM_SUSPEND_POWERMASTER                 BIT(0)
 #define LPM_DEVICE_DEINIT                       BIT(1)
 #define LPM_DISABLE_LPSC                        BIT(2)
@@ -99,7 +96,6 @@ static u64 dev_cons[SOC_DEVICES_RANGE_ID_MAX] = { 0U };
 
 static u32 latency[HOST_ID_CNT] = { 0U };
 static sbool lpm_locked = SFALSE;
-extern u64 __FS_CTXT_START;
 
 static u8 lpm_select_shallowest_mode(u8 req_mode, u8 curr_mode)
 {
@@ -372,9 +368,6 @@ static s32 lpm_select_sleep_mode(u8 *mode)
 			/* Deepest mode is selected unless explicit constraint is there */
 			*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
 		}
-	} else {
-		/* Update the selected mode to invalid in response */
-		*mode = TISCI_MSG_VALUE_SLEEP_MODE_INVALID;
 	}
 
 	return ret;
@@ -446,8 +439,19 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 	s32 ret = SUCCESS;
 	u8 mode;
 
-	/* Skip mode selection if mode is partial IO or context address value is valid (indicating old kernel) */
-	if ((req->mode == TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO) || ((req->ctx_lo != 0U) || (req->ctx_hi != 0U))) {
+	/* Select low power mode if mode is not yet locked and requested mode is "DM managed" mode */
+	if ((lpm_locked == SFALSE) && (req->mode == TISCI_MSG_VALUE_SLEEP_MODE_DM_MANAGED)) {
+		if (lpm_select_sleep_mode(&mode) == SUCCESS) {
+			lpm_locked = STRUE;
+			req->mode = mode;
+		} else {
+			ret = -EFAIL;
+		}
+	} else if (lpm_locked == STRUE) {
+		/* If lock is already applied, return failure */
+		ret = -EFAIL;
+	} else {
+		/* For all other modes, skip mode selection and save padconfig values */
 		mode = req->mode;
 
 		/* Scan and save the padconfig values */
@@ -458,18 +462,6 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 		if ((mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) && (ret == SUCCESS)) {
 			ret = lpm_sleep_save_mcu_padconf(NULL);
 		}
-		/* Select low power mode only if mode is not locked yet */
-	} else if (lpm_locked == SFALSE) {
-		if (lpm_select_sleep_mode(&mode) == SUCCESS) {
-			lpm_locked = STRUE;
-			req->mode = mode;
-
-			/* Update the context address */
-			req->ctx_lo = (u32) &__FS_CTXT_START;
-			req->ctx_hi = (u32) (((u64) (&__FS_CTXT_START)) >> WORD_SHIFT);
-		}
-	} else {
-		ret = -EFAIL;
 	}
 
 	if (ret == SUCCESS) {

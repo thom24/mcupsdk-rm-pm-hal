@@ -41,12 +41,44 @@
 #include <types/short_types.h>
 #include <tisci/tisci_protocol.h>
 
-
+/**
+ * Sleep mode in which complete SOC except the wakeup domain is turned off.
+ */
 #define TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP           0x0U
+
+/**
+ * Sleep mode in which complete SOC except the wakeup and MCU domain is turned off.
+ */
 #define TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY             0x1U
+
+/**
+ * Sleep mode in which complete SOC except the DDR memory and CAN IOs is turned off.
+ */
 #define TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR     0x2U
+
+/**
+ * Sleep mode in which complete SOC except the CAN IOs is turned off.
+ */
 #define TISCI_MSG_VALUE_SLEEP_MODE_PARTIAL_IO           0x3U
+
+/**
+ * Sleep mode in which software is in low power mode but the hardware remains on.
+ */
 #define TISCI_MSG_VALUE_SLEEP_MODE_STANDBY              0x4U
+
+/**
+ * Value passed to request device manager for low power mode selection.
+ */
+#define TISCI_MSG_VALUE_SLEEP_MODE_DM_MANAGED           0xFDU
+
+/**
+ * Value returned if device manager has not yet selected the low power mode.
+ */
+#define TISCI_MSG_VALUE_SLEEP_MODE_NOT_SELECTED         0xFEU
+
+/**
+ * Value returned if low power mode entered is invalid.
+ */
 #define TISCI_MSG_VALUE_SLEEP_MODE_INVALID              0xFFU
 
 #define MSG_FLAG_CERT_AUTH_PASS                        0x555555U
@@ -123,15 +155,17 @@
  *
  * Notes:
  *  * Mode is defined as one of TISCI_MSG_VALUE_SLEEP_MODE_x macros.
- *  * Mode parameter is applicable only for partial IO low power mode. For
- *    other low power mode entry requests, this value must not be equal
- *    to partial IO mode value.
- *  * For version < 10.x, ctx_lo and ctx_hi are to be a reserved memory region
- *    as decided on by the HLOS. This region should be a carve out in DDR and
- *    valid for use with DMA. Otherwise there are no constraints on this memory.
- *    An encrypted blob will be placed here and only a valid blob can be
+ *  * Mode parameter should be equal to partial IO low power mode for partial IO
+ *    mode entry. In this mode, ctx_lo and ctx_hi are unused. There is no requirement
+ *    of "carve out" in DDR.
+ *  * Mode parameter should be equal to intermediate value "DM managed" if
+ *    mode selection logic has to be applied. In this case, ctx_lo and ctx_hi are
+ *    reserved for internal use (DM application should allocate "carve out" for LPM)
+ *  * For mode value not equal to "DM managed" or partial IO, ctx_lo and ctx_hi should
+ *    be a reserved memory region as decided on by the HLOS. This region should be a
+ *    carve out in DDR and valid for use with DMA. Otherwise there are no constraints
+ *    on this memory. An encrypted blob will be placed here and only a valid blob can be
  *    decrypted and authenticated, which eliminates risk of tampering.
- *  * For version >= 10.x, ctx_lo and ctx_hi are reserved for internal use.
  */
 struct tisci_msg_prepare_sleep_req {
 	struct tisci_header	hdr;
