@@ -317,7 +317,7 @@ static s32 lpm_select_sleep_mode(u8 *mode)
 			 * Exceptions: USB0 and USB1
 			 */
 			if (devgrp == MAIN_DEVGRP) {
-				if ((i == USB0_DEV_ID) || (i == USB1_DEV_ID)) {
+				if ((i == USB0_DEV_ID) || (i == USB1_DEV_ID) || (i == USB0_ISO_DEV_ID) || (i == USB1_ISO_DEV_ID)) {
 					*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
 				} else {
 					ret = -EFAIL;

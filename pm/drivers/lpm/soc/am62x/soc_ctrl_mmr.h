@@ -105,6 +105,8 @@ extern "C" {
 #define POWER_MASTER_CLUSTER    AM62X_DEV_A53SS0
 #define USB0_DEV_ID             AM62X_DEV_USB0
 #define USB1_DEV_ID             AM62X_DEV_USB1
+#define USB0_ISO_DEV_ID         AM62X_DEV_MAIN_USB0_ISO_VD
+#define USB1_ISO_DEV_ID         AM62X_DEV_MAIN_USB1_ISO_VD
 
 /* GTC Config base */
 #define GTC_CFG0_BASE           (0xA80000UL)
