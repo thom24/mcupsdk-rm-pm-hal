@@ -97,6 +97,24 @@ static u64 dev_cons[SOC_DEVICES_RANGE_ID_MAX] = { 0U };
 static u32 latency[HOST_ID_CNT] = { 0U };
 static sbool lpm_locked = SFALSE;
 
+static void lpm_clear_sleep_data(void)
+{
+	u32 idx;
+
+	/* Clear all device constraints */
+	for (idx = 0U; idx < SOC_DEVICES_RANGE_ID_MAX; idx++) {
+		dev_cons[idx] = 0U;
+	}
+
+	/* Clear all latency constraints */
+	for (idx = 0U; idx < HOST_ID_CNT; idx++) {
+		latency[idx] = 0U;
+	}
+
+	/* Open the mode selection lock */
+	lpm_locked = SFALSE;
+}
+
 static u8 lpm_select_shallowest_mode(u8 req_mode, u8 curr_mode)
 {
 	u8 mode;
@@ -682,8 +700,8 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		}
 	}
 
-	/* Open the mode selection lock */
-	lpm_locked = SFALSE;
+	/* Open the mode selection lock and clear constraints */
+	lpm_clear_sleep_data();
 
 	return ret;
 }
