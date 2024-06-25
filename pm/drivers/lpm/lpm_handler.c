@@ -523,11 +523,6 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 	enter_sleep_status = 0;
 
-	/* Check if this req mode matches with DM selected mode */
-	if (lpm_get_selected_sleep_mode() != mode) {
-		ret = -EINVAL;
-	}
-
 	/*
 	 * Wait for tifs to reach WFI in both the failed and successful case.
 	 * but update the ret value only if it was SUCCESS previously
