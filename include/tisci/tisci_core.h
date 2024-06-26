@@ -3,7 +3,7 @@
  *
  * TISCI Data structures for core messages
  *
- * Copyright (C) 2017-2022, Texas Instruments Incorporated
+ * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,6 +47,7 @@
 #define TISCI_MSG_FLAG_FW_CAP_LPM_MCU_ONLY         BIT(2)
 #define TISCI_MSG_FLAG_FW_CAP_LPM_STANDBY          BIT(3)
 #define TISCI_MSG_FLAG_FW_CAP_LPM_PARTIAL_IO_ON    BIT(4)
+#define TISCI_MSG_FLAG_FW_CAP_LPM_DM_MANAGED       BIT(5)
 
 /**
  * \brief Notification message to indicate the DMSC is available.
