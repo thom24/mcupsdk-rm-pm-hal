@@ -133,9 +133,11 @@
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MCU_IPC                         0x90U
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID                         0xFFU
 
-/** Used by TISCI_MSG_GET_NEXT_HOST_STATE to return state of MCU core in upcoming low power mode */
+/** Used by TISCI_MSG_GET_NEXT_HOST_STATE to return remote core's state as on */
 #define TISCI_MSG_VALUE_HOST_STATE_ON                                   1U
+/** Used by TISCI_MSG_GET_NEXT_HOST_STATE to return remote core's state as off */
 #define TISCI_MSG_VALUE_HOST_STATE_OFF                                  0U
+/** Used by TISCI_MSG_GET_NEXT_HOST_STATE to return remote core's state as invalid */
 #define TISCI_MSG_VALUE_HOST_STATE_INVALID                              0xFFU
 
 /** Used by TISCI_MSG_SET_IO_ISOLATION to enable IO isolation */
