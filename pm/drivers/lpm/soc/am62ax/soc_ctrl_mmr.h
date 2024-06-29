@@ -96,6 +96,8 @@ extern "C" {
 #define POWER_MASTER_CLUSTER                   AM62AX_DEV_A53SS0
 #define USB0_DEV_ID                            AM62AX_DEV_USB0
 #define USB1_DEV_ID                            AM62AX_DEV_USB1
+#define USB0_ISO_DEV_ID                        AM62AX_DEV_MAIN_USB0_ISO_VD
+#define USB1_ISO_DEV_ID                        AM62AX_DEV_MAIN_USB1_ISO_VD
 
 #define GTC_CFG0_BASE                          (0xa80000UL)
 #define GTC_CFG1_BASE                          (0xa90000UL)
@@ -120,6 +122,9 @@ extern "C" {
 
 /* Deepest low power mode supported according to fw caps */
 #define DEEPEST_LOW_POWER_MODE                 TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP
+
+/* SOC MCU Core Host ID */
+#define MCU_HOST_ID                             HOST_ID_MCU_0_R5_0
 
 #ifdef __cplusplus
 }

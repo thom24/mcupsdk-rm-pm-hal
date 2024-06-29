@@ -90,6 +90,16 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv);
 s32 dm_lpm_set_device_constraint(u32 *msg_recv);
 
 /**
+ *  \brief  LPM get device constraint handler Function.
+ *
+ *  \param  msg_recv Pointer to the received and returned message. Same buffer
+ *                   used.
+ *  \return ret      SUCCESS if the API executed successfully.
+ *                   EFAIL   if the API failed to execute.
+ */
+s32 dm_lpm_get_device_constraint(u32 *msg_recv);
+
+/**
  *  \brief  LPM set latency constraint handler Function.
  *
  *  \param  msg_recv Pointer to the received and returned message. Same buffer
@@ -98,5 +108,33 @@ s32 dm_lpm_set_device_constraint(u32 *msg_recv);
  *                   EFAIL   if the API failed to execute.
  */
 s32 dm_lpm_set_latency_constraint(u32 *msg_recv);
+
+/**
+ *  \brief  LPM get latency constraint handler Function.
+ *
+ *  \param  msg_recv Pointer to the received and returned message. Same buffer
+ *                   used.
+ *  \return ret      SUCCESS if the API executed successfully.
+ *                   EFAIL   if the API failed to execute.
+ */
+s32 dm_lpm_get_latency_constraint(u32 *msg_recv);
+
+/**
+ *  \brief  LPM get next system mode handler Function.
+ *
+ *  \param  msg_recv Pointer to the received and returned message. Same buffer
+ *                   used.
+ *  \return ret      SUCCESS
+ */
+s32 dm_lpm_get_next_sys_mode(u32 *msg_recv);
+
+/**
+ *  \brief  LPM get next host state handler Function.
+ *
+ *  \param  msg_recv Pointer to the received and returned message. Same buffer
+ *                   used.
+ *  \return ret      SUCCESS
+ */
+s32 dm_lpm_get_next_host_state(u32 *msg_recv);
 
 #endif

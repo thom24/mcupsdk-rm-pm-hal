@@ -387,10 +387,15 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clock_ptr)
 		u32 pll_type;
 		u32 cfg;
 		s32 err;
+		u32 cal, cal_en;
 		cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
 		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
+
+		cal = readl(pll->base + (u32) PLL_16FFT_CAL_CTRL(pll->idx));
+		cal_en = (cal & PLL_16FFT_CAL_CTRL_CAL_EN);
+
 		if (success &&
-		    (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL)) {
+		    (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL) && (cal_en == 1UL)) {
 			/*
 			 * Wait for calibration lock.
 			 *
@@ -1254,12 +1259,7 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_pll_16fft *pll;
 	const struct clk_data_pll *data_pll;
-	u32 freq_ctrl1;
-	u32 ctrl;
-	u32 cfg;
-	u32 pll_type;
 	u32 i;
-	u32 pllfm;
 	s32 ret = SUCCESS;
 	sbool skip_hw_init = SFALSE;
 
@@ -1269,6 +1269,14 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 				data);
 	pll = container_of(data_pll, const struct clk_data_pll_16fft,
 			   data_pll);
+
+	/*
+	* Unlock write access. Note this register does not readback the
+	* written value.
+	*/
+	writel((u32) PLL_16FFT_LOCKKEY0_VALUE, (u32) pll->base + (u32) PLL_16FFT_LOCKKEY0(pll->idx));
+	writel((u32) PLL_16FFT_LOCKKEY1_VALUE, (u32) pll->base + (u32) PLL_16FFT_LOCKKEY1(pll->idx));
+
 	/*
 	 * In order to honor the CLK_DATA_FLAG_NO_HW_REINIT flag when set,
 	 * we must check if the clk is enabled, and if so, skip re-setting
@@ -1280,86 +1288,21 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 	}
 
 	if (skip_hw_init == SFALSE) {
+		ret = pll_init(clock_ptr);
+	}
+
+	if (ret == SUCCESS) {
 		/*
-		* Unlock write access. Note this register does not readback the
-		* written value.
-		*/
-		writel((u32) PLL_16FFT_LOCKKEY0_VALUE, (u32) pll->base + (u32) PLL_16FFT_LOCKKEY0(pll->idx));
-		writel((u32) PLL_16FFT_LOCKKEY1_VALUE, (u32) pll->base + (u32) PLL_16FFT_LOCKKEY1(pll->idx));
-
-		cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
-		ctrl = readl(pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
-
-		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
-		freq_ctrl1 = readl(pll->base + (u32) PLL_16FFT_FREQ_CTRL1(pll->idx));
-		pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
-		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
-
-		/* Disable calibration in the fractional mode of the FRACF PLL based on
-		 * data from silicon and simulation data.
+		 * Find and program hsdiv defaults.
+		 *
+		 * HSDIV defaults must be programmed before programming the
+		 * PLL since their power on default is /1. Most DCO
+		 * frequencies will exceed clock rate maximums of the HSDIV
+		 * outputs.
+		 *
+		 * We walk through the clock tree to find all the clocks
+		 * with the hsdiv driver who have this PLL for a parent.
 		 */
-		if ((pll_type == PLL_16FFT_CFG_PLL_TYPE_FRACF) && (pllfm == 0UL)) {
-			clk_pll_16fft_cal_option3(pll);
-		}
-
-		/* Make sure PLL is enabled */
-		ret = clk_pll_16fft_enable_pll(pll);
-
-		/* Always bypass if we lose lock */
-		ctrl |= PLL_16FFT_CTRL_BYP_ON_LOCKLOSS;
-
-		/* Prefer glitchless bypass */
-		if ((ctrl & PLL_16FFT_CTRL_INTL_BYP_EN) != 0U) {
-			ctrl |= PLL_16FFT_CTRL_BYPASS_EN;
-			ctrl &= ~PLL_16FFT_CTRL_INTL_BYP_EN;
-		}
-
-		/* Always enable output if PLL */
-		ctrl |= PLL_16FFT_CTRL_CLK_POSTDIV_EN;
-
-		/* Currently unused by all PLLs */
-		ctrl &= ~PLL_16FFT_CTRL_CLK_4PH_EN;
-
-		/* Make sure we have fractional support if required */
-		if (pllfm != 0UL) {
-			ctrl |= PLL_16FFT_CTRL_DSM_EN;
-			ctrl |= PLL_16FFT_CTRL_DAC_EN;
-		} else {
-			ctrl &= ~PLL_16FFT_CTRL_DSM_EN;
-			ctrl &= ~PLL_16FFT_CTRL_DAC_EN;
-		}
-
-		/* Enable Fractional by default for PLL_16FFT_CFG_PLL_TYPE_FRAC2 */
-		if (pll_type == PLL_16FFT_CFG_PLL_TYPE_FRAC2) {
-			ctrl |= PLL_16FFT_CTRL_DSM_EN;
-			ctrl |= PLL_16FFT_CTRL_DAC_EN;
-		}
-
-		if (ret == SUCCESS) {
-			ret = pm_writel_verified(ctrl, (u32) pll->base + (u32) PLL_16FFT_CTRL(pll->idx));
-		}
-
-		/* Enable all HSDIV outputs */
-		for (i = 0U; (i < 16U) && (ret == SUCCESS); i++) {
-			/* Enable HSDIV output if present */
-			if ((PLL_16FFT_CFG_HSDIV_PRSNC(i) & cfg) != 0UL) {
-				ctrl = readl(pll->base + (u32) PLL_16FFT_HSDIV_CTRL(pll->idx, i));
-				ctrl |= PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
-				ret = pm_writel_verified(ctrl, (u32) pll->base + (u32) PLL_16FFT_HSDIV_CTRL(pll->idx, i));
-			}
-		}
-
-		/*
-		* Find and program hsdiv defaults.
-		*
-		* HSDIV defaults must be programmed before programming the
-		* PLL since their power on default is /1. Most DCO
-		* frequencies will exceed clock rate maximums of the HSDIV
-		* outputs.
-		*
-		* We walk through the clock tree to find all the clocks
-		* with the hsdiv driver who have this PLL for a parent.
-		*/
 		for (i = 0; (i < soc_clock_count) && (ret == SUCCESS); i++) {
 			const struct clk_data *sub_data = soc_clock_data + i;
 			struct clk *sub_clk = soc_clocks + i;
@@ -1375,31 +1318,6 @@ static s32 clk_pll_16fft_init_internal(struct clk *clock_ptr)
 				}
 			} else {
 				/* Do Nothing */
-			}
-		}
-
-		if (ret == SUCCESS) {
-			ret = pll_init(clock_ptr);
-		}
-	} else {
-		/*
-		 * Make sure all HSDIVs of the PLL are enabled when relying on
-		 * another entity to initialize the PLL instead of this driver.
-		 */
-
-		/* Unlock write access */
-		writel((u32) PLL_16FFT_LOCKKEY0_VALUE, (u32) pll->base + (u32) PLL_16FFT_LOCKKEY0(pll->idx));
-		writel((u32) PLL_16FFT_LOCKKEY1_VALUE, (u32) pll->base + (u32) PLL_16FFT_LOCKKEY1(pll->idx));
-
-		cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
-
-		/* Enable all HSDIV outputs */
-		for (i = 0U; (i < 16U) && (ret == SUCCESS); i++) {
-			/* Enable HSDIV output if present */
-			if ((PLL_16FFT_CFG_HSDIV_PRSNC(i) & cfg) != 0UL) {
-				ctrl = readl(pll->base + (u32) PLL_16FFT_HSDIV_CTRL(pll->idx, i));
-				ctrl |= PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
-				ret = pm_writel_verified(ctrl, (u32) pll->base + (u32) PLL_16FFT_HSDIV_CTRL(pll->idx, i));
 			}
 		}
 	}
@@ -1690,12 +1608,90 @@ static u32 clk_pll_16fft_hsdiv_set_freq(struct clk *clock_ptr,
 	return ret;
 }
 
+static s32 clk_pll_16fft_hsdiv_init(struct clk *clkp)
+{
+	const struct clk_data *clk_datap = clk_get_data(clkp);
+	const struct clk_data_div *data_div;
+	const struct clk_data_div_reg *data_reg;
+	const struct clk_drv_div *drv_div;
+	s32 ret = SUCCESS;
+	sbool skip_hw_init = SFALSE;
+	u32 hsdiv_ctrl;
+
+	data_div = container_of(clk_datap->data, const struct clk_data_div,
+				data);
+	data_reg = container_of(data_div, const struct clk_data_div_reg,
+				data_div);
+	drv_div = container_of(clk_datap->drv, const struct clk_drv_div, drv);
+
+	hsdiv_ctrl = readl(data_reg->reg);
+
+	if (((clk_datap->flags & CLK_DATA_FLAG_NO_HW_REINIT) != 0U) && ((hsdiv_ctrl & PLL_16FFT_HSDIV_CTRL_CLKOUT_EN) != 0U)) {
+		if (drv_div->get_div != NULL) {
+			/*
+			 * In order to honor the CLK_DATA_FLAG_NO_HW_REINIT flag when set,
+			 * we must check if the HSDIV is confgiured. If the HSDIV
+			 * is the defaut value of 1 then we consider it is not configured.
+			 */
+			if (drv_div->get_div(clkp) != 1U) {
+				skip_hw_init = STRUE;
+			}
+		}
+	}
+
+	if ((drv_div->get_div != NULL) && (data_div->default_div) && ((hsdiv_ctrl & PLL_16FFT_HSDIV_CTRL_CLKOUT_EN) != 0U)) {
+		/*
+		 * If the HSDIV value is already configured to the
+		 * expected value, then don't reconfigure.
+		 */
+		if (drv_div->get_div(clkp) == data_div->default_div) {
+			skip_hw_init = STRUE;
+		}
+	}
+
+	if (skip_hw_init == SFALSE) {
+		if (data_div->default_div && drv_div->set_div) {
+			/* Disable HSDIV */
+			hsdiv_ctrl &= ~PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
+			ret = pm_writel_verified(hsdiv_ctrl, data_reg->reg);
+
+			if (ret == SUCCESS) {
+				if (!drv_div->set_div(clkp, data_div->default_div)) {
+					ret = -EINVAL;
+				}
+			}
+
+			/* Enable HSDIV */
+			hsdiv_ctrl = readl(data_reg->reg);
+			hsdiv_ctrl |= PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
+			ret = pm_writel_verified(hsdiv_ctrl, data_reg->reg);
+		}
+	}
+
+	return ret;
+}
+
 const struct clk_drv_div clk_drv_div_pll_16fft_hsdiv = {
 	.drv			= {
-		.init		= clk_div_init,
+		.init		= clk_pll_16fft_hsdiv_init,
 		.notify_freq	= clk_div_notify_freq,
 		.get_freq	= clk_div_get_freq,
 		.set_freq	= clk_pll_16fft_hsdiv_set_freq,
+	},
+	.set_div		= clk_div_reg_set_div,
+	.get_div		= clk_div_reg_get_div,
+};
+
+const struct clk_drv_div clk_drv_div_pll_16fft_postdiv_hsdiv = {
+	.drv			= {
+		.notify_freq	= clk_div_notify_freq,
+		.set_freq	= clk_div_set_freq,
+		.get_freq	= clk_div_get_freq,
+		.init		= clk_pll_16fft_hsdiv_init,
+#ifdef CONFIG_LPM_CLK
+		.suspend_save	= clk_div_suspend_save,
+		.resume_restore = clk_div_resume_restore,
+#endif
 	},
 	.set_div		= clk_div_reg_set_div,
 	.get_div		= clk_div_reg_get_div,
