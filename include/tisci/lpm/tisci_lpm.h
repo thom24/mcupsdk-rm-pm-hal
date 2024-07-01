@@ -133,6 +133,9 @@
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MCU_IPC                         0x90U
 #define TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID                         0xFFU
 
+/** Used by TISCI_MSG_LPM_WAKE_REASON to return wake pin number as invalid */
+#define TISCI_MSG_VALUE_LPM_WAKE_PIN_INVALID                            0xFFU
+
 /** Used by TISCI_MSG_GET_NEXT_HOST_STATE to return remote core's state as on */
 #define TISCI_MSG_VALUE_HOST_STATE_ON                                   1U
 /** Used by TISCI_MSG_GET_NEXT_HOST_STATE to return remote core's state as off */
@@ -376,12 +379,20 @@ struct tisci_msg_lpm_wake_reason_req {
  * \param hdr TISCI header to provide ACK/NAK flags to the host.
  * \param wake_source The wake up source that woke soc from LPM.
  * \param wake_timestamp Timestamp at which soc woke.
+ * \param wake_pin The pin that has triggered wake up.
+ * \param mode The last entered low power mode.
+ * \param rsvd_0 Reserved for future use.
+ * \param rsvd_1 Reserved for future use.
  *
  */
 struct tisci_msg_lpm_wake_reason_resp {
 	struct tisci_header	hdr;
 	u32			wake_source;
 	u64			wake_timestamp;
+	u8			wake_pin;
+	u8			mode;
+	u32			rsvd_0;
+	u32			rsvd_1;
 } __attribute__((__packed__));
 
 /**

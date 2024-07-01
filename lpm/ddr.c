@@ -191,7 +191,7 @@ static s32 do_ddr_lpm_exit_sequence_thru_wkup_mmr(void)
 
 static void do_ddr_lpm_entry_sequence_thru_wkup_mmr(void)
 {
-	u32 val = 0;
+	u32 val = 0U;
 
 	/* Write into data_retention MMR to put DDR into retention */
 	writel(DDR16SS_RETENTION_EN, WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);

@@ -58,14 +58,10 @@
 
 extern s32 __attribute__((noinline)) dm_stub_entry(void);
 extern void dm_stub_irq_handler(void);
-extern u32 lpm_get_wake_up_source(void);
+extern void lpm_get_wake_info(struct tisci_msg_lpm_wake_reason_resp *wkup_params);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
 extern void lpm_clear_all_wakeup_interrupt(void);
-
-#define LPM_DEEPSLEEP   0U
-#define LPM_MCU_ONLY    1U
-#define LPM_STANDBY     2U
-#define LPM_PARTIAL_IO  3U
+extern u8 lpm_get_wkup_pin_number_padconf(u32 wkup_src);
 
 static void enter_WFI(void)
 {
@@ -76,10 +72,13 @@ static void enable_intr(void)
 	__asm volatile ("\tCPSIE I");
 }
 
-/* Variable to store the last wakeup interrupt */
-u32 wake_up_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID;
+/* Variable to store the last wakeup information */
+static struct tisci_msg_lpm_wake_reason_resp g_wkup_params = {
+	.mode		= TISCI_MSG_VALUE_SLEEP_MODE_INVALID,
+	.wake_pin	= TISCI_MSG_VALUE_LPM_WAKE_PIN_INVALID,
+	.wake_source	= TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID,
+};
 
-/* Variable to store the information passed in prepare sleep msg */
 static struct tisci_msg_prepare_sleep_req g_params;
 
 /*
@@ -462,7 +461,7 @@ static void config_wake_sources(void)
 	/* Write all bits to enable at once */
 	writel(val, (WKUP_CTRL_MMR_BASE + WKUP0_EN));
 
-	if (g_params.mode == LPM_MCU_ONLY) {
+	if (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY) {
 		/* Enable MCU_IPC interrupt */
 		vim_set_intr_enable(MCU_IPC_INTERRUPT_NUMBER, INTR_ENABLE);
 	}
@@ -479,10 +478,16 @@ static void disable_wake_sources(void)
 	/* Clear all bits in WKUP0_EN */
 	writel(0, (WKUP_CTRL_MMR_BASE + WKUP0_EN));
 
-	if (g_params.mode == LPM_MCU_ONLY) {
+	if (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY) {
 		/* Disable MCU_IPC interrupt */
 		vim_set_intr_enable(MCU_IPC_INTERRUPT_NUMBER, INTR_DISABLE);
 	}
+}
+
+static void lpm_update_wkup_pin_and_mode(void)
+{
+	g_wkup_params.wake_pin = lpm_get_wkup_pin_number_padconf(g_wkup_params.wake_source);
+	g_wkup_params.mode = g_params.mode;
 }
 
 static int enable_main_io_isolation(void)
@@ -798,7 +803,7 @@ s32 dm_stub_entry(void)
 
 	lpm_seq_trace(0x77);
 
-	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
+	if ((g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
 		if (set_usb_reset_isolation()) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
 			lpm_abort();
@@ -821,7 +826,7 @@ s32 dm_stub_entry(void)
 
 	wait_for_debug();
 
-	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
+	if ((g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
 		/* Configure selected wake sources with writes to WKUP0_EN IN WKUP_CTRL */
 		config_wake_sources();
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_CONFIG_WAKE_SRC);
@@ -876,7 +881,7 @@ s32 dm_stub_entry(void)
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_MAIN_OFF);
 	}
 
-	if (g_params.mode == LPM_DEEPSLEEP) {
+	if (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) {
 		/* Disable MCU Domain LPSCs, PDs */
 		if (disable_mcu_domain() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MCU_DOM);
@@ -886,7 +891,7 @@ s32 dm_stub_entry(void)
 		}
 	}
 
-	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
+	if ((g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
 		/* Set WKUP_CTRL.RST_CTRL.main_reset_iso_done_z to 1 to
 		 * mask main reset in case of RESET_REQz wakeup
 		 */
@@ -903,7 +908,7 @@ s32 dm_stub_entry(void)
 	writel(WWD_STOP, WKUP_CTRL_MMR_BASE + WKUP_WWD0_CTRL);
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MSK_WWD0_CTRL);
 
-	if (g_params.mode == LPM_DEEPSLEEP) {
+	if (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) {
 		pll_save(&mcu_pll);
 		pll_disable(&mcu_pll);
 		lpm_trace_init(STRUE);
@@ -943,8 +948,8 @@ s32 dm_stub_entry(void)
 	/* Disable clock gating of legacy peripherals */
 	clock_gate_legacy_peripherals(SFALSE);
 
-	if (wake_up_source != TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID) {
-		lpm_seq_trace_val(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT, wake_up_source);
+	if (g_wkup_params.wake_source != TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID) {
+		lpm_seq_trace_val(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT, g_wkup_params.wake_source);
 	} else {
 		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAKE_EVENT);
 	}
@@ -952,7 +957,7 @@ s32 dm_stub_entry(void)
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_POST_WFI);
 
 	/* Start resume */
-	if (g_params.mode == LPM_DEEPSLEEP) {
+	if (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) {
 		/* Clear OSC_CG_ON_WFI bit in WKUP_CTRL.PMCTRL_MOSC */
 		reg = readl(WKUP_CTRL_MMR_BASE + PMCTRL_MOSC);
 		reg &= ~PMCTRL_MOSC_OSC_CG_ON_WFI;
@@ -990,7 +995,7 @@ s32 dm_stub_entry(void)
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_UNMSK_WWD0_CTRL);
 
-	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
+	if ((g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
 		/* Disable WKUP IO Daisy Chain and IO Isolation */
 		disable_mcu_io_isolation();
 
@@ -1008,7 +1013,7 @@ s32 dm_stub_entry(void)
 
 	wait_for_debug();
 
-	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
+	if ((g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
 		if (wait_for_reset_statz(SLEEP_STATUS_MAIN_RESETSTATZ) != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WAIT_MAIN_RST);
 			lpm_abort();
@@ -1044,7 +1049,7 @@ s32 dm_stub_entry(void)
 		writel(DS_RESET_UNMASK, WKUP_CTRL_MMR_BASE + DS_DM_RESET);
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DS_RST_UNMASK);
 
-		if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
+		if ((g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
 			/* Set WKUP_CTRL.RST_CTRL.main_reset_iso_done_z to 0 to
 			* unmask main reset
 			*/
@@ -1110,7 +1115,7 @@ s32 dm_stub_entry(void)
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_SR_EXIT);
 	}
 
-	if ((g_params.mode == LPM_DEEPSLEEP) || (g_params.mode == LPM_MCU_ONLY)) {
+	if ((g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
 		if (release_usb_reset_isolation()) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_USB_RST_ISO);
 			lpm_abort();
@@ -1137,6 +1142,16 @@ s32 dm_stub_entry(void)
 		}
 	}
 
+	lpm_update_wkup_pin_and_mode();
+
+	/* Remove isolation from MCU pins */
+	if (unload_magic_words_thru_wkup_mmr() != 0) {
+		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_UNLOAD_MAGIC_WORDS);
+		lpm_abort();
+	} else {
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_UNLOAD_MAGIC_WORDS);
+	}
+
 	clear_prepare_sleep_data();
 
 	/* Return to standard firmware in DDR zero */
@@ -1148,7 +1163,7 @@ void dm_stub_irq_handler(void)
 	u32 int_num;
 	int i;
 
-	wake_up_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID;
+	g_wkup_params.wake_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_INVALID;
 
 	/* Add an additional delay for oscillator to stabilize. */
 	for (i = 0; i < 10; i++) {
@@ -1159,15 +1174,15 @@ void dm_stub_irq_handler(void)
 
 	for (i = 0; i < WAKEUP_SOURCE_MAX; i++) {
 		if (soc_wake_sources_data[i].int_num == int_num) {
-			wake_up_source = soc_wake_sources_data[i].source_id;
+			g_wkup_params.wake_source = soc_wake_sources_data[i].source_id;
 			break;
 		}
 	}
 
-	if (g_params.mode == LPM_MCU_ONLY) {
+	if (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY) {
 		/* Check whether the interrupt source is MCU IPC */
 		if (int_num == MCU_IPC_INTERRUPT_NUMBER) {
-			wake_up_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MCU_IPC;
+			g_wkup_params.wake_source = TISCI_MSG_VALUE_LPM_WAKE_SOURCE_MCU_IPC;
 			/* Clear the ipc set and ipc src bits */
 			writel(MCU_CTRL_MMR_IPC_CLR0_CLEAR, MCU_CTRL_MMR_BASE + MCU_CTRL_MMR_IPC_CLR0);
 		}
@@ -1180,7 +1195,9 @@ void dm_stub_irq_handler(void)
 	vim_irq_complete();
 }
 
-u32 lpm_get_wake_up_source(void)
+void lpm_get_wake_info(struct tisci_msg_lpm_wake_reason_resp *wkup_params)
 {
-	return wake_up_source;
+	wkup_params->wake_pin = g_wkup_params.wake_pin;
+	wkup_params->wake_source = g_wkup_params.wake_source;
+	wkup_params->mode = g_wkup_params.mode;
 }

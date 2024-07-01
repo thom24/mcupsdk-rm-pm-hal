@@ -81,7 +81,7 @@
 #define HOST_STATE_INVALID                      0xFFU
 
 extern s32 _stub_start(void);
-extern u32 lpm_get_wake_up_source(void);
+extern void lpm_get_wake_info(struct tisci_msg_lpm_wake_reason_resp *wkup_params);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
 extern void lpm_clear_all_wakeup_interrupt(void);
 extern u8 lpm_get_selected_sleep_mode(void);
@@ -717,9 +717,11 @@ s32 dm_lpm_wake_reason_handler(u32 *msg_recv)
 	s32 ret = SUCCESS;
 
 	resp->hdr.flags = 0U;
-	resp->wake_source = lpm_get_wake_up_source();
 	/* Write 0 to the timestamp value as the support to get time in sleep has not been added yet */
 	resp->wake_timestamp = 0;
+
+	/* Update wakeup source, wakeup pin and last entered lpm */
+	lpm_get_wake_info(resp);
 
 	return ret;
 }
