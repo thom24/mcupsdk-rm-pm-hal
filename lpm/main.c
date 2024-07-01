@@ -175,6 +175,40 @@ static s32 exit_ddr_low_power_mode(void)
 
 	return ret;
 }
+
+static void load_magic_words_through_mmr(void)
+{
+	/* Program the OFF mode MMRs and CAN IO mode MMRs. At this point both OFF Mode and CAN IO mode are `1' */
+	writel(WKUP_CANUART_OFF_MAGIC_WORD, WKUP_CTRL_MMR_BASE + CANUART_WAKE_OFF_MODE);
+	writel((WKUP_CANUART_MAGIC_WRD | WKUP_CANUART_MAGIC_WRD_LD_EN), WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
+}
+
+static s32 unload_magic_words_thru_wkup_mmr(void)
+{
+	u32 timeout = TIMEOUT_10_MS;
+	s32 ret = SUCCESS;
+
+	/* Unload magic words - Transition load enable bit from 1 to 0 with magic word written. */
+	writel((WKUP_CANUART_MAGIC_WRD | WKUP_CANUART_MAGIC_WRD_LD_EN), WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
+
+	/* Unload magic words - Clear CAN IO magic word load enable bit with magic word written. */
+	writel((WKUP_CANUART_MAGIC_WRD | WKUP_CANUART_MAGIC_WRD_LD_DIS), WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
+
+	/* Wait for CAN ONLY IO signal to be 0 */
+	while ((timeout > 0U) && ((readl(WKUP_CTRL_MMR_BASE + CANUART_WAKE_STAT1) == WKUP_CANUART_CAN_IO_ISO_CLRD)) == SFALSE) {
+		--timeout;
+	}
+	if (timeout == 0U) {
+		ret = -EFAIL;
+	}
+
+	/* Reset the OFF mode MMRs and CAN IO mode MMRs. */
+	writel(0x0, WKUP_CTRL_MMR_BASE + CANUART_WAKE_OFF_MODE);
+	writel(WKUP_CANUART_MAGIC_WRD_LD_DIS, WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
+
+	return ret;
+}
+
 #else
 static s32 enter_ddr_low_power_mode(void)
 {
@@ -255,6 +289,16 @@ static s32 exit_ddr_low_power_mode(void)
 	}
 
 	return ret;
+}
+
+static void load_magic_words_through_mmr(void)
+{
+	return;
+}
+
+static s32 unload_magic_words_thru_wkup_mmr(void)
+{
+	return SUCCESS;
 }
 #endif
 
@@ -741,6 +785,9 @@ s32 dm_stub_entry(void)
 	ctrlmmr_unlock(MCU_CTRL_MMR_BASE, 2);
 
 	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_MMR_UNLOCK);
+
+	/* Load the magic words to latch CANUART status register values */
+	load_magic_words_through_mmr();
 
 	if (enter_ddr_low_power_mode() != 0) {
 		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_RST_ISO);
