@@ -1664,9 +1664,11 @@ static s32 clk_pll_16fft_hsdiv_init(struct clk *clkp)
 			}
 
 			/* Enable HSDIV */
-			hsdiv_ctrl = readl(data_reg->reg);
-			hsdiv_ctrl |= PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
-			ret = pm_writel_verified(hsdiv_ctrl, data_reg->reg);
+			if (ret == SUCCESS) {
+				hsdiv_ctrl = readl(data_reg->reg);
+				hsdiv_ctrl |= PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
+				ret = pm_writel_verified(hsdiv_ctrl, data_reg->reg);
+			}
 		}
 	}
 
