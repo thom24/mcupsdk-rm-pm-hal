@@ -55,7 +55,7 @@
 #define CTRLMMR_LOCK_KICK1_UNLOCK_VAL           (0xd172bc5aU)
 #define CTRLMMR_LOCK_KICK1_LOCK_VAL             (0x0U)
 
-#define CTRLMMR_RST_MAGIC_WORD                  (0x1817c)
+#define CTRLMMR_RST_MAGIC_WORD                  (0x1817cU)
 
 void mmr_unlock(u32 base, u32 partition)
 {
@@ -90,7 +90,7 @@ void mmr_unlock_all(void)
 	 * DM R5.
 	 */
 	mcu_magic_word = readl(WKUP_CTRL_BASE + CTRLMMR_RST_MAGIC_WORD);
-	if (mcu_magic_word == 0) {
+	if (mcu_magic_word == 0U) {
 		mmr_unlock(MCU_CTRL_BASE, 2);
 		mmr_unlock(MCU_CTRL_BASE, 6);
 	}
