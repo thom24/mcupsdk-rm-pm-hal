@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -566,7 +566,7 @@ static inline void pll_consider_fractional(struct pll_consider_data *data,
 	 *
 	 * pllm_rem * pllfm range = pllfm * input
 	 */
-	rem_target = (u64)(((u64) pllm_rem) * (u64)(1UL << data->data->pllfm_bits));
+	rem_target = (u64) (((u64) pllm_rem) * (u64) (1UL << data->data->pllfm_bits));
 
 	/* Start at the lowest and walk it up to the highest */
 	pllfm_input = ((u64) lowest_pllfm) * data->input;
@@ -824,7 +824,7 @@ static inline void pll_internal_calc(struct pll_consider_data *consider_data)
 	if (highest_plld > data->plld_max) {
 		highest_plld = data->plld_max;
 	}
-	
+
 	/*
 	 * Find allowable clkod range. clkod is the PLL output divider. Valid
 	 * clkod values are constrained by the PLL limitations on clkod and
@@ -1301,6 +1301,8 @@ s32 pll_init(struct clk *clkp)
 	const struct clk_data *clk_datap = clk_get_data(clkp);
 	const struct clk_drv *drv;
 	const struct clk_data_pll *data_pll;
+	s32 ret = SUCCESS;
+	u32 freq = 0U;
 
 	drv = clk_datap->drv;
 	data_pll = container_of(clk_datap->data,
@@ -1314,15 +1316,22 @@ s32 pll_init(struct clk *clkp)
 		dflt = &soc_clock_freq_defaults[data_pll->default_freq_idx];
 
 		/* Attempt to set default frequency */
-		drv->set_freq(clkp, dflt->target_hz, dflt->min_hz, dflt->max_hz,
-			      SFALSE, &changed);
+		freq = drv->set_freq(clkp, dflt->target_hz, dflt->min_hz, dflt->max_hz,
+				     SFALSE, &changed);
+
+		/* set_freq returns 0 if default frequency is not set */
+		if (freq == 0U) {
+			ret = -EFAIL;
+		}
 	}
 
 	/*
 	 * We must always assume we are enabled as we could be operating
 	 * clocks in bypass.
 	 */
-	clkp->flags |= CLK_FLAG_PWR_UP_EN;
+	if (ret == SUCCESS) {
+		clkp->flags |= CLK_FLAG_PWR_UP_EN;
+	}
 
-	return SUCCESS;
+	return ret;
 }
