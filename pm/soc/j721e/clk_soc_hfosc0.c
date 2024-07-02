@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2018-2023, Texas Instruments Incorporated
+ * Copyright (C) 2018-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,8 +39,8 @@
 #include <lib/ioremap.h>
 #include <compiler.h>
 
-#define J7_WKUP_CTRL_MMR        0x43000000UL
-#define J7_WKUP_DEVSTAT         0x30UL
+#define J7_WKUP_CTRL_MMR        0x43000000U
+#define J7_WKUP_DEVSTAT         0x30U
 #define J7_WKUP_BOOTCFG         0x34UL
 
 /*

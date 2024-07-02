@@ -40,9 +40,9 @@
 #include <lib/trace.h>
 #include <osal_hwi.h>
 
-#define MAIN_CTRL_BASE                          (0x100000UL)
-#define WKUP_CTRL_BASE                          (0x43000000UL)
-#define MCU_CTRL_BASE                           (0x04500000UL)
+#define MAIN_CTRL_BASE                          (0x100000U)
+#define WKUP_CTRL_BASE                          (0x43000000U)
+#define MCU_CTRL_BASE                           (0x04500000U)
 
 #define CTRL_MMR0_PARTITION_SIZE                (0x4000U)
 

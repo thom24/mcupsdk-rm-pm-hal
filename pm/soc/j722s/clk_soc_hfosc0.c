@@ -39,8 +39,8 @@
 #include <lib/ioremap.h>
 #include <compiler.h>
 
-#define J7_WKUP_CTRL_MMR        0x43000000UL
-#define J7_WKUP_DEVSTAT         0x30UL
+#define J7_WKUP_CTRL_MMR        0x43000000U
+#define J7_WKUP_DEVSTAT         0x30U
 #define J7_WKUP_BOOTCFG         0x34UL
 
 /*

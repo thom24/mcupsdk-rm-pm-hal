@@ -39,9 +39,9 @@
 #include <lib/ioremap.h>
 #include <compiler.h>
 
-#define J7_MCU_CTRL_MMR        0x04500000UL
-#define J7_MCU_LFXOSC_CTRL     0x8038UL
-#define LFXOSC_32K_DISABLE_VAL  0x80UL
+#define J7_MCU_CTRL_MMR        0x04500000U
+#define J7_MCU_LFXOSC_CTRL     0x8038U
+#define LFXOSC_32K_DISABLE_VAL  0x80U
 
 /*
  * LFXOSC_CTRL - Low Frequency Oscillator Control Register
