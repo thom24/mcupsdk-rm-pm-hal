@@ -65,7 +65,7 @@ static const struct sleep_mode j722s_sleep_modes[] = {
 	},
 };
 
-static u8 j722s_sleep_block[ARRAY_SIZE(j722s_sleep_modes)];
+static u8 j722s_sleep_block[1];
 
 static s32 j722s_sys_reset_handler(domgrp_t domain)
 {
