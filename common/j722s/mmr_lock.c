@@ -72,7 +72,7 @@ void mmr_unlock(u32 base, u32 partition)
 	}
 }
 
-void mmr_unlock_all()
+void mmr_unlock_all(void)
 {
 	u32 key = osal_hwip_disable();
 	u32 mcu_magic_word;
@@ -97,7 +97,7 @@ void mmr_unlock_all()
 	osal_hwip_restore(key);
 }
 
-void mmr_lock_all()
+void mmr_lock_all(void)
 {
 	/* Don't lock MMRs */
 }
