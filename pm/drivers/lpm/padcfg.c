@@ -44,7 +44,7 @@
 #define MULTIPLY_BY_4(x)                (x << 2U)
 #define NUM_BITS_U64                    64U
 
-#define NUM_MAIN_PADCFG_IN_U64          (MAIN_PADCFG_SIZE / NUM_BITS_U64) + ((MAIN_PADCFG_SIZE % NUM_BITS_U64) != 0U)
+#define NUM_MAIN_PADCFG_IN_U64          (unsigned) ((MAIN_PADCFG_SIZE / NUM_BITS_U64) + ((MAIN_PADCFG_SIZE % NUM_BITS_U64) != 0U))
 
 static u32 main_padcfg_data[MAIN_PADCFG_SIZE];
 static u32 mcu_padcfg_data[MCU_PADCFG_SIZE];

@@ -1640,7 +1640,7 @@ static s32 clk_pll_16fft_hsdiv_init(struct clk *clkp)
 	}
 
 	if ((drv_div->get_div != NULL) && ((hsdiv_ctrl & PLL_16FFT_HSDIV_CTRL_CLKOUT_EN) != 0U)) {
-		if (data_div->default_div) {
+		if (data_div->default_div > 0) {
 			/*
 			 * If the HSDIV value is already configured to the
 			 * expected value, then don't reconfigure.
