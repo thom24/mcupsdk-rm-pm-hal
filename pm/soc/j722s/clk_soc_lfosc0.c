@@ -39,28 +39,28 @@
 #include <lib/ioremap.h>
 #include <compiler.h>
 
-#define J7_MCU_CTRL_MMR        0x04500000UL
-#define J7_MCU_LFXOSC_CTRL     0x8038UL
-#define LFXOSC_32K_DISABLE_VAL  0x80UL
+#define J7_MCU_CTRL_MMR        0x04500000U
+#define J7_MCU_LFXOSC_CTRL     0x8038U
+#define LFXOSC_32K_DISABLE_VAL  0x80U
 
 /*
  * LFXOSC_CTRL - Low Frequency Oscillator Control Register
  * 32.768 KHz
  */
-static u32 clk_soc_lfosc0_get_freq(struct clk *clk UNUSED)
+static u32 clk_soc_lfosc0_get_freq(struct clk *clock_ptr UNUSED)
 {
 	u32 ret = 0;
 	u32 v;
 
 	v = readl(J7_MCU_CTRL_MMR + J7_MCU_LFXOSC_CTRL) & LFXOSC_32K_DISABLE_VAL;
-	if (v == 0) {
+	if (v == 0U) {
 		ret = FREQ_KHZ(32.768);
 	}
 
 	return ret;
 }
 
-static u32 clk_soc_lfosc0_get_state(struct clk *clk UNUSED)
+static u32 clk_soc_lfosc0_get_state(struct clk *clock_ptr UNUSED)
 {
 	return CLK_HW_STATE_ENABLED;
 }

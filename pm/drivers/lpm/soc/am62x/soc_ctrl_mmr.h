@@ -121,6 +121,10 @@ extern "C" {
 #define MCU_PADCFG_CTRL_BASE    (0x4080000UL)
 #define MCU_PADCFG_REG_END      (0x4084U)
 
+/* CAN PADCFG range */
+#define PADCFG_CAN_START_OFFSET (0x4014U)
+#define PADCFG_CAN_END_OFFSET   (0x4040U)
+
 #define RTC_BASE                (0x2b1f0000UL)
 
 #define MAIN_CTRL_BASE          (0x100000UL)

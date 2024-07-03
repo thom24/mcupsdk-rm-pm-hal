@@ -81,7 +81,7 @@
 #define HOST_STATE_INVALID                      0xFFU
 
 extern s32 _stub_start(void);
-extern u32 lpm_get_wake_up_source(void);
+extern void lpm_get_wake_info(struct tisci_msg_lpm_wake_reason_resp *wkup_params);
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
 extern void lpm_clear_all_wakeup_interrupt(void);
 extern u8 lpm_get_selected_sleep_mode(void);
@@ -315,6 +315,7 @@ static s32 lpm_select_sleep_mode(u8 *mode)
 	sbool mode_selected = SFALSE;
 	sbool main_padcfg_wkup_en = SFALSE;
 	sbool mcu_padcfg_wkup_en = SFALSE;
+	sbool done = SFALSE;
 
 	*mode = DEEPEST_LOW_POWER_MODE;
 
@@ -325,37 +326,43 @@ static s32 lpm_select_sleep_mode(u8 *mode)
 			ret = device_id_lookup_devgroup_and_lpsc(i, &devgrp, &lpsc);
 			if (ret != SUCCESS) {
 				ret = -EFAIL;
-				break;
+				done = STRUE;
 			}
 
-			/**
-			 * If device having constraints belongs to MAIN DEVGRP, then no lpm is possible
-			 * Exceptions: USB0 and USB1
-			 */
-			if (devgrp == MAIN_DEVGRP) {
-				if ((i == USB0_DEV_ID) || (i == USB1_DEV_ID) || (i == USB0_ISO_DEV_ID) || (i == USB1_ISO_DEV_ID)) {
-					*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
+			if (done == SFALSE) {
+				/**
+				 * If device having constraints belongs to MAIN DEVGRP, then no lpm is possible
+				 * Exceptions: USB0 and USB1
+				 */
+				if (devgrp == MAIN_DEVGRP) {
+					if ((i == USB0_DEV_ID) || (i == USB1_DEV_ID) || (i == USB0_ISO_DEV_ID) || (i == USB1_ISO_DEV_ID)) {
+						*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
+					} else {
+						ret = -EFAIL;
+						done = STRUE;
+					}
 				} else {
-					ret = -EFAIL;
-					break;
-				}
-			} else {
-				/* If device is in ALWAYS ON domain in MCU_WAKEUP devgrp, then select Deep sleep */
-				if (lpsc == ALWAYS_ON_LPSC_ID) {
-					*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
-					/* Otherwise, the device belongs to MCU Domain, select MCU only mode */
-				} else {
-					*mode = TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY;
-					mode_selected = STRUE;
-					/* Return as this mode is shallowest of all */
-					break;
+					/* If device is in ALWAYS ON domain in MCU_WAKEUP devgrp, then select Deep sleep */
+					if (lpsc == ALWAYS_ON_LPSC_ID) {
+						*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
+						/* Otherwise, the device belongs to MCU Domain, select MCU only mode */
+					} else {
+						*mode = TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY;
+						mode_selected = STRUE;
+						/* Return as this mode is shallowest of all */
+						done = STRUE;
+					}
 				}
 			}
+		}
+		if (done == STRUE) {
+			break;
 		}
 	}
 
 	/* Latency based selection */
 	if (ret == SUCCESS) {
+		done = SFALSE;
 		for (i = 0; i < HOST_ID_CNT; i++) {
 			if ((latency[i] & LPM_RESUME_LATENCY_VALID_FLAG) != 0U) {
 				/* If the latency value is more than or equal to deep sleep mode minimum resume latency, select deep sleep */
@@ -365,12 +372,15 @@ static s32 lpm_select_sleep_mode(u8 *mode)
 				} else if ((u16) latency[i] >= LPM_MCU_ONLY_RESUME_LAT_MIN) {
 					*mode = TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY;
 					mode_selected = STRUE;
-					break;
+					done = STRUE;
 					/* If the latency value is out of resume latency range values, no lpm is possible */
 				} else {
 					ret = -EFAIL;
-					break;
+					done = STRUE;
 				}
+			}
+			if (done == STRUE) {
+				break;
 			}
 		}
 	}
@@ -492,8 +502,19 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 			/* Return failure if the device does not support IO only plus DDR mode */
 			if (mode != DEEPEST_LOW_POWER_MODE) {
 				ret = -EFAIL;
-				break;
 			}
+			if (ret == SUCCESS) {
+				/* Parse and store the mode info and ctx address in the prepare sleep message */
+				lpm_populate_prepare_sleep_data(req);
+
+				/*
+				 * Clearing all wakeup interrupts from VIM. Even if we are cleaning interrupts
+				 * from VIM, if the wakeup interrupt is still active it will be able to wake
+				 * the soc from LPM. This will only clear any unwanted pending wakeup interrupts
+				 */
+				lpm_clear_all_wakeup_interrupt();
+			}
+			break;
 		case TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP:
 		case TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY:
 			/* Parse and store the mode info and ctx address in the prepare sleep message */
@@ -717,9 +738,11 @@ s32 dm_lpm_wake_reason_handler(u32 *msg_recv)
 	s32 ret = SUCCESS;
 
 	resp->hdr.flags = 0U;
-	resp->wake_source = lpm_get_wake_up_source();
 	/* Write 0 to the timestamp value as the support to get time in sleep has not been added yet */
 	resp->wake_timestamp = 0;
+
+	/* Update wakeup source, wakeup pin and last entered lpm */
+	lpm_get_wake_info(resp);
 
 	return ret;
 }
@@ -899,7 +922,7 @@ s32 dm_lpm_set_latency_constraint(u32 *msg_recv)
 
 	/* Check if current host is valid and get lookup host ID */
 	host_idx = host_idx_lookup(host_id);
-	if (host_idx == HOST_IDX_NONE) {
+	if ((host_idx == HOST_IDX_NONE) || (host_idx >= HOST_ID_CNT)) {
 		ret = -EFAIL;
 	}
 
@@ -932,7 +955,7 @@ s32 dm_lpm_get_latency_constraint(u32 *msg_recv)
 
 	/* Check if current host is valid and get lookup host ID */
 	host_idx = host_idx_lookup(host_id);
-	if (host_idx == HOST_IDX_NONE) {
+	if ((host_idx == HOST_IDX_NONE) || (host_idx >= HOST_ID_CNT)) {
 		ret = -EFAIL;
 	}
 

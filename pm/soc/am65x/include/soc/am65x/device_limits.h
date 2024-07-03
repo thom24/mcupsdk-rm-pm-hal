@@ -1,7 +1,7 @@
 /*
  * Data version: 190425_000000
  *
- * Copyright (C) 2017-2023, Texas Instruments Incorporated
+ * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,7 @@
 #define PM_DEVGRP_RANGE_ID_MAX AM6_PM_DEVGRP_RANGE_ID_MAX
 #define SOC_DEVICES_DATA_ARR_RANGE_ID_MAX 250
 
-#define SOC_DEVICES_RANGE_ID_MAX 250
+#define SOC_DEVICES_RANGE_ID_MAX 250U
 
 #define SOC_MULTIPLE_DOMAINS_RANGE_ID_MAX 1
 

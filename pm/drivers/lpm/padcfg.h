@@ -41,10 +41,11 @@
 #define MAIN_PADCFG_SIZE        (((MAIN_PADCFG_REG_END - PADCFG_OFFSET) >> 2) + 1U)
 #define MCU_PADCFG_SIZE         (((MCU_PADCFG_REG_END - PADCFG_OFFSET) >> 2) + 1U)
 
-#define PADCFG_WAKE_EN_BIT      (1U << 29U)
+#define MCU_CAN_PADCFG_START    ((PADCFG_CAN_START_OFFSET - PADCFG_OFFSET) >> 2U)
+#define MCU_CAN_PADCFG_END      ((PADCFG_CAN_END_OFFSET - PADCFG_OFFSET) >> 2U)
 
-#define MAIN_PADCFG_SIZE        (((MAIN_PADCFG_REG_END - PADCFG_OFFSET) >> 2) + 1U)
-#define MCU_PADCFG_SIZE         (((MCU_PADCFG_REG_END - PADCFG_OFFSET) >> 2) + 1U)
+#define PADCFG_WAKE_EN_BIT      (1U << 29U)
+#define PADCFG_WAKE_EVT_BIT     (1U << 30U)
 
 /**
  *  \brief  Save MAIN padcfg Ctrl MMR during suspend
@@ -79,5 +80,15 @@ s32 lpm_resume_restore_main_padconf(void);
  *  \return ret      SUCCESS
  */
 s32 lpm_resume_restore_mcu_padconf(void);
+
+/**
+ *  \brief  Get the MAIN / MCU / CAN pad number that triggered wakeup
+ *
+ *  \param wkup_src The wake up source for which pin number has to be
+ *                  calculated.
+ *
+ *  \return ret      Pad number
+ */
+u8 lpm_get_wkup_pin_number_padconf(u32 wkup_src);
 
 #endif /* __LPM_PADCFG_H__ */

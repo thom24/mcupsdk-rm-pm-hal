@@ -1,7 +1,7 @@
 /*
  * DMSC firmware
  *
- * Copyright (C) 2019-2023, Texas Instruments Incorporated
+ * Copyright (C) 2019-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,13 +40,13 @@
 #include <compiler.h>
 #include <lib/trace.h>
 
-#define J7_MAIN_CTRL_MMR        0x00100000UL
+#define J7_MAIN_CTRL_MMR        0x00100000U
 
 /*
  * 1'b0 - MAIN_PLL16_HSDIV0_CLKOUT
  * 1'b1 - MAIN_PLL18_HSDIV0_CLKOUT
  */
-#define J7_DSS_DISPC0_CLKSEL2   0x8328UL
+#define J7_DSS_DISPC0_CLKSEL2   0x8328U
 
 /*
  * 3'b000 - MAIN_PLL16_HSDIV1_CLKOUT
@@ -59,7 +59,7 @@
  * 3'b111 - MAIN_PLL23_HSDIV0_CLKOUT_EXTPCLKIN and dpi0_pclk = dpi1_pclk
  *                                             and dpi2_pclk = MAIN_PLL19_HSDIV0
  */
-#define J7_DSS_DISPC0_CLKSEL3   0x832cUL
+#define J7_DSS_DISPC0_CLKSEL3   0x832cU
 
 #ifdef CONFIG_TRACE
 #define TRACE_ONLY
@@ -123,9 +123,9 @@ static sbool clk_mux_j7_dpi_0_pclk_set_parent(struct clk *clock_ptr	TRACE_ONLY,
 
 	if (ret) {
 		pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
-			 (((u32)new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
+			 (((u32) new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-			 (((u32)clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+			 (((u32) clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_ID_MASK));
 	}
 
@@ -220,9 +220,9 @@ static sbool clk_mux_j7_dpi_2_pclk_set_parent(struct clk *clock_ptr	TRACE_ONLY,
 
 	if (ret) {
 		pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
-			 (((u32)new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
+			 (((u32) new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-			 (((u32)clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+			 (((u32) clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_ID_MASK));
 	}
 
@@ -239,7 +239,7 @@ static const struct clk_parent *clk_mux_j7_dpi_3_pclk_get_parent(struct clk *clo
 	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
-	u32 v ,temp;
+	u32 v, temp;
 
 	mux = container_of(clock_data->data, const struct clk_data_mux, data);
 	reg = container_of(mux, const struct clk_data_mux_reg, data_mux);
@@ -262,7 +262,7 @@ static sbool clk_mux_j7_dpi_3_pclk_set_parent(struct clk *clock_ptr, u8 new_pare
 	const struct clk_data *clock_data = clk_get_data(clock_ptr);
 	const struct clk_data_mux *mux;
 	const struct clk_data_mux_reg *reg;
-	u32 v ,temp;
+	u32 v, temp;
 	u32 curr_parent;
 	sbool ret;
 	sbool change = STRUE;
@@ -325,15 +325,15 @@ static sbool clk_mux_j7_dpi_3_pclk_set_parent(struct clk *clock_ptr, u8 new_pare
 
 	if (ret && change) {
 		v &= ~mask;
-		v |= (u32)new_parent << reg->bit;
+		v |= (u32) new_parent << reg->bit;
 		err = pm_writel_verified(v, reg->reg);
 		if (err != SUCCESS) {
 			ret = SFALSE;
 		}
 		pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
-			 (((u32)new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
+			 (((u32) new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-			 (((u32)clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+			 (((u32) clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_ID_MASK));
 	}
 

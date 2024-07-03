@@ -40,9 +40,9 @@
 #include <lib/trace.h>
 #include <osal_hwi.h>
 
-#define MAIN_CTRL_BASE                          (0x100000UL)
-#define WKUP_CTRL_BASE                          (0x43000000UL)
-#define MCU_CTRL_BASE                           (0x04500000UL)
+#define MAIN_CTRL_BASE                          (0x100000U)
+#define WKUP_CTRL_BASE                          (0x43000000U)
+#define MCU_CTRL_BASE                           (0x04500000U)
 
 #define CTRL_MMR0_PARTITION_SIZE                (0x4000U)
 
@@ -55,7 +55,7 @@
 #define CTRLMMR_LOCK_KICK1_UNLOCK_VAL           (0xd172bc5aU)
 #define CTRLMMR_LOCK_KICK1_LOCK_VAL             (0x0U)
 
-#define CTRLMMR_RST_MAGIC_WORD                  (0x1817c)
+#define CTRLMMR_RST_MAGIC_WORD                  (0x1817cU)
 
 void mmr_unlock(u32 base, u32 partition)
 {
@@ -72,7 +72,7 @@ void mmr_unlock(u32 base, u32 partition)
 	}
 }
 
-void mmr_unlock_all()
+void mmr_unlock_all(void)
 {
 	u32 key = osal_hwip_disable();
 	u32 mcu_magic_word;
@@ -90,14 +90,14 @@ void mmr_unlock_all()
 	 * DM R5.
 	 */
 	mcu_magic_word = readl(WKUP_CTRL_BASE + CTRLMMR_RST_MAGIC_WORD);
-	if (mcu_magic_word == 0) {
+	if (mcu_magic_word == 0U) {
 		mmr_unlock(MCU_CTRL_BASE, 2);
 		mmr_unlock(MCU_CTRL_BASE, 6);
 	}
 	osal_hwip_restore(key);
 }
 
-void mmr_lock_all()
+void mmr_lock_all(void)
 {
 	/* Don't lock MMRs */
 }

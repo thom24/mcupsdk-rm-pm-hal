@@ -180,42 +180,29 @@ static void poll_for_init_completion(struct emif_handle_s *h)
 
 static s32 do_ddr_lpm_exit_sequence_thru_wkup_mmr(void)
 {
-	u32 timeout = TIMEOUT_10_MS;
 	s32 ret = SUCCESS;
 
 	/* Write 0 to remove DDR data retention */
 	writel((((DDR16SS_DATA_RET_LD_OPEN << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_DIS)), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 	writel((((DDR16SS_DATA_RET_LD_CLOSE << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_DIS)), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 
-	/* Unload magic words - Clear CAN IO magic word load enable bit with magic word written. */
-	writel((WKUP_CANUART_MAGIC_WRD | WKUP_CANUART_MAGIC_WRD_LD_DIS), WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
-
-	/* Wait for CAN ONLY IO signal to be 0 */
-	while ((timeout > 0U) && ((readl(WKUP_CTRL_MMR_BASE + CANUART_WAKE_STAT1) == WKUP_CANUART_CAN_IO_ISO_CLRD)) == SFALSE) {
-		--timeout;
-	}
-	if (timeout == 0U) {
-		ret = -EFAIL;
-	}
-
-	/* Reset the OFF mode MMRs and CAN IO mode MMRs. */
-	writel(0x0, WKUP_CTRL_MMR_BASE + CANUART_WAKE_OFF_MODE);
-	writel(WKUP_CANUART_MAGIC_WRD_LD_DIS, WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
-
 	return ret;
 }
 
 static void do_ddr_lpm_entry_sequence_thru_wkup_mmr(void)
 {
+	u32 val = 0U;
+
 	/* Write into data_retention MMR to put DDR into retention */
 	writel(DDR16SS_RETENTION_EN, WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 
-	/* Program the OFF mode MMRs and CAN IO mode MMRs. At this point both OFF Mode and CAN IO mode are `1' */
-	writel(WKUP_CANUART_OFF_MAGIC_WORD, WKUP_CTRL_MMR_BASE + CANUART_WAKE_OFF_MODE);
-	writel((WKUP_CANUART_MAGIC_WRD | WKUP_CANUART_MAGIC_WRD_LD_EN), WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
-
 	/* Write `1' into data_ret_ld[31] MMR to generate a LD signal to latch the retention signal */
 	writel(((DDR16SS_DATA_RET_LD_OPEN << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_EN), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
+
+	val = readl(WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
+	while (val != ((DDR16SS_DATA_RET_LD_OPEN << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_EN)) {
+		val = readl(WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
+	}
 
 	/* Writes `0' into data_ret_ld[31] to close the latch */
 	writel(((DDR16SS_DATA_RET_LD_CLOSE << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_EN), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
