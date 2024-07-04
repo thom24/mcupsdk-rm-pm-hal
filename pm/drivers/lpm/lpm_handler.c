@@ -471,6 +471,8 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 	s32 ret = SUCCESS;
 	u8 mode;
 
+	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_PREPARE_SLEEP);
+
 	/* Select low power mode if mode is not yet locked and requested mode is "DM managed" mode */
 	if ((lpm_locked == SFALSE) && (req->mode == TISCI_MSG_VALUE_SLEEP_MODE_DM_MANAGED)) {
 		if (lpm_select_sleep_mode(&mode) == SUCCESS) {
@@ -484,6 +486,7 @@ s32 dm_prepare_sleep_handler(u32 *msg_recv)
 		ret = -EFAIL;
 	} else {
 		/* For all other modes, skip mode selection and save padconfig values */
+		lpm_locked = STRUE;
 		mode = req->mode;
 
 		/* Scan and save the padconfig values */
@@ -737,6 +740,8 @@ s32 dm_lpm_wake_reason_handler(u32 *msg_recv)
 		(struct tisci_msg_lpm_wake_reason_resp *) msg_recv;
 	s32 ret = SUCCESS;
 
+	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_LPM_WAKE_REASON);
+
 	resp->hdr.flags = 0U;
 	/* Write 0 to the timestamp value as the support to get time in sleep has not been added yet */
 	resp->wake_timestamp = 0;
@@ -754,6 +759,8 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 	s32 ret = EFAIL;
 	u32 reg;
 	u32 i = 0;
+
+	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_SET_IO_ISOLATION);
 
 	/* Unlock partition 6 of wakeup ctrl mmr */
 	ctrlmmr_unlock(WKUP_CTRL_BASE, 6);
@@ -974,6 +981,8 @@ s32 dm_lpm_get_next_sys_mode(u32 *msg_recv)
 	struct tisci_msg_lpm_get_next_sys_mode_resp *resp =
 		(struct tisci_msg_lpm_get_next_sys_mode_resp *) msg_recv;
 
+	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_LPM_GET_NEXT_SYS_MODE);
+
 	resp->hdr.flags = 0U;
 
 	if (lpm_locked == STRUE) {
@@ -994,6 +1003,8 @@ s32 dm_lpm_get_next_host_state(u32 *msg_recv)
 		(struct tisci_msg_lpm_get_next_host_state_req *) msg_recv;
 	struct tisci_msg_lpm_get_next_host_state_resp *resp =
 		(struct tisci_msg_lpm_get_next_host_state_resp *) msg_recv;
+
+	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_LPM_GET_NEXT_HOST_STATE);
 
 	resp->hdr.flags = 0U;
 
