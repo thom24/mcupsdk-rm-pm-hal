@@ -156,6 +156,7 @@ static s32 trans_message(u32 target_base, u32 rt_base, sbool is_rx, u8 thread_id
 		} else {
 			(void) readl(rt_base);
 			writel(0x0, end_addr);
+			(void) readl(rt_base);
 		}
 	}
 	return ret;
