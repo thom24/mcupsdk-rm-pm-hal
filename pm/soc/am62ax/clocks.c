@@ -1,5 +1,5 @@
 /*
- * Data version: 230918_161414
+ * Data version: 240627_084252
  *
  * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
@@ -1809,7 +1809,7 @@ static const struct clk_parent clk_MCU_TIMERCLKn_SEL_out0_parents[8] = {
 	},
 	{
 		CLK_AM62AX_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
-		4,
+		2,
 	},
 	{
 		CLK_AM62AX_GLUELOGIC_RCOSC_CLKOUT,
@@ -2107,7 +2107,7 @@ static const struct clk_parent clk_WKUP_TIMERCLKn_SEL_out0_parents[8] = {
 	},
 	{
 		CLK_AM62AX_WKUP_CLKSEL_OUT0,
-		4,
+		2,
 	},
 	{
 		CLK_AM62AX_GLUELOGIC_RCOSC_CLKOUT,
@@ -4205,7 +4205,7 @@ const struct clk_data soc_clock_data[260] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_MODIFY_PARENT_FREQ,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv2_16fft_main_5_hsdiv0.data_div.data,
 	},
@@ -4215,7 +4215,7 @@ const struct clk_data soc_clock_data[260] = {
 			1,
 		},
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
+		.flags	= CLK_DATA_FLAG_ALLOW_FREQ_CHANGE,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv2_16fft_main_5_hsdiv1.data_div.data,
 	},

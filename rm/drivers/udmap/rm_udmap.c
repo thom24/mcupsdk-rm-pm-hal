@@ -3,7 +3,7 @@
  *
  * UDMAP management infrastructure
  *
- * Copyright (C) 2018-2023, Texas Instruments Incorporated
+ * Copyright (C) 2018-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -3320,7 +3320,7 @@ static s32 udmap_flow_cfg(
 #endif
 
 	maddr = rm_core_map_region(inst->rflow->base);
-	flow_base = maddr + (u32)(UDMAP_FLOW_BASE(msg->flow_index));
+	flow_base = maddr + (u32) (UDMAP_FLOW_BASE(msg->flow_index));
 
 	write = SFALSE;
 	/* Always read RFA as its on all devices */
@@ -3622,7 +3622,7 @@ static void udmap_format_local_flow_cfg_msg(
 	dev_mask = local_rm_udmap_ch_valid_masks[assoc_chan_type].flow_cfg_mask;
 
 	maddr = rm_core_map_region(inst->rflow->base);
-	flow_base = maddr + (u32)(UDMAP_FLOW_BASE(msg->flow_index));
+	flow_base = maddr + (u32) (UDMAP_FLOW_BASE(msg->flow_index));
 	rfa_reg = readl(flow_base + UDMAP_RFLOW_RFA);
 	if (rm_core_param_is_valid(dev_mask,
 				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SRC_TAG_HI_VALID) ==
@@ -3863,7 +3863,7 @@ static s32 udmap_flow_size_thresh_cfg(
 	dev_mask = local_rm_udmap_ch_valid_masks[assoc_chan_type].flow_size_mask;
 
 	maddr = rm_core_map_region(inst->rflow->base);
-	flow_base = maddr + (u32)(UDMAP_FLOW_BASE(msg->flow_index));
+	flow_base = maddr + (u32) (UDMAP_FLOW_BASE(msg->flow_index));
 
 	write = SFALSE;
 	/* read RFC if its present in device */
@@ -4040,7 +4040,7 @@ static void udmap_format_local_flow_size_thresh_cfg_msg(
 				   TISCI_MSG_VALUE_RM_UDMAP_FLOW_SIZE_THRESH0_VALID) ==
 	    STRUE) {
 		maddr = rm_core_map_region(inst->rflow->base);
-		flow_base = maddr + (u32)(UDMAP_FLOW_BASE(msg->flow_index));
+		flow_base = maddr + (u32) (UDMAP_FLOW_BASE(msg->flow_index));
 		rfc_reg = readl(flow_base + UDMAP_RFLOW_RFC);
 		rff_reg = readl(flow_base + UDMAP_RFLOW_RFF);
 		rfg_reg = readl(flow_base + UDMAP_RFLOW_RFG);
@@ -4777,7 +4777,7 @@ s32 rm_udmap_flow_size_thresh_cfg(u32 *msg_recv __attribute__((unused)))
 	}
 	if (r == SUCCESS) {
 		r = udmap_validate_flow_size_thresh_en(msg->rx_size_thresh_en,
-						        trace_action);
+						       trace_action);
 	}
 
 	if (r == SUCCESS) {

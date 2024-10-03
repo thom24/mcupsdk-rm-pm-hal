@@ -1,9 +1,7 @@
 /*
- * Register defines for AM6x
+ * Device Manager - Manage wakeup domain peripherals during Suspend/Resume
  *
- * Register definitions for AM6x SoC
- *
- * Copyright (C) 2017-2024, Texas Instruments Incorporated
+ * Copyright (C) 2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,8 +32,64 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SOC_J721S2_REGS_H
-#define SOC_J721S2_REGS_H
+#ifndef __LPM_WKUP_PERIPH_H__
+#define __LPM_WKUP_PERIPH_H__
 
+#include <types/short_types.h>
+#include <types/errno.h>
 
-#endif  /* SOC_J721S2_REGS_H */
+#define NUM_INTERRUPTS          (256U)
+#define NUM_INTR_PER_GRP        32U
+#define NUM_GRPS                (NUM_INTERRUPTS / NUM_INTR_PER_GRP)
+
+struct vim_intr_grp {
+	u32	int_en;
+	u32	int_map;
+	u32	int_type;
+};
+
+struct vim_intr {
+	u32			irq_vec;
+	u32			fiq_vec;
+	u32			irq_pri_mask;
+	u32			fiq_pri_mask;
+	u32			ded_vec_mask;
+	struct vim_intr_grp	grp_intr[NUM_GRPS];
+	u32			intr_pri[NUM_INTERRUPTS];
+	u32			intr_vec[NUM_INTERRUPTS];
+};
+
+struct timer_cfg {
+	u32	tiocp_cfg;
+	u32	eoi;
+	u32	set;
+	u32	irq_wake_en;
+	u32	tclr;
+	u32	tcrr;
+	u32	tldr;
+	u32	tmar;
+	u32	tsicr;
+	u32	tpir;
+	u32	tnir;
+	u32	tcvr;
+	u32	tocr;
+	u32	tcwr;
+};
+
+/**
+ *  \brief  Save WKUP domain VIM and WKUP_TIMER1 configuration
+ *          during suspend
+ *
+ *  \return ret      SUCCESS
+ */
+s32 lpm_sleep_save_wkup_periph_config(void);
+
+/**
+ *  \brief  Restore WKUP domain VIM and WKUP_TIMER1 configuration
+ *          during resume
+ *
+ *  \return ret      SUCCESS
+ */
+s32 lpm_resume_restore_wkup_periph(void);
+
+#endif /* __LPM_WKUP_PERIPH_H__ */

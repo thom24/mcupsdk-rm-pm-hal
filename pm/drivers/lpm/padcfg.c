@@ -158,7 +158,13 @@ s32 lpm_sleep_save_mcu_padconf(sbool *wkup_en)
 		if ((mcu_padcfg_data[i] & PADCFG_WAKE_EN_BIT) == PADCFG_WAKE_EN_BIT) {
 			/* Set the bit position for pin having wakeup enabled */
 			mcu_wken_data |= ((u64) 1UL) << i;
-			*wkup_en = STRUE;
+
+			/* Skip setting wake enable for CAN pins as CAN IO daisy chain is the default wake up source */
+			if ((i >= MCU_CAN_PADCFG_START) && (i <= MCU_CAN_PADCFG_END)) {
+				continue;
+			} else {
+				*wkup_en = STRUE;
+			}
 		}
 	}
 

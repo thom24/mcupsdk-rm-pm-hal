@@ -2657,7 +2657,7 @@ static const struct clk_parent clk_MCU_TIMERCLKn_SEL_out0_parents[8] = {
 	},
 	{
 		CLK_J722S_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
-		4,
+		2,
 	},
 	{
 		CLK_J722S_GLUELOGIC_RCOSC_CLKOUT,
@@ -2991,7 +2991,7 @@ static const struct clk_parent clk_WKUP_TIMERCLKn_SEL_out0_parents[8] = {
 	},
 	{
 		CLK_J722S_WKUP_CLKSEL_OUT0,
-		4,
+		2,
 	},
 	{
 		CLK_J722S_GLUELOGIC_RCOSC_CLKOUT,
@@ -4902,6 +4902,12 @@ const struct clk_data soc_clock_data[374] = {
 		.data		= &clk_data_dmtimer_dmc1ms_mcu_3_timer_pwm.data,
 		.freq_idx	= J722S_FREQ_VALUE_DMTIMER_DMC1MS_MCU_3_TIMER_PWM,
 	},
+	[CLK_J722S_DMTIMER_DMC1MS_WKUP_0_TIMER_PWM] =					       {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_dmtimer_dmc1ms_wkup_0_timer_pwm.data,
+		.freq_idx	= J722S_FREQ_VALUE_DMTIMER_DMC1MS_WKUP_0_TIMER_PWM,
+	},
 	[CLK_J722S_EMMCSD4SS_MAIN_0_EMMCSDSS_IO_CLK_O] =				       {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -5154,6 +5160,12 @@ const struct clk_data soc_clock_data[374] = {
 		.data		= &clk_data_mshsi2c_main_4_porscl.data,
 		.freq_idx	= J722S_FREQ_VALUE_MSHSI2C_MAIN_4_PORSCL,
 	},
+	[CLK_J722S_MSHSI2C_WKUP_0_PORSCL] =						       {
+		.drv		= &clk_drv_from_device,
+		.flags		= 0,
+		.data		= &clk_data_mshsi2c_wkup_0_porscl.data,
+		.freq_idx	= J722S_FREQ_VALUE_MSHSI2C_WKUP_0_PORSCL,
+	},
 	[CLK_J722S_PCIE_G2X1_64_MAIN_0_PCIE_LANE0_TXCLK] =				       {
 		.drv		= &clk_drv_from_device,
 		.flags		= 0,
@@ -5359,16 +5371,6 @@ const struct clk_data soc_clock_data[374] = {
 		.flags	= 0,
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_postdiv1_16fft_mcu_0_hsdiv5.data_div.data,
-	},
-	[CLK_J722S_POSTDIV1_16FFT_MCU_0_HSDIVOUT6_CLK] =				       {
-		.parent =								       {
-			CLK_J722S_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTPOSTDIV_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_postdiv_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_postdiv1_16fft_mcu_0_hsdiv6.data_div.data,
 	},
 	[CLK_J722S_POSTDIV4_16FF_MAIN_0_HSDIVOUT5_CLK] =				       {
 		.parent =								       {
@@ -6022,16 +6024,16 @@ const struct clk_data soc_clock_data[374] = {
 		.data	= &clk_data_MCASPn_CLKSEL_AUXCLK_out4.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_J722S_MCU_WWDTCLK_SEL_OUT0] =						       {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_MCU_WWDTCLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
 	[CLK_J722S_RTC_CLK_SEL_OUT0] =							       {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
 		.data	= &clk_data_RTC_CLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
+	[CLK_J722S_WKUP_WWDTCLK_SEL_OUT0] =						       {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_WKUP_WWDTCLK_SEL_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
 	[CLK_J722S_HSDIV0_16FFT_MAIN_12_HSDIVOUT0_CLK] =				       {
@@ -6344,7 +6346,7 @@ const struct clk_data soc_clock_data[374] = {
 		.type	= CLK_TYPE_DIV,
 		.data	= &clk_data_hsdiv4_16fft_mcu_0_hsdiv0.data_div.data,
 	},
-	[CLK_J722S_HSDIV4_16FFT_MCU_0_HSDIVOUT3_CLK] =					       {
+	[CLK_J722S_HSDIV4_16FFT_MCU_0_HSDIVOUT1_CLK] =					       {
 		.parent =								       {
 			CLK_J722S_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
 			1,
@@ -6352,7 +6354,17 @@ const struct clk_data soc_clock_data[374] = {
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
 		.flags	= 0,
 		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_mcu_0_hsdiv3.data_div.data,
+		.data	= &clk_data_hsdiv4_16fft_mcu_0_hsdiv1.data_div.data,
+	},
+	[CLK_J722S_HSDIV4_16FFT_MCU_0_HSDIVOUT2_CLK] =					       {
+		.parent =								       {
+			CLK_J722S_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
+		.flags	= 0,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_hsdiv4_16fft_mcu_0_hsdiv2.data_div.data,
 	},
 	[CLK_J722S_HSDIV4_16FFT_MCU_0_HSDIVOUT4_CLK] =					       {
 		.parent =								       {
@@ -6662,6 +6674,12 @@ const struct clk_data soc_clock_data[374] = {
 		.data	= &clk_data_WKUP_CLKSEL_R5FSS_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
+	[CLK_J722S_WKUP_TIMERCLKN_SEL_OUT0] =						       {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_WKUP_TIMERCLKn_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
 	[CLK_J722S_WKUP_TIMERCLKN_SEL_OUT1] =						       {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
@@ -6790,6 +6808,12 @@ const struct clk_data soc_clock_data[374] = {
 		.data	= &clk_data_OLDI_TX1_FWD_CLK_MUX_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
+	[CLK_J722S_WKUP_TIMER1_CASCADE_OUT0] =						       {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_WKUP_TIMER1_CASCADE_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
 	[CLK_J722S_MCU_GPIO0_CLKSEL_OUT0] =						       {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
@@ -6832,6 +6856,12 @@ const struct clk_data soc_clock_data[374] = {
 		.data	= &clk_data_MCU_TIMERCLKn_SEL_out2.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
+	[CLK_J722S_MCU_WWDTCLK_SEL_OUT0] =						       {
+		.drv	= &clk_drv_mux_reg.drv,
+		.flags	= 0,
+		.data	= &clk_data_MCU_WWDTCLK_SEL_out0.data_mux.data,
+		.type	= CLK_TYPE_MUX,
+	},
 	[CLK_J722S_MCU_SPI0_MSTR_LP_CLKSEL_OUT0] =					       {
 		.drv	= &clk_drv_mux_reg.drv,
 		.flags	= 0,
@@ -6844,25 +6874,7 @@ const struct clk_data soc_clock_data[374] = {
 		.data	= &clk_data_MCU_spi1_mstr_lp_clksel_out0.data_mux.data,
 		.type	= CLK_TYPE_MUX,
 	},
-	[CLK_J722S_WKUP_TIMERCLKN_SEL_OUT0] =						       {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_WKUP_TIMERCLKn_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J722S_WKUP_WWDTCLK_SEL_OUT0] =						       {
-		.drv	= &clk_drv_mux_reg.drv,
-		.flags	= 0,
-		.data	= &clk_data_WKUP_WWDTCLK_SEL_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
-	},
-	[CLK_J722S_DMTIMER_DMC1MS_WKUP_0_TIMER_PWM] =					       {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_dmtimer_dmc1ms_wkup_0_timer_pwm.data,
-		.freq_idx	= J722S_FREQ_VALUE_DMTIMER_DMC1MS_WKUP_0_TIMER_PWM,
-	},
-	[CLK_J722S_HSDIV4_16FFT_MCU_0_HSDIVOUT1_CLK] =					       {
+	[CLK_J722S_HSDIV4_16FFT_MCU_0_HSDIVOUT3_CLK] =					       {
 		.parent =								       {
 			CLK_J722S_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
 			1,
@@ -6870,17 +6882,7 @@ const struct clk_data soc_clock_data[374] = {
 		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
 		.flags	= 0,
 		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_mcu_0_hsdiv1.data_div.data,
-	},
-	[CLK_J722S_HSDIV4_16FFT_MCU_0_HSDIVOUT2_CLK] =					       {
-		.parent =								       {
-			CLK_J722S_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTVCOP_CLK,
-			1,
-		},
-		.drv	= &clk_drv_div_pll_16fft_hsdiv.drv,
-		.flags	= 0,
-		.type	= CLK_TYPE_DIV,
-		.data	= &clk_data_hsdiv4_16fft_mcu_0_hsdiv2.data_div.data,
+		.data	= &clk_data_hsdiv4_16fft_mcu_0_hsdiv3.data_div.data,
 	},
 	[CLK_J722S_MSHSI2C_MCU_0_PORSCL] =						       {
 		.drv		= &clk_drv_from_device,
@@ -6888,17 +6890,15 @@ const struct clk_data soc_clock_data[374] = {
 		.data		= &clk_data_mshsi2c_mcu_0_porscl.data,
 		.freq_idx	= J722S_FREQ_VALUE_MSHSI2C_MCU_0_PORSCL,
 	},
-	[CLK_J722S_MSHSI2C_WKUP_0_PORSCL] =						       {
-		.drv		= &clk_drv_from_device,
-		.flags		= 0,
-		.data		= &clk_data_mshsi2c_wkup_0_porscl.data,
-		.freq_idx	= J722S_FREQ_VALUE_MSHSI2C_WKUP_0_PORSCL,
-	},
-	[CLK_J722S_WKUP_TIMER1_CASCADE_OUT0] =						       {
-		.drv	= &clk_drv_mux_reg.drv,
+	[CLK_J722S_POSTDIV1_16FFT_MCU_0_HSDIVOUT6_CLK] =				       {
+		.parent =								       {
+			CLK_J722S_PLLFRACF2_SSMOD_16FFT_MCU_0_FOUTPOSTDIV_CLK,
+			1,
+		},
+		.drv	= &clk_drv_div_pll_16fft_postdiv_hsdiv.drv,
 		.flags	= 0,
-		.data	= &clk_data_WKUP_TIMER1_CASCADE_out0.data_mux.data,
-		.type	= CLK_TYPE_MUX,
+		.type	= CLK_TYPE_DIV,
+		.data	= &clk_data_postdiv1_16fft_mcu_0_hsdiv6.data_div.data,
 	},
 	[CLK_J722S_SAM62_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV24_CLK_CLK] =			       {
 		.drv	= &clk_drv_div_reg.drv,

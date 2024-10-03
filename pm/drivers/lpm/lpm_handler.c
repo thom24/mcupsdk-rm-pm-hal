@@ -56,9 +56,13 @@
 #include "device_prepare.h"
 #include <soc/host_idx_mapping.h>
 #include <lib/trace.h>
+#include "wkup_periph.h"
 
 /* Count of 1us delay for 10ms */
 #define TIMEOUT_10MS                    10000U
+
+/* DM stub + boot code present in TCM */
+#define TCMB_SIZE                       0x8000U
 
 #define LPM_SUSPEND_POWERMASTER                 BIT(0)
 #define LPM_DEVICE_DEINIT                       BIT(1)
@@ -69,10 +73,12 @@
 #define LPM_SUSPEND_DM                          BIT(6)
 #define LPM_SAVE_MMR_LOCK                       BIT(7)
 #define LPM_SAVE_MCU_PADCONFIG                  BIT(8)
+#define LPM_SAVE_WKUP_PERIPH_CFG                BIT(9)
 
 #define LPM_RESUME_LATENCY_VALID_FLAG           BIT(16)
 
-/* Deep sleep and MCU Only latency values */
+/* IO DDR, Deep sleep and MCU Only latency values */
+#define LPM_IO_ONLY_PLUS_DDR_RESUME_LAT_MIN     251U
 #define LPM_DEEP_SLEEP_RESUME_LAT_MIN           101U
 #define LPM_MCU_ONLY_RESUME_LAT_MIN             10U
 
@@ -88,6 +94,8 @@ extern u8 lpm_get_selected_sleep_mode(void);
 
 u32 key;
 volatile u32 enter_sleep_status = 0;
+
+u8 dm_stub_arr[TCMB_SIZE] = { 0U };
 
 /* Each bit represents whether that host has set constraints or not */
 #if HOST_ID_CNT <= 16U
@@ -294,10 +302,14 @@ static s32 lpm_sleep_suspend_dm(void)
 static s32 lpm_resume_dm(void)
 {
 	/* Resume DM OS */
-	osal_dm_enable_interrupt();     /* Enable sciserver interrupts */
 	osal_resume_dm();               /* Resume DM task scheduler */
 	osal_hwip_restore(key);         /* Enable Global interrupts */
 	return SUCCESS;
+}
+
+static s32 lpm_copy_fs_stub(void)
+{
+	return osal_dm_copy_fs_stub_from_ddr_to_local_mem();
 }
 
 static s32 lpm_sleep_jump_to_dm_Stub(void)
@@ -312,7 +324,7 @@ static s32 lpm_select_sleep_mode(u8 *mode)
 	u16 devgrp;
 	u8 i = 0U;
 	s32 ret = SUCCESS;
-	sbool mode_selected = SFALSE;
+	sbool is_shallowest_mode_selected = SFALSE;
 	sbool main_padcfg_wkup_en = SFALSE;
 	sbool mcu_padcfg_wkup_en = SFALSE;
 	sbool done = SFALSE;
@@ -342,15 +354,16 @@ static s32 lpm_select_sleep_mode(u8 *mode)
 						done = STRUE;
 					}
 				} else {
-					/* If device is in ALWAYS ON domain in MCU_WAKEUP devgrp, then select Deep sleep */
-					if (lpsc == ALWAYS_ON_LPSC_ID) {
-						*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
-						/* Otherwise, the device belongs to MCU Domain, select MCU only mode */
-					} else {
-						*mode = TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY;
-						mode_selected = STRUE;
-						/* Return as this mode is shallowest of all */
-						done = STRUE;
+					/* If MCU Only mode has not been already selected */
+					if (is_shallowest_mode_selected == SFALSE) {
+						/* If device is in ALWAYS ON domain in MCU_WAKEUP devgrp, then select Deep sleep */
+						if (lpsc == ALWAYS_ON_LPSC_ID) {
+							*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
+							/* Otherwise, the device belongs to MCU Domain, select MCU only mode */
+						} else {
+							*mode = TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY;
+							is_shallowest_mode_selected = STRUE;
+						}
 					}
 				}
 			}
@@ -365,14 +378,16 @@ static s32 lpm_select_sleep_mode(u8 *mode)
 		done = SFALSE;
 		for (i = 0; i < HOST_ID_CNT; i++) {
 			if ((latency[i] & LPM_RESUME_LATENCY_VALID_FLAG) != 0U) {
-				/* If the latency value is more than or equal to deep sleep mode minimum resume latency, select deep sleep */
-				if ((u16) latency[i] >= LPM_DEEP_SLEEP_RESUME_LAT_MIN) {
+				/* If the latency value is more than or equal to deepest mode minimum resume latency, select deepest lpm mode */
+				if ((u16) latency[i] >= LPM_IO_ONLY_PLUS_DDR_RESUME_LAT_MIN) {
+					*mode = lpm_select_shallowest_mode(DEEPEST_LOW_POWER_MODE, *mode);
+					/* If the latency value is more than or equal to deep sleep mode minimum resume latency, select deep sleep */
+				} else if ((u16) latency[i] >= LPM_DEEP_SLEEP_RESUME_LAT_MIN) {
 					*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
 					/* If the latency value lie in mcu only mode resume latency range, select mcu only */
 				} else if ((u16) latency[i] >= LPM_MCU_ONLY_RESUME_LAT_MIN) {
 					*mode = TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY;
-					mode_selected = STRUE;
-					done = STRUE;
+					is_shallowest_mode_selected = STRUE;
 					/* If the latency value is out of resume latency range values, no lpm is possible */
 				} else {
 					ret = -EFAIL;
@@ -395,8 +410,11 @@ static s32 lpm_select_sleep_mode(u8 *mode)
 	}
 
 	if (ret == SUCCESS) {
-		/* Wakeup source based selection (Padconfig) - Skipped if shallowest mode is already selected */
-		if (((main_padcfg_wkup_en == STRUE) || (mcu_padcfg_wkup_en == STRUE)) && (mode_selected == SFALSE)) {
+		/*
+		 * Wakeup source based selection (Padconfig) - Skipped if shallowest mode is already selected
+		 * Note: In MCU Only mode, all padconfigs can act as a wakeup source
+		 */
+		if (((main_padcfg_wkup_en == STRUE) || (mcu_padcfg_wkup_en == STRUE)) && (is_shallowest_mode_selected == SFALSE)) {
 			/* Deepest mode is selected unless explicit constraint is there */
 			*mode = lpm_select_shallowest_mode(TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP, *mode);
 		}
@@ -569,6 +587,11 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 	enter_sleep_status = 0;
 
+	/* Check if the input mode is valid */
+	if (mode > TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) {
+		ret = -EINVAL;
+	}
+
 	/*
 	 * Wait for tifs to reach WFI in both the failed and successful case.
 	 * but update the ret value only if it was SUCCESS previously
@@ -640,6 +663,11 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 		enter_sleep_status |= LPM_SUSPEND_DM;
 	}
 
+	if ((mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) && (ret == SUCCESS)) {
+		ret = lpm_sleep_save_wkup_periph_config();
+		enter_sleep_status |= LPM_SAVE_WKUP_PERIPH_CFG;
+	}
+
 	if (ret == SUCCESS) {
 		ret = lpm_sleep_jump_to_dm_Stub();
 	}
@@ -672,6 +700,18 @@ s32 dm_enter_sleep_handler(u32 *msg_recv)
 
 	if (((temp_sleep_status & LPM_SAVE_MCU_PADCONFIG) == LPM_SAVE_MCU_PADCONFIG) && (ret == SUCCESS)) {
 		if (lpm_resume_restore_mcu_padconf() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if (((temp_sleep_status & LPM_SAVE_WKUP_PERIPH_CFG) == LPM_SAVE_WKUP_PERIPH_CFG) && (ret == SUCCESS)) {
+		if (lpm_resume_restore_wkup_periph() != SUCCESS) {
+			lpm_hang_abort();
+		}
+	}
+
+	if ((ret == SUCCESS) && (mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR)) {
+		if (lpm_copy_fs_stub() != SUCCESS) {
 			lpm_hang_abort();
 		}
 	}
@@ -852,7 +892,7 @@ s32 dm_lpm_set_device_constraint(u32 *msg_recv)
 	struct tisci_msg_lpm_set_device_constraint_resp *resp =
 		(struct tisci_msg_lpm_set_device_constraint_resp *) msg_recv;
 	struct device *dev = NULL;
-	u8 id = req->id;
+	u32 id = req->id;
 	u8 state = req->state;
 	u8 host_id = req->hdr.host;
 	u8 host_idx;
@@ -890,7 +930,7 @@ s32 dm_lpm_get_device_constraint(u32 *msg_recv)
 	struct tisci_msg_lpm_get_device_constraint_resp *resp =
 		(struct tisci_msg_lpm_get_device_constraint_resp *) msg_recv;
 	struct device *dev = NULL;
-	u8 id = req->id;
+	u32 id = req->id;
 	u8 host_id = req->hdr.host;
 	u8 host_idx;
 

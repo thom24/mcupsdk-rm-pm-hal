@@ -4963,21 +4963,21 @@ static const struct dev_data j721e_dev_k3_pbist_8c28p_wrap_main_rc_pulsar_1 __at
 	},
 	.pm_devgrp		= PM_DEVGRP_01,
 };
-static const struct dev_data j721e_dev_k3_pbist_8c28p_wrap_mcu_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct dev_data j721e_dev_k3_pbist_8c28p_wrap_mcu_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
 		.psc_idx	= J721E_PSC_INST_J7_WKUP_PSC_WRAP_WKUP_0,
 		.pd		= J721E_PSC_PD_PD_WKUP,
 		.mod		= J721E_PSC_LPSC_LPSC_MCU_TEST,
 	},
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
-static const struct dev_data j721e_dev_k3_pbist_8c28p_wrap_mcu_pulsar_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
+static const struct dev_data j721e_dev_k3_pbist_8c28p_wrap_mcu_pulsar_0 __attribute__((__section__(".const.devgroup.MCU_WAKEUP"))) = {
 	.soc			= {
 		.psc_idx	= J721E_PSC_INST_J7_WKUP_PSC_WRAP_WKUP_0,
 		.pd		= J721E_PSC_PD_PD_MCU_PULSAR,
 		.mod		= J721E_PSC_LPSC_LPSC_MCU_PULSAR_PBIST_0,
 	},
-	.pm_devgrp		= PM_DEVGRP_01,
+	.pm_devgrp		= PM_DEVGRP_00,
 };
 static const struct dev_data j721e_dev_c71x_0_pbist_VD __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {

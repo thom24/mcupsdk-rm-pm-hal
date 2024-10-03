@@ -352,8 +352,11 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clock_ptr)
 #if defined (CONFIG_CLK_PLL_16FFT_FRACF_CALIBRATION)
 	u32 freq_ctrl1;
 	u32 pllfm;
+	u32 pll_type;
+	u32 cfg;
+	s32 err;
+	u32 cal, cal_en;
 #endif
-
 	clock_data = clk_get_data(clock_ptr);
 	data_pll = container_of(clock_data->data, const struct clk_data_pll,
 				data);
@@ -384,10 +387,6 @@ static sbool clk_pll_16fft_wait_for_lock(struct clk *clock_ptr)
 		freq_ctrl1 = readl(pll->base + (u32) PLL_16FFT_FREQ_CTRL1(pll->idx));
 		pllfm = freq_ctrl1 & PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_MASK;
 		pllfm >>= PLL_16FFT_FREQ_CTRL1_FB_DIV_FRAC_SHIFT;
-		u32 pll_type;
-		u32 cfg;
-		s32 err;
-		u32 cal, cal_en;
 		cfg = readl(pll->base + (u32) PLL_16FFT_CFG(pll->idx));
 		pll_type = (cfg & PLL_16FFT_CFG_PLL_TYPE_MASK) >> PLL_16FFT_CFG_PLL_TYPE_SHIFT;
 
@@ -1008,7 +1007,7 @@ static u32 clk_pll_16fft_internal_set_freq_from_pll_table(struct clk *pll_clk,
 			}
 		}
 		div1_hz = actual / div1;
-		if (div1_hz >= min_hz) {
+		if ((div1_hz >= min_hz) && (div1_hz <= max_hz)) {
 			div1_delta = target_hz - div1_hz;
 		}
 
@@ -1592,10 +1591,28 @@ static u32 clk_pll_16fft_hsdiv_set_freq(struct clk *clock_ptr,
 										     query, changed);
 
 				if (ret == 0U) {
+					/*
+					 * First try setting the exact target_hz frequency
+					 * without using the min and max range. We do this
+					 * because some times even when the target frequency
+					 * is acheivable, the calculations will result
+					 * in choosing a value other than the target from the
+					 * range provided.
+					 */
 					ret = clk_pll_16fft_internal_set_freq(pll_clk, clock_ptr,
 									      &pll_16fft_hsdiv_data,
-									      target_hz, min_hz, max_hz,
+									      target_hz, target_hz, target_hz,
 									      query, changed);
+					/*
+					 * If the previous step failed in setting the exact
+					 * target_hz, use the min and max range provided.
+					 */
+					if (ret == 0U) {
+						ret = clk_pll_16fft_internal_set_freq(pll_clk, clock_ptr,
+										      &pll_16fft_hsdiv_data,
+										      target_hz, min_hz, max_hz,
+										      query, changed);
+					}
 				}
 			}
 		}

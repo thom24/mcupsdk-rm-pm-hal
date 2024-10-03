@@ -353,7 +353,7 @@ u32 clk_div_set_freq_static_parent(
 	div1_hz = 0U;
 	if (div1 <= n) {
 		div1_hz = parent_freq_hz / div1;
-		if (div1_hz >= min_hz) {
+		if ((div1_hz >= min_hz) && (div1_hz <= max_hz)) {
 			div1_ok = STRUE;
 			div1_delta = target_hz - div1_hz;
 		} else {

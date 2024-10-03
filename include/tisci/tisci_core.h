@@ -42,12 +42,14 @@
 #include <types/devgrps.h>
 
 /** Bit fields of TISCI_MSG_QUERY_FW_CAPS message */
-#define TISCI_MSG_FLAG_FW_CAP_GENERIC_CAP          BIT(0)
-#define TISCI_MSG_FLAG_FW_CAP_LPM_DEEP_SLEEP       BIT(1)
-#define TISCI_MSG_FLAG_FW_CAP_LPM_MCU_ONLY         BIT(2)
-#define TISCI_MSG_FLAG_FW_CAP_LPM_STANDBY          BIT(3)
-#define TISCI_MSG_FLAG_FW_CAP_LPM_PARTIAL_IO_ON    BIT(4)
-#define TISCI_MSG_FLAG_FW_CAP_LPM_DM_MANAGED       BIT(5)
+#define TISCI_MSG_FLAG_FW_CAP_GENERIC_CAP               BIT(0)
+#define TISCI_MSG_FLAG_FW_CAP_LPM_DEEP_SLEEP            BIT(1)
+#define TISCI_MSG_FLAG_FW_CAP_LPM_MCU_ONLY              BIT(2)
+#define TISCI_MSG_FLAG_FW_CAP_LPM_STANDBY               BIT(3)
+#define TISCI_MSG_FLAG_FW_CAP_LPM_PARTIAL_IO_ON         BIT(4)
+#define TISCI_MSG_FLAG_FW_CAP_LPM_DM_MANAGED            BIT(5)
+#define TISCI_MSG_FLAG_FW_CAP_LPM_IO_ONLY_PLUS_DDR      BIT(6)
+#define TISCI_MSG_FLAG_FW_CAP_IO_ISOLATION              BIT(7)
 
 /**
  * \brief Notification message to indicate the DMSC is available.

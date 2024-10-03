@@ -3,7 +3,7 @@
  *
  * Register definitions for AM6x SoC
  *
- * Copyright (C) 2017-2023, Texas Instruments Incorporated
+ * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,4 +39,3 @@
 
 
 #endif  /* SOC_J784S4_REGS_H */
-

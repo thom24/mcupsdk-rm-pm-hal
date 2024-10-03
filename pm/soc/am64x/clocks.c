@@ -1618,7 +1618,7 @@ static const struct clk_parent clk_MCU_TIMERCLKn_SEL_out0_parents[8] = {
 	},
 	{
 		CLK_AM64X_K3_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
-		4,
+		2,
 	},
 	{
 		CLK_AM64X_GLUELOGIC_RCOSC_CLKOUT,

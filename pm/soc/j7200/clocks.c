@@ -2005,7 +2005,7 @@ static const struct clk_parent clk_MCU_TIMER_CLKSEL_out0_parents[8] = {
 	},
 	{
 		CLK_J7200_K3_PLL_CTRL_WRAP_WKUP_0_CHIP_DIV1_CLK_CLK,
-		16,
+		4,
 	},
 	{
 		CLK_J7200_J7VC_WAKEUP_16FF_WKUP_0_WKUP_RCOSC_12P5M_CLK,

@@ -48,6 +48,11 @@ s32 ddr_enter_low_power_mode(void);
 s32 ddr_exit_low_power_mode(void);
 
 /**
+ * \brief Enter DDR io only plus ddr mode
+ */
+s32 ddr_enter_io_ddr_mode(void);
+
+/**
  * \brief Run software triggered trainings after self refresh exit
  *        DDR4 trainings: 1. Read gate level training
  *                        2. Read level training

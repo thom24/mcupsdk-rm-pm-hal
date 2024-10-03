@@ -3,7 +3,7 @@
  *
  * DM Stub Minimal Trace Debug Layer
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -79,7 +79,7 @@ static volatile struct trace_local_cfg stub_cfg = {
 static u8 lpm_trace_int_to_hex(u32 value, u8 *str)
 {
 	u32 val_rem;
-    u8 idx = 0U;
+	u8 idx = 0U;
 
 	if (value == 0U) {
 		str[idx] = (u8) '0';
@@ -104,7 +104,7 @@ static u8 lpm_trace_int_to_hex(u32 value, u8 *str)
 		idx--;
 	}
 
-    return idx;
+	return idx;
 }
 
 void lpm_trace_init(sbool bypass)

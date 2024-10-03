@@ -51,3 +51,4 @@ obj-y += vim_raw.o
 obj-y += lpm_string.o
 obj-y += lpm_trace.o
 obj-$(CONFIG_LPM_32_BIT_DDR) += cdns_ddr_reg_config.o
+obj-y += cache.o

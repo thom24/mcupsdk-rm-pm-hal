@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,8 +47,8 @@
  */
 struct soc_device_data {
 #if defined (CONFIG_PSC_PD_MAX_COUNT_64)
-	u8		psc_idx;   /** PSC index */
-	u8		pd;        /** PSC powerdomain */
+	u8		psc_idx;        /** PSC index */
+	u8		pd;             /** PSC powerdomain */
 #else
 	u8		psc_idx : 3;
 	u8		pd : 5;

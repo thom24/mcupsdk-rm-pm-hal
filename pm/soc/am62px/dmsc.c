@@ -113,7 +113,6 @@ static s32 am62p_sys_reset_handler(domgrp_t domain)
 			     CTRLMMR_WKUP_RST_CTRL_SW_MAIN_WARMRST_OFFSET;
 			writel(v, WKUP_CTRL_BASE + CTRLMMR_WKUP_RST_CTRL);
 		}
-
 	}
 
 	return ret;

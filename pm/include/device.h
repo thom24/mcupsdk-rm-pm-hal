@@ -478,10 +478,11 @@ s32 devices_init_rw(void);
 s32 devices_deinit(u8 pm_devgrp);
 
 /**
- * \brief Clear all initialization flags
+ * \brief Clear all flags for devices set by host.
  *
- * During low power mode suspend all initialization flags of devices are
- * cleared and during resume the devices are reinitilized.
+ * During low power mode suspend, all of the internal, initialized, and other flags
+ * are cleared for the devices set by host. During resume, these flags and devices
+ * are reinitialized.
  *
  * \return SUCCESS on success, <0 otherwise.
  */

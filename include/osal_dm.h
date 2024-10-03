@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021-2022, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,6 +69,13 @@ void osal_suspend_dm(void);
  * \return CSL_PASS if it is a success, else error
  */
 u32 osal_resume_dm(void);
+
+/**
+ * \brief Resume DM firmware
+ *
+ * \return SystemP_SUCCESS if success, else error
+ */
+s32 osal_dm_copy_fs_stub_from_ddr_to_local_mem(void);
 
 /**
  * \brief Start OS tick timer

@@ -1,7 +1,7 @@
 /*
  * DMSC firmware
  *
- * Copyright (C) 2019-2023, Texas Instruments Incorporated
+ * Copyright (C) 2019-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -117,7 +117,7 @@ static sbool clk_mux_j7_ahclko_set_parent(struct clk *clock_ptr, u8 new_parent)
 		pm_trace(TRACE_PM_ACTION_CLOCK_SET_PARENT,
 			 (((u32) new_parent << TRACE_PM_VAL_CLOCK_VAL_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_VAL_MASK) |
-			 (((u32)clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
+			 (((u32) clk_id(clock_ptr) << TRACE_PM_VAL_CLOCK_ID_SHIFT) &
 			  TRACE_PM_VAL_CLOCK_ID_MASK));
 	}
 

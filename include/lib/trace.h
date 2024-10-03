@@ -3,7 +3,7 @@
  *
  * Debug Trace layer APIs
  *
- * Copyright (C) 2018-2022, Texas Instruments Incorporated
+ * Copyright (C) 2018-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -249,12 +249,12 @@ s32 trace_init(void);
 #define rm_trace(action, val) trace_debug(action, val)
 #define pm_trace(action, val) trace_debug(action, val)
 
-#define bp_trace_sub(action, sub_action, val) trace_debug(action+sub_action, val)
-#define bp_trace_core_sub(action, sub_action, val) trace_debug(action+sub_action, val)
-#define sec_trace_sub(action, sub_action, val) trace_debug(action+sub_action, val)
-#define rm_trace_sub(action, sub_action, val) trace_debug(action+sub_action, val)
-#define rm_trace_core_sub(action, sub_action, val) trace_debug(action+sub_action, val)
-#define pm_trace_sub(action, sub_action, val) trace_debug(action+sub_action, val)
+#define bp_trace_sub(action, sub_action, val) trace_debug(action + sub_action, val)
+#define bp_trace_core_sub(action, sub_action, val) trace_debug(action + sub_action, val)
+#define sec_trace_sub(action, sub_action, val) trace_debug(action + sub_action, val)
+#define rm_trace_sub(action, sub_action, val) trace_debug(action + sub_action, val)
+#define rm_trace_core_sub(action, sub_action, val) trace_debug(action + sub_action, val)
+#define pm_trace_sub(action, sub_action, val) trace_debug(action + sub_action, val)
 #endif
 
 #endif

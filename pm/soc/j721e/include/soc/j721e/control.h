@@ -3,7 +3,7 @@
  *
  * Control definitions for AM6x
  *
- * Copyright (C) 2017-2023, Texas Instruments Incorporated
+ * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,4 +38,3 @@
 #define SOC_J721E_CONTROL_H
 
 #endif  /* SOC_J721E_CONTROL_H */
-

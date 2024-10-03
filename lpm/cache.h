@@ -1,9 +1,5 @@
 /*
- * Register defines for AM6x
- *
- * Register definitions for AM6x SoC
- *
- * Copyright (C) 2017-2024, Texas Instruments Incorporated
+ * Copyright (C) 2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,8 +30,13 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SOC_J721S2_REGS_H
-#define SOC_J721S2_REGS_H
+#ifndef __LPM_CACHE_H__
+#define __LPM_CACHE_H__
+
+/**
+ * \brief Cache writeback for L1 data cache
+ */
+void cache_wb_data(void);
 
 
-#endif  /* SOC_J721S2_REGS_H */
+#endif /* _LPM_CACHE_H */

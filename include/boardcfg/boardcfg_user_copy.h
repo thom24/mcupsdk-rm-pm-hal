@@ -3,7 +3,7 @@
  *
  * Board configuration internal copy API on HS devices
  *
- * Copyright (C) 2019-2023, Texas Instruments Incorporated
+ * Copyright (C) 2019-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,6 +54,21 @@ s32 boardcfg_memcpy_rm(u8 host, local_phys_addr_t to, soc_phys_addr_t from, u32 
 
 /**
  * \brief on GP, copy the boardcfg after size check. On HS, validate the binary and copy to destination.
+ *        WARNING: Only call this function from a secure context.
+ *
+ * \param host ID of the host sending the message
+ * \param to address in DMSC IRAM where the boardcfg needs to be copied to
+ * \param from SOC address from which boardcfg needs to be picked up
+ * \param size Size of the board configuration to be copied
+ * \param max_size maximum size of board configuration buffer
+ *
+ * \return SUCCESS on pass, error code on fail
+ */
+s32 boardcfg_memcpy_rm_core(u8 host, local_phys_addr_t to, soc_phys_addr_t from, u32 size, u32 max_size);
+
+#ifdef CONFIG_SECURE_RM_DM_SUPPORT
+/**
+ * \brief on GP, copy the boardcfg after size check. On HS, validate the binary and copy to destination.
  *
  * \param host ID of the host sending the message
  * \param to SOC address where boardcfg will be overwritten
@@ -70,6 +85,7 @@ static inline s32 boardcfg_rm_overwrite_hdr(u8 host __attribute__((unused)), soc
 {
 	return SUCCESS;
 }
-#endif
+#endif  /* CONFIG_DEVICE_TYPE_HS */
+#endif  /* CONFIG_SECURE_RM_DM_SUPPORT */
 
 #endif

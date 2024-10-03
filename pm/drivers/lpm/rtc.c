@@ -1,7 +1,7 @@
 /*
  * Device Manager - LPM RTC Driver
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,13 +33,25 @@
  */
 
 #include <lib/ioremap.h>
+#include <lib/bitops.h>
 #include "rtc.h"
 #include "soc_ctrl_mmr.h"
 
 
-#define RTC_SUB_S_CNT        (0x04U)
-#define RTC_S_CNT_LSW        (0x08U)
-#define RTC_S_CNT_MSW        (0x0cU)
+#define RTC_SUB_S_CNT           (0x04U)
+#define RTC_S_CNT_LSW           (0x08U)
+#define RTC_S_CNT_MSW           (0x0cU)
+#define RTC_SYNCPEND            (0x68U)
+
+/* RTC_SYNCPEND register bits */
+#define RELOAD_FROM_BBD         BIT(31)
+#define RD_PEND                 BIT(1)
+
+/* RD_PEND bit field values */
+#define RD_PEND_COMPLETE        0x0U
+#define RD_PEND_ACTIVE          0x1U
+
+#define TIMEOUT_10ms            10000U
 
 void lpm_rtc_read_time(struct rtc_time *rtc)
 {
@@ -50,4 +62,25 @@ void lpm_rtc_read_time(struct rtc_time *rtc)
 	} else {
 		/* do nothing */
 	}
+}
+
+s32 lpm_rtc_sync_core_and_on_domain(void)
+{
+	u32 val = 0U;
+	u32 timeout = TIMEOUT_10ms;
+	s32 ret = SUCCESS;
+
+	/* Trigger the registers to be reloaded from the battery backed domain */
+	val = readl(RTC_BASE + RTC_SYNCPEND);
+	writel((val | RELOAD_FROM_BBD), RTC_BASE + RTC_SYNCPEND);
+
+	/* Wait for synchronization to get completed */
+	while ((timeout > 0U) && ((readl(RTC_BASE + RTC_SYNCPEND) & RD_PEND) != RD_PEND_COMPLETE)) {
+		--timeout;
+	}
+	if (timeout == 0U) {
+		ret = -ETIMEDOUT;
+	}
+
+	return ret;
 }

@@ -128,7 +128,7 @@ struct ir_instance ir_inst[IR_INST_COUNT] = {
 	{
 		.id = J784S4_DEV_MAIN2MCU_LVL_INTRTR0,
 		.initialized = SFALSE,
-		.devgrp = SOC_DEVGRP_J784S4_MCU_WAKEUP,
+		.devgrp = SOC_DEVGRP_J784S4_MAIN,
 		.int_enable = STRUE,
 		.cfg = &mmr_MAIN2MCU_LVL_INTRTR0_CFG,
 		.n_inp = 320U,
@@ -141,7 +141,7 @@ struct ir_instance ir_inst[IR_INST_COUNT] = {
 	{
 		.id = J784S4_DEV_MAIN2MCU_PLS_INTRTR0,
 		.initialized = SFALSE,
-		.devgrp = SOC_DEVGRP_J784S4_MCU_WAKEUP,
+		.devgrp = SOC_DEVGRP_J784S4_MAIN,
 		.int_enable = STRUE,
 		.cfg = &mmr_MAIN2MCU_PLS_INTRTR0_CFG,
 		.n_inp = 112U,

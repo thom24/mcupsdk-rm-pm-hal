@@ -41,11 +41,12 @@
 #include <baseaddress.h>
 #include <wkup_ctrl_mmr.h>
 #include "ddr.h"
+#include "timeout.h"
+#include <pll.h>
 #ifdef CONFIG_LPM_32_BIT_DDR
 #include "cdns_ddr_reg_config.h"
 #include "lpm_io.h"
 #include "cslr_emif.h"
-#include "timeout.h"
 #include "DDRSS_addr_map_sfr_offs_ew_32bit.h"
 #else
 #include <lib/io.h>
@@ -129,8 +130,7 @@
 #define DDRSS_Address_Slice_1_REGISTER_BLOCK__OFFS      0x5400
 #define DDRSS_Address_Slice_2_REGISTER_BLOCK__OFFS      0x5800
 #define DDRSS_PHY_Core_REGISTER_BLOCK__OFFS     0x5c00
-#define DENALI_CTL_160__SFR_OFFS        0x280
-#define DENALI_CTL_169__SFR_OFFS        0x2a4
+
 #define SDRAM_IDX  0x12
 #define REGION_IDX 0x12
 #define CSL_EMIF_SSCFG_V2A_CTL_REG                                             (0x00000020U)
@@ -268,6 +268,78 @@ static void emif_instance_select(u32 instance, struct emif_handle_s *h)
 		break;
 	}
 }
+
+static s32 fsp_shift(void)
+{
+	s32 ret = SUCCESS;
+	u32 timeout = 0;
+	u32 val = 0;
+
+	/* Request freq change */
+	val = (readl(WKUP_CTRL_MMR_BASE + CHNG_DDR4_FSP_REQ)) & (~CHNG_DDR4_FSP_REQ_TYPE_MASK);
+	val |= CHNG_DDR4_FSP_REQ_TYPE_FSP0;
+	writel(val, WKUP_CTRL_MMR_BASE + CHNG_DDR4_FSP_REQ);
+	val |= CHNG_DDR4_FSP_REQ_SET;
+	writel(val, WKUP_CTRL_MMR_BASE + CHNG_DDR4_FSP_REQ);
+
+	/* Poll for freq change request to be set */
+	timeout = TIMEOUT_10_MS;
+	while (((timeout > 0U) && ((readl(WKUP_CTRL_MMR_BASE + DDR4_FSP_CLKCHNG_REQ) &
+				    DDR4_FSP_CLKCHNG_REQ_SET) == DDR4_FSP_CLKCHNG_REQ_SET)) == SFALSE) {
+		--timeout;
+	}
+	if (timeout == 0U) {
+		ret = -EFAIL;
+	}
+
+	/* Set the PLL frequency to the requested frequency */
+	val = (readl(WKUP_CTRL_MMR_BASE + DDR4_FSP_CLKCHNG_REQ)) & DDR4_FSP_CLKCHNG_REQ_TYPE_MASK;
+	if (val == DDR4_FSP_CLKCHNG_REQ_TYPE_FSP0) {
+		pll_bypass(&main_pll12, STRUE);
+	} else {
+		ret = -EFAIL;
+	}
+
+	/* Set the FSP ack bit */
+	writel(DDR4_FSP_CLKCHNG_REQ_ACK, (WKUP_CTRL_MMR_BASE + DDR4_FSP_CLKCHNG_ACK));
+
+	/* Wait for request to go away */
+	timeout = TIMEOUT_10_MS;
+	while (((timeout > 0U) && ((readl(WKUP_CTRL_MMR_BASE + DDR4_FSP_CLKCHNG_REQ) &
+				    DDR4_FSP_CLKCHNG_REQ_SET) == DDR4_FSP_CLKCHNG_REQ_CLR)) == SFALSE) {
+		--timeout;
+	}
+	if (timeout == 0U) {
+		ret = -EFAIL;
+	}
+
+	/* Clear the ACK bit */
+	val = readl(WKUP_CTRL_MMR_BASE + DDR4_FSP_CLKCHNG_ACK);
+	val &= ~DDR4_FSP_CLKCHNG_REQ_ACK;
+	writel(val, (WKUP_CTRL_MMR_BASE + DDR4_FSP_CLKCHNG_ACK));
+
+	/* Poll for CHNG_DDR4_FSP_ACK bit to be 1 */
+	timeout = TIMEOUT_10_MS;
+	while (((timeout > 0U) && ((readl(WKUP_CTRL_MMR_BASE + CHNG_DDR4_FSP_ACK) &
+				    (CHNG_DDR4_FSP_CHNG_ACK)) == CHNG_DDR4_FSP_CHNG_ACK)) == SFALSE) {
+		--timeout;
+	}
+	if (timeout == 0U) {
+		ret = -EFAIL;
+	}
+
+	/* De assert request */
+	val = readl(WKUP_CTRL_MMR_BASE + CHNG_DDR4_FSP_ACK);
+	val &= ~CHNG_DDR4_FSP_CHNG_ACK;
+	writel(0, (WKUP_CTRL_MMR_BASE + CHNG_DDR4_FSP_ACK));
+
+	val = readl(WKUP_CTRL_MMR_BASE + CHNG_DDR4_FSP_REQ);
+	val &= ~CHNG_DDR4_FSP_REQ_SET;
+	writel(val, (WKUP_CTRL_MMR_BASE + CHNG_DDR4_FSP_REQ));
+
+	return ret;
+}
+
 #endif
 
 /**
@@ -351,6 +423,46 @@ s32 ddr_enter_low_power_mode(void)
 		save_registers_optimized(&Emifhandle);
 		enter_lpm_self_refresh();
 		do_ddr_lpm_entry_sequence_thru_wkup_mmr();
+		break;
+#endif
+	default:
+		ret = -EFAIL;
+		break;
+	}
+
+	return ret;
+}
+
+s32 ddr_enter_io_ddr_mode(void)
+{
+	s32 ret = SUCCESS;
+
+	switch (ddr_read_ddr_type()) {
+#ifndef CONFIG_LPM_32_BIT_DDR
+	case CDNS_DENALI_CTL_0_DRAM_CLASS_LPDDR4:
+	case CDNS_DENALI_CTL_0_DRAM_CLASS_DDR4:
+		break;
+#else
+	case CDNS_DENALI_CTL_0_DRAM_CLASS_LPDDR4:
+		/* Disable self refresh auto entry and exit */
+		Write_MMR_Field(DDR_CTRL_BASE + DENALI_CTL_169__SFR_OFFS, 0, 4, 16);
+		Write_MMR_Field(DDR_CTRL_BASE + DENALI_CTL_169__SFR_OFFS, 0, 4, 24);
+
+		/* Set valid data for FSP F0 and F2 mr_fsp_data_valid_fN to initiate DFS request */
+		Write_MMR_Field(DDR_CTRL_BASE + DENALI_CTL_279__SFR_OFFS, 1, 1, 24);
+		Write_MMR_Field(DDR_CTRL_BASE + DENALI_CTL_280__SFR_OFFS, 1, 1, 8);
+
+		/* Shift to boot frequency */
+		fsp_shift();
+
+		/* If shift is not successful, then return fail */
+		if (((readl(DDR_CTRL_BASE + DENALI_CTL_179__SFR_OFFS) & 0x3000000) >> 24) != 0) {
+			ret = -EFAIL;
+		} else {
+			enter_lpm_self_refresh();
+			do_ddr_lpm_entry_sequence_thru_wkup_mmr();
+		}
+
 		break;
 #endif
 	default:

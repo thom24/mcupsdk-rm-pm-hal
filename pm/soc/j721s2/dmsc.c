@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2019-2023, Texas Instruments Incorporated
+ * Copyright (C) 2019-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -107,7 +107,7 @@ static s32 j721s2_sys_reset_handler(domgrp_t domain)
 	u8 trace_action = TRACE_PM_ACTION_SYSRESET;
 	u32 trace_val = TRACE_PM_ACTION_SYSRESET_ERR_VAL_SUCCESS;
 
-	if(domain == SOC_DOMGRP_J721S2_MAIN) {
+	if (domain == SOC_DOMGRP_J721S2_MAIN) {
 		/* Ensure devices are fully initialized to allow modification */
 		ret = devices_init_rw();
 
@@ -138,8 +138,7 @@ static s32 j721s2_sys_reset_handler(domgrp_t domain)
 			soc_device_ret_disable(dev);
 
 			/* Check device state of MAIN2WKUPMCU bridge */
-			while(device_get_state(dev)!= 0U)
-			{
+			while (device_get_state(dev) != 0U) {
 				osal_delay(RESET_DELAY_PER_ITERATION_US);
 			}
 
@@ -149,8 +148,7 @@ static s32 j721s2_sys_reset_handler(domgrp_t domain)
 			soc_device_ret_disable(dev);
 
 			/* Check device state of WKUPMCU2MAIN bridge */
-			while(device_get_state(dev)!= 0U)
-			{
+			while (device_get_state(dev) != 0U) {
 				osal_delay(RESET_DELAY_PER_ITERATION_US);
 			}
 		}
@@ -186,15 +184,14 @@ static s32 j721s2_sys_reset_handler(domgrp_t domain)
 		trace_action |= TRACE_PM_ACTION_FAIL;
 	}
 
-    if (ret == SUCCESS) {
+	if (ret == SUCCESS) {
 		/* WKUP_PSC0: Enable WKUPMCU2MAIN bridge */
 		dev = device_lookup(J721S2_DEV_WKUPMCU2MAIN_VD);
 		soc_device_ret_enable(dev);
 		device_enable(dev);
 
 		/* Check device state of WKUPMCU2MAIN bridge */
-		while(device_get_state(dev)!= 1U)
-		{
+		while (device_get_state(dev) != 1U) {
 			osal_delay(RESET_DELAY_PER_ITERATION_US);
 		}
 
@@ -204,8 +201,7 @@ static s32 j721s2_sys_reset_handler(domgrp_t domain)
 		device_enable(dev);
 
 		/* Check device state of MAIN2WKUPMCU bridge */
-		while(device_get_state(dev)!= 1U)
-		{
+		while (device_get_state(dev) != 1U) {
 			osal_delay(RESET_DELAY_PER_ITERATION_US);
 		}
 
@@ -216,8 +212,8 @@ static s32 j721s2_sys_reset_handler(domgrp_t domain)
 	}
 
 	pm_trace(trace_action,
-		(((u32) domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
-		 TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
+		 (((u32) domain << TRACE_PM_ACTION_SYSRESET_DOMAIN_SHIFT) &
+		  TRACE_PM_ACTION_SYSRESET_DOMAIN_MASK) | trace_val);
 
 	return ret;
 }

@@ -82,24 +82,31 @@ s32 lpm_sleep_suspend_gtc(void)
 s32 lpm_resume_gtc(void)
 {
 	u64 rtc1, rtc2, delta;
+	s32 ret = SUCCESS;
 
 	writel(gtc.pushevt, GTC_CFG0_BASE + GTC_CFG0_PUSHEVT);
 	writel(gtc.fid0, GTC_CFG1_BASE + GTC_CFG1_CNTFID0);
 
-	lpm_rtc_read_time(&gtc.resume);
+	ret = lpm_rtc_sync_core_and_on_domain();
+	if (ret == SUCCESS) {
+		lpm_rtc_read_time(&gtc.resume);
 
-	rtc1 = (u64) (((u64) gtc.suspend.sec_hi << 32) + gtc.suspend.sec_lo);
-	rtc2 = (u64) (((u64) gtc.resume.sec_hi << 32) + gtc.resume.sec_lo);
-	delta = (rtc2 - rtc1) * gtc.fid0;
-	delta += (u64) (((u64) gtc.cnt_hi << 32) + gtc.cnt_lo);
-	gtc.cnt_hi = (u32) (delta >> 32);
-	gtc.cnt_lo = (u32) delta;
+		/* Calculate the time elapsed from suspend to resume */
+		rtc1 = (u64) (((u64) gtc.suspend.sec_hi << 32) + gtc.suspend.sec_lo);
+		rtc2 = (u64) (((u64) gtc.resume.sec_hi << 32) + gtc.resume.sec_lo);
+		delta = (rtc2 - rtc1) * gtc.fid0;
 
-	writel(gtc.cnt_lo, GTC_CFG1_BASE + GTC_CFG1_CNT_LO);
-	writel(gtc.cnt_hi, GTC_CFG1_BASE + GTC_CFG1_CNT_HI);
+		/* Add the time difference to update system count (GTC) correctly */
+		delta += (u64) (((u64) gtc.cnt_hi << 32) + gtc.cnt_lo);
+		gtc.cnt_hi = (u32) (delta >> 32);
+		gtc.cnt_lo = (u32) delta;
 
-	/* Enable GTC */
-	writel(gtc.hdbg | GTC_CFG1_CNTCR_EN, GTC_CFG1_BASE + GTC_CFG1_CNTCR);
+		writel(gtc.cnt_lo, GTC_CFG1_BASE + GTC_CFG1_CNT_LO);
+		writel(gtc.cnt_hi, GTC_CFG1_BASE + GTC_CFG1_CNT_HI);
 
-	return SUCCESS;
+		/* Enable GTC */
+		writel(gtc.hdbg | GTC_CFG1_CNTCR_EN, GTC_CFG1_BASE + GTC_CFG1_CNTCR);
+	}
+
+	return ret;
 }

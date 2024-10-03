@@ -1,5 +1,5 @@
 /*
- * Data version: 230918_161319
+ * Data version: 240823_113849
  *
  * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
@@ -1737,7 +1737,7 @@ static const struct clk_parent clk_MCU_TIMERCLKn_SEL_out0_parents[8] = {
 	},
 	{
 		CLK_AM62X_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
-		4,
+		2,
 	},
 	{
 		CLK_AM62X_GLUELOGIC_RCOSC_CLKOUT,
@@ -1782,7 +1782,7 @@ static const struct clk_parent clk_MCU_TIMERCLKn_SEL_out1_parents[8] = {
 	},
 	{
 		CLK_AM62X_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
-		4,
+		2,
 	},
 	{
 		CLK_AM62X_GLUELOGIC_RCOSC_CLKOUT,
@@ -1827,7 +1827,7 @@ static const struct clk_parent clk_MCU_TIMERCLKn_SEL_out2_parents[8] = {
 	},
 	{
 		CLK_AM62X_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
-		4,
+		2,
 	},
 	{
 		CLK_AM62X_GLUELOGIC_RCOSC_CLKOUT,
@@ -1872,7 +1872,7 @@ static const struct clk_parent clk_MCU_TIMERCLKn_SEL_out3_parents[8] = {
 	},
 	{
 		CLK_AM62X_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK,
-		4,
+		2,
 	},
 	{
 		CLK_AM62X_GLUELOGIC_RCOSC_CLKOUT,
@@ -2119,7 +2119,7 @@ static const struct clk_parent clk_WKUP_TIMERCLKn_SEL_out0_parents[8] = {
 	},
 	{
 		CLK_AM62X_WKUP_CLKSEL_OUT0,
-		4,
+		2,
 	},
 	{
 		CLK_AM62X_GLUELOGIC_RCOSC_CLKOUT,
@@ -2164,7 +2164,7 @@ static const struct clk_parent clk_WKUP_TIMERCLKn_SEL_out1_parents[8] = {
 	},
 	{
 		CLK_AM62X_WKUP_CLKSEL_OUT0,
-		4,
+		2,
 	},
 	{
 		CLK_AM62X_GLUELOGIC_RCOSC_CLKOUT,

@@ -140,6 +140,9 @@ extern "C" {
 
 /* SOC MCU Core Host ID */
 #define MCU_HOST_ID             HOST_ID_M4_0
+#define VIM_BASE_ADDR           (0x2fff0000U)
+
+#define WKUP_TIMER1_BASE_ADDR   (0x2b110000U)
 
 #ifdef __cplusplus
 }

@@ -3,7 +3,7 @@
  *
  * Ring Accelerator management infrastructure
  *
- * Copyright (C) 2018-2023, Texas Instruments Incorporated
+ * Copyright (C) 2018-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -947,8 +947,8 @@ static s32 ra_set_ring_evt(u8 host, u16 id, u16 oes_index, u16 evt)
 					 inst->n_ring_mon))) {
 			maddr = rm_core_map_region(inst->mon->base);
 			evt_addr = maddr +
-				   (u32)(RA_CFG_MON_BASE(oes_index -
-						   inst->ring_mon_oes_offset)) +
+				   (u32) (RA_CFG_MON_BASE(oes_index -
+							  inst->ring_mon_oes_offset)) +
 				   RA_CFG_MON_CONTROL;
 			evt_reg = readl(evt_addr);
 			evt_reg &= ~RA_CFG_MON_CONTROL_EVT_MASK;

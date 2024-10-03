@@ -299,6 +299,7 @@ static void soc_device_disable_internal(const struct soc_device_data *dev)
 static void soc_device_disable_internal_flags_iterate(struct device *psc_dev, struct lpsc_module *module)
 {
 	const struct psc_drv_data *psc = to_psc_drv_data(get_drv_data(psc_dev));
+	const struct lpsc_module_data *data;
 	u32 idx;
 	struct lpsc_module *module_p = module;
 
@@ -336,7 +337,7 @@ static void soc_device_disable_internal_flags_iterate(struct device *psc_dev, st
 
 		psc->data->pds_enabled = 0U;
 		idx = lpsc_module_idx(psc_dev, module_p);
-		const struct lpsc_module_data *data = psc->mod_data + idx;
+		data = psc->mod_data + idx;
 
 		if ((data->flags & LPSC_DEPENDS) != 0UL) {
 			const struct psc_drv_data *depends_psc = psc;

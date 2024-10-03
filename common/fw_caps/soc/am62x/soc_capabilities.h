@@ -1,5 +1,5 @@
 /*
- * Data version: 230918_161319
+ * Data version: 240823_113849
  *
  * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
@@ -37,13 +37,14 @@
 #include <config.h>
 #include <types/short_types.h>
 
-#define TISCI_MSG_FLAG_FW_CAP_MAX (0x05U)
+#define TISCI_MSG_FLAG_FW_CAP_MAX (0x06U)
 const u64 soc_fw_caps[TISCI_MSG_FLAG_FW_CAP_MAX] = {
 	TISCI_MSG_FLAG_FW_CAP_GENERIC_CAP,
 	TISCI_MSG_FLAG_FW_CAP_LPM_DEEP_SLEEP,
 	TISCI_MSG_FLAG_FW_CAP_LPM_MCU_ONLY,
 	TISCI_MSG_FLAG_FW_CAP_LPM_PARTIAL_IO_ON,
 	TISCI_MSG_FLAG_FW_CAP_LPM_DM_MANAGED,
+	TISCI_MSG_FLAG_FW_CAP_IO_ISOLATION,
 };
 
 #endif /* SOC_AM62X_CAPABILITIES_H */

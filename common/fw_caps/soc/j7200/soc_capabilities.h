@@ -37,9 +37,10 @@
 #include <config.h>
 #include <types/short_types.h>
 
-#define TISCI_MSG_FLAG_FW_CAP_MAX (0x01U)
+#define TISCI_MSG_FLAG_FW_CAP_MAX (0x02U)
 const u64 soc_fw_caps[TISCI_MSG_FLAG_FW_CAP_MAX] = {
 	TISCI_MSG_FLAG_FW_CAP_GENERIC_CAP,
+	TISCI_MSG_FLAG_FW_CAP_LPM_DM_MANAGED,
 };
 
 #endif /* SOC_J7200_CAPABILITIES_H */

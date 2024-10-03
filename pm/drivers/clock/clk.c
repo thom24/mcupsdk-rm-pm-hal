@@ -331,7 +331,7 @@ u32 clk_set_freq(struct clk *clkp, u32 target_hz,
 
 	if ((clkp->flags & CLK_FLAG_INITIALIZED) == 0U) {
 		ret = 0U;
-	} else if ((clk_data_p->flags & CLK_DATA_FLAG_BLOCK_FREQ_CHANGE) != 0U ) {
+	} else if ((clk_data_p->flags & CLK_DATA_FLAG_BLOCK_FREQ_CHANGE) != 0U) {
 		ret = 0U;
 	} else if (clk_data_p->drv->set_freq != NULL) {
 		ret = clk_data_p->drv->set_freq(clkp, target_hz, min_hz,

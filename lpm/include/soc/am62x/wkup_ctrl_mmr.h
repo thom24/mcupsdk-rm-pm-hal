@@ -44,6 +44,11 @@ extern "C" {
 #define WKUP_CLKSEL                     (0x00008010U)
 #define DDR16SS_PMCTRL                  (0x000080d0U)
 #define WKUP_WWD0_CTRL                  (0x00008340U)
+#define CHNG_DDR4_FSP_REQ               (0x00014000U)
+#define CHNG_DDR4_FSP_ACK               (0x00014004U)
+#define DDR4_FSP_CLKCHNG_REQ            (0x00014080U)
+#define DDR4_FSP_CLKCHNG_ACK            (0x000140C0U)
+#define PMCTRL_SYS                      (0x00018080U)
 #define PMCTRL_IO_0                     (0x00018084U)
 #define PMCTRL_MOSC                     (0x00018090U)
 #define RST_CTRL                        (0x00018170U)
@@ -100,6 +105,33 @@ extern "C" {
 /* WKUP_WWD0_CTRL */
 #define WWD_RUN                         0U
 #define WWD_STOP                        0xAU
+
+/* CHNG_DDR4_FSP_REQ */
+#define CHNG_DDR4_FSP_REQ_SET           BIT(8)
+#define CHNG_DDR4_FSP_REQ_CLR           0U
+#define CHNG_DDR4_FSP_REQ_TYPE_MASK     0x3U
+#define CHNG_DDR4_FSP_REQ_TYPE_FSP0     0x0U
+#define CHNG_DDR4_FSP_REQ_TYPE_FSP2     0x2U
+
+/* CHNG_DDR4_FSP_ACK */
+#define CHNG_DDR4_FSP_CHNG_ACK          BIT(7)
+#define CHNG_DDR4_FSP_CHNG_ERR          BIT(0)
+
+/* DDR4_FSP_CLKCHNG_REQ */
+#define DDR4_FSP_CLKCHNG_REQ_SET        BIT(7)
+#define DDR4_FSP_CLKCHNG_REQ_CLR        0U
+#define DDR4_FSP_CLKCHNG_REQ_TYPE_MASK  0x3U
+#define DDR4_FSP_CLKCHNG_REQ_TYPE_FSP0  0x0U
+#define DDR4_FSP_CLKCHNG_REQ_TYPE_FSP2  0x2U
+
+/* DDR4_FSP_CLKCHNG_ACK */
+#define DDR4_FSP_CLKCHNG_REQ_ACK        BIT(0)
+
+/* WKUP_PMCTRL_SYS */
+#define WKUP0_PMCTRL_SYS_LPM_EN_DIS     (0x5U)
+#define WKUP0_PMCTRL_SYS_LPM_EN_PMIC    (0x0U)
+#define WKUP0_LPM_PMIC_OUT_EN           (0x10U)
+#define WKUP0_LPM_PMIC_OUT_DIS          (0x0U)
 
 /* PMCTRL_IO_0 */
 #define PMCTRL_IO_0_IO_ISO_STATUS       BIT(25)

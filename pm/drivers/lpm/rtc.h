@@ -1,7 +1,7 @@
 /*
  * Device Manager - LPM RTC Driver
  *
- * Copyright (C) 2021-2023, Texas Instruments Incorporated
+ * Copyright (C) 2021-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,5 +47,13 @@ struct rtc_time {
  *  \brief  Read RTC counter
  */
 void lpm_rtc_read_time(struct rtc_time *rtc);
+
+/**
+ *  \brief  Synchronize the CORE and ON domain of RTC
+ *
+ *  \return ret     SUCCESS if the API executed successfully.
+ *                  ETIMEDOUT if timeout occurred while trying to wait for sync to be completed.
+ */
+s32 lpm_rtc_sync_core_and_on_domain(void);
 
 #endif /* __LPM_RTC_H__ */

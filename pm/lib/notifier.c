@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2014-2023, Texas Instruments Incorporated
+ * Copyright (C) 2014-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,10 +41,7 @@ void notifier_call(struct list_head *head, void *data)
 	struct notifier *n;
 	struct notifier *next;
 
-	/* *INDENT-OFF* */
-	list_for_each_safe(head, n, next, node, struct notifier)
-	{
+	list_for_each_safe(head, n, next, node, struct notifier) {
 		n->fn(n, data);
-	/* *INDENT-ON* */
 	}
 }

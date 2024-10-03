@@ -3,7 +3,7 @@
  *
  * Control definitions for AM6x
  *
- * Copyright (C) 2017-2020, Texas Instruments Incorporated
+ * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,4 +39,3 @@
 /* Klockwork MISRA rules requires include guard even for empty include files */
 
 #endif /* PM_AM65X_CONTROL_H */
-

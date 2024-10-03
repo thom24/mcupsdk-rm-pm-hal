@@ -283,9 +283,10 @@ s32 devices_deinit_flags(void)
 			continue;
 		}
 		dev = &soc_devices[i];
-		dev->flags = 0;
 		dev->exclusive = 0;
-		if ((dev->initialized != 0U)) {
+		/* Deinitialize flags only for devices that have been set by a host */
+		if ((dev->flags != 0U) && (dev->initialized != 0U)) {
+			dev->flags = 0U;
 			device_clear_flags(dev);
 			dev->initialized = 0;
 		}

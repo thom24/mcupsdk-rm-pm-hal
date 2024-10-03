@@ -137,10 +137,13 @@ extern "C" {
 #define ALWAYS_ON_LPSC_ID                       0U
 
 /* Deepest low power mode supported according to fw caps */
-#define DEEPEST_LOW_POWER_MODE                  TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP
+#define DEEPEST_LOW_POWER_MODE                  TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR
 
 /* SOC MCU Core Host ID */
 #define MCU_HOST_ID                             HOST_ID_MCU_0_R5_0
+#define VIM_BASE_ADDR                           (0x2fff0000U)
+
+#define WKUP_TIMER1_BASE_ADDR                   (0x2b110000U)
 
 #ifdef __cplusplus
 }
