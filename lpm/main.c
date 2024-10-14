@@ -64,6 +64,7 @@ extern void lpm_get_wake_info(struct tisci_msg_lpm_wake_reason_resp *wkup_params
 extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *p);
 extern void lpm_clear_all_wakeup_interrupt(void);
 extern u8 lpm_get_wkup_pin_number_padconf(u32 wkup_src);
+extern u8 lpm_get_selected_sleep_mode(void);
 
 #define TCM_SIZE            0x8000U
 #define TCMB_BASE_ADDR      0U

@@ -92,7 +92,7 @@ extern void lpm_populate_prepare_sleep_data(struct tisci_msg_prepare_sleep_req *
 extern void lpm_clear_all_wakeup_interrupt(void);
 extern u8 lpm_get_selected_sleep_mode(void);
 
-u32 key;
+u32 key_status;
 volatile u32 enter_sleep_status = 0;
 
 u8 dm_stub_arr[TCMB_SIZE] = { 0U };
@@ -293,9 +293,9 @@ static s32 lpm_resume_release_reset_of_power_master(void)
 static s32 lpm_sleep_suspend_dm(void)
 {
 	/* Suspend DM OS */
-	osal_dm_disable_interrupt();    /* Disable sciserver interrupt */
-	osal_suspend_dm();              /* Suspend DM task scheduler */
-	key = osal_hwip_disable();      /* Disable Global interrupt */
+	osal_dm_disable_interrupt();            /* Disable sciserver interrupt */
+	osal_suspend_dm();                      /* Suspend DM task scheduler */
+	key_status = osal_hwip_disable();       /* Disable Global interrupt */
 	return SUCCESS;
 }
 
@@ -303,7 +303,7 @@ static s32 lpm_resume_dm(void)
 {
 	/* Resume DM OS */
 	osal_resume_dm();               /* Resume DM task scheduler */
-	osal_hwip_restore(key);         /* Enable Global interrupts */
+	osal_hwip_restore(key_status);  /* Enable Global interrupts */
 	return SUCCESS;
 }
 

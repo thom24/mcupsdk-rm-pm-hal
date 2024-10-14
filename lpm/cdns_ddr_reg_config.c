@@ -220,7 +220,7 @@ void configure_ddrphy_registers(struct emif_handle_s *h)
 	uint32_t wdata_1826, i;
 
 	/* Program the PHY */
-	for (i = 0; i <= 132U; i++) {
+	for (i = 0; i < 132U; i++) {
 		SOC_write32(DDR_CTL_PHY_CORE_REG_BASE + (i * 4U), denali_phy_data[i]);
 	}
 
@@ -230,7 +230,7 @@ void configure_ddrphy_registers(struct emif_handle_s *h)
 	/* Set pll_postdiv to 0 for LPDDR4 memory */
 #if (defined(LPDDR4_MEM) || defined(POST_PLLDIV_0))
 #if (!(defined(SPEED_250_MTPS)))                /* pll_postdiv should be non-zero for 250MTPS */
-	wdata_1826 = 0x00041b42U & 0xFFFFF1FF;  /* Set 11:9 bits to 0 - pll_postdiv in PHY_LP4_BOOT_PLL_CTRL field //#define             DENALI_PHY_1826_DATA 0x00041b42 // */
+	wdata_1826 = 0x00041b42U & 0xFFFFF1FFU; /* Set 11:9 bits to 0 - pll_postdiv in PHY_LP4_BOOT_PLL_CTRL field //#define             DENALI_PHY_1826_DATA 0x00041b42 // */
 	SOC_write32(DDR_CTL_PHY_CORE_REG_BASE + (uint32_t) DENALI_PHY_1826__SFR_OFFS, wdata_1826);
 #endif
 #endif

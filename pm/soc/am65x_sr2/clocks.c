@@ -38,7 +38,6 @@
 #include <clk_pll.h>
 #include <types/array_size.h>
 #include <types/devgrps.h>
-#include <soc/am65x_sr2/control.h>
 #include <soc/am65x_sr2/clk_ids.h>
 #include <soc/am65x_sr2/devices.h>
 #include <soc/am65x_sr2/clocks.h>
@@ -47,7 +46,7 @@
 #include <clk_gate.h>
 #include <clk_div.h>
 #include <clk_pllctrl.h>
-#include <soc/am65x/clk_soc_hfosc0.h>
+#include <soc/am65x_sr2/clk_soc_hfosc0.h>
 
 
 enum {

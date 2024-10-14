@@ -38,7 +38,6 @@
 #include <clk_pll.h>
 #include <types/array_size.h>
 #include <types/devgrps.h>
-#include <soc/am64x/control.h>
 #include <soc/am64x/clk_ids.h>
 #include <soc/am64x/devices.h>
 #include <soc/am64x/clocks.h>

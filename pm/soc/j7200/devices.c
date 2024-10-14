@@ -16,8 +16,6 @@
 #include <soc/j7200/clk_ids.h>
 #include <soc/j7200/clocks.h>
 #include <soc/j7200/devices.h>
-#include <soc/j7200/regs.h>
-#include <soc/j7200/control.h>
 #include <psc.h>
 
 BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);

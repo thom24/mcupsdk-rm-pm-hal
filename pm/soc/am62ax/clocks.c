@@ -38,7 +38,6 @@
 #include <clk_pll.h>
 #include <types/array_size.h>
 #include <types/devgrps.h>
-#include <soc/am62ax/control.h>
 #include <soc/am62ax/clk_ids.h>
 #include <soc/am62ax/devices.h>
 #include <soc/am62ax/clocks.h>

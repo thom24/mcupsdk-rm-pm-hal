@@ -142,7 +142,7 @@ static void configure_sdram_region_idx(struct emif_handle_s *h, u32 sdram_idx, u
 	u32 rd_val;
 
 	rd_val = SOC_read32(h->ss_cfg_base_addr + CSL_EMIF_SSCFG_V2A_CTL_REG);
-	rd_val = (rd_val & 0xFFFFFC00);
+	rd_val = (rd_val & 0xFFFFFC00U);
 	rd_val = rd_val | (sdram_idx << 5) | (region_idx);
 	SOC_write32((h->ss_cfg_base_addr + CSL_EMIF_SSCFG_V2A_CTL_REG), rd_val); /* Programming the region_idx and sdram_idx fields for address mapping [Set 9:5 and 4:0 to 0x11 for 8GB] */
 }

@@ -38,7 +38,6 @@
 #include <clk_pll.h>
 #include <types/array_size.h>
 #include <types/devgrps.h>
-#include <soc/j7200/control.h>
 #include <soc/j7200/clk_ids.h>
 #include <soc/j7200/devices.h>
 #include <soc/j7200/clocks.h>

@@ -3,7 +3,7 @@
  *
  * Cortex-M3 (CM3) firmware for power management
  *
- * Copyright (C) 2015-2023, Texas Instruments Incorporated
+ * Copyright (C) 2015-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <soc/am65x/clk_soc_hfosc0.h>
+#include <soc/am65x_sr2/clk_soc_hfosc0.h>
 #include <types/array_size.h>
 #include <lib/ioremap.h>
 #include <compiler.h>

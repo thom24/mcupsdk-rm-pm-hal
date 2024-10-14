@@ -44,6 +44,7 @@
 #include <device_prepare.h>
 #include <soc/host_idx_mapping.h>
 #include <pm.h>
+#include <psc.h>
 
 s32 set_device_handler(u32 *msg_recv)
 {
@@ -58,6 +59,7 @@ s32 set_device_handler(u32 *msg_recv)
 	u8 host_id = req->hdr.host;
 	sbool enable, retention;
 	s32 ret = SUCCESS;
+	u32 current_device_state;
 	u8 host_idx;
 
 	pm_trace(TRACE_PM_ACTION_MSG_RECEIVED, TISCI_MSG_SET_DEVICE);
@@ -170,6 +172,24 @@ s32 set_device_handler(u32 *msg_recv)
 		device_set_state(dev, host_idx, enable);
 		if (!retention) {
 			device_set_retention(dev, retention);
+		}
+
+		/* Check the device state after processing device_set_state function */
+		current_device_state = device_get_state(dev);
+		if (state == TISCI_MSG_VALUE_DEVICE_SW_STATE_ON || state == TISCI_MSG_VALUE_DEVICE_SW_STATE_RETENTION) {
+			if (current_device_state != TISCI_MSG_VALUE_DEVICE_HW_STATE_ON) {
+				ret = -EFAIL;
+			}
+		} else if (state == TISCI_MSG_VALUE_DEVICE_SW_STATE_AUTO_OFF) {
+			if (current_device_state == TISCI_MSG_VALUE_DEVICE_HW_STATE_TRANS) {
+				/* Device with multiple psc's might be in transition state during the requested state is off because of
+				 * some psc's sibling devices might be on which keep that psc's on, this results in mixed state of psc's
+				 * which is an exception to overcome with this exception below condition is written.
+				 */
+				if (((struct dev_data *) (get_dev_data(dev)))->soc.psc_idx != PSC_DEV_MULTIPLE) {
+					ret = -EFAIL;
+				}
+			}
 		}
 	}
 

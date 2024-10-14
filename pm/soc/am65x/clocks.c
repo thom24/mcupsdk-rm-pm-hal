@@ -1,7 +1,7 @@
 /*
  * Data version: 190425_000000
  *
- * Copyright (C) 2017-2023, Texas Instruments Incorporated
+ * Copyright (C) 2017-2024, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@
 #include <clk_pll.h>
 #include <types/array_size.h>
 #include <types/devgrps.h>
-#include <soc/am65x/control.h>
 #include <soc/am65x/clk_ids.h>
 #include <soc/am65x/devices.h>
 #include <soc/am65x/clocks.h>

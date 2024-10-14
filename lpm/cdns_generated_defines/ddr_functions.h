@@ -59,26 +59,26 @@
  * 0x2000_0000-0x3FFF_FFFF is an SRAM region
  * Config Remaps 0xA000_0000 - 0xBFFF_FFFF for 0x2000_0000-0x3FFF_FFFF - so essentially that region is free
  */
-#define DDR_RAT_REGION_TO_USE 1
+#define DDR_RAT_REGION_TO_USE 1U
 #define DDR_RAT_ADDR_TO_USE m4_rat_cfg_base(DDNUM)
-#define ddrss0_rat_hi0_mem_base 0x8f000000
-#define ddrss0_rat_hi1_mem_base 0x8f400000
-#define ddrss0_rat_hi2_mem_base 0x8f800000
-#define DDR_RAT_REGION_SIZE 20
+#define ddrss0_rat_hi0_mem_base 0x8f000000U
+#define ddrss0_rat_hi1_mem_base 0x8f400000U
+#define ddrss0_rat_hi2_mem_base 0x8f800000U
+#define DDR_RAT_REGION_SIZE 20U
 #elif defined(R5FCORE)
 /* Config uses region 1 for DDR HI */
-#define DDR_RAT_REGION_TO_USE 1
+#define DDR_RAT_REGION_TO_USE 1U
 #define DDR_RAT_ADDR_TO_USE rat_cfg_base
-#define ddrss0_rat_hi0_mem_base 0xF0000000
-#define ddrss0_rat_hi1_mem_base 0xF4000000
-#define ddrss0_rat_hi2_mem_base 0xF8000000
-#define DDR_RAT_REGION_SIZE 24
+#define ddrss0_rat_hi0_mem_base 0xF0000000U
+#define ddrss0_rat_hi1_mem_base 0xF4000000U
+#define ddrss0_rat_hi2_mem_base 0xF8000000U
+#define DDR_RAT_REGION_SIZE 24U
 #else
-#define DDR_RAT_REGION_TO_USE 0
-#define ddrss0_rat_hi0_mem_base 0xF0000000
-#define ddrss0_rat_hi1_mem_base 0xF4000000
-#define ddrss0_rat_hi2_mem_base 0xF8000000
-#define DDR_RAT_REGION_SIZE 24
+#define DDR_RAT_REGION_TO_USE 0U
+#define ddrss0_rat_hi0_mem_base 0xF0000000U
+#define ddrss0_rat_hi1_mem_base 0xF4000000U
+#define ddrss0_rat_hi2_mem_base 0xF8000000U
+#define DDR_RAT_REGION_SIZE 24U
 #endif
 
 /*

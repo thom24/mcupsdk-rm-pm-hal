@@ -16,8 +16,6 @@
 #include <soc/j722s/clk_ids.h>
 #include <soc/j722s/clocks.h>
 #include <soc/j722s/devices.h>
-#include <soc/j722s/regs.h>
-#include <soc/j722s/control.h>
 #include <psc.h>
 
 BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
@@ -157,6 +155,7 @@ BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);
 #define J722S_PSC_LPSC_LPSC_MAIN_OLDI1 95
 #define J722S_PSC_MULTIPLE_SAM67_VPAC_WRAP_MAIN_0 0
 #define J722S_PSC_MULTIPLE_SAM67_GPU_BXS464_WRAP_MAIN_0 1
+#define J722S_PSC_MULTIPLE_SAM67_DMPAC_WRAP_MAIN_0 2
 
 #define J722S_DEV_AM67_DBGSUSPENDROUTER_MAIN_0_CLOCKS 0
 #define J722S_DEV_AM67_MAIN_GPIOMUX_INTROUTER_MAIN_0_CLOCKS 1
@@ -3674,11 +3673,25 @@ static const struct dev_data j722s_dev_sam67_cti_main_1 __attribute__((__section
 	.n_clocks		= 1,
 	.pm_devgrp		= PM_DEVGRP_00,
 };
+static const struct soc_device_data sam67_dmpac_wrap_main_0_domains[3] = {
+	{
+		.psc_idx = J722S_PSC_INST_SAM67_MAIN_PSC_WRAP_MAIN_0,
+		.pd = J722S_PSC_PD_PD_RSVD0,
+		.mod = J722S_PSC_LPSC_LPSC_PDRSVD0_RSVD1,
+	},
+	{
+		.psc_idx = J722S_PSC_INST_SAM67_MAIN_PSC_WRAP_MAIN_0,
+		.pd = J722S_PSC_PD_PD_RSVD0,
+		.mod = J722S_PSC_LPSC_LPSC_PDRSVD0_RSVD2,
+	},
+	{
+		.psc_idx = PSC_DEV_NONE,
+	},
+};
 static const struct dev_data j722s_dev_sam67_dmpac_wrap_main_0 __attribute__((__section__(".const.devgroup.MAIN"))) = {
 	.soc			= {
-		.psc_idx	= J722S_PSC_INST_SAM67_MAIN_PSC_WRAP_MAIN_0,
-		.pd		= J722S_PSC_PD_PD_RSVD0,
-		.mod		= J722S_PSC_LPSC_LPSC_PDRSVD0_RSVD1,
+		.psc_idx	= PSC_DEV_MULTIPLE,
+		.mod		= J722S_PSC_MULTIPLE_SAM67_DMPAC_WRAP_MAIN_0,
 	},
 	.dev_clk_idx		= J722S_DEV_SAM67_DMPAC_WRAP_MAIN_0_CLOCKS,
 	.n_clocks		= 5,
@@ -8644,9 +8657,10 @@ const struct devgroup soc_devgroups[J722S_PM_DEVGRP_RANGE_ID_MAX] = {
 };
 const size_t soc_devgroup_count = ARRAY_SIZE(soc_devgroups);
 
-const struct soc_device_data *const soc_psc_multiple_domains[2] = {
+const struct soc_device_data *const soc_psc_multiple_domains[3] = {
 	[J722S_PSC_MULTIPLE_SAM67_VPAC_WRAP_MAIN_0] = sam67_vpac_wrap_main_0_domains,
 	[J722S_PSC_MULTIPLE_SAM67_GPU_BXS464_WRAP_MAIN_0] = sam67_gpu_bxs464_wrap_main_0_domains,
+	[J722S_PSC_MULTIPLE_SAM67_DMPAC_WRAP_MAIN_0] = sam67_dmpac_wrap_main_0_domains,
 };
 
 const struct dev_data *const soc_device_data_arr[J722S_DEV_TIMER7_CLKSEL_VD + 1U] = {

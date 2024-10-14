@@ -80,19 +80,20 @@ static u8 lpm_trace_int_to_hex(u32 value, u8 *str)
 {
 	u32 val_rem;
 	u8 idx = 0U;
+	u32 int_value = value;
 
-	if (value == 0U) {
+	if (int_value == 0U) {
 		str[idx] = (u8) '0';
 		idx++;
 	} else {
-		while (value > 0U) {
-			val_rem = value % TRACE_HEXADECIMAL_BASE;
+		while (int_value > 0U) {
+			val_rem = int_value % TRACE_HEXADECIMAL_BASE;
 			if (val_rem < 10U) {
 				str[idx] = (u8) (val_rem + (u8) '0');
 			} else {
 				str[idx] = (u8) ((val_rem - 10U) + (u8) 'A');
 			}
-			value /= TRACE_HEXADECIMAL_BASE;
+			int_value /= TRACE_HEXADECIMAL_BASE;
 			idx++;
 		}
 	}

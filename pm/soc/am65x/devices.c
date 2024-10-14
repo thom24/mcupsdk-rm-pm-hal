@@ -16,8 +16,6 @@
 #include <soc/am65x/clk_ids.h>
 #include <soc/am65x/clocks.h>
 #include <soc/am65x/devices.h>
-#include <soc/am65x/regs.h>
-#include <soc/am65x/control.h>
 #include <psc.h>
 
 BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 1, dev_idx_t_is_16bit);

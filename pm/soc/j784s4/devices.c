@@ -16,8 +16,6 @@
 #include <soc/j784s4/clk_ids.h>
 #include <soc/j784s4/clocks.h>
 #include <soc/j784s4/devices.h>
-#include <soc/j784s4/regs.h>
-#include <soc/j784s4/control.h>
 #include <psc.h>
 
 BUILD_ASSERT_GLOBAL(sizeof(dev_idx_t) == (size_t) 2, dev_idx_t_is_16bit);

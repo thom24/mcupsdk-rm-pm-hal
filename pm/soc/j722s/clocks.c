@@ -38,7 +38,6 @@
 #include <clk_pll.h>
 #include <types/array_size.h>
 #include <types/devgrps.h>
-#include <soc/j722s/control.h>
 #include <soc/j722s/clk_ids.h>
 #include <soc/j722s/devices.h>
 #include <soc/j722s/clocks.h>
