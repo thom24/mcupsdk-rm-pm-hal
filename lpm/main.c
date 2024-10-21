@@ -187,11 +187,32 @@ static s32 exit_ddr_low_power_mode(void)
 	return ret;
 }
 
-static void load_magic_words_through_mmr(void)
+static s32 load_magic_words_through_mmr(void)
 {
-	/* Program the OFF mode MMRs and CAN IO mode MMRs. At this point both OFF Mode and CAN IO mode are `1' */
-	writel(WKUP_CANUART_OFF_MAGIC_WORD, WKUP_CTRL_MMR_BASE + CANUART_WAKE_OFF_MODE);
+	u32 timeout = TIMEOUT_10_MS;
+	s32 ret = SUCCESS;
+
+	/* Program the OFF mode MMR in case of IO Only plus DDR mode. */
+	if (g_wkup_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) {
+		writel(WKUP_CANUART_OFF_MAGIC_WORD, WKUP_CTRL_MMR_BASE + CANUART_WAKE_OFF_MODE);
+	}
+
+	/* Program the CAN IO MMR. */
+	writel(0x0U, WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
 	writel((WKUP_CANUART_MAGIC_WRD | WKUP_CANUART_MAGIC_WRD_LD_EN), WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
+
+	/* Wait for CAN_ONLY_IO signal to be 1 */
+	while ((timeout > 0U) && ((readl(WKUP_CTRL_MMR_BASE + CANUART_WAKE_STAT1)) != WKUP_CANUART_CAN_IO_ISO_SET)) {
+		--timeout;
+	}
+	if (timeout == 0U) {
+		ret = -EFAIL;
+	}
+
+	/* Clear the magic word to prevent any other word loading */
+	writel((~WKUP_CANUART_MAGIC_WRD) | WKUP_CANUART_MAGIC_WRD_LD_DIS, WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
+
+	return ret;
 }
 
 static s32 unload_magic_words_thru_wkup_mmr(void)
@@ -302,9 +323,9 @@ static s32 exit_ddr_low_power_mode(void)
 	return ret;
 }
 
-static void load_magic_words_through_mmr(void)
+static s32 load_magic_words_through_mmr(void)
 {
-	return;
+	return SUCCESS;
 }
 
 static s32 unload_magic_words_thru_wkup_mmr(void)
@@ -833,7 +854,12 @@ s32 dm_stub_entry(void)
 	}
 
 	/* Load the magic words to latch CANUART status register values */
-	load_magic_words_through_mmr();
+	if (load_magic_words_through_mmr() != 0) {
+		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_LOAD_MAGIC_WORDS);
+		lpm_abort();
+	} else {
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_LOAD_MAGIC_WORDS);
+	}
 
 	if (enter_ddr_low_power_mode() != 0) {
 		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DDR_RST_ISO);

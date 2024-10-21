@@ -176,7 +176,7 @@ s32 set_device_handler(u32 *msg_recv)
 
 		/* Check the device state after processing device_set_state function */
 		current_device_state = device_get_state(dev);
-		if (state == TISCI_MSG_VALUE_DEVICE_SW_STATE_ON || state == TISCI_MSG_VALUE_DEVICE_SW_STATE_RETENTION) {
+		if ((state == TISCI_MSG_VALUE_DEVICE_SW_STATE_ON) || (state == TISCI_MSG_VALUE_DEVICE_SW_STATE_RETENTION)) {
 			if (current_device_state != TISCI_MSG_VALUE_DEVICE_HW_STATE_ON) {
 				ret = -EFAIL;
 			}
@@ -190,6 +190,8 @@ s32 set_device_handler(u32 *msg_recv)
 					ret = -EFAIL;
 				}
 			}
+		} else {
+			ret = -EFAIL;
 		}
 	}
 

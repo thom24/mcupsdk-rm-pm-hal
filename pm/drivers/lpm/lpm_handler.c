@@ -82,9 +82,7 @@
 #define LPM_DEEP_SLEEP_RESUME_LAT_MIN           101U
 #define LPM_MCU_ONLY_RESUME_LAT_MIN             10U
 
-#define HOST_STATE_ON                           1U
-#define HOST_STATE_OFF                          0U
-#define HOST_STATE_INVALID                      0xFFU
+#define MIN(a, b)                               ((a > b) ? b : a)
 
 extern s32 _stub_start(void);
 extern void lpm_get_wake_info(struct tisci_msg_lpm_wake_reason_resp *wkup_params);
@@ -975,6 +973,10 @@ s32 dm_lpm_set_latency_constraint(u32 *msg_recv)
 
 	if (ret == SUCCESS) {
 		if (state == TISCI_MSG_VALUE_STATE_SET) {
+			/* If latency constraint has already been set, take the minimum */
+			if ((latency[host_idx] & LPM_RESUME_LATENCY_VALID_FLAG) == LPM_RESUME_LATENCY_VALID_FLAG) {
+				resume_latency = MIN(resume_latency, (u16) (latency[host_idx]));
+			}
 			/* Set latency constraint */
 			latency[host_idx] = (LPM_RESUME_LATENCY_VALID_FLAG | resume_latency);
 		} else {

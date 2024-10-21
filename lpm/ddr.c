@@ -178,34 +178,23 @@ static void poll_for_init_completion(struct emif_handle_s *h)
 #endif
 }
 
-static s32 do_ddr_lpm_exit_sequence_thru_wkup_mmr(void)
-{
-	s32 ret = SUCCESS;
-
-	/* Write 0 to remove DDR data retention */
-	writel((((DDR16SS_DATA_RET_LD_OPEN << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_DIS)), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
-	writel((((DDR16SS_DATA_RET_LD_CLOSE << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_DIS)), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
-
-	return ret;
-}
-
-static void do_ddr_lpm_entry_sequence_thru_wkup_mmr(void)
+static void put_ddrss_in_data_retention_thru_wkup_mmr(u32 enable)
 {
 	u32 val = 0U;
 
-	/* Write into data_retention MMR to put DDR into retention */
-	writel(DDR16SS_RETENTION_EN, WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
+	/* Write into data_retention MMR to activate or deactivate DDR data retention */
+	writel(enable, WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 
 	/* Write `1' into data_ret_ld[31] MMR to generate a LD signal to latch the retention signal */
-	writel(((DDR16SS_DATA_RET_LD_OPEN << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_EN), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
+	writel((((DDR16SS_DATA_RET_LD_OPEN << DDR16SS_DATA_RET_LD_BIT) | enable)), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 
 	val = readl(WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
-	while (val != ((DDR16SS_DATA_RET_LD_OPEN << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_EN)) {
+	while (val != ((DDR16SS_DATA_RET_LD_OPEN << DDR16SS_DATA_RET_LD_BIT) | enable)) {
 		val = readl(WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 	}
 
 	/* Writes `0' into data_ret_ld[31] to close the latch */
-	writel(((DDR16SS_DATA_RET_LD_CLOSE << DDR16SS_DATA_RET_LD_BIT) | DDR16SS_RETENTION_EN), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
+	writel((((DDR16SS_DATA_RET_LD_CLOSE << DDR16SS_DATA_RET_LD_BIT) | enable)), WKUP_CTRL_MMR_BASE + DDR16SS_PMCTRL);
 }
 
 static void enter_lpm_self_refresh(void)
@@ -422,7 +411,7 @@ s32 ddr_enter_low_power_mode(void)
 		emif_instance_select(0, &Emifhandle);
 		save_registers_optimized(&Emifhandle);
 		enter_lpm_self_refresh();
-		do_ddr_lpm_entry_sequence_thru_wkup_mmr();
+		put_ddrss_in_data_retention_thru_wkup_mmr(DDR16SS_RETENTION_EN);
 		break;
 #endif
 	default:
@@ -460,7 +449,7 @@ s32 ddr_enter_io_ddr_mode(void)
 			ret = -EFAIL;
 		} else {
 			enter_lpm_self_refresh();
-			do_ddr_lpm_entry_sequence_thru_wkup_mmr();
+			put_ddrss_in_data_retention_thru_wkup_mmr(DDR16SS_RETENTION_EN);
 		}
 
 		break;
@@ -588,7 +577,7 @@ s32 ddr_exit_low_power_mode(void)
 	Write_MMR_Field(Emifhandle.ctl_cfg_base_addr + CSL_EMIF_CTLCFG_DENALI_PI_11, 0x2, 5, 0);        /* DENALI_PI_11 PI_INIT_WORK_FREQ bits 4:0 */
 
 	/* De-asserting data retention pin and wake Control bits */
-	ret = do_ddr_lpm_exit_sequence_thru_wkup_mmr();
+	put_ddrss_in_data_retention_thru_wkup_mmr(DDR16SS_RETENTION_DIS);
 
 	/* Wait for reg values to set */
 	for (i = 0; i < 1000U; i++) {
