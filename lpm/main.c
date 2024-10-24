@@ -227,7 +227,7 @@ static s32 unload_magic_words_thru_wkup_mmr(void)
 	writel((WKUP_CANUART_MAGIC_WRD | WKUP_CANUART_MAGIC_WRD_LD_DIS), WKUP_CTRL_MMR_BASE + CANUART_WAKE_CTRL);
 
 	/* Wait for CAN ONLY IO signal to be 0 */
-	while ((timeout > 0U) && ((readl(WKUP_CTRL_MMR_BASE + CANUART_WAKE_STAT1) == WKUP_CANUART_CAN_IO_ISO_CLRD)) == SFALSE) {
+	while ((timeout > 0U) && (((readl(WKUP_CTRL_MMR_BASE + CANUART_WAKE_STAT1) == WKUP_CANUART_CAN_IO_ISO_CLRD)) == SFALSE)) {
 		--timeout;
 	}
 	if (timeout == 0U) {
@@ -871,7 +871,7 @@ s32 dm_stub_entry(void)
 	lpm_seq_trace(0x77);
 
 	if (g_params.mode != TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) {
-		if (set_usb_reset_isolation()) {
+		if (set_usb_reset_isolation() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_USB_RST_ISO);
 			lpm_abort();
 		} else {
@@ -909,22 +909,24 @@ s32 dm_stub_entry(void)
 		enter_io_only_ddr();
 	}
 
-	/* Disable remaining MAIN LPSCs for debug */
-	if (disable_main_lpsc(main_lpscs_phase2, num_main_lpscs_phase2) != 0) {
-		lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
-		lpm_abort();
-	}
-
-	lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
-
 	if ((g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
+		/* Disable remaining MAIN LPSCs for debug */
+		if (disable_main_lpsc(main_lpscs_phase2, num_main_lpscs_phase2) != 0) {
+			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
+			lpm_abort();
+		}
+
+		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_MAIN_LPSC2);
+
 		/* Modify WKUP_CLKSEL in WKUP_CTRL to use MCU_PLL instead of MAIN PLL */
 		writel(WKUP_CLKSEL_MCU, WKUP_CTRL_MMR_BASE + WKUP_CLKSEL);
 
 		lpm_seq_trace(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_WKUP_CLKSEL_MCU);
 
-		/* Configure GPIO Clock mux in suspend path */
-		config_gpio_clk_mux(MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL_CLK_32K);
+		if (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) {
+			/* Configure GPIO Clock mux in suspend path */
+			config_gpio_clk_mux(MCU_CTRL_MMR_CFG0_MCU_GPIO_CLKSEL_CLK_32K);
+		}
 
 		/* Enable GPIO wake up */
 		enable_gpio_wake_up();
@@ -1188,7 +1190,7 @@ s32 dm_stub_entry(void)
 	}
 
 	if ((g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_DEEP_SLEEP) || (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_MCU_ONLY)) {
-		if (release_usb_reset_isolation()) {
+		if (release_usb_reset_isolation() != 0) {
 			lpm_seq_trace_fail(TRACE_PM_ACTION_LPM_SEQ_DM_STUB_DIS_USB_RST_ISO);
 			lpm_abort();
 		} else {

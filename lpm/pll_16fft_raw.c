@@ -237,7 +237,7 @@ s32 pll_restore(struct pll_raw_data *pll)
 		cal &=  (u32) ~PLL_16FFT_CAL_CTRL_CAL_EN;
 		writel(cal, (u32) pll->base + (u32) PLL_16FFT_CAL_CTRL_OFFSET);
 		timeout = PLL_16FFT_CAL_LOCK_TIMEOUT;
-		while ((timeout > 0U) && ((pll_readl(pll->base + PLL_16FFT_CAL_STAT_OFFSET) & ((u32) PLL_16FFT_CAL_STAT_CAL_LOCK)) == 0U) == SFALSE) {
+		while ((timeout > 0U) && (((pll_readl(pll->base + PLL_16FFT_CAL_STAT_OFFSET) & ((u32) PLL_16FFT_CAL_STAT_CAL_LOCK)) == 0U) == SFALSE)) {
 			--timeout;
 		}
 		if (timeout == 0U) {
@@ -258,7 +258,7 @@ s32 pll_restore(struct pll_raw_data *pll)
 
 		/* Wait for the PLL lock */
 		timeout = PLL_16FFT_RAW_LOCK_TIMEOUT;
-		while ((timeout > 0U) && ((pll_readl(pll->base + PLL_16FFT_STAT_OFFSET) & ((u32) PLL_16FFT_STAT_LOCK)) == 1U) == SFALSE) {
+		while ((timeout > 0U) && (((pll_readl(pll->base + PLL_16FFT_STAT_OFFSET) & ((u32) PLL_16FFT_STAT_LOCK)) == 1U) == SFALSE)) {
 			--timeout;
 		}
 		if (timeout == 0U) {
@@ -269,7 +269,7 @@ s32 pll_restore(struct pll_raw_data *pll)
 	if ((pll->freq_ctrl1 == 0UL) && (ret == SUCCESS)) {
 		/* Wait for calibration lock */
 		timeout = PLL_16FFT_CAL_LOCK_TIMEOUT;
-		while ((timeout > 0U) && ((pll_readl(pll->base + PLL_16FFT_CAL_STAT_OFFSET) & ((u32) PLL_16FFT_CAL_STAT_CAL_LOCK)) != 0) == SFALSE) {
+		while ((timeout > 0U) && (((pll_readl(pll->base + PLL_16FFT_CAL_STAT_OFFSET) & ((u32) PLL_16FFT_CAL_STAT_CAL_LOCK)) != 0U) == SFALSE)) {
 			--timeout;
 		}
 		if (timeout == 0U) {
@@ -287,7 +287,7 @@ s32 pll_restore(struct pll_raw_data *pll)
 			cal &= ~PLL_16FFT_CAL_CTRL_CAL_EN;
 			writel(cal, (u32) pll->base + (u32) PLL_16FFT_CAL_CTRL_OFFSET);
 			timeout = PLL_16FFT_CAL_LOCK_TIMEOUT;
-			while ((timeout > 0U) && ((pll_readl(pll->base + PLL_16FFT_CAL_STAT_OFFSET) & ((u32) PLL_16FFT_CAL_STAT_CAL_LOCK)) == 0U) == SFALSE) {
+			while ((timeout > 0U) && (((pll_readl(pll->base + PLL_16FFT_CAL_STAT_OFFSET) & ((u32) PLL_16FFT_CAL_STAT_CAL_LOCK)) == 0U) == SFALSE)) {
 				--timeout;
 			}
 			if (timeout == 0U) {
@@ -300,7 +300,7 @@ s32 pll_restore(struct pll_raw_data *pll)
 
 				/* Wait for PLL Lock */
 				timeout = PLL_16FFT_RAW_LOCK_TIMEOUT;
-				while ((timeout > 0U) && ((pll_readl(pll->base + PLL_16FFT_STAT_OFFSET) & ((u32) PLL_16FFT_STAT_LOCK)) == 1U) == SFALSE) {
+				while ((timeout > 0U) && (((pll_readl(pll->base + PLL_16FFT_STAT_OFFSET) & ((u32) PLL_16FFT_STAT_LOCK)) == 1U) == SFALSE)) {
 					--timeout;
 				}
 				if (timeout == 0U) {
@@ -355,7 +355,7 @@ void pll_hsdiv_ctrl(u32 pll_base, u8 hsdiv, u8 enable)
 
 	ctrl = pll_readl(pll_base + PLL_16FFT_HSDIV_CTRL_OFFSET + (hsdiv * 0x4U));
 
-	if (enable) {
+	if (enable == 1U) {
 		ctrl |= PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;
 	} else {
 		ctrl &= ~PLL_16FFT_HSDIV_CTRL_CLKOUT_EN;

@@ -806,6 +806,12 @@ s32 dm_set_io_isolation_handler(u32 *msg_recv)
 		writel(WKUP_CTRL_DEEPSLEEP_CTRL_ENABLE_IO, (WKUP_CTRL_BASE + WKUP_CTRL_DEEPSLEEP_CTRL));
 		writel(WKUP_CTRL_PMCTRL_IO_GLB_ENABLE_IO, (WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_GLB));
 
+		/* Set global isobypass (valid for MCU IOs only) */
+		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;
+		reg = reg | WKUP_CTRL_PMCTRL_IO_0_ISO_BYPASS;
+		writel(reg, WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
+
 		/* Set global wuen */
 		reg = readl(WKUP_CTRL_BASE + WKUP_CTRL_PMCTRL_IO_0);
 		reg = reg & WKUP_CTRL_PMCTRL_IO_0_WRITE_MASK;

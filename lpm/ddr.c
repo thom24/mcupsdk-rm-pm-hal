@@ -121,15 +121,15 @@
 
 #ifdef CONFIG_LPM_32_BIT_DDR
 
-#define DDRSS_PI_REGISTER_BLOCK__OFFS   0x2000
-#define DDRSS_Data_Slice_0_REGISTER_BLOCK__OFFS 0x4000
-#define DDRSS_Data_Slice_1_REGISTER_BLOCK__OFFS 0x4400
-#define DDRSS_Data_Slice_2_REGISTER_BLOCK__OFFS 0x4800
-#define DDRSS_Data_Slice_3_REGISTER_BLOCK__OFFS 0x4c00
-#define DDRSS_Address_Slice_0_REGISTER_BLOCK__OFFS      0x5000
-#define DDRSS_Address_Slice_1_REGISTER_BLOCK__OFFS      0x5400
-#define DDRSS_Address_Slice_2_REGISTER_BLOCK__OFFS      0x5800
-#define DDRSS_PHY_Core_REGISTER_BLOCK__OFFS     0x5c00
+#define DDRSS_PI_REGISTER_BLOCK__OFFS   0x2000U
+#define DDRSS_Data_Slice_0_REGISTER_BLOCK__OFFS 0x4000U
+#define DDRSS_Data_Slice_1_REGISTER_BLOCK__OFFS 0x4400U
+#define DDRSS_Data_Slice_2_REGISTER_BLOCK__OFFS 0x4800U
+#define DDRSS_Data_Slice_3_REGISTER_BLOCK__OFFS 0x4c00U
+#define DDRSS_Address_Slice_0_REGISTER_BLOCK__OFFS      0x5000U
+#define DDRSS_Address_Slice_1_REGISTER_BLOCK__OFFS      0x5400U
+#define DDRSS_Address_Slice_2_REGISTER_BLOCK__OFFS      0x5800U
+#define DDRSS_PHY_Core_REGISTER_BLOCK__OFFS     0x5c00U
 
 #define SDRAM_IDX  0x12
 #define REGION_IDX 0x12
@@ -273,8 +273,8 @@ static s32 fsp_shift(void)
 
 	/* Poll for freq change request to be set */
 	timeout = TIMEOUT_10_MS;
-	while (((timeout > 0U) && ((readl(WKUP_CTRL_MMR_BASE + DDR4_FSP_CLKCHNG_REQ) &
-				    DDR4_FSP_CLKCHNG_REQ_SET) == DDR4_FSP_CLKCHNG_REQ_SET)) == SFALSE) {
+	while ((timeout > 0U) && (((readl(WKUP_CTRL_MMR_BASE + DDR4_FSP_CLKCHNG_REQ) &
+				    DDR4_FSP_CLKCHNG_REQ_SET) == DDR4_FSP_CLKCHNG_REQ_SET) == SFALSE)) {
 		--timeout;
 	}
 	if (timeout == 0U) {
@@ -294,8 +294,8 @@ static s32 fsp_shift(void)
 
 	/* Wait for request to go away */
 	timeout = TIMEOUT_10_MS;
-	while (((timeout > 0U) && ((readl(WKUP_CTRL_MMR_BASE + DDR4_FSP_CLKCHNG_REQ) &
-				    DDR4_FSP_CLKCHNG_REQ_SET) == DDR4_FSP_CLKCHNG_REQ_CLR)) == SFALSE) {
+	while ((timeout > 0U) && (((readl(WKUP_CTRL_MMR_BASE + DDR4_FSP_CLKCHNG_REQ) &
+				    DDR4_FSP_CLKCHNG_REQ_SET) == DDR4_FSP_CLKCHNG_REQ_CLR) == SFALSE)) {
 		--timeout;
 	}
 	if (timeout == 0U) {
@@ -309,8 +309,8 @@ static s32 fsp_shift(void)
 
 	/* Poll for CHNG_DDR4_FSP_ACK bit to be 1 */
 	timeout = TIMEOUT_10_MS;
-	while (((timeout > 0U) && ((readl(WKUP_CTRL_MMR_BASE + CHNG_DDR4_FSP_ACK) &
-				    (CHNG_DDR4_FSP_CHNG_ACK)) == CHNG_DDR4_FSP_CHNG_ACK)) == SFALSE) {
+	while ((timeout > 0U) && (((readl(WKUP_CTRL_MMR_BASE + CHNG_DDR4_FSP_ACK) &
+				    (CHNG_DDR4_FSP_CHNG_ACK)) == CHNG_DDR4_FSP_CHNG_ACK) == SFALSE)) {
 		--timeout;
 	}
 	if (timeout == 0U) {
@@ -318,8 +318,6 @@ static s32 fsp_shift(void)
 	}
 
 	/* De assert request */
-	val = readl(WKUP_CTRL_MMR_BASE + CHNG_DDR4_FSP_ACK);
-	val &= ~CHNG_DDR4_FSP_CHNG_ACK;
 	writel(0, (WKUP_CTRL_MMR_BASE + CHNG_DDR4_FSP_ACK));
 
 	val = readl(WKUP_CTRL_MMR_BASE + CHNG_DDR4_FSP_REQ);
@@ -445,7 +443,7 @@ s32 ddr_enter_io_ddr_mode(void)
 		fsp_shift();
 
 		/* If shift is not successful, then return fail */
-		if (((readl(DDR_CTRL_BASE + DENALI_CTL_179__SFR_OFFS) & 0x3000000) >> 24) != 0) {
+		if (((readl(DDR_CTRL_BASE + DENALI_CTL_179__SFR_OFFS) & 0x3000000U) >> 24U) != 0U) {
 			ret = -EFAIL;
 		} else {
 			enter_lpm_self_refresh();

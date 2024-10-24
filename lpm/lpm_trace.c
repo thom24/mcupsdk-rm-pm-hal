@@ -110,7 +110,10 @@ static u8 lpm_trace_int_to_hex(u32 value, u8 *str)
 
 void lpm_trace_init(sbool bypass)
 {
-	if (((stub_cfg.dst_enables & TISCI_BRDCFG_TRACE_DST_UART0) != 0U) && ((stub_cfg.src_enables & TISCI_BRDCFG_TRACE_SRC_PM) != 0U)) {
+	u32 temp_dst_enables = stub_cfg.dst_enables;
+	u32 temp_src_enables = stub_cfg.src_enables;
+
+	if (((temp_dst_enables & TISCI_BRDCFG_TRACE_DST_UART0) != 0U) && ((temp_src_enables & TISCI_BRDCFG_TRACE_SRC_PM) != 0U)) {
 		if (bypass == SFALSE) {
 			lpm_console_init();
 		} else {
@@ -123,8 +126,10 @@ void lpm_trace_debug(u32 value)
 {
 	u8 str[9];
 	u8 len;
+	u32 temp_dst_enables = stub_cfg.dst_enables;
+	u32 temp_src_enables = stub_cfg.src_enables;
 
-	if (((stub_cfg.src_enables & TISCI_BRDCFG_TRACE_SRC_PM) != 0U) && (stub_cfg.dst_enables != 0U)) {
+	if (((temp_src_enables & TISCI_BRDCFG_TRACE_SRC_PM) != 0U) && (temp_dst_enables != 0U)) {
 		len = lpm_trace_int_to_hex(value, str);
 
 		if ((stub_cfg.dst_enables & TISCI_BRDCFG_TRACE_DST_MEM) != 0U) {
