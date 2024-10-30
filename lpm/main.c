@@ -193,7 +193,7 @@ static s32 load_magic_words_through_mmr(void)
 	s32 ret = SUCCESS;
 
 	/* Program the OFF mode MMR in case of IO Only plus DDR mode. */
-	if (g_wkup_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) {
+	if (g_params.mode == TISCI_MSG_VALUE_SLEEP_MODE_IO_ONLY_PLUS_DDR) {
 		writel(WKUP_CANUART_OFF_MAGIC_WORD, WKUP_CTRL_MMR_BASE + CANUART_WAKE_OFF_MODE);
 	}
 
